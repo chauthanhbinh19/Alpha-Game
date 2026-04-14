@@ -80,9 +80,6 @@ public class UserCardMilitariesController : MonoBehaviour
         var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
         if (oldAnim != null) Destroy(oldAnim);
 
-        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
-        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_MILITARY_BUTTON_BACKGROUND_URL);
-
         foreach (var cardMilitary in cardMilitaries)
         {
             GameObject cardMilitaryObject = Instantiate(CardMilitaryButtonPrefab, contentPanel);
@@ -107,9 +104,6 @@ public class UserCardMilitariesController : MonoBehaviour
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
             rareBackground.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardMilitary.Rare));
-
-            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = bgTexture;
 
             Transform teamPanel = transform.Find("Team");
             if (cardMilitary.Team.TeamNumber != 0)

@@ -27,8 +27,8 @@ public class ShopManager : MonoBehaviour
     private int totalPage;
     private const int PAGE_SIZE = 100;
     private TextMeshProUGUI PageText;
-    private Button NextButton;
-    private Button PreviousButton;
+    private Button nextButton;
+    private Button previousButton;
     private string mainType;
     private string type;
     private TextMeshProUGUI titleText;
@@ -89,21 +89,22 @@ public class ShopManager : MonoBehaviour
     {
         MainPanel = panel;
         currentObject = Instantiate(ShopManagerPrefab, MainPanel);
-        titleText = currentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        Transform transform = currentObject.transform;
+        titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SHOP);
-        closeButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
+        Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
         FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
 
-        Transform tempContent = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        Transform tempContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         CreateButton(1, AppDisplayConstants.MainType.CARD_HEROES, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_HERO_URL), tempContent);
         CreateButton(2, AppDisplayConstants.MainType.BOOKS, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BOOK_URL), tempContent);
         CreateButton(3, AppDisplayConstants.MainType.PETS, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PET_URL), tempContent);
@@ -228,40 +229,41 @@ public class ShopManager : MonoBehaviour
     {
         // DictionaryPanel.SetActive(true);
         GameObject equipmentObject = Instantiate(ShopPrefab, MainPanel);
-        currentContent = equipmentObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        TabButtonPanel = equipmentObject.transform.Find("Scroll View/Viewport/Content");
-        currencyPanel = equipmentObject.transform.Find("DictionaryCards/Currency");
-        firstDecorationImage = equipmentObject.transform.Find("DictionaryCards/FirstDecorationImage").GetComponent<RawImage>();
-        secondDecorationImage = equipmentObject.transform.Find("DictionaryCards/SecondDecorationImage").GetComponent<RawImage>();
-        PageText = equipmentObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
-        NextButton = equipmentObject.transform.Find("Pagination/Next").GetComponent<Button>();
-        PreviousButton = equipmentObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-        titleText = equipmentObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        closeButton = equipmentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Transform transform = equipmentObject.transform;
+        currentContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        TabButtonPanel = transform.Find("Scroll View/Viewport/Content");
+        currencyPanel = transform.Find("DictionaryCards/Currency");
+        firstDecorationImage = transform.Find("DictionaryCards/FirstDecorationImage").GetComponent<RawImage>();
+        secondDecorationImage = transform.Find("DictionaryCards/SecondDecorationImage").GetComponent<RawImage>();
+        PageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
+        nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
+        previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
+        titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(equipmentObject);
         });
-        homeButton = equipmentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
             await HomeManager.Instance.CreateHomePanelAsync();
         });
-        NextButton.onClick.AddListener(() =>
+        nextButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             ChangeNextPage();
         });
-        PreviousButton.onClick.AddListener(() =>
+        previousButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             ChangePreviousPage();
         });
 
-        // Transform CurrencyPanel = equipmentObject.transform.Find("DictionaryCards/Currency");
+        // Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
         // 
         // List<Currency> currencies = new List<Currency>();
         // currencies = currency.GetUserCurrency();

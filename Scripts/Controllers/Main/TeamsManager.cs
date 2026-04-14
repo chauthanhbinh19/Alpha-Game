@@ -22,15 +22,14 @@ public class TeamsManager : MonoBehaviour
     private GameObject TeamTypePrefab;
     private GameObject TeamSlotSecondPrefab;
     private GameObject TeamSlotFirstPrefab;
+    private GameObject PopupCardPanelPrefab;
+    private GameObject CardSelectButtonPrefab;
     private GameObject RareButtonPrefab;
     private GameObject PositionPrefab;
     private Button closeButton;
     private Button homeButton;
     private TextMeshProUGUI powerText;
     // private int offset;
-    private int currentPage;
-    private int totalPage;
-    private const int PAGE_SIZE = 100;
     private string selectedOptionName;
     private string teamId;
     private int teamNumber;
@@ -52,8 +51,16 @@ public class TeamsManager : MonoBehaviour
     UserCardMilitariesService userCardMilitaryService;
     UserCardSpellsService userCardSpellService;
     TeamsService teamsService;
+    private TextMeshProUGUI PageText;
+    private Button nextButton;
+    private Button previousButton;
     private string search;
+    private string type;
     private string rare;
+    private int offset;
+    private int currentPage;
+    private int totalPage;
+    private const int PAGE_SIZE = 20;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -74,6 +81,12 @@ public class TeamsManager : MonoBehaviour
     }
     public void Initialize()
     {
+        offset = 0;
+        currentPage = 1;
+        search = "";
+        type = AppConstants.Type.ALL;
+        rare = AppConstants.Rare.ALL;
+
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         CardThirdPrefab = UIManager.Instance.Get("CardThirdPrefab");
         PopupTeamFirstPrefab = UIManager.Instance.Get("PopupTeamFirstPanelPrefab");
@@ -83,6 +96,8 @@ public class TeamsManager : MonoBehaviour
         TeamTypePrefab = UIManager.Instance.Get("TeamTypePrefab");
         TeamSlotFirstPrefab = UIManager.Instance.Get("TeamSlotFirstPrefab");
         TeamSlotSecondPrefab = UIManager.Instance.Get("TeamSlotSecondPrefab");
+        PopupCardPanelPrefab = UIManager.Instance.Get("PopupCardPanelPrefab");
+        CardSelectButtonPrefab = UIManager.Instance.Get("CardSelectButtonPrefab");
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         PositionPrefab = UIManager.Instance.Get("PositionPrefab");
 
@@ -97,7 +112,6 @@ public class TeamsManager : MonoBehaviour
         teamsService = TeamsService.Create();
         rare = AppConstants.Rare.ALL;
     }
-
     public async Task CreateTeamsAsync()
     {
         GameObject teamObject = Instantiate(TeamsPanelPrefab, MainPanel);
@@ -258,9 +272,9 @@ public class TeamsManager : MonoBehaviour
         TextMeshProUGUI numberText = teamObject.transform.Find("DictionaryCards/TeamPanel/NumberText").GetComponent<TextMeshProUGUI>();
         numberText.text = teamNumber.ToString();
 
-        _ = CreateSlotAsync(teamSlotPanel);
+        _ = CreatePositionAsync(teamSlotPanel);
     }
-    public async Task CreateSlotAsync(Transform slotPanel)
+    public async Task CreatePositionAsync(Transform slotPanel)
     {
         ButtonEvent.Instance.Close(slotPanel);
 
@@ -378,88 +392,199 @@ public class TeamsManager : MonoBehaviour
         teamLimit = 10;
         teamOffset = 0;
 
-        var cardListObject = new List<object>();
+        var cardList = await GetUserCardsTeamByTypeAsync(mainType, position.ToString(), cardTypeText);
+        CreateSlotAsync(cardList, positionPanel);
+    }
+    private async Task<List<ICard>> GetUserCardsTeamByTypeAsync(string mainType, string position, TextMeshProUGUI cardTypeText)
+    {
+        switch (mainType)
+        {
+            case AppConstants.MainType.CARD_HERO:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
+                return (await userCardHeroesService
+                    .GetUserCardHeroesTeamAsync(User.CurrentUserId, teamId, position))
+                    .Cast<ICard>().ToList();
 
-        if (mainType.Equals(AppConstants.MainType.CARD_HERO))
-        {
-            List<CardHeroes> cardHeroList = await userCardHeroesService.GetUserCardHeroesTeamAsync(User.CurrentUserId, teamId, position.ToString());
-            cardListObject = cardHeroList.Cast<object>().ToList();
-            cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
+            case AppConstants.MainType.CARD_CAPTAIN:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_CAPTAIN);
+                return (await userCardCaptainsService
+                    .GetUserCardCaptainsTeamAsync(User.CurrentUserId, teamId, position))
+                    .Cast<ICard>().ToList();
+
+            case AppConstants.MainType.CARD_COLONEL:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_COLONEL);
+                return (await userCardColonelsService
+                    .GetUserCardColonelsTeamAsync(User.CurrentUserId, teamId, position))
+                    .Cast<ICard>().ToList();
+
+            case AppConstants.MainType.CARD_GENERAL:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
+                return (await userCardGeneralsService
+                    .GetUserCardGeneralsTeamAsync(User.CurrentUserId, teamId, position))
+                    .Cast<ICard>().ToList();
+
+            case AppConstants.MainType.CARD_ADMIRAL:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
+                return (await userCardAdmiralsService
+                    .GetUserCardAdmiralsTeamAsync(User.CurrentUserId, teamId, position))
+                    .Cast<ICard>().ToList();
+
+            case AppConstants.MainType.CARD_MONSTER:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTER);
+                return (await userCardMonstersService
+                    .GetUserCardMonstersTeamAsync(User.CurrentUserId, teamId, position))
+                    .Cast<ICard>().ToList();
+
+            case AppConstants.MainType.CARD_MILITARY:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
+                return (await userCardMilitaryService
+                    .GetUserCardMilitariesTeamAsync(User.CurrentUserId, teamId, position))
+                    .Cast<ICard>().ToList();
+
+            case AppConstants.MainType.CARD_SPELL:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SPELL);
+                return (await userCardSpellService
+                    .GetUserCardSpellsTeamAsync(User.CurrentUserId, teamId, position))
+                    .Cast<ICard>().ToList();
+
+            default:
+                return new List<ICard>();
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
+    }
+    private async Task<List<ICard>> GetUserCardsByTypeAsync(string mainType, TextMeshProUGUI cardTypeText)
+    {
+        int totalRecord = 0;
+        switch (mainType)
         {
-            List<CardCaptains> cardCaptainList = await userCardCaptainsService.GetUserCardCaptainsTeamAsync(User.CurrentUserId, teamId, position.ToString());
-            cardListObject = cardCaptainList.Cast<object>().ToList();
-            cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_CAPTAIN);
-        }
-        else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
-        {
-            List<CardColonels> cardColonelList = await userCardColonelsService.GetUserCardColonelsTeamAsync(User.CurrentUserId, teamId, position.ToString());
-            cardListObject = cardColonelList.Cast<object>().ToList();
-            cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_COLONEL);
-        }
-        else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
-        {
-            List<CardGenerals> cardGeneralList = await userCardGeneralsService.GetUserCardGeneralsTeamAsync(User.CurrentUserId, teamId, position.ToString());
-            cardListObject = cardGeneralList.Cast<object>().ToList();
-            cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
-        }
-        else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
-        {
-            List<CardAdmirals> cardAdmiralList = await userCardAdmiralsService.GetUserCardAdmiralsTeamAsync(User.CurrentUserId, teamId, position.ToString());
-            cardListObject = cardAdmiralList.Cast<object>().ToList();
-            cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
-        }
-        else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
-        {
-            List<CardMonsters> cardMonsterList = await userCardMonstersService.GetUserCardMonstersTeamAsync(User.CurrentUserId, teamId, position.ToString());
-            cardListObject = cardMonsterList.Cast<object>().ToList();
-            cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTER);
-        }
-        else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
-        {
-            List<CardMilitaries> cardMilitaryList = await userCardMilitaryService.GetUserCardMilitariesTeamAsync(User.CurrentUserId, teamId, position.ToString());
-            cardListObject = cardMilitaryList.Cast<object>().ToList();
-            cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
-        }
-        else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
-        {
-            List<CardSpells> cardSpellList = await userCardSpellService.GetUserCardSpellsTeamAsync(User.CurrentUserId, teamId, position.ToString());
-            cardListObject = cardSpellList.Cast<object>().ToList();
-            cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SPELL);
+            case AppConstants.MainType.CARD_HERO:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
+                totalRecord = await UserCardHeroesService.Create().GetUserCardHeroesCountAsync(User.CurrentUserId, search, type, rare);
+                totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
+                PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+                return (await userCardHeroesService
+                    .GetUserCardHeroesAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare))
+                    .Cast<ICard>().ToList();
+
+            case AppConstants.MainType.CARD_CAPTAIN:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_CAPTAIN);
+                totalRecord = await UserCardCaptainsService.Create().GetUserCardCaptainsCountAsync(User.CurrentUserId, search, type, rare);
+                totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
+                PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+                return (await userCardCaptainsService
+                    .GetUserCardCaptainsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare))
+                    .Cast<ICard>().ToList();
+
+            case AppConstants.MainType.CARD_COLONEL:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_COLONEL);
+                totalRecord = await UserCardColonelsService.Create().GetUserCardColonelsCountAsync(User.CurrentUserId, search, type, rare);
+                totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
+                PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+                return (await userCardColonelsService
+                    .GetUserCardColonelsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare))
+                    .Cast<ICard>().ToList();
+
+            case AppConstants.MainType.CARD_GENERAL:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
+                totalRecord = await UserCardGeneralsService.Create().GetUserCardGeneralsCountAsync(User.CurrentUserId, search, type, rare);
+                totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
+                PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+                return (await userCardGeneralsService
+                    .GetUserCardGeneralsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare))
+                    .Cast<ICard>().ToList();
+
+            case AppConstants.MainType.CARD_ADMIRAL:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
+                totalRecord = await UserCardAdmiralsService.Create().GetUserCardAdmiralsCountAsync(User.CurrentUserId, search, type, rare);
+                totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
+                PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+                return (await userCardAdmiralsService
+                    .GetUserCardAdmiralsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare))
+                    .Cast<ICard>().ToList();
+
+            case AppConstants.MainType.CARD_MONSTER:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTER);
+                totalRecord = await UserCardMonstersService.Create().GetUserCardMonstersCountAsync(User.CurrentUserId, search, type, rare);
+                totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
+                PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+                return (await userCardMonstersService
+                    .GetUserCardMonstersAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare))
+                    .Cast<ICard>().ToList();
+
+            case AppConstants.MainType.CARD_MILITARY:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MILITARY);
+                totalRecord = await UserCardMilitariesService.Create().GetUserCardMilitariesCountAsync(User.CurrentUserId, search, type, rare);
+                totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
+                PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+                return (await userCardMilitaryService
+                    .GetUserCardMilitariesAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare))
+                    .Cast<ICard>().ToList();
+
+            case AppConstants.MainType.CARD_SPELL:
+                cardTypeText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_SPELL);
+                totalRecord = await UserCardSpellsService.Create().GetUserCardSpellsCountAsync(User.CurrentUserId, search, type, rare);
+                totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
+                PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+                return (await userCardSpellService
+                    .GetUserCardSpellsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare))
+                    .Cast<ICard>().ToList();
+
+            default:
+                return new List<ICard>();
         }
 
+    }
+    private void CreateSlotAsync(List<ICard> cardList, Transform positionPanel)
+    {
         for (int i = 1; i <= 10; i++)
         {
-            GameObject teamSlotSecondObject = Instantiate(TeamSlotSecondPrefab, positionPanel);
-            Transform teamSlotSecondTransform = teamSlotSecondObject.transform;
+            GameObject slot = Instantiate(TeamSlotSecondPrefab, positionPanel);
+            Transform transform = slot.transform;
 
-            RawImage cardImage = teamSlotSecondTransform.Find("CardImage").GetComponent<RawImage>();
-            TextMeshProUGUI positionText = teamSlotSecondTransform.Find("PositionText").GetComponent<TextMeshProUGUI>();
+            RawImage cardImage = transform.Find("CardImage").GetComponent<RawImage>();
+            TextMeshProUGUI positionText = transform.Find("PositionText").GetComponent<TextMeshProUGUI>();
+
+            Button selectButton = transform.Find("ButtonGroup/SelectButton").GetComponent<Button>();
+            Button removeButton = transform.Find("ButtonGroup/RemoveButton").GetComponent<Button>();
+            Button changeButton = transform.Find("ButtonGroup/ChangeButton").GetComponent<Button>();
+
+            selectButton.onClick.RemoveAllListeners();
+            removeButton.onClick.RemoveAllListeners();
+            changeButton.onClick.RemoveAllListeners();
 
             int tempPosition = i;
             positionText.text = tempPosition.ToString();
 
-            var card = cardListObject.FirstOrDefault(c =>
-            {
-                var pos = c.GetType().GetProperty("Position")?.GetValue(c)?.ToString();
-                return GetY(pos) == i;
-            });
+            var card = cardList.FirstOrDefault(c => GetY(c.Position) == tempPosition);
 
             if (card != null)
             {
-                var imagePath = card.GetType().GetProperty("Image")?.GetValue(card)?.ToString();
-
-                Texture texture = Resources.Load<Texture>(imagePath);
+                Texture texture = Resources.Load<Texture>(card.Image);
 
                 if (texture != null)
                 {
                     cardImage.texture = texture;
                 }
+
+                string cardId = card.Id;
+
+                removeButton.onClick.AddListener(async () =>
+                {
+                    await OnRemoveCardClickAsync(cardId);
+                });
             }
+            else
+            {
+                cardImage.texture = TextureHelper.LoadTexture2DCached("UI/Background4/Background_V4_505");
+                removeButton.gameObject.SetActive(false);
+            }
+
+            selectButton.onClick.AddListener(async () =>
+            {
+                await OnSelectCardClickAsync();
+            });
         }
     }
-    int GetY(string position)
+    private int GetY(string position)
     {
         if (string.IsNullOrEmpty(position)) return -1;
 
@@ -467,6 +592,198 @@ public class TeamsManager : MonoBehaviour
         if (parts.Length < 2) return -1;
 
         return int.TryParse(parts[1], out int y) ? y : -1;
+    }
+    public async Task OnSelectCardClickAsync()
+    {
+        GameObject popupCardPanelObject = Instantiate(PopupCardPanelPrefab, MainPanel);
+        Transform transform = popupCardPanelObject.transform;
+        Transform contentPanel = transform.Find("Scroll View/Viewport/Content");
+        TMP_Dropdown rareDropdown = transform.Find("InputGroup/RareDropdown").GetComponent<TMP_Dropdown>();
+        TMP_Dropdown typeDropdown = transform.Find("InputGroup/TypeDropdown").GetComponent<TMP_Dropdown>();
+        TMP_InputField searchInputField = transform.Find("InputGroup/Search").GetComponent<TMP_InputField>();
+        Button searchButton = transform.Find("InputGroup/SearchButton").GetComponent<Button>();
+        PageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
+        nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
+        previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
+        TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(popupCardPanelObject);
+        });
+
+        searchButton.onClick.AddListener(async () =>
+        {
+            offset = 0;
+            currentPage = 1;
+            string searchText = searchInputField.text;
+            search = searchText;
+            var cardList = await GetUserCardsByTypeAsync(mainType, titleText);
+            CreateUserCards(cardList, positionPanel);
+        });
+
+        List<string> uniqueRaries = QualityEvaluator.rarities;
+        if (uniqueRaries.Count > 0)
+        {
+            rareDropdown.ClearOptions();
+            rareDropdown.AddOptions(uniqueRaries);
+
+            // Quan trọng: clear listener cũ trước
+            rareDropdown.onValueChanged.RemoveAllListeners();
+
+            // Gán sự kiện
+            rareDropdown.onValueChanged.AddListener(async (index) =>
+            {
+                offset = 0;
+                currentPage = 1;
+                // Lấy text đang chọn
+                string selectedRare = rareDropdown.options[index].text;
+                rare = selectedRare;
+
+                // Gọi async (fire & forget an toàn)
+                var cardList = await GetUserCardsByTypeAsync(mainType, titleText);
+                CreateUserCards(cardList, positionPanel);
+            });
+
+            rareDropdown.value = 0;
+            rareDropdown.RefreshShownValue();
+        }
+
+        List<string> uniqueTypes = await TypeManager.GetUniqueTypesAsync(mainType);
+        uniqueTypes.Insert(0, AppConstants.Type.ALL);
+        if (uniqueTypes.Count > 0)
+        {
+            typeDropdown.ClearOptions();
+            typeDropdown.AddOptions(uniqueTypes);
+
+            // Quan trọng: clear listener cũ trước
+            typeDropdown.onValueChanged.RemoveAllListeners();
+
+            // Gán sự kiện
+            typeDropdown.onValueChanged.AddListener(async (index) =>
+            {
+                offset = 0;
+                currentPage = 1;
+                // Lấy text đang chọn
+                string selectedType = typeDropdown.options[index].text;
+                type = selectedType;
+
+                // Gọi async (fire & forget an toàn)
+                var cardList = await GetUserCardsByTypeAsync(mainType, titleText);
+                CreateUserCards(cardList, positionPanel);
+            });
+
+            typeDropdown.value = 0;
+            typeDropdown.RefreshShownValue();
+        }
+
+        var cardList = await GetUserCardsByTypeAsync(mainType, titleText);
+        CreateUserCards(cardList, contentPanel);
+    }
+    public async Task OnRemoveCardClickAsync(string cardId)
+    {
+        if (mainType.Equals(AppConstants.MainType.CARD_HERO))
+        {
+            await userCardHeroesService.UpdateTeamCardHeroAsync(null, null, cardId);
+        }
+        else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
+        {
+            await userCardCaptainsService.UpdateTeamCardCaptainAsync(null, null, cardId);
+        }
+        else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
+        {
+            await userCardColonelsService.UpdateTeamCardColonelAsync(null, null, cardId);
+        }
+        else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
+        {
+            await userCardGeneralsService.UpdateTeamCardGeneralAsync(null, null, cardId);
+        }
+        else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
+        {
+            await userCardAdmiralsService.UpdateTeamCardAdmiralAsync(null, null, cardId);
+        }
+        else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
+        {
+            await userCardMonstersService.UpdateTeamCardMonsterAsync(null, null, cardId);
+        }
+        else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
+        {
+            await userCardMilitaryService.UpdateTeamCardMilitaryAsync(null, null, cardId);
+        }
+        else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
+        {
+            await userCardSpellService.UpdateTeamCardSpellAsync(null, null, cardId);
+        }
+    }
+    public void CreateUserCards(List<ICard> cards, Transform contentPanel)
+    {
+        foreach (Transform child in contentPanel)
+        {
+            Destroy(child.gameObject);
+        }
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        // var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        // if (oldAnim != null) Destroy(oldAnim);
+
+        foreach (var card in cards)
+        {
+            GameObject cardObject = Instantiate(CardSelectButtonPrefab, contentPanel);
+            Transform transform = cardObject.transform;
+
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = card.Name.Replace("_", " ");
+
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(card.Image);
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            image.texture = texture;
+
+            TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+            levelText.text = card.Level.ToString().Replace("_", " ");
+
+            TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
+            cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_HERO);
+
+            TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
+            typePanel.text = card.Type.ToString().Replace("_", " ");
+
+            Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(card.Rare));
+
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(card.Rare));
+            rareText.text = card.Rare;
+
+            Transform teamPanel = transform.Find("TeamPanel");
+            // if (card.Team.TeamNumber != 0)
+            // {
+            //     teamPanel.gameObject.SetActive(true);
+            //     // RawImage teamBackgroundImage = transform.Find("Team/Background").GetComponent<RawImage>();
+            //     // TextMeshProUGUI teamTitleText = transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
+            //     // Texture teamBackgroundTexture = TextureHelper.LoadTextureCached(ImageConstants.Team.TEAM_BACKGROUND_1);
+            //     // teamBackgroundImage.texture = teamBackgroundTexture;
+            //     // teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + card.Team.TeamNumber.ToString();
+            // }
+            // else
+            // {
+            //     teamPanel.gameObject.SetActive(false);
+            // }
+
+            Button button = transform.GetComponent<Button>();
+            button.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                MainMenuDetailsManager.Instance.PopupDetails(card, MainPanel);
+            });
+        }
+        // GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        // if (gridLayout != null)
+        // {
+        //     gridLayout.cellSize = new Vector2(250, 360);
+        //     gridLayout.spacing = new Vector2(23, 10);
+        // }
+        // contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreateButton(int index, string itemName, Transform panel)
     {

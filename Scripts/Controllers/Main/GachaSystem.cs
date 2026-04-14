@@ -13,14 +13,62 @@ public class GachaSystem : MonoBehaviour
     private GameObject cardPrefab; // Prefab đại diện cho một thẻ bài
     private Transform summonArea; // Khu vực hiển thị thẻ bài
     private Texture backImage; // Mặt sau (image1.png)
+    private bool isSkipRequested = false;
+    private bool isRevealFinished = false;
     // private bool isSummonAreaActive = false;
 
     public void Summon(string name, string type, GameObject summonObject, int quantity, List<Items> items, Action<bool> onFinished)
     {
+        isSkipRequested = false;
+        isRevealFinished = false;
+        RegisterSkip(summonObject);
         StartCoroutine(PlaySummonVideoAndSummon(name, type, summonObject, quantity, items, onFinished));
-
     }
-    
+
+    #region SKIP EVENT
+    private void RegisterSkip(GameObject summonObject)
+    {
+        EventTrigger trigger = summonObject.GetComponent<EventTrigger>();
+        if (trigger == null)
+            trigger = summonObject.AddComponent<EventTrigger>();
+        else
+            trigger.triggers.Clear();
+
+        EventTrigger.Entry entry = new EventTrigger.Entry
+        {
+            eventID = EventTriggerType.PointerClick
+        };
+
+        entry.callback.AddListener((data) =>
+        {
+            // 👉 Nếu chưa hiện xong → SKIP
+            if (!isRevealFinished)
+            {
+                isSkipRequested = true;
+            }
+            else
+            {
+                // 👉 Nếu đã hiện xong → ĐÓNG
+                CloseSummonArea();
+            }
+        });
+
+        trigger.triggers.Add(entry);
+    }
+
+    private void CloseSummonArea()
+    {
+        if (summonArea == null) return;
+
+        summonArea.gameObject.SetActive(false);
+
+        foreach (Transform child in summonArea)
+        {
+            Destroy(child.gameObject);
+        }
+    }
+    #endregion
+
     IEnumerator PlaySummonVideoAndSummon(string name, string type, GameObject summonObject, int quantity, List<Items> items, Action<bool> onFinished)
     {
         RawImage summonEffectImage = summonObject.transform.Find("SummonEffectImage").GetComponent<RawImage>();
@@ -56,65 +104,41 @@ public class GachaSystem : MonoBehaviour
 
         while (!videoFinished)
         {
+            if (isSkipRequested)
+            {
+                videoPlayer.Stop();
+                break;
+            }
             yield return null;
         }
 
-        yield return new WaitForSeconds(0.5f);
         summonEffectImage.gameObject.SetActive(false);
 
         Task<bool> summonTask = SummonEventAsync(name, type, summonObject, quantity, items);
         yield return CoroutineAsyncBridge.WaitTask(summonTask, result => onFinished?.Invoke(result));
     }
-    
+
     private async Task<bool> SummonEventAsync(string name, string type, GameObject summonObject, int quantity, List<Items> items)
     {
-        if (items == null || items.Count == 0)
-        {
-            Debug.LogError("No items provided for summon.");
-            return false;
-        }
+        if (items == null || items.Count == 0) return false;
 
         Transform area = summonObject.transform.Find("SummonArea");
-        if (area == null)
-        {
-            Debug.LogError("Summon area is null!");
-            return false;
-        }
+        if (area == null) return false;
 
         if (!await DeductSummonItemsAsync(quantity, items))
             return false;
 
         List<object> cards = await LoadSummonPoolAsync(name, type);
-        if (cards == null || cards.Count == 0)
-        {
-            Debug.LogError("No cards found for summon type: " + name);
-            return false;
-        }
+        if (cards == null || cards.Count == 0) return false;
 
         backImage ??= TextureHelper.LoadTextureCached("UI/Frame_5");
-        if (backImage == null)
-        {
-            Debug.LogError(MessageConstants.IMAGE_IS_NULL);
-            return false;
-        }
 
         summonArea = area;
         summonArea.gameObject.SetActive(true);
-        AddCloseEvent();
 
         cardPrefab = UIManager.Instance.Get("CardsPrefab");
-        if (cardPrefab == null)
-        {
-            Debug.LogError(MessageConstants.PREFAB_IS_NULL);
-            return false;
-        }
 
         var randomItems = SelectRandomItems(cards, quantity);
-        if (randomItems.Count == 0)
-        {
-            Debug.LogError("Not enough cards available to summon.");
-            return false;
-        }
 
         foreach (var card in randomItems)
         {
@@ -124,126 +148,139 @@ public class GachaSystem : MonoBehaviour
         StartCoroutine(DisplayCards(randomItems));
         return true;
     }
-    
+
     private IEnumerator DisplayCards(List<object> randomItems)
     {
         float delay = 0.2f;
-        var cardData = new List<(RawImage Image, string FrontImagePath)>(randomItems.Count);
+        var cardData = new List<(RawImage Image, string FrontPath)>();
 
+        // 🔹 Spawn đủ card (KHÔNG break)
         for (int i = 0; i < randomItems.Count; i++)
         {
             GameObject cardObject = Instantiate(cardPrefab, summonArea);
+
             RawImage image = cardObject.transform.Find("Image")?.GetComponent<RawImage>();
-            Text title = cardObject.transform.Find("Title").GetComponent<Text>();
-            title.gameObject.SetActive(false);
-            RawImage cardTitleImage = cardObject.transform.Find("CardTitleImage").GetComponent<RawImage>();
-            cardTitleImage.gameObject.SetActive(false);
+            RawImage rareBg = cardObject.transform.Find("RareBackground").GetComponent<RawImage>();
+            RawImage rare = cardObject.transform.Find("Rare").GetComponent<RawImage>();
 
-            RawImage rareBackground = cardObject.transform.Find("RareBackground").GetComponent<RawImage>();
-            rareBackground.gameObject.SetActive(false);
-            RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-
-            string rarePath = GetRareImagePath(randomItems[i]);
-            if (!string.IsNullOrEmpty(rarePath) && rareImage != null)
-            {
-                rareImage.texture = TextureHelper.LoadTextureCached(rarePath);
-            }
-
-            if (image == null)
-            {
-                Debug.LogError("Không tìm thấy RawImage trong cardObject");
-                continue;
-            }
+            rareBg.gameObject.SetActive(true);
+            rare.gameObject.SetActive(true);
 
             image.texture = backImage;
-            cardData.Add((image, GetFrontImagePath(randomItems[i])));
-            rareImage?.gameObject.SetActive(false);
 
-            yield return new WaitForSeconds(delay);
+            string rarePath = GetRareImagePath(randomItems[i]);
+
+            if (!string.IsNullOrEmpty(rarePath))
+            {
+                Texture rareTexture = TextureHelper.LoadTextureCached(rarePath);
+
+                if (rareTexture != null)
+                {
+                    rare.texture = rareTexture;
+                }
+            }
+
+            cardData.Add((image, GetFrontImagePath(randomItems[i])));
+
+            // ✅ chỉ delay khi KHÔNG skip
+            if (!isSkipRequested)
+            {
+                yield return new WaitForSeconds(delay);
+            }
+        }
+
+        // 👉 SKIP → hiện full luôn (sau khi đã spawn đủ)
+        if (isSkipRequested)
+        {
+            foreach (var data in cardData)
+            {
+                ShowFullCard(data.Image, data.FrontPath);
+            }
+
+            isRevealFinished = true;
+            yield break;
         }
 
         yield return new WaitForSeconds(delay);
 
+        // 🔹 Flip từng card
         for (int i = 0; i < cardData.Count; i++)
         {
-            yield return StartCoroutine(FlipCard(cardData[i].Image, cardData[i].FrontImagePath));
+            if (isSkipRequested)
+            {
+                for (int j = i; j < cardData.Count; j++)
+                {
+                    ShowFullCard(cardData[j].Image, cardData[j].FrontPath);
+                }
+
+                isRevealFinished = true;
+                yield break;
+            }
+
+            yield return StartCoroutine(FlipCard(cardData[i].Image, cardData[i].FrontPath));
         }
+
+        isRevealFinished = true;
     }
-    
+
     private IEnumerator FlipCard(RawImage cardImage, string frontImagePath)
     {
-        float flipDuration = 0.2f; // Thời gian lật thẻ (độ delay giống hiển thị)
-        float elapsedTime = 0f;
+        float duration = 0.2f;
+        float time = 0f;
 
-        // Lật từ mặt sau
-        while (elapsedTime < flipDuration / 2)
+        while (time < duration / 2)
         {
-            elapsedTime += Time.deltaTime;
-            float scaleX = Mathf.Lerp(1f, 0f, elapsedTime / (flipDuration / 2));
+            if (isSkipRequested)
+            {
+                ShowFullCard(cardImage, frontImagePath);
+                yield break;
+            }
+
+            time += Time.deltaTime;
+            float scaleX = Mathf.Lerp(1f, 0f, time / (duration / 2));
             cardImage.rectTransform.localScale = new Vector3(scaleX, 1f, 1f);
             yield return null;
         }
 
-        // Thay đổi từ mặt sau sang mặt trước
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(frontImagePath);
-        Texture frontTexture = TextureHelper.LoadTextureCached(fileNameWithoutExtension);
+        ShowFullCard(cardImage, frontImagePath);
 
-        if (frontTexture != null)
+        time = 0f;
+        while (time < duration / 2)
         {
-            cardImage.texture = frontTexture;
-        }
-        else
-        {
-            Debug.LogError("Không tìm thấy texture: " + fileNameWithoutExtension);
-        }
+            if (isSkipRequested) yield break;
 
-        // Hiển thị rareBackground và rareImage
-        Transform parent = cardImage.transform.parent;
-        RawImage rareBackground = parent.Find("RareBackground")?.GetComponent<RawImage>();
-        RawImage rareImage = parent.Find("Rare")?.GetComponent<RawImage>();
-
-        if (rareBackground != null)
-        {
-            rareBackground.gameObject.SetActive(true);
-        }
-        else
-        {
-            Debug.LogError("Không tìm thấy RareBackground trong cardObject");
-        }
-
-        if (rareImage != null)
-        {
-            rareImage.gameObject.SetActive(true);
-        }
-        else
-        {
-            Debug.LogError("Không tìm thấy Rare trong cardObject");
-        }
-        // Lật sang mặt trước
-        elapsedTime = 0f;
-        while (elapsedTime < flipDuration / 2)
-        {
-            elapsedTime += Time.deltaTime;
-            float scaleX = Mathf.Lerp(0f, 1f, elapsedTime / (flipDuration / 2));
+            time += Time.deltaTime;
+            float scaleX = Mathf.Lerp(0f, 1f, time / (duration / 2));
             cardImage.rectTransform.localScale = new Vector3(scaleX, 1f, 1f);
             yield return null;
         }
     }
-    
+
+    private void ShowFullCard(RawImage cardImage, string frontPath)
+    {
+        string file = ImageExtensionHandler.RemoveImageExtension(frontPath);
+        Texture tex = TextureHelper.LoadTextureCached(file);
+
+        if (tex != null)
+            cardImage.texture = tex;
+
+        Transform parent = cardImage.transform.parent;
+
+        parent.Find("RareBackground")?.gameObject.SetActive(true);
+        parent.Find("Rare")?.gameObject.SetActive(true);
+
+        cardImage.rectTransform.localScale = Vector3.one;
+    }
+
     private async Task<bool> DeductSummonItemsAsync(int quantity, List<Items> items)
     {
-        foreach (Items item in items)
+        foreach (var item in items)
         {
-            if (item.Quantity < quantity)
-            {
-                Debug.LogWarning($"Not enough quantity for item {item.Id}");
-                return false;
-            }
+            if (item.Quantity < quantity) return false;
 
             item.Quantity -= quantity;
             await UserItemsService.Create().UpdateUserItemQuantityAsync(item);
         }
-
         return true;
     }
 
@@ -384,7 +421,7 @@ public class GachaSystem : MonoBehaviour
             _ => string.Empty,
         };
     }
-    
+
     private void AddCloseEvent()
     {
         EventTrigger trigger = summonArea.gameObject.GetComponent<EventTrigger>();
@@ -411,11 +448,9 @@ public class GachaSystem : MonoBehaviour
         });
         trigger.triggers.Add(entry);
     }
-    
+
     private void OnDestroy()
     {
         StopAllCoroutines();
     }
-
-
 }

@@ -40,9 +40,6 @@ public class CardCaptainsGalleryController : MonoBehaviour
         var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
         if (oldAnim != null) Destroy(oldAnim);
 
-        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
-        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_CAPTAIN_BUTTON_BACKGROUND_URL);
-
         foreach (var cardCaptain in cardCaptains)
         {
             GameObject cardCaptainObject = Instantiate(CardCaptainBlockButtonPrefab, contentPanel);
@@ -67,9 +64,6 @@ public class CardCaptainsGalleryController : MonoBehaviour
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
             rareBackground.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardCaptain.Rare));
-
-            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = bgTexture;
 
             Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>

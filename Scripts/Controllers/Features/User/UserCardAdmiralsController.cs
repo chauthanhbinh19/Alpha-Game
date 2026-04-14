@@ -80,9 +80,6 @@ public class UserCardAdmiralsController : MonoBehaviour
         var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
         if (oldAnim != null) Destroy(oldAnim);
 
-        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
-        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_ADMIRAL_BUTTON_BACKGROUND_URL);
-
         foreach (var cardAdmiral in cardAdmirals)
         {
             GameObject cardAdmiralObject = Instantiate(CardAdmiralButtonPrefab, contentPanel);
@@ -107,9 +104,6 @@ public class UserCardAdmiralsController : MonoBehaviour
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
             rareBackground.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardAdmiral.Rare));
-
-            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = bgTexture;
 
             Transform teamPanel = transform.Find("Team");
             if(cardAdmiral.Team.TeamNumber != 0)

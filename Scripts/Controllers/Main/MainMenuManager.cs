@@ -10,7 +10,6 @@ public class MainMenuManager : MonoBehaviour
 {
     private Transform RootPanel;
     private GameObject MainPanelPrefab;
-    private GameObject TypeButtonPrefab;
     private GameObject DictionaryPanelPrefab;
     private GameObject PopupMenuPanelPrefab;
     private GameObject ArenaPanelPrefab;
@@ -18,23 +17,15 @@ public class MainMenuManager : MonoBehaviour
     private GameObject ReactorPanelPrefab;
     private GameObject MasterBoardPanelPrefab;
     private GameObject PopupButtonPanelPrefab;
-    private GameObject FeaturePanelPrefab;
-    private GameObject RareButtonPrefab;
     private Transform MainPanel;
     private Transform DictionaryContentPanel;
-    private Button CloseButton;
-    private Button HomeButton;
-    private Button SummonButton;
-    private Button Summon10Button;
-    private GameObject equipmentsPrefab;
+    private Button closeButton;
+    private Button homeButton;
     private Transform RightScrollViewContentPanel;
     private Transform LeftScrollViewContentPanel;
-    private GameObject SummonTabButtonPrefab;
 
-    private GameObject SummonPanelPrefab;
     private Transform PositionPanel;
     private GameObject summonObject;
-    private Transform CurrencyPanel;
     private GameObject currentObject;
     private Material UI_Red_Gradient_Radius_Mat_MaskPercent_70;
     //Variable for pagination
@@ -47,12 +38,9 @@ public class MainMenuManager : MonoBehaviour
     private Button previousButton;
     private string mainType;
     private TextMeshProUGUI titleText;
-    private string buttonType;
     private string search;
     private string type;
     private string rare;
-    private TMP_FontAsset EuroStyleNormalFont;
-    private int fontSize;
     public static MainMenuManager Instance { get; private set; }
     private void Awake()
     {
@@ -76,30 +64,21 @@ public class MainMenuManager : MonoBehaviour
     {
         offset = 0;
         currentPage = 1;
-        buttonType = "";
         search = "";
         type = AppConstants.Type.ALL;
         rare = AppConstants.Rare.ALL;
         RootPanel = UIManager.Instance.GetTransform("RootPanel");
         MainPanelPrefab = UIManager.Instance.Get("MainPanelPrefab");
         PopupButtonPanelPrefab = UIManager.Instance.Get("PopupButtonPanelPrefab");
-        RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         // mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
-        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
-        SummonTabButtonPrefab = UIManager.Instance.Get("SummonTabButtonPrefab");
         DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
-        SummonPanelPrefab = UIManager.Instance.Get("SummonPanelPrefab");
         PopupMenuPanelPrefab = UIManager.Instance.Get("PopupMenuPanelPrefab");
         ArenaPanelPrefab = UIManager.Instance.Get("ArenaPanelPrefab");
         AnimePanelPrefab = UIManager.Instance.Get("AnimePanelPrefab");
         ReactorPanelPrefab = UIManager.Instance.Get("ReactorPanelPrefab");
         MasterBoardPanelPrefab = UIManager.Instance.Get("MasterBoardPanelPrefab");
-        FeaturePanelPrefab = UIManager.Instance.Get("FeaturePanelPrefab");
-        EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
         UI_Red_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_70");
-        fontSize = 24;
     }
     public void CreateMainPanel()
     {
@@ -130,7 +109,7 @@ public class MainMenuManager : MonoBehaviour
         Button universeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/UniverseButton").GetComponent<Button>();
         Button structureButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/StructureButton").GetComponent<Button>();
 
-        _=HomeManager.Instance.CreateHomePanelAsync();
+        _ = HomeManager.Instance.CreateHomePanelAsync();
 
         homeButton.onClick.AddListener(async () =>
         {
@@ -144,14 +123,14 @@ public class MainMenuManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
             GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, MainPanel);
-            CloseButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() =>
+            closeButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupButtonPanel);
             });
-            HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(async () =>
+            this.homeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            this.homeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
@@ -168,14 +147,14 @@ public class MainMenuManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
             GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, MainPanel);
-            CloseButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() =>
+            closeButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupButtonPanel);
             });
-            HomeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(async () =>
+            this.homeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            this.homeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
@@ -185,6 +164,7 @@ public class MainMenuManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.EVENT);
             ButtonLoader.Instance.CreateEventButton(popupButtonPanel);
             GetButtonEvent(popupButtonPanel);
+            SummonManager.Instance.GetButtonEvent(popupButtonPanel);
         });
 
         shopButton.onClick.AddListener(async () =>
@@ -207,14 +187,14 @@ public class MainMenuManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             GameObject popupObject = Instantiate(MasterBoardPanelPrefab, MainPanel);
             TextMeshProUGUI titleTMPText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-            CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() =>
+            closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
-            HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(async () =>
+            this.homeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            this.homeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
@@ -230,14 +210,14 @@ public class MainMenuManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             GameObject popupObject = Instantiate(ReactorPanelPrefab, MainPanel);
             titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-            CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() =>
+            closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
-            HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(async () =>
+            this.homeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            this.homeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
@@ -251,11 +231,12 @@ public class MainMenuManager : MonoBehaviour
         galleryButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             TitleText.text = LocalizationManager.Get(AppConstants.MainType.GALLERY);
-            CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() =>
+            closeButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
@@ -269,11 +250,12 @@ public class MainMenuManager : MonoBehaviour
         collectionButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             TitleText.text = LocalizationManager.Get(AppConstants.MainType.COLLECTION);
-            CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() =>
+            closeButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
@@ -287,11 +269,12 @@ public class MainMenuManager : MonoBehaviour
         equipmentButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
             GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
             TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             TitleText.text = LocalizationManager.Get(AppConstants.MainType.EQUIPMENTS);
-            CloseButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() =>
+            closeButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
@@ -321,14 +304,14 @@ public class MainMenuManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
             titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-            CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() =>
+            closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupObject);
             });
-            HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(async () =>
+            this.homeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            this.homeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
@@ -343,7 +326,7 @@ public class MainMenuManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             // await ProfileManager.Instance.CreateProfileAsync();
         });
-        
+
         researchButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -487,15 +470,6 @@ public class MainMenuManager : MonoBehaviour
     public void GetButtonEvent(GameObject popupButtonObject)
     {
         Transform contentPanel = popupButtonObject.transform.Find("Scroll View/Viewport/Content");
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_HERO));
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, () => GetType(AppConstants.MainType.SUMMON_BOOK));
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_CAPTAIN));
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_MONSTER));
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_MILITARY));
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_SPELL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_COLONEL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_GENERAL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, () => GetType(AppConstants.MainType.SUMMON_CARD_ADMIRAL));
         ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, () => GetType(AppConstants.MainType.ANIME));
         // ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, () => GetType(AppConstants.MainType.GUILD));
         ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, () => GetType(AppConstants.MainType.TOWER));
@@ -519,155 +493,7 @@ public class MainMenuManager : MonoBehaviour
     public async Task GetButtonTypeAsync()
     {
         // MainMenuPanel.SetActive(true);
-        if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HERO) || mainType.Equals(AppConstants.MainType.SUMMON_BOOK) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAIN) ||
-        mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONEL) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERAL) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRAL) ||
-        mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTER) || mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELL))
-        {
-            buttonType = "button2";
-            summonObject = Instantiate(SummonPanelPrefab, MainPanel);
-            DictionaryContentPanel = summonObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
-            LeftScrollViewContentPanel = summonObject.transform.Find("Scroll View/Viewport/ButtonContent");
-            PositionPanel = summonObject.transform.Find("DictionaryCards/Position");
-
-            titleText = summonObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-            CloseButton = summonObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-            SummonButton = summonObject.transform.Find("DictionaryCards/SummonButton").GetComponent<Button>();
-            Summon10Button = summonObject.transform.Find("DictionaryCards/Summon10Button").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Destroy(summonObject);
-            });
-            HomeButton = summonObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Close(MainPanel);
-                await HomeManager.Instance.CreateHomePanelAsync();
-            });
-            // SummonAreaPanel = summonObject.transform.Find("SummonArea");
-            CurrencyPanel = summonObject.transform.Find("DictionaryCards/Currency");
-
-            TextMeshProUGUI SummonOneButtonText = SummonButton.GetComponentInChildren<TextMeshProUGUI>();
-            SummonOneButtonText.font = EuroStyleNormalFont;
-            SummonOneButtonText.fontSize = fontSize;
-            SummonOneButtonText.fontStyle = FontStyles.Bold;
-            SummonOneButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SUMMON_ONE);
-            TextMeshProUGUI SummonTenButtonText = Summon10Button.GetComponentInChildren<TextMeshProUGUI>();
-            SummonTenButtonText.font = EuroStyleNormalFont;
-            SummonTenButtonText.fontSize = fontSize;
-            SummonTenButtonText.fontStyle = FontStyles.Bold;
-            SummonTenButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SUMMON_TEN);
-
-            List<string> types = await TypeManager.GetUniqueTypesAsync(mainType);
-
-            if (types.Count > 0 && !mainType.Equals(AppConstants.MainType.EQUIPMENT))
-            {
-                for (int i = 0; i < types.Count; i++)
-                {
-                    // Tạo một nút mới từ prefab
-                    string subType = types[i];
-                    GameObject button = null;
-                    if (buttonType.Equals("button1"))
-                    {
-                        button = Instantiate(TypeButtonPrefab, LeftScrollViewContentPanel);
-                        TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-                        buttonText.text = subType.Replace("_", " ");
-                    }
-                    else if (buttonType.Equals("button2"))
-                    {
-                        button = Instantiate(SummonTabButtonPrefab, LeftScrollViewContentPanel);
-                        TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-                        buttonText.text = subType.Replace("_", " ");
-                    }
-
-                    Button btn = button.GetComponent<Button>();
-                    btn.onClick.AddListener(() =>
-                    {
-                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                        OnButtonClick(button, subType);
-                    });
-
-                    if (i == 0)
-                    {
-                        type = subType;
-                        // if (buttonType.Equals("button1"))
-                        // {
-                        //     ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-                        // }
-                        if (buttonType.Equals("button2"))
-                        {
-                            ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.SUMMON_BUTTON_AFTER_CLICK_URL);
-                        }
-                        _ = LoadCurrentPageAsync();
-
-                    }
-                    else
-                    {
-                        // if (buttonType.Equals("button1"))
-                        // {
-                        //     ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
-                        // }
-                        if (buttonType.Equals("button2"))
-                        {
-                            ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.SUMMON_BUTTON_BEFORE_CLICK_URL);
-                        }
-                    }
-                }
-            }
-            else
-            {
-                _ = LoadCurrentPageAsync();
-            }
-
-            RawImage dictionaryBackground = summonObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
-            if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HERO))
-            {
-                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_HEROES_BACKGROUND_URL);
-                dictionaryBackground.texture = texture;
-            }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOK))
-            {
-                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_BOOKS_BACKGROUND_URL);
-                dictionaryBackground.texture = texture;
-            }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAIN))
-            {
-                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_CAPTAINS_BACKGROUND_URL);
-                dictionaryBackground.texture = texture;
-            }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTER))
-            {
-                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_MONSTERS_BACKGROUND_URL);
-                dictionaryBackground.texture = texture;
-            }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY))
-            {
-                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_MILITARIES_BACKGROUND_URL);
-                dictionaryBackground.texture = texture;
-            }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELL))
-            {
-                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_SPELLS_BACKGROUND_URL);
-                dictionaryBackground.texture = texture;
-            }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONEL))
-            {
-                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_COLONELS_BACKGROUND_URL);
-                dictionaryBackground.texture = texture;
-            }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERAL))
-            {
-                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_GENERALS_BACKGROUND_URL);
-                dictionaryBackground.texture = texture;
-            }
-            else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRAL))
-            {
-                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_ADMIRALS_BACKGROUND_URL);
-                dictionaryBackground.texture = texture;
-            }
-        }
-        else if (mainType.Equals(AppConstants.MainType.ANIME))
+        if (mainType.Equals(AppConstants.MainType.ANIME))
         {
             GameObject popupObject = Instantiate(AnimePanelPrefab, MainPanel);
             titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
@@ -729,28 +555,28 @@ public class MainMenuManager : MonoBehaviour
         }
         else
         {
-            buttonType = "button1";
             GameObject mainMenuObject = Instantiate(DictionaryPanelPrefab, MainPanel);
-            DictionaryContentPanel = mainMenuObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
-            RightScrollViewContentPanel = mainMenuObject.transform.Find("RightScrollView/Viewport/Content");
-            LeftScrollViewContentPanel = mainMenuObject.transform.Find("Scroll View/Viewport/ButtonContent");
-            PageText = mainMenuObject.transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
-            nextButton = mainMenuObject.transform.Find("Pagination/Next").GetComponent<Button>();
-            previousButton = mainMenuObject.transform.Find("Pagination/Previous").GetComponent<Button>();
-            titleText = mainMenuObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-            TMP_Dropdown rareDropdown = mainMenuObject.transform.Find("DictionaryCards/InputGroup/RareDropdown").GetComponent<TMP_Dropdown>();
-            TMP_Dropdown typeDropdown = mainMenuObject.transform.Find("DictionaryCards/InputGroup/TypeDropdown").GetComponent<TMP_Dropdown>();
-            TMP_InputField searchInputField = mainMenuObject.transform.Find("DictionaryCards/InputGroup/Search").GetComponent<TMP_InputField>();
-            Button searchButton = mainMenuObject.transform.Find("DictionaryCards/InputGroup/SearchButton").GetComponent<Button>();
-            CloseButton = mainMenuObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-            CloseButton.onClick.AddListener(() =>
+            Transform transform = mainMenuObject.transform;
+            DictionaryContentPanel = transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
+            RightScrollViewContentPanel = transform.Find("RightScrollView/Viewport/Content");
+            LeftScrollViewContentPanel = transform.Find("Scroll View/Viewport/ButtonContent");
+            PageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
+            nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
+            previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
+            titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+            TMP_Dropdown rareDropdown = transform.Find("DictionaryCards/InputGroup/RareDropdown").GetComponent<TMP_Dropdown>();
+            TMP_Dropdown typeDropdown = transform.Find("DictionaryCards/InputGroup/TypeDropdown").GetComponent<TMP_Dropdown>();
+            TMP_InputField searchInputField = transform.Find("DictionaryCards/InputGroup/Search").GetComponent<TMP_InputField>();
+            Button searchButton = transform.Find("DictionaryCards/InputGroup/SearchButton").GetComponent<Button>();
+            closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 ClosePanel();
                 Destroy(mainMenuObject);
             });
-            HomeButton = mainMenuObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            HomeButton.onClick.AddListener(async () =>
+            homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            homeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
@@ -767,12 +593,12 @@ public class MainMenuManager : MonoBehaviour
                 ChangePreviousPage();
             });
 
-            Image topBackgroundImage = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
+            Image topBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
             topBackgroundImage.material = UI_Red_Gradient_Radius_Mat_MaskPercent_70;
-            TextMeshProUGUI subTitleText = mainMenuObject.transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI subTitleText = transform.Find("DictionaryCards/TitleGroup/TitleText").GetComponent<TextMeshProUGUI>();
             subTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.INVENTORY);
 
-            // CurrencyPanel = mainMenuObject.transform.Find("DictionaryCards/Currency");
+            // CurrencyPanel = transform.Find("DictionaryCards/Currency");
 
             // List<Currencies> currencies = new List<Currencies>();
             // currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
@@ -792,7 +618,7 @@ public class MainMenuManager : MonoBehaviour
                 rareDropdown.ClearOptions();
                 rareDropdown.AddOptions(uniqueRaries);
 
-                // ⚠️ Quan trọng: clear listener cũ trước
+                // Quan trọng: clear listener cũ trước
                 rareDropdown.onValueChanged.RemoveAllListeners();
 
                 // Gán sự kiện
@@ -819,7 +645,7 @@ public class MainMenuManager : MonoBehaviour
                 typeDropdown.ClearOptions();
                 typeDropdown.AddOptions(uniqueTypes);
 
-                // ⚠️ Quan trọng: clear listener cũ trước
+                // Quan trọng: clear listener cũ trước
                 typeDropdown.onValueChanged.RemoveAllListeners();
 
                 // Gán sự kiện
@@ -842,84 +668,6 @@ public class MainMenuManager : MonoBehaviour
             _ = LoadCurrentPageAsync();
         }
         LoadAnimation();
-    }
-    void OnButtonClick(GameObject clickedButton, string subType)
-    {
-        foreach (Transform child in LeftScrollViewContentPanel)
-        {
-            // Lấy component Button từ con cái
-            Button button = child.GetComponent<Button>();
-            if (button != null)
-            {
-                // Gọi hàm ChangeButtonBackground với màu trắng
-                if (buttonType.Equals("button1"))
-                {
-                    ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
-                }
-                else if (buttonType.Equals("button2"))
-                {
-                    ButtonLoader.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.SUMMON_BUTTON_BEFORE_CLICK_URL);
-                }
-            }
-        }
-
-        type = subType;
-        currentPage = 1;
-        offset = 0;
-        ClearAllPrefabs();
-        if (buttonType.Equals("button1"))
-        {
-            ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-
-            if (RightScrollViewContentPanel.childCount > 0)
-            {
-                for (int i = 0; i < RightScrollViewContentPanel.childCount; i++)
-                {
-                    Transform child = RightScrollViewContentPanel.GetChild(i);
-                    Button rareButton = child.GetComponent<Button>();
-
-                    if (rareButton != null)
-                    {
-                        if (i == 0)
-                        {
-                            rare = QualityEvaluator.rarities[0];
-                            rareButton.transform.Find("Active").gameObject.SetActive(true);
-                            rareButton.transform.Find("Unactive").gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            rareButton.transform.Find("Active").gameObject.SetActive(false);
-                            rareButton.transform.Find("Unactive").gameObject.SetActive(true);
-                        }
-                    }
-                }
-            }
-        }
-        else if (buttonType.Equals("button2"))
-        {
-            ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.SUMMON_BUTTON_AFTER_CLICK_URL);
-        }
-        _ = LoadCurrentPageAsync();
-    }
-    public void OnRareTabButtonClick(GameObject clickedButton, string selectedRare)
-    {
-        foreach (Transform child in RightScrollViewContentPanel)
-        {
-            Button button = child.GetComponent<Button>();
-            if (button != null)
-            {
-                button.transform.Find("Active").gameObject.SetActive(false);
-                button.transform.Find("Unactive").gameObject.SetActive(true);
-            }
-        }
-
-        rare = selectedRare;
-        currentPage = 1;
-        offset = 0;
-        ClearAllPrefabs();
-        clickedButton.transform.Find("Active").gameObject.SetActive(true);
-        clickedButton.transform.Find("Unactive").gameObject.SetActive(false);
-        _ = LoadCurrentPageAsync();
     }
     public async Task LoadCurrentPageAsync()
     {
@@ -1097,459 +845,6 @@ public class MainMenuManager : MonoBehaviour
             listCount = cardAdmirals.Count;
 
             totalRecord = await UserCardAdmiralsService.Create().GetUserCardAdmiralsCountAsync(User.CurrentUserId, search, type, rare);
-        }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HERO))
-        {
-            List<CardHeroes> cardHeroes = await CardHeroesService.Create().GetCardHeroesRandomAsync(type, 3);
-            UserCardHeroesController.Instance.CreateUserCardHeroesForSummon(cardHeroes, PositionPanel);
-
-
-
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET) };
-            CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
-                CurrencyPanel
-            );
-
-            CreateTicketUI(items);
-
-            SummonButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-
-            });
-            Summon10Button.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-        }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOK))
-        {
-            List<Books> books = await BooksService.Create().GetBooksRandomAsync(type, 3);
-            UserBooksController.Instance.CreateUserBooksForSummon(books, PositionPanel);
-
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET) };
-            CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
-                CurrencyPanel
-            );
-
-            CreateTicketUI(items);
-
-            SummonButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-            Summon10Button.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-        }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAIN))
-        {
-            List<CardCaptains> cardCaptains = await CardCaptainsService.Create().GetCardCaptainsRandomAsync(type, 3);
-            UserCardCaptainsController.Instance.CreateUserCardCaptainsForSummon(cardCaptains, PositionPanel);
-
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAIN_TICKET) };
-            CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
-                CurrencyPanel
-            );
-
-            CreateTicketUI(items);
-
-            SummonButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAIN_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-            Summon10Button.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAIN_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-        }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MILITARY))
-        {
-            List<CardMilitaries> cardMilitaries = await CardMilitariesService.Create().GetCardMilitariesRandomAsync(type, 3);
-            UserCardMilitariesController.Instance.CreateUserCardMilitaryForSummon(cardMilitaries, PositionPanel);
-
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MILITARY_TICKET) };
-            CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
-                CurrencyPanel
-            );
-
-            CreateTicketUI(items);
-
-            SummonButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MILITARY_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-            Summon10Button.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MILITARY_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-        }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELL))
-        {
-            List<CardSpells> cardSpells = await CardSpellsService.Create().GetCardSpellsRandomAsync(type, 3);
-            UserCardSpellsController.Instance.CreateUserCardSpellForSummon(cardSpells, PositionPanel);
-
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_SPELL_TICKET) };
-            CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
-                CurrencyPanel
-            );
-
-            CreateTicketUI(items);
-
-            SummonButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_SPELL_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-            Summon10Button.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_SPELL_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-        }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_MONSTER))
-        {
-            List<CardMonsters> cardMonsters = await CardMonstersService.Create().GetCardMonstersRandomAsync(type, 3);
-            UserCardMonstersController.Instance.CreateUserCardMonstersForSummon(cardMonsters, PositionPanel);
-
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTER_TICKET) };
-            CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
-                CurrencyPanel
-            );
-
-            CreateTicketUI(items);
-
-            SummonButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTER_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-            Summon10Button.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTER_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-        }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_COLONEL))
-        {
-            List<CardColonels> cardColonels = await CardColonelsService.Create().GetCardColonelsRandomAsync(type, 3);
-            UserCardColonelsController.Instance.CreateUserCardColonelsForSummon(cardColonels, PositionPanel);
-
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONEL_TICKET) };
-            CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
-                CurrencyPanel
-            );
-
-            CreateTicketUI(items);
-
-            SummonButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONEL_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-            Summon10Button.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONEL_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-        }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_GENERAL))
-        {
-            List<CardGenerals> cardGenerals = await CardGeneralsService.Create().GetCardGeneralsRandomAsync(type, 3);
-            UserCardGeneralsController.Instance.CreateUserCardGeneralsForSummon(cardGenerals, PositionPanel);
-
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERAL_TICKET) };
-            CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
-                CurrencyPanel
-            );
-
-            CreateTicketUI(items);
-
-            SummonButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERAL_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-            Summon10Button.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERAL_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-        }
-        else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_ADMIRAL))
-        {
-            List<CardAdmirals> cardAdmirals = await CardAdmiralsService.Create().GetCardAdmiralsRandomAsync(type, 3);
-            UserCardAdmiralsController.Instance.CreateUserCardAdmiralsForSummon(cardAdmirals, PositionPanel);
-
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRAL_TICKET) };
-            CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
-                CurrencyPanel
-            );
-
-            CreateTicketUI(items);
-
-            SummonButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 1, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRAL_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
-            Summon10Button.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                FindObjectOfType<GachaSystem>().Summon(mainType, type, summonObject, 10, items, async (success) =>
-                {
-                    if (success)
-                    {
-                        CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRAL_TICKET) },
-                        CurrencyPanel
-                        );
-                    }
-                    else
-                    {
-                        // Debug.Log("Summon thất bại!");
-                    }
-                });
-            });
         }
         else if (mainType.Equals(AppConstants.MainType.TALISMAN))
         {
@@ -1839,23 +1134,6 @@ public class MainMenuManager : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
-    public void CreateTicketUI(List<Items> items)
-    {
-        foreach (Items item in items)
-        {
-            RawImage oneTicketImage = summonObject.transform.Find("DictionaryCards/OneTicketImage").GetComponent<RawImage>();
-            RawImage tenTicketImage = summonObject.transform.Find("DictionaryCards/TenTicketImage").GetComponent<RawImage>();
-            TextMeshProUGUI oneTicketText = summonObject.transform.Find("DictionaryCards/OneTicketText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI tenTicketText = summonObject.transform.Find("DictionaryCards/TenTicketText").GetComponent<TextMeshProUGUI>();
-
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
-            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            oneTicketImage.texture = texture;
-            tenTicketImage.texture = texture;
-            oneTicketText.text = "1";
-            tenTicketText.text = "10";
-        }
-    }
     public void LoadAnimation()
     {
         if (LeftScrollViewContentPanel != null)
@@ -1868,9 +1146,4 @@ public class MainMenuManager : MonoBehaviour
             RightScrollViewContentPanel.gameObject.AddComponent<SlideRightToLeftAnimation>();
         }
     }
-    public void loadScence()
-    {
-        FindAnyObjectByType<SceneLoader>().LoadScene("TeamsScenes");
-    }
-
 }

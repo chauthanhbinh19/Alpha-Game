@@ -6,38 +6,38 @@ public static class ColorConstants
     public const string DEFAULT_TEXT_COLOR = "#F9EED9";
     public const string DISABLED_TEXT_COLOR = "#AAAAAA";
     public const string DESCRIPTION_TEXT_COLOR = "#F9EED9";
-    public const string RED_COLOR        = "#FD1F41";
-    public const string GREEN_COLOR      = "#1ffd4b";
-    public const string BLUE_COLOR       = "#1f35fd";
-    public const string YELLOW_COLOR     = "#FDEE1F";
-    public const string CYAN_COLOR       = "#00FFFF";
-    public const string MAGENTA_COLOR    = "#ea00ff";
-    public const string ORANGE_COLOR     = "#FD7F1F";
-    public const string PURPLE_COLOR     = "#A61FFD";
-    public const string PINK_COLOR       = "#FD1F9B";
-    public const string BROWN_COLOR      = "#A52A2A";
-    public const string GRAY_COLOR       = "#646464";
+    public const string RED_COLOR = "#FD1F41";
+    public const string GREEN_COLOR = "#1ffd4b";
+    public const string BLUE_COLOR = "#1f35fd";
+    public const string YELLOW_COLOR = "#FDEE1F";
+    public const string CYAN_COLOR = "#00FFFF";
+    public const string MAGENTA_COLOR = "#ea00ff";
+    public const string ORANGE_COLOR = "#FD7F1F";
+    public const string PURPLE_COLOR = "#A61FFD";
+    public const string PINK_COLOR = "#FD1F9B";
+    public const string BROWN_COLOR = "#A52A2A";
+    public const string GRAY_COLOR = "#646464";
     public const string LIGHT_GRAY_COLOR = "#D3D3D3";
-    public const string DARK_GRAY_COLOR  = "#A9A9A9";
-    public const string BLACK_COLOR      = "#000000";
-    public const string WHITE_COLOR      = "#FFFFFF";
-    
-    public const string RED_TRANSPARENT_COLOR       = "#c51313cc"; 
-    public const string GREEN_TRANSPARENT_COLOR     = "#27b327cc";
-    public const string BLUE_TRANSPARENT_COLOR      = "#1616becc";
-    public const string YELLOW_TRANSPARENT_COLOR    = "#c8c81bcc";
-    public const string CYAN_TRANSPARENT_COLOR      = "#19d1d1cc";
-    public const string MAGENTA_TRANSPARENT_COLOR   = "#b016b0cc";
-    public const string ORANGE_TRANSPARENT_COLOR    = "#be841acc";
-    public const string PURPLE_TRANSPARENT_COLOR    = "#b51ab5cc";
-    public const string PINK_TRANSPARENT_COLOR      = "#eb2c9fcc";
-    public const string BROWN_TRANSPARENT_COLOR     = "#771a1acc";
-    public const string GRAY_TRANSPARENT_COLOR      = "#808080CC";
-    public const string LIGHT_GRAY_TRANSPARENT_COLOR= "#D3D3D3CC";
+    public const string DARK_GRAY_COLOR = "#A9A9A9";
+    public const string BLACK_COLOR = "#000000";
+    public const string WHITE_COLOR = "#FFFFFF";
+
+    public const string RED_TRANSPARENT_COLOR = "#c51313cc";
+    public const string GREEN_TRANSPARENT_COLOR = "#27b327cc";
+    public const string BLUE_TRANSPARENT_COLOR = "#1616becc";
+    public const string YELLOW_TRANSPARENT_COLOR = "#c8c81bcc";
+    public const string CYAN_TRANSPARENT_COLOR = "#19d1d1cc";
+    public const string MAGENTA_TRANSPARENT_COLOR = "#b016b0cc";
+    public const string ORANGE_TRANSPARENT_COLOR = "#be841acc";
+    public const string PURPLE_TRANSPARENT_COLOR = "#b51ab5cc";
+    public const string PINK_TRANSPARENT_COLOR = "#eb2c9fcc";
+    public const string BROWN_TRANSPARENT_COLOR = "#771a1acc";
+    public const string GRAY_TRANSPARENT_COLOR = "#808080CC";
+    public const string LIGHT_GRAY_TRANSPARENT_COLOR = "#D3D3D3CC";
     public const string DARK_GRAY_TRANSPARENT_COLOR = "#A9A9A9CC";
-    public const string BLACK_TRANSPARENT_COLOR     = "#000000CC";
-    public const string WHITE_TRANSPARENT_COLOR     = "#FFFFFFCC";
-    
+    public const string BLACK_TRANSPARENT_COLOR = "#000000CC";
+    public const string WHITE_TRANSPARENT_COLOR = "#FFFFFFCC";
+
     public const string SR_COLOR = "#3C52FF";
     public const string SSR_COLOR = "#FFD33C";
     public const string UR_COLOR = "#FF7D3C";
@@ -90,4 +90,17 @@ public static class ColorConstants
         new Color32(128, 128, 128, 255), // Bottom Left - Gray
         new Color32(80, 80, 80, 255)     // Bottom Right - Charcoal
     );
+
+    public static VertexGradient INCREASE_POWER_COLOR = new VertexGradient(
+            ColorHelper.HexToColor("#C5FFBFFF"),
+            ColorHelper.HexToColor("#6DFA2EFF"),
+            ColorHelper.HexToColor("#2BA400FF"),
+            ColorHelper.HexToColor("#0CCA00FF")
+        );
+    public static VertexGradient DECREASE_POWER_COLOR = new VertexGradient(
+            ColorHelper.HexToColor("#FF7547FF"),
+            ColorHelper.HexToColor("#FA5B2EFF"),
+            ColorHelper.HexToColor("#A41200FF"),
+            ColorHelper.HexToColor("#CA1000FF")
+        );
 }

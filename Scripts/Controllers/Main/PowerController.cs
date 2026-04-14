@@ -10,8 +10,6 @@ public class PowerController : MonoBehaviour
     private GameObject powerObject;
     private Transform popupPanel;
     private const double COUNT_DURATION = 1;
-    private VertexGradient greenGradient;
-    private VertexGradient redGradient;
     private Coroutine countCoroutine;
     private void Awake()
     {
@@ -33,23 +31,6 @@ public class PowerController : MonoBehaviour
     {
         PowerPrefab = UIManager.Instance.Get("PowerPrefab");
         popupPanel = UIManager.Instance.GetTransform("popupPanel");
-        greenGradient = new VertexGradient(
-            HexToColor("#C5FFBFFF"),
-            HexToColor("#6DFA2EFF"),
-            HexToColor("#2BA400FF"),
-            HexToColor("#0CCA00FF")
-        );
-        redGradient = new VertexGradient(
-            HexToColor("#FF7547FF"),
-            HexToColor("#FA5B2EFF"),
-            HexToColor("#A41200FF"),
-            HexToColor("#CA1000FF")
-        );
-    }
-    private static Color HexToColor(string hex)
-    {
-        ColorUtility.TryParseHtmlString(hex, out Color color);
-        return color;
     }
     public void ShowPower(double currentPower, double nextPower, int status)
     {
@@ -62,12 +43,12 @@ public class PowerController : MonoBehaviour
         TextMeshProUGUI nextPowerText = powerObject.transform.Find("NextPowerText").GetComponent<TextMeshProUGUI>();
         if (status == 1)
         {
-            nextPowerText.colorGradient = greenGradient;
+            nextPowerText.colorGradient = ColorConstants.INCREASE_POWER_COLOR;
             nextPowerText.text = "+" + nextPower.ToString();
         }
         else if (status == 0)
         {
-            nextPowerText.colorGradient = redGradient;
+            nextPowerText.colorGradient = ColorConstants.DECREASE_POWER_COLOR;
             nextPowerText.text = "-" + nextPower.ToString();
         }
 

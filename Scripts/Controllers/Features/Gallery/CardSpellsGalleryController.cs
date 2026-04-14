@@ -40,9 +40,6 @@ public class CardSpellsGalleryController : MonoBehaviour
         var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
         if (oldAnim != null) Destroy(oldAnim);
 
-        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
-        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_SPELL_BUTTON_BACKGROUND_URL);
-
         foreach (var cardSpell in cardSpells)
         {
             GameObject cardSpellObject = Instantiate(CardSpellBlockButtonPrefab, contentPanel);
@@ -67,9 +64,6 @@ public class CardSpellsGalleryController : MonoBehaviour
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
             rareBackground.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardSpell.Rare));
-
-            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
-            backgroundImage.texture = bgTexture;
 
             Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>

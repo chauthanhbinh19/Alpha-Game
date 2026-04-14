@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class CardGenerals : BaseEntity, IPowerSortable
+public class CardGenerals : BaseEntity, IPowerSortable, ICard
 {
     public string Id { get; set; }
     public string Name { get; set; }
