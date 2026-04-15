@@ -3,12 +3,9 @@ using System.Threading.Tasks;
 
 public interface IUserCardSpellsService
 {
-    Task<List<CardSpells>> GetFinalPowerAsync(string user_id, List<CardSpells> CardSpellList);
-    Task<List<CardSpells>> GetScienceFictionPowerAsync(string user_id, List<CardSpells> CardSpellList);
     Task<List<CardSpells>> GetAllEquipmentPowerAsync(string user_id, List<CardSpells> CardSpellList);
     Task<List<CardSpells>> GetAllRankPowerAsync(string user_id, List<CardSpells> CardSpellList);
     Task<List<CardSpells>> GetAllMasterPowerAsync(string user_id, List<CardSpells> CardSpellList);
-    Task<List<CardSpells>> GetAllAnimeStatsPowerAsync(string user_id, List<CardSpells> CardSpellList);
     Task<List<CardSpells>> GetAllSpiritBeastPowerAsync(string user_id, List<CardSpells> cardSpells);
     Task<CardSpells> GetNewLevelPowerAsync(CardSpells c, double coefficient);
     Task<CardSpells> GetNewBreakthroughPowerAsync(CardSpells c, double coefficient);

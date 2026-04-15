@@ -3,12 +3,9 @@ using System.Threading.Tasks;
 
 public interface IUserBooksService
 {
-    Task<List<Books>> GetFinalPowerAsync(string user_id, List<Books> BooksList);
-    Task<List<Books>> GetScienceFictionPowerAsync(string user_id, List<Books> BooksList);
     Task<List<Books>> GetAllEquipmentPowerAsync(string user_id, List<Books> BooksList);
     Task<List<Books>> GetAllRankPowerAsync(string user_id, List<Books> BooksList);
     Task<List<Books>> GetAllMasterPowerAsync(string user_id, List<Books> BooksList);
-    Task<List<Books>> GetAllAnimeStatsPowerAsync(string user_id, List<Books> BooksList);
     Task<Books> GetNewLevelPowerAsync(Books c, double coefficient);
     Task<Books> GetNewBreakthroughPowerAsync(Books c, double coefficient);
     Task<List<Books>> GetUserBooksAsync(string user_id, string search, string type, int pageSize, int offset, string rare);

@@ -5,6 +5,7 @@ public interface IUserSpiritBeastsRepository
 {
     Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string user_id, string search, int pageSize, int offset, string rare);
     Task<List<SpiritBeasts>> GetAllUserSpiritBeastsAsync(string user_id, int pageSize, int offset);
+    Task<List<SpiritBeasts>> GetSpiritBeastsByCardIdsAsync(string user_id, List<string> cardIds);
     Task<int> GetUserSpiritBeastsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserSpiritBeastAsync(SpiritBeasts SpiritBeast);
     Task<bool> UpdateSpiritBeastLevelAsync(SpiritBeasts SpiritBeast, int cardLevel);

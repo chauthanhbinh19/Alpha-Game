@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using MySqlConnector;
 using System.Threading.Tasks;
+using System.Linq;
 
 public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 {
@@ -247,6 +248,114 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             }
         }
 
+        return spiritBeasts;
+    }
+    public async Task<List<SpiritBeasts>> GetSpiritBeastsByCardIdsAsync(string user_id, List<string> cardIds)
+    {
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
+        if (cardIds == null || cardIds.Count == 0) return spiritBeasts;
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+
+            // 1. Tạo các tên tham số động: @id0, @id1, @id2...
+            var paramNames = cardIds.Select((id, i) => "@id" + i).ToArray();
+            string inClause = string.Join(",", paramNames);
+
+            // 2. Ghép vào câu Query
+            string query = $@"
+            SELECT ut.*, t.id, t.name, t.image, t.rare, t.description 
+            FROM spirit_beasts t, user_spirit_beasts ut
+            WHERE t.id = ut.spirit_beast_id 
+                AND ut.user_id = @userId
+                AND ut.card_hero_id IN ({inClause})";
+
+            await using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                // 3. Add tham số cố định
+                command.Parameters.AddWithValue("@userId", user_id);
+
+                // 4. Add danh sách tham số động
+                for (int i = 0; i < cardIds.Count; i++)
+                {
+                    command.Parameters.AddWithValue("@id" + i, cardIds[i]);
+                }
+
+                // 5. Đọc dữ liệu (Vẫn dùng các hàm Get...Safe của bạn)
+                await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        spiritBeasts.Add(new SpiritBeasts
+                        {
+                            Id = reader.GetStringSafe("spirit_beast_id"),
+                            Name = reader.GetStringSafe("name"),
+                            Image = reader.GetStringSafe("image"),
+                            Rare = reader.GetStringSafe("rare"),
+                            Quality = reader.GetDoubleSafe("quality"),
+                            Star = reader.GetIntSafe("star"),
+                            Level = reader.GetIntSafe("level"),
+                            Experiment = reader.GetDoubleSafe("experiment"),
+                            Quantity = reader.GetDoubleSafe("quantity"),
+                            Power = reader.GetDoubleSafe("power"),
+                            Health = reader.GetDoubleSafe("health"),
+                            PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                            PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                            MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                            MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                            ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                            ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                            AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                            AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                            MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                            MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                            Speed = reader.GetDoubleSafe("speed"),
+                            CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                            CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                            CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                            IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                            PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                            PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                            EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                            DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                            IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                            AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                            VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                            VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                            AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                            LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                            ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                            Tenacity = reader.GetDoubleSafe("tenacity"),
+                            ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                            ComboRate = reader.GetDoubleSafe("combo_rate"),
+                            IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                            ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                            ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                            StunRate = reader.GetDoubleSafe("stun_rate"),
+                            IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                            ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                            IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                            ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                            ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                            Mana = reader.GetDoubleSafe("mana"),
+                            ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                            DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                            ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                            DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                            ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                            NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                            NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                            SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                            SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                            Description = reader.GetStringSafe("description")
+                        });
+                    }
+                }
+            }
+        }
         return spiritBeasts;
     }
     public async Task<int> GetUserSpiritBeastsCountAsync(string user_id, string search, string rare)

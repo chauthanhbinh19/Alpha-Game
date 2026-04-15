@@ -3,12 +3,9 @@ using System.Threading.Tasks;
 
 public interface IUserPetsService
 {
-    Task<List<Pets>> GetFinalPowerAsync(string user_id, List<Pets> PetsList);
-    Task<List<Pets>> GetScienceFictionPowerAsync(string user_id, List<Pets> PetsList);
     Task<List<Pets>> GetAllEquipmentPowerAsync(string user_id, List<Pets> PetsList);
     Task<List<Pets>> GetAllRankPowerAsync(string user_id, List<Pets> PetsList);
     Task<List<Pets>> GetAllMasterPowerAsync(string user_id, List<Pets> PetsList);
-    Task<List<Pets>> GetAllAnimeStatsPowerAsync(string user_id, List<Pets> PetsList);
     Task<Pets> GetNewLevelPowerAsync(Pets c, double coefficient);
     Task<Pets> GetNewBreakthroughPowerAsync(Pets c, double coefficient);
     Task<List<Pets>> GetUserPetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);

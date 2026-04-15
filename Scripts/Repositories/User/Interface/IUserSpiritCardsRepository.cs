@@ -5,6 +5,7 @@ public interface IUserSpiritCardsRepository
 {
     Task<List<SpiritCards>> GetUserSpiritCardsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<List<SpiritCards>> GetAllUserSpiritCardsAsync(string user_id, int pageSize, int offset);
+    Task<List<SpiritCards>> GetSpiritCardsByCardIdsAsync(string user_id, List<string> cardIds);
     Task<int> GetUserSpiritCardsCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserSpiritCardAsync(SpiritCards SpiritCard);
     Task<bool> UpdateSpiritCardLevelAsync(SpiritCards SpiritCard, int cardLevel);

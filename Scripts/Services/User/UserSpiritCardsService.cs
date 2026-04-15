@@ -203,6 +203,14 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         return list;
     }
 
+    public async Task<List<SpiritCards>> GetSpiritCardsByCardIdsAsync(string user_id, List<string> cardIds)
+    {
+        List<SpiritCards> list = await _userSpiritCardsRepository.GetSpiritCardsByCardIdsAsync(user_id, cardIds);
+        list = QualityEvaluator.GetQualityPower(list);
+        ListSortHelper.SortByPower(list);
+        return list;
+    }
+
     public async Task<int> GetUserSpiritCardCountAsync(string user_id, string search, string type, string rare)
     {
         return await _userSpiritCardsRepository.GetUserSpiritCardsCountAsync(user_id, search, type, rare);
