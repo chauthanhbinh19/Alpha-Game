@@ -85,8 +85,8 @@ public class ProfileManager : MonoBehaviour
         Button editNameButton = transform.Find("Group2/EditNameButton").GetComponent<Button>();
         Button moreCurrencyButton = transform.Find("Group4/MoreButton").GetComponent<Button>();
 
-        avatarImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(User.CurrentUserAvatar));
-        borderImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(User.CurrentUserBorder));
+        avatarImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(User.CurrentUserAvatar));
+        borderImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(User.CurrentUserBorder));
         nameText.text = User.CurrentUserName;
         levelText.text = User.CurrentUserLevel.ToString();
         powerText.text = User.CurrentUserPower.ToString();
@@ -104,9 +104,9 @@ public class ProfileManager : MonoBehaviour
         TextMeshProUGUI goldText = transform.Find("Group4/CurrencyGroup/Gold/CurrencyText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI diamondText = transform.Find("Group4/CurrencyGroup/Diamond/CurrencyText").GetComponent<TextMeshProUGUI>();
 
-        silverImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(silver.Image));
-        goldImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(gold.Image));
-        diamondImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(diamond.Image));
+        silverImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(silver.Image));
+        goldImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(gold.Image));
+        diamondImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(diamond.Image));
         silverText.text = silver.Quantity.ToString();
         goldText.text = gold.Quantity.ToString();
         diamondText.text = diamond.Quantity.ToString();

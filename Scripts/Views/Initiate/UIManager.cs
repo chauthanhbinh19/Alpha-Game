@@ -208,13 +208,13 @@ public class UIManager : MonoBehaviour
         GameObject itemObject = Get("ItemPrefab");
         GameObject tempObject = Instantiate(itemObject, currencyPanel);
         RawImage image = tempObject.transform.Find("Image").GetComponent<RawImage>();
-        image.texture =TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(itemImage));
+        image.texture =TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(itemImage));
         TextMeshProUGUI quantityText = tempObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-        quantityText.text = NumberFormatter.FormatNumber(itemQuantity, true);
+        quantityText.text = NumberFormatterHelper.FormatNumber(itemQuantity, true);
         // CurrenciesManager.Instance.GetMainCurrency(currencies, currencyPanel);
 
-        var oneResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, false, maxLevel);
-        var maxResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, true, maxLevel);
+        var oneResult = ItemHelper.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, false, maxLevel);
+        var maxResult = ItemHelper.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, true, maxLevel);
         RawImage oneLevelCurrencyImage = transform.Find("DictionaryCards/OneLevelCurrency/CurrencyImage").GetComponent<RawImage>();
         RawImage maxLevelCurrencyImage = transform.Find("DictionaryCards/MaxLevelCurrency/CurrencyImage").GetComponent<RawImage>();
         Texture oneLevelCurrencyTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Currency.SILVER}");
@@ -228,7 +228,7 @@ public class UIManager : MonoBehaviour
         maxLevelCurrencyText.text = maxResult.totalCurrencyUsed.ToString();
 
         RawImage oneLevelImage = transform.Find("DictionaryCards/OneLevelMaterial/MaterialImage").GetComponent<RawImage>();
-        Texture oneLevelTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
+        Texture oneLevelTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(itemImage)}");
         oneLevelImage.texture = oneLevelTexture;
 
         TextMeshProUGUI oneLevelQuantity = transform.Find("DictionaryCards/OneLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();
@@ -238,7 +238,7 @@ public class UIManager : MonoBehaviour
         // oneLevelRectTransform.sizeDelta = new Vector2(40, 40);
 
         RawImage maxLevelImage = transform.Find("DictionaryCards/MaxLevelMaterial/MaterialImage").GetComponent<RawImage>();
-        Texture maxLevelTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
+        Texture maxLevelTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(itemImage)}");
         maxLevelImage.texture = maxLevelTexture;
 
         TextMeshProUGUI maxLevelQuantity = transform.Find("DictionaryCards/MaxLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();
@@ -412,7 +412,7 @@ public class UIManager : MonoBehaviour
                         // Gán giá trị thuộc tính vào ContentText
                         TextMeshProUGUI elementContentText = elementObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
                         if (elementContentText != null)
-                            elementContentText.text = NumberFormatter.FormatNumber(intValue, false);
+                            elementContentText.text = NumberFormatterHelper.FormatNumber(intValue, false);
 
                         RawImage runeImage = elementObject.transform.Find("RuneImage").GetComponent<RawImage>();
                         CreatePropertyRuneUI(property.Name, runeImage);
@@ -798,7 +798,7 @@ public class UIManager : MonoBehaviour
                         if (elementContentText != null)
                         {
                             double newintValue = increasePerLevel * intValue;
-                            elementContentText.text = "+" + NumberFormatter.FormatNumber(newintValue, false);
+                            elementContentText.text = "+" + NumberFormatterHelper.FormatNumber(newintValue, false);
                             Color greenColor;
                             if (ColorUtility.TryParseHtmlString(ColorConstants.GREEN_COLOR, out greenColor)) // Màu xanh lá LimeGreen
                             {
@@ -846,7 +846,7 @@ public class UIManager : MonoBehaviour
                         if (elementContentText != null)
                         {
                             double newintValue = increasePerUpgrade * intValue;
-                            elementContentText.text = "+" + NumberFormatter.FormatNumber(newintValue, false);
+                            elementContentText.text = "+" + NumberFormatterHelper.FormatNumber(newintValue, false);
                             Color greenColor;
                             if (ColorUtility.TryParseHtmlString(ColorConstants.GREEN_COLOR, out greenColor)) // Màu xanh lá LimeGreen
                             {
@@ -884,11 +884,11 @@ public class UIManager : MonoBehaviour
             GameObject itemObject = Instantiate(ItemThird, levelMaterialContent);
 
             RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            Texture itemTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(item.Image)}");
+            Texture itemTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(item.Image)}");
             eImage.texture = itemTexture;
 
             TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
-            eQuantity.text = NumberFormatter.FormatNumber(item.Quantity, false);
+            eQuantity.text = NumberFormatterHelper.FormatNumber(item.Quantity, false);
         }
     }
     public void CreateStarUI(int star, GameObject currentObject)

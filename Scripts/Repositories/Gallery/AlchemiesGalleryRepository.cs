@@ -226,7 +226,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
     }
     public async Task InsertAlchemyGalleryAsync(string Id, Alchemies alchemyFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(alchemyFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(alchemyFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

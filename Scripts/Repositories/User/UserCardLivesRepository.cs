@@ -285,7 +285,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(cardLife.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(cardLife.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@quantity", cardLife.Quantity);
                             insertCommand.Parameters.AddWithValue("@power", cardLife.Power);

@@ -55,7 +55,7 @@ public class PuppetsGalleryController : MonoBehaviour
                 titleText.text = puppet.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(puppet.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(puppet.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -91,7 +91,7 @@ public class PuppetsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(puppet.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(puppet.Rare));
                 rareText.text = puppet.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

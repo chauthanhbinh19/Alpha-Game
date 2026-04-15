@@ -55,7 +55,7 @@ public class VehiclesGalleryController : MonoBehaviour
                 titleText.text = vehicle.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(vehicle.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class VehiclesGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(vehicle.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(vehicle.Rare));
                 rareText.text = vehicle.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

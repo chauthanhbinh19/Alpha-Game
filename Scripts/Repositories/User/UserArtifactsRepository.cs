@@ -264,7 +264,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(artifact.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(artifact.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@quantity", artifact.Quantity);
                             insertCommand.Parameters.AddWithValue("@power", artifact.Power);

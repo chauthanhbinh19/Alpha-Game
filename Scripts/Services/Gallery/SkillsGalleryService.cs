@@ -23,7 +23,7 @@ public class SkillsGalleryService : ISkillsGalleryService
     public async Task<List<Skills>> GetSkillsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Skills> list = await _skillsGalleryRepository.GetSkillsCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

@@ -78,7 +78,7 @@ public class UserSpiritCardsService : IUserSpiritCardsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        spiritCard.Power = EvaluatePower.CalculatePower(
+        spiritCard.Power = PowerHelper.CalculatePower(
             spiritCard.Health,
             spiritCard.PhysicalAttack, spiritCard.PhysicalDefense,
             spiritCard.MagicalAttack, spiritCard.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserSpiritCardsService : IUserSpiritCardsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        spiritCard.Power = EvaluatePower.CalculatePower(
+        spiritCard.Power = PowerHelper.CalculatePower(
             spiritCard.Health,
             spiritCard.PhysicalAttack, spiritCard.PhysicalDefense,
             spiritCard.MagicalAttack, spiritCard.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserSpiritCardsService : IUserSpiritCardsService
     public async Task<List<SpiritCards>> GetUserSpiritCardAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<SpiritCards> list = await _userSpiritCardsRepository.GetUserSpiritCardsAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -198,7 +198,7 @@ public class UserSpiritCardsService : IUserSpiritCardsService
     public async Task<List<SpiritCards>> GetAllUserSpiritCardAsync(string user_id, int pageSize, int offset)
     {
         List<SpiritCards> list = await _userSpiritCardsRepository.GetAllUserSpiritCardsAsync(user_id, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -206,7 +206,7 @@ public class UserSpiritCardsService : IUserSpiritCardsService
     public async Task<List<SpiritCards>> GetSpiritCardsByCardIdsAsync(string user_id, List<string> cardIds)
     {
         List<SpiritCards> list = await _userSpiritCardsRepository.GetSpiritCardsByCardIdsAsync(user_id, cardIds);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

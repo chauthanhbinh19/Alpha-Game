@@ -119,7 +119,7 @@ public static class DamageCalculator
 
         // Công thức tính damage theo tỉ lệ attack / (attack + defense)
         double ratio = (playerAttack + effectiveDefense) > 0 ? playerAttack / (playerAttack + effectiveDefense) : 0;
-        double baseDamage = playerAttack * ratio * (1 + (QualityEvaluator.CheckQuality(playerCard.Rare) / 100));
+        double baseDamage = playerAttack * ratio * (1 + (QualityEvaluatorHelper.CheckQuality(playerCard.Rare) / 100));
 
         // Áp dụng hiệu ứng đánh thường
         baseDamage = NormalCalculator.ApplyDamageToNormal(playerCard, attackType, baseDamage);

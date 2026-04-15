@@ -55,7 +55,7 @@ public class SpiritCardsGalleryController : MonoBehaviour
                 titleText.text = spiritCard.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritCard.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(spiritCard.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class SpiritCardsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(spiritCard.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(spiritCard.Rare));
                 rareText.text = spiritCard.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

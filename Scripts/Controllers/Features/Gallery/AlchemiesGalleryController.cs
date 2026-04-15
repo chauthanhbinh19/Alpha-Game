@@ -55,7 +55,7 @@ public class AlchemiesGalleryController : MonoBehaviour
                 titleText.text = alchemy.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(alchemy.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(alchemy.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -91,7 +91,7 @@ public class AlchemiesGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(alchemy.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(alchemy.Rare));
                 rareText.text = alchemy.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

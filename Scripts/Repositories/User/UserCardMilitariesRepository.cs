@@ -877,7 +877,7 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
                 insertCommand.Parameters.AddWithValue("@level", 0);
                 insertCommand.Parameters.AddWithValue("@experiment", 0);
                 insertCommand.Parameters.AddWithValue("@star", 0);
-                insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(cardMilitary.Rare));
+                insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(cardMilitary.Rare));
                 insertCommand.Parameters.AddWithValue("@block", false);
                 insertCommand.Parameters.AddWithValue("@quantity", cardMilitary.Quantity);
                 insertCommand.Parameters.AddWithValue("@power", cardMilitary.Power);

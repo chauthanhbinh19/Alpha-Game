@@ -62,7 +62,7 @@ public class UserSpiritCardsController : MonoBehaviour
             titleText.text = spiritCard.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritCard.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(spiritCard.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -95,7 +95,7 @@ public class UserSpiritCardsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(spiritCard.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(spiritCard.Rare));
             rareText.text = spiritCard.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -160,7 +160,7 @@ public class UserSpiritCardsController : MonoBehaviour
         if (obj is SpiritCards spiritCard)
         {
             RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritCard.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(spiritCard.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture, 450f);
@@ -169,7 +169,7 @@ public class UserSpiritCardsController : MonoBehaviour
             nameText.text = spiritCard.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(spiritCard.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(spiritCard.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -297,7 +297,7 @@ public class UserSpiritCardsController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -308,7 +308,7 @@ public class UserSpiritCardsController : MonoBehaviour
             Transform spiritCardTransform = spiritCardObject.transform;
 
             RawImage spiritCardImage = spiritCardTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritBeast.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(spiritBeast.Image);
             Texture spiritCardTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             spiritCardImage.texture = spiritCardTexture;
 

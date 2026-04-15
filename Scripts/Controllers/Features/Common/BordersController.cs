@@ -61,7 +61,7 @@ public class BordersController : MonoBehaviour
             titleText.text = border.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(border.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             
@@ -94,7 +94,7 @@ public class BordersController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(border.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(border.Rare));
             rareText.text = border.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -119,7 +119,7 @@ public class BordersController : MonoBehaviour
             titleText.text = border.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(border.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             RawImage frameImage = transform.Find("Frame").GetComponent<RawImage>();
@@ -141,12 +141,12 @@ public class BordersController : MonoBehaviour
             bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.YELLOW_COLOR);
 
             RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(border.Currency.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(border.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(border.Currency.Quantity, false);
+            currencyText.text = NumberFormatterHelper.FormatNumber(border.Currency.Quantity, false);
 
             Button buyButton = transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -212,7 +212,7 @@ public class BordersController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
+                        string currencyFileNameWithoutExtension = ImageHelper.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -222,7 +222,7 @@ public class BordersController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(image);
                 Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -325,7 +325,7 @@ public class BordersController : MonoBehaviour
 
                     await BordersGalleryService.Create().InsertBorderGalleryAsync(borders.Id);
                     currencies = await UserCurrenciesService.Create().GetBooksCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(borders.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(borders.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);

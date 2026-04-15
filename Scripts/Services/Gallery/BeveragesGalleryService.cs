@@ -23,7 +23,7 @@ public class BeveragesGalleryService : IBeveragesGalleryService
     public async Task<List<Beverages>> GetBeveragesCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Beverages> list = await _beveragesGalleryRepository.GetBeveragesCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

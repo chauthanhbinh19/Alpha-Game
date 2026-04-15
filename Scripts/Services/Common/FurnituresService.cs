@@ -28,7 +28,7 @@ public class FurnituresService : IFurnituresService
     public async Task<List<Furnitures>> GetFurnituresAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Furnitures> list = await _furnituresRepository.GetFurnituresAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -40,7 +40,7 @@ public class FurnituresService : IFurnituresService
     public async Task<List<Furnitures>> GetFurnituresWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Furnitures> list = await _furnituresRepository.GetFurnituresWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

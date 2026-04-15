@@ -225,7 +225,7 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
     }
     public async Task InsertSkillGalleryAsync(string Id, Skills skillFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(skillFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(skillFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

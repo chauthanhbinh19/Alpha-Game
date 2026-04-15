@@ -61,7 +61,7 @@ public class MedalsController : MonoBehaviour
             titleText.text = medal.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(medal.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -94,7 +94,7 @@ public class MedalsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(medal.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(medal.Rare));
             rareText.text = medal.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -119,7 +119,7 @@ public class MedalsController : MonoBehaviour
             titleText.text = medal.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(medal.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             RawImage frameImage = transform.Find("Frame").GetComponent<RawImage>();
@@ -141,12 +141,12 @@ public class MedalsController : MonoBehaviour
             bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.GREEN_COLOR);
 
             RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Currency.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(medal.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(medal.Currency.Quantity, false);
+            currencyText.text = NumberFormatterHelper.FormatNumber(medal.Currency.Quantity, false);
 
             Button buyButton = transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -212,7 +212,7 @@ public class MedalsController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
+                        string currencyFileNameWithoutExtension = ImageHelper.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -222,7 +222,7 @@ public class MedalsController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(image);
                 Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -325,7 +325,7 @@ public class MedalsController : MonoBehaviour
 
                     await MedalsGalleryService.Create().InsertMedalGalleryAsync(medal.Id);
                     currencies = await UserCurrenciesService.Create().GetMedalsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(medal.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);

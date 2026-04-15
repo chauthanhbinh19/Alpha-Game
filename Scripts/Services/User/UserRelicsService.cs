@@ -78,7 +78,7 @@ public class UserRelicsService : IUserRelicsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        relic.Power = EvaluatePower.CalculatePower(
+        relic.Power = PowerHelper.CalculatePower(
             relic.Health,
             relic.PhysicalAttack, relic.PhysicalDefense,
             relic.MagicalAttack, relic.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserRelicsService : IUserRelicsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        relic.Power = EvaluatePower.CalculatePower(
+        relic.Power = PowerHelper.CalculatePower(
             relic.Health,
             relic.PhysicalAttack, relic.PhysicalDefense,
             relic.MagicalAttack, relic.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserRelicsService : IUserRelicsService
     public async Task<List<Relics>> GetUserRelicsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Relics> list = await _userRelicsRepository.GetUserRelicsAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

@@ -23,7 +23,7 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
     public async Task<List<Equipments>> GetEquipmentsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Equipments> list = await _equipmentsGalleryRepository.GetEquipmentsCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

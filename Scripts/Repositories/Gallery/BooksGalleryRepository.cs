@@ -224,7 +224,7 @@ public class BooksGalleryRepository : IBooksGalleryRepository
     }
     public async Task InsertBookGalleryAsync(string Id, Books bookFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(bookFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(bookFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

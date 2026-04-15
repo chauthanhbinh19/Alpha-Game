@@ -55,7 +55,7 @@ public class ForgesGalleryController : MonoBehaviour
                 titleText.text = forge.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(forge.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -91,7 +91,7 @@ public class ForgesGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(forge.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(forge.Rare));
                 rareText.text = forge.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

@@ -55,7 +55,7 @@ public class WeaponsGalleryController : MonoBehaviour
                 titleText.text = weapon.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(weapon.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(weapon.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class WeaponsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(weapon.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(weapon.Rare));
                 rareText.text = weapon.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

@@ -57,7 +57,7 @@ public class PetsGalleryController : MonoBehaviour
                 titleText.text = pet.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(pet.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -109,7 +109,7 @@ public class PetsGalleryController : MonoBehaviour
                 }
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(pet.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(pet.Rare));
                 rareText.text = pet.Rare;
 
                 unlockButton.onClick.AddListener(async () =>

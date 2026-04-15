@@ -23,7 +23,7 @@ public class SpiritBeastsGalleryService : ISpiritBeastsGalleryService
     public async Task<List<SpiritBeasts>> GetSpiritBeastsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<SpiritBeasts> list = await _spiritBeastsGalleryRepository.GetSpiritBeastsCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

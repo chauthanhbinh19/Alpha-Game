@@ -256,7 +256,7 @@ public class UserBordersRepository : IUserBordersRepository
                     insertCommand.Parameters.AddWithValue("@level", 0);
                     insertCommand.Parameters.AddWithValue("@experiment", 0);
                     insertCommand.Parameters.AddWithValue("@star", 0);
-                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(border.Rare));
+                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(border.Rare));
                     insertCommand.Parameters.AddWithValue("@block", false);
                     insertCommand.Parameters.AddWithValue("@quantity", border.Quantity);
                     insertCommand.Parameters.AddWithValue("@power", border.Power);
@@ -413,7 +413,7 @@ public class UserBordersRepository : IUserBordersRepository
                     insertCommand.Parameters.AddWithValue("@level", 0);
                     insertCommand.Parameters.AddWithValue("@experiment", 0);
                     insertCommand.Parameters.AddWithValue("@star", 0);
-                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(border.Rare));
+                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(border.Rare));
                     insertCommand.Parameters.AddWithValue("@block", false);
                     insertCommand.Parameters.AddWithValue("@is_used", false);
                     insertCommand.Parameters.AddWithValue("@quantity", 1);

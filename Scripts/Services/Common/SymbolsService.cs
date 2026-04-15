@@ -28,7 +28,7 @@ public class SymbolsService : ISymbolsService
     public async Task<List<Symbols>> GetSymbolsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Symbols> list = await _symbolsRepository.GetSymbolsAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -40,7 +40,7 @@ public class SymbolsService : ISymbolsService
     public async Task<List<Symbols>> GetSymbolsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Symbols> list = await _symbolsRepository.GetSymbolsWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

@@ -61,7 +61,7 @@ public class SpiritCardsController : MonoBehaviour
             titleText.text = spiritCard.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritCard.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(spiritCard.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             
@@ -94,7 +94,7 @@ public class SpiritCardsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(spiritCard.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(spiritCard.Rare));
             rareText.text = spiritCard.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -119,7 +119,7 @@ public class SpiritCardsController : MonoBehaviour
             titleText.text = spiritCard.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritCard.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(spiritCard.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             
@@ -160,12 +160,12 @@ public class SpiritCardsController : MonoBehaviour
             bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.YELLOW_COLOR);
 
             RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(spiritCard.Currency.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(spiritCard.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(spiritCard.Currency.Quantity, false);
+            currencyText.text = NumberFormatterHelper.FormatNumber(spiritCard.Currency.Quantity, false);
 
             Button buyButton = transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -231,7 +231,7 @@ public class SpiritCardsController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
+                        string currencyFileNameWithoutExtension = ImageHelper.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -241,7 +241,7 @@ public class SpiritCardsController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(image);
                 Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -344,7 +344,7 @@ public class SpiritCardsController : MonoBehaviour
 
                     await SpiritCardsGalleryService.Create().InsertSpiritCardGalleryAsync(SpiritCard.Id);
                     currencies = await UserCurrenciesService.Create().GetSpiritCardsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(SpiritCard.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(SpiritCard.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);

@@ -78,7 +78,7 @@ public class UserBuildingsService : IUserBuildingsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        building.Power = EvaluatePower.CalculatePower(
+        building.Power = PowerHelper.CalculatePower(
             building.Health,
             building.PhysicalAttack, building.PhysicalDefense,
             building.MagicalAttack, building.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserBuildingsService : IUserBuildingsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        building.Power = EvaluatePower.CalculatePower(
+        building.Power = PowerHelper.CalculatePower(
             building.Health,
             building.PhysicalAttack, building.PhysicalDefense,
             building.MagicalAttack, building.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserBuildingsService : IUserBuildingsService
     public async Task<List<Buildings>> GetUserBuildingsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Buildings> list = await _userBuildingsRepository.GetUserBuildingsAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

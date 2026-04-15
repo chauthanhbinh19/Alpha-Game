@@ -23,7 +23,7 @@ public class TalismansGalleryService : ITalismansGalleryService
     public async Task<List<Talismans>> GetTalismansCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Talismans> list = await _talismansGalleryRepository.GetTalismansCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

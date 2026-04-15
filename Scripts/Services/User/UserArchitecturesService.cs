@@ -78,7 +78,7 @@ public class UserArchitecturesService : IUserArchitecturesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        architecture.Power = EvaluatePower.CalculatePower(
+        architecture.Power = PowerHelper.CalculatePower(
             architecture.Health,
             architecture.PhysicalAttack, architecture.PhysicalDefense,
             architecture.MagicalAttack, architecture.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserArchitecturesService : IUserArchitecturesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        architecture.Power = EvaluatePower.CalculatePower(
+        architecture.Power = PowerHelper.CalculatePower(
             architecture.Health,
             architecture.PhysicalAttack, architecture.PhysicalDefense,
             architecture.MagicalAttack, architecture.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserArchitecturesService : IUserArchitecturesService
     public async Task<List<Architectures>> GetUserArchitecturesAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Architectures> list = await _userArchitecturesRepository.GetUserArchitecturesAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

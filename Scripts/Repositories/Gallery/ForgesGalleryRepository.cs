@@ -224,7 +224,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
     }
     public async Task InsertForgeGalleryAsync(string Id, Forges forgeFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(forgeFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(forgeFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

@@ -755,7 +755,7 @@ public class MainMenuDetailsManager : MonoBehaviour
 
             foreach (Items item in items)
             {
-                double expPerBottle = EvaluateExperiment.GetItemExp(item.Name);
+                double expPerBottle = ItemHelper.GetItemExp(item.Name);
 
                 if (expPerBottle > 0 && item.Quantity > 0) // Điều kiện 2: Phải có item hợp lệ
                 {
@@ -803,7 +803,7 @@ public class MainMenuDetailsManager : MonoBehaviour
 
             foreach (Items item in items)
             {
-                double expPerBottle = EvaluateExperiment.GetItemExp(item.Name);
+                double expPerBottle = ItemHelper.GetItemExp(item.Name);
 
                 if (expPerBottle > 0 && item.Quantity > 0) // Điều kiện 2: Phải có item hợp lệ
                 {

@@ -61,7 +61,7 @@ public class SymbolsController : MonoBehaviour
             titleText.text = symbol.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(symbol.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -96,7 +96,7 @@ public class SymbolsController : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(symbol.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(symbol.Rare));
             rareText.text = symbol.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -121,7 +121,7 @@ public class SymbolsController : MonoBehaviour
             titleText.text = symbol.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(symbol.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             RawImage frameImage = transform.Find("Frame").GetComponent<RawImage>();
@@ -143,12 +143,12 @@ public class SymbolsController : MonoBehaviour
             bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
 
             RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Currency.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(symbol.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(symbol.Currency.Quantity, false);
+            currencyText.text = NumberFormatterHelper.FormatNumber(symbol.Currency.Quantity, false);
 
             Button buyButton = transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -214,7 +214,7 @@ public class SymbolsController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
+                        string currencyFileNameWithoutExtension = ImageHelper.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -224,7 +224,7 @@ public class SymbolsController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(image);
                 Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -327,7 +327,7 @@ public class SymbolsController : MonoBehaviour
 
                     await SymbolsGalleryService.Create().InsertSymbolGalleryAsync(symbol.Id);
                     currencies = await UserCurrenciesService.Create().GetSymbolsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(symbol.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(symbol.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);

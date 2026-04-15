@@ -28,7 +28,7 @@ public class ArtworksService : IArtworksService
     public async Task<List<Artworks>> GetArtworksAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Artworks> list = await _artworkRepository.GetArtworksAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -40,7 +40,7 @@ public class ArtworksService : IArtworksService
     public async Task<List<Artworks>> GetArtworksWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Artworks> list = await _artworkRepository.GetArtworksWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

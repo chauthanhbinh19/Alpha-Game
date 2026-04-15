@@ -28,7 +28,7 @@ public class CardGeneralsService : ICardGeneralsService
     public async Task<List<CardGenerals>> GetCardGeneralsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<CardGenerals> list = await _cardGeneralsRepository.GetCardGeneralsAsync(search, rare, type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -55,7 +55,7 @@ public class CardGeneralsService : ICardGeneralsService
     public async Task<List<CardGenerals>> GetCardGeneralsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<CardGenerals> list = await _cardGeneralsRepository.GetCardGeneralsWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

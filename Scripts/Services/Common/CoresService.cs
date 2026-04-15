@@ -23,7 +23,7 @@ public class CoresService : ICoresService
     public async Task<List<Cores>> GetCoresAsync(string search, string rare,int pageSize, int offset)
     {
         List<Cores> list = await _coresRepository.GetCoresAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class CoresService : ICoresService
     public async Task<List<Cores>> GetCoresWithPriceAsync(int pageSize, int offset)
     {
         List<Cores> list = await _coresRepository.GetCoresWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

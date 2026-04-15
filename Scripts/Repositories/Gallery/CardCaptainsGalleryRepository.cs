@@ -253,7 +253,7 @@ public class CardCaptainsGalleryRepository : ICardCaptainsGalleryRepository
     }
     public async Task InsertCardCaptainGalleryAsync(string Id, CardCaptains cardCaptainFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(cardCaptainFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(cardCaptainFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

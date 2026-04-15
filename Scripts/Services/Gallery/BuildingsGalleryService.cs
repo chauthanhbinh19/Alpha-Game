@@ -23,7 +23,7 @@ public class BuildingsGalleryService : IBuildingsGalleryService
     public async Task<List<Buildings>> GetBuildingsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Buildings> list = await _buildingsGalleryRepository.GetBuildingsCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

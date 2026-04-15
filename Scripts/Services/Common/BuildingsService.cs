@@ -28,7 +28,7 @@ public class BuildingsService : IBuildingsService
     public async Task<List<Buildings>> GetBuildingsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Buildings> list = await _buildingsRepository.GetBuildingsAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -40,7 +40,7 @@ public class BuildingsService : IBuildingsService
     public async Task<List<Buildings>> GetBuildingsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Buildings> list = await _buildingsRepository.GetBuildingsWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

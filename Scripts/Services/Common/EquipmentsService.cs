@@ -28,7 +28,7 @@ public class EquipmentsService : IEquipmentsService
     public async Task<List<Equipments>> GetEquipmentsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Equipments> list = await _equipmentsRepository.GetEquipmentsAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

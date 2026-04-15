@@ -23,7 +23,7 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
     public async Task<List<MechaBeasts>> GetMechaBeastsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<MechaBeasts> list = await _mechaBeastsGalleryRepository.GetMechaBeastsCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

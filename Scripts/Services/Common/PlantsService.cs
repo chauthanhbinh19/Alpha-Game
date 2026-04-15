@@ -23,7 +23,7 @@ public class PlantsService : IPlantsService
     public async Task<List<Plants>> GetPlantsAsync(string search, string rare, int pageSize, int offset)
     {
         List<Plants> list = await _plantsRepository.GetPlantsAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class PlantsService : IPlantsService
     public async Task<List<Plants>> GetPlantsWithPriceAsync(int pageSize, int offset)
     {
         List<Plants> list = await _plantsRepository.GetPlantsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

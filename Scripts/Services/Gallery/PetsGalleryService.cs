@@ -23,7 +23,7 @@ public class PetsGalleryService : IPetsGalleryService
     public async Task<List<Pets>> GetPetsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Pets> list = await _petsGalleryRepository.GetPetsCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

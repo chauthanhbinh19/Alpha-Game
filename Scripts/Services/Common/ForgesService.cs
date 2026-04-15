@@ -28,7 +28,7 @@ public class ForgesService : IForgesService
     public async Task<List<Forges>> GetForgesAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Forges> list = await _forgesRepository.GetForgesAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -40,7 +40,7 @@ public class ForgesService : IForgesService
     public async Task<List<Forges>> GetForgesWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Forges> list = await _forgesRepository.GetForgesWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

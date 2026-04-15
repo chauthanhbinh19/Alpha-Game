@@ -328,7 +328,7 @@ public class ArchiveIManager : MonoBehaviour
             ownedText.color = Color.green;
 
         // Load icon nếu có
-        Texture texture = Resources.Load<Texture2D>(ImageExtensionHandler.RemoveImageExtension(data.ItemImage));
+        Texture texture = Resources.Load<Texture2D>(ImageHelper.RemoveImageExtension(data.ItemImage));
         if (texture != null)
             image.texture = texture;
     }

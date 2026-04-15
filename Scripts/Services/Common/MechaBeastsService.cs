@@ -23,7 +23,7 @@ public class MechaBeastsService : IMechaBeastsService
     public async Task<List<MechaBeasts>> GetMechaBeastsAsync(string search, string rare, int pageSize, int offset)
     {
         List<MechaBeasts> list = await _mechaBeastsRepository.GetMechaBeastsAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class MechaBeastsService : IMechaBeastsService
     public async Task<List<MechaBeasts>> GetMechaBeastsWithPriceAsync(int pageSize, int offset)
     {
         List<MechaBeasts> list = await _mechaBeastsRepository.GetMechaBeastsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

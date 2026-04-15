@@ -62,7 +62,7 @@ public class UserVehiclesController : MonoBehaviour
             titleText.text = vehicle.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(vehicle.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -98,7 +98,7 @@ public class UserVehiclesController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(vehicle.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(vehicle.Rare));
             rareText.text = vehicle.Rare;
 
         }
@@ -164,7 +164,7 @@ public class UserVehiclesController : MonoBehaviour
         if (obj is Vehicles vehicle)
         {
             RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(vehicle.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
@@ -173,7 +173,7 @@ public class UserVehiclesController : MonoBehaviour
             nameText.text = vehicle.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(vehicle.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(vehicle.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -301,7 +301,7 @@ public class UserVehiclesController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -312,7 +312,7 @@ public class UserVehiclesController : MonoBehaviour
             Transform vehicleTransform = vehicleObject.transform;
 
             RawImage vehicleImage = vehicleTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(vehicle.Image);
             Texture vehicleTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             vehicleImage.texture = vehicleTexture;
 

@@ -52,7 +52,7 @@ public class EquipmentsGalleryController : MonoBehaviour
             titleText.text = equipment.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(equipment.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -87,7 +87,7 @@ public class EquipmentsGalleryController : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(equipment.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(equipment.Rare));
             rareText.text = equipment.Rare;
 
             RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

@@ -1,3 +1,5 @@
+using System;
+
 public interface ICard
 {
     string Id { get; }
@@ -7,5 +9,6 @@ public interface ICard
     string Type { get; set; }
     public int Level { get; set; }
     string Position { get; }
+    double Power {get; }
     Teams Team { get; set; }
 }

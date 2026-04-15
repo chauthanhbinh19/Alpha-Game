@@ -28,7 +28,7 @@ public class CardMonstersService : ICardMonstersService
     public async Task<List<CardMonsters>> GetCardMonstersAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<CardMonsters> list = await _cardMonstersRepository.GetCardMonstersAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -55,7 +55,7 @@ public class CardMonstersService : ICardMonstersService
     public async Task<List<CardMonsters>> GetCardMonstersWithPriceAsync(string type, int pageSize, int offset)
     {
         List<CardMonsters> list = await _cardMonstersRepository.GetCardMonstersWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

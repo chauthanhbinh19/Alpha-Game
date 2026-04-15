@@ -62,7 +62,7 @@ public class UserMedalsController : MonoBehaviour
             titleText.text = medal.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(medal.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -95,7 +95,7 @@ public class UserMedalsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(medal.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(medal.Rare));
             rareText.text = medal.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -160,7 +160,7 @@ public class UserMedalsController : MonoBehaviour
         if (obj is Medals medal)
         {
             RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(medal.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
@@ -169,7 +169,7 @@ public class UserMedalsController : MonoBehaviour
             nameText.text = medal.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(medal.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(medal.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -297,7 +297,7 @@ public class UserMedalsController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -308,7 +308,7 @@ public class UserMedalsController : MonoBehaviour
             Transform medalTransform = medalObject.transform;
 
             RawImage medalImage = medalTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(medal.Image);
             Texture medalTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             medalImage.texture = medalTexture;
 

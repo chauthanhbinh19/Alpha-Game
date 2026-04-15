@@ -681,7 +681,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     insertCmd.Parameters.AddWithValue("@level", 0);
                     insertCmd.Parameters.AddWithValue("@experiment", 0);
                     insertCmd.Parameters.AddWithValue("@star", 0);
-                    insertCmd.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(equipmentFromDB.Rare));
+                    insertCmd.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(equipmentFromDB.Rare));
                     insertCmd.Parameters.AddWithValue("@block", false);
                     insertCmd.Parameters.AddWithValue("@quantity", quantity);
                     insertCmd.Parameters.AddWithValue("@power", equipmentFromDB.Power);

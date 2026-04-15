@@ -28,7 +28,7 @@ public class AlchemiesService : IAlchemiesService
     public async Task<List<Alchemies>> GetAlchemiesAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Alchemies> list = await _alchemyRepository.GetAlchemiesAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -40,7 +40,7 @@ public class AlchemiesService : IAlchemiesService
     public async Task<List<Alchemies>> GetAlchemiesWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Alchemies> list = await _alchemyRepository.GetAlchemiesWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

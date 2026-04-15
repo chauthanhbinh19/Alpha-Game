@@ -78,7 +78,7 @@ public class UserTechnologiesService : IUserTechnologiesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        technology.Power = EvaluatePower.CalculatePower(
+        technology.Power = PowerHelper.CalculatePower(
             technology.Health,
             technology.PhysicalAttack, technology.PhysicalDefense,
             technology.MagicalAttack, technology.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserTechnologiesService : IUserTechnologiesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        technology.Power = EvaluatePower.CalculatePower(
+        technology.Power = PowerHelper.CalculatePower(
             technology.Health,
             technology.PhysicalAttack, technology.PhysicalDefense,
             technology.MagicalAttack, technology.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserTechnologiesService : IUserTechnologiesService
     public async Task<List<Technologies>> GetUserTechnologiesAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Technologies> list = await _userTechnologiesRepository.GetUserTechnologiesAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

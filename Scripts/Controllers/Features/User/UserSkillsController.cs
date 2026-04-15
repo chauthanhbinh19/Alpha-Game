@@ -62,7 +62,7 @@ public class UserSkillsController : MonoBehaviour
             titleText.text = skill.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(skill.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -97,7 +97,7 @@ public class UserSkillsController : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(skill.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(skill.Rare));
             rareText.text = skill.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -160,7 +160,7 @@ public class UserSkillsController : MonoBehaviour
         if (obj is Skills skill)
         {
             RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(skill.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
@@ -169,7 +169,7 @@ public class UserSkillsController : MonoBehaviour
             nameText.text = skill.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(skill.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(skill.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -297,7 +297,7 @@ public class UserSkillsController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -308,7 +308,7 @@ public class UserSkillsController : MonoBehaviour
             Transform skillTransform = skillObject.transform;
 
             RawImage skillImage = skillTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(skill.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(skill.Image);
             Texture skillTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             skillImage.texture = skillTexture;
 

@@ -23,7 +23,7 @@ public class BasesService : IBasesService
     public async Task<List<Bases>> GetBasesAsync(string userId, int pageSize, int offset)
     {
         List<Bases> list = await _basesRepository.GetBasesAsync(userId, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class BasesService : IBasesService
     public async Task<List<Bases>> GetBasesWithPriceAsync(int pageSize, int offset)
     {
         List<Bases> list = await _basesRepository.GetBasesWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

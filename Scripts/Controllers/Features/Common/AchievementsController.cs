@@ -62,7 +62,7 @@ public class AchievementsController : MonoBehaviour
             titleText.text = achievement.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(achievement.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -95,7 +95,7 @@ public class AchievementsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(achievement.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(achievement.Rare));
             rareText.text = achievement.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -120,7 +120,7 @@ public class AchievementsController : MonoBehaviour
             titleText.text = achievement.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(achievement.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             RawImage frameImage = transform.Find("Frame").GetComponent<RawImage>();
@@ -143,12 +143,12 @@ public class AchievementsController : MonoBehaviour
             // rareImage.texture = rareTexture;
 
             RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Currency.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(achievement.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(achievement.Currency.Quantity, false);
+            currencyText.text = NumberFormatterHelper.FormatNumber(achievement.Currency.Quantity, false);
 
             Button buyButton = transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -214,7 +214,7 @@ public class AchievementsController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
+                        string currencyFileNameWithoutExtension = ImageHelper.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -224,7 +224,7 @@ public class AchievementsController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(image);
                 Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -327,7 +327,7 @@ public class AchievementsController : MonoBehaviour
 
                     // achievements.InsertUserAchievements(achievements);
                     currencies = await UserCurrenciesService.Create().GetAchievementsCurrencyAsync();
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(achievement.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);

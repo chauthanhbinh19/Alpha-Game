@@ -62,7 +62,7 @@ public class UserEmojisController : MonoBehaviour
             titleText.text = emoji.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(emoji.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(emoji.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -95,7 +95,7 @@ public class UserEmojisController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(emoji.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(emoji.Rare));
             rareText.text = emoji.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -160,7 +160,7 @@ public class UserEmojisController : MonoBehaviour
         if (obj is Emojis emoji)
         {
             RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(emoji.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(emoji.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
@@ -169,7 +169,7 @@ public class UserEmojisController : MonoBehaviour
             nameText.text = emoji.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(emoji.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(emoji.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -297,7 +297,7 @@ public class UserEmojisController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -308,7 +308,7 @@ public class UserEmojisController : MonoBehaviour
             Transform emojiTransform = emojiObject.transform;
 
             RawImage emojiImage = emojiTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(emoji.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(emoji.Image);
             Texture emojiTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             emojiImage.texture = emojiTexture;
 

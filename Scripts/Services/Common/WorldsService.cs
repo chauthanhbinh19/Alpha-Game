@@ -23,7 +23,7 @@ public class WorldsService : IWorldsService
     public async Task<List<Worlds>> GetWorldsAsync(string userId, int pageSize, int offset)
     {
         List<Worlds> list = await _worldsRepository.GetWorldsAsync(userId, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class WorldsService : IWorldsService
     public async Task<List<Worlds>> GetWorldsWithPriceAsync(int pageSize, int offset)
     {
         List<Worlds> list = await _worldsRepository.GetWorldsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

@@ -57,7 +57,7 @@ public class UserEquipmentsService : IUserEquipmentsService
             c.DamageToSameFactionRate = c.DamageToSameFactionRate + rank.DamageToSameFactionRate;
             c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + rank.ResistanceToSameFactionRate;
 
-            c.Power = EvaluatePower.CalculatePower(
+            c.Power = PowerHelper.CalculatePower(
             c.Health,
             c.PhysicalAttack, c.PhysicalDefense,
             c.MagicalAttack, c.MagicalDefense,
@@ -153,7 +153,7 @@ public class UserEquipmentsService : IUserEquipmentsService
             SpecialMentalDefense = c.SpecialMentalDefense + orginCard.SpecialMentalDefense * coefficient,
             SpecialSpeed = c.SpecialSpeed + orginCard.SpecialSpeed * coefficient,
         };
-        equipment.Power = EvaluatePower.CalculatePower(
+        equipment.Power = PowerHelper.CalculatePower(
             equipment.Health + equipment.SpecialHealth,
             equipment.PhysicalAttack + equipment.SpecialPhysicalAttack, equipment.PhysicalDefense + equipment.SpecialPhysicalDefense,
             equipment.MagicalAttack + equipment.SpecialMagicalAttack, equipment.MagicalDefense + equipment.SpecialMagicalDefense,
@@ -248,7 +248,7 @@ public class UserEquipmentsService : IUserEquipmentsService
             SpecialMentalDefense = c.SpecialMentalDefense + orginCard.SpecialMentalDefense * coefficient,
             SpecialSpeed = c.SpecialSpeed + orginCard.SpecialSpeed * coefficient,
         };
-        equipment.Power = EvaluatePower.CalculatePower(
+        equipment.Power = PowerHelper.CalculatePower(
             equipment.Health + equipment.SpecialHealth,
             equipment.PhysicalAttack + equipment.SpecialPhysicalAttack, equipment.PhysicalDefense + equipment.SpecialPhysicalDefense,
             equipment.MagicalAttack + equipment.SpecialMagicalAttack, equipment.MagicalDefense + equipment.SpecialMagicalDefense,
@@ -277,7 +277,7 @@ public class UserEquipmentsService : IUserEquipmentsService
     public async Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserEquipmentsAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -285,7 +285,7 @@ public class UserEquipmentsService : IUserEquipmentsService
     public async Task<List<Equipments>> GetUserAllEquipmentsAsync(string user_id)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserAllEquipmentsAsync(user_id);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -375,140 +375,140 @@ public class UserEquipmentsService : IUserEquipmentsService
     public async Task<List<Equipments>> GetCardHeroesEquipmentsAsync(string user_id, string card_id, string type)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetCardHeroesEquipmentsAsync(user_id, card_id, type);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetCardCaptainsEquipmentsAsync(string user_id, string card_id, string type)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetCardCaptainsEquipmentsAsync(user_id, card_id, type);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetCardColonelsEquipmentsAsync(string user_id, string card_id, string type)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetCardColonelsEquipmentsAsync(user_id, card_id, type);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetCardGeneralsEquipmentsAsync(string user_id, string card_id, string type)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetCardGeneralsEquipmentsAsync(user_id, card_id, type);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetCardAdmiralsEquipmentsAsync(string user_id, string card_id, string type)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetCardAdmiralsEquipmentsAsync(user_id, card_id, type);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetCardMonstersEquipmentsAsync(string user_id, string card_id, string type)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetCardMonstersEquipmentsAsync(user_id, card_id, type);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetCardMilitariesEquipmentsAsync(string user_id, string card_id, string type)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetCardMilitariesEquipmentsAsync(user_id, card_id, type);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetCardSpellsEquipmentsAsync(string user_id, string card_id, string type)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetCardSpellsEquipmentsAsync(user_id, card_id, type);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetBooksEquipmentsAsync(string user_id, string card_id, string type)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetBooksEquipmentsAsync(user_id, card_id, type);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetPetsEquipmentsAsync(string user_id, string card_id, string type)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetPetsEquipmentsAsync(user_id, card_id, type);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetAllCardHeroesEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllCardHeroesEquipmentsAsync(user_id, type, limit, offset, status);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetAllCardCaptainsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllCardCaptainsEquipmentsAsync(user_id, type, limit, offset, status);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetAllCardColonelsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllCardColonelsEquipmentsAsync(user_id, type, limit, offset, status);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetAllCardGeneralsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllCardGeneralsEquipmentsAsync(user_id, type, limit, offset, status);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetAllCardAdmiralsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllCardAdmiralsEquipmentsAsync(user_id, type, limit, offset, status);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetAllCardMonstersEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllCardMonstersEquipmentsAsync(user_id, type, limit, offset, status);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetAllCardMilitariesEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllCardMilitariesEquipmentsAsync(user_id, type, limit, offset, status);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetAllCardSpellsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllCardSpellsEquipmentsAsync(user_id, type, limit, offset, status);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetAllBooksEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllBooksEquipmentsAsync(user_id, type, limit, offset, status);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
     public async Task<List<Equipments>> GetAllPetsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllPetsEquipmentsAsync(user_id, type, limit, offset, status);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

@@ -28,7 +28,7 @@ public class PetsService : IPetsService
     public async Task<List<Pets>> GetPetsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Pets> list = await _petsRepository.GetPetsAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -40,7 +40,7 @@ public class PetsService : IPetsService
     public async Task<List<Pets>> GetPetsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Pets> list = await _petsRepository.GetPetsWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

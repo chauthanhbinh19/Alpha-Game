@@ -78,7 +78,7 @@ public class UserRunesService : IUserRunesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        rune.Power = EvaluatePower.CalculatePower(
+        rune.Power = PowerHelper.CalculatePower(
             rune.Health,
             rune.PhysicalAttack, rune.PhysicalDefense,
             rune.MagicalAttack, rune.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserRunesService : IUserRunesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        rune.Power = EvaluatePower.CalculatePower(
+        rune.Power = PowerHelper.CalculatePower(
             rune.Health,
             rune.PhysicalAttack, rune.PhysicalDefense,
             rune.MagicalAttack, rune.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserRunesService : IUserRunesService
     public async Task<List<Runes>> GetUserRunesAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Runes> list = await _userRunesRepository.GetUserRunesAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

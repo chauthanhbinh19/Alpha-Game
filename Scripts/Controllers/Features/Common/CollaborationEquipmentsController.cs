@@ -61,7 +61,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
             titleText.text = collaborationEquipment.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(collaborationEquipment.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -94,7 +94,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(collaborationEquipment.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(collaborationEquipment.Rare));
             rareText.text = collaborationEquipment.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -119,7 +119,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
             titleText.text = collaborationEquipment.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(collaborationEquipment.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             RawImage frameImage = transform.Find("Frame").GetComponent<RawImage>();
@@ -141,12 +141,12 @@ public class CollaborationEquipmentsController : MonoBehaviour
             bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.PINK_COLOR);
 
             RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Currency.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(collaborationEquipment.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(collaborationEquipment.Currency.Quantity, false);
+            currencyText.text = NumberFormatterHelper.FormatNumber(collaborationEquipment.Currency.Quantity, false);
 
             Button buyButton = transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -212,7 +212,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
+                        string currencyFileNameWithoutExtension = ImageHelper.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -222,7 +222,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(image);
                 Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -325,7 +325,7 @@ public class CollaborationEquipmentsController : MonoBehaviour
 
                     await CollaborationEquipmentsGalleryService.Create().InsertCollaborationEquipmentGalleryAsync(collaborationEquipment.Id);
                     currencies = await UserCurrenciesService.Create().GetCollaborationEquipmentsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaborationEquipment.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(collaborationEquipment.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);

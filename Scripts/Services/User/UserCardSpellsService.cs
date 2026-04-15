@@ -76,7 +76,7 @@ public class UserCardSpellsService : IUserCardSpellsService
             c.SkillDamageRate = c.SkillDamageRate + equipments.SkillDamageRate;
             c.SkillResistanceRate = c.SkillResistanceRate + equipments.SkillResistanceRate;
 
-            c.Power = EvaluatePower.CalculatePower(
+            c.Power = PowerHelper.CalculatePower(
             c.Health,
             c.PhysicalAttack, c.PhysicalDefense,
             c.MagicalAttack, c.MagicalDefense,
@@ -157,7 +157,7 @@ public class UserCardSpellsService : IUserCardSpellsService
             c.SkillDamageRate = c.SkillDamageRate + rank.SkillDamageRate;
             c.SkillResistanceRate = c.SkillResistanceRate + rank.SkillResistanceRate;
 
-            c.Power = EvaluatePower.CalculatePower(
+            c.Power = PowerHelper.CalculatePower(
             c.Health,
             c.PhysicalAttack, c.PhysicalDefense,
             c.MagicalAttack, c.MagicalDefense,
@@ -238,7 +238,7 @@ public class UserCardSpellsService : IUserCardSpellsService
             c.SkillDamageRate = c.SkillDamageRate + master.SkillDamageRate;
             c.SkillResistanceRate = c.SkillResistanceRate + master.SkillResistanceRate;
 
-            c.Power = EvaluatePower.CalculatePower(
+            c.Power = PowerHelper.CalculatePower(
             c.Health,
             c.PhysicalAttack, c.PhysicalDefense,
             c.MagicalAttack, c.MagicalDefense,
@@ -322,7 +322,7 @@ public class UserCardSpellsService : IUserCardSpellsService
                 c.SkillResistanceRate = c.SkillResistanceRate + spiritBeast.SkillResistanceRate;
             }
 
-            c.Power = EvaluatePower.CalculatePower(
+            c.Power = PowerHelper.CalculatePower(
             c.Health,
             c.PhysicalAttack, c.PhysicalDefense,
             c.MagicalAttack, c.MagicalDefense,
@@ -406,7 +406,7 @@ public class UserCardSpellsService : IUserCardSpellsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardSpell.Power = EvaluatePower.CalculatePower(
+        cardSpell.Power = PowerHelper.CalculatePower(
             cardSpell.Health,
             cardSpell.PhysicalAttack, cardSpell.PhysicalDefense,
             cardSpell.MagicalAttack, cardSpell.MagicalDefense,
@@ -489,7 +489,7 @@ public class UserCardSpellsService : IUserCardSpellsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardSpell.Power = EvaluatePower.CalculatePower(
+        cardSpell.Power = PowerHelper.CalculatePower(
             cardSpell.Health,
             cardSpell.PhysicalAttack, cardSpell.PhysicalDefense,
             cardSpell.MagicalAttack, cardSpell.MagicalDefense,
@@ -563,7 +563,7 @@ public class UserCardSpellsService : IUserCardSpellsService
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
@@ -629,7 +629,7 @@ public class UserCardSpellsService : IUserCardSpellsService
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
@@ -695,7 +695,7 @@ public class UserCardSpellsService : IUserCardSpellsService
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
@@ -805,7 +805,7 @@ public class UserCardSpellsService : IUserCardSpellsService
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
@@ -870,7 +870,7 @@ public class UserCardSpellsService : IUserCardSpellsService
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);

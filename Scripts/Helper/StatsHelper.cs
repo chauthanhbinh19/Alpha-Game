@@ -745,7 +745,7 @@ public static class StatsHelper
     }
     public static void RecalculatePower(this CardHeroes cardHero)
     {
-        cardHero.Power = EvaluatePower.CalculatePower(
+        cardHero.Power = PowerHelper.CalculatePower(
             cardHero.Health,
             cardHero.PhysicalAttack, cardHero.PhysicalDefense,
             cardHero.MagicalAttack, cardHero.MagicalDefense,
@@ -1514,7 +1514,7 @@ public static class StatsHelper
     }
     public static void RecalculatePower(this CardCaptains cardCaptain)
     {
-        cardCaptain.Power = EvaluatePower.CalculatePower(
+        cardCaptain.Power = PowerHelper.CalculatePower(
             cardCaptain.Health,
             cardCaptain.PhysicalAttack, cardCaptain.PhysicalDefense,
             cardCaptain.MagicalAttack, cardCaptain.MagicalDefense,
@@ -2283,7 +2283,7 @@ public static class StatsHelper
     }
     public static void RecalculatePower(this CardColonels cardColonel)
     {
-        cardColonel.Power = EvaluatePower.CalculatePower(
+        cardColonel.Power = PowerHelper.CalculatePower(
             cardColonel.Health,
             cardColonel.PhysicalAttack, cardColonel.PhysicalDefense,
             cardColonel.MagicalAttack, cardColonel.MagicalDefense,
@@ -3052,7 +3052,7 @@ public static class StatsHelper
     }
     public static void RecalculatePower(this CardGenerals cardGeneral)
     {
-        cardGeneral.Power = EvaluatePower.CalculatePower(
+        cardGeneral.Power = PowerHelper.CalculatePower(
             cardGeneral.Health,
             cardGeneral.PhysicalAttack, cardGeneral.PhysicalDefense,
             cardGeneral.MagicalAttack, cardGeneral.MagicalDefense,
@@ -3821,7 +3821,7 @@ public static class StatsHelper
     }
     public static void RecalculatePower(this CardAdmirals cardAdmiral)
     {
-        cardAdmiral.Power = EvaluatePower.CalculatePower(
+        cardAdmiral.Power = PowerHelper.CalculatePower(
             cardAdmiral.Health,
             cardAdmiral.PhysicalAttack, cardAdmiral.PhysicalDefense,
             cardAdmiral.MagicalAttack, cardAdmiral.MagicalDefense,
@@ -4590,7 +4590,7 @@ public static class StatsHelper
     }
     public static void RecalculatePower(this CardMonsters cardMonster)
     {
-        cardMonster.Power = EvaluatePower.CalculatePower(
+        cardMonster.Power = PowerHelper.CalculatePower(
             cardMonster.Health,
             cardMonster.PhysicalAttack, cardMonster.PhysicalDefense,
             cardMonster.MagicalAttack, cardMonster.MagicalDefense,
@@ -5359,7 +5359,7 @@ public static class StatsHelper
     }
     public static void RecalculatePower(this CardMilitaries cardMilitary)
     {
-        cardMilitary.Power = EvaluatePower.CalculatePower(
+        cardMilitary.Power = PowerHelper.CalculatePower(
             cardMilitary.Health,
             cardMilitary.PhysicalAttack, cardMilitary.PhysicalDefense,
             cardMilitary.MagicalAttack, cardMilitary.MagicalDefense,
@@ -6128,7 +6128,7 @@ public static class StatsHelper
     }
     public static void RecalculatePower(this CardSpells cardSpell)
     {
-        cardSpell.Power = EvaluatePower.CalculatePower(
+        cardSpell.Power = PowerHelper.CalculatePower(
             cardSpell.Health,
             cardSpell.PhysicalAttack, cardSpell.PhysicalDefense,
             cardSpell.MagicalAttack, cardSpell.MagicalDefense,
@@ -6897,7 +6897,7 @@ public static class StatsHelper
     }
     public static void RecalculatePower(this Books book)
     {
-        book.Power = EvaluatePower.CalculatePower(
+        book.Power = PowerHelper.CalculatePower(
             book.Health,
             book.PhysicalAttack, book.PhysicalDefense,
             book.MagicalAttack, book.MagicalDefense,
@@ -7666,7 +7666,7 @@ public static class StatsHelper
     }
     public static void RecalculatePower(this Pets pet)
     {
-        pet.Power = EvaluatePower.CalculatePower(
+        pet.Power = PowerHelper.CalculatePower(
             pet.Health,
             pet.PhysicalAttack, pet.PhysicalDefense,
             pet.MagicalAttack, pet.MagicalDefense,

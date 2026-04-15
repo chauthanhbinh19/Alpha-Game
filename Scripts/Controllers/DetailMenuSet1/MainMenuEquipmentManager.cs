@@ -696,7 +696,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = await UserEquipmentsService.Create().GetCardHeroesEquipmentsAsync(User.CurrentUserId, cardHero.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardHero.Image);
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardHero.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
@@ -792,7 +792,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = await UserEquipmentsService.Create().GetCardCaptainsEquipmentsAsync(User.CurrentUserId, cardCaptain.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardCaptain.Image);
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardCaptain.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
@@ -888,7 +888,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = await UserEquipmentsService.Create().GetCardColonelsEquipmentsAsync(User.CurrentUserId, cardColonel.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardColonel.Image);
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardColonel.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
@@ -984,7 +984,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = await UserEquipmentsService.Create().GetCardGeneralsEquipmentsAsync(User.CurrentUserId, cardGeneral.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image);
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardGeneral.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
@@ -1080,7 +1080,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = await UserEquipmentsService.Create().GetCardAdmiralsEquipmentsAsync(User.CurrentUserId, cardAdmiral.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image);
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmiral.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
@@ -1176,7 +1176,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = await UserEquipmentsService.Create().GetCardMonstersEquipmentsAsync(User.CurrentUserId, cardMonster.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMonster.Image);
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardMonster.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
@@ -1272,7 +1272,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = await UserEquipmentsService.Create().GetCardMilitariesEquipmentsAsync(User.CurrentUserId, cardMilitary.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardMilitary.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
@@ -1368,7 +1368,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = await UserEquipmentsService.Create().GetCardSpellsEquipmentsAsync(User.CurrentUserId, cardSpell.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardSpell.Image);
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSpell.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
@@ -1464,7 +1464,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = await UserEquipmentsService.Create().GetBooksEquipmentsAsync(User.CurrentUserId, book.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(book.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
@@ -1560,7 +1560,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         List<Equipments> equipmentList = new List<Equipments>();
         equipmentList = await UserEquipmentsService.Create().GetPetsEquipmentsAsync(User.CurrentUserId, pet.Id, mainType);
         equipmentList = equipmentList.Where(e => e.Set == set).ToList();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(pet.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         mainImage.texture = texture;
         equipmentType = await EquipmentTypeService.Create().GetEquipmentTypeByNameAsync(mainType);
@@ -1781,7 +1781,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         {
             if (equipment.Position == position)
             {
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(equipment.Image);
                 Texture equipmentTexture = TextureHelper.LoadTextureCached(fileNameWithoutExtension);
 
                 if (equipmentTexture != null)

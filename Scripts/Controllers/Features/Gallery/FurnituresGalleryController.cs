@@ -55,7 +55,7 @@ public class FurnituresGalleryController : MonoBehaviour
                 titleText.text = furniture.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(furniture.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class FurnituresGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(furniture.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(furniture.Rare));
                 rareText.text = furniture.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

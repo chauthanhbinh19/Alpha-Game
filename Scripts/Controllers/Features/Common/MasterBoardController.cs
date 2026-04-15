@@ -172,8 +172,8 @@ public class MasterBoardController : MonoBehaviour
         materialImage.texture = materialTexture;
 
         TextMeshProUGUI materialNameText = popup.transform.Find("Material/QuantityText").GetComponent<TextMeshProUGUI>();
-        int materialQuantity = QualityEvaluator.CheckQuality(masterBoard.RankLevel);
-        materialNameText.text = NumberFormatter.FormatNumber(materialQuantity, false);
+        int materialQuantity = QualityEvaluatorHelper.CheckQuality(masterBoard.RankLevel);
+        materialNameText.text = NumberFormatterHelper.FormatNumber(materialQuantity, false);
 
         buyButton.onClick.AddListener(async () =>
         {
@@ -204,7 +204,7 @@ public class MasterBoardController : MonoBehaviour
                 {
                     items.Quantity = items.Quantity - materialQuantity;
                     await userItemsService.UpdateUserItemQuantityAsync(items);
-                    masterBoard.RankLevel = QualityEvaluator.GetNextQuality(masterBoard.RankLevel);
+                    masterBoard.RankLevel = QualityEvaluatorHelper.GetNextQuality(masterBoard.RankLevel);
                     // newanimeStats = EnhanceAnimeStats(animeStats, 1);
                     // double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     await UserMasterBoardService.Create().UpdateUserMasterBoardAsync(User.CurrentUserId, masterBoard);

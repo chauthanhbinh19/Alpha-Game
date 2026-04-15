@@ -78,7 +78,7 @@ public class UserFoodsService : IUserFoodsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        food.Power = EvaluatePower.CalculatePower(
+        food.Power = PowerHelper.CalculatePower(
             food.Health,
             food.PhysicalAttack, food.PhysicalDefense,
             food.MagicalAttack, food.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserFoodsService : IUserFoodsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        food.Power = EvaluatePower.CalculatePower(
+        food.Power = PowerHelper.CalculatePower(
             food.Health,
             food.PhysicalAttack, food.PhysicalDefense,
             food.MagicalAttack, food.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserFoodsService : IUserFoodsService
     public async Task<List<Foods>> GetUserFoodsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Foods> list = await _userFoodsRepository.GetUserFoodsAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

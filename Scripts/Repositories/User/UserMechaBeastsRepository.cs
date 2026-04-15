@@ -266,7 +266,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(mechaBeast.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(mechaBeast.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@quantity", mechaBeast.Quantity);
                             insertCommand.Parameters.AddWithValue("@power", mechaBeast.Power);

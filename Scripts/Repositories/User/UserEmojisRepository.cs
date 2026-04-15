@@ -258,7 +258,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                     insertCommand.Parameters.AddWithValue("@level", 0);
                     insertCommand.Parameters.AddWithValue("@experiment", 0);
                     insertCommand.Parameters.AddWithValue("@star", 0);
-                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(emoji.Rare));
+                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(emoji.Rare));
                     insertCommand.Parameters.AddWithValue("@block", false);
                     insertCommand.Parameters.AddWithValue("@quantity", emoji.Quantity);
                     insertCommand.Parameters.AddWithValue("@power", emoji.Power);

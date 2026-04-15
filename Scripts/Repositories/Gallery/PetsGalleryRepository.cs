@@ -225,7 +225,7 @@ public class PetsGalleryRepository : IPetsGalleryRepository
     }
     public async Task InsertPetGalleryAsync(string Id, Pets petFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(petFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(petFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

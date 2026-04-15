@@ -94,7 +94,7 @@ public class UserEquipmentsController : MonoBehaviour
         if (obj is Equipments equipment)
         {
             RawImage image = currentObject.transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(equipment.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
@@ -103,7 +103,7 @@ public class UserEquipmentsController : MonoBehaviour
             nameText.text = equipment.Name;
 
             TextMeshProUGUI powerText = currentObject.transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(equipment.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(equipment.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -228,7 +228,7 @@ public class UserEquipmentsController : MonoBehaviour
                 GameObject itemObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
                 RawImage eImage = itemObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -238,7 +238,7 @@ public class UserEquipmentsController : MonoBehaviour
             GameObject equipmentObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
 
             RawImage equipmentImage = equipmentObject.transform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(equipment.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(equipment.Image);
             Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             equipmentImage.texture = equipmentTexture;
 

@@ -49,7 +49,7 @@ public class CardColonelsGalleryController : MonoBehaviour
             titleText.text = cardColonel.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardColonel.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardColonel.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -63,7 +63,7 @@ public class CardColonelsGalleryController : MonoBehaviour
             typePanel.text = cardColonel.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardColonel.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardColonel.Rare));
 
             Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -73,7 +73,7 @@ public class CardColonelsGalleryController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardColonel.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardColonel.Rare));
             rareText.text = cardColonel.Rare;
 
             RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

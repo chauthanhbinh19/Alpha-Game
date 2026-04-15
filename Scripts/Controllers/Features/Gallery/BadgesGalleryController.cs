@@ -55,7 +55,7 @@ public class BadgesGalleryController : MonoBehaviour
                 titleText.text = badge.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(badge.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(badge.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class BadgesGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(badge.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(badge.Rare));
                 rareText.text = badge.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

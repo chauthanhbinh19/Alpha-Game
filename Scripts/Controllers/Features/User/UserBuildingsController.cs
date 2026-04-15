@@ -62,7 +62,7 @@ public class UserBuildingsController : MonoBehaviour
             titleText.text = building.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(building.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(building.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -98,7 +98,7 @@ public class UserBuildingsController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(building.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(building.Rare));
             rareText.text = building.Rare;
 
         }
@@ -164,7 +164,7 @@ public class UserBuildingsController : MonoBehaviour
         if (obj is Buildings building)
         {
             RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(building.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(building.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
@@ -173,7 +173,7 @@ public class UserBuildingsController : MonoBehaviour
             nameText.text = building.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(building.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(building.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -301,7 +301,7 @@ public class UserBuildingsController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -312,7 +312,7 @@ public class UserBuildingsController : MonoBehaviour
             Transform buildingTransform = buildingObject.transform;
 
             RawImage buildingImage = buildingTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(building.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(building.Image);
             Texture buildingTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             buildingImage.texture = buildingTexture;
 

@@ -23,7 +23,7 @@ public class TitlesService : ITitlesService
     public async Task<List<Titles>> GetTitlesAsync(string search, string rare, int pageSize, int offset)
     {
         List<Titles> list = await _titlesRepository.GetTitlesAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class TitlesService : ITitlesService
     public async Task<List<Titles>> GetTitlesWithPriceAsync(int pageSize, int offset)
     {
         List<Titles> list = await _titlesRepository.GetTitlesWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

@@ -78,7 +78,7 @@ public class UserTalismansService : IUserTalismansService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        talisman.Power = EvaluatePower.CalculatePower(
+        talisman.Power = PowerHelper.CalculatePower(
             talisman.Health,
             talisman.PhysicalAttack, talisman.PhysicalDefense,
             talisman.MagicalAttack, talisman.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserTalismansService : IUserTalismansService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        talisman.Power = EvaluatePower.CalculatePower(
+        talisman.Power = PowerHelper.CalculatePower(
             talisman.Health,
             talisman.PhysicalAttack, talisman.PhysicalDefense,
             talisman.MagicalAttack, talisman.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserTalismansService : IUserTalismansService
     public async Task<List<Talismans>> GetUserTalismansAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Talismans> list = await _userTalismansRepository.GetUserTalismansAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

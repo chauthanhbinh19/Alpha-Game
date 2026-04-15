@@ -62,7 +62,7 @@ public class UserForgesController : MonoBehaviour
             titleText.text = forge.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(forge.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -98,7 +98,7 @@ public class UserForgesController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(forge.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(forge.Rare));
             rareText.text = forge.Rare;
 
         }
@@ -164,7 +164,7 @@ public class UserForgesController : MonoBehaviour
          if (obj is Forges forge)
         {
             RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(forge.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
@@ -173,7 +173,7 @@ public class UserForgesController : MonoBehaviour
             nameText.text = forge.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(forge.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(forge.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -301,7 +301,7 @@ public class UserForgesController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -312,7 +312,7 @@ public class UserForgesController : MonoBehaviour
             Transform forgeTransform = forgeObject.transform;
 
             RawImage forgeImage = forgeTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(forge.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(forge.Image);
             Texture forgeTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             forgeImage.texture = forgeTexture;
 

@@ -55,7 +55,7 @@ public class RunesGalleryController : MonoBehaviour
                 titleText.text = rune.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(rune.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(rune.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class RunesGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(rune.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(rune.Rare));
                 rareText.text = rune.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

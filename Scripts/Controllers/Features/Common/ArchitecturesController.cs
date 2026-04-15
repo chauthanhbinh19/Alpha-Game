@@ -61,7 +61,7 @@ public class ArchitecturesController : MonoBehaviour
             titleText.text = architecture.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(architecture.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -94,7 +94,7 @@ public class ArchitecturesController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(architecture.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(architecture.Rare));
             rareText.text = architecture.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -119,7 +119,7 @@ public class ArchitecturesController : MonoBehaviour
             titleText.text = architecture.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(architecture.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -160,12 +160,12 @@ public class ArchitecturesController : MonoBehaviour
             bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.RED_COLOR);
 
             RawImage CurrencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Currency.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(architecture.Currency.Image);
             Texture CurrencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             CurrencyImage.texture = CurrencyTexture;
 
             TextMeshProUGUI CurrencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            CurrencyText.text = NumberFormatter.FormatNumber(architecture.Currency.Quantity, false);
+            CurrencyText.text = NumberFormatterHelper.FormatNumber(architecture.Currency.Quantity, false);
 
             Button buyButton = transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -231,7 +231,7 @@ public class ArchitecturesController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(CurrencyImageValue))
                     {
-                        string CurrencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(CurrencyImageValue);
+                        string CurrencyFileNameWithoutExtension = ImageHelper.RemoveImageExtension(CurrencyImageValue);
                         Texture CurrencyTexture = TextureHelper.LoadTextureCached($"{CurrencyFileNameWithoutExtension}");
                         CurrencyImage.texture = CurrencyTexture;
                     }
@@ -241,7 +241,7 @@ public class ArchitecturesController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(image);
                 Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -344,7 +344,7 @@ public class ArchitecturesController : MonoBehaviour
 
                     await ArchitecturesGalleryService.Create().InsertArchitectureGalleryAsync(architecture.Id);
                     currencies = await UserCurrenciesService.Create().GetArchitecturesCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(architecture.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(architecture.Image);
 
                     ButtonEvent.Instance.Close(CurrencyPanel);
                     FindObjectOfType<CurrenciesManager>().createCurrency(currencies, CurrencyPanel);

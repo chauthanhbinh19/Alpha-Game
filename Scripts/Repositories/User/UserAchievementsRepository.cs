@@ -262,7 +262,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                     command.Parameters.AddWithValue("@level", 0);
                     command.Parameters.AddWithValue("@experiment", 0);
                     command.Parameters.AddWithValue("@star", 0);
-                    command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(achievement.Rare));
+                    command.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(achievement.Rare));
                     command.Parameters.AddWithValue("@block", false);
                     command.Parameters.AddWithValue("@quantity", achievement.Quantity);
 

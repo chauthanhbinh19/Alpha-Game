@@ -78,7 +78,7 @@ public class UserMedalsService : IUserMedalsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        medal.Power = EvaluatePower.CalculatePower(
+        medal.Power = PowerHelper.CalculatePower(
             medal.Health,
             medal.PhysicalAttack, medal.PhysicalDefense,
             medal.MagicalAttack, medal.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserMedalsService : IUserMedalsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        medal.Power = EvaluatePower.CalculatePower(
+        medal.Power = PowerHelper.CalculatePower(
             medal.Health,
             medal.PhysicalAttack, medal.PhysicalDefense,
             medal.MagicalAttack, medal.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserMedalsService : IUserMedalsService
     public async Task<List<Medals>> GetUserMedalsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Medals> list = await _userMedalsRepository.GetUserMedalsAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

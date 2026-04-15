@@ -285,7 +285,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(magicFormationCircle.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(magicFormationCircle.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@quantity", magicFormationCircle.Quantity);
                             insertCommand.Parameters.AddWithValue("@power", magicFormationCircle.Power);

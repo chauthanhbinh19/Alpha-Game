@@ -225,7 +225,7 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
     }
     public async Task InsertFurnitureGalleryAsync(string Id, Furnitures furnitureFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(furnitureFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(furnitureFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

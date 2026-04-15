@@ -55,7 +55,7 @@ public class MedalsGalleryController : MonoBehaviour
                 titleText.text = medal.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(medal.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(medal.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class MedalsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(medal.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(medal.Rare));
                 rareText.text = medal.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

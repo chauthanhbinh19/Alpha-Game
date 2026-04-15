@@ -23,7 +23,7 @@ public class FoodsGalleryService : IFoodsGalleryService
     public async Task<List<Foods>> GetFoodsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Foods> list = await _foodsGalleryRepository.GetFoodsCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

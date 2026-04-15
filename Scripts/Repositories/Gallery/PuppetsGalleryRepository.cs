@@ -225,7 +225,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
     }
     public async Task InsertPuppetGalleryAsync(string Id, Puppets puppetFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(puppetFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(puppetFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

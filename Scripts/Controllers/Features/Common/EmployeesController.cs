@@ -67,7 +67,7 @@ public class EmployeesController : MonoBehaviour
             titleText.text = employee.Name.Replace("_", " ");
 
             RawImage Image = employeeObject.transform.Find("MainImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(employee.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(employee.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

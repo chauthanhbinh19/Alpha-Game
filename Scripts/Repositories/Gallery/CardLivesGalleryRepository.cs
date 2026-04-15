@@ -226,7 +226,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
     }
     public async Task InsertCardLifeGalleryAsync(string Id, CardLives cardLifeFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(cardLifeFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(cardLifeFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

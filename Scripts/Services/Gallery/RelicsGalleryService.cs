@@ -23,7 +23,7 @@ public class RelicsGalleryService : IRelicsGalleryService
     public async Task<List<Relics>> GetRelicsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Relics> list = await _relicsGalleryRepository.GetRelicsCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

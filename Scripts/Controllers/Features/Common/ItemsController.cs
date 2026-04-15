@@ -58,7 +58,7 @@ public class ItemsController : MonoBehaviour
             titleText.text = item.Name.Replace("_", " ");
 
             RawImage image = itemObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -72,12 +72,12 @@ public class ItemsController : MonoBehaviour
             bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.YELLOW_COLOR);
 
             RawImage currencyImage = itemObject.transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = itemObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(item.Price, false);
+            currencyText.text = NumberFormatterHelper.FormatNumber(item.Price, false);
 
             Button buy = itemObject.transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
@@ -127,14 +127,14 @@ public class ItemsController : MonoBehaviour
             string id = (string)idProperty.GetValue(obj);
             string image = (string)imageProperty.GetValue(obj);
 
-            string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.Image);
+            string currencyFileNameWithoutExtension = ImageHelper.RemoveImageExtension(currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(image);
                 Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -229,7 +229,7 @@ public class ItemsController : MonoBehaviour
                     List<Currencies> currencies = new List<Currencies>();
                     var tempCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(currency.Id);
                     currencies.Add(tempCurrency);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);

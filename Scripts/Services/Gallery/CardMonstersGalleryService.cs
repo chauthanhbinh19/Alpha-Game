@@ -23,7 +23,7 @@ public class CardMonstersGalleryService : ICardMonstersGalleryService
     public async Task<List<CardMonsters>> GetCardMonstersCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<CardMonsters> list = await _cardMonstersGalleryRepository.GetCardMonstersCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

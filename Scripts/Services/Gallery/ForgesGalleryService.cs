@@ -24,7 +24,7 @@ public class ForgesGalleryService : IForgesGalleryService
     public async Task<List<Forges>> GetForgesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Forges> list = await _forgesGalleryRepository.GetForgesCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

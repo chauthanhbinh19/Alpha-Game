@@ -23,7 +23,7 @@ public class BeveragesService : IBeveragesService
     public async Task<List<Beverages>> GetBeveragesAsync(string search, string rare, int pageSize, int offset)
     {
         List<Beverages> list = await _beveragesRepository.GetBeveragesAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class BeveragesService : IBeveragesService
     public async Task<List<Beverages>> GetBeveragesWithPriceAsync(int pageSize, int offset)
     {
         List<Beverages> list = await _beveragesRepository.GetBeveragesWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

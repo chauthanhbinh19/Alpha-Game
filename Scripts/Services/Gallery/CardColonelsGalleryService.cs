@@ -23,7 +23,7 @@ public class CardColonelsGalleryService : ICardColonelsGalleryService
     public async Task<List<CardColonels>> GetCardColonelsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<CardColonels> list = await _cardColonelsGalleryRepository.GetCardColonelsCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

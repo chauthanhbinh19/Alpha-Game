@@ -78,7 +78,7 @@ public class UserBeveragesService : IUserBeveragesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        beverage.Power = EvaluatePower.CalculatePower(
+        beverage.Power = PowerHelper.CalculatePower(
             beverage.Health,
             beverage.PhysicalAttack, beverage.PhysicalDefense,
             beverage.MagicalAttack, beverage.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserBeveragesService : IUserBeveragesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        beverage.Power = EvaluatePower.CalculatePower(
+        beverage.Power = PowerHelper.CalculatePower(
             beverage.Health,
             beverage.PhysicalAttack, beverage.PhysicalDefense,
             beverage.MagicalAttack, beverage.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserBeveragesService : IUserBeveragesService
     public async Task<List<Beverages>> GetUserBeveragesAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Beverages> list = await _userBeveragesRepository.GetUserBeveragesAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

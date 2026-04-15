@@ -23,7 +23,7 @@ public class RobotsService : IRobotsService
     public async Task<List<Robots>> GetRobotsAsync(string search, string rare, int pageSize, int offset)
     {
         List<Robots> list = await _robotsRepository.GetRobotsAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class RobotsService : IRobotsService
     public async Task<List<Robots>> GetRobotsWithPriceAsync(int pageSize, int offset)
     {
         List<Robots> list = await _robotsRepository.GetRobotsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

@@ -736,7 +736,7 @@ public class SummonManager : MonoBehaviour
             TextMeshProUGUI oneTicketText = summonObject.transform.Find("DictionaryCards/OneTicketText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI tenTicketText = summonObject.transform.Find("DictionaryCards/TenTicketText").GetComponent<TextMeshProUGUI>();
 
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             oneTicketImage.texture = texture;
             tenTicketImage.texture = texture;

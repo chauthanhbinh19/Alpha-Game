@@ -62,7 +62,7 @@ public class UserFurnituresController : MonoBehaviour
             titleText.text = furniture.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(furniture.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -98,7 +98,7 @@ public class UserFurnituresController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(furniture.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(furniture.Rare));
             rareText.text = furniture.Rare;
 
         }
@@ -164,7 +164,7 @@ public class UserFurnituresController : MonoBehaviour
         if (obj is Furnitures furniture)
         {
             RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(furniture.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
@@ -173,7 +173,7 @@ public class UserFurnituresController : MonoBehaviour
             nameText.text = furniture.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(furniture.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(furniture.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -301,7 +301,7 @@ public class UserFurnituresController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -312,7 +312,7 @@ public class UserFurnituresController : MonoBehaviour
             Transform furnitureTransform = furnitureObject.transform;
 
             RawImage furnitureImage = furnitureTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(furniture.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(furniture.Image);
             Texture furnitureTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             furnitureImage.texture = furnitureTexture;
 

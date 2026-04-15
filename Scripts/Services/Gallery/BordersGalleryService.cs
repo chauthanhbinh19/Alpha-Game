@@ -23,7 +23,7 @@ public class BordersGalleryService : IBordersGalleryService
     public async Task<List<Borders>> GetBordersCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Borders> list = await _bordersGalleryRepository.GetBordersCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

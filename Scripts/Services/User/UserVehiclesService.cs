@@ -78,7 +78,7 @@ public class UserVehiclesService : IUserVehiclesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        vehicle.Power = EvaluatePower.CalculatePower(
+        vehicle.Power = PowerHelper.CalculatePower(
             vehicle.Health,
             vehicle.PhysicalAttack, vehicle.PhysicalDefense,
             vehicle.MagicalAttack, vehicle.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserVehiclesService : IUserVehiclesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        vehicle.Power = EvaluatePower.CalculatePower(
+        vehicle.Power = PowerHelper.CalculatePower(
             vehicle.Health,
             vehicle.PhysicalAttack, vehicle.PhysicalDefense,
             vehicle.MagicalAttack, vehicle.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserVehiclesService : IUserVehiclesService
     public async Task<List<Vehicles>> GetUserVehiclesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Vehicles> list = await _userVehiclesRepository.GetUserVehiclesAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

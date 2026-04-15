@@ -512,7 +512,7 @@ public class UserPetsRepository : IUserPetsRepository
                 command.Parameters.AddWithValue("@level", 0);
                 command.Parameters.AddWithValue("@experiment", 0);
                 command.Parameters.AddWithValue("@star", 0);
-                command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(pet.Rare));
+                command.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(pet.Rare));
                 command.Parameters.AddWithValue("@block", false);
                 command.Parameters.AddWithValue("@quantity", pet.Quantity);
                 command.Parameters.AddWithValue("@power", pet.Power);

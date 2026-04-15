@@ -62,7 +62,7 @@ public class UserRelicsController : MonoBehaviour
             titleText.text = relic.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(relic.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -98,7 +98,7 @@ public class UserRelicsController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(relic.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(relic.Rare));
             rareText.text = relic.Rare;
 
         }
@@ -164,7 +164,7 @@ public class UserRelicsController : MonoBehaviour
         if (obj is Relics relic)
         {
             RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(relic.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
@@ -173,7 +173,7 @@ public class UserRelicsController : MonoBehaviour
             nameText.text = relic.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(relic.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(relic.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -301,7 +301,7 @@ public class UserRelicsController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -312,7 +312,7 @@ public class UserRelicsController : MonoBehaviour
             Transform relicTransform = relicObject.transform;
 
             RawImage relicImage = relicTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(relic.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(relic.Image);
             Texture relicTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             relicImage.texture = relicTexture;
 

@@ -877,7 +877,7 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
                 insertCommand.Parameters.AddWithValue("@level", 0);
                 insertCommand.Parameters.AddWithValue("@experiment", 0);
                 insertCommand.Parameters.AddWithValue("@star", 0);
-                insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(cardCaptain.Rare));
+                insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(cardCaptain.Rare));
                 insertCommand.Parameters.AddWithValue("@block", false);
                 insertCommand.Parameters.AddWithValue("@quantity", cardCaptain.Quantity);
                 insertCommand.Parameters.AddWithValue("@power", cardCaptain.Power);

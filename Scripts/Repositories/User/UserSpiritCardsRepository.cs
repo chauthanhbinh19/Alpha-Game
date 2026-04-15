@@ -1445,7 +1445,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                             command.Parameters.AddWithValue("@level", 0);
                             command.Parameters.AddWithValue("@experiment", 0);
                             command.Parameters.AddWithValue("@star", 0);
-                            command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(SpiritCard.Rare));
+                            command.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(SpiritCard.Rare));
                             command.Parameters.AddWithValue("@block", false);
                             command.Parameters.AddWithValue("@quantity", SpiritCard.Quantity);
                             command.Parameters.AddWithValue("@power", SpiritCard.Power);

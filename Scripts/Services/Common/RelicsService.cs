@@ -27,7 +27,7 @@ public class RelicsService : IRelicsService
     public async Task<List<Relics>> GetRelicsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Relics> list = await _relicsRepository.GetRelicsAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -39,7 +39,7 @@ public class RelicsService : IRelicsService
     public async Task<List<Relics>> GetRelicsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Relics> list = await _relicsRepository.GetRelicsWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

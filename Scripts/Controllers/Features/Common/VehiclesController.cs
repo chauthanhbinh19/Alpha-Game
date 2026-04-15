@@ -61,7 +61,7 @@ public class VehiclesController : MonoBehaviour
             titleText.text = vehicle.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(vehicle.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -96,7 +96,7 @@ public class VehiclesController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(vehicle.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(vehicle.Rare));
             rareText.text = vehicle.Rare;
 
         }
@@ -122,7 +122,7 @@ public class VehiclesController : MonoBehaviour
             titleText.text = vehicle.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(vehicle.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -164,12 +164,12 @@ public class VehiclesController : MonoBehaviour
             bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.GREEN_COLOR);
 
             RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Currency.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(vehicle.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatter.FormatNumber(vehicle.Currency.Quantity, false);
+            currencyText.text = NumberFormatterHelper.FormatNumber(vehicle.Currency.Quantity, false);
 
             Button buyButton = transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -236,7 +236,7 @@ public class VehiclesController : MonoBehaviour
 
                     if (!string.IsNullOrEmpty(currencyImageValue))
                     {
-                        string currencyFileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currencyImageValue);
+                        string currencyFileNameWithoutExtension = ImageHelper.RemoveImageExtension(currencyImageValue);
                         Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
                         currencyImage.texture = currencyTexture;
                     }
@@ -246,7 +246,7 @@ public class VehiclesController : MonoBehaviour
             // Xử lý image của obj
             if (!string.IsNullOrEmpty(image))
             {
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(image);
                 Texture entityTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 equipmentImage.texture = entityTexture;
             }
@@ -349,7 +349,7 @@ public class VehiclesController : MonoBehaviour
 
                     await VehiclesGalleryService.Create().InsertVehicleGalleryAsync(vehicle.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(vehicle.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(vehicle.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);

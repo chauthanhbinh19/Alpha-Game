@@ -23,7 +23,7 @@ public class WeaponsService : IWeaponsService
     public async Task<List<Weapons>> GetWeaponsAsync(string search, string rare, int pageSize, int offset)
     {
         List<Weapons> list = await _weaponsRepository.GetWeaponsAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class WeaponsService : IWeaponsService
     public async Task<List<Weapons>> GetWeaponsWithPriceAsync(int pageSize, int offset)
     {
         List<Weapons> list = await _weaponsRepository.GetWeaponsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

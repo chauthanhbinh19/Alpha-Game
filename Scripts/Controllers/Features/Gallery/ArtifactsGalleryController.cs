@@ -52,7 +52,7 @@ public class ArtifactsGalleryController : MonoBehaviour
             titleText.text = artifact.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artifact.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(artifact.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -71,7 +71,7 @@ public class ArtifactsGalleryController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(artifact.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(artifact.Rare));
             rareText.text = artifact.Rare;
 
             RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

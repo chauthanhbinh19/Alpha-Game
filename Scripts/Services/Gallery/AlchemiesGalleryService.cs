@@ -23,7 +23,7 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
     public async Task<List<Alchemies>> GetAlchemyCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Alchemies> list = await _alchemiesGalleryRepository.GetAlchemyCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

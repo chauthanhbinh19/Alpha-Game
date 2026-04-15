@@ -23,7 +23,7 @@ public class TechnologiesService : ITechnologiesService
     public async Task<List<Technologies>> GetTechnologiesAsync(string search, string rare, int pageSize, int offset)
     {
         List<Technologies> list = await _technologiesRepository.GetTechnologiesAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class TechnologiesService : ITechnologiesService
     public async Task<List<Technologies>> GetTechnologiesWithPriceAsync(int pageSize, int offset)
     {
         List<Technologies> list = await _technologiesRepository.GetTechnologiesWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

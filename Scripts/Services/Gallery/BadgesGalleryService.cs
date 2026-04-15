@@ -23,7 +23,7 @@ public class BadgesGalleryService : IBadgesGalleryService
     public async Task<List<Badges>> GetBadgesCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Badges> list = await _badgesGalleryRepository.GetBadgesCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

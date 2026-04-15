@@ -23,7 +23,7 @@ public class MedalsGalleryService : IMedalsGalleryService
     public async Task<List<Medals>> GetMedalsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Medals> list = await _medalsGalleryRepository.GetMedalsCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

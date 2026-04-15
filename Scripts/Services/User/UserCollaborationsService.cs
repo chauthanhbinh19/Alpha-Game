@@ -78,7 +78,7 @@ public class UserCollaborationsService : IUserCollaborationsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        collaboration.Power = EvaluatePower.CalculatePower(
+        collaboration.Power = PowerHelper.CalculatePower(
             collaboration.Health,
             collaboration.PhysicalAttack, collaboration.PhysicalDefense,
             collaboration.MagicalAttack, collaboration.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserCollaborationsService : IUserCollaborationsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        collaboration.Power = EvaluatePower.CalculatePower(
+        collaboration.Power = PowerHelper.CalculatePower(
             collaboration.Health,
             collaboration.PhysicalAttack, collaboration.PhysicalDefense,
             collaboration.MagicalAttack, collaboration.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserCollaborationsService : IUserCollaborationsService
     public async Task<List<Collaborations>> GetUserCollaborationsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Collaborations> list = await _userCollaborationsRepository.GetUserCollaborationsAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

@@ -225,7 +225,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
     }
     public async Task InsertSpiritCardGalleryAsync(string Id, SpiritCards spiritCardFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(spiritCardFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(spiritCardFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

@@ -23,7 +23,7 @@ public class EmployeesService : IEmployeesService
     public async Task<List<Employees>> GetEmployeesAsync(string userId, int pageSize, int offset)
     {
         List<Employees> list = await _employeesRepository.GetEmployeesAsync(userId, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class EmployeesService : IEmployeesService
     public async Task<List<Employees>> GetEmployeesWithPriceAsync(int pageSize, int offset)
     {
         List<Employees> list = await _employeesRepository.GetEmployeesWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

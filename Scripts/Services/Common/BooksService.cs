@@ -28,7 +28,7 @@ public class BooksService : IBooksService
     public async Task<List<Books>> GetBooksAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Books> list = await _booksRepository.GetBooksAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -55,7 +55,7 @@ public class BooksService : IBooksService
     public async Task<List<Books>> GetBooksWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Books> list = await _booksRepository.GetBooksWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

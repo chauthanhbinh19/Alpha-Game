@@ -62,7 +62,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
             titleText.text = magicFormationCircle.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(magicFormationCircle.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -98,7 +98,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(magicFormationCircle.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(magicFormationCircle.Rare));
             rareText.text = magicFormationCircle.Rare;
 
         }
@@ -164,7 +164,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
         if (obj is MagicFormationCircles magicFormationCircle)
         {
             RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(magicFormationCircle.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
@@ -173,7 +173,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
             nameText.text = magicFormationCircle.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(magicFormationCircle.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(magicFormationCircle.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -301,7 +301,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -312,7 +312,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
             Transform magicFormationCircleTransform = magicFormationCircleObject.transform;
 
             RawImage magicFormationCircleImage = magicFormationCircleTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(magicFormationCircle.Image);
             Texture magicFormationCircleTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             magicFormationCircleImage.texture = magicFormationCircleTexture;
 

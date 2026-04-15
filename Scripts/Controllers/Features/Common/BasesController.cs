@@ -67,7 +67,7 @@ public class BasesController : MonoBehaviour
             Title.text = Base.Name.Replace("_", " ");
 
             RawImage Image = BaseObject.transform.Find("MainImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(Base.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(Base.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             Image.texture = texture;
 

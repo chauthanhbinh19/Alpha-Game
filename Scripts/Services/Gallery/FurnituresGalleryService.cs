@@ -23,7 +23,7 @@ public class FurnituresGalleryService : IFurnituresGalleryService
     public async Task<List<Furnitures>> GetFurnituresCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Furnitures> list = await _furnituresGalleryRepository.GetFurnituresCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

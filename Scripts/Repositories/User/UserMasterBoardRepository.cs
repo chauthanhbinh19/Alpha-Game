@@ -266,7 +266,7 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
     }
     public async Task UpdateUserMasterBoardAsync(string user_id, MasterBoard masterBoard)
     {
-        int multiplier = QualityEvaluator.CheckQuality(masterBoard.RankLevel);
+        int multiplier = QualityEvaluatorHelper.CheckQuality(masterBoard.RankLevel);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

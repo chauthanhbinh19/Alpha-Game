@@ -132,7 +132,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     public async Task CreateCardHeroesEquipmentsAsync(CardHeroes cardHero)
     {
         Rank rank = await UserCardHeroesRankService.Create().GetCardHeroRankAsync(mainType, cardHero.Id);
-        Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(cardHero.Image)}");
+        Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardHero.Image)}");
         mainImage.texture = texture;
         mainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
@@ -157,7 +157,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -240,7 +240,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -300,7 +300,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public async Task CreateBooksEquipmentsAsync(Books book)
     {
-        Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(book.Image)}");
+        Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(book.Image)}");
         mainImage.texture = texture;
         Rank rank = await UserBooksRankService.Create().GetBookRankAsync(mainType, book.Id);
         mainLevelText.text = rank.Level.ToString();
@@ -326,7 +326,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -409,7 +409,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -469,7 +469,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public async Task CreateCardCaptainsEquipmentsAsync(CardCaptains cardCaptain)
     {
-        Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(cardCaptain.Image)}");
+        Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardCaptain.Image)}");
         mainImage.texture = texture;
         Rank rank = await UserCardCaptainsRankService.Create().GetCardCaptainRankAsync(mainType, cardCaptain.Id);
         mainLevelText.text = rank.Level.ToString();
@@ -495,7 +495,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -578,7 +578,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -638,7 +638,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public async Task CreatePetsEquipmentsAsync(Pets pet)
     {
-        Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(pet.Image)}");
+        Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(pet.Image)}");
         mainImage.texture = texture;
         Rank rank = await UserPetsRankService.Create().GetPetRankAsync(mainType, pet.Id);
         mainLevelText.text = rank.Level.ToString();
@@ -664,7 +664,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -747,7 +747,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -807,7 +807,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public async Task CreateCardMilitaryEquipmentsAsync(CardMilitaries cardMilitary)
     {
-        Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image)}");
+        Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardMilitary.Image)}");
         mainImage.texture = texture;
         Rank rank = await UserCardMilitariesRankService.Create().GetCardMilitaryRankAsync(mainType, cardMilitary.Id);
         mainLevelText.text = rank.Level.ToString();
@@ -833,7 +833,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -916,7 +916,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -976,7 +976,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public async Task CreateCardSpellEquipmentsAsync(CardSpells cardSpell)
     {
-        Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(cardSpell.Image)}");
+        Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardSpell.Image)}");
         mainImage.texture = texture;
         Rank rank = await UserCardSpellsRankService.Create().GetCardSpellRankAsync(mainType, cardSpell.Id);
         mainLevelText.text = rank.Level.ToString();
@@ -1002,7 +1002,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -1085,7 +1085,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -1145,7 +1145,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public async Task CreateCardMonstersEquipmentsAsync(CardMonsters cardMonster)
     {
-        Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(cardMonster.Image)}");
+        Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardMonster.Image)}");
         mainImage.texture = texture;
         Rank rank = await UserCardMonstersRankService.Create().GetCardMonsterRankAsync(mainType, cardMonster.Id);
         mainLevelText.text = rank.Level.ToString();
@@ -1171,7 +1171,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -1254,7 +1254,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -1315,7 +1315,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public async Task CreateCardColonelsEquipmentsAsync(CardColonels cardColonel)
     {
-        Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(cardColonel.Image)}");
+        Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardColonel.Image)}");
         mainImage.texture = texture;
         Rank rank = await UserCardColonelsRankService.Create().GetCardColonelRankAsync(mainType, cardColonel.Id);
         mainLevelText.text = rank.Level.ToString();
@@ -1341,7 +1341,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -1424,7 +1424,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -1484,7 +1484,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public async Task CreateCardGeneralsEquipmentsAsync(CardGenerals cardGeneral)
     {
-        Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image)}");
+        Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardGeneral.Image)}");
         mainImage.texture = texture;
         Rank rank = await UserCardGeneralsRankService.Create().GetCardGeneralRankAsync(mainType, cardGeneral.Id);
         mainLevelText.text = rank.Level.ToString();
@@ -1510,7 +1510,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -1593,7 +1593,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -1653,7 +1653,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public async Task CreateCardAdmiralsEquipmentsAsync(CardAdmirals cardAdmiral)
     {
-        Texture texture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(cardAdmiral.Image)}");
+        Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardAdmiral.Image)}");
         mainImage.texture = texture;
         Rank rank = await UserCardAdmiralsRankService.Create().GetCardAdmiralRankAsync(mainType, cardAdmiral.Id);
         mainLevelText.text = rank.Level.ToString();
@@ -1679,7 +1679,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào quantity
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -1762,7 +1762,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
             foreach (var item in itemsList)
             {
-                double itemExp = EvaluateExperiment.GetItemExp(item.Name);
+                double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
                 int usedQuantity = 0;
 
@@ -1831,7 +1831,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             GameObject itemObject = Instantiate(ItemPopupPrefab, MateriralPanel);
 
             RawImage itemImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            Texture itemTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(item.Image)}");
+            Texture itemTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(item.Image)}");
             itemImage.texture = itemTexture;
 
             TextMeshProUGUI itemText = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();

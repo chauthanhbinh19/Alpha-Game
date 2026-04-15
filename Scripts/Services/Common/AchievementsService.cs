@@ -24,7 +24,7 @@ public class AchievementsService : IAchievementsService
     public async Task<List<Achievements>> GetAchievementsAsync(string search, string rare, int pageSize, int offset)
     {
         List<Achievements> list = await _achievementsRepository.GetAchievementsAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -41,7 +41,7 @@ public class AchievementsService : IAchievementsService
     public async Task<List<Achievements>> GetAchievementsWithPriceAsync(int pageSize, int offset)
     {
         List<Achievements> list = await _achievementsRepository.GetAchievementsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

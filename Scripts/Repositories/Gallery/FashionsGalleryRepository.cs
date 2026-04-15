@@ -225,7 +225,7 @@ public class FashionsGalleryRepository : IFashionsGalleryRepository
     }
     public async Task InsertFashionGalleryAsync(string Id, Fashions fashionFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(fashionFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(fashionFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

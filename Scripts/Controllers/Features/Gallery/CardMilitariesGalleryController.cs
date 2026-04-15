@@ -49,7 +49,7 @@ public class CardMilitariesGalleryController : MonoBehaviour
             titleText.text = cardMilitary.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardMilitary.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardMilitary.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -63,7 +63,7 @@ public class CardMilitariesGalleryController : MonoBehaviour
             typePanel.text = cardMilitary.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardMilitary.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardMilitary.Rare));
 
             Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -73,7 +73,7 @@ public class CardMilitariesGalleryController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardMilitary.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardMilitary.Rare));
             rareText.text = cardMilitary.Rare;
 
             RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

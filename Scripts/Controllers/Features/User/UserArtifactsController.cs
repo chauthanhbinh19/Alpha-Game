@@ -62,7 +62,7 @@ public class UserArtifactsController : MonoBehaviour
             titleText.text = artifact.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artifact.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(artifact.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -74,7 +74,7 @@ public class UserArtifactsController : MonoBehaviour
             backgroundImage.texture = bgTexture;
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(artifact.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(artifact.Rare));
             rareText.text = artifact.Rare;
 
             Button button = transform.GetComponent<Button>();
@@ -146,7 +146,7 @@ public class UserArtifactsController : MonoBehaviour
         if (obj is Artifacts artifact)
         {
             RawImage image = transform.Find("DictionaryArtifacts/ArtifactImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artifact.Image); // Lấy giá trị của image từ đối tượng Artifact
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(artifact.Image); // Lấy giá trị của image từ đối tượng Artifact
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
@@ -155,7 +155,7 @@ public class UserArtifactsController : MonoBehaviour
             nameText.text = artifact.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryArtifacts/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(artifact.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(artifact.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryArtifacts/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -282,7 +282,7 @@ public class UserArtifactsController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -293,7 +293,7 @@ public class UserArtifactsController : MonoBehaviour
             Transform artifactTransform = artifactObject.transform;
 
             RawImage artifactImage = artifactTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(artifact.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(artifact.Image);
             Texture artifactTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             artifactImage.texture = artifactTexture;
 

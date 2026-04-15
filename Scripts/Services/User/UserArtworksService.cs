@@ -79,7 +79,7 @@ public class UserArtworksService : IUserArtworksService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        artwork.Power = EvaluatePower.CalculatePower(
+        artwork.Power = PowerHelper.CalculatePower(
             artwork.Health,
             artwork.PhysicalAttack, artwork.PhysicalDefense,
             artwork.MagicalAttack, artwork.MagicalDefense,
@@ -162,7 +162,7 @@ public class UserArtworksService : IUserArtworksService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        artwork.Power = EvaluatePower.CalculatePower(
+        artwork.Power = PowerHelper.CalculatePower(
             artwork.Health,
             artwork.PhysicalAttack, artwork.PhysicalDefense,
             artwork.MagicalAttack, artwork.MagicalDefense,
@@ -191,7 +191,7 @@ public class UserArtworksService : IUserArtworksService
     public async Task<List<Artworks>> GetUserArtworksAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Artworks> list = await _userArtworksRepository.GetUserArtworksAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

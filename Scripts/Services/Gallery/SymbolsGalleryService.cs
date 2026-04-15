@@ -23,7 +23,7 @@ public class SymbolsGalleryService : ISymbolsGalleryService
     public async Task<List<Symbols>> GetSymbolsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Symbols> list = await _symbolsGalleryRepository.GetSymbolsCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

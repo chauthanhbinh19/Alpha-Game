@@ -59,7 +59,7 @@ public class UserCardLivesController : MonoBehaviour
             titleText.text = cardLife.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardLife.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardLife.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -73,10 +73,10 @@ public class UserCardLivesController : MonoBehaviour
             typePanel.text = cardLife.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardLife.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardLife.Rare));
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardLife.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardLife.Rare));
             rareText.text = cardLife.Rare;
 
             Button button = transform.GetComponent<Button>();
@@ -149,7 +149,7 @@ public class UserCardLivesController : MonoBehaviour
         if (obj is CardLives cardLife)
         {
             RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardLife.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardLife.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             ImageManager.Instance.ChangeSizeImage(image, texture);
@@ -158,7 +158,7 @@ public class UserCardLivesController : MonoBehaviour
             nameText.text = cardLife.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(cardLife.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(cardLife.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -285,7 +285,7 @@ public class UserCardLivesController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -296,7 +296,7 @@ public class UserCardLivesController : MonoBehaviour
             Transform cardLifeTransform = cardLifeObject.transform;
 
             RawImage cardLifeImage = cardLifeTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardLife.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardLife.Image);
             Texture cardLifeTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             cardLifeImage.texture = cardLifeTexture;
 

@@ -78,7 +78,7 @@ public class UserCardLivesService : IUserCardLivesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardLife.Power = EvaluatePower.CalculatePower(
+        cardLife.Power = PowerHelper.CalculatePower(
             cardLife.Health,
             cardLife.PhysicalAttack, cardLife.PhysicalDefense,
             cardLife.MagicalAttack, cardLife.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserCardLivesService : IUserCardLivesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        cardLife.Power = EvaluatePower.CalculatePower(
+        cardLife.Power = PowerHelper.CalculatePower(
             cardLife.Health,
             cardLife.PhysicalAttack, cardLife.PhysicalDefense,
             cardLife.MagicalAttack, cardLife.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserCardLivesService : IUserCardLivesService
     public async Task<List<CardLives>> GetUserCardLivesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<CardLives> list = await _userCardLivesRepository.GetUserCardLivesAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

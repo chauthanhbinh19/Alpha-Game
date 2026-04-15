@@ -23,7 +23,7 @@ public class MedalsService : IMedalsService
     public async Task<List<Medals>> GetMedalsAsync(string search, string rare, int pageSize, int offset)
     {
         List<Medals> list = await _medalsRepository.GetMedalsAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class MedalsService : IMedalsService
     public async Task<List<Medals>> GetMedalsWithPriceAsync(int pageSize, int offset)
     {
         List<Medals> list = await _medalsRepository.GetMedalsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

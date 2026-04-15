@@ -23,7 +23,7 @@ public class PlantsGalleryService : IPlantsGalleryService
     public async Task<List<Plants>> GetPlantsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Plants> list = await _plantsGalleryRepository.GetPlantsCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

@@ -78,7 +78,7 @@ public class UserArtifactsService : IUserArtifactsService
             SkillDamageRate = c.SkillDamageRate + orginArtifact.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginArtifact.SkillResistanceRate * coefficient
         };
-        artifact.Power = EvaluatePower.CalculatePower(
+        artifact.Power = PowerHelper.CalculatePower(
             artifact.Health,
             artifact.PhysicalAttack, artifact.PhysicalDefense,
             artifact.MagicalAttack, artifact.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserArtifactsService : IUserArtifactsService
             SkillDamageRate = c.SkillDamageRate + orginArtifact.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginArtifact.SkillResistanceRate * coefficient
         };
-        artifact.Power = EvaluatePower.CalculatePower(
+        artifact.Power = PowerHelper.CalculatePower(
             artifact.Health,
             artifact.PhysicalAttack, artifact.PhysicalDefense,
             artifact.MagicalAttack, artifact.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserArtifactsService : IUserArtifactsService
     public async Task<List<Artifacts>> GetUserArtifactsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Artifacts> list = await _userArtifactsRepository.GetUserArtifactsAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

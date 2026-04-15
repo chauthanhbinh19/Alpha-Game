@@ -41,10 +41,10 @@ public class CurrenciesManager : MonoBehaviour
 
             TextMeshProUGUI titleText = currencyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             titleText.text = currency.Quantity.ToString();
-            titleText.text = NumberFormatter.FormatNumber(currency.Quantity, false);
+            titleText.text = NumberFormatterHelper.FormatNumber(currency.Quantity, false);
 
             RawImage image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(currency.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(currency.Image);
             Texture texutre = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texutre;
         }
@@ -62,10 +62,10 @@ public class CurrenciesManager : MonoBehaviour
             GameObject currencyObject = Instantiate(currencyPrefab, itemPanel);
 
             TextMeshProUGUI titleText = currencyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            titleText.text = NumberFormatter.FormatNumber(item.Quantity, false);
+            titleText.text = NumberFormatterHelper.FormatNumber(item.Quantity, false);
 
             RawImage image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
             Texture texutre = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texutre;
         }

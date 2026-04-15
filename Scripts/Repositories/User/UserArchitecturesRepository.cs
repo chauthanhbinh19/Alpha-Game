@@ -262,7 +262,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                             command.Parameters.AddWithValue("@level", 0);
                             command.Parameters.AddWithValue("@experiment", 0);
                             command.Parameters.AddWithValue("@star", 0);
-                            command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(architecture.Rare));
+                            command.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(architecture.Rare));
                             command.Parameters.AddWithValue("@block", false);
                             command.Parameters.AddWithValue("@quantity", architecture.Quantity);
                             command.Parameters.AddWithValue("@power", architecture.Power);

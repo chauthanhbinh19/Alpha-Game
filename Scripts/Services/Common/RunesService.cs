@@ -23,7 +23,7 @@ public class RunesService : IRunesService
     public async Task<List<Runes>> GetRunesAsync(string search, string rare, int pageSize, int offset)
     {
         List<Runes> list = await _runesRepository.GetRunesAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class RunesService : IRunesService
     public async Task<List<Runes>> GetRunesWithPriceAsync(int pageSize, int offset)
     {
         List<Runes> list = await _runesRepository.GetRunesWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

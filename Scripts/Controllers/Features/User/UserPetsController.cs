@@ -64,7 +64,7 @@ public class UserPetsController : MonoBehaviour
             titleText.text = pet.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(pet.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -97,7 +97,7 @@ public class UserPetsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(pet.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(pet.Rare));
             rareText.text = pet.Rare;
 
         }
@@ -169,7 +169,7 @@ public class UserPetsController : MonoBehaviour
         if (obj is Pets pet)
         {
             RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(pet.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
 
             ImageManager.Instance.ChangeSizeImage(image, texture, 700f);
@@ -179,7 +179,7 @@ public class UserPetsController : MonoBehaviour
             nameText.text = pet.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(pet.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(pet.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -307,7 +307,7 @@ public class UserPetsController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture itemTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = itemTexture;
 
@@ -318,7 +318,7 @@ public class UserPetsController : MonoBehaviour
             Transform petTransform = petObject.transform;
 
             RawImage petImage = petTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(pet.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(pet.Image);
             Texture petTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             petImage.texture = petTexture;
 

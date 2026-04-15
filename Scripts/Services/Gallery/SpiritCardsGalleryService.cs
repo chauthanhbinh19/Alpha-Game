@@ -23,7 +23,7 @@ public class SpiritCardsGalleryService : ISpiritCardsGalleryService
     public async Task<List<SpiritCards>> GetSpiritCardsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<SpiritCards> list = await _spiritCardsGalleryRepository.GetSpiritCardsCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

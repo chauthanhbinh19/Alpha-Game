@@ -23,7 +23,7 @@ public class MagicFormationCirclesGalleryService : IMagicFormationCirclesGallery
     public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<MagicFormationCircles> list = await _magicFormationCirclesRepository.GetMagicFormationCirclesCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

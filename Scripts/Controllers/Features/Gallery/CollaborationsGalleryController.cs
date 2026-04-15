@@ -55,7 +55,7 @@ public class CollaborationsGalleryController : MonoBehaviour
                 titleText.text = collaboration.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(collaboration.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(collaboration.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class CollaborationsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(collaboration.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(collaboration.Rare));
                 rareText.text = collaboration.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

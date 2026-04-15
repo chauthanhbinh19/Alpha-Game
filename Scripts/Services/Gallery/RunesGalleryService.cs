@@ -23,7 +23,7 @@ public class RunesGalleryService : IRunesGalleryService
     public async Task<List<Runes>> GetRunesCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Runes> list = await _runesGalleryRepository.GetRunesCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

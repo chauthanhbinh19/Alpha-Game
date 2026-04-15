@@ -23,7 +23,7 @@ public class WeaponsGalleryService : IWeaponsGalleryService
     public async Task<List<Weapons>> GetWeaponsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Weapons> list = await _weaponsGalleryRepository.GetWeaponsCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

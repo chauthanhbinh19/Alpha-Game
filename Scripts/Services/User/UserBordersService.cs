@@ -23,7 +23,7 @@ public class UserBordersService : IUserBordersService
     public async Task<List<Borders>> GetUserBordersAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Borders> list = await _userBordersRepository.GetUserBordersAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

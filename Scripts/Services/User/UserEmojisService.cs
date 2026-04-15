@@ -78,7 +78,7 @@ public class UserEmojisService : IUserEmojisService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        emoji.Power = EvaluatePower.CalculatePower(
+        emoji.Power = PowerHelper.CalculatePower(
             emoji.Health,
             emoji.PhysicalAttack, emoji.PhysicalDefense,
             emoji.MagicalAttack, emoji.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserEmojisService : IUserEmojisService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        emoji.Power = EvaluatePower.CalculatePower(
+        emoji.Power = PowerHelper.CalculatePower(
             emoji.Health,
             emoji.PhysicalAttack, emoji.PhysicalDefense,
             emoji.MagicalAttack, emoji.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserEmojisService : IUserEmojisService
     public async Task<List<Emojis>> GetUserEmojisAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Emojis> list = await _userEmojisRepository.GetUserEmojisAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

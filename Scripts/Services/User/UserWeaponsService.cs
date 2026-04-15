@@ -78,7 +78,7 @@ public class UserWeaponsService : IUserWeaponsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        weapon.Power = EvaluatePower.CalculatePower(
+        weapon.Power = PowerHelper.CalculatePower(
             weapon.Health,
             weapon.PhysicalAttack, weapon.PhysicalDefense,
             weapon.MagicalAttack, weapon.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserWeaponsService : IUserWeaponsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        weapon.Power = EvaluatePower.CalculatePower(
+        weapon.Power = PowerHelper.CalculatePower(
             weapon.Health,
             weapon.PhysicalAttack, weapon.PhysicalDefense,
             weapon.MagicalAttack, weapon.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserWeaponsService : IUserWeaponsService
     public async Task<List<Weapons>> GetUserWeaponsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Weapons> list = await _userWeaponsRepository.GetUserWeaponsAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

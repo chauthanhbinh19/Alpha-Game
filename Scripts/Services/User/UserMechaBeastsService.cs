@@ -78,7 +78,7 @@ public class UserMechaBeastsService : IUserMechaBeastsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        mechaBeast.Power = EvaluatePower.CalculatePower(
+        mechaBeast.Power = PowerHelper.CalculatePower(
             mechaBeast.Health,
             mechaBeast.PhysicalAttack, mechaBeast.PhysicalDefense,
             mechaBeast.MagicalAttack, mechaBeast.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserMechaBeastsService : IUserMechaBeastsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        mechaBeast.Power = EvaluatePower.CalculatePower(
+        mechaBeast.Power = PowerHelper.CalculatePower(
             mechaBeast.Health,
             mechaBeast.PhysicalAttack, mechaBeast.PhysicalDefense,
             mechaBeast.MagicalAttack, mechaBeast.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserMechaBeastsService : IUserMechaBeastsService
     public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<MechaBeasts> list = await _userMechaBeastsRepository.GetUserMechaBeastsAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

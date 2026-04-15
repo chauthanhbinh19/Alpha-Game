@@ -23,7 +23,7 @@ public class CoresGalleryService : ICoresGalleryService
     public async Task<List<Cores>> GetCoresCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Cores> list = await _coresGalleryRepository.GetCoresCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

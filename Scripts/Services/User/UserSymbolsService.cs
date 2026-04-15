@@ -78,7 +78,7 @@ public class UserSymbolsService : IUserSymbolsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        symbol.Power = EvaluatePower.CalculatePower(
+        symbol.Power = PowerHelper.CalculatePower(
             symbol.Health,
             symbol.PhysicalAttack, symbol.PhysicalDefense,
             symbol.MagicalAttack, symbol.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserSymbolsService : IUserSymbolsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        symbol.Power = EvaluatePower.CalculatePower(
+        symbol.Power = PowerHelper.CalculatePower(
             symbol.Health,
             symbol.PhysicalAttack, symbol.PhysicalDefense,
             symbol.MagicalAttack, symbol.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserSymbolsService : IUserSymbolsService
     public async Task<List<Symbols>> GetUserSymbolsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Symbols> list = await _userSymbolsRepository.GetUserSymbolsAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

@@ -547,7 +547,7 @@ public class UserBooksRepository : IUserBooksRepository
                             command.Parameters.AddWithValue("@level", 0);
                             command.Parameters.AddWithValue("@experiment", 0);
                             command.Parameters.AddWithValue("@star", 0);
-                            command.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(book.Rare));
+                            command.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(book.Rare));
                             command.Parameters.AddWithValue("@block", false);
                             command.Parameters.AddWithValue("@quantity", book.Quantity);
 

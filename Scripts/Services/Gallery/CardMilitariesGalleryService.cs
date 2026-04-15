@@ -23,7 +23,7 @@ public class CardMilitariesGalleryService : ICardMilitariesGallerService
     public async Task<List<CardMilitaries>> GetCardMilitariesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<CardMilitaries> list = await _cardMilitariesGalleryRepository.GetCardMilitariesCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

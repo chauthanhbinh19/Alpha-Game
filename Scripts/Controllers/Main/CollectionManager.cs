@@ -288,7 +288,7 @@ public class CollectionManager : MonoBehaviour
             _ = LoadCurrentPageAsync();
         });
 
-        List<string> uniqueRaries = QualityEvaluator.rarities;
+        List<string> uniqueRaries = QualityEvaluatorHelper.rarities;
         if (uniqueRaries.Count > 0)
         {
             rareDropdown.ClearOptions();

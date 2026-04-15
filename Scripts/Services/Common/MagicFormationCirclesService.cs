@@ -28,7 +28,7 @@ public class MagicFormationCirclesService : IMagicFormationCirclesService
     public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<MagicFormationCircles> list = await _magicFormationCirclesRepository.GetMagicFormationCirclesAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -40,7 +40,7 @@ public class MagicFormationCirclesService : IMagicFormationCirclesService
     public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesWithPriceAsync(string type, int pageSize, int offset)
     {
         List<MagicFormationCircles> list = await _magicFormationCirclesRepository.GetMagicFormationCirclesWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

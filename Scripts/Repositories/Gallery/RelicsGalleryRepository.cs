@@ -225,7 +225,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
     }
     public async Task InsertRelicGalleryAsync(string Id, Relics relicFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(relicFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(relicFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

@@ -78,7 +78,7 @@ public class UserCoresService : IUserCoresService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        core.Power = EvaluatePower.CalculatePower(
+        core.Power = PowerHelper.CalculatePower(
             core.Health,
             core.PhysicalAttack, core.PhysicalDefense,
             core.MagicalAttack, core.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserCoresService : IUserCoresService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        core.Power = EvaluatePower.CalculatePower(
+        core.Power = PowerHelper.CalculatePower(
             core.Health,
             core.PhysicalAttack, core.PhysicalDefense,
             core.MagicalAttack, core.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserCoresService : IUserCoresService
     public async Task<List<Cores>> GetUserCoresAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Cores> list = await _userCoresRepository.GetUserCoresAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

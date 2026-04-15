@@ -23,7 +23,7 @@ public class FoodsService : IFoodsService
     public async Task<List<Foods>> GetFoodsAsync(string search, string rare, int pageSize, int offset)
     {
         List<Foods> list = await _foodsRepository.GetFoodsAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class FoodsService : IFoodsService
     public async Task<List<Foods>> GetFoodsWithPriceAsync(int pageSize, int offset)
     {
         List<Foods> list = await _foodsRepository.GetFoodsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

@@ -225,7 +225,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
     }
     public async Task InsertMagicFormationCircleGalleryAsync(string Id, MagicFormationCircles magicFormationCircleFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(magicFormationCircleFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(magicFormationCircleFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

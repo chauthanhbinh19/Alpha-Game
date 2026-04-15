@@ -23,7 +23,7 @@ public class RobotsGalleryService : IRobotsGalleryService
     public async Task<List<Robots>> GetRobotsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Robots> list = await _robotsGalleryRepository.GetRobotsCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

@@ -23,7 +23,7 @@ public class BadgesService : IBadgesService
     public async Task<List<Badges>> GetBadgesAsync(string search, string rare, int pageSize, int offset)
     {
         List<Badges> list = await _badgesRepository.GetBadgesAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class BadgesService : IBadgesService
     public async Task<List<Badges>> GetBadgesWithPriceAsync(int pageSize, int offset)
     {
         List<Badges> list = await _badgesRepository.GetBadgesWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

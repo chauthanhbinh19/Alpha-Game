@@ -67,7 +67,7 @@ public class TrainsController : MonoBehaviour
             titleText.text = train.Name.Replace("_", " ");
 
             RawImage image = trainObject.transform.Find("MainImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(train.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(train.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 

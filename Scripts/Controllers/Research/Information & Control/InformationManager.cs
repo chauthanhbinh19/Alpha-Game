@@ -330,7 +330,7 @@ public class InformationManager : MonoBehaviour
             ownedText.color = Color.green;
 
         // Load icon nếu có
-        Texture texture = TextureHelper.LoadTexture2DCached(ImageExtensionHandler.RemoveImageExtension(data.ItemImage));
+        Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(data.ItemImage));
         if (texture != null)
             image.texture = texture;
     }

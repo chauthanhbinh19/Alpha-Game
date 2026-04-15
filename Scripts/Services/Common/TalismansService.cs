@@ -23,7 +23,7 @@ public class TalismansService : ITalismansService
     public async Task<List<Talismans>> GetTalismansAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Talismans> list = await _talismansRepository.GetTalismansAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class TalismansService : ITalismansService
     public async Task<List<Talismans>> GetTalismansWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Talismans> list = await _talismansRepository.GetTalismansWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

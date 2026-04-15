@@ -253,7 +253,7 @@ public class CardSpellsGalleryRepository : ICardSpellsGalleryRepository
     }
     public async Task InsertCardSpellGalleryAsync(string Id, CardSpells cardSpellFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(cardSpellFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(cardSpellFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

@@ -240,7 +240,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, animeStats.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, animeStats.Level, false, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -262,7 +262,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, animeStats.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, animeStats.Level, true, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -347,13 +347,13 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         GameObject itemObject = UIManager.Instance.Get("ItemPrefab");
         GameObject tempObject = Instantiate(itemObject, currencyPanel);
         RawImage image = tempObject.transform.Find("Image").GetComponent<RawImage>();
-        image.texture =TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(itemImage));
+        image.texture =TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(itemImage));
         TextMeshProUGUI quantityText = tempObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-        quantityText.text = NumberFormatter.FormatNumber(itemQuantity, true);
+        quantityText.text = NumberFormatterHelper.FormatNumber(itemQuantity, true);
         // CurrenciesManager.Instance.GetMainCurrency(currencies, currencyPanel);
 
-        var oneResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, false, MAX_LEVEL);
-        var maxResult = EvaluateItem.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, true, MAX_LEVEL);
+        var oneResult = ItemHelper.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, false, MAX_LEVEL);
+        var maxResult = ItemHelper.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, true, MAX_LEVEL);
         RawImage oneLevelCurrencyImage = gameObject.transform.Find("DictionaryCards/OneLevelCurrency/CurrencyImage").GetComponent<RawImage>();
         RawImage maxLevelCurrencyImage = gameObject.transform.Find("DictionaryCards/MaxLevelCurrency/CurrencyImage").GetComponent<RawImage>();
         Texture oneLevelCurrencyTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Currency.SILVER}");
@@ -367,7 +367,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         maxLevelCurrencyText.text = maxResult.totalCurrencyUsed.ToString();
 
         RawImage oneLevelImage = gameObject.transform.Find("DictionaryCards/OneLevelMaterial/MaterialImage").GetComponent<RawImage>();
-        Texture oneLevelTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
+        Texture oneLevelTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(itemImage)}");
         oneLevelImage.texture = oneLevelTexture;
 
         TextMeshProUGUI oneLevelQuantity = gameObject.transform.Find("DictionaryCards/OneLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();
@@ -377,7 +377,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         // oneLevelRectTransform.sizeDelta = new Vector2(40, 40);
 
         RawImage maxLevelImage = gameObject.transform.Find("DictionaryCards/MaxLevelMaterial/MaterialImage").GetComponent<RawImage>();
-        Texture maxLevelTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(itemImage)}");
+        Texture maxLevelTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(itemImage)}");
         maxLevelImage.texture = maxLevelTexture;
 
         TextMeshProUGUI maxLevelQuantity = gameObject.transform.Find("DictionaryCards/MaxLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();

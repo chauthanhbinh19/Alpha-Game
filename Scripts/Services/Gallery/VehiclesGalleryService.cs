@@ -23,7 +23,7 @@ public class VehiclesGalleryService : IVehiclesGalleryService
     public async Task<List<Vehicles>> GetVehiclesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Vehicles> list = await _vehiclesGalleryRepository.GetVehiclesCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

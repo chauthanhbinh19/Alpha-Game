@@ -55,7 +55,7 @@ public class BeveragesGalleryController : MonoBehaviour
                 titleText.text = beverage.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(beverage.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(beverage.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class BeveragesGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(beverage.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(beverage.Rare));
                 rareText.text = beverage.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

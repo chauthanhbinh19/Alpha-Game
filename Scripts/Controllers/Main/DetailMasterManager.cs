@@ -66,7 +66,7 @@ public class DetailMasterManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -90,7 +90,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -143,7 +143,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -166,7 +166,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -219,7 +219,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -242,7 +242,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -295,7 +295,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -318,7 +318,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -371,7 +371,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -394,7 +394,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -447,7 +447,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -470,7 +470,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -523,7 +523,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -546,7 +546,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -599,7 +599,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -622,7 +622,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -675,7 +675,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -698,7 +698,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -751,7 +751,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, false, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;
@@ -774,7 +774,7 @@ public class DetailMasterManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, master.Level, true, MAX_LEVEL);
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
                 item.Quantity = result.totalMaterialUsed;

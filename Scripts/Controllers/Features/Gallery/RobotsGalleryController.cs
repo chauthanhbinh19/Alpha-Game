@@ -55,7 +55,7 @@ public class RobotsGalleryController : MonoBehaviour
                 titleText.text = robot.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(robot.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(robot.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class RobotsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(robot.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(robot.Rare));
                 rareText.text = robot.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

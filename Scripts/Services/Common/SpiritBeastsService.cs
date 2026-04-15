@@ -23,7 +23,7 @@ public class SpiritBeastsService : ISpiritBeastsService
     public async Task<List<SpiritBeasts>> GetSpiritBeastsAsync(string search, string rare, int pageSize, int offset)
     {
         List<SpiritBeasts> list = await _spiritBeastsRepository.GetSpiritBeastsAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class SpiritBeastsService : ISpiritBeastsService
     public async Task<List<SpiritBeasts>> GetSpiritBeastsWithPriceAsync(int pageSize, int offset)
     {
         List<SpiritBeasts> list = await _spiritBeastsRepository.GetSpiritBeastsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

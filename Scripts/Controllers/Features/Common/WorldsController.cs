@@ -67,7 +67,7 @@ public class WorldsController : MonoBehaviour
             titleText.text = world.Name.Replace("_", " ");
 
             RawImage image = worldObject.transform.Find("MainImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(world.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(world.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 

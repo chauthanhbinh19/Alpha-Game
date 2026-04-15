@@ -55,7 +55,7 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
                 titleText.text = magicFormationCircle.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(magicFormationCircle.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(magicFormationCircle.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -91,7 +91,7 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(magicFormationCircle.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(magicFormationCircle.Rare));
                 rareText.text = magicFormationCircle.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

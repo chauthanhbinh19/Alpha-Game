@@ -28,7 +28,7 @@ public class SkillsService : ISkillsService
     public async Task<List<Skills>> GetSkillsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Skills> list = await _skillsRepository.GetSkillsAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -40,7 +40,7 @@ public class SkillsService : ISkillsService
     public async Task<List<Skills>> GetSkillsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Skills> list = await _skillsRepository.GetSkillsWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

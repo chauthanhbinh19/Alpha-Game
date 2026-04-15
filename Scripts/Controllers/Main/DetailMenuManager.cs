@@ -66,7 +66,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -89,7 +89,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -142,7 +142,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -165,7 +165,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -218,7 +218,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -241,7 +241,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -294,7 +294,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -317,7 +317,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -370,7 +370,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -393,7 +393,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -444,7 +444,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -467,7 +467,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -518,7 +518,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -541,7 +541,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -594,7 +594,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -617,7 +617,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -670,7 +670,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -693,7 +693,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -746,7 +746,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -769,7 +769,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -822,7 +822,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -845,7 +845,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = EvaluateItem.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {

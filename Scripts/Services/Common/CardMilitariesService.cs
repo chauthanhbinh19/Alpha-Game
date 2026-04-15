@@ -28,7 +28,7 @@ public class CardMilitariesService : ICardMilitariesService
     public async Task<List<CardMilitaries>> GetCardMilitariesAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<CardMilitaries> list = await _cardMilitariesRepository.GetCardMilitariesAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -55,7 +55,7 @@ public class CardMilitariesService : ICardMilitariesService
     public async Task<List<CardMilitaries>> GetCardMilitariesWithPriceAsync(string type, int pageSize, int offset)
     {
         List<CardMilitaries> list = await _cardMilitariesRepository.GetCardMilitariesWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

@@ -78,7 +78,7 @@ public class UserSkillsService : IUserSkillsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        skill.Power = EvaluatePower.CalculatePower(
+        skill.Power = PowerHelper.CalculatePower(
             skill.Health,
             skill.PhysicalAttack, skill.PhysicalDefense,
             skill.MagicalAttack, skill.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserSkillsService : IUserSkillsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        skill.Power = EvaluatePower.CalculatePower(
+        skill.Power = PowerHelper.CalculatePower(
             skill.Health,
             skill.PhysicalAttack, skill.PhysicalDefense,
             skill.MagicalAttack, skill.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserSkillsService : IUserSkillsService
     public async Task<List<Skills>> GetUserSkillsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Skills> list = await _userSkillsRepository.GetUserSkillsAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

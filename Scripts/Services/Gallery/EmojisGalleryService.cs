@@ -23,7 +23,7 @@ public class EmojisGalleryService : IEmojisGalleryService
     public async Task<List<Emojis>> GetEmojisCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Emojis> list = await _coresGalleryRepository.GetEmojisCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

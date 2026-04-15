@@ -23,7 +23,7 @@ public class AvatarsService : IAvatarsService
     public async Task<List<Avatars>> GetAvatarsAsync(string search, string rare, int pageSize, int offset)
     {
         List<Avatars> list = await _avatarsRepository.GetAvatarsAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class AvatarsService : IAvatarsService
     public async Task<List<Avatars>> GetAvatarsWithPriceAsync(int pageSize, int offset)
     {
         List<Avatars> list = await _avatarsRepository.GetAvatarsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

@@ -28,7 +28,7 @@ public class CardColonelsService : ICardColonelsService
     public async Task<List<CardColonels>> GetCardColonelsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<CardColonels> list = await _cardColonelsRepository.GetCardColonelsAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -55,7 +55,7 @@ public class CardColonelsService : ICardColonelsService
     public async Task<List<CardColonels>> GetCardColonelsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<CardColonels> list = await _cardColonelsRepository.GetCardColonelsWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

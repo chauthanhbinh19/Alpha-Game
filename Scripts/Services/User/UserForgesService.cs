@@ -78,7 +78,7 @@ public class UserForgesService : IUserForgesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        forge.Power = EvaluatePower.CalculatePower(
+        forge.Power = PowerHelper.CalculatePower(
             forge.Health,
             forge.PhysicalAttack, forge.PhysicalDefense,
             forge.MagicalAttack, forge.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserForgesService : IUserForgesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        forge.Power = EvaluatePower.CalculatePower(
+        forge.Power = PowerHelper.CalculatePower(
             forge.Health,
             forge.PhysicalAttack, forge.PhysicalDefense,
             forge.MagicalAttack, forge.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserForgesService : IUserForgesService
     public async Task<List<Forges>> GetUserForgesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Forges> list = await _userForgesRepository.GetUserForgesAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

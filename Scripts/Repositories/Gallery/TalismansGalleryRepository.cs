@@ -225,7 +225,7 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
     }
     public async Task InsertTalismanGalleryAsync(string Id, Talismans talismanFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(talismanFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(talismanFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

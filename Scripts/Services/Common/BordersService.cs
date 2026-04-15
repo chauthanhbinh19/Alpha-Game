@@ -23,7 +23,7 @@ public class BordersService : IBordersService
     public async Task<List<Borders>> GetBordersAsync(string search, string rare, int pageSize, int offset)
     {
         List<Borders> list = await _bordersRepository.GetBordersAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class BordersService : IBordersService
     public async Task<List<Borders>> GetBordersWithPriceAsync(int pageSize, int offset)
     {
         List<Borders> list = await _bordersRepository.GetBordersWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

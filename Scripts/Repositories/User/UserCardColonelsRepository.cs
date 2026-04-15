@@ -877,7 +877,7 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
                 insertCommand.Parameters.AddWithValue("@level", 0);
                 insertCommand.Parameters.AddWithValue("@experiment", 0);
                 insertCommand.Parameters.AddWithValue("@star", 0);
-                insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(cardColonel.Rare));
+                insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(cardColonel.Rare));
                 insertCommand.Parameters.AddWithValue("@block", false);
                 insertCommand.Parameters.AddWithValue("@quantity", cardColonel.Quantity);
                 insertCommand.Parameters.AddWithValue("@power", cardColonel.Power);

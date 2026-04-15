@@ -78,7 +78,7 @@ public class UserBadgesService : IUserBadgesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        badge.Power = EvaluatePower.CalculatePower(
+        badge.Power = PowerHelper.CalculatePower(
             badge.Health,
             badge.PhysicalAttack, badge.PhysicalDefense,
             badge.MagicalAttack, badge.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserBadgesService : IUserBadgesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        badge.Power = EvaluatePower.CalculatePower(
+        badge.Power = PowerHelper.CalculatePower(
             badge.Health,
             badge.PhysicalAttack, badge.PhysicalDefense,
             badge.MagicalAttack, badge.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserBadgesService : IUserBadgesService
     public async Task<List<Badges>> GetUserBadgesAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Badges> list = await _userBadgesRepository.GetUserBadgesAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

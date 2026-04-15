@@ -23,7 +23,7 @@ public class FashionsGalleryService : IFashionsGalleryService
     public async Task<List<Fashions>> GetFashionsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Fashions> list = await _fashionsGalleryRepository.GetFashionsCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

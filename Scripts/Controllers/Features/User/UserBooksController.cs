@@ -64,7 +64,7 @@ public class UserBooksController : MonoBehaviour
             titleText.text = book.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(book.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -90,7 +90,7 @@ public class UserBooksController : MonoBehaviour
             backgroundImage.texture = bgTexture;
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(book.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(book.Rare));
             rareText.text = book.Rare;
 
             Button button = transform.GetComponent<Button>();
@@ -115,7 +115,7 @@ public class UserBooksController : MonoBehaviour
             Transform transform = bookObject.transform;
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(book.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
             image.SetNativeSize();
@@ -219,7 +219,7 @@ public class UserBooksController : MonoBehaviour
         if (obj is Books book)
         {
             RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image); // Lấy giá trị của image từ đối tượng Card
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(book.Image); // Lấy giá trị của image từ đối tượng Card
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
 
             ImageManager.Instance.ChangeSizeImage(image, texture, 700f);
@@ -229,7 +229,7 @@ public class UserBooksController : MonoBehaviour
             nameText.text = book.Name;
 
             TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = NumberFormatter.FormatNumber(book.Power, false);
+            powerText.text = NumberFormatterHelper.FormatNumber(book.Power, false);
 
             // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
             // level.text = cardHeroes.level.ToString();
@@ -357,7 +357,7 @@ public class UserBooksController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
@@ -368,7 +368,7 @@ public class UserBooksController : MonoBehaviour
             Transform bookTransform = bookObject.transform;
 
             RawImage bookImage = bookTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(book.Image);
             Texture bookTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             bookImage.texture = bookTexture;
 

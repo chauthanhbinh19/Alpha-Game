@@ -55,7 +55,7 @@ public class TalismansGalleryController : MonoBehaviour
                 titleText.text = talisman.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(talisman.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(talisman.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -91,7 +91,7 @@ public class TalismansGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(talisman.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(talisman.Rare));
                 rareText.text = talisman.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

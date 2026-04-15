@@ -23,7 +23,7 @@ public class CollaborationsGalleryService : ICollaborationsGalleryService
     public async Task<List<Collaborations>> GetCollaborationsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Collaborations> list = await _collaborationsGalleryRepository.GetCollaborationsCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

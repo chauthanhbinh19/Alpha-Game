@@ -225,7 +225,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
     }
     public async Task InsertBuildingGalleryAsync(string Id, Buildings buildingFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(buildingFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(buildingFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

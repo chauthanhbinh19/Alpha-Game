@@ -29,7 +29,7 @@ public class CollaborationEquipmentsService : ICollaborationEquipmentsService
     public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<CollaborationEquipments> list = await _collaborationEquipmentsRepository.GetCollaborationEquipmentsAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -41,7 +41,7 @@ public class CollaborationEquipmentsService : ICollaborationEquipmentsService
     public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<CollaborationEquipments> list = await _collaborationEquipmentsRepository.GetCollaborationEquipmentsWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

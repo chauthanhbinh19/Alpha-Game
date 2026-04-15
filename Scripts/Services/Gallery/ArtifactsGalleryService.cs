@@ -23,7 +23,7 @@ public class ArtifactsGalleryService : IArtifactsGalleryService
     public async Task<List<Artifacts>> GetArtifactsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Artifacts> list = await _ArtifactsGalleryRepository.GetArtifactsCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

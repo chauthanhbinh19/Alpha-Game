@@ -28,7 +28,7 @@ public class PuppetsService : IPuppetsService
     public async Task<List<Puppets>> GetPuppetsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Puppets> list = await _puppetsRepository.GetPuppetsAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -40,7 +40,7 @@ public class PuppetsService : IPuppetsService
     public async Task<List<Puppets>> GetPuppetsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Puppets> list = await _puppetsRepository.GetPuppetsWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

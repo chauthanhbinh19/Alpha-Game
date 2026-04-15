@@ -78,7 +78,7 @@ public class UserFurnituresService : IUserFurnituresService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        furniture.Power = EvaluatePower.CalculatePower(
+        furniture.Power = PowerHelper.CalculatePower(
             furniture.Health,
             furniture.PhysicalAttack, furniture.PhysicalDefense,
             furniture.MagicalAttack, furniture.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserFurnituresService : IUserFurnituresService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        furniture.Power = EvaluatePower.CalculatePower(
+        furniture.Power = PowerHelper.CalculatePower(
             furniture.Health,
             furniture.PhysicalAttack, furniture.PhysicalDefense,
             furniture.MagicalAttack, furniture.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserFurnituresService : IUserFurnituresService
     public async Task<List<Furnitures>> GetUserFurnituresAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Furnitures> list = await _userFurnituresRepository.GetUserFurnituresAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

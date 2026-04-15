@@ -78,7 +78,7 @@ public class UserPuppetsService : IUserPuppetsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        puppet.Power = EvaluatePower.CalculatePower(
+        puppet.Power = PowerHelper.CalculatePower(
             puppet.Health,
             puppet.PhysicalAttack, puppet.PhysicalDefense,
             puppet.MagicalAttack, puppet.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserPuppetsService : IUserPuppetsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        puppet.Power = EvaluatePower.CalculatePower(
+        puppet.Power = PowerHelper.CalculatePower(
             puppet.Health,
             puppet.PhysicalAttack, puppet.PhysicalDefense,
             puppet.MagicalAttack, puppet.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserPuppetsService : IUserPuppetsService
     public async Task<List<Puppets>> GetUserPuppetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Puppets> list = await _userPuppetsRepository.GetUserPuppetsAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

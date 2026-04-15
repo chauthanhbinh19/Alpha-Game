@@ -23,7 +23,7 @@ public class TrainsService : ITrainsService
     public async Task<List<Trains>> GetTrainsAsync(string userId, int pageSize, int offset)
     {
         List<Trains> list = await _trainsRepository.GetTrainsAsync(userId, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class TrainsService : ITrainsService
     public async Task<List<Trains>> GetTrainsWithPriceAsync(int pageSize, int offset)
     {
         List<Trains> list = await _trainsRepository.GetTrainsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

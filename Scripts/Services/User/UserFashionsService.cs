@@ -78,7 +78,7 @@ public class UserFashionsService : IUserFashionsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        fashion.Power = EvaluatePower.CalculatePower(
+        fashion.Power = PowerHelper.CalculatePower(
             fashion.Health,
             fashion.PhysicalAttack, fashion.PhysicalDefense,
             fashion.MagicalAttack, fashion.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserFashionsService : IUserFashionsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        fashion.Power = EvaluatePower.CalculatePower(
+        fashion.Power = PowerHelper.CalculatePower(
             fashion.Health,
             fashion.PhysicalAttack, fashion.PhysicalDefense,
             fashion.MagicalAttack, fashion.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserFashionsService : IUserFashionsService
     public async Task<List<Fashions>> GetUserFashionsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Fashions> list = await _userFashionsRepository.GetUserFashionsAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

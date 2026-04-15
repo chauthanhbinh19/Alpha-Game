@@ -78,7 +78,7 @@ public class UserTitlesService : IUserTitlesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        title.Power = EvaluatePower.CalculatePower(
+        title.Power = PowerHelper.CalculatePower(
             title.Health,
             title.PhysicalAttack, title.PhysicalDefense,
             title.MagicalAttack, title.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserTitlesService : IUserTitlesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        title.Power = EvaluatePower.CalculatePower(
+        title.Power = PowerHelper.CalculatePower(
             title.Health,
             title.PhysicalAttack, title.PhysicalDefense,
             title.MagicalAttack, title.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserTitlesService : IUserTitlesService
     public async Task<List<Titles>> GetUserTitlesAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Titles> list = await _userTitlesRepository.GetUserTitlesAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

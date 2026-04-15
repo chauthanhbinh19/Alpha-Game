@@ -78,7 +78,7 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        collaborationEquipment.Power = EvaluatePower.CalculatePower(
+        collaborationEquipment.Power = PowerHelper.CalculatePower(
             collaborationEquipment.Health,
             collaborationEquipment.PhysicalAttack, collaborationEquipment.PhysicalDefense,
             collaborationEquipment.MagicalAttack, collaborationEquipment.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        collaborationEquipment.Power = EvaluatePower.CalculatePower(
+        collaborationEquipment.Power = PowerHelper.CalculatePower(
             collaborationEquipment.Health,
             collaborationEquipment.PhysicalAttack, collaborationEquipment.PhysicalDefense,
             collaborationEquipment.MagicalAttack, collaborationEquipment.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
     public async Task<List<CollaborationEquipments>> GetUserCollaborationEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<CollaborationEquipments> list = await _userCollaborationEquipmentsRepository.GetUserCollaborationEquipmentsAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

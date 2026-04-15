@@ -258,7 +258,7 @@ public class GachaSystem : MonoBehaviour
 
     private void ShowFullCard(RawImage cardImage, string frontPath)
     {
-        string file = ImageExtensionHandler.RemoveImageExtension(frontPath);
+        string file = ImageHelper.RemoveImageExtension(frontPath);
         Texture tex = TextureHelper.LoadTextureCached(file);
 
         if (tex != null)

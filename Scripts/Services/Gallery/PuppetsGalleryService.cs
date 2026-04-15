@@ -23,7 +23,7 @@ public class PuppetsGalleryService : IPuppetsGalleryService
     public async Task<List<Puppets>> GetPuppetsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Puppets> list = await _puppetsGalleryRepository.GetPuppetsCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

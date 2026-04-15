@@ -23,7 +23,7 @@ public class CitiesService : ICitiesService
     public async Task<List<Cities>> GetCitiesAsync(string userId, int pageSize, int offset)
     {
         List<Cities> list = await _citiesRepository.GetCitiesAsync(userId, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class CitiesService : ICitiesService
     public async Task<List<Cities>> GetCitiesWithPriceAsync(int pageSize, int offset)
     {
         List<Cities> list = await _citiesRepository.GetCitiesWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

@@ -67,7 +67,7 @@ public class CitiesController : MonoBehaviour
             titleText.text = city.Name.Replace("_", " ");
 
             RawImage image = cityObject.transform.Find("MainImage").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(city.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(city.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 

@@ -82,7 +82,7 @@ public class UserAchievementsService : IUserAchievementsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        achievement.Power = EvaluatePower.CalculatePower(
+        achievement.Power = PowerHelper.CalculatePower(
             achievement.Health,
             achievement.PhysicalAttack, achievement.PhysicalDefense,
             achievement.MagicalAttack, achievement.MagicalDefense,
@@ -165,7 +165,7 @@ public class UserAchievementsService : IUserAchievementsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        achievement.Power = EvaluatePower.CalculatePower(
+        achievement.Power = PowerHelper.CalculatePower(
             achievement.Health,
             achievement.PhysicalAttack, achievement.PhysicalDefense,
             achievement.MagicalAttack, achievement.MagicalDefense,
@@ -194,7 +194,7 @@ public class UserAchievementsService : IUserAchievementsService
     public async Task<List<Achievements>> GetUserAchievementsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
         List<Achievements> list = await _userAchievementsRepository.GetUserAchievementsAsync(user_id, search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

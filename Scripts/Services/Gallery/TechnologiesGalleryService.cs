@@ -23,7 +23,7 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
     public async Task<List<Technologies>> GetTechnologiesCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Technologies> list = await _TechnologiesGalleryRepository.GetTechnologiesCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

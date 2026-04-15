@@ -55,7 +55,7 @@ public class EmojisGalleryController : MonoBehaviour
                 titleText.text = emoji.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(emoji.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(emoji.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class EmojisGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(emoji.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(emoji.Rare));
                 rareText.text = emoji.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

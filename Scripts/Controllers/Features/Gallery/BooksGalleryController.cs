@@ -55,7 +55,7 @@ public class BooksGalleryController : MonoBehaviour
                 titleText.text = book.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(book.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(book.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class BooksGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(book.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(book.Rare));
                 rareText.text = book.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

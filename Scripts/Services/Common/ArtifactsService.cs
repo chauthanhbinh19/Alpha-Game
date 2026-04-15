@@ -23,7 +23,7 @@ public class ArtifactsService : IArtifactsService
     public async Task<List<Artifacts>> GetArtifactsAsync(string search, string rare, int pageSize, int offset)
     {
         List<Artifacts> list = await _cardsRepository.GetArtifactsAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class ArtifactsService : IArtifactsService
     public async Task<List<Artifacts>> GetArtifactsWithPriceAsync(int pageSize, int offset)
     {
         List<Artifacts> list = await _cardsRepository.GetArtifactsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

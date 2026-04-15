@@ -55,7 +55,7 @@ public class FashionsGalleryController : MonoBehaviour
                 titleText.text = fashion.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(fashion.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(fashion.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class FashionsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(fashion.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(fashion.Rare));
                 rareText.text = fashion.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

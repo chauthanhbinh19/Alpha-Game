@@ -23,7 +23,7 @@ public class CollaborationsService : ICollaborationsService
     public async Task<List<Collaborations>> GetCollaborationsAsync(string search, string rare, int pageSize, int offset)
     {
         List<Collaborations> list = await _collaborationsRepository.GetCollaborationsAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class CollaborationsService : ICollaborationsService
     public async Task<List<Collaborations>> GetCollaborationsWithPriceAsync(int pageSize, int offset)
     {
         List<Collaborations> list = await _collaborationsRepository.GetCollaborationsWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

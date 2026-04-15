@@ -89,7 +89,7 @@ public class UserCardGeneralsController : MonoBehaviour
             titleText.text = cardGeneral.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardGeneral.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -103,7 +103,7 @@ public class UserCardGeneralsController : MonoBehaviour
             typePanel.text = cardGeneral.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardGeneral.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardGeneral.Rare));
 
             Transform teamPanel = transform.Find("Team");
             if(cardGeneral.Team.TeamNumber != 0)
@@ -128,7 +128,7 @@ public class UserCardGeneralsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(cardGeneral.Rare));
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardGeneral.Rare));
             rareText.text = cardGeneral.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -147,7 +147,7 @@ public class UserCardGeneralsController : MonoBehaviour
             Transform transform = cardGeneralObject.transform;
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(general.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(general.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -239,7 +239,7 @@ public class UserCardGeneralsController : MonoBehaviour
     {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardGeneral.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         image.texture = texture;
 
@@ -247,7 +247,7 @@ public class UserCardGeneralsController : MonoBehaviour
         nameText.text = cardGeneral.Name;
 
         TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        powerText.text = NumberFormatter.FormatNumber(cardGeneral.Power, false);
+        powerText.text = NumberFormatterHelper.FormatNumber(cardGeneral.Power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardGenerals.level.ToString();
@@ -366,14 +366,14 @@ public class UserCardGeneralsController : MonoBehaviour
                 GameObject skillObject = Instantiate(Skill1Prefab, skillContent);
                 Transform skillTransform = skillObject.transform;
                 RawImage skillImage = skillTransform.Find("SkillImage").GetComponent<RawImage>();
-                Texture skillImageTexure = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
+                Texture skillImageTexure = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(skill.Image)}");
                 skillImage.texture = skillImageTexure;
 
                 TextMeshProUGUI skillTitleText = skillTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 skillTitleText.text = skill.Name;
 
                 RawImage skillBackgroundImage = skillTransform.Find("Background").GetComponent<RawImage>();
-                string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.Type);
+                string skillBackground = SkillHelper.GetBackgroundForSkill(skill.Type);
                 Texture skillBackgroundImageTexture = TextureHelper.LoadTextureCached($"{skillBackground}");
                 skillBackgroundImage.texture = skillBackgroundImageTexture;
             }
@@ -418,7 +418,7 @@ public class UserCardGeneralsController : MonoBehaviour
             skillTitleText.text = currentType;
 
             RawImage skillBackgroundImage = skillGroupTransform.Find("Background4").GetComponent<RawImage>();
-            string skillBackground = EvaluateSkill.GetBackgroundForSkill(currentType);
+            string skillBackground = SkillHelper.GetBackgroundForSkill(currentType);
             Texture skillBackgroundImageTexture = TextureHelper.LoadTextureCached($"{skillBackground}");
             skillBackgroundImage.texture = skillBackgroundImageTexture;
 
@@ -438,7 +438,7 @@ public class UserCardGeneralsController : MonoBehaviour
             if (activeSkill != null)
             {
                 RawImage activeSkillImage = activeSkillButton.GetComponent<RawImage>();
-                Texture activeSkillImageTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(activeSkill.Image)}");
+                Texture activeSkillImageTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(activeSkill.Image)}");
                 activeSkillImage.texture = activeSkillImageTexture;
                 activeSkillButton.onClick.AddListener(() =>
                 {
@@ -459,7 +459,7 @@ public class UserCardGeneralsController : MonoBehaviour
             if (passiveSkill1 != null)
             {
                 RawImage passiveSkill1Image = passiveSkillButton1.GetComponent<RawImage>();
-                Texture passiveSkill1ImageTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill1.Image)}");
+                Texture passiveSkill1ImageTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(passiveSkill1.Image)}");
                 passiveSkill1Image.texture = passiveSkill1ImageTexture;
                 passiveSkillButton1.onClick.AddListener(() =>
                 {
@@ -480,7 +480,7 @@ public class UserCardGeneralsController : MonoBehaviour
             if (passiveSkill2 != null)
             {
                 RawImage passiveSkill2Image = passiveSkillButton2.GetComponent<RawImage>();
-                Texture passiveSkill2ImageTexture = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(passiveSkill2.Image)}");
+                Texture passiveSkill2ImageTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(passiveSkill2.Image)}");
                 passiveSkill2Image.texture = passiveSkill2ImageTexture;
                 passiveSkillButton2.onClick.AddListener(() =>
                 {
@@ -523,14 +523,14 @@ public class UserCardGeneralsController : MonoBehaviour
             GameObject skillObject = Instantiate(Skill2Prefab, skillContent);
             Transform skillTransform = skillObject.transform;
             RawImage skillImage = skillTransform.Find("SkillImage").GetComponent<RawImage>();
-            Texture skillImageTexure = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
+            Texture skillImageTexure = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(skill.Image)}");
             skillImage.texture = skillImageTexure;
 
             TextMeshProUGUI skillTitleText = skillTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             skillTitleText.text = skill.Name;
 
             RawImage skillBackgroundImage = skillTransform.Find("Background").GetComponent<RawImage>();
-            string skillBackground = EvaluateSkill.GetBackgroundForSkill(skill.Type);
+            string skillBackground = SkillHelper.GetBackgroundForSkill(skill.Type);
             Texture skillBackgroundImageTexture = TextureHelper.LoadTextureCached($"{skillBackground}");
             skillBackgroundImage.texture = skillBackgroundImageTexture;
 
@@ -565,7 +565,7 @@ public class UserCardGeneralsController : MonoBehaviour
         });
 
         RawImage skillImage = transform.Find("SkillImage").GetComponent<RawImage>();
-        Texture skillImageTexure = TextureHelper.LoadTextureCached($"{ImageExtensionHandler.RemoveImageExtension(skill.Image)}");
+        Texture skillImageTexure = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(skill.Image)}");
         skillImage.texture = skillImageTexure;
 
         TextMeshProUGUI skillTitleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
@@ -614,7 +614,7 @@ public class UserCardGeneralsController : MonoBehaviour
                 Transform itemTransform = itemObject.transform;
 
                 RawImage eImage = itemTransform.Find("MaterialImage").GetComponent<RawImage>();
-                fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture equipmentTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 eImage.texture = equipmentTexture;
 
@@ -625,7 +625,7 @@ public class UserCardGeneralsController : MonoBehaviour
             Transform cardGeneralTransform = cardGeneralObject.transform;
 
             RawImage cardGeneralImage = cardGeneralTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(cardGeneral.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardGeneral.Image);
             Texture cardGeneralTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             cardGeneralImage.texture = cardGeneralTexture;
 
@@ -728,7 +728,7 @@ public class UserCardGeneralsController : MonoBehaviour
             var userCardSpiritBeast = await UserSpiritBeastsService.Create().GetUserCardGeneralSpiritBeastAsync(User.CurrentUserId, cardGeneral);
             RawImage spiritBeastImage = transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = userCardSpiritBeast.Image != null
-                ? ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.Image)
+                ? ImageHelper.RemoveImageExtension(userCardSpiritBeast.Image)
                 : "UI/Background4/Background_V4_352";
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             spiritBeastImage.texture = texture;
@@ -832,7 +832,7 @@ public class UserCardGeneralsController : MonoBehaviour
 
                     RawImage spiritBeastImage = tempCurrentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
                     var userCardSpiritBeast = await UserSpiritBeastsService.Create().GetUserCardGeneralSpiritBeastAsync(User.CurrentUserId, cardGeneral);
-                    string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(userCardSpiritBeast.Image);
+                    string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(userCardSpiritBeast.Image);
                     Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                     spiritBeastImage.texture = texture;
 

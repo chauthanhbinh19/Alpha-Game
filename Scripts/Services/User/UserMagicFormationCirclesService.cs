@@ -78,7 +78,7 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        magicFormationCircle.Power = EvaluatePower.CalculatePower(
+        magicFormationCircle.Power = PowerHelper.CalculatePower(
             magicFormationCircle.Health,
             magicFormationCircle.PhysicalAttack, magicFormationCircle.PhysicalDefense,
             magicFormationCircle.MagicalAttack, magicFormationCircle.MagicalDefense,
@@ -161,7 +161,7 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        magicFormationCircle.Power = EvaluatePower.CalculatePower(
+        magicFormationCircle.Power = PowerHelper.CalculatePower(
             magicFormationCircle.Health,
             magicFormationCircle.PhysicalAttack, magicFormationCircle.PhysicalDefense,
             magicFormationCircle.MagicalAttack, magicFormationCircle.MagicalDefense,
@@ -190,7 +190,7 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
     public async Task<List<MagicFormationCircles>> GetUserMagicFormationCirclesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<MagicFormationCircles> list = await _userMagicFormationCirclesRepository.GetUserMagicFormationCirclesAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

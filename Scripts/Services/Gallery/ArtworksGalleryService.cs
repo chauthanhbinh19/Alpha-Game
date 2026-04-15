@@ -23,7 +23,7 @@ public class ArtworksGalleryService : IArtworksGalleryService
     public async Task<List<Artworks>> GetArtworksCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Artworks> list = await _artworksGalleryRepository.GetArtworksCollectionAsync(search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

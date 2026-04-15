@@ -53,7 +53,7 @@ public class UserItemsController : MonoBehaviour
                 titleText.text = item.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("ItemImage").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(item.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -86,7 +86,7 @@ public class UserItemsController : MonoBehaviour
                 itemBackgroundImage.gameObject.SetActive(true);
 
                 TextMeshProUGUI itemQuantityText = transform.Find("ItemQuantity").GetComponent<TextMeshProUGUI>();
-                itemQuantityText.text = NumberFormatter.FormatNumber(item.Quantity, true).ToString();
+                itemQuantityText.text = NumberFormatterHelper.FormatNumber(item.Quantity, true).ToString();
             }
             catch (Exception ex)
             {

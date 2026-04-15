@@ -54,7 +54,7 @@ public class AchievementsGalleryController : MonoBehaviour
                 titleText.text = achievement.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(achievement.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(achievement.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -87,7 +87,7 @@ public class AchievementsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(achievement.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(achievement.Rare));
                 rareText.text = achievement.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

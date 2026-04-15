@@ -225,7 +225,7 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
     }
     public async Task InsertCollaborationEquipmentGalleryAsync(string Id, CollaborationEquipments collaborationEquipmentFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(collaborationEquipmentFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(collaborationEquipmentFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

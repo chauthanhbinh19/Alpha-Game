@@ -28,7 +28,7 @@ public class VehiclesService : IVehiclesService
     public async Task<List<Vehicles>> GetVehiclesAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Vehicles> list = await _vehiclesRepository.GetVehiclesAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -40,7 +40,7 @@ public class VehiclesService : IVehiclesService
     public async Task<List<Vehicles>> GetVehiclesWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Vehicles> list = await _vehiclesRepository.GetVehiclesWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

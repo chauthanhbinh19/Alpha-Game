@@ -23,7 +23,7 @@ public class ArchitecturesGalleryService : IArchitecturesGalleryService
     public async Task<List<Architectures>> GetArchitecturesCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Architectures> list = await _architecturesGalleryRepository.GetArchitecturesCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

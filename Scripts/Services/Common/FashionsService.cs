@@ -28,7 +28,7 @@ public class FashionsService : IFashionsService
     public async Task<List<Fashions>> GetFashionsAsync(string search, string type, string rare, int pageSize, int offset)
     {
         List<Fashions> list = await _fashionsRepository.GetFashionsAsync(search, type, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -40,7 +40,7 @@ public class FashionsService : IFashionsService
     public async Task<List<Fashions>> GetFashionsWithPriceAsync(string type, int pageSize, int offset)
     {
         List<Fashions> list = await _fashionsRepository.GetFashionsWithPriceAsync(type, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

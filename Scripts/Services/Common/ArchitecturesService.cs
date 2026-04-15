@@ -23,7 +23,7 @@ public class ArchitecturesService : IArchitecturesService
     public async Task<List<Architectures>> GetArchitecturesAsync(string search, string rare, int pageSize, int offset)
     {
         List<Architectures> list = await _architecturesRepository.GetArchitecturesAsync(search, rare, pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
@@ -35,7 +35,7 @@ public class ArchitecturesService : IArchitecturesService
     public async Task<List<Architectures>> GetArchitecturesWithPriceAsync(int pageSize, int offset)
     {
         List<Architectures> list = await _architecturesRepository.GetArchitecturesWithPriceAsync(pageSize, offset);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 

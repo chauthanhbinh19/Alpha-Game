@@ -361,22 +361,22 @@ public class MainMenuManager : MonoBehaviour
         // Transform userPanel = currentObject.transform.Find("User");
         // Button userButton = userPanel.GetComponent<Button>();
         RawImage avatarImage = transform.Find("Header/AvatarImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Image);
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(authResult.User.Image);
         Texture avatarTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         avatarImage.texture = avatarTexture;
 
         RawImage borderImage = transform.Find("Header/BorderImage").GetComponent<RawImage>();
-        fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Border);
+        fileNameWithoutExtension = ImageHelper.RemoveImageExtension(authResult.User.Border);
         Texture borderTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         borderImage.texture = borderTexture;
 
         RawImage userAvatarImage = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/AvatarImage").GetComponent<RawImage>();
-        fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Image);
+        fileNameWithoutExtension = ImageHelper.RemoveImageExtension(authResult.User.Image);
         Texture TuserAvatarexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         userAvatarImage.texture = TuserAvatarexture;
 
         RawImage userBorderImage = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/BorderImage").GetComponent<RawImage>();
-        fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(authResult.User.Border);
+        fileNameWithoutExtension = ImageHelper.RemoveImageExtension(authResult.User.Border);
         Texture userBorderTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         userBorderImage.texture = userBorderTexture;
 
@@ -406,9 +406,9 @@ public class MainMenuManager : MonoBehaviour
         RawImage silverImage = transform.Find("Header/SilverCurrency/Image").GetComponent<RawImage>();
         RawImage diamondImage = transform.Find("Header/DiamondCurrency/Image").GetComponent<RawImage>();
 
-        goldImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(gold.Image));
-        silverImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(silver.Image));
-        diamondImage.texture = TextureHelper.LoadTextureCached(ImageExtensionHandler.RemoveImageExtension(diamond.Image));
+        goldImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(gold.Image));
+        silverImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(silver.Image));
+        diamondImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(diamond.Image));
 
         TextMeshProUGUI goldText = transform.Find("Header/GoldCurrency/TitleText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI silverText = transform.Find("Header/SilverCurrency/TitleText").GetComponent<TextMeshProUGUI>();
@@ -612,7 +612,7 @@ public class MainMenuManager : MonoBehaviour
                 _ = LoadCurrentPageAsync();
             });
 
-            List<string> uniqueRaries = QualityEvaluator.rarities;
+            List<string> uniqueRaries = QualityEvaluatorHelper.rarities;
             if (uniqueRaries.Count > 0)
             {
                 rareDropdown.ClearOptions();

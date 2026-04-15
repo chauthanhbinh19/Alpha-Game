@@ -225,7 +225,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
     }
     public async Task InsertSymbolGalleryAsync(string Id, Symbols symbolFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(symbolFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(symbolFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

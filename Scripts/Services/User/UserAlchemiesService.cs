@@ -79,7 +79,7 @@ public class UserAlchemiesService : IUserAlchemiesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        alchemy.Power = EvaluatePower.CalculatePower(
+        alchemy.Power = PowerHelper.CalculatePower(
             alchemy.Health,
             alchemy.PhysicalAttack, alchemy.PhysicalDefense,
             alchemy.MagicalAttack, alchemy.MagicalDefense,
@@ -162,7 +162,7 @@ public class UserAlchemiesService : IUserAlchemiesService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        alchemy.Power = EvaluatePower.CalculatePower(
+        alchemy.Power = PowerHelper.CalculatePower(
             alchemy.Health,
             alchemy.PhysicalAttack, alchemy.PhysicalDefense,
             alchemy.MagicalAttack, alchemy.MagicalDefense,
@@ -191,7 +191,7 @@ public class UserAlchemiesService : IUserAlchemiesService
     public async Task<List<Alchemies>> GetUserAlchemiesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Alchemies> list = await _userAlchemiesRepository.GetUserAlchemiesAsync(user_id, search, type, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }

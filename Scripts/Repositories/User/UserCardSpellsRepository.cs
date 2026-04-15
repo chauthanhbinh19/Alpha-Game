@@ -877,7 +877,7 @@ public class UserCardSpellsRepository : IUserCardSpellsRepository
                 insertCommand.Parameters.AddWithValue("@level", 0);
                 insertCommand.Parameters.AddWithValue("@experiment", 0);
                 insertCommand.Parameters.AddWithValue("@star", 0);
-                insertCommand.Parameters.AddWithValue("@quality", QualityEvaluator.CheckQuality(cardSpell.Rare));
+                insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(cardSpell.Rare));
                 insertCommand.Parameters.AddWithValue("@block", false);
                 insertCommand.Parameters.AddWithValue("@quantity", cardSpell.Quantity);
                 insertCommand.Parameters.AddWithValue("@power", cardSpell.Power);

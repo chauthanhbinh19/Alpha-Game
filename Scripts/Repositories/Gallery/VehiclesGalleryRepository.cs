@@ -225,7 +225,7 @@ public class VehiclesGalleryRepository : IVehiclesGalleryRepository
     }
     public async Task InsertVehicleGalleryAsync(string Id, Vehicles vehicleFromDB)
     {
-        int percent = QualityEvaluator.CheckQuality(vehicleFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(vehicleFromDB.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))

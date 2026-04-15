@@ -75,7 +75,7 @@ public class UserPetsService : IUserPetsService
             c.SkillDamageRate = c.SkillDamageRate + equipments.SkillDamageRate;
             c.SkillResistanceRate = c.SkillResistanceRate + equipments.SkillResistanceRate;
 
-            c.Power = EvaluatePower.CalculatePower(
+            c.Power = PowerHelper.CalculatePower(
             c.Health,
             c.PhysicalAttack, c.PhysicalDefense,
             c.MagicalAttack, c.MagicalDefense,
@@ -156,7 +156,7 @@ public class UserPetsService : IUserPetsService
             c.SkillDamageRate = c.SkillDamageRate + rank.SkillDamageRate;
             c.SkillResistanceRate = c.SkillResistanceRate + rank.SkillResistanceRate;
 
-            c.Power = EvaluatePower.CalculatePower(
+            c.Power = PowerHelper.CalculatePower(
             c.Health,
             c.PhysicalAttack, c.PhysicalDefense,
             c.MagicalAttack, c.MagicalDefense,
@@ -237,7 +237,7 @@ public class UserPetsService : IUserPetsService
             c.SkillDamageRate = c.SkillDamageRate + master.SkillDamageRate;
             c.SkillResistanceRate = c.SkillResistanceRate + master.SkillResistanceRate;
 
-            c.Power = EvaluatePower.CalculatePower(
+            c.Power = PowerHelper.CalculatePower(
             c.Health,
             c.PhysicalAttack, c.PhysicalDefense,
             c.MagicalAttack, c.MagicalDefense,
@@ -321,7 +321,7 @@ public class UserPetsService : IUserPetsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        pet.Power = EvaluatePower.CalculatePower(
+        pet.Power = PowerHelper.CalculatePower(
             pet.Health,
             pet.PhysicalAttack, pet.PhysicalDefense,
             pet.MagicalAttack, pet.MagicalDefense,
@@ -404,7 +404,7 @@ public class UserPetsService : IUserPetsService
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        pet.Power = EvaluatePower.CalculatePower(
+        pet.Power = PowerHelper.CalculatePower(
             pet.Health,
             pet.PhysicalAttack, pet.PhysicalDefense,
             pet.MagicalAttack, pet.MagicalDefense,
@@ -469,7 +469,7 @@ public class UserPetsService : IUserPetsService
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
@@ -534,7 +534,7 @@ public class UserPetsService : IUserPetsService
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
@@ -634,7 +634,7 @@ public class UserPetsService : IUserPetsService
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);

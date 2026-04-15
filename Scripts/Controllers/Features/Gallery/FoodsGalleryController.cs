@@ -55,7 +55,7 @@ public class FoodsGalleryController : MonoBehaviour
                 titleText.text = food.Name.Replace("_", " ");
 
                 RawImage image = transform.Find("Image").GetComponent<RawImage>();
-                string fileNameWithoutExtension = ImageExtensionHandler.RemoveImageExtension(food.Image);
+                string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(food.Image);
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
@@ -88,7 +88,7 @@ public class FoodsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluator.CheckRareColor(food.Rare));
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(food.Rare));
                 rareText.text = food.Rare;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();

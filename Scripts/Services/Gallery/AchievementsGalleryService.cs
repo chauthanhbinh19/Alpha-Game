@@ -24,7 +24,7 @@ public class AchievementsGalleryService : IAchievementsGalleryService
     public async Task<List<Achievements>> GetAchievementCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Achievements> list = await _achievementsGalleryRepository.GetAchievementCollectionAsync(search, pageSize, offset, rare);
-        list = QualityEvaluator.GetQualityPower(list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
