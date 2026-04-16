@@ -24,6 +24,7 @@ public class TeamsManager : MonoBehaviour
     private GameObject TeamSlotFirstPrefab;
     private GameObject PopupCardPanelPrefab;
     private GameObject CardSelectButtonPrefab;
+    private GameObject PopupWarningPanelPrefab;
     private GameObject RareButtonPrefab;
     private GameObject PositionPrefab;
     private GameObject popupTeamFirstObject;
@@ -103,6 +104,7 @@ public class TeamsManager : MonoBehaviour
         TeamSlotSecondPrefab = UIManager.Instance.Get("TeamSlotSecondPrefab");
         PopupCardPanelPrefab = UIManager.Instance.Get("PopupCardPanelPrefab");
         CardSelectButtonPrefab = UIManager.Instance.Get("CardSelectButtonPrefab");
+        PopupWarningPanelPrefab = UIManager.Instance.Get("PopupWarningPanelPrefab");
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         PositionPrefab = UIManager.Instance.Get("PositionPrefab");
 
@@ -590,7 +592,9 @@ public class TeamsManager : MonoBehaviour
 
                 removeButton.onClick.AddListener(async () =>
                 {
-                    await OnRemoveCardClickAsync(cardId);
+                    await OnRemoveCardClickAsync(cardId, card);
+                    Destroy(popupTeamSecondObject);
+                    await CreatePopupTeamSecondPanelAsync();
                 });
             }
             else
@@ -740,39 +744,88 @@ public class TeamsManager : MonoBehaviour
         var cardList = await GetUserCardsByTypeAsync(mainType, titleText);
         CreateUserCards(cardList, contentPanel, card);
     }
-    public async Task OnRemoveCardClickAsync(string cardId)
+    public async Task OnRemoveCardClickAsync(string cardId, ICard oldCard)
     {
+        double currentPower = User.CurrentUserPower;
         if (mainType.Equals(AppConstants.MainType.CARD_HERO))
         {
             await userCardHeroesService.UpdateTeamCardHeroAsync(null, null, cardId);
+            double updatedPower = currentPower - oldCard.Power;
+
+            await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
+            User.CurrentUserPower = updatedPower;
+
+            FindObjectOfType<PowerController>().ShowPower(currentPower, oldCard.Power, 0);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
         {
             await userCardCaptainsService.UpdateTeamCardCaptainAsync(null, null, cardId);
+            double updatedPower = currentPower - oldCard.Power;
+
+            await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
+            User.CurrentUserPower = updatedPower;
+
+            FindObjectOfType<PowerController>().ShowPower(currentPower, oldCard.Power, 0);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
         {
             await userCardColonelsService.UpdateTeamCardColonelAsync(null, null, cardId);
+            double updatedPower = currentPower - oldCard.Power;
+
+            await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
+            User.CurrentUserPower = updatedPower;
+
+            FindObjectOfType<PowerController>().ShowPower(currentPower, oldCard.Power, 0);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
         {
             await userCardGeneralsService.UpdateTeamCardGeneralAsync(null, null, cardId);
+            double updatedPower = currentPower - oldCard.Power;
+
+            await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
+            User.CurrentUserPower = updatedPower;
+
+            FindObjectOfType<PowerController>().ShowPower(currentPower, oldCard.Power, 0);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
         {
             await userCardAdmiralsService.UpdateTeamCardAdmiralAsync(null, null, cardId);
+            double updatedPower = currentPower - oldCard.Power;
+
+            await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
+            User.CurrentUserPower = updatedPower;
+
+            FindObjectOfType<PowerController>().ShowPower(currentPower, oldCard.Power, 0);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
         {
             await userCardMonstersService.UpdateTeamCardMonsterAsync(null, null, cardId);
+            double updatedPower = currentPower - oldCard.Power;
+
+            await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
+            User.CurrentUserPower = updatedPower;
+
+            FindObjectOfType<PowerController>().ShowPower(currentPower, oldCard.Power, 0);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
             await userCardMilitariesService.UpdateTeamCardMilitaryAsync(null, null, cardId);
+            double updatedPower = currentPower - oldCard.Power;
+
+            await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
+            User.CurrentUserPower = updatedPower;
+
+            FindObjectOfType<PowerController>().ShowPower(currentPower, oldCard.Power, 0);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
             await userCardSpellsService.UpdateTeamCardSpellAsync(null, null, cardId);
+            double updatedPower = currentPower - oldCard.Power;
+
+            await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
+            User.CurrentUserPower = updatedPower;
+
+            FindObjectOfType<PowerController>().ShowPower(currentPower, oldCard.Power, 0);
         }
     }
     public void CreateUserCards(List<ICard> cards, Transform contentPanel, ICard oldCard = null)
@@ -841,7 +894,7 @@ public class TeamsManager : MonoBehaviour
             {
                 if (oldCard != null)
                 {
-
+                    CreatePopWarningPanel(card, oldCard);
                 }
                 else
                 {
@@ -859,6 +912,24 @@ public class TeamsManager : MonoBehaviour
         //     gridLayout.spacing = new Vector2(23, 10);
         // }
         // contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+    }
+    public void CreatePopWarningPanel(ICard card, ICard oldCard)
+    {
+        GameObject popupWarningPanelObject = Instantiate(PopupWarningPanelPrefab, MainPanel);
+        Transform transform = popupWarningPanelObject.transform;
+        Button confirmButton = transform.Find("ConfirmButton").GetComponent<Button>();
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        confirmButton.onClick.AddListener(async () =>
+        {
+            await OnSelectCardIntoTeamClickAsync(card, oldCard);
+            Destroy(popupCardPanelObject);
+            Destroy(popupTeamSecondObject);
+            await CreatePopupTeamSecondPanelAsync();
+        });
+        closeButton.onClick.AddListener(() =>
+        {
+            Destroy(popupWarningPanelObject);
+        });
     }
     public async Task OnSelectCardIntoTeamClickAsync(ICard newCard, ICard oldCard = null)
     {
