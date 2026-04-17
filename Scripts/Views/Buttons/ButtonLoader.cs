@@ -130,30 +130,31 @@ public class ButtonLoader : MonoBehaviour
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(MainButtonPrefab, panel);
+        Transform transform = newButton.transform;
         newButton.name = "Button_" + index;
 
         // Gán màu cho itemBackground
-        RawImage itemBackground = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        RawImage itemBackground = transform.Find("ItemBackground").GetComponent<RawImage>();
         if (itemBackground != null && _itemBackground != null)
         {
             itemBackground.texture = _itemBackground;
         }
 
-        RawImage subBackground = newButton.transform.Find("SubBackground").GetComponent<RawImage>();
+        RawImage subBackground = transform.Find("SubBackground").GetComponent<RawImage>();
         if (subBackground != null && _subBackground != null)
         {
             subBackground.texture = _subBackground;
         }
 
         // Gán hình ảnh cho itemImage
-        RawImage image = newButton.transform.Find("ItemImage").GetComponent<RawImage>();
+        RawImage image = transform.Find("ItemImage").GetComponent<RawImage>();
         if (image != null && itemImage != null)
         {
             image.texture = itemImage;
         }
 
         // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemName);
@@ -186,24 +187,25 @@ public class ButtonLoader : MonoBehaviour
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(FeatureButtonPrefab, panel);
+        Transform transform = newButton.transform;
         newButton.name = "Button_" + index;
 
         // Gán màu cho itemBackground
-        RawImage background = newButton.transform.Find("Background").GetComponent<RawImage>();
+        RawImage background = transform.Find("Background").GetComponent<RawImage>();
         if (background != null && buttonBackground != null)
         {
             background.texture = buttonBackground;
         }
 
         // Gán hình ảnh cho itemImage
-        RawImage image = newButton.transform.Find("IconImage").GetComponent<RawImage>();
+        RawImage image = transform.Find("IconImage").GetComponent<RawImage>();
         if (image != null && iconImage != null)
         {
             image.texture = iconImage;
         }
 
         // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("IconName").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("IconName").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemName);
@@ -223,10 +225,11 @@ public class ButtonLoader : MonoBehaviour
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(TabButtonPrefab, panel);
+        Transform transform = newButton.transform;
         newButton.name = "Button_" + index;
 
         // Gán tên cho itemName
-        TextMeshProUGUI buttonText = newButton.GetComponentInChildren<TextMeshProUGUI>();
+        TextMeshProUGUI buttonText = transform.GetComponentInChildren<TextMeshProUGUI>();
         if (buttonText != null)
         {
             buttonText.text = itemName;

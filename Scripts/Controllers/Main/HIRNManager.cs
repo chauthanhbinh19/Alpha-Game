@@ -34,7 +34,8 @@ public class HIRNManager : MonoBehaviour
     public void CreateHIRN()
     {
         GameObject currentObject = Instantiate(HIRNPanelPrefab, MainPanel);
-        Transform contentPanel = currentObject.transform.Find("HIRNContent/Content");
+        Transform transform = currentObject.transform;
+        Transform contentPanel = transform.Find("HIRNContent/Content");
 
         CreateHIRNButtonUI(1, AppDisplayConstants.HIRN.HIRN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_I_URL), contentPanel);
         CreateHIRNButtonUI(2, AppDisplayConstants.HIRN.HIRN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_II_URL), contentPanel);
@@ -53,17 +54,18 @@ public class HIRNManager : MonoBehaviour
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(HIRNButtonPrefab, panel);
+        Transform transform = newButton.transform;
         newButton.name = "Button_" + index;
 
         // Gán hình ảnh cho itemImage
-        RawImage image = newButton.transform.Find("Image").GetComponent<RawImage>();
+        RawImage image = transform.Find("Image").GetComponent<RawImage>();
         if (image != null && _itemImage != null)
         {
             image.texture = _itemImage;
         }
 
         // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemName);

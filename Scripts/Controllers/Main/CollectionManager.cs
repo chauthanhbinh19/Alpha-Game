@@ -114,24 +114,25 @@ public class CollectionManager : MonoBehaviour
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(ItemButtonPrefab, panel);
+        Transform transform = newButton.transform;
         newButton.name = "Button_" + index;
 
         // Gán màu cho itemBackground
-        RawImage itemBackground = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        RawImage itemBackground = transform.Find("ItemBackground").GetComponent<RawImage>();
         if (itemBackground != null && _itemBackground != null)
         {
             itemBackground.texture = _itemBackground;
         }
 
         // Gán hình ảnh cho itemImage
-        RawImage image = newButton.transform.Find("ItemImage").GetComponent<RawImage>();
+        RawImage image = transform.Find("ItemImage").GetComponent<RawImage>();
         if (image != null && _itemImage != null)
         {
             image.texture = _itemImage;
         }
 
         // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemName);

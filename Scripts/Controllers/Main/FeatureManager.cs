@@ -40,8 +40,9 @@ public class FeatureManager : MonoBehaviour
     public void CreateFeature()
     {
         GameObject featureObject = Instantiate(FeaturePanelPrefab, MainPanel);
-        Transform featureTransform = featureObject.transform.Find("Scroll View/Viewport/Content");
-        titleText = featureObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        Transform transform = featureObject.transform;
+        Transform featureTransform = transform.Find("Scroll View/Viewport/Content");
+        titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         // CloseButton = featureObject.transform.Find("CloseButton").GetComponent<Button>();
         // CloseButton.onClick.AddListener(() =>
         // {

@@ -34,7 +34,8 @@ public class HIENManager : MonoBehaviour
     public void CreateHIEN()
     {
         GameObject currentObject = Instantiate(HIENPanelPrefab, MainPanel);
-        Transform contentPanel = currentObject.transform.Find("HIENContent/Content");
+        Transform transform = currentObject.transform;
+        Transform contentPanel = transform.Find("HIENContent/Content");
 
         CreateHIENButtonUI(1, AppDisplayConstants.HIEN.HIEN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_I_URL), contentPanel);
         CreateHIENButtonUI(2, AppDisplayConstants.HIEN.HIEN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_II_URL), contentPanel);
@@ -53,17 +54,18 @@ public class HIENManager : MonoBehaviour
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(HIENButtonPrefab, panel);
+        Transform transform = newButton.transform;
         newButton.name = "Button_" + index;
 
         // Gán hình ảnh cho itemImage
-        RawImage image = newButton.transform.Find("Image").GetComponent<RawImage>();
+        RawImage image = transform.Find("Image").GetComponent<RawImage>();
         if (image != null && _itemImage != null)
         {
             image.texture = _itemImage;
         }
 
         // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemName);

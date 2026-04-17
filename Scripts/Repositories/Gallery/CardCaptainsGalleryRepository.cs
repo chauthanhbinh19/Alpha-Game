@@ -33,11 +33,22 @@ public class CardCaptainsGalleryRepository : ICardCaptainsGalleryRepository
                            'image', e.image,
                            'type', e.type
                        )
-                   ) AS emblems_json
+                   ) AS emblems_json,
+                   JSON_ARRAYAGG(
+                       JSON_OBJECT(
+						   'id', cl.id,
+                           'sub_type', cl.sub_type,
+                           'sub_image', cl.sub_image,
+                           'main_type', cl.main_type,
+                           'main_image', cl.main_image
+                       )
+                   ) AS classes_json
                 FROM card_captains m 
                 LEFT JOIN card_captains_gallery mg ON m.id = mg.card_captain_id AND mg.user_id = @userId 
                 LEFT JOIN card_captain_emblem che ON m.id = che.card_captain_id
                 LEFT JOIN emblems e ON che.emblem_id = e.id
+                LEFT JOIN card_hero_class chc ON c.id = chc.card_hero_id
+                LEFT JOIN classes cl ON chc.class_id = cl.id
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -173,6 +184,22 @@ public class CardCaptainsGalleryRepository : ICardCaptainsGalleryRepository
                                 {
                                     // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
                                     cardCaptain.Emblems = new List<Emblems>();
+                                }
+                            }
+
+                            string classesJson = reader.GetStringSafe("classes_json");
+
+                            if (!string.IsNullOrEmpty(classesJson))
+                            {
+                                try
+                                {
+                                    // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
+                                    cardCaptain.Classes = JsonHelper.DeserializeClasses(classesJson);
+                                }
+                                catch
+                                {
+                                    // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
+                                    cardCaptain.Classes = new List<Classes>();
                                 }
                             }
 

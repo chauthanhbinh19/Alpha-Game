@@ -78,6 +78,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(AnimeButtonPrefab, panel);
+        Transform transform = newButton.transform;
         newButton.name = itemName;
 
         // Gán màu cho itemBackground
@@ -88,21 +89,21 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         // }
 
         // Gán hình ảnh cho itemImage
-        RawImage image = newButton.transform.Find("Image").GetComponent<RawImage>();
+        RawImage image = transform.Find("Image").GetComponent<RawImage>();
         if (image != null && itemImage != null)
         {
             image.texture = itemImage;
         }
 
         // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemDisplayName);
         }
 
         //Tạo animation cho border image
-        RawImage borderImage = newButton.transform.Find("BorderImage").GetComponent<RawImage>();
+        RawImage borderImage = transform.Find("BorderImage").GetComponent<RawImage>();
         // Gán script RotateUI
         borderImage.gameObject.AddComponent<RotateAnimation>();
     }
@@ -283,11 +284,12 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     }
     public void SetUI(GameObject gameObject, int level = 0)
     {
-        RawImage backgroundImage = gameObject.transform.Find("Background").GetComponent<RawImage>();
+        Transform transform = gameObject.transform;
+        RawImage backgroundImage = transform.Find("Background").GetComponent<RawImage>();
         Texture backgroundTexture = TextureHelper.LoadTextureCached("UI/Background3/Anime");
         backgroundImage.texture = backgroundTexture;
         
-        Transform backgroundTransform = gameObject.transform.Find("BackgroundCircle");
+        Transform backgroundTransform = transform.Find("BackgroundCircle");
         if (backgroundTransform != null)
         {
             RawImage backgroundImageCircle = backgroundTransform.GetComponent<RawImage>();
@@ -303,7 +305,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         // Đặt tất cả kỹ năng về trạng thái mặc định (đen + text "0/1000")
         for (int i = 1; i <= totalSkills; i++)
         {
-            Transform aptitudeSkill = gameObject.transform.Find($"UpgradeSkill{i}");
+            Transform aptitudeSkill = transform.Find($"UpgradeSkill{i}");
             if (aptitudeSkill == null) continue;
 
             RawImage aptitudeImage = aptitudeSkill.Find("AptitudeImage").GetComponent<RawImage>();
@@ -320,7 +322,7 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         int activeSkillsCount = Mathf.Clamp((level / levelsPerSkill), 1, totalSkills);
         for (int i = 1; i <= activeSkillsCount; i++)
         {
-            Transform activeSkill = gameObject.transform.Find($"UpgradeSkill{i}");
+            Transform activeSkill = transform.Find($"UpgradeSkill{i}");
             if (activeSkill != null)
             {
                 RawImage activeImage = activeSkill.Find("AptitudeImage").GetComponent<RawImage>();
@@ -336,12 +338,13 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
                 }
             }
         }
-        TextMeshProUGUI totalLevelText = gameObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI totalLevelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
         totalLevelText.text = level.ToString();
     }
     public void SetMaterialUI(GameObject gameObject, string itemImage, double itemQuantity, double currencyQuantity, int rankLevel)
     {
-        Transform currencyPanel = gameObject.transform.Find("DictionaryCards/Currency");
+        Transform transform = gameObject.transform;
+        Transform currencyPanel = transform.Find("DictionaryCards/Currency");
         // List<Currencies> currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
         ButtonEvent.Instance.Close(currencyPanel);
         GameObject itemObject = UIManager.Instance.Get("ItemPrefab");
@@ -354,33 +357,33 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
 
         var oneResult = ItemHelper.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, false, MAX_LEVEL);
         var maxResult = ItemHelper.CalculateLevelUp(itemQuantity, currencyQuantity, 1, 10, rankLevel, true, MAX_LEVEL);
-        RawImage oneLevelCurrencyImage = gameObject.transform.Find("DictionaryCards/OneLevelCurrency/CurrencyImage").GetComponent<RawImage>();
-        RawImage maxLevelCurrencyImage = gameObject.transform.Find("DictionaryCards/MaxLevelCurrency/CurrencyImage").GetComponent<RawImage>();
+        RawImage oneLevelCurrencyImage = transform.Find("DictionaryCards/OneLevelCurrency/CurrencyImage").GetComponent<RawImage>();
+        RawImage maxLevelCurrencyImage = transform.Find("DictionaryCards/MaxLevelCurrency/CurrencyImage").GetComponent<RawImage>();
         Texture oneLevelCurrencyTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Currency.SILVER}");
         Texture maxLevelCurrencyTexture = TextureHelper.LoadTextureCached($"{ImageConstants.Currency.SILVER}");
         oneLevelCurrencyImage.texture = oneLevelCurrencyTexture;
         maxLevelCurrencyImage.texture = maxLevelCurrencyTexture;
 
-        TextMeshProUGUI oneLevelCurrencyText = gameObject.transform.Find("DictionaryCards/OneLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI maxLevelCurrencyText = gameObject.transform.Find("DictionaryCards/MaxLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI oneLevelCurrencyText = transform.Find("DictionaryCards/OneLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI maxLevelCurrencyText = transform.Find("DictionaryCards/MaxLevelCurrency/QuantityText").GetComponent<TextMeshProUGUI>();
         oneLevelCurrencyText.text = oneResult.totalCurrencyUsed.ToString();
         maxLevelCurrencyText.text = maxResult.totalCurrencyUsed.ToString();
 
-        RawImage oneLevelImage = gameObject.transform.Find("DictionaryCards/OneLevelMaterial/MaterialImage").GetComponent<RawImage>();
+        RawImage oneLevelImage = transform.Find("DictionaryCards/OneLevelMaterial/MaterialImage").GetComponent<RawImage>();
         Texture oneLevelTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(itemImage)}");
         oneLevelImage.texture = oneLevelTexture;
 
-        TextMeshProUGUI oneLevelQuantity = gameObject.transform.Find("DictionaryCards/OneLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI oneLevelQuantity = transform.Find("DictionaryCards/OneLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();
         oneLevelQuantity.text = oneResult.totalMaterialUsed.ToString();
 
         // RectTransform oneLevelRectTransform = oneLevelImage.GetComponent<RectTransform>();
         // oneLevelRectTransform.sizeDelta = new Vector2(40, 40);
 
-        RawImage maxLevelImage = gameObject.transform.Find("DictionaryCards/MaxLevelMaterial/MaterialImage").GetComponent<RawImage>();
+        RawImage maxLevelImage = transform.Find("DictionaryCards/MaxLevelMaterial/MaterialImage").GetComponent<RawImage>();
         Texture maxLevelTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(itemImage)}");
         maxLevelImage.texture = maxLevelTexture;
 
-        TextMeshProUGUI maxLevelQuantity = gameObject.transform.Find("DictionaryCards/MaxLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI maxLevelQuantity = transform.Find("DictionaryCards/MaxLevelMaterial/QuantityText").GetComponent<TextMeshProUGUI>();
         maxLevelQuantity.text = maxResult.totalMaterialUsed.ToString();
 
         // RectTransform maxLevelRectTransform = maxLevelImage.GetComponent<RectTransform>();

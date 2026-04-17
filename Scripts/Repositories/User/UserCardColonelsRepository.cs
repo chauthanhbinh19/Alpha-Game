@@ -27,12 +27,23 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
                            'image', e.image,
                            'type', e.type
                        )
-                   ) AS emblems_json
+                   ) AS emblems_json,
+                JSON_ARRAYAGG(
+                       JSON_OBJECT(
+						   'id', cl.id,
+                           'sub_type', cl.sub_type,
+                           'sub_image', cl.sub_image,
+                           'main_type', cl.main_type,
+                           'main_image', cl.main_image
+                       )
+                   ) AS classes_json
             FROM user_card_colonels uc
             LEFT JOIN card_colonels c ON c.id = uc.card_colonel_id 
             LEFT JOIN teams t on t.team_id = uc.team_id
             LEFT JOIN card_colonel_emblem che ON c.id = che.card_colonel_id
             LEFT JOIN emblems e ON che.emblem_id = e.id
+            LEFT JOIN card_hero_class chc ON c.id = chc.card_hero_id
+            LEFT JOIN classes cl ON chc.class_id = cl.id
             WHERE uc.user_id = @userId 
         ";
             if (!string.IsNullOrEmpty(type) && type != "All")
@@ -222,6 +233,22 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
                     }
                 }
 
+                string classesJson = reader.GetStringSafe("classes_json");
+
+                if (!string.IsNullOrEmpty(classesJson))
+                {
+                    try
+                    {
+                        // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
+                        cardColonel.Classes = JsonHelper.DeserializeClasses(classesJson);
+                    }
+                    catch
+                    {
+                        // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
+                        cardColonel.Classes = new List<Classes>();
+                    }
+                }
+
                 cardColonels.Add(cardColonel);
             }
         }
@@ -252,11 +279,22 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
                            'image', e.image,
                            'type', e.type
                        )
-                   ) AS emblems_json
+                   ) AS emblems_json,
+                JSON_ARRAYAGG(
+                       JSON_OBJECT(
+						   'id', cl.id,
+                           'sub_type', cl.sub_type,
+                           'sub_image', cl.sub_image,
+                           'main_type', cl.main_type,
+                           'main_image', cl.main_image
+                       )
+                   ) AS classes_json
             FROM user_card_colonels uc
             LEFT JOIN card_colonels c ON c.id = uc.card_colonel_id 
             LEFT JOIN card_colonel_emblem che ON c.id = che.card_colonel_id
             LEFT JOIN emblems e ON che.emblem_id = e.id
+            LEFT JOIN card_hero_class chc ON c.id = chc.card_hero_id
+            LEFT JOIN classes cl ON chc.class_id = cl.id
             WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position
             GROUP BY uc.card_colonel_id, c.id
             ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
@@ -411,6 +449,22 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
                     }
                 }
 
+                string classesJson = reader.GetStringSafe("classes_json");
+
+                if (!string.IsNullOrEmpty(classesJson))
+                {
+                    try
+                    {
+                        // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
+                        cardColonel.Classes = JsonHelper.DeserializeClasses(classesJson);
+                    }
+                    catch
+                    {
+                        // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
+                        cardColonel.Classes = new List<Classes>();
+                    }
+                }
+
                 cardColonels.Add(cardColonel);
             }
         }
@@ -441,11 +495,22 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
                            'image', e.image,
                            'type', e.type
                        )
-                   ) AS emblems_json
+                   ) AS emblems_json,
+                JSON_ARRAYAGG(
+                       JSON_OBJECT(
+						   'id', cl.id,
+                           'sub_type', cl.sub_type,
+                           'sub_image', cl.sub_image,
+                           'main_type', cl.main_type,
+                           'main_image', cl.main_image
+                       )
+                   ) AS classes_json
             FROM user_card_colonels uc
             LEFT JOIN card_colonels c ON c.id = uc.card_colonel_id 
             LEFT JOIN card_colonel_emblem che ON c.id = che.card_colonel_id
             LEFT JOIN emblems e ON che.emblem_id = e.id
+            LEFT JOIN card_hero_class chc ON c.id = chc.card_hero_id
+            LEFT JOIN classes cl ON chc.class_id = cl.id
             WHERE uc.user_id = @userId AND uc.team_id = @team_id
             GROUP BY uc.card_colonel_id, c.id
             ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
@@ -596,6 +661,22 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
                     {
                         // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
                         cardColonel.Emblems = new List<Emblems>();
+                    }
+                }
+
+                string classesJson = reader.GetStringSafe("classes_json");
+
+                if (!string.IsNullOrEmpty(classesJson))
+                {
+                    try
+                    {
+                        // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
+                        cardColonel.Classes = JsonHelper.DeserializeClasses(classesJson);
+                    }
+                    catch
+                    {
+                        // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
+                        cardColonel.Classes = new List<Classes>();
                     }
                 }
 
@@ -1338,11 +1419,22 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
                            'image', e.image,
                            'type', e.type
                        )
-                   ) AS emblems_json
+                   ) AS emblems_json,
+                JSON_ARRAYAGG(
+                       JSON_OBJECT(
+						   'id', cl.id,
+                           'sub_type', cl.sub_type,
+                           'sub_image', cl.sub_image,
+                           'main_type', cl.main_type,
+                           'main_image', cl.main_image
+                       )
+                   ) AS classes_json
             FROM user_card_colonels uc
             LEFT JOIN card_colonels c ON uc.card_colonel_id = c.id 
             LEFT JOIN card_colonel_emblem che ON c.id = che.card_colonel_id
             LEFT JOIN emblems e ON che.emblem_id = e.id
+            LEFT JOIN card_hero_class chc ON c.id = chc.card_hero_id
+            LEFT JOIN classes cl ON chc.class_id = cl.id
             WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
             GROUP BY uc.card_colonel_id, c.id";
 
@@ -1488,6 +1580,22 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
                     {
                         // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
                         cardColonel.Emblems = new List<Emblems>();
+                    }
+                }
+
+                string classesJson = reader.GetStringSafe("classes_json");
+
+                if (!string.IsNullOrEmpty(classesJson))
+                {
+                    try
+                    {
+                        // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
+                        cardColonel.Classes = JsonHelper.DeserializeClasses(classesJson);
+                    }
+                    catch
+                    {
+                        // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
+                        cardColonel.Classes = new List<Classes>();
                     }
                 }
 

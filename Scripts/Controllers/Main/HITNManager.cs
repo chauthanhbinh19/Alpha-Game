@@ -34,7 +34,8 @@ public class HITNManager : MonoBehaviour
     public void CreateHITN()
     {
         GameObject currentObject = Instantiate(HITNPanelPrefab, MainPanel);
-        Transform contentPanel = currentObject.transform.Find("HITNContent/Content");
+        Transform transform = currentObject.transform;
+        Transform contentPanel = transform.Find("HITNContent/Content");
 
         CreateHITNButtonUI(1, AppDisplayConstants.HITN.HITN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_I_URL), contentPanel);
         CreateHITNButtonUI(2, AppDisplayConstants.HITN.HITN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_II_URL), contentPanel);
@@ -53,17 +54,18 @@ public class HITNManager : MonoBehaviour
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(HITNButtonPrefab, panel);
+        Transform transform = newButton.transform;
         newButton.name = "Button_" + index;
 
         // Gán hình ảnh cho itemImage
-        RawImage image = newButton.transform.Find("Image").GetComponent<RawImage>();
+        RawImage image = transform.Find("Image").GetComponent<RawImage>();
         if (image != null && _itemImage != null)
         {
             image.texture = _itemImage;
         }
 
         // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemName);

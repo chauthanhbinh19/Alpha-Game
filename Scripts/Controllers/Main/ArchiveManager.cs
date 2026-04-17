@@ -34,7 +34,8 @@ public class ArchiveManager : MonoBehaviour
     public void CreateArchive()
     {
         GameObject currentObject = Instantiate(ArchivePanelPrefab, MainPanel);
-        Transform contentPanel = currentObject.transform.Find("ArchiveContent/Content");
+        Transform transform = currentObject.transform;
+        Transform contentPanel = transform.Find("ArchiveContent/Content");
 
         CreateArchiveButtonUI(1, AppDisplayConstants.Archive.ARCHIVE_I, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_I_URL), contentPanel);
         CreateArchiveButtonUI(2, AppDisplayConstants.Archive.ARCHIVE_II, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_II_URL), contentPanel);
@@ -69,15 +70,16 @@ public class ArchiveManager : MonoBehaviour
     private void CreateArchiveButtonUI(int index, string itemName, Texture2D _itemImage, Transform panel)
     {
         GameObject newButton = Instantiate(ArchiveButtonPrefab, panel);
+        Transform transform = newButton.transform;
         newButton.name = "Button_" + index;
 
-        RawImage image = newButton.transform.Find("Image").GetComponent<RawImage>();
+        RawImage image = transform.Find("Image").GetComponent<RawImage>();
         if (image != null && _itemImage != null)
         {
             image.texture = _itemImage;
         }
 
-        TextMeshProUGUI nameText = newButton.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemName);

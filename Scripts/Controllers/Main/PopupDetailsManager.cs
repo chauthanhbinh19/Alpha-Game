@@ -1774,9 +1774,9 @@ public class PopupDetailsManager : MonoBehaviour
     {
         Transform detailsContent = currentObject.transform.Find("Scroll View/Viewport/Content");
 
-        Transform generalInformationPanel = detailsContent.transform.Find("GeneralInformation");
-        Transform statsInformationPanel = detailsContent.transform.Find("StatInformation");
-        Transform descriptionInformationPanel = detailsContent.transform.Find("DescriptionInformation");
+        Transform generalInformationPanel = detailsContent.Find("GeneralInformation");
+        Transform statsInformationPanel = detailsContent.Find("StatInformation");
+        Transform descriptionInformationPanel = detailsContent.Find("DescriptionInformation");
 
         foreach (var property in properties)
         {

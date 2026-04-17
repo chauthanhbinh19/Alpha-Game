@@ -52,6 +52,7 @@ public class ArenaManager : MonoBehaviour
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(ArenaButtonPrefab, panel);
+        Transform transform = newButton.transform;
         newButton.name = itemName;
 
         // Gán màu cho itemBackground
@@ -62,14 +63,14 @@ public class ArenaManager : MonoBehaviour
         // }
 
         // Gán hình ảnh cho itemImage
-        RawImage image = newButton.transform.Find("Image").GetComponent<RawImage>();
+        RawImage image = transform.Find("Image").GetComponent<RawImage>();
         if (image != null && itemImage != null)
         {
             image.texture = itemImage;
         }
 
         // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = itemName;
@@ -89,17 +90,18 @@ public class ArenaManager : MonoBehaviour
     public async Task CreateArenaDetailsAsync(string type)
     {
         currentObject = Instantiate(ArenaDetailsPanelPrefab, MainPanel);
-        RawImage avatarImage = currentObject.transform.Find("DictionaryCards/AvatarImage").GetComponent<RawImage>();
-        RawImage borderImage = currentObject.transform.Find("DictionaryCards/BorderImage").GetComponent<RawImage>();
-        Transform arenaSlotGroup = currentObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        TextMeshProUGUI rankText = currentObject.transform.Find("DictionaryCards/RankText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI rankPointText = currentObject.transform.Find("DictionaryCards/RankPointText").GetComponent<TextMeshProUGUI>();
+        Transform transform = currentObject.transform;
+        RawImage avatarImage = transform.Find("DictionaryCards/AvatarImage").GetComponent<RawImage>();
+        RawImage borderImage = transform.Find("DictionaryCards/BorderImage").GetComponent<RawImage>();
+        Transform arenaSlotGroup = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        TextMeshProUGUI rankText = transform.Find("DictionaryCards/RankText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI rankPointText = transform.Find("DictionaryCards/RankPointText").GetComponent<TextMeshProUGUI>();
         Texture avatarTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(User.CurrentUserAvatar)}");
         Texture borderTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(User.CurrentUserBorder)}");
         avatarImage.texture = avatarTexture;
         borderImage.texture = borderTexture;
-        Button closeButton = currentObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button homeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -137,24 +139,25 @@ public class ArenaManager : MonoBehaviour
             else
             {
                 GameObject arenaSlotObject = Instantiate(ArenaSlotPrefab, arenaSlotGroup);
+                Transform arenaSlotTransform = arenaSlotObject.transform;
 
                 IUserRepository userRepository = new UserRepository();
                 UserService userService = new UserService(userRepository);
                 User user = await userService.GetUserByIdAsync(pair.Key.ToString());
                 
-                RawImage arenaAvatarImage = arenaSlotObject.transform.Find("AvatarImage").GetComponent<RawImage>();
-                RawImage arenaBorderImage = arenaSlotObject.transform.Find("BorderImage").GetComponent<RawImage>();
+                RawImage arenaAvatarImage = arenaSlotTransform.Find("AvatarImage").GetComponent<RawImage>();
+                RawImage arenaBorderImage = arenaSlotTransform.Find("BorderImage").GetComponent<RawImage>();
                 Texture arenaAvatarTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(User.CurrentUserAvatar)}");
                 Texture arenaBorderTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(User.CurrentUserBorder)}");
                 arenaAvatarImage.texture = arenaAvatarTexture;
                 arenaBorderImage.texture = arenaBorderTexture;
-                TextMeshProUGUI arenaRankText = arenaSlotObject.transform.Find("RankText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI arenaRankText = arenaSlotTransform.Find("RankText").GetComponent<TextMeshProUGUI>();
                 arenaRankText.text = pair.Value.ToString();
-                TextMeshProUGUI arenaTitleText = arenaSlotObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI arenaTitleText = arenaSlotTransform.Find("TitleText").GetComponent<TextMeshProUGUI>();
                 arenaTitleText.text = user.Name;
-                TextMeshProUGUI arenaLevelText = arenaSlotObject.transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI arenaLevelText = arenaSlotTransform.Find("LevelText").GetComponent<TextMeshProUGUI>();
                 arenaLevelText.text = user.Level.ToString();
-                TextMeshProUGUI arenaPowerText = arenaSlotObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
+                TextMeshProUGUI arenaPowerText = arenaSlotTransform.Find("PowerText").GetComponent<TextMeshProUGUI>();
                 arenaPowerText.text = user.Power.ToString();
             }
         }

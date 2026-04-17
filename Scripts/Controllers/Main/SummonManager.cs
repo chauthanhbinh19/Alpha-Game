@@ -94,28 +94,29 @@ public class SummonManager : MonoBehaviour
             || mainType.Equals(AppConstants.MainType.SUMMON_CARD_SPELL))
         {
             summonObject = Instantiate(SummonPanelPrefab, MainPanel);
-            DictionaryContentPanel = summonObject.transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
-            LeftScrollViewContentPanel = summonObject.transform.Find("Scroll View/Viewport/ButtonContent");
-            PositionPanel = summonObject.transform.Find("DictionaryCards/Position");
+            Transform transform = summonObject.transform;
+            DictionaryContentPanel = transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
+            LeftScrollViewContentPanel = transform.Find("Scroll View/Viewport/ButtonContent");
+            PositionPanel = transform.Find("DictionaryCards/Position");
 
-            titleText = summonObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-            closeButton = summonObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-            summonOneButton = summonObject.transform.Find("DictionaryCards/SummonButton").GetComponent<Button>();
-            summonTenButton = summonObject.transform.Find("DictionaryCards/Summon10Button").GetComponent<Button>();
+            titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+            closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+            summonOneButton = transform.Find("DictionaryCards/SummonButton").GetComponent<Button>();
+            summonTenButton = transform.Find("DictionaryCards/Summon10Button").GetComponent<Button>();
             closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(summonObject);
             });
-            homeButton = summonObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+            homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             homeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
                 await HomeManager.Instance.CreateHomePanelAsync();
             });
-            // SummonAreaPanel = summonObject.transform.Find("SummonArea");
-            CurrencyPanel = summonObject.transform.Find("DictionaryCards/Currency");
+            // SummonAreaPanel = transform.Find("SummonArea");
+            CurrencyPanel = transform.Find("DictionaryCards/Currency");
 
             TextMeshProUGUI summonOneButtonText = summonOneButton.GetComponentInChildren<TextMeshProUGUI>();
             summonOneButtonText.font = EuroStyleNormalFont;
@@ -166,7 +167,7 @@ public class SummonManager : MonoBehaviour
                 _ = LoadCurrentPageAsync();
             }
 
-            RawImage dictionaryBackground = summonObject.transform.Find("DictionaryBackground").GetComponent<RawImage>();
+            RawImage dictionaryBackground = transform.Find("DictionaryBackground").GetComponent<RawImage>();
             if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_HERO))
             {
                 Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_HEROES_BACKGROUND_URL);

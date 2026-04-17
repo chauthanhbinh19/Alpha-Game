@@ -81,8 +81,9 @@ public class ButtonEvent : MonoBehaviour
     }
     public void CheckLockedButton(object data, int value, GameObject button)
     {
-        RawImage buttonImage = button.GetComponent<RawImage>();
-        RawImage buttonLockedImage = button.transform.Find("Locked")?.GetComponent<RawImage>();
+        Transform transform = button.transform;
+        RawImage buttonImage = transform.GetComponent<RawImage>();
+        RawImage buttonLockedImage = transform.Find("Locked")?.GetComponent<RawImage>();
         if (data is CardHeroes cardHero)
         {
             // mainId = cardHeroes.id;

@@ -37,6 +37,7 @@ public class CardHeroes : BaseEntity, IPowerSortable, ICard
     public Teams Team { get; set; } = new Teams();
     double IPowerSortable.Power => Power;
     public List<Emblems> Emblems { get; set; } = new List<Emblems>();
+    public List<Classes> Classes { get; set; } = new List<Classes>();
     public CardHeroes()
     {
         Power = -1;

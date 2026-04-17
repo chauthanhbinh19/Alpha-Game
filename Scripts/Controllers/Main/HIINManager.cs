@@ -34,7 +34,8 @@ public class HIINManager : MonoBehaviour
     public void CreateHIIN()
     {
         GameObject currentObject = Instantiate(HIINPanelPrefab, MainPanel);
-        Transform contentPanel = currentObject.transform.Find("HIINContent/Content");
+        Transform transform = currentObject.transform;
+        Transform contentPanel = transform.Find("HIINContent/Content");
 
         CreateHIINButtonUI(1, AppDisplayConstants.HIIN.HIIN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_I_URL), contentPanel);
         CreateHIINButtonUI(2, AppDisplayConstants.HIIN.HIIN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_II_URL), contentPanel);
@@ -53,17 +54,18 @@ public class HIINManager : MonoBehaviour
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(HIINButtonPrefab, panel);
+        Transform transform = newButton.transform;
         newButton.name = "Button_" + index;
 
         // Gán hình ảnh cho itemImage
-        RawImage image = newButton.transform.Find("Image").GetComponent<RawImage>();
+        RawImage image = transform.Find("Image").GetComponent<RawImage>();
         if (image != null && _itemImage != null)
         {
             image.texture = _itemImage;
         }
 
         // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemName);

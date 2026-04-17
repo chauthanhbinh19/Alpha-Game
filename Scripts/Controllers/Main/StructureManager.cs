@@ -34,15 +34,16 @@ public class StructureManager : MonoBehaviour
     public void CreateStructure()
     {
         GameObject currentObject = Instantiate(PopupStructureButtonPanelPrefab, MainPanel);
-        Transform contentPanel = currentObject.transform.Find("Scroll View/Viewport/Content");
+        Transform transform = currentObject.transform;
+        Transform contentPanel = transform.Find("Scroll View/Viewport/Content");
 
-        Button closeButton = currentObject.transform.Find("CloseButton").GetComponent<Button>();
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-        Button homeButton = currentObject.transform.Find("HomeButton").GetComponent<Button>();
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -65,6 +66,7 @@ public class StructureManager : MonoBehaviour
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(StructureButtonPrefab, panel);
+        Transform transform = newButton.transform;
         newButton.name = "Button_" + index;
 
         // Gán hình ảnh cho itemImage
@@ -75,13 +77,13 @@ public class StructureManager : MonoBehaviour
         // }
 
         // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemName);
         }
 
-        TextMeshProUGUI descriptionText = newButton.transform.Find("DescriptionText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI descriptionText = transform.Find("DescriptionText").GetComponent<TextMeshProUGUI>();
         if (descriptionText != null)
         {
             descriptionText.text = LocalizationManager.Get(itemDescription);

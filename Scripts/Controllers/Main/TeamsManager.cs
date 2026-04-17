@@ -355,9 +355,22 @@ public class TeamsManager : MonoBehaviour
     private void UpdateBarManual(Transform barTransform, int count, string colorHex)
     {
         Slider slider = barTransform.Find("Slider").GetComponent<Slider>();
+        
         slider.maxValue = 10;
         slider.value = count;
-        slider.fillRect.GetComponent<Image>().color = ColorHelper.HexToColor(colorHex);
+
+        Image fillImage = slider.fillRect.GetComponent<Image>();
+
+        if (count == 0)
+        {
+            fillImage.gameObject.SetActive(false); // ẩn fill
+        }
+        else
+        {
+            fillImage.gameObject.SetActive(true);  // hiện lại khi > 0
+            fillImage.color = ColorHelper.HexToColor(colorHex);
+        }
+
         barTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>().text = count.ToString();
     }
     public async Task OnCardClickAsync(int position, string type)
@@ -835,8 +848,8 @@ public class TeamsManager : MonoBehaviour
             Destroy(child.gameObject);
         }
         // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
-        // var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
-        // if (oldAnim != null) Destroy(oldAnim);
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
 
         foreach (var card in cards)
         {
@@ -911,7 +924,7 @@ public class TeamsManager : MonoBehaviour
         //     gridLayout.cellSize = new Vector2(250, 360);
         //     gridLayout.spacing = new Vector2(23, 10);
         // }
-        // contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreatePopWarningPanel(ICard card, ICard oldCard)
     {
@@ -1231,113 +1244,6 @@ public class TeamsManager : MonoBehaviour
                 }
             }
         }
-    }
-    public void CreateButton(int index, string itemName, Transform panel)
-    {
-        // Tạo button từ prefab
-        GameObject newButton = Instantiate(RareButtonPrefab, panel);
-        newButton.name = "Button_" + index;
-
-        // Gán tên cho itemName
-        TextMeshProUGUI buttonText = newButton.GetComponentInChildren<TextMeshProUGUI>();
-        if (buttonText != null)
-        {
-            buttonText.text = itemName;
-        }
-    }
-    public async Task GetTeamsTypeAsync(string type, TMP_Dropdown dropdownType, Transform panel, Text pageText, int team_limit, Action<int> onOffsetUpdated, Action<int> onCurrentPageUpdated)
-    {
-        List<string> uniqueTypes = await TypeManager.GetUniqueTypesAsync(type);
-        // Xóa các callback cũ của dropdown
-        dropdownType.onValueChanged.RemoveAllListeners();
-        DropdownManager.PopulateDropdown(dropdownType, uniqueTypes, async index =>
-    {
-        selectedOptionName = dropdownType.options[index].text;
-        int team_offset = 0;
-        int page = 1;
-
-        if (type.Equals(AppConstants.MainType.CARD_HERO))
-        {
-            List<CardHeroes> cardHeroList = await userCardHeroesService.GetUserCardHeroesAsync(User.CurrentUserId, search, selectedOptionName, team_limit, team_offset, rare);
-            List<object> cardObjects = cardHeroList.Cast<object>().ToList();
-            CreateCardTeams(cardObjects, panel);
-            int totalRecord = await userCardHeroesService.GetUserCardHeroesCountAsync(User.CurrentUserId, search, selectedOptionName, rare);
-            totalPage = PageHelper.CalculateTotalPages(totalRecord, team_limit);
-        }
-        else if (type.Equals(AppConstants.MainType.CARD_CAPTAIN))
-        {
-            List<CardCaptains> cardCaptainList = await userCardCaptainsService.GetUserCardCaptainsAsync(User.CurrentUserId, search, selectedOptionName, team_limit, team_offset, rare);
-            List<object> cardObjects = cardCaptainList.Cast<object>().ToList();
-            CreateCardTeams(cardObjects, panel);
-            int totalRecord = await userCardCaptainsService.GetUserCardCaptainsCountAsync(User.CurrentUserId, search, selectedOptionName, rare);
-            totalPage = PageHelper.CalculateTotalPages(totalRecord, team_limit);
-        }
-        else if (type.Equals(AppConstants.MainType.CARD_COLONEL))
-        {
-            List<CardColonels> cardColonelList = await userCardColonelsService.GetUserCardColonelsAsync(User.CurrentUserId, search, selectedOptionName, team_limit, team_offset, rare);
-            List<object> cardObjects = cardColonelList.Cast<object>().ToList();
-            CreateCardTeams(cardObjects, panel);
-            int totalRecord = await userCardColonelsService.GetUserCardColonelsCountAsync(User.CurrentUserId, search, selectedOptionName, rare);
-            totalPage = PageHelper.CalculateTotalPages(totalRecord, team_limit);
-        }
-        else if (type.Equals(AppConstants.MainType.CARD_GENERAL))
-        {
-            List<CardGenerals> cardGeneralList = await userCardGeneralsService.GetUserCardGeneralsAsync(User.CurrentUserId, search, selectedOptionName, team_limit, team_offset, rare);
-            List<object> cardObjects = cardGeneralList.Cast<object>().ToList();
-            CreateCardTeams(cardObjects, panel);
-            int totalRecord = await userCardGeneralsService.GetUserCardGeneralsCountAsync(User.CurrentUserId, search, selectedOptionName, rare);
-            totalPage = PageHelper.CalculateTotalPages(totalRecord, team_limit);
-        }
-        else if (type.Equals(AppConstants.MainType.CARD_ADMIRAL))
-        {
-            List<CardAdmirals> cardAdmiralList = await userCardAdmiralsService.GetUserCardAdmiralsAsync(User.CurrentUserId, search, selectedOptionName, team_limit, team_offset, rare);
-            List<object> cardObjects = cardAdmiralList.Cast<object>().ToList();
-            CreateCardTeams(cardObjects, panel);
-            int totalRecord = await userCardAdmiralsService.GetUserCardAdmiralsCountAsync(User.CurrentUserId, search, selectedOptionName, rare);
-            totalPage = PageHelper.CalculateTotalPages(totalRecord, team_limit);
-        }
-        else if (type.Equals(AppConstants.MainType.CARD_MONSTER))
-        {
-            List<CardMonsters> cardMonsterList = await userCardMonstersService.GetUserCardMonstersAsync(User.CurrentUserId, search, selectedOptionName, team_limit, team_offset, rare);
-            List<object> cardObjects = cardMonsterList.Cast<object>().ToList();
-            CreateCardTeams(cardObjects, panel);
-            int totalRecord = await userCardMonstersService.GetUserCardMonstersCountAsync(User.CurrentUserId, search, selectedOptionName, rare);
-            totalPage = PageHelper.CalculateTotalPages(totalRecord, team_limit);
-        }
-        else if (type.Equals(AppConstants.MainType.CARD_MILITARY))
-        {
-            List<CardMilitaries> cardMilitaryList = await userCardMilitariesService.GetUserCardMilitariesAsync(User.CurrentUserId, search, selectedOptionName, team_limit, team_offset, rare);
-            List<object> cardObjects = cardMilitaryList.Cast<object>().ToList();
-            CreateCardTeams(cardObjects, panel);
-            int totalRecord = await userCardMilitariesService.GetUserCardMilitariesCountAsync(User.CurrentUserId, search, selectedOptionName, rare);
-            totalPage = PageHelper.CalculateTotalPages(totalRecord, team_limit);
-        }
-        else if (type.Equals(AppConstants.MainType.CARD_SPELL))
-        {
-            List<CardSpells> cardSpellList = await userCardSpellsService.GetUserCardSpellsAsync(User.CurrentUserId, search, selectedOptionName, team_limit, team_offset, rare);
-            List<object> cardObjects = cardSpellList.Cast<object>().ToList();
-            CreateCardTeams(cardObjects, panel);
-            int totalRecord = await userCardSpellsService.GetUserCardSpellsCountAsync(User.CurrentUserId, search, selectedOptionName, rare);
-            totalPage = PageHelper.CalculateTotalPages(totalRecord, team_limit);
-        }
-        onOffsetUpdated?.Invoke(team_offset);
-        onCurrentPageUpdated?.Invoke(page);
-        pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
-    });
-    }
-    public void GetTeamsButton(GameObject clickedButton, Transform panel)
-    {
-        foreach (Transform child in panel)
-        {
-            // Lấy component Button từ con cái
-            Button button = child.GetComponent<Button>();
-            if (button != null)
-            {
-                // Gọi hàm ChangeButtonBackground với màu trắng
-                ChangeButtonBackground(button.gameObject, "Background_V4_167");
-            }
-        }
-        ChangeButtonBackground(clickedButton, "Background_V4_166");
     }
     public async Task LoadCardDataByTypeAsync(string type, string selectedOptionName, int team_limit, int team_offset, Transform choseTeam)
     {
@@ -2493,343 +2399,6 @@ public class TeamsManager : MonoBehaviour
                     }
                 }
             }
-        }
-    }
-    public void UpdateTeamForAllCards(string newTeamId)
-    {
-        foreach (var dragHandler in cardDragHandlers)
-        {
-            dragHandler.team_id = newTeamId;
-        }
-    }
-    public async Task InsertCardToTeamAsync(object obj, string position_id, string card_id, string team_id, double card_power)
-    {
-        string position = position_id;
-        double currentPower = User.CurrentUserPower;
-        if (obj is CardHeroes cardHero)
-        {
-            if (!string.IsNullOrEmpty(card_id))
-            {
-                await userCardHeroesService.UpdateTeamCardHeroAsync(null, null, card_id);
-                await userCardHeroesService.UpdateTeamCardHeroAsync(team_id, position, cardHero.Id);
-                if (cardHero.Power >= card_power)
-                {
-                    double diffPower = cardHero.Power - card_power;
-                    double updatedPower = currentPower + diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
-                }
-                else
-                {
-                    double diffPower = card_power - cardHero.Power;
-                    double updatedPower = currentPower - diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
-                }
-            }
-            else
-            {
-                await userCardHeroesService.UpdateTeamCardHeroAsync(team_id, position, cardHero.Id);
-                double updatedPower = currentPower + cardHero.Power;
-                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                User.CurrentUserPower = updatedPower;
-
-                FindObjectOfType<PowerController>().ShowPower(currentPower, cardHero.Power, 1);
-            }
-        }
-        else if (obj is CardCaptains cardCaptain)
-        {
-            if (!string.IsNullOrEmpty(card_id))
-            {
-                await userCardCaptainsService.UpdateTeamCardCaptainAsync(null, null, card_id);
-                await userCardCaptainsService.UpdateTeamCardCaptainAsync(team_id, position, cardCaptain.Id);
-                if (cardCaptain.Power >= card_power)
-                {
-                    double diffPower = cardCaptain.Power - card_power;
-                    double updatedPower = currentPower + diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
-                }
-                else
-                {
-                    double diffPower = card_power - cardCaptain.Power;
-                    double updatedPower = currentPower - diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
-                }
-            }
-            else
-            {
-                await userCardCaptainsService.UpdateTeamCardCaptainAsync(team_id, position, cardCaptain.Id);
-                double updatedPower = currentPower + cardCaptain.Power;
-                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                User.CurrentUserPower = updatedPower;
-
-                FindObjectOfType<PowerController>().ShowPower(currentPower, cardCaptain.Power, 1);
-            }
-        }
-        else if (obj is CardColonels CardColonel)
-        {
-            if (!string.IsNullOrEmpty(card_id))
-            {
-                await userCardColonelsService.UpdateTeamCardColonelAsync(null, null, card_id);
-                await userCardColonelsService.UpdateTeamCardColonelAsync(team_id, position, CardColonel.Id);
-                if (CardColonel.Power >= card_power)
-                {
-                    double diffPower = CardColonel.Power - card_power;
-                    double updatedPower = currentPower + diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
-                }
-                else
-                {
-                    double diffPower = card_power - CardColonel.Power;
-                    double updatedPower = currentPower - diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
-                }
-            }
-            else
-            {
-                await userCardColonelsService.UpdateTeamCardColonelAsync(team_id, position, CardColonel.Id);
-                double updatedPower = currentPower + CardColonel.Power;
-                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                User.CurrentUserPower = updatedPower;
-
-                FindObjectOfType<PowerController>().ShowPower(currentPower, CardColonel.Power, 1);
-            }
-        }
-        else if (obj is CardGenerals cardGeneral)
-        {
-            if (!string.IsNullOrEmpty(card_id))
-            {
-                await userCardGeneralsService.UpdateTeamCardGeneralAsync(null, null, card_id);
-                await userCardGeneralsService.UpdateTeamCardGeneralAsync(team_id, position, cardGeneral.Id);
-                if (cardGeneral.Power >= card_power)
-                {
-                    double diffPower = cardGeneral.Power - card_power;
-                    double updatedPower = currentPower + diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
-                }
-                else
-                {
-                    double diffPower = card_power - cardGeneral.Power;
-                    double updatedPower = currentPower - diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
-                }
-            }
-            else
-            {
-                await userCardGeneralsService.UpdateTeamCardGeneralAsync(team_id, position, cardGeneral.Id);
-                double updatedPower = currentPower + cardGeneral.Power;
-                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                User.CurrentUserPower = updatedPower;
-
-                FindObjectOfType<PowerController>().ShowPower(currentPower, cardGeneral.Power, 1);
-            }
-        }
-        else if (obj is CardAdmirals cardAdmiral)
-        {
-            if (!string.IsNullOrEmpty(card_id))
-            {
-                await userCardAdmiralsService.UpdateTeamCardAdmiralAsync(null, null, card_id);
-                await userCardAdmiralsService.UpdateTeamCardAdmiralAsync(team_id, position, cardAdmiral.Id);
-                if (cardAdmiral.Power >= card_power)
-                {
-                    double diffPower = cardAdmiral.Power - card_power;
-                    double updatedPower = currentPower + diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
-                }
-                else
-                {
-                    double diffPower = card_power - cardAdmiral.Power;
-                    double updatedPower = currentPower - diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
-                }
-            }
-            else
-            {
-                await userCardAdmiralsService.UpdateTeamCardAdmiralAsync(team_id, position, cardAdmiral.Id);
-                double updatedPower = currentPower + cardAdmiral.Power;
-                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                User.CurrentUserPower = updatedPower;
-
-                FindObjectOfType<PowerController>().ShowPower(currentPower, cardAdmiral.Power, 1);
-            }
-        }
-        else if (obj is CardMonsters cardMonster)
-        {
-            if (!string.IsNullOrEmpty(card_id))
-            {
-                await userCardMonstersService.UpdateTeamCardMonsterAsync(null, null, card_id);
-                await userCardMonstersService.UpdateTeamCardMonsterAsync(team_id, position, cardMonster.Id);
-                if (cardMonster.Power >= card_power)
-                {
-                    double diffPower = cardMonster.Power - card_power;
-                    double updatedPower = currentPower + diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
-                }
-                else
-                {
-                    double diffPower = card_power - cardMonster.Power;
-                    double updatedPower = currentPower - diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
-                }
-            }
-            else
-            {
-                await userCardMonstersService.UpdateTeamCardMonsterAsync(team_id, position, cardMonster.Id);
-                double updatedPower = currentPower + cardMonster.Power;
-                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                User.CurrentUserPower = updatedPower;
-
-                FindObjectOfType<PowerController>().ShowPower(currentPower, cardMonster.Power, 1);
-            }
-        }
-        else if (obj is CardMilitaries cardMilitary)
-        {
-            if (!string.IsNullOrEmpty(card_id))
-            {
-                await userCardMilitariesService.UpdateTeamCardMilitaryAsync(null, null, card_id);
-                await userCardMilitariesService.UpdateTeamCardMilitaryAsync(team_id, position, cardMilitary.Id);
-                if (cardMilitary.Power >= card_power)
-                {
-                    double diffPower = cardMilitary.Power - card_power;
-                    double updatedPower = currentPower + diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
-                }
-                else
-                {
-                    double diffPower = card_power - cardMilitary.Power;
-                    double updatedPower = currentPower - diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
-                }
-            }
-            else
-            {
-                await userCardMilitariesService.UpdateTeamCardMilitaryAsync(team_id, position, cardMilitary.Id);
-                double updatedPower = currentPower + cardMilitary.Power;
-                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                User.CurrentUserPower = updatedPower;
-
-                FindObjectOfType<PowerController>().ShowPower(currentPower, cardMilitary.Power, 1);
-            }
-        }
-        else if (obj is CardSpells cardSpell)
-        {
-            if (!string.IsNullOrEmpty(card_id))
-            {
-                await userCardSpellsService.UpdateTeamCardSpellAsync(null, null, card_id);
-                await userCardSpellsService.UpdateTeamCardSpellAsync(team_id, position, cardSpell.Id);
-                if (cardSpell.Power >= card_power)
-                {
-                    double diffPower = cardSpell.Power - card_power;
-                    double updatedPower = currentPower + diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 1);
-                }
-                else
-                {
-                    double diffPower = card_power - cardSpell.Power;
-                    double updatedPower = currentPower - diffPower;
-
-                    await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                    User.CurrentUserPower = updatedPower;
-
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, diffPower, 0);
-                }
-            }
-            else
-            {
-                await userCardSpellsService.UpdateTeamCardSpellAsync(team_id, position, cardSpell.Id);
-                double updatedPower = currentPower + cardSpell.Power;
-                await UserService.Create().UpdateUserPowerAsync(User.CurrentUserId, updatedPower);
-                User.CurrentUserPower = updatedPower;
-
-                FindObjectOfType<PowerController>().ShowPower(currentPower, cardSpell.Power, 1);
-            }
-        }
-    }
-    // public void Close(Transform content)
-    // {
-    //     // offset = 0;
-    //     currentPage = 1;
-    //     foreach (Transform child in content)
-    //     {
-    //         Destroy(child.gameObject);
-    //     }
-    // }
-    private void ChangeButtonBackground(GameObject button, string image)
-    {
-        RawImage buttonImage = button.GetComponent<RawImage>();
-        if (buttonImage != null)
-        {
-            Texture texture = TextureHelper.LoadTextureCached($"UI/Background4/{image}");
-            if (texture != null)
-            {
-                buttonImage.texture = texture;
-            }
-            else
-            {
-                Debug.LogError($"Texture '{image}' not found in Resources.");
-            }
-        }
-        else
-        {
-            Debug.LogError("Button does not have a RawImage component.");
         }
     }
 }

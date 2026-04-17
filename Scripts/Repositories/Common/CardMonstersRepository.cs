@@ -77,10 +77,21 @@ public class CardMonstersRepository : ICardMonstersRepository
                            'image', e.image,
                            'type', e.type
                        )
-                   ) AS emblems_json
+                   ) AS emblems_json,
+                   JSON_ARRAYAGG(
+                       JSON_OBJECT(
+						   'id', cl.id,
+                           'sub_type', cl.sub_type,
+                           'sub_image', cl.sub_image,
+                           'main_type', cl.main_type,
+                           'main_image', cl.main_image
+                       )
+                   ) AS classes_json
             FROM card_monsters ch
             LEFT JOIN card_monster_emblem che ON ch.id = che.card_monster_id
             LEFT JOIN emblems e ON che.emblem_id = e.id
+            LEFT JOIN card_hero_class chc ON c.id = chc.card_hero_id
+            LEFT JOIN classes cl ON chc.class_id = cl.id
             WHERE 1=1";
 
             if (!string.IsNullOrEmpty(type) && type != "All")
@@ -97,7 +108,7 @@ public class CardMonstersRepository : ICardMonstersRepository
             {
                 query += " AND ch.name LIKE CONCAT('%', @search, '%')";
             }
-            
+
             query += " GROUP BY ch.id";
             query += " ORDER BY ch.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(ch.name, '[0-9]+$') AS UNSIGNED), ch.name";
             query += " LIMIT @limit OFFSET @offset";
@@ -188,6 +199,22 @@ public class CardMonstersRepository : ICardMonstersRepository
                     {
                         // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
                         cardMonster.Emblems = new List<Emblems>();
+                    }
+                }
+
+                string classesJson = reader.GetStringSafe("classes_json");
+
+                if (!string.IsNullOrEmpty(classesJson))
+                {
+                    try
+                    {
+                        // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
+                        cardMonster.Classes = JsonHelper.DeserializeClasses(classesJson);
+                    }
+                    catch
+                    {
+                        // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
+                        cardMonster.Classes = new List<Classes>();
                     }
                 }
 

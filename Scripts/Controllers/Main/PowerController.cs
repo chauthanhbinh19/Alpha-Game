@@ -37,10 +37,11 @@ public class PowerController : MonoBehaviour
         Canvas.ForceUpdateCanvases(); // Cập nhật Canvas ngay lập tức
         // Destroy(powerObject);
         powerObject = Instantiate(PowerPrefab, popupPanel);
-        TextMeshProUGUI currentPowerText = powerObject.transform.Find("CurrentPowerText").GetComponent<TextMeshProUGUI>();
+        Transform transform = powerObject.transform;
+        TextMeshProUGUI currentPowerText = transform.Find("CurrentPowerText").GetComponent<TextMeshProUGUI>();
         currentPowerText.text = currentPower.ToString();
 
-        TextMeshProUGUI nextPowerText = powerObject.transform.Find("NextPowerText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nextPowerText = transform.Find("NextPowerText").GetComponent<TextMeshProUGUI>();
         if (status == 1)
         {
             nextPowerText.colorGradient = ColorConstants.INCREASE_POWER_COLOR;
