@@ -31,7 +31,7 @@ public class UserCardMonstersController : MonoBehaviour
     private GameObject PopupSkillsPanelPrefab;
     private GameObject PopupSkillDetailPrefab;
     private GameObject skillPanelObject;
-    private int pageSize;
+    private const int PAGE_SIZE = 100;
     private int offset;
     private int currentPage;
     private int totalPage;
@@ -722,7 +722,6 @@ public class UserCardMonstersController : MonoBehaviour
         Button addButton = transform.Find("DictionaryCards/Content/SpiritBeastPanel/AddButton").GetComponent<Button>();
         Button removeButton = transform.Find("DictionaryCards/Content/SpiritBeastPanel/RemoveButton").GetComponent<Button>();
 
-        pageSize = 100;
         offset = 0;
         currentPage = 1;
 
@@ -782,10 +781,10 @@ public class UserCardMonstersController : MonoBehaviour
             Destroy(popupSpiritBeastObject);
         });
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
-        spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardMonstersSpiritBeastAsync(User.CurrentUserId, pageSize, offset, statusToggle);
+        spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardMonstersSpiritBeastAsync(User.CurrentUserId, PAGE_SIZE, offset, statusToggle);
 
         int totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, search, AppConstants.Rare.ALL);
-        totalPage = CalculateTotalPages(totalRecord, pageSize);
+        totalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
 
         pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
         CreatePopupEquipmentsUI(data, spiritBeasts, contentPanel, currentObject);
@@ -802,10 +801,10 @@ public class UserCardMonstersController : MonoBehaviour
             await ChangePreviousPageAsync(data, pageText, contentPanel, currentObject);
         });
     }
-    public int CalculateTotalPages(int totalRecords, int pageSize)
+    public int CalculateTotalPages(int totalRecords, int PAGE_SIZE)
     {
-        if (pageSize <= 0) return 0; // Đảm bảo pageSize không âm hoặc bằng 0
-        return (int)Math.Ceiling((double)totalRecords / pageSize);
+        if (PAGE_SIZE <= 0) return 0; // Đảm bảo PAGE_SIZE không âm hoặc bằng 0
+        return (int)Math.Ceiling((double)totalRecords / PAGE_SIZE);
     }
     public void CreatePopupEquipmentsUI(object data, List<SpiritBeasts> spiritBeasts, Transform content, GameObject currentObject)
     {
@@ -873,10 +872,10 @@ public class UserCardMonstersController : MonoBehaviour
             int totalRecord = 0;
 
             totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, search, AppConstants.Rare.ALL);
-            totalPage = CalculateTotalPages(totalRecord, pageSize);
+            totalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
             currentPage = currentPage + 1;
-            offset = offset + pageSize;
-            List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardMonstersSpiritBeastAsync(User.CurrentUserId, pageSize, offset, statusToggle);
+            offset = offset + PAGE_SIZE;
+            List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardMonstersSpiritBeastAsync(User.CurrentUserId, PAGE_SIZE, offset, statusToggle);
             CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
@@ -891,10 +890,10 @@ public class UserCardMonstersController : MonoBehaviour
             int totalRecord = 0;
 
             totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, search, AppConstants.Rare.ALL);
-            totalPage = CalculateTotalPages(totalRecord, pageSize);
+            totalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
             currentPage = currentPage - 1;
-            offset = offset - pageSize;
-            List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardMonstersSpiritBeastAsync(User.CurrentUserId, pageSize, offset, statusToggle);
+            offset = offset - PAGE_SIZE;
+            List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardMonstersSpiritBeastAsync(User.CurrentUserId, PAGE_SIZE, offset, statusToggle);
             CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

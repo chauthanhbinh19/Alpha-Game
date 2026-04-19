@@ -690,6 +690,59 @@ public static class StatsHelper
         cardHero.SkillDamageRate = cardHero.SkillDamageRate + hidc.SkillDamageRate;
         cardHero.SkillResistanceRate = cardHero.SkillResistanceRate + hidc.SkillResistanceRate;
     }
+    public static void ApplyHICBStats(this CardHeroes cardHero, HICBs hicb)
+    {
+        if (hicb == null) return;
+        cardHero.Health = cardHero.Health + hicb.Health + cardHero.BaseStats.Health * hicb.PercentAllHealth / 100;
+        cardHero.PhysicalAttack = cardHero.PhysicalAttack + hicb.PhysicalAttack + cardHero.BaseStats.PhysicalAttack * hicb.PercentAllPhysicalAttack / 100;
+        cardHero.PhysicalDefense = cardHero.PhysicalDefense + hicb.PhysicalDefense + cardHero.BaseStats.PhysicalDefense * hicb.PercentAllPhysicalDefense / 100;
+        cardHero.MagicalAttack = cardHero.MagicalAttack + hicb.MagicalAttack + cardHero.BaseStats.MagicalAttack * hicb.PercentAllMagicalAttack / 100;
+        cardHero.MagicalDefense = cardHero.MagicalDefense + hicb.MagicalDefense + cardHero.BaseStats.MagicalDefense * hicb.PercentAllMagicalDefense / 100;
+        cardHero.ChemicalAttack = cardHero.ChemicalAttack + hicb.ChemicalAttack + cardHero.BaseStats.ChemicalAttack * hicb.PercentAllChemicalAttack / 100;
+        cardHero.ChemicalDefense = cardHero.ChemicalDefense + hicb.ChemicalDefense + cardHero.BaseStats.ChemicalDefense * hicb.PercentAllChemicalDefense / 100;
+        cardHero.AtomicAttack = cardHero.AtomicAttack + hicb.AtomicAttack + cardHero.BaseStats.AtomicAttack * hicb.PercentAllAtomicAttack / 100;
+        cardHero.AtomicDefense = cardHero.AtomicDefense + hicb.AtomicDefense + cardHero.BaseStats.AtomicDefense * hicb.PercentAllAtomicDefense / 100;
+        cardHero.MentalAttack = cardHero.MentalAttack + hicb.MentalAttack + cardHero.BaseStats.MentalAttack * hicb.PercentAllMentalAttack / 100;
+        cardHero.MentalDefense = cardHero.MentalDefense + hicb.MentalDefense + cardHero.BaseStats.MentalDefense * hicb.PercentAllMentalDefense / 100;
+        cardHero.Speed = cardHero.Speed + hicb.Speed;
+        cardHero.CriticalDamageRate = cardHero.CriticalDamageRate + hicb.CriticalDamageRate;
+        cardHero.CriticalRate = cardHero.CriticalRate + hicb.CriticalRate;
+        cardHero.CriticalResistanceRate = cardHero.CriticalResistanceRate + hicb.CriticalResistanceRate;
+        cardHero.IgnoreCriticalRate = cardHero.IgnoreCriticalRate + hicb.IgnoreCriticalRate;
+        cardHero.PenetrationRate = cardHero.PenetrationRate + hicb.PenetrationRate;
+        cardHero.PenetrationResistanceRate = cardHero.PenetrationResistanceRate + hicb.PenetrationResistanceRate;
+        cardHero.EvasionRate = cardHero.EvasionRate + hicb.EvasionRate;
+        cardHero.DamageAbsorptionRate = cardHero.DamageAbsorptionRate + hicb.DamageAbsorptionRate;
+        cardHero.IgnoreDamageAbsorptionRate = cardHero.IgnoreDamageAbsorptionRate + hicb.IgnoreDamageAbsorptionRate;
+        cardHero.AbsorbedDamageRate = cardHero.AbsorbedDamageRate + hicb.AbsorbedDamageRate;
+        cardHero.VitalityRegenerationRate = cardHero.VitalityRegenerationRate + hicb.VitalityRegenerationRate;
+        cardHero.VitalityRegenerationResistanceRate = cardHero.VitalityRegenerationResistanceRate + hicb.VitalityRegenerationResistanceRate;
+        cardHero.AccuracyRate = cardHero.AccuracyRate + hicb.AccuracyRate;
+        cardHero.LifestealRate = cardHero.LifestealRate + hicb.LifestealRate;
+        cardHero.ShieldStrength = cardHero.ShieldStrength + hicb.ShieldStrength;
+        cardHero.Tenacity = cardHero.Tenacity + hicb.Tenacity;
+        cardHero.ResistanceRate = cardHero.ResistanceRate + hicb.ResistanceRate;
+        cardHero.ComboRate = cardHero.ComboRate + hicb.ComboRate;
+        cardHero.IgnoreComboRate = cardHero.IgnoreComboRate + hicb.IgnoreComboRate;
+        cardHero.ComboDamageRate = cardHero.ComboDamageRate + hicb.ComboDamageRate;
+        cardHero.ComboResistanceRate = cardHero.ComboResistanceRate + hicb.ComboResistanceRate;
+        cardHero.StunRate = cardHero.StunRate + hicb.StunRate;
+        cardHero.IgnoreStunRate = cardHero.IgnoreStunRate + hicb.IgnoreStunRate;
+        cardHero.ReflectionRate = cardHero.ReflectionRate + hicb.ReflectionRate;
+        cardHero.IgnoreReflectionRate = cardHero.IgnoreReflectionRate + hicb.IgnoreReflectionRate;
+        cardHero.ReflectionDamageRate = cardHero.ReflectionDamageRate + hicb.ReflectionDamageRate;
+        cardHero.ReflectionResistanceRate = cardHero.ReflectionResistanceRate + hicb.ReflectionResistanceRate;
+        cardHero.Mana = cardHero.Mana + hicb.Mana;
+        cardHero.ManaRegenerationRate = cardHero.ManaRegenerationRate + hicb.ManaRegenerationRate;
+        cardHero.DamageToDifferentFactionRate = cardHero.DamageToDifferentFactionRate + hicb.DamageToDifferentFactionRate;
+        cardHero.ResistanceToDifferentFactionRate = cardHero.ResistanceToDifferentFactionRate + hicb.ResistanceToDifferentFactionRate;
+        cardHero.DamageToSameFactionRate = cardHero.DamageToSameFactionRate + hicb.DamageToSameFactionRate;
+        cardHero.ResistanceToSameFactionRate = cardHero.ResistanceToSameFactionRate + hicb.ResistanceToSameFactionRate;
+        cardHero.NormalDamageRate = cardHero.NormalDamageRate + hicb.NormalDamageRate;
+        cardHero.NormalResistanceRate = cardHero.NormalResistanceRate + hicb.NormalResistanceRate;
+        cardHero.SkillDamageRate = cardHero.SkillDamageRate + hicb.SkillDamageRate;
+        cardHero.SkillResistanceRate = cardHero.SkillResistanceRate + hicb.SkillResistanceRate;
+    }
     public static void ApplyAllAnimeStats(this CardHeroes cardHero, AnimeStats animeStats)
     {
         if (animeStats == null) return;
@@ -1458,6 +1511,59 @@ public static class StatsHelper
         cardCaptain.NormalResistanceRate = cardCaptain.NormalResistanceRate + hidc.NormalResistanceRate;
         cardCaptain.SkillDamageRate = cardCaptain.SkillDamageRate + hidc.SkillDamageRate;
         cardCaptain.SkillResistanceRate = cardCaptain.SkillResistanceRate + hidc.SkillResistanceRate;
+    }
+    public static void ApplyHICBStats(this CardCaptains cardCaptain, HICBs hicb)
+    {
+        if (hicb == null) return;
+        cardCaptain.Health = cardCaptain.Health + hicb.Health + cardCaptain.BaseStats.Health * hicb.PercentAllHealth / 100;
+        cardCaptain.PhysicalAttack = cardCaptain.PhysicalAttack + hicb.PhysicalAttack + cardCaptain.BaseStats.PhysicalAttack * hicb.PercentAllPhysicalAttack / 100;
+        cardCaptain.PhysicalDefense = cardCaptain.PhysicalDefense + hicb.PhysicalDefense + cardCaptain.BaseStats.PhysicalDefense * hicb.PercentAllPhysicalDefense / 100;
+        cardCaptain.MagicalAttack = cardCaptain.MagicalAttack + hicb.MagicalAttack + cardCaptain.BaseStats.MagicalAttack * hicb.PercentAllMagicalAttack / 100;
+        cardCaptain.MagicalDefense = cardCaptain.MagicalDefense + hicb.MagicalDefense + cardCaptain.BaseStats.MagicalDefense * hicb.PercentAllMagicalDefense / 100;
+        cardCaptain.ChemicalAttack = cardCaptain.ChemicalAttack + hicb.ChemicalAttack + cardCaptain.BaseStats.ChemicalAttack * hicb.PercentAllChemicalAttack / 100;
+        cardCaptain.ChemicalDefense = cardCaptain.ChemicalDefense + hicb.ChemicalDefense + cardCaptain.BaseStats.ChemicalDefense * hicb.PercentAllChemicalDefense / 100;
+        cardCaptain.AtomicAttack = cardCaptain.AtomicAttack + hicb.AtomicAttack + cardCaptain.BaseStats.AtomicAttack * hicb.PercentAllAtomicAttack / 100;
+        cardCaptain.AtomicDefense = cardCaptain.AtomicDefense + hicb.AtomicDefense + cardCaptain.BaseStats.AtomicDefense * hicb.PercentAllAtomicDefense / 100;
+        cardCaptain.MentalAttack = cardCaptain.MentalAttack + hicb.MentalAttack + cardCaptain.BaseStats.MentalAttack * hicb.PercentAllMentalAttack / 100;
+        cardCaptain.MentalDefense = cardCaptain.MentalDefense + hicb.MentalDefense + cardCaptain.BaseStats.MentalDefense * hicb.PercentAllMentalDefense / 100;
+        cardCaptain.Speed = cardCaptain.Speed + hicb.Speed;
+        cardCaptain.CriticalDamageRate = cardCaptain.CriticalDamageRate + hicb.CriticalDamageRate;
+        cardCaptain.CriticalRate = cardCaptain.CriticalRate + hicb.CriticalRate;
+        cardCaptain.CriticalResistanceRate = cardCaptain.CriticalResistanceRate + hicb.CriticalResistanceRate;
+        cardCaptain.IgnoreCriticalRate = cardCaptain.IgnoreCriticalRate + hicb.IgnoreCriticalRate;
+        cardCaptain.PenetrationRate = cardCaptain.PenetrationRate + hicb.PenetrationRate;
+        cardCaptain.PenetrationResistanceRate = cardCaptain.PenetrationResistanceRate + hicb.PenetrationResistanceRate;
+        cardCaptain.EvasionRate = cardCaptain.EvasionRate + hicb.EvasionRate;
+        cardCaptain.DamageAbsorptionRate = cardCaptain.DamageAbsorptionRate + hicb.DamageAbsorptionRate;
+        cardCaptain.IgnoreDamageAbsorptionRate = cardCaptain.IgnoreDamageAbsorptionRate + hicb.IgnoreDamageAbsorptionRate;
+        cardCaptain.AbsorbedDamageRate = cardCaptain.AbsorbedDamageRate + hicb.AbsorbedDamageRate;
+        cardCaptain.VitalityRegenerationRate = cardCaptain.VitalityRegenerationRate + hicb.VitalityRegenerationRate;
+        cardCaptain.VitalityRegenerationResistanceRate = cardCaptain.VitalityRegenerationResistanceRate + hicb.VitalityRegenerationResistanceRate;
+        cardCaptain.AccuracyRate = cardCaptain.AccuracyRate + hicb.AccuracyRate;
+        cardCaptain.LifestealRate = cardCaptain.LifestealRate + hicb.LifestealRate;
+        cardCaptain.ShieldStrength = cardCaptain.ShieldStrength + hicb.ShieldStrength;
+        cardCaptain.Tenacity = cardCaptain.Tenacity + hicb.Tenacity;
+        cardCaptain.ResistanceRate = cardCaptain.ResistanceRate + hicb.ResistanceRate;
+        cardCaptain.ComboRate = cardCaptain.ComboRate + hicb.ComboRate;
+        cardCaptain.IgnoreComboRate = cardCaptain.IgnoreComboRate + hicb.IgnoreComboRate;
+        cardCaptain.ComboDamageRate = cardCaptain.ComboDamageRate + hicb.ComboDamageRate;
+        cardCaptain.ComboResistanceRate = cardCaptain.ComboResistanceRate + hicb.ComboResistanceRate;
+        cardCaptain.StunRate = cardCaptain.StunRate + hicb.StunRate;
+        cardCaptain.IgnoreStunRate = cardCaptain.IgnoreStunRate + hicb.IgnoreStunRate;
+        cardCaptain.ReflectionRate = cardCaptain.ReflectionRate + hicb.ReflectionRate;
+        cardCaptain.IgnoreReflectionRate = cardCaptain.IgnoreReflectionRate + hicb.IgnoreReflectionRate;
+        cardCaptain.ReflectionDamageRate = cardCaptain.ReflectionDamageRate + hicb.ReflectionDamageRate;
+        cardCaptain.ReflectionResistanceRate = cardCaptain.ReflectionResistanceRate + hicb.ReflectionResistanceRate;
+        cardCaptain.Mana = cardCaptain.Mana + hicb.Mana;
+        cardCaptain.ManaRegenerationRate = cardCaptain.ManaRegenerationRate + hicb.ManaRegenerationRate;
+        cardCaptain.DamageToDifferentFactionRate = cardCaptain.DamageToDifferentFactionRate + hicb.DamageToDifferentFactionRate;
+        cardCaptain.ResistanceToDifferentFactionRate = cardCaptain.ResistanceToDifferentFactionRate + hicb.ResistanceToDifferentFactionRate;
+        cardCaptain.DamageToSameFactionRate = cardCaptain.DamageToSameFactionRate + hicb.DamageToSameFactionRate;
+        cardCaptain.ResistanceToSameFactionRate = cardCaptain.ResistanceToSameFactionRate + hicb.ResistanceToSameFactionRate;
+        cardCaptain.NormalDamageRate = cardCaptain.NormalDamageRate + hicb.NormalDamageRate;
+        cardCaptain.NormalResistanceRate = cardCaptain.NormalResistanceRate + hicb.NormalResistanceRate;
+        cardCaptain.SkillDamageRate = cardCaptain.SkillDamageRate + hicb.SkillDamageRate;
+        cardCaptain.SkillResistanceRate = cardCaptain.SkillResistanceRate + hicb.SkillResistanceRate;
     }
     public static void ApplyAllAnimeStats(this CardCaptains cardCaptain, AnimeStats animeStats)
     {
@@ -2228,6 +2334,59 @@ public static class StatsHelper
         cardColonel.SkillDamageRate = cardColonel.SkillDamageRate + hidc.SkillDamageRate;
         cardColonel.SkillResistanceRate = cardColonel.SkillResistanceRate + hidc.SkillResistanceRate;
     }
+    public static void ApplyHICBStats(this CardColonels cardColonel, HICBs hicb)
+    {
+        if (hicb == null) return;
+        cardColonel.Health = cardColonel.Health + hicb.Health + cardColonel.BaseStats.Health * hicb.PercentAllHealth / 100;
+        cardColonel.PhysicalAttack = cardColonel.PhysicalAttack + hicb.PhysicalAttack + cardColonel.BaseStats.PhysicalAttack * hicb.PercentAllPhysicalAttack / 100;
+        cardColonel.PhysicalDefense = cardColonel.PhysicalDefense + hicb.PhysicalDefense + cardColonel.BaseStats.PhysicalDefense * hicb.PercentAllPhysicalDefense / 100;
+        cardColonel.MagicalAttack = cardColonel.MagicalAttack + hicb.MagicalAttack + cardColonel.BaseStats.MagicalAttack * hicb.PercentAllMagicalAttack / 100;
+        cardColonel.MagicalDefense = cardColonel.MagicalDefense + hicb.MagicalDefense + cardColonel.BaseStats.MagicalDefense * hicb.PercentAllMagicalDefense / 100;
+        cardColonel.ChemicalAttack = cardColonel.ChemicalAttack + hicb.ChemicalAttack + cardColonel.BaseStats.ChemicalAttack * hicb.PercentAllChemicalAttack / 100;
+        cardColonel.ChemicalDefense = cardColonel.ChemicalDefense + hicb.ChemicalDefense + cardColonel.BaseStats.ChemicalDefense * hicb.PercentAllChemicalDefense / 100;
+        cardColonel.AtomicAttack = cardColonel.AtomicAttack + hicb.AtomicAttack + cardColonel.BaseStats.AtomicAttack * hicb.PercentAllAtomicAttack / 100;
+        cardColonel.AtomicDefense = cardColonel.AtomicDefense + hicb.AtomicDefense + cardColonel.BaseStats.AtomicDefense * hicb.PercentAllAtomicDefense / 100;
+        cardColonel.MentalAttack = cardColonel.MentalAttack + hicb.MentalAttack + cardColonel.BaseStats.MentalAttack * hicb.PercentAllMentalAttack / 100;
+        cardColonel.MentalDefense = cardColonel.MentalDefense + hicb.MentalDefense + cardColonel.BaseStats.MentalDefense * hicb.PercentAllMentalDefense / 100;
+        cardColonel.Speed = cardColonel.Speed + hicb.Speed;
+        cardColonel.CriticalDamageRate = cardColonel.CriticalDamageRate + hicb.CriticalDamageRate;
+        cardColonel.CriticalRate = cardColonel.CriticalRate + hicb.CriticalRate;
+        cardColonel.CriticalResistanceRate = cardColonel.CriticalResistanceRate + hicb.CriticalResistanceRate;
+        cardColonel.IgnoreCriticalRate = cardColonel.IgnoreCriticalRate + hicb.IgnoreCriticalRate;
+        cardColonel.PenetrationRate = cardColonel.PenetrationRate + hicb.PenetrationRate;
+        cardColonel.PenetrationResistanceRate = cardColonel.PenetrationResistanceRate + hicb.PenetrationResistanceRate;
+        cardColonel.EvasionRate = cardColonel.EvasionRate + hicb.EvasionRate;
+        cardColonel.DamageAbsorptionRate = cardColonel.DamageAbsorptionRate + hicb.DamageAbsorptionRate;
+        cardColonel.IgnoreDamageAbsorptionRate = cardColonel.IgnoreDamageAbsorptionRate + hicb.IgnoreDamageAbsorptionRate;
+        cardColonel.AbsorbedDamageRate = cardColonel.AbsorbedDamageRate + hicb.AbsorbedDamageRate;
+        cardColonel.VitalityRegenerationRate = cardColonel.VitalityRegenerationRate + hicb.VitalityRegenerationRate;
+        cardColonel.VitalityRegenerationResistanceRate = cardColonel.VitalityRegenerationResistanceRate + hicb.VitalityRegenerationResistanceRate;
+        cardColonel.AccuracyRate = cardColonel.AccuracyRate + hicb.AccuracyRate;
+        cardColonel.LifestealRate = cardColonel.LifestealRate + hicb.LifestealRate;
+        cardColonel.ShieldStrength = cardColonel.ShieldStrength + hicb.ShieldStrength;
+        cardColonel.Tenacity = cardColonel.Tenacity + hicb.Tenacity;
+        cardColonel.ResistanceRate = cardColonel.ResistanceRate + hicb.ResistanceRate;
+        cardColonel.ComboRate = cardColonel.ComboRate + hicb.ComboRate;
+        cardColonel.IgnoreComboRate = cardColonel.IgnoreComboRate + hicb.IgnoreComboRate;
+        cardColonel.ComboDamageRate = cardColonel.ComboDamageRate + hicb.ComboDamageRate;
+        cardColonel.ComboResistanceRate = cardColonel.ComboResistanceRate + hicb.ComboResistanceRate;
+        cardColonel.StunRate = cardColonel.StunRate + hicb.StunRate;
+        cardColonel.IgnoreStunRate = cardColonel.IgnoreStunRate + hicb.IgnoreStunRate;
+        cardColonel.ReflectionRate = cardColonel.ReflectionRate + hicb.ReflectionRate;
+        cardColonel.IgnoreReflectionRate = cardColonel.IgnoreReflectionRate + hicb.IgnoreReflectionRate;
+        cardColonel.ReflectionDamageRate = cardColonel.ReflectionDamageRate + hicb.ReflectionDamageRate;
+        cardColonel.ReflectionResistanceRate = cardColonel.ReflectionResistanceRate + hicb.ReflectionResistanceRate;
+        cardColonel.Mana = cardColonel.Mana + hicb.Mana;
+        cardColonel.ManaRegenerationRate = cardColonel.ManaRegenerationRate + hicb.ManaRegenerationRate;
+        cardColonel.DamageToDifferentFactionRate = cardColonel.DamageToDifferentFactionRate + hicb.DamageToDifferentFactionRate;
+        cardColonel.ResistanceToDifferentFactionRate = cardColonel.ResistanceToDifferentFactionRate + hicb.ResistanceToDifferentFactionRate;
+        cardColonel.DamageToSameFactionRate = cardColonel.DamageToSameFactionRate + hicb.DamageToSameFactionRate;
+        cardColonel.ResistanceToSameFactionRate = cardColonel.ResistanceToSameFactionRate + hicb.ResistanceToSameFactionRate;
+        cardColonel.NormalDamageRate = cardColonel.NormalDamageRate + hicb.NormalDamageRate;
+        cardColonel.NormalResistanceRate = cardColonel.NormalResistanceRate + hicb.NormalResistanceRate;
+        cardColonel.SkillDamageRate = cardColonel.SkillDamageRate + hicb.SkillDamageRate;
+        cardColonel.SkillResistanceRate = cardColonel.SkillResistanceRate + hicb.SkillResistanceRate;
+    }
     public static void ApplyAllAnimeStats(this CardColonels cardColonel, AnimeStats animeStats)
     {
         if (animeStats == null) return;
@@ -2996,6 +3155,59 @@ public static class StatsHelper
         cardGeneral.NormalResistanceRate = cardGeneral.NormalResistanceRate + hidc.NormalResistanceRate;
         cardGeneral.SkillDamageRate = cardGeneral.SkillDamageRate + hidc.SkillDamageRate;
         cardGeneral.SkillResistanceRate = cardGeneral.SkillResistanceRate + hidc.SkillResistanceRate;
+    }
+    public static void ApplyHICBStats(this CardGenerals cardGeneral, HICBs hicb)
+    {
+        if (hicb == null) return;
+        cardGeneral.Health = cardGeneral.Health + hicb.Health + cardGeneral.BaseStats.Health * hicb.PercentAllHealth / 100;
+        cardGeneral.PhysicalAttack = cardGeneral.PhysicalAttack + hicb.PhysicalAttack + cardGeneral.BaseStats.PhysicalAttack * hicb.PercentAllPhysicalAttack / 100;
+        cardGeneral.PhysicalDefense = cardGeneral.PhysicalDefense + hicb.PhysicalDefense + cardGeneral.BaseStats.PhysicalDefense * hicb.PercentAllPhysicalDefense / 100;
+        cardGeneral.MagicalAttack = cardGeneral.MagicalAttack + hicb.MagicalAttack + cardGeneral.BaseStats.MagicalAttack * hicb.PercentAllMagicalAttack / 100;
+        cardGeneral.MagicalDefense = cardGeneral.MagicalDefense + hicb.MagicalDefense + cardGeneral.BaseStats.MagicalDefense * hicb.PercentAllMagicalDefense / 100;
+        cardGeneral.ChemicalAttack = cardGeneral.ChemicalAttack + hicb.ChemicalAttack + cardGeneral.BaseStats.ChemicalAttack * hicb.PercentAllChemicalAttack / 100;
+        cardGeneral.ChemicalDefense = cardGeneral.ChemicalDefense + hicb.ChemicalDefense + cardGeneral.BaseStats.ChemicalDefense * hicb.PercentAllChemicalDefense / 100;
+        cardGeneral.AtomicAttack = cardGeneral.AtomicAttack + hicb.AtomicAttack + cardGeneral.BaseStats.AtomicAttack * hicb.PercentAllAtomicAttack / 100;
+        cardGeneral.AtomicDefense = cardGeneral.AtomicDefense + hicb.AtomicDefense + cardGeneral.BaseStats.AtomicDefense * hicb.PercentAllAtomicDefense / 100;
+        cardGeneral.MentalAttack = cardGeneral.MentalAttack + hicb.MentalAttack + cardGeneral.BaseStats.MentalAttack * hicb.PercentAllMentalAttack / 100;
+        cardGeneral.MentalDefense = cardGeneral.MentalDefense + hicb.MentalDefense + cardGeneral.BaseStats.MentalDefense * hicb.PercentAllMentalDefense / 100;
+        cardGeneral.Speed = cardGeneral.Speed + hicb.Speed;
+        cardGeneral.CriticalDamageRate = cardGeneral.CriticalDamageRate + hicb.CriticalDamageRate;
+        cardGeneral.CriticalRate = cardGeneral.CriticalRate + hicb.CriticalRate;
+        cardGeneral.CriticalResistanceRate = cardGeneral.CriticalResistanceRate + hicb.CriticalResistanceRate;
+        cardGeneral.IgnoreCriticalRate = cardGeneral.IgnoreCriticalRate + hicb.IgnoreCriticalRate;
+        cardGeneral.PenetrationRate = cardGeneral.PenetrationRate + hicb.PenetrationRate;
+        cardGeneral.PenetrationResistanceRate = cardGeneral.PenetrationResistanceRate + hicb.PenetrationResistanceRate;
+        cardGeneral.EvasionRate = cardGeneral.EvasionRate + hicb.EvasionRate;
+        cardGeneral.DamageAbsorptionRate = cardGeneral.DamageAbsorptionRate + hicb.DamageAbsorptionRate;
+        cardGeneral.IgnoreDamageAbsorptionRate = cardGeneral.IgnoreDamageAbsorptionRate + hicb.IgnoreDamageAbsorptionRate;
+        cardGeneral.AbsorbedDamageRate = cardGeneral.AbsorbedDamageRate + hicb.AbsorbedDamageRate;
+        cardGeneral.VitalityRegenerationRate = cardGeneral.VitalityRegenerationRate + hicb.VitalityRegenerationRate;
+        cardGeneral.VitalityRegenerationResistanceRate = cardGeneral.VitalityRegenerationResistanceRate + hicb.VitalityRegenerationResistanceRate;
+        cardGeneral.AccuracyRate = cardGeneral.AccuracyRate + hicb.AccuracyRate;
+        cardGeneral.LifestealRate = cardGeneral.LifestealRate + hicb.LifestealRate;
+        cardGeneral.ShieldStrength = cardGeneral.ShieldStrength + hicb.ShieldStrength;
+        cardGeneral.Tenacity = cardGeneral.Tenacity + hicb.Tenacity;
+        cardGeneral.ResistanceRate = cardGeneral.ResistanceRate + hicb.ResistanceRate;
+        cardGeneral.ComboRate = cardGeneral.ComboRate + hicb.ComboRate;
+        cardGeneral.IgnoreComboRate = cardGeneral.IgnoreComboRate + hicb.IgnoreComboRate;
+        cardGeneral.ComboDamageRate = cardGeneral.ComboDamageRate + hicb.ComboDamageRate;
+        cardGeneral.ComboResistanceRate = cardGeneral.ComboResistanceRate + hicb.ComboResistanceRate;
+        cardGeneral.StunRate = cardGeneral.StunRate + hicb.StunRate;
+        cardGeneral.IgnoreStunRate = cardGeneral.IgnoreStunRate + hicb.IgnoreStunRate;
+        cardGeneral.ReflectionRate = cardGeneral.ReflectionRate + hicb.ReflectionRate;
+        cardGeneral.IgnoreReflectionRate = cardGeneral.IgnoreReflectionRate + hicb.IgnoreReflectionRate;
+        cardGeneral.ReflectionDamageRate = cardGeneral.ReflectionDamageRate + hicb.ReflectionDamageRate;
+        cardGeneral.ReflectionResistanceRate = cardGeneral.ReflectionResistanceRate + hicb.ReflectionResistanceRate;
+        cardGeneral.Mana = cardGeneral.Mana + hicb.Mana;
+        cardGeneral.ManaRegenerationRate = cardGeneral.ManaRegenerationRate + hicb.ManaRegenerationRate;
+        cardGeneral.DamageToDifferentFactionRate = cardGeneral.DamageToDifferentFactionRate + hicb.DamageToDifferentFactionRate;
+        cardGeneral.ResistanceToDifferentFactionRate = cardGeneral.ResistanceToDifferentFactionRate + hicb.ResistanceToDifferentFactionRate;
+        cardGeneral.DamageToSameFactionRate = cardGeneral.DamageToSameFactionRate + hicb.DamageToSameFactionRate;
+        cardGeneral.ResistanceToSameFactionRate = cardGeneral.ResistanceToSameFactionRate + hicb.ResistanceToSameFactionRate;
+        cardGeneral.NormalDamageRate = cardGeneral.NormalDamageRate + hicb.NormalDamageRate;
+        cardGeneral.NormalResistanceRate = cardGeneral.NormalResistanceRate + hicb.NormalResistanceRate;
+        cardGeneral.SkillDamageRate = cardGeneral.SkillDamageRate + hicb.SkillDamageRate;
+        cardGeneral.SkillResistanceRate = cardGeneral.SkillResistanceRate + hicb.SkillResistanceRate;
     }
     public static void ApplyAllAnimeStats(this CardGenerals cardGeneral, AnimeStats animeStats)
     {
@@ -3766,6 +3978,59 @@ public static class StatsHelper
         cardAdmiral.SkillDamageRate = cardAdmiral.SkillDamageRate + hidc.SkillDamageRate;
         cardAdmiral.SkillResistanceRate = cardAdmiral.SkillResistanceRate + hidc.SkillResistanceRate;
     }
+    public static void ApplyHICBStats(this CardAdmirals cardAdmiral, HICBs hicb)
+    {
+        if (hicb == null) return;
+        cardAdmiral.Health = cardAdmiral.Health + hicb.Health + cardAdmiral.BaseStats.Health * hicb.PercentAllHealth / 100;
+        cardAdmiral.PhysicalAttack = cardAdmiral.PhysicalAttack + hicb.PhysicalAttack + cardAdmiral.BaseStats.PhysicalAttack * hicb.PercentAllPhysicalAttack / 100;
+        cardAdmiral.PhysicalDefense = cardAdmiral.PhysicalDefense + hicb.PhysicalDefense + cardAdmiral.BaseStats.PhysicalDefense * hicb.PercentAllPhysicalDefense / 100;
+        cardAdmiral.MagicalAttack = cardAdmiral.MagicalAttack + hicb.MagicalAttack + cardAdmiral.BaseStats.MagicalAttack * hicb.PercentAllMagicalAttack / 100;
+        cardAdmiral.MagicalDefense = cardAdmiral.MagicalDefense + hicb.MagicalDefense + cardAdmiral.BaseStats.MagicalDefense * hicb.PercentAllMagicalDefense / 100;
+        cardAdmiral.ChemicalAttack = cardAdmiral.ChemicalAttack + hicb.ChemicalAttack + cardAdmiral.BaseStats.ChemicalAttack * hicb.PercentAllChemicalAttack / 100;
+        cardAdmiral.ChemicalDefense = cardAdmiral.ChemicalDefense + hicb.ChemicalDefense + cardAdmiral.BaseStats.ChemicalDefense * hicb.PercentAllChemicalDefense / 100;
+        cardAdmiral.AtomicAttack = cardAdmiral.AtomicAttack + hicb.AtomicAttack + cardAdmiral.BaseStats.AtomicAttack * hicb.PercentAllAtomicAttack / 100;
+        cardAdmiral.AtomicDefense = cardAdmiral.AtomicDefense + hicb.AtomicDefense + cardAdmiral.BaseStats.AtomicDefense * hicb.PercentAllAtomicDefense / 100;
+        cardAdmiral.MentalAttack = cardAdmiral.MentalAttack + hicb.MentalAttack + cardAdmiral.BaseStats.MentalAttack * hicb.PercentAllMentalAttack / 100;
+        cardAdmiral.MentalDefense = cardAdmiral.MentalDefense + hicb.MentalDefense + cardAdmiral.BaseStats.MentalDefense * hicb.PercentAllMentalDefense / 100;
+        cardAdmiral.Speed = cardAdmiral.Speed + hicb.Speed;
+        cardAdmiral.CriticalDamageRate = cardAdmiral.CriticalDamageRate + hicb.CriticalDamageRate;
+        cardAdmiral.CriticalRate = cardAdmiral.CriticalRate + hicb.CriticalRate;
+        cardAdmiral.CriticalResistanceRate = cardAdmiral.CriticalResistanceRate + hicb.CriticalResistanceRate;
+        cardAdmiral.IgnoreCriticalRate = cardAdmiral.IgnoreCriticalRate + hicb.IgnoreCriticalRate;
+        cardAdmiral.PenetrationRate = cardAdmiral.PenetrationRate + hicb.PenetrationRate;
+        cardAdmiral.PenetrationResistanceRate = cardAdmiral.PenetrationResistanceRate + hicb.PenetrationResistanceRate;
+        cardAdmiral.EvasionRate = cardAdmiral.EvasionRate + hicb.EvasionRate;
+        cardAdmiral.DamageAbsorptionRate = cardAdmiral.DamageAbsorptionRate + hicb.DamageAbsorptionRate;
+        cardAdmiral.IgnoreDamageAbsorptionRate = cardAdmiral.IgnoreDamageAbsorptionRate + hicb.IgnoreDamageAbsorptionRate;
+        cardAdmiral.AbsorbedDamageRate = cardAdmiral.AbsorbedDamageRate + hicb.AbsorbedDamageRate;
+        cardAdmiral.VitalityRegenerationRate = cardAdmiral.VitalityRegenerationRate + hicb.VitalityRegenerationRate;
+        cardAdmiral.VitalityRegenerationResistanceRate = cardAdmiral.VitalityRegenerationResistanceRate + hicb.VitalityRegenerationResistanceRate;
+        cardAdmiral.AccuracyRate = cardAdmiral.AccuracyRate + hicb.AccuracyRate;
+        cardAdmiral.LifestealRate = cardAdmiral.LifestealRate + hicb.LifestealRate;
+        cardAdmiral.ShieldStrength = cardAdmiral.ShieldStrength + hicb.ShieldStrength;
+        cardAdmiral.Tenacity = cardAdmiral.Tenacity + hicb.Tenacity;
+        cardAdmiral.ResistanceRate = cardAdmiral.ResistanceRate + hicb.ResistanceRate;
+        cardAdmiral.ComboRate = cardAdmiral.ComboRate + hicb.ComboRate;
+        cardAdmiral.IgnoreComboRate = cardAdmiral.IgnoreComboRate + hicb.IgnoreComboRate;
+        cardAdmiral.ComboDamageRate = cardAdmiral.ComboDamageRate + hicb.ComboDamageRate;
+        cardAdmiral.ComboResistanceRate = cardAdmiral.ComboResistanceRate + hicb.ComboResistanceRate;
+        cardAdmiral.StunRate = cardAdmiral.StunRate + hicb.StunRate;
+        cardAdmiral.IgnoreStunRate = cardAdmiral.IgnoreStunRate + hicb.IgnoreStunRate;
+        cardAdmiral.ReflectionRate = cardAdmiral.ReflectionRate + hicb.ReflectionRate;
+        cardAdmiral.IgnoreReflectionRate = cardAdmiral.IgnoreReflectionRate + hicb.IgnoreReflectionRate;
+        cardAdmiral.ReflectionDamageRate = cardAdmiral.ReflectionDamageRate + hicb.ReflectionDamageRate;
+        cardAdmiral.ReflectionResistanceRate = cardAdmiral.ReflectionResistanceRate + hicb.ReflectionResistanceRate;
+        cardAdmiral.Mana = cardAdmiral.Mana + hicb.Mana;
+        cardAdmiral.ManaRegenerationRate = cardAdmiral.ManaRegenerationRate + hicb.ManaRegenerationRate;
+        cardAdmiral.DamageToDifferentFactionRate = cardAdmiral.DamageToDifferentFactionRate + hicb.DamageToDifferentFactionRate;
+        cardAdmiral.ResistanceToDifferentFactionRate = cardAdmiral.ResistanceToDifferentFactionRate + hicb.ResistanceToDifferentFactionRate;
+        cardAdmiral.DamageToSameFactionRate = cardAdmiral.DamageToSameFactionRate + hicb.DamageToSameFactionRate;
+        cardAdmiral.ResistanceToSameFactionRate = cardAdmiral.ResistanceToSameFactionRate + hicb.ResistanceToSameFactionRate;
+        cardAdmiral.NormalDamageRate = cardAdmiral.NormalDamageRate + hicb.NormalDamageRate;
+        cardAdmiral.NormalResistanceRate = cardAdmiral.NormalResistanceRate + hicb.NormalResistanceRate;
+        cardAdmiral.SkillDamageRate = cardAdmiral.SkillDamageRate + hicb.SkillDamageRate;
+        cardAdmiral.SkillResistanceRate = cardAdmiral.SkillResistanceRate + hicb.SkillResistanceRate;
+    }
     public static void ApplyAllAnimeStats(this CardAdmirals cardAdmiral, AnimeStats animeStats)
     {
         if (animeStats == null) return;
@@ -4534,6 +4799,59 @@ public static class StatsHelper
         cardMonster.NormalResistanceRate = cardMonster.NormalResistanceRate + hidc.NormalResistanceRate;
         cardMonster.SkillDamageRate = cardMonster.SkillDamageRate + hidc.SkillDamageRate;
         cardMonster.SkillResistanceRate = cardMonster.SkillResistanceRate + hidc.SkillResistanceRate;
+    }
+    public static void ApplyHICBStats(this CardMonsters cardMonster, HICBs hicb)
+    {
+        if (hicb == null) return;
+        cardMonster.Health = cardMonster.Health + hicb.Health + cardMonster.BaseStats.Health * hicb.PercentAllHealth / 100;
+        cardMonster.PhysicalAttack = cardMonster.PhysicalAttack + hicb.PhysicalAttack + cardMonster.BaseStats.PhysicalAttack * hicb.PercentAllPhysicalAttack / 100;
+        cardMonster.PhysicalDefense = cardMonster.PhysicalDefense + hicb.PhysicalDefense + cardMonster.BaseStats.PhysicalDefense * hicb.PercentAllPhysicalDefense / 100;
+        cardMonster.MagicalAttack = cardMonster.MagicalAttack + hicb.MagicalAttack + cardMonster.BaseStats.MagicalAttack * hicb.PercentAllMagicalAttack / 100;
+        cardMonster.MagicalDefense = cardMonster.MagicalDefense + hicb.MagicalDefense + cardMonster.BaseStats.MagicalDefense * hicb.PercentAllMagicalDefense / 100;
+        cardMonster.ChemicalAttack = cardMonster.ChemicalAttack + hicb.ChemicalAttack + cardMonster.BaseStats.ChemicalAttack * hicb.PercentAllChemicalAttack / 100;
+        cardMonster.ChemicalDefense = cardMonster.ChemicalDefense + hicb.ChemicalDefense + cardMonster.BaseStats.ChemicalDefense * hicb.PercentAllChemicalDefense / 100;
+        cardMonster.AtomicAttack = cardMonster.AtomicAttack + hicb.AtomicAttack + cardMonster.BaseStats.AtomicAttack * hicb.PercentAllAtomicAttack / 100;
+        cardMonster.AtomicDefense = cardMonster.AtomicDefense + hicb.AtomicDefense + cardMonster.BaseStats.AtomicDefense * hicb.PercentAllAtomicDefense / 100;
+        cardMonster.MentalAttack = cardMonster.MentalAttack + hicb.MentalAttack + cardMonster.BaseStats.MentalAttack * hicb.PercentAllMentalAttack / 100;
+        cardMonster.MentalDefense = cardMonster.MentalDefense + hicb.MentalDefense + cardMonster.BaseStats.MentalDefense * hicb.PercentAllMentalDefense / 100;
+        cardMonster.Speed = cardMonster.Speed + hicb.Speed;
+        cardMonster.CriticalDamageRate = cardMonster.CriticalDamageRate + hicb.CriticalDamageRate;
+        cardMonster.CriticalRate = cardMonster.CriticalRate + hicb.CriticalRate;
+        cardMonster.CriticalResistanceRate = cardMonster.CriticalResistanceRate + hicb.CriticalResistanceRate;
+        cardMonster.IgnoreCriticalRate = cardMonster.IgnoreCriticalRate + hicb.IgnoreCriticalRate;
+        cardMonster.PenetrationRate = cardMonster.PenetrationRate + hicb.PenetrationRate;
+        cardMonster.PenetrationResistanceRate = cardMonster.PenetrationResistanceRate + hicb.PenetrationResistanceRate;
+        cardMonster.EvasionRate = cardMonster.EvasionRate + hicb.EvasionRate;
+        cardMonster.DamageAbsorptionRate = cardMonster.DamageAbsorptionRate + hicb.DamageAbsorptionRate;
+        cardMonster.IgnoreDamageAbsorptionRate = cardMonster.IgnoreDamageAbsorptionRate + hicb.IgnoreDamageAbsorptionRate;
+        cardMonster.AbsorbedDamageRate = cardMonster.AbsorbedDamageRate + hicb.AbsorbedDamageRate;
+        cardMonster.VitalityRegenerationRate = cardMonster.VitalityRegenerationRate + hicb.VitalityRegenerationRate;
+        cardMonster.VitalityRegenerationResistanceRate = cardMonster.VitalityRegenerationResistanceRate + hicb.VitalityRegenerationResistanceRate;
+        cardMonster.AccuracyRate = cardMonster.AccuracyRate + hicb.AccuracyRate;
+        cardMonster.LifestealRate = cardMonster.LifestealRate + hicb.LifestealRate;
+        cardMonster.ShieldStrength = cardMonster.ShieldStrength + hicb.ShieldStrength;
+        cardMonster.Tenacity = cardMonster.Tenacity + hicb.Tenacity;
+        cardMonster.ResistanceRate = cardMonster.ResistanceRate + hicb.ResistanceRate;
+        cardMonster.ComboRate = cardMonster.ComboRate + hicb.ComboRate;
+        cardMonster.IgnoreComboRate = cardMonster.IgnoreComboRate + hicb.IgnoreComboRate;
+        cardMonster.ComboDamageRate = cardMonster.ComboDamageRate + hicb.ComboDamageRate;
+        cardMonster.ComboResistanceRate = cardMonster.ComboResistanceRate + hicb.ComboResistanceRate;
+        cardMonster.StunRate = cardMonster.StunRate + hicb.StunRate;
+        cardMonster.IgnoreStunRate = cardMonster.IgnoreStunRate + hicb.IgnoreStunRate;
+        cardMonster.ReflectionRate = cardMonster.ReflectionRate + hicb.ReflectionRate;
+        cardMonster.IgnoreReflectionRate = cardMonster.IgnoreReflectionRate + hicb.IgnoreReflectionRate;
+        cardMonster.ReflectionDamageRate = cardMonster.ReflectionDamageRate + hicb.ReflectionDamageRate;
+        cardMonster.ReflectionResistanceRate = cardMonster.ReflectionResistanceRate + hicb.ReflectionResistanceRate;
+        cardMonster.Mana = cardMonster.Mana + hicb.Mana;
+        cardMonster.ManaRegenerationRate = cardMonster.ManaRegenerationRate + hicb.ManaRegenerationRate;
+        cardMonster.DamageToDifferentFactionRate = cardMonster.DamageToDifferentFactionRate + hicb.DamageToDifferentFactionRate;
+        cardMonster.ResistanceToDifferentFactionRate = cardMonster.ResistanceToDifferentFactionRate + hicb.ResistanceToDifferentFactionRate;
+        cardMonster.DamageToSameFactionRate = cardMonster.DamageToSameFactionRate + hicb.DamageToSameFactionRate;
+        cardMonster.ResistanceToSameFactionRate = cardMonster.ResistanceToSameFactionRate + hicb.ResistanceToSameFactionRate;
+        cardMonster.NormalDamageRate = cardMonster.NormalDamageRate + hicb.NormalDamageRate;
+        cardMonster.NormalResistanceRate = cardMonster.NormalResistanceRate + hicb.NormalResistanceRate;
+        cardMonster.SkillDamageRate = cardMonster.SkillDamageRate + hicb.SkillDamageRate;
+        cardMonster.SkillResistanceRate = cardMonster.SkillResistanceRate + hicb.SkillResistanceRate;
     }
     public static void ApplyAllAnimeStats(this CardMonsters cardMonster, AnimeStats animeStats)
     {
@@ -5304,6 +5622,59 @@ public static class StatsHelper
         cardMilitary.SkillDamageRate = cardMilitary.SkillDamageRate + hidc.SkillDamageRate;
         cardMilitary.SkillResistanceRate = cardMilitary.SkillResistanceRate + hidc.SkillResistanceRate;
     }
+    public static void ApplyHICBStats(this CardMilitaries cardMilitary, HICBs hicb)
+    {
+        if (hicb == null) return;
+        cardMilitary.Health = cardMilitary.Health + hicb.Health + cardMilitary.BaseStats.Health * hicb.PercentAllHealth / 100;
+        cardMilitary.PhysicalAttack = cardMilitary.PhysicalAttack + hicb.PhysicalAttack + cardMilitary.BaseStats.PhysicalAttack * hicb.PercentAllPhysicalAttack / 100;
+        cardMilitary.PhysicalDefense = cardMilitary.PhysicalDefense + hicb.PhysicalDefense + cardMilitary.BaseStats.PhysicalDefense * hicb.PercentAllPhysicalDefense / 100;
+        cardMilitary.MagicalAttack = cardMilitary.MagicalAttack + hicb.MagicalAttack + cardMilitary.BaseStats.MagicalAttack * hicb.PercentAllMagicalAttack / 100;
+        cardMilitary.MagicalDefense = cardMilitary.MagicalDefense + hicb.MagicalDefense + cardMilitary.BaseStats.MagicalDefense * hicb.PercentAllMagicalDefense / 100;
+        cardMilitary.ChemicalAttack = cardMilitary.ChemicalAttack + hicb.ChemicalAttack + cardMilitary.BaseStats.ChemicalAttack * hicb.PercentAllChemicalAttack / 100;
+        cardMilitary.ChemicalDefense = cardMilitary.ChemicalDefense + hicb.ChemicalDefense + cardMilitary.BaseStats.ChemicalDefense * hicb.PercentAllChemicalDefense / 100;
+        cardMilitary.AtomicAttack = cardMilitary.AtomicAttack + hicb.AtomicAttack + cardMilitary.BaseStats.AtomicAttack * hicb.PercentAllAtomicAttack / 100;
+        cardMilitary.AtomicDefense = cardMilitary.AtomicDefense + hicb.AtomicDefense + cardMilitary.BaseStats.AtomicDefense * hicb.PercentAllAtomicDefense / 100;
+        cardMilitary.MentalAttack = cardMilitary.MentalAttack + hicb.MentalAttack + cardMilitary.BaseStats.MentalAttack * hicb.PercentAllMentalAttack / 100;
+        cardMilitary.MentalDefense = cardMilitary.MentalDefense + hicb.MentalDefense + cardMilitary.BaseStats.MentalDefense * hicb.PercentAllMentalDefense / 100;
+        cardMilitary.Speed = cardMilitary.Speed + hicb.Speed;
+        cardMilitary.CriticalDamageRate = cardMilitary.CriticalDamageRate + hicb.CriticalDamageRate;
+        cardMilitary.CriticalRate = cardMilitary.CriticalRate + hicb.CriticalRate;
+        cardMilitary.CriticalResistanceRate = cardMilitary.CriticalResistanceRate + hicb.CriticalResistanceRate;
+        cardMilitary.IgnoreCriticalRate = cardMilitary.IgnoreCriticalRate + hicb.IgnoreCriticalRate;
+        cardMilitary.PenetrationRate = cardMilitary.PenetrationRate + hicb.PenetrationRate;
+        cardMilitary.PenetrationResistanceRate = cardMilitary.PenetrationResistanceRate + hicb.PenetrationResistanceRate;
+        cardMilitary.EvasionRate = cardMilitary.EvasionRate + hicb.EvasionRate;
+        cardMilitary.DamageAbsorptionRate = cardMilitary.DamageAbsorptionRate + hicb.DamageAbsorptionRate;
+        cardMilitary.IgnoreDamageAbsorptionRate = cardMilitary.IgnoreDamageAbsorptionRate + hicb.IgnoreDamageAbsorptionRate;
+        cardMilitary.AbsorbedDamageRate = cardMilitary.AbsorbedDamageRate + hicb.AbsorbedDamageRate;
+        cardMilitary.VitalityRegenerationRate = cardMilitary.VitalityRegenerationRate + hicb.VitalityRegenerationRate;
+        cardMilitary.VitalityRegenerationResistanceRate = cardMilitary.VitalityRegenerationResistanceRate + hicb.VitalityRegenerationResistanceRate;
+        cardMilitary.AccuracyRate = cardMilitary.AccuracyRate + hicb.AccuracyRate;
+        cardMilitary.LifestealRate = cardMilitary.LifestealRate + hicb.LifestealRate;
+        cardMilitary.ShieldStrength = cardMilitary.ShieldStrength + hicb.ShieldStrength;
+        cardMilitary.Tenacity = cardMilitary.Tenacity + hicb.Tenacity;
+        cardMilitary.ResistanceRate = cardMilitary.ResistanceRate + hicb.ResistanceRate;
+        cardMilitary.ComboRate = cardMilitary.ComboRate + hicb.ComboRate;
+        cardMilitary.IgnoreComboRate = cardMilitary.IgnoreComboRate + hicb.IgnoreComboRate;
+        cardMilitary.ComboDamageRate = cardMilitary.ComboDamageRate + hicb.ComboDamageRate;
+        cardMilitary.ComboResistanceRate = cardMilitary.ComboResistanceRate + hicb.ComboResistanceRate;
+        cardMilitary.StunRate = cardMilitary.StunRate + hicb.StunRate;
+        cardMilitary.IgnoreStunRate = cardMilitary.IgnoreStunRate + hicb.IgnoreStunRate;
+        cardMilitary.ReflectionRate = cardMilitary.ReflectionRate + hicb.ReflectionRate;
+        cardMilitary.IgnoreReflectionRate = cardMilitary.IgnoreReflectionRate + hicb.IgnoreReflectionRate;
+        cardMilitary.ReflectionDamageRate = cardMilitary.ReflectionDamageRate + hicb.ReflectionDamageRate;
+        cardMilitary.ReflectionResistanceRate = cardMilitary.ReflectionResistanceRate + hicb.ReflectionResistanceRate;
+        cardMilitary.Mana = cardMilitary.Mana + hicb.Mana;
+        cardMilitary.ManaRegenerationRate = cardMilitary.ManaRegenerationRate + hicb.ManaRegenerationRate;
+        cardMilitary.DamageToDifferentFactionRate = cardMilitary.DamageToDifferentFactionRate + hicb.DamageToDifferentFactionRate;
+        cardMilitary.ResistanceToDifferentFactionRate = cardMilitary.ResistanceToDifferentFactionRate + hicb.ResistanceToDifferentFactionRate;
+        cardMilitary.DamageToSameFactionRate = cardMilitary.DamageToSameFactionRate + hicb.DamageToSameFactionRate;
+        cardMilitary.ResistanceToSameFactionRate = cardMilitary.ResistanceToSameFactionRate + hicb.ResistanceToSameFactionRate;
+        cardMilitary.NormalDamageRate = cardMilitary.NormalDamageRate + hicb.NormalDamageRate;
+        cardMilitary.NormalResistanceRate = cardMilitary.NormalResistanceRate + hicb.NormalResistanceRate;
+        cardMilitary.SkillDamageRate = cardMilitary.SkillDamageRate + hicb.SkillDamageRate;
+        cardMilitary.SkillResistanceRate = cardMilitary.SkillResistanceRate + hicb.SkillResistanceRate;
+    }
     public static void ApplyAllAnimeStats(this CardMilitaries cardMilitary, AnimeStats animeStats)
     {
         if (animeStats == null) return;
@@ -6072,6 +6443,59 @@ public static class StatsHelper
         cardSpell.NormalResistanceRate = cardSpell.NormalResistanceRate + hidc.NormalResistanceRate;
         cardSpell.SkillDamageRate = cardSpell.SkillDamageRate + hidc.SkillDamageRate;
         cardSpell.SkillResistanceRate = cardSpell.SkillResistanceRate + hidc.SkillResistanceRate;
+    }
+    public static void ApplyHICBStats(this CardSpells cardSpell, HICBs hicb)
+    {
+        if (hicb == null) return;
+        cardSpell.Health = cardSpell.Health + hicb.Health + cardSpell.BaseStats.Health * hicb.PercentAllHealth / 100;
+        cardSpell.PhysicalAttack = cardSpell.PhysicalAttack + hicb.PhysicalAttack + cardSpell.BaseStats.PhysicalAttack * hicb.PercentAllPhysicalAttack / 100;
+        cardSpell.PhysicalDefense = cardSpell.PhysicalDefense + hicb.PhysicalDefense + cardSpell.BaseStats.PhysicalDefense * hicb.PercentAllPhysicalDefense / 100;
+        cardSpell.MagicalAttack = cardSpell.MagicalAttack + hicb.MagicalAttack + cardSpell.BaseStats.MagicalAttack * hicb.PercentAllMagicalAttack / 100;
+        cardSpell.MagicalDefense = cardSpell.MagicalDefense + hicb.MagicalDefense + cardSpell.BaseStats.MagicalDefense * hicb.PercentAllMagicalDefense / 100;
+        cardSpell.ChemicalAttack = cardSpell.ChemicalAttack + hicb.ChemicalAttack + cardSpell.BaseStats.ChemicalAttack * hicb.PercentAllChemicalAttack / 100;
+        cardSpell.ChemicalDefense = cardSpell.ChemicalDefense + hicb.ChemicalDefense + cardSpell.BaseStats.ChemicalDefense * hicb.PercentAllChemicalDefense / 100;
+        cardSpell.AtomicAttack = cardSpell.AtomicAttack + hicb.AtomicAttack + cardSpell.BaseStats.AtomicAttack * hicb.PercentAllAtomicAttack / 100;
+        cardSpell.AtomicDefense = cardSpell.AtomicDefense + hicb.AtomicDefense + cardSpell.BaseStats.AtomicDefense * hicb.PercentAllAtomicDefense / 100;
+        cardSpell.MentalAttack = cardSpell.MentalAttack + hicb.MentalAttack + cardSpell.BaseStats.MentalAttack * hicb.PercentAllMentalAttack / 100;
+        cardSpell.MentalDefense = cardSpell.MentalDefense + hicb.MentalDefense + cardSpell.BaseStats.MentalDefense * hicb.PercentAllMentalDefense / 100;
+        cardSpell.Speed = cardSpell.Speed + hicb.Speed;
+        cardSpell.CriticalDamageRate = cardSpell.CriticalDamageRate + hicb.CriticalDamageRate;
+        cardSpell.CriticalRate = cardSpell.CriticalRate + hicb.CriticalRate;
+        cardSpell.CriticalResistanceRate = cardSpell.CriticalResistanceRate + hicb.CriticalResistanceRate;
+        cardSpell.IgnoreCriticalRate = cardSpell.IgnoreCriticalRate + hicb.IgnoreCriticalRate;
+        cardSpell.PenetrationRate = cardSpell.PenetrationRate + hicb.PenetrationRate;
+        cardSpell.PenetrationResistanceRate = cardSpell.PenetrationResistanceRate + hicb.PenetrationResistanceRate;
+        cardSpell.EvasionRate = cardSpell.EvasionRate + hicb.EvasionRate;
+        cardSpell.DamageAbsorptionRate = cardSpell.DamageAbsorptionRate + hicb.DamageAbsorptionRate;
+        cardSpell.IgnoreDamageAbsorptionRate = cardSpell.IgnoreDamageAbsorptionRate + hicb.IgnoreDamageAbsorptionRate;
+        cardSpell.AbsorbedDamageRate = cardSpell.AbsorbedDamageRate + hicb.AbsorbedDamageRate;
+        cardSpell.VitalityRegenerationRate = cardSpell.VitalityRegenerationRate + hicb.VitalityRegenerationRate;
+        cardSpell.VitalityRegenerationResistanceRate = cardSpell.VitalityRegenerationResistanceRate + hicb.VitalityRegenerationResistanceRate;
+        cardSpell.AccuracyRate = cardSpell.AccuracyRate + hicb.AccuracyRate;
+        cardSpell.LifestealRate = cardSpell.LifestealRate + hicb.LifestealRate;
+        cardSpell.ShieldStrength = cardSpell.ShieldStrength + hicb.ShieldStrength;
+        cardSpell.Tenacity = cardSpell.Tenacity + hicb.Tenacity;
+        cardSpell.ResistanceRate = cardSpell.ResistanceRate + hicb.ResistanceRate;
+        cardSpell.ComboRate = cardSpell.ComboRate + hicb.ComboRate;
+        cardSpell.IgnoreComboRate = cardSpell.IgnoreComboRate + hicb.IgnoreComboRate;
+        cardSpell.ComboDamageRate = cardSpell.ComboDamageRate + hicb.ComboDamageRate;
+        cardSpell.ComboResistanceRate = cardSpell.ComboResistanceRate + hicb.ComboResistanceRate;
+        cardSpell.StunRate = cardSpell.StunRate + hicb.StunRate;
+        cardSpell.IgnoreStunRate = cardSpell.IgnoreStunRate + hicb.IgnoreStunRate;
+        cardSpell.ReflectionRate = cardSpell.ReflectionRate + hicb.ReflectionRate;
+        cardSpell.IgnoreReflectionRate = cardSpell.IgnoreReflectionRate + hicb.IgnoreReflectionRate;
+        cardSpell.ReflectionDamageRate = cardSpell.ReflectionDamageRate + hicb.ReflectionDamageRate;
+        cardSpell.ReflectionResistanceRate = cardSpell.ReflectionResistanceRate + hicb.ReflectionResistanceRate;
+        cardSpell.Mana = cardSpell.Mana + hicb.Mana;
+        cardSpell.ManaRegenerationRate = cardSpell.ManaRegenerationRate + hicb.ManaRegenerationRate;
+        cardSpell.DamageToDifferentFactionRate = cardSpell.DamageToDifferentFactionRate + hicb.DamageToDifferentFactionRate;
+        cardSpell.ResistanceToDifferentFactionRate = cardSpell.ResistanceToDifferentFactionRate + hicb.ResistanceToDifferentFactionRate;
+        cardSpell.DamageToSameFactionRate = cardSpell.DamageToSameFactionRate + hicb.DamageToSameFactionRate;
+        cardSpell.ResistanceToSameFactionRate = cardSpell.ResistanceToSameFactionRate + hicb.ResistanceToSameFactionRate;
+        cardSpell.NormalDamageRate = cardSpell.NormalDamageRate + hicb.NormalDamageRate;
+        cardSpell.NormalResistanceRate = cardSpell.NormalResistanceRate + hicb.NormalResistanceRate;
+        cardSpell.SkillDamageRate = cardSpell.SkillDamageRate + hicb.SkillDamageRate;
+        cardSpell.SkillResistanceRate = cardSpell.SkillResistanceRate + hicb.SkillResistanceRate;
     }
     public static void ApplyAllAnimeStats(this CardSpells cardSpell, AnimeStats animeStats)
     {
@@ -6842,6 +7266,59 @@ public static class StatsHelper
         book.SkillDamageRate = book.SkillDamageRate + hidc.SkillDamageRate;
         book.SkillResistanceRate = book.SkillResistanceRate + hidc.SkillResistanceRate;
     }
+    public static void ApplyHICBStats(this Books book, HICBs hicb)
+    {
+        if (hicb == null) return;
+        book.Health = book.Health + hicb.Health + book.BaseStats.Health * hicb.PercentAllHealth / 100;
+        book.PhysicalAttack = book.PhysicalAttack + hicb.PhysicalAttack + book.BaseStats.PhysicalAttack * hicb.PercentAllPhysicalAttack / 100;
+        book.PhysicalDefense = book.PhysicalDefense + hicb.PhysicalDefense + book.BaseStats.PhysicalDefense * hicb.PercentAllPhysicalDefense / 100;
+        book.MagicalAttack = book.MagicalAttack + hicb.MagicalAttack + book.BaseStats.MagicalAttack * hicb.PercentAllMagicalAttack / 100;
+        book.MagicalDefense = book.MagicalDefense + hicb.MagicalDefense + book.BaseStats.MagicalDefense * hicb.PercentAllMagicalDefense / 100;
+        book.ChemicalAttack = book.ChemicalAttack + hicb.ChemicalAttack + book.BaseStats.ChemicalAttack * hicb.PercentAllChemicalAttack / 100;
+        book.ChemicalDefense = book.ChemicalDefense + hicb.ChemicalDefense + book.BaseStats.ChemicalDefense * hicb.PercentAllChemicalDefense / 100;
+        book.AtomicAttack = book.AtomicAttack + hicb.AtomicAttack + book.BaseStats.AtomicAttack * hicb.PercentAllAtomicAttack / 100;
+        book.AtomicDefense = book.AtomicDefense + hicb.AtomicDefense + book.BaseStats.AtomicDefense * hicb.PercentAllAtomicDefense / 100;
+        book.MentalAttack = book.MentalAttack + hicb.MentalAttack + book.BaseStats.MentalAttack * hicb.PercentAllMentalAttack / 100;
+        book.MentalDefense = book.MentalDefense + hicb.MentalDefense + book.BaseStats.MentalDefense * hicb.PercentAllMentalDefense / 100;
+        book.Speed = book.Speed + hicb.Speed;
+        book.CriticalDamageRate = book.CriticalDamageRate + hicb.CriticalDamageRate;
+        book.CriticalRate = book.CriticalRate + hicb.CriticalRate;
+        book.CriticalResistanceRate = book.CriticalResistanceRate + hicb.CriticalResistanceRate;
+        book.IgnoreCriticalRate = book.IgnoreCriticalRate + hicb.IgnoreCriticalRate;
+        book.PenetrationRate = book.PenetrationRate + hicb.PenetrationRate;
+        book.PenetrationResistanceRate = book.PenetrationResistanceRate + hicb.PenetrationResistanceRate;
+        book.EvasionRate = book.EvasionRate + hicb.EvasionRate;
+        book.DamageAbsorptionRate = book.DamageAbsorptionRate + hicb.DamageAbsorptionRate;
+        book.IgnoreDamageAbsorptionRate = book.IgnoreDamageAbsorptionRate + hicb.IgnoreDamageAbsorptionRate;
+        book.AbsorbedDamageRate = book.AbsorbedDamageRate + hicb.AbsorbedDamageRate;
+        book.VitalityRegenerationRate = book.VitalityRegenerationRate + hicb.VitalityRegenerationRate;
+        book.VitalityRegenerationResistanceRate = book.VitalityRegenerationResistanceRate + hicb.VitalityRegenerationResistanceRate;
+        book.AccuracyRate = book.AccuracyRate + hicb.AccuracyRate;
+        book.LifestealRate = book.LifestealRate + hicb.LifestealRate;
+        book.ShieldStrength = book.ShieldStrength + hicb.ShieldStrength;
+        book.Tenacity = book.Tenacity + hicb.Tenacity;
+        book.ResistanceRate = book.ResistanceRate + hicb.ResistanceRate;
+        book.ComboRate = book.ComboRate + hicb.ComboRate;
+        book.IgnoreComboRate = book.IgnoreComboRate + hicb.IgnoreComboRate;
+        book.ComboDamageRate = book.ComboDamageRate + hicb.ComboDamageRate;
+        book.ComboResistanceRate = book.ComboResistanceRate + hicb.ComboResistanceRate;
+        book.StunRate = book.StunRate + hicb.StunRate;
+        book.IgnoreStunRate = book.IgnoreStunRate + hicb.IgnoreStunRate;
+        book.ReflectionRate = book.ReflectionRate + hicb.ReflectionRate;
+        book.IgnoreReflectionRate = book.IgnoreReflectionRate + hicb.IgnoreReflectionRate;
+        book.ReflectionDamageRate = book.ReflectionDamageRate + hicb.ReflectionDamageRate;
+        book.ReflectionResistanceRate = book.ReflectionResistanceRate + hicb.ReflectionResistanceRate;
+        book.Mana = book.Mana + hicb.Mana;
+        book.ManaRegenerationRate = book.ManaRegenerationRate + hicb.ManaRegenerationRate;
+        book.DamageToDifferentFactionRate = book.DamageToDifferentFactionRate + hicb.DamageToDifferentFactionRate;
+        book.ResistanceToDifferentFactionRate = book.ResistanceToDifferentFactionRate + hicb.ResistanceToDifferentFactionRate;
+        book.DamageToSameFactionRate = book.DamageToSameFactionRate + hicb.DamageToSameFactionRate;
+        book.ResistanceToSameFactionRate = book.ResistanceToSameFactionRate + hicb.ResistanceToSameFactionRate;
+        book.NormalDamageRate = book.NormalDamageRate + hicb.NormalDamageRate;
+        book.NormalResistanceRate = book.NormalResistanceRate + hicb.NormalResistanceRate;
+        book.SkillDamageRate = book.SkillDamageRate + hicb.SkillDamageRate;
+        book.SkillResistanceRate = book.SkillResistanceRate + hicb.SkillResistanceRate;
+    }
     public static void ApplyAllAnimeStats(this Books book, AnimeStats animeStats)
     {
         if (animeStats == null) return;
@@ -7610,6 +8087,59 @@ public static class StatsHelper
         pet.NormalResistanceRate = pet.NormalResistanceRate + hidc.NormalResistanceRate;
         pet.SkillDamageRate = pet.SkillDamageRate + hidc.SkillDamageRate;
         pet.SkillResistanceRate = pet.SkillResistanceRate + hidc.SkillResistanceRate;
+    }
+    public static void ApplyHICBStats(this Pets pet, HICBs hicb)
+    {
+        if (hicb == null) return;
+        pet.Health = pet.Health + hicb.Health + pet.BaseStats.Health * hicb.PercentAllHealth / 100;
+        pet.PhysicalAttack = pet.PhysicalAttack + hicb.PhysicalAttack + pet.BaseStats.PhysicalAttack * hicb.PercentAllPhysicalAttack / 100;
+        pet.PhysicalDefense = pet.PhysicalDefense + hicb.PhysicalDefense + pet.BaseStats.PhysicalDefense * hicb.PercentAllPhysicalDefense / 100;
+        pet.MagicalAttack = pet.MagicalAttack + hicb.MagicalAttack + pet.BaseStats.MagicalAttack * hicb.PercentAllMagicalAttack / 100;
+        pet.MagicalDefense = pet.MagicalDefense + hicb.MagicalDefense + pet.BaseStats.MagicalDefense * hicb.PercentAllMagicalDefense / 100;
+        pet.ChemicalAttack = pet.ChemicalAttack + hicb.ChemicalAttack + pet.BaseStats.ChemicalAttack * hicb.PercentAllChemicalAttack / 100;
+        pet.ChemicalDefense = pet.ChemicalDefense + hicb.ChemicalDefense + pet.BaseStats.ChemicalDefense * hicb.PercentAllChemicalDefense / 100;
+        pet.AtomicAttack = pet.AtomicAttack + hicb.AtomicAttack + pet.BaseStats.AtomicAttack * hicb.PercentAllAtomicAttack / 100;
+        pet.AtomicDefense = pet.AtomicDefense + hicb.AtomicDefense + pet.BaseStats.AtomicDefense * hicb.PercentAllAtomicDefense / 100;
+        pet.MentalAttack = pet.MentalAttack + hicb.MentalAttack + pet.BaseStats.MentalAttack * hicb.PercentAllMentalAttack / 100;
+        pet.MentalDefense = pet.MentalDefense + hicb.MentalDefense + pet.BaseStats.MentalDefense * hicb.PercentAllMentalDefense / 100;
+        pet.Speed = pet.Speed + hicb.Speed;
+        pet.CriticalDamageRate = pet.CriticalDamageRate + hicb.CriticalDamageRate;
+        pet.CriticalRate = pet.CriticalRate + hicb.CriticalRate;
+        pet.CriticalResistanceRate = pet.CriticalResistanceRate + hicb.CriticalResistanceRate;
+        pet.IgnoreCriticalRate = pet.IgnoreCriticalRate + hicb.IgnoreCriticalRate;
+        pet.PenetrationRate = pet.PenetrationRate + hicb.PenetrationRate;
+        pet.PenetrationResistanceRate = pet.PenetrationResistanceRate + hicb.PenetrationResistanceRate;
+        pet.EvasionRate = pet.EvasionRate + hicb.EvasionRate;
+        pet.DamageAbsorptionRate = pet.DamageAbsorptionRate + hicb.DamageAbsorptionRate;
+        pet.IgnoreDamageAbsorptionRate = pet.IgnoreDamageAbsorptionRate + hicb.IgnoreDamageAbsorptionRate;
+        pet.AbsorbedDamageRate = pet.AbsorbedDamageRate + hicb.AbsorbedDamageRate;
+        pet.VitalityRegenerationRate = pet.VitalityRegenerationRate + hicb.VitalityRegenerationRate;
+        pet.VitalityRegenerationResistanceRate = pet.VitalityRegenerationResistanceRate + hicb.VitalityRegenerationResistanceRate;
+        pet.AccuracyRate = pet.AccuracyRate + hicb.AccuracyRate;
+        pet.LifestealRate = pet.LifestealRate + hicb.LifestealRate;
+        pet.ShieldStrength = pet.ShieldStrength + hicb.ShieldStrength;
+        pet.Tenacity = pet.Tenacity + hicb.Tenacity;
+        pet.ResistanceRate = pet.ResistanceRate + hicb.ResistanceRate;
+        pet.ComboRate = pet.ComboRate + hicb.ComboRate;
+        pet.IgnoreComboRate = pet.IgnoreComboRate + hicb.IgnoreComboRate;
+        pet.ComboDamageRate = pet.ComboDamageRate + hicb.ComboDamageRate;
+        pet.ComboResistanceRate = pet.ComboResistanceRate + hicb.ComboResistanceRate;
+        pet.StunRate = pet.StunRate + hicb.StunRate;
+        pet.IgnoreStunRate = pet.IgnoreStunRate + hicb.IgnoreStunRate;
+        pet.ReflectionRate = pet.ReflectionRate + hicb.ReflectionRate;
+        pet.IgnoreReflectionRate = pet.IgnoreReflectionRate + hicb.IgnoreReflectionRate;
+        pet.ReflectionDamageRate = pet.ReflectionDamageRate + hicb.ReflectionDamageRate;
+        pet.ReflectionResistanceRate = pet.ReflectionResistanceRate + hicb.ReflectionResistanceRate;
+        pet.Mana = pet.Mana + hicb.Mana;
+        pet.ManaRegenerationRate = pet.ManaRegenerationRate + hicb.ManaRegenerationRate;
+        pet.DamageToDifferentFactionRate = pet.DamageToDifferentFactionRate + hicb.DamageToDifferentFactionRate;
+        pet.ResistanceToDifferentFactionRate = pet.ResistanceToDifferentFactionRate + hicb.ResistanceToDifferentFactionRate;
+        pet.DamageToSameFactionRate = pet.DamageToSameFactionRate + hicb.DamageToSameFactionRate;
+        pet.ResistanceToSameFactionRate = pet.ResistanceToSameFactionRate + hicb.ResistanceToSameFactionRate;
+        pet.NormalDamageRate = pet.NormalDamageRate + hicb.NormalDamageRate;
+        pet.NormalResistanceRate = pet.NormalResistanceRate + hicb.NormalResistanceRate;
+        pet.SkillDamageRate = pet.SkillDamageRate + hicb.SkillDamageRate;
+        pet.SkillResistanceRate = pet.SkillResistanceRate + hicb.SkillResistanceRate;
     }
     public static void ApplyAllAnimeStats(this Pets pet, AnimeStats animeStats)
     {

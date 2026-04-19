@@ -437,6 +437,7 @@
   { "key": "MainType.HICA", "value": "HICA" },
   { "key": "MainType.HIRN", "value": "HIRN" },
   { "key": "MainType.HIDC", "value": "HIDC" },
+  { "key": "MainType.HICB", "value": "HICB" },
 
   { "key": "MainType.HIIN_FULLNAME", "value": "Hyper-Integrated Industrial Nexus" },
   { "key": "MainType.SSWN_FULLNAME", "value": "Supreme Strategic War Nexus" },
@@ -446,6 +447,7 @@
   { "key": "MainType.HICA_FULLNAME", "value": "Hyper-Integrated Command Authority" },
   { "key": "MainType.HIRN_FULLNAME", "value": "Hyper-Integrated Resource Nexus" },
   { "key": "MainType.HIDC_FULLNAME", "value": "Hyper-Integrated Defense Command" },
+  { "key": "MainType.HICB_FULLNAME", "value": "Hyper-Integrated Core Base" },
 
   { "key": "HIIN.HIINI", "value": "HIIN I" },
   { "key": "HIIN.HIINII", "value": "HIIN II" },
@@ -534,6 +536,17 @@
   { "key": "HIDC.HIDCVIII", "value": "HIDC VIII" },
   { "key": "HIDC.HIDCIX", "value": "HIDC IX" },
   { "key": "HIDC.HIDCX", "value": "HIDC X" },
+
+  { "key": "HIDC.HICBI", "value": "HICB I" },
+  { "key": "HIDC.HICBII", "value": "HICB II" },
+  { "key": "HIDC.HICBIII", "value": "HICB III" },
+  { "key": "HIDC.HICBIV", "value": "HICB IV" },
+  { "key": "HIDC.HICBV", "value": "HICB V" },
+  { "key": "HIDC.HICBVI", "value": "HICB VI" },
+  { "key": "HIDC.HICBVII", "value": "HICB VII" },
+  { "key": "HIDC.HICBVIII", "value": "HICB VIII" },
+  { "key": "HIDC.HICBIX", "value": "HICB IX" },
+  { "key": "HIDC.HICBX", "value": "HICB X" },
 
   { "key": "Equipment.AmnitusEquipment", "value": "Amnitus" },
   { "key": "Equipment.AngelisEquipment", "value": "Angelis" },

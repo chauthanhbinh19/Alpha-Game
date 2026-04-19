@@ -473,9 +473,9 @@ public class FeaturesRepository : IFeaturesRepository
             string query = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.hirn_level, 0) AS hirn_level
+                COALESCE(r.hidc_level, 0) AS hidc_level
             FROM features f
-            LEFT JOIN hirns r on f.id = r.hirn_id
+            LEFT JOIN hidcs r on f.id = r.hidc_id
             WHERE type = @type";
 
             using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -488,6 +488,48 @@ public class FeaturesRepository : IFeaturesRepository
                     {
                         string featureName = reader.GetString(1);
                         FeatureHIDCDTO feature = new FeatureHIDCDTO
+                        {
+                            Id = reader.GetString(0),
+                            FeatureName = reader.GetString(1),
+                            RequiredLevel = reader.GetInt32(2),
+                            CurrentLevel = reader.GetInt32(3)
+                        };
+
+                        features[featureName] = feature;
+                    }
+                }
+            }
+        }
+
+        return features;
+    }
+    public async Task<Dictionary<string, FeatureHICBDTO>> GetHICBFeaturesByTypeAsync(string type)
+    {
+        Dictionary<string, FeatureHICBDTO> features = new Dictionary<string, FeatureHICBDTO>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+
+            string query = @"SELECT f.id, 
+                f.feature_name, 
+                f.required_level,
+                COALESCE(r.hicb_level, 0) AS hicb_level
+            FROM features f
+            LEFT JOIN hicbs r on f.id = r.hicb_id
+            WHERE type = @type";
+
+            using (MySqlCommand command = new MySqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@type", type);
+
+                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        string featureName = reader.GetString(1);
+                        FeatureHICBDTO feature = new FeatureHICBDTO
                         {
                             Id = reader.GetString(0),
                             FeatureName = reader.GetString(1),

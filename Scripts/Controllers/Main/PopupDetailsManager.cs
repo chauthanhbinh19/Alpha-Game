@@ -1786,8 +1786,7 @@ public class PopupDetailsManager : MonoBehaviour
                 generalInformationPanel, statsInformationPanel, descriptionInformationPanel);
         }
     }
-    public void CreateSinglePropertyUI(PropertyInfo property, object value,
-    Transform generalInformationPanel, Transform statsInformationPanel, Transform descriptionInformationPanel)
+    public void CreateSinglePropertyUI(PropertyInfo property, object value, Transform generalInformationPanel, Transform statsInformationPanel, Transform descriptionInformationPanel)
     {
         if (!property.Name.Equals(AppConstants.StatFields.ID) && !property.Name.Equals("currency") && !property.Name.Equals("sequence")
                 && !property.Name.Equals(AppConstants.StatFields.EXPERIMENT) && !property.Name.Equals(AppConstants.StatFields.QUANTITY) 

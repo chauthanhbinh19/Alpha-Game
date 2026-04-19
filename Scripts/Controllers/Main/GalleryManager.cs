@@ -29,7 +29,6 @@ public class GalleryManager : MonoBehaviour
     private Button nextButton;
     private Button previousButton;
     private string mainType;
-    private string subType;
     private TextMeshProUGUI titleText;
     private string search;
     private string type;

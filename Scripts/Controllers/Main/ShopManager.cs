@@ -203,17 +203,18 @@ public class ShopManager : MonoBehaviour
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(ShopButtonPrefab, panel);
+        Transform transform = newButton.transform;
         newButton.name = "Button_" + index;
 
         // Gán hình ảnh cho itemImage
-        RawImage image = newButton.transform.Find("ItemImage").GetComponent<RawImage>();
+        RawImage image = transform.Find("ItemImage").GetComponent<RawImage>();
         if (image != null && itemImage != null)
         {
             image.texture = itemImage;
         }
 
         // Gán tên cho itemName
-        TextMeshProUGUI nameText = newButton.transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nameText = transform.Find("ItemName").GetComponent<TextMeshProUGUI>();
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemName);
@@ -849,14 +850,6 @@ public class ShopManager : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
-    public void ClearAllButton()
-    {
-        // Duyệt qua tất cả các con cái của cardsContent
-        foreach (Transform child in TabButtonPanel)
-        {
-            Destroy(child.gameObject);
-        }
-    }
     public void ChangeNextPage()
     {
         if (currentPage < totalPage)
@@ -881,17 +874,6 @@ public class ShopManager : MonoBehaviour
 
             PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
-        }
-    }
-    public void ClosePanel()
-    {
-        ClearAllButton();
-        ClearAllPrefabs();
-        offset = 0;
-        currentPage = 1;
-        foreach (Transform child in MainPanel)
-        {
-            Destroy(child.gameObject);
         }
     }
     public void Close(Transform content)

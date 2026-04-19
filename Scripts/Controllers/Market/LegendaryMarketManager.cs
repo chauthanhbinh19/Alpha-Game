@@ -88,15 +88,16 @@ public class LegendaryMarketManager : MonoBehaviour
         foreach (var currency in currencies)
         {
             GameObject currencyObject = Instantiate(LegendaryMarketButtonPrefab, legendaryMarketTransform);
-            TextMeshProUGUI currencyText = currencyObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
+            Transform currencyTransform = currencyObject.transform;
+            TextMeshProUGUI currencyText = currencyTransform.Find("NameText").GetComponent<TextMeshProUGUI>();
             currencyText.text = currency.Name.Replace("_", " ");
 
-            RawImage currencyImage = currencyObject.transform.Find("MainImage").GetComponent<RawImage>();
+            RawImage currencyImage = currencyTransform.Find("MainImage").GetComponent<RawImage>();
             string currencyFileNameWithoutExtension = ImageHelper.RemoveImageExtension(currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{currencyFileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
-            Button currencyButton = currencyObject.GetComponent<Button>();
+            Button currencyButton = currencyTransform.GetComponent<Button>();
             currencyButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
@@ -193,10 +194,5 @@ public class LegendaryMarketManager : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
-    }
-    public int CalculateTotalPages(int totalRecords, int pageSize)
-    {
-        if (pageSize <= 0) return 0; // Đảm bảo pageSize không âm hoặc bằng 0
-        return (int)Math.Ceiling((double)totalRecords / pageSize);
     }
 }

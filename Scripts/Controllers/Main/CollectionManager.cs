@@ -28,12 +28,10 @@ public class CollectionManager : MonoBehaviour
     private Button nextButton;
     private Button previousButton;
     private string mainType;
-    private string subType;
     private TextMeshProUGUI titleText;
     private string search;
     private string type;
     private string rare;
-    public List<Button> rareTabButtons;
     public static CollectionManager Instance { get; private set; }
     private void Awake()
     {

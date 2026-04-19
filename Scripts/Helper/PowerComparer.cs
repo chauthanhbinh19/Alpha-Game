@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 
-public sealed class PowerComparer<T> : IComparer<T>
-    where T : IPowerSortable
+public sealed class PowerComparer<T> : IComparer<T> where T : IPowerSortable
 {
     public static readonly PowerComparer<T> Desc = new(true);
     public static readonly PowerComparer<T> Asc  = new(false);
