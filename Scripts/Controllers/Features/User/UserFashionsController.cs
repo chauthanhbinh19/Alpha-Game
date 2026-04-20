@@ -391,7 +391,7 @@ public class UserFashionsController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("❌ Không đủ tài nguyên để nâng cấp vòng phép!");
+                    Debug.Log(MessageConstants.ITEM_NOT_ENOUGH);
                 }
             });
         }

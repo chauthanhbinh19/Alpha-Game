@@ -392,7 +392,7 @@ public class UserCollaborationsController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("❌ Không đủ tài nguyên để nâng cấp Collaboration!");
+                    Debug.Log(MessageConstants.ITEM_NOT_ENOUGH);
                 }
             });
         }

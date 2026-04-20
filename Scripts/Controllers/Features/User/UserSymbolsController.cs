@@ -389,7 +389,7 @@ public class UserSymbolsController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("❌ Không đủ tài nguyên để nâng cấp biểu tượng!");
+                    Debug.Log(MessageConstants.ITEM_NOT_ENOUGH);
                 }
             });
         }

@@ -387,7 +387,7 @@ public class UserSkillsController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("❌ Không đủ tài nguyên để nâng cấp kỹ năng!");
+                    Debug.Log(MessageConstants.ITEM_NOT_ENOUGH);
                 }
             });
         }

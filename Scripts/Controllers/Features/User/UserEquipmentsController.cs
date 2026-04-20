@@ -317,7 +317,7 @@ public class UserEquipmentsController : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("❌ Không đủ tài nguyên để nâng cấp Equipments!");
+                    Debug.Log(MessageConstants.ITEM_NOT_ENOUGH);
                 }
             });
         }

@@ -354,7 +354,7 @@ public class CardMilitariesController : MonoBehaviour
                 }
                 else
                 {
-                    FindObjectOfType<NotificationManager>().ShowNotification("Purchase Failed!");
+                    NotificationManager.Instance.ShowNotification(LocalizationManager.Get(AppDisplayConstants.Message.PURCHASE_FAILED));
                 }
             }
         });

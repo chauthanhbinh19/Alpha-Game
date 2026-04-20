@@ -741,7 +741,7 @@ public class MainMenuDetailsManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Không hỗ trợ loại dữ liệu này!");
+            Debug.LogError(MessageConstants.ERROR_UNSUPPORTED_DATA_TYPE);
         }
 
     }

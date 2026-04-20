@@ -24,6 +24,7 @@ public static class MessageConstants
     public const string PASSWORD_IS_EMPTY = "Password can not be empty!";
     public const string CONFIRM_PASSWORD_IS_EMPTY = "Confirm password can not be empty!";
     public const string PASSWORDS_DO_NOT_MATCH = "Passwords do not match!";
+    public const string ERROR_UNSUPPORTED_DATA_TYPE = "Unsupported data type!";
     public const string CARD_ALREADY_USED_IN_ANOTHER_POSITION = "Message.MessageNumber1";
     public static string WaringLevel(int value)
     {

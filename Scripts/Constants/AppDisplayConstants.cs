@@ -654,6 +654,10 @@ public static class AppDisplayConstants
         public const string HICB_IX = "HICB.HICBIX";
         public const string HICB_X = "HICB.HICBX";
     }
+    public static class Message
+    {
+        public const string PURCHASE_FAILED = "Purchase Failed!";
+    }
     public static class MainMenuSet1
     {
         //Set 1
