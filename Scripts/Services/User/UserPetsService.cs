@@ -447,11 +447,12 @@ public class UserPetsService : IUserPetsService
         var hicaTask = HICAsService.Create().GetSumHICAsAsync(user_id);
         var hirnTask = HIRNsService.Create().GetSumHIRNsAsync(user_id);
         var hidcTask = HIDCsService.Create().GetSumHIDCsAsync(user_id);
+        var hicbTask = HICBsService.Create().GetSumHICBsAsync(user_id);
         var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, animeStatsTask);
+        hidcTask, hicbTask, animeStatsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -466,6 +467,7 @@ public class UserPetsService : IUserPetsService
         var hicaData = await hicaTask;
         var hirnData = await hirnTask;
         var hidcData = await hidcTask;
+        var hicbData = await hicbTask;
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
@@ -473,23 +475,24 @@ public class UserPetsService : IUserPetsService
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
-        foreach(var book in list)
+        foreach(var pet in list)
         {
-            book.ApplyPowerStats(powerManagerData);
-            book.ApplyScienceFictionStats(scienceFictionData);
-            book.ApplyResearchStats(researchData);
-            book.ApplyArchiveStats(archiveData);
-            book.ApplyUniverseStats(universeData);
-            book.ApplyHIINStats(hiinData);
-            book.ApplySSWNStats(sswnData);
-            book.ApplyHITNStats(hitnData);
-            book.ApplyHIHNStats(hihnData);
-            book.ApplyHIENStats(hienData);
-            book.ApplyHICAStats(hicaData);
-            book.ApplyHIRNStats(hirnData);
-            book.ApplyHIDCStats(hidcData);
-            book.ApplyAllAnimeStats(animeStatsData);
-            book.RecalculatePower();
+            pet.ApplyPowerStats(powerManagerData);
+            pet.ApplyScienceFictionStats(scienceFictionData);
+            pet.ApplyResearchStats(researchData);
+            pet.ApplyArchiveStats(archiveData);
+            pet.ApplyUniverseStats(universeData);
+            pet.ApplyHIINStats(hiinData);
+            pet.ApplySSWNStats(sswnData);
+            pet.ApplyHITNStats(hitnData);
+            pet.ApplyHIHNStats(hihnData);
+            pet.ApplyHIENStats(hienData);
+            pet.ApplyHICAStats(hicaData);
+            pet.ApplyHIRNStats(hirnData);
+            pet.ApplyHIDCStats(hidcData);
+            pet.ApplyHICBStats(hicbData);
+            pet.ApplyAllAnimeStats(animeStatsData);
+            pet.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);
         return list;
@@ -512,11 +515,12 @@ public class UserPetsService : IUserPetsService
         var hicaTask = HICAsService.Create().GetSumHICAsAsync(user_id);
         var hirnTask = HIRNsService.Create().GetSumHIRNsAsync(user_id);
         var hidcTask = HIDCsService.Create().GetSumHIDCsAsync(user_id);
+        var hicbTask = HICBsService.Create().GetSumHICBsAsync(user_id);
         var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, animeStatsTask);
+        hidcTask, hicbTask, animeStatsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -531,6 +535,7 @@ public class UserPetsService : IUserPetsService
         var hicaData = await hicaTask;
         var hirnData = await hirnTask;
         var hidcData = await hidcTask;
+        var hicbData = await hicbTask;
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
@@ -538,23 +543,24 @@ public class UserPetsService : IUserPetsService
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
-        foreach(var book in list)
+        foreach(var pet in list)
         {
-            book.ApplyPowerStats(powerManagerData);
-            book.ApplyScienceFictionStats(scienceFictionData);
-            book.ApplyResearchStats(researchData);
-            book.ApplyArchiveStats(archiveData);
-            book.ApplyUniverseStats(universeData);
-            book.ApplyHIINStats(hiinData);
-            book.ApplySSWNStats(sswnData);
-            book.ApplyHITNStats(hitnData);
-            book.ApplyHIHNStats(hihnData);
-            book.ApplyHIENStats(hienData);
-            book.ApplyHICAStats(hicaData);
-            book.ApplyHIRNStats(hirnData);
-            book.ApplyHIDCStats(hidcData);
-            book.ApplyAllAnimeStats(animeStatsData);
-            book.RecalculatePower();
+            pet.ApplyPowerStats(powerManagerData);
+            pet.ApplyScienceFictionStats(scienceFictionData);
+            pet.ApplyResearchStats(researchData);
+            pet.ApplyArchiveStats(archiveData);
+            pet.ApplyUniverseStats(universeData);
+            pet.ApplyHIINStats(hiinData);
+            pet.ApplySSWNStats(sswnData);
+            pet.ApplyHITNStats(hitnData);
+            pet.ApplyHIHNStats(hihnData);
+            pet.ApplyHIENStats(hienData);
+            pet.ApplyHICAStats(hicaData);
+            pet.ApplyHIRNStats(hirnData);
+            pet.ApplyHIDCStats(hidcData);
+            pet.ApplyHICBStats(hicbData);
+            pet.ApplyAllAnimeStats(animeStatsData);
+            pet.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);
         return list;
@@ -612,11 +618,12 @@ public class UserPetsService : IUserPetsService
         var hicaTask = HICAsService.Create().GetSumHICAsAsync(user_id);
         var hirnTask = HIRNsService.Create().GetSumHIRNsAsync(user_id);
         var hidcTask = HIDCsService.Create().GetSumHIDCsAsync(user_id);
+        var hicbTask = HICBsService.Create().GetSumHICBsAsync(user_id);
         var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, animeStatsTask);
+        hidcTask, hicbTask, animeStatsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -631,6 +638,7 @@ public class UserPetsService : IUserPetsService
         var hicaData = await hicaTask;
         var hirnData = await hirnTask;
         var hidcData = await hidcTask;
+        var hicbData = await hicbTask;
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
@@ -638,23 +646,24 @@ public class UserPetsService : IUserPetsService
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
-        foreach(var book in list)
+        foreach(var pet in list)
         {
-            book.ApplyPowerStats(powerManagerData);
-            book.ApplyScienceFictionStats(scienceFictionData);
-            book.ApplyResearchStats(researchData);
-            book.ApplyArchiveStats(archiveData);
-            book.ApplyUniverseStats(universeData);
-            book.ApplyHIINStats(hiinData);
-            book.ApplySSWNStats(sswnData);
-            book.ApplyHITNStats(hitnData);
-            book.ApplyHIHNStats(hihnData);
-            book.ApplyHIENStats(hienData);
-            book.ApplyHICAStats(hicaData);
-            book.ApplyHIRNStats(hirnData);
-            book.ApplyHIDCStats(hidcData);
-            book.ApplyAllAnimeStats(animeStatsData);
-            book.RecalculatePower();
+            pet.ApplyPowerStats(powerManagerData);
+            pet.ApplyScienceFictionStats(scienceFictionData);
+            pet.ApplyResearchStats(researchData);
+            pet.ApplyArchiveStats(archiveData);
+            pet.ApplyUniverseStats(universeData);
+            pet.ApplyHIINStats(hiinData);
+            pet.ApplySSWNStats(sswnData);
+            pet.ApplyHITNStats(hitnData);
+            pet.ApplyHIHNStats(hihnData);
+            pet.ApplyHIENStats(hienData);
+            pet.ApplyHICAStats(hicaData);
+            pet.ApplyHIRNStats(hirnData);
+            pet.ApplyHIDCStats(hidcData);
+            pet.ApplyHICBStats(hicbData);
+            pet.ApplyAllAnimeStats(animeStatsData);
+            pet.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);
         return list;

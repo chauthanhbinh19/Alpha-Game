@@ -541,11 +541,12 @@ public class UserCardColonelsService : IUseCardColonelsService
         var hicaTask = HICAsService.Create().GetSumHICAsAsync(user_id);
         var hirnTask = HIRNsService.Create().GetSumHIRNsAsync(user_id);
         var hidcTask = HIDCsService.Create().GetSumHIDCsAsync(user_id);
+        var hicbTask = HICBsService.Create().GetSumHICBsAsync(user_id);
         var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, animeStatsTask);
+        hidcTask, hicbTask, animeStatsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -560,6 +561,7 @@ public class UserCardColonelsService : IUseCardColonelsService
         var hicaData = await hicaTask;
         var hirnData = await hirnTask;
         var hidcData = await hidcTask;
+        var hicbData = await hicbTask;
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
@@ -583,6 +585,7 @@ public class UserCardColonelsService : IUseCardColonelsService
             card.ApplyHICAStats(hicaData);
             card.ApplyHIRNStats(hirnData);
             card.ApplyHIDCStats(hidcData);
+            card.ApplyHICBStats(hicbData);
             card.ApplyAllAnimeStats(animeStatsData);
             card.RecalculatePower();
         }
@@ -607,11 +610,12 @@ public class UserCardColonelsService : IUseCardColonelsService
         var hicaTask = HICAsService.Create().GetSumHICAsAsync(user_id);
         var hirnTask = HIRNsService.Create().GetSumHIRNsAsync(user_id);
         var hidcTask = HIDCsService.Create().GetSumHIDCsAsync(user_id);
+        var hicbTask = HICBsService.Create().GetSumHICBsAsync(user_id);
         var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, animeStatsTask);
+        hidcTask, hicbTask, animeStatsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -626,6 +630,7 @@ public class UserCardColonelsService : IUseCardColonelsService
         var hicaData = await hicaTask;
         var hirnData = await hirnTask;
         var hidcData = await hidcTask;
+        var hicbData = await hicbTask;
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
@@ -649,6 +654,7 @@ public class UserCardColonelsService : IUseCardColonelsService
             card.ApplyHICAStats(hicaData);
             card.ApplyHIRNStats(hirnData);
             card.ApplyHIDCStats(hidcData);
+            card.ApplyHICBStats(hicbData);
             card.ApplyAllAnimeStats(animeStatsData);
             card.RecalculatePower();
         }
@@ -673,11 +679,12 @@ public class UserCardColonelsService : IUseCardColonelsService
         var hicaTask = HICAsService.Create().GetSumHICAsAsync(user_id);
         var hirnTask = HIRNsService.Create().GetSumHIRNsAsync(user_id);
         var hidcTask = HIDCsService.Create().GetSumHIDCsAsync(user_id);
+        var hicbTask = HICBsService.Create().GetSumHICBsAsync(user_id);
         var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, animeStatsTask);
+        hidcTask, hicbTask, animeStatsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -692,6 +699,7 @@ public class UserCardColonelsService : IUseCardColonelsService
         var hicaData = await hicaTask;
         var hirnData = await hirnTask;
         var hidcData = await hidcTask;
+        var hicbData = await hicbTask;
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
@@ -715,6 +723,7 @@ public class UserCardColonelsService : IUseCardColonelsService
             card.ApplyHICAStats(hicaData);
             card.ApplyHIRNStats(hirnData);
             card.ApplyHIDCStats(hidcData);
+            card.ApplyHICBStats(hicbData);
             card.ApplyAllAnimeStats(animeStatsData);
             card.RecalculatePower();
         }
@@ -783,6 +792,7 @@ public class UserCardColonelsService : IUseCardColonelsService
         var hicaTask = HICAsService.Create().GetSumHICAsAsync(user_id);
         var hirnTask = HIRNsService.Create().GetSumHIRNsAsync(user_id);
         var hidcTask = HIDCsService.Create().GetSumHIDCsAsync(user_id);
+        var hicbTask = HICBsService.Create().GetSumHICBsAsync(user_id);
         var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
@@ -802,6 +812,7 @@ public class UserCardColonelsService : IUseCardColonelsService
         var hicaData = await hicaTask;
         var hirnData = await hirnTask;
         var hidcData = await hidcTask;
+        var hicbData = await hicbTask;
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
@@ -825,6 +836,7 @@ public class UserCardColonelsService : IUseCardColonelsService
             card.ApplyHICAStats(hicaData);
             card.ApplyHIRNStats(hirnData);
             card.ApplyHIDCStats(hidcData);
+            card.ApplyHICBStats(hicbData);
             card.ApplyAllAnimeStats(animeStatsData);
             card.RecalculatePower();
         }
@@ -848,11 +860,12 @@ public class UserCardColonelsService : IUseCardColonelsService
         var hicaTask = HICAsService.Create().GetSumHICAsAsync(user_id);
         var hirnTask = HIRNsService.Create().GetSumHIRNsAsync(user_id);
         var hidcTask = HIDCsService.Create().GetSumHIDCsAsync(user_id);
+        var hicbTask = HICBsService.Create().GetSumHICBsAsync(user_id);
         var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, animeStatsTask);
+        hidcTask, hicbTask, animeStatsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -867,6 +880,7 @@ public class UserCardColonelsService : IUseCardColonelsService
         var hicaData = await hicaTask;
         var hirnData = await hirnTask;
         var hidcData = await hidcTask;
+        var hicbData = await hicbTask;
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
@@ -890,6 +904,7 @@ public class UserCardColonelsService : IUseCardColonelsService
             card.ApplyHICAStats(hicaData);
             card.ApplyHIRNStats(hirnData);
             card.ApplyHIDCStats(hidcData);
+            card.ApplyHICBStats(hicbData);
             card.ApplyAllAnimeStats(animeStatsData);
             card.RecalculatePower();
         }

@@ -447,11 +447,12 @@ public class UserBooksService : IUserBooksService
         var hicaTask = HICAsService.Create().GetSumHICAsAsync(user_id);
         var hirnTask = HIRNsService.Create().GetSumHIRNsAsync(user_id);
         var hidcTask = HIDCsService.Create().GetSumHIDCsAsync(user_id);
+        var hicbTask = HICBsService.Create().GetSumHICBsAsync(user_id);
         var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, animeStatsTask);
+        hidcTask, hicbTask, animeStatsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -466,6 +467,7 @@ public class UserBooksService : IUserBooksService
         var hicaData = await hicaTask;
         var hirnData = await hirnTask;
         var hidcData = await hidcTask;
+        var hicbData = await hicbTask;
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
@@ -488,6 +490,7 @@ public class UserBooksService : IUserBooksService
             book.ApplyHICAStats(hicaData);
             book.ApplyHIRNStats(hirnData);
             book.ApplyHIDCStats(hidcData);
+            book.ApplyHICBStats(hicbData);
             book.ApplyAllAnimeStats(animeStatsData);
             book.RecalculatePower();
         }
@@ -512,11 +515,12 @@ public class UserBooksService : IUserBooksService
         var hicaTask = HICAsService.Create().GetSumHICAsAsync(user_id);
         var hirnTask = HIRNsService.Create().GetSumHIRNsAsync(user_id);
         var hidcTask = HIDCsService.Create().GetSumHIDCsAsync(user_id);
+        var hicbTask = HICBsService.Create().GetSumHICBsAsync(user_id);
         var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, animeStatsTask);
+        hidcTask, hicbTask, animeStatsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -531,6 +535,7 @@ public class UserBooksService : IUserBooksService
         var hicaData = await hicaTask;
         var hirnData = await hirnTask;
         var hidcData = await hidcTask;
+        var hicbData = await hicbTask;
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
@@ -538,23 +543,24 @@ public class UserBooksService : IUserBooksService
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
-        foreach(var card in list)
+        foreach(var book in list)
         {
-            card.ApplyPowerStats(powerManagerData);
-            card.ApplyScienceFictionStats(scienceFictionData);
-            card.ApplyResearchStats(researchData);
-            card.ApplyArchiveStats(archiveData);
-            card.ApplyUniverseStats(universeData);
-            card.ApplyHIINStats(hiinData);
-            card.ApplySSWNStats(sswnData);
-            card.ApplyHITNStats(hitnData);
-            card.ApplyHIHNStats(hihnData);
-            card.ApplyHIENStats(hienData);
-            card.ApplyHICAStats(hicaData);
-            card.ApplyHIRNStats(hirnData);
-            card.ApplyHIDCStats(hidcData);
-            card.ApplyAllAnimeStats(animeStatsData);
-            card.RecalculatePower();
+            book.ApplyPowerStats(powerManagerData);
+            book.ApplyScienceFictionStats(scienceFictionData);
+            book.ApplyResearchStats(researchData);
+            book.ApplyArchiveStats(archiveData);
+            book.ApplyUniverseStats(universeData);
+            book.ApplyHIINStats(hiinData);
+            book.ApplySSWNStats(sswnData);
+            book.ApplyHITNStats(hitnData);
+            book.ApplyHIHNStats(hihnData);
+            book.ApplyHIENStats(hienData);
+            book.ApplyHICAStats(hicaData);
+            book.ApplyHIRNStats(hirnData);
+            book.ApplyHIDCStats(hidcData);
+            book.ApplyHICBStats(hicbData);
+            book.ApplyAllAnimeStats(animeStatsData);
+            book.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);
         return list;
@@ -612,11 +618,12 @@ public class UserBooksService : IUserBooksService
         var hicaTask = HICAsService.Create().GetSumHICAsAsync(user_id);
         var hirnTask = HIRNsService.Create().GetSumHIRNsAsync(user_id);
         var hidcTask = HIDCsService.Create().GetSumHIDCsAsync(user_id);
+        var hicbTask = HICBsService.Create().GetSumHICBsAsync(user_id);
         var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, animeStatsTask);
+        hidcTask, hicbTask, animeStatsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -631,6 +638,7 @@ public class UserBooksService : IUserBooksService
         var hicaData = await hicaTask;
         var hirnData = await hirnTask;
         var hidcData = await hidcTask;
+        var hicbData = await hicbTask;
         var animeStatsData = await animeStatsTask;
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
@@ -638,23 +646,24 @@ public class UserBooksService : IUserBooksService
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
-        foreach(var card in list)
+        foreach(var book in list)
         {
-            card.ApplyPowerStats(powerManagerData);
-            card.ApplyScienceFictionStats(scienceFictionData);
-            card.ApplyResearchStats(researchData);
-            card.ApplyArchiveStats(archiveData);
-            card.ApplyUniverseStats(universeData);
-            card.ApplyHIINStats(hiinData);
-            card.ApplySSWNStats(sswnData);
-            card.ApplyHITNStats(hitnData);
-            card.ApplyHIHNStats(hihnData);
-            card.ApplyHIENStats(hienData);
-            card.ApplyHICAStats(hicaData);
-            card.ApplyHIRNStats(hirnData);
-            card.ApplyHIDCStats(hidcData);
-            card.ApplyAllAnimeStats(animeStatsData);
-            card.RecalculatePower();
+            book.ApplyPowerStats(powerManagerData);
+            book.ApplyScienceFictionStats(scienceFictionData);
+            book.ApplyResearchStats(researchData);
+            book.ApplyArchiveStats(archiveData);
+            book.ApplyUniverseStats(universeData);
+            book.ApplyHIINStats(hiinData);
+            book.ApplySSWNStats(sswnData);
+            book.ApplyHITNStats(hitnData);
+            book.ApplyHIHNStats(hihnData);
+            book.ApplyHIENStats(hienData);
+            book.ApplyHICAStats(hicaData);
+            book.ApplyHIRNStats(hirnData);
+            book.ApplyHIDCStats(hidcData);
+            book.ApplyHICBStats(hicbData);
+            book.ApplyAllAnimeStats(animeStatsData);
+            book.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);
         return list;
