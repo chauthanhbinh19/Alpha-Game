@@ -1152,6 +1152,7 @@ public class TeamsManager : MonoBehaviour
 
             FindObjectOfType<PowerController>().ShowPower(currentPower, oldCard.Power, 0);
         }
+        await TeamsService.Create().DeleteUserTeamEmblemsAsync(User.CurrentUserId, teamId, teamPositionIndex, mainType);
     }
     public void CreateUserCards(List<ICard> cards, Transform contentPanel, ICard oldCard = null)
     {
@@ -1227,6 +1228,7 @@ public class TeamsManager : MonoBehaviour
                     Destroy(popupCardPanelObject);
                     Destroy(popupTeamSecondObject);
                     await CreatePopupTeamSecondPanelAsync();
+                    await TeamsService.Create().DeleteUserTeamEmblemsAsync(User.CurrentUserId, teamId, teamPositionIndex, mainType);
                 }
             });
         }
@@ -1250,6 +1252,7 @@ public class TeamsManager : MonoBehaviour
             Destroy(popupCardPanelObject);
             Destroy(popupTeamSecondObject);
             await CreatePopupTeamSecondPanelAsync();
+            await TeamsService.Create().DeleteUserTeamEmblemsAsync(User.CurrentUserId, teamId, teamPositionIndex, mainType);
         });
         closeButton.onClick.AddListener(() =>
         {

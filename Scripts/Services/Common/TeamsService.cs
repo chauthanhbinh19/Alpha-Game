@@ -81,8 +81,8 @@ public class TeamsService : ITeamsService
         return _teamsRepository.InsertUserTeamEmblemsAsync(user_id, teamId, position, emblemDTO);
     }
 
-    public Task<bool> DeleteUserTeamEmblemsAsync(string user_id, string teamId, int position, EmblemDTO emblemDTO)
+    public Task<bool> DeleteUserTeamEmblemsAsync(string user_id, string teamId, int position, string cardType)
     {
-        return _teamsRepository.DeleteUserTeamEmblemsAsync(user_id, teamId, position, emblemDTO);
+        return _teamsRepository.DeleteUserTeamEmblemsAsync(user_id, teamId, position, cardType);
     }
 }

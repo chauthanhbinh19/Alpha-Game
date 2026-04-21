@@ -164,7 +164,7 @@ public class TeamsRepository : ITeamsRepository
 
         return true;
     }
-    public async Task<bool> DeleteUserTeamEmblemsAsync(string user_id, string teamId, int position, EmblemDTO emblemDTO)
+    public async Task<bool> DeleteUserTeamEmblemsAsync(string user_id, string teamId, int position, string cardType)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -186,7 +186,7 @@ public class TeamsRepository : ITeamsRepository
                 command.Parameters.AddWithValue("@user_id", user_id);
                 command.Parameters.AddWithValue("@team_id", teamId);
                 command.Parameters.AddWithValue("@position", position);
-                command.Parameters.AddWithValue("@card_type", emblemDTO.CardType);
+                command.Parameters.AddWithValue("@card_type", cardType);
 
                 // Thực thi lệnh xóa và lấy số lượng dòng bị ảnh hưởng
                 int rowsAffected = await command.ExecuteNonQueryAsync();
