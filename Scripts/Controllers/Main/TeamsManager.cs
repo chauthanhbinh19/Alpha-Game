@@ -343,6 +343,7 @@ public class TeamsManager : MonoBehaviour
 
             emblemButton.onClick.AddListener(() =>
             {
+                teamPositionIndex = tempPositionIndex;
                 CreateEmblemPanel(emblemData);
             });
 
@@ -439,8 +440,6 @@ public class TeamsManager : MonoBehaviour
                     CardType = cardType,
                     EmblemId = g.Key,
                     EmblemType = first.Type,
-                    TeamId = teamId,
-                    Position = teamPositionIndex,
                     Name = first.Name,
                     Image = first.Image,
                     Count = g.Count()
@@ -518,10 +517,10 @@ public class TeamsManager : MonoBehaviour
         // Gộp logic click
         void Bind(Button btn, string type)
         {
-            btn.onClick.AddListener(() =>
+            btn.onClick.AddListener(async () =>
             {
                 SetActiveButton(btn);
-                RenderEmblems(data, type, contentPanel, resultTransforms);
+                await RenderEmblemsAsync(data, type, contentPanel, resultTransforms);
             });
         }
 
@@ -546,13 +545,68 @@ public class TeamsManager : MonoBehaviour
 
         // Default chọn Hero
         SetActiveButton(cardHeroButton);
-        RenderEmblems(data, AppConstants.MainType.CARD_HERO, contentPanel, resultTransforms);
+        _ = RenderEmblemsAsync(data, AppConstants.MainType.CARD_HERO, contentPanel, resultTransforms);
     }
-    public void RenderEmblems(List<EmblemDTO> data, string cardType, Transform contentPanel, Dictionary<string, Transform> resultTransforms)
+    public async Task RenderEmblemsAsync(List<EmblemDTO> emblemDTOs, string cardType, Transform contentPanel, Dictionary<string, Transform> resultTransforms)
     {
         // Clear cũ
         foreach (Transform child in contentPanel)
             Destroy(child.gameObject);
+
+        // Set up mặc định
+        foreach (var kvp in resultTransforms)
+        {
+            string key = kvp.Key;
+            Transform parent = kvp.Value;
+
+            if (parent == null)
+            {
+                Debug.LogWarning($"Transform của {key} bị null");
+                continue;
+            }
+
+            var image = parent.Find("Image")?.GetComponent<RawImage>();
+            var titleText = parent.Find("TitleText")?.GetComponent<TextMeshProUGUI>();
+            var quantityText = parent.Find("QuantityText")?.GetComponent<TextMeshProUGUI>();
+
+            if (image != null) image.texture = TextureHelper.LoadTexture2DCached("UI/Background4/Background_V4_502");
+            if (titleText != null) titleText.text = "?????";
+            if (quantityText != null) quantityText.text = "";
+        }
+
+        var emblems = await TeamsService.Create().GetUserTeamEmblemsAsync(User.CurrentUserId, teamId, teamPositionIndex, cardType);
+        List<EmblemDTO> dtoList = emblems.Select(te => new EmblemDTO
+        {
+            TeamId = te.TeamId,
+            CardType = te.CardType,
+            EmblemId = te.EmblemId,
+            Position = te.Position,
+            Count = te.EmblemQuantity,
+
+            // chưa có dữ liệu → để tạm
+            Name = te.Emblem.Name,
+            Image = te.Emblem.Image,
+            EmblemType = te.Emblem.Type
+
+        }).ToList();
+
+        foreach (var dto in dtoList)
+        {
+            if (resultTransforms.TryGetValue(dto.EmblemType, out var targetTransform))
+            {
+                UpdateResultUI(targetTransform, dto);
+            }
+            else
+            {
+                Debug.LogWarning($"Không tìm thấy slot cho type: {dto.EmblemType}");
+            }
+        }
+
+        var selectedNames = new HashSet<string>(
+            dtoList
+                .Where(x => !string.IsNullOrEmpty(x.Name))
+                .Select(x => x.Name)
+        );
 
         int GetFactionOrder(string type)
         {
@@ -567,15 +621,17 @@ public class TeamsManager : MonoBehaviour
             };
         }
         // Filter theo loại card
-        var filtered = data
+        var emblemFiltered = emblemDTOs
             .Where(x => x.CardType == cardType)
             .OrderBy(x => GetFactionOrder(x.EmblemType))   // sort theo type
             .ThenByDescending(x => x.Count);              // sort theo count
 
-        foreach (var item in filtered)
+        foreach (var emblem in emblemFiltered)
         {
             var emblemButtonObject = Instantiate(EmblemButtonPrefab, contentPanel);
             Transform transform = emblemButtonObject.transform;
+
+            var block = transform.Find("Block")?.gameObject;
 
             var selectButton = transform.Find("SelectButton").GetComponent<Button>();
             var emblemImage = transform.Find("Image").GetComponent<RawImage>();
@@ -583,31 +639,40 @@ public class TeamsManager : MonoBehaviour
             var titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             var emblemBackground = transform.Find("EmblemBackground").GetComponent<Image>();
             var emblemTypeText = transform.Find("EmblemTypeText").GetComponent<TextMeshProUGUI>();
-            emblemTypeText.text = item.EmblemType;
+            emblemTypeText.text = emblem.EmblemType;
 
-            emblemBackground.color = ColorHelper.GetEmblemColor(item.EmblemType);
+            emblemBackground.color = ColorHelper.GetEmblemColor(emblem.EmblemType);
 
-            emblemImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(item.Image));
-            quantityText.text = "x" + item.Count;
-            titleText.text = item.Name;
+            emblemImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(emblem.Image));
+            quantityText.text = "x" + emblem.Count;
+            titleText.text = emblem.Name;
 
+            // Check trùng name
+            bool isSelected = selectedNames.Contains(emblem.Name);
+
+            if (block != null)
+                block.SetActive(isSelected);
+
+            // Nếu đã chọn thì disable luôn button (optional)
+            selectButton.interactable = !isSelected;
             // Xử lý sự kiện khi nhấn Select
             selectButton.onClick.AddListener(async () =>
             {
                 // 1. Gọi API Insert (Giả sử bạn đã có biến user_id ở đâu đó trong class)
-                bool isSuccess = await TeamsService.Create().InsertUserTeamEmblemsAsync(User.CurrentUserId, item);
+                bool isSuccess = await TeamsService.Create().InsertUserTeamEmblemsAsync(User.CurrentUserId, teamId, teamPositionIndex, emblem);
 
                 if (isSuccess)
                 {
                     // 2. Tìm Transform tương ứng dựa trên EmblemType (ví dụ: "Faction_A")
-                    if (resultTransforms.TryGetValue(item.EmblemType, out Transform targetSlot))
+                    if (resultTransforms.TryGetValue(emblem.EmblemType, out Transform targetSlot))
                     {
-                        UpdateResultUI(targetSlot, item);
+                        UpdateResultUI(targetSlot, emblem);
                     }
-                    else
-                    {
-                        Debug.LogWarning("Không tìm thấy slot cho loại: " + item.EmblemType);
-                    }
+                    // Update UI ngay sau khi chọn
+                    if (block != null)
+                        block.SetActive(true);
+
+                    selectButton.interactable = false;
                 }
             });
         }
@@ -616,16 +681,16 @@ public class TeamsManager : MonoBehaviour
     {
         // Tìm các thành phần UI bên trong slot (EmblemA, B...)
         // Lưu ý: Tên path (Image, TitleText...) phải khớp với cấu trúc trong Prefab của slot đó
-        var resImage = transform.Find("Image")?.GetComponent<RawImage>();
-        var resTitle = transform.Find("TitleText")?.GetComponent<Text>();
-        var resQty = transform.Find("QuantityText")?.GetComponent<Text>();
+        var image = transform.Find("Image")?.GetComponent<RawImage>();
+        var titleText = transform.Find("TitleText")?.GetComponent<TextMeshProUGUI>();
+        var quantityText = transform.Find("QuantityText")?.GetComponent<TextMeshProUGUI>();
 
-        if (resImage != null) resImage.texture = TextureHelper.LoadTexture2DCached(emblemDTO.Image);
-        if (resTitle != null) resTitle.text = emblemDTO.Name;
-        if (resQty != null) resQty.text = "x" + emblemDTO.Count;
+        if (image != null) image.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(emblemDTO.Image));
+        if (titleText != null) titleText.text = emblemDTO.Name;
+        if (quantityText != null) quantityText.text = "x" + emblemDTO.Count;
 
         // Có thể thêm hiệu ứng feedback ở đây
-        Debug.Log($"Đã cập nhật {emblemDTO.Name} vào {transform.name}");
+        // Debug.Log($"Đã cập nhật {emblemDTO.Name} vào {transform.name}");
     }
     public async Task CreatePopupTeamSecondPanelAsync()
     {
@@ -1095,8 +1160,8 @@ public class TeamsManager : MonoBehaviour
             Destroy(child.gameObject);
         }
         // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
-        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
-        if (oldAnim != null) Destroy(oldAnim);
+        // var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        // if (oldAnim != null) Destroy(oldAnim);
 
         foreach (var card in cards)
         {
@@ -1171,7 +1236,7 @@ public class TeamsManager : MonoBehaviour
         //     gridLayout.cellSize = new Vector2(250, 360);
         //     gridLayout.spacing = new Vector2(23, 10);
         // }
-        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        // contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void CreatePopWarningPanel(ICard card, ICard oldCard)
     {

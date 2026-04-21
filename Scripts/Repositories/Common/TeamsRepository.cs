@@ -87,7 +87,57 @@ public class TeamsRepository : ITeamsRepository
 
         return totalPower;
     }
-    public async Task<bool> InsertUserTeamEmblemsAsync(string user_id, EmblemDTO emblemDTO)
+    public async Task<List<TeamEmblems>> GetUserTeamEmblemsAsync(string user_id, string team_id, int position, string cardType)
+    {
+        var teamEmblem = new List<TeamEmblems>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync(); // mở connection async
+
+            string userQuery = @"SELECT te.emblem_id, e.name, e.type, e.image, te.emblem_quantity
+            FROM team_emblems te
+            LEFT JOIN emblems e 
+                ON te.emblem_id = e.id
+            WHERE te.user_id = @user_id 
+                AND te.team_id = @team_id 
+                AND te.position = @position
+                AND te.card_type = @card_type";
+            using (var userCommand = new MySqlCommand(userQuery, connection))
+            {
+                userCommand.Parameters.AddWithValue("@user_id", user_id);
+                userCommand.Parameters.AddWithValue("@team_id", team_id);
+                userCommand.Parameters.AddWithValue("@position", position);
+                userCommand.Parameters.AddWithValue("@card_type", cardType);
+
+                using (var reader = await userCommand.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        teamEmblem.Add(new TeamEmblems
+                        {
+                            UserId = user_id,
+                            TeamId = team_id,
+                            Position = position,
+                            CardType = cardType,
+                            EmblemId = reader.GetStringSafe("emblem_id"),
+                            EmblemQuantity = reader.GetIntSafe("emblem_quantity"),
+                            Emblem = new Emblems
+                            {
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Type = reader.GetStringSafe("type"),
+                            }
+                        });
+                    }
+                }
+            }
+        }
+
+        return teamEmblem;
+    }
+    public async Task<bool> InsertUserTeamEmblemsAsync(string user_id, string teamId, int position, EmblemDTO emblemDTO)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -102,8 +152,8 @@ public class TeamsRepository : ITeamsRepository
             using (var userCommand = new MySqlCommand(userQuery, connection))
             {
                 userCommand.Parameters.AddWithValue("@user_id", user_id);
-                userCommand.Parameters.AddWithValue("@team_id", emblemDTO.TeamId);
-                userCommand.Parameters.AddWithValue("@position", emblemDTO.Position);
+                userCommand.Parameters.AddWithValue("@team_id", teamId);
+                userCommand.Parameters.AddWithValue("@position", position);
                 userCommand.Parameters.AddWithValue("@card_type", emblemDTO.CardType);
                 userCommand.Parameters.AddWithValue("@emblem_id", emblemDTO.EmblemId);
                 userCommand.Parameters.AddWithValue("@emblem_quantity", emblemDTO.Count);
@@ -114,7 +164,7 @@ public class TeamsRepository : ITeamsRepository
 
         return true;
     }
-    public async Task<bool> DeleteUserTeamEmblemsAsync(string user_id, EmblemDTO emblemDTO)
+    public async Task<bool> DeleteUserTeamEmblemsAsync(string user_id, string teamId, int position, EmblemDTO emblemDTO)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -134,8 +184,8 @@ public class TeamsRepository : ITeamsRepository
             {
                 // Thêm các tham số để tránh SQL Injection
                 command.Parameters.AddWithValue("@user_id", user_id);
-                command.Parameters.AddWithValue("@team_id", emblemDTO.TeamId);
-                command.Parameters.AddWithValue("@position", emblemDTO.Position);
+                command.Parameters.AddWithValue("@team_id", teamId);
+                command.Parameters.AddWithValue("@position", position);
                 command.Parameters.AddWithValue("@card_type", emblemDTO.CardType);
 
                 // Thực thi lệnh xóa và lấy số lượng dòng bị ảnh hưởng

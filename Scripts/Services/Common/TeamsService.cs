@@ -71,13 +71,18 @@ public class TeamsService : ITeamsService
         return totalPower;
     }
 
-    public Task<bool> InsertUserTeamEmblemsAsync(string user_id, EmblemDTO emblemDTO)
+    public Task<List<TeamEmblems>> GetUserTeamEmblemsAsync(string user_id, string team_id, int position, string cardType)
     {
-        return _teamsRepository.InsertUserTeamEmblemsAsync(user_id, emblemDTO);
+        return _teamsRepository.GetUserTeamEmblemsAsync(user_id, team_id, position, cardType);
     }
 
-    public Task<bool> DeleteUserTeamEmblemsAsync(string user_id, EmblemDTO emblemDTO)
+    public Task<bool> InsertUserTeamEmblemsAsync(string user_id, string teamId, int position, EmblemDTO emblemDTO)
     {
-        return _teamsRepository.DeleteUserTeamEmblemsAsync(user_id, emblemDTO);
+        return _teamsRepository.InsertUserTeamEmblemsAsync(user_id, teamId, position, emblemDTO);
+    }
+
+    public Task<bool> DeleteUserTeamEmblemsAsync(string user_id, string teamId, int position, EmblemDTO emblemDTO)
+    {
+        return _teamsRepository.DeleteUserTeamEmblemsAsync(user_id, teamId, position, emblemDTO);
     }
 }

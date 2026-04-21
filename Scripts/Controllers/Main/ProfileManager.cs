@@ -20,8 +20,6 @@ public class ProfileManager : MonoBehaviour
     private Transform WaitingPanel;
     private Transform MainPanel;
     private Transform RootPanel;
-    private Button closeButton;
-    private TextMeshProUGUI titleText;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
