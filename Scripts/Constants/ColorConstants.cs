@@ -1,10 +1,11 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public static class ColorConstants
 {
-    public const string DEFAULT_TEXT_COLOR = "#F9EED9";
-    public const string DISABLED_TEXT_COLOR = "#AAAAAA";
+    public const string DEFAULT_COLOR = "#F9EED9";
+    public const string DISABLED_COLOR = "#AAAAAA";
     public const string DESCRIPTION_TEXT_COLOR = "#F9EED9";
     public const string RED_COLOR = "#FD1F41";
     public const string GREEN_COLOR = "#1ffd4b";
@@ -56,6 +57,12 @@ public static class ColorConstants
     public const string CARD_MONSTER_COLOR = "#0681FF";
     public const string CARD_MILITARY_COLOR = "#6706FF";
     public const string CARD_SPELL_COLOR = "#FF06CB";
+
+    public const string EMBLEM_FACTION_A_COLOR = "#CA1F1F";
+    public const string EMBLEM_FACTION_B_COLOR = "#CAB61F";
+    public const string EMBLEM_FACTION_C_COLOR = "#3ECA1F";
+    public const string EMBLEM_FACTION_D_COLOR = "#1FCAB0";
+    public const string EMBLEM_FACTION_E_COLOR = "#1F4ECA";
     public static VertexGradient PHYSICAL_GRADIENT_COLOR = new VertexGradient(
         new Color32(255, 99, 71, 255),   // Top Left - Tomato
         new Color32(255, 69, 0, 255),    // Top Right - OrangeRed
@@ -103,4 +110,5 @@ public static class ColorConstants
             ColorHelper.HexToColor("#A41200FF"),
             ColorHelper.HexToColor("#CA1000FF")
         );
+
 }

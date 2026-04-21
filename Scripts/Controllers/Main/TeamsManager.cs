@@ -25,6 +25,8 @@ public class TeamsManager : MonoBehaviour
     private GameObject PopupCardPanelPrefab;
     private GameObject CardSelectButtonPrefab;
     private GameObject PopupWarningPanelPrefab;
+    private GameObject PopupTeamEmblemPanelPrefab;
+    private GameObject EmblemButtonPrefab;
     private GameObject RareButtonPrefab;
     private GameObject PositionPrefab;
     private GameObject popupTeamFirstObject;
@@ -105,6 +107,8 @@ public class TeamsManager : MonoBehaviour
         PopupCardPanelPrefab = UIManager.Instance.Get("PopupCardPanelPrefab");
         CardSelectButtonPrefab = UIManager.Instance.Get("CardSelectButtonPrefab");
         PopupWarningPanelPrefab = UIManager.Instance.Get("PopupWarningPanelPrefab");
+        PopupTeamEmblemPanelPrefab = UIManager.Instance.Get("PopupTeamEmblemPanelPrefab");
+        EmblemButtonPrefab = UIManager.Instance.Get("EmblemButtonPrefab");
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         PositionPrefab = UIManager.Instance.Get("PositionPrefab");
 
@@ -285,33 +289,62 @@ public class TeamsManager : MonoBehaviour
     {
         ButtonEvent.Instance.Close(slotPanel);
 
-        var taskCardHero = userCardHeroesService.GetUserCardHeroesTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        var taskCardCaptain = userCardCaptainsService.GetUserCardCaptainsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        var taskCardColonel = userCardColonelsService.GetUserCardColonelsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        var taskCardGeneral = userCardGeneralsService.GetUserCardGeneralsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        var taskCardAdmiral = userCardAdmiralsService.GetUserCardAdmiralsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        var taskCardMonster = userCardMonstersService.GetUserCardMonstersTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        var taskCardMilitary = userCardMilitariesService.GetUserCardMilitariesTeamWithoutPositionAsync(User.CurrentUserId, teamId);
-        var taskCardSpell = userCardSpellsService.GetUserCardSpellsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        // var taskCardHero = userCardHeroesService.GetUserCardHeroesTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        // var taskCardCaptain = userCardCaptainsService.GetUserCardCaptainsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        // var taskCardColonel = userCardColonelsService.GetUserCardColonelsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        // var taskCardGeneral = userCardGeneralsService.GetUserCardGeneralsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        // var taskCardAdmiral = userCardAdmiralsService.GetUserCardAdmiralsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        // var taskCardMonster = userCardMonstersService.GetUserCardMonstersTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        // var taskCardMilitary = userCardMilitariesService.GetUserCardMilitariesTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        // var taskCardSpell = userCardSpellsService.GetUserCardSpellsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
 
-        await Task.WhenAll(taskCardHero, taskCardCaptain, taskCardColonel, taskCardGeneral, taskCardAdmiral, taskCardMonster, taskCardMilitary, taskCardSpell);
+        // await Task.WhenAll(taskCardHero, taskCardCaptain, taskCardColonel, taskCardGeneral, taskCardAdmiral, taskCardMonster, taskCardMilitary, taskCardSpell);
 
-        List<CardHeroes> cardHeroList = await taskCardHero;
-        List<CardCaptains> cardCaptainList = await taskCardCaptain;
-        List<CardColonels> cardColonelList = await taskCardColonel;
-        List<CardGenerals> cardGeneralList = await taskCardGeneral;
-        List<CardAdmirals> cardAdmiralList = await taskCardAdmiral;
-        List<CardMonsters> cardMonsterList = await taskCardMonster;
-        List<CardMilitaries> cardMilitaryList = await taskCardMilitary;
-        List<CardSpells> cardSpellList = await taskCardSpell;
+        // List<CardHeroes> cardHeroList = await taskCardHero;
+        // List<CardCaptains> cardCaptainList = await taskCardCaptain;
+        // List<CardColonels> cardColonelList = await taskCardColonel;
+        // List<CardGenerals> cardGeneralList = await taskCardGeneral;
+        // List<CardAdmirals> cardAdmiralList = await taskCardAdmiral;
+        // List<CardMonsters> cardMonsterList = await taskCardMonster;
+        // List<CardMilitaries> cardMilitaryList = await taskCardMilitary;
+        // List<CardSpells> cardSpellList = await taskCardSpell;
+
+        List<CardHeroes> cardHeroList = await userCardHeroesService.GetUserCardHeroesTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        List<CardCaptains> cardCaptainList = await userCardCaptainsService.GetUserCardCaptainsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        List<CardColonels> cardColonelList = await userCardColonelsService.GetUserCardColonelsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        List<CardGenerals> cardGeneralList = await userCardGeneralsService.GetUserCardGeneralsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        List<CardAdmirals> cardAdmiralList = await userCardAdmiralsService.GetUserCardAdmiralsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        List<CardMonsters> cardMonsterList = await userCardMonstersService.GetUserCardMonstersTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        List<CardMilitaries> cardMilitaryList = await userCardMilitariesService.GetUserCardMilitariesTeamWithoutPositionAsync(User.CurrentUserId, teamId);
+        List<CardSpells> cardSpellList = await userCardSpellsService.GetUserCardSpellsTeamWithoutPositionAsync(User.CurrentUserId, teamId);
 
         for (int i = 1; i <= 10; i++)
         {
+            int tempPositionIndex = i;
             GameObject teamSlotFirstObject = Instantiate(TeamSlotFirstPrefab, slotPanel);
             Transform transform = teamSlotFirstObject.transform;
 
             TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             TextMeshProUGUI quantityText = transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            RawImage circleImage = transform.Find("CircleImage").GetComponent<RawImage>();
+            circleImage.gameObject.AddComponent<RotateAnimation>();
+            Button emblemButton = transform.Find("EmblemButton").GetComponent<Button>();
+
+            var emblemData = BuildEmblemPopupData(
+                cardHeroList,
+                cardCaptainList,
+                cardColonelList,
+                cardGeneralList,
+                cardAdmiralList,
+                cardMonsterList,
+                cardMilitaryList,
+                cardSpellList
+            );
+
+            emblemButton.onClick.AddListener(() =>
+            {
+                CreateEmblemPanel(emblemData);
+            });
 
             Button cardHeroButton = transform.Find("ButtonGroup/CardHeroButton").GetComponent<Button>();
             Button cardCaptainButton = transform.Find("ButtonGroup/CardCaptainButton").GetComponent<Button>();
@@ -322,7 +355,6 @@ public class TeamsManager : MonoBehaviour
             Button cardMilitaryButton = transform.Find("ButtonGroup/CardMilitaryButton").GetComponent<Button>();
             Button cardSpellButton = transform.Find("ButtonGroup/CardSpellButton").GetComponent<Button>();
 
-            int tempPositionIndex = i;
             cardHeroButton.onClick.AddListener(async () => await OnCardClickAsync(tempPositionIndex, AppConstants.MainType.CARD_HERO));
             cardCaptainButton.onClick.AddListener(async () => await OnCardClickAsync(tempPositionIndex, AppConstants.MainType.CARD_CAPTAIN));
             cardColonelButton.onClick.AddListener(async () => await OnCardClickAsync(tempPositionIndex, AppConstants.MainType.CARD_COLONEL));
@@ -355,7 +387,7 @@ public class TeamsManager : MonoBehaviour
     private void UpdateBarManual(Transform barTransform, int count, string colorHex)
     {
         Slider slider = barTransform.Find("Slider").GetComponent<Slider>();
-        
+
         slider.maxValue = 10;
         slider.value = count;
 
@@ -379,6 +411,221 @@ public class TeamsManager : MonoBehaviour
         mainType = type;
         teamPositionIndex = position;
         await CreatePopupTeamSecondPanelAsync();
+    }
+    private List<EmblemDTO> BuildEmblemPopupData(
+    List<CardHeroes> cardHeroes,
+    List<CardCaptains> cardCaptains,
+    List<CardColonels> cardColonels,
+    List<CardGenerals> cardGenerals,
+    List<CardAdmirals> cardAdmirals,
+    List<CardMonsters> cardMonsters,
+    List<CardMilitaries> cardMilitaries,
+    List<CardSpells> cardSpells)
+    {
+        var result = new List<EmblemDTO>();
+
+        void AddEmblems(IEnumerable<Emblems> emblems, string cardType)
+        {
+            if (emblems == null) return;
+
+            var grouped = emblems.GroupBy(e => e.Id);
+
+            foreach (var g in grouped)
+            {
+                var first = g.First();
+
+                result.Add(new EmblemDTO
+                {
+                    CardType = cardType,
+                    EmblemId = g.Key,
+                    EmblemType = first.Type,
+                    TeamId = teamId,
+                    Position = teamPositionIndex,
+                    Name = first.Name,
+                    Image = first.Image,
+                    Count = g.Count()
+                });
+            }
+        }
+
+        AddEmblems(cardHeroes?.SelectMany(c => c.Emblems ?? new List<Emblems>()), AppConstants.MainType.CARD_HERO);
+        AddEmblems(cardCaptains?.SelectMany(c => c.Emblems ?? new List<Emblems>()), AppConstants.MainType.CARD_CAPTAIN);
+        AddEmblems(cardColonels?.SelectMany(c => c.Emblems ?? new List<Emblems>()), AppConstants.MainType.CARD_COLONEL);
+        AddEmblems(cardGenerals?.SelectMany(c => c.Emblems ?? new List<Emblems>()), AppConstants.MainType.CARD_GENERAL);
+        AddEmblems(cardAdmirals?.SelectMany(c => c.Emblems ?? new List<Emblems>()), AppConstants.MainType.CARD_ADMIRAL);
+        AddEmblems(cardMonsters?.SelectMany(c => c.Emblems ?? new List<Emblems>()), AppConstants.MainType.CARD_MONSTER);
+        AddEmblems(cardMilitaries?.SelectMany(c => c.Emblems ?? new List<Emblems>()), AppConstants.MainType.CARD_MILITARY);
+        AddEmblems(cardSpells?.SelectMany(c => c.Emblems ?? new List<Emblems>()), AppConstants.MainType.CARD_SPELL);
+
+        return result;
+    }
+    public void CreateEmblemPanel(List<EmblemDTO> data)
+    {
+        GameObject popupTeamEmblemPanelObject = Instantiate(PopupTeamEmblemPanelPrefab, MainPanel);
+        Transform transform = popupTeamEmblemPanelObject.transform;
+
+        Transform contentPanel = transform.Find("Scroll View/Viewport/Content");
+        closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(popupTeamEmblemPanelObject);
+        });
+
+        Button cardHeroButton = transform.Find("ButtonGroup/CardHeroButton").GetComponent<Button>();
+        Button cardCaptainButton = transform.Find("ButtonGroup/CardCaptainButton").GetComponent<Button>();
+        Button cardColonelButton = transform.Find("ButtonGroup/CardColonelButton").GetComponent<Button>();
+        Button cardGeneralButton = transform.Find("ButtonGroup/CardGeneralButton").GetComponent<Button>();
+        Button cardAdmiralButton = transform.Find("ButtonGroup/CardAdmiralButton").GetComponent<Button>();
+        Button cardMonsterButton = transform.Find("ButtonGroup/CardMonsterButton").GetComponent<Button>();
+        Button cardMilitaryButton = transform.Find("ButtonGroup/CardMilitaryButton").GetComponent<Button>();
+        Button cardSpellButton = transform.Find("ButtonGroup/CardSpellButton").GetComponent<Button>();
+
+        // Gom các Transform hiển thị kết quả vào Dictionary
+        Dictionary<string, Transform> resultTransforms = new Dictionary<string, Transform>
+        {
+            { AppConstants.Emblem.FACTION_A, transform.Find("ResultGroup/EmblemA") },
+            { AppConstants.Emblem.FACTION_B, transform.Find("ResultGroup/EmblemB") },
+            { AppConstants.Emblem.FACTION_C, transform.Find("ResultGroup/EmblemC") },
+            { AppConstants.Emblem.FACTION_D, transform.Find("ResultGroup/EmblemD") },
+            { AppConstants.Emblem.FACTION_E, transform.Find("ResultGroup/EmblemE") }
+        };
+
+        List<Button> allButtons = new List<Button>
+        {
+            cardHeroButton,
+            cardCaptainButton,
+            cardColonelButton,
+            cardGeneralButton,
+            cardAdmiralButton,
+            cardMonsterButton,
+            cardMilitaryButton,
+            cardSpellButton
+        };
+
+        Texture defaultBackground = TextureHelper.LoadTexture2DCached("UI/Background4/Item_Background_11");
+        Texture activeBackground = TextureHelper.LoadTexture2DCached("UI/Background4/Item_Background_12");
+
+        void SetActiveButton(Button clickedBtn)
+        {
+            foreach (var button in allButtons)
+            {
+                var image = button.transform.Find("Background4").GetComponent<RawImage>();
+                image.texture = (button == clickedBtn) ? activeBackground : defaultBackground;
+            }
+        }
+
+        // Gộp logic click
+        void Bind(Button btn, string type)
+        {
+            btn.onClick.AddListener(() =>
+            {
+                SetActiveButton(btn);
+                RenderEmblems(data, type, contentPanel, resultTransforms);
+            });
+        }
+
+        // Gán sự kiện
+        cardHeroButton.onClick.AddListener(() => SetActiveButton(cardHeroButton));
+        cardCaptainButton.onClick.AddListener(() => SetActiveButton(cardCaptainButton));
+        cardColonelButton.onClick.AddListener(() => SetActiveButton(cardColonelButton));
+        cardGeneralButton.onClick.AddListener(() => SetActiveButton(cardGeneralButton));
+        cardAdmiralButton.onClick.AddListener(() => SetActiveButton(cardAdmiralButton));
+        cardMonsterButton.onClick.AddListener(() => SetActiveButton(cardMonsterButton));
+        cardMilitaryButton.onClick.AddListener(() => SetActiveButton(cardMilitaryButton));
+        cardSpellButton.onClick.AddListener(() => SetActiveButton(cardSpellButton));
+
+        Bind(cardHeroButton, AppConstants.MainType.CARD_HERO);
+        Bind(cardCaptainButton, AppConstants.MainType.CARD_CAPTAIN);
+        Bind(cardColonelButton, AppConstants.MainType.CARD_COLONEL);
+        Bind(cardGeneralButton, AppConstants.MainType.CARD_GENERAL);
+        Bind(cardAdmiralButton, AppConstants.MainType.CARD_ADMIRAL);
+        Bind(cardMonsterButton, AppConstants.MainType.CARD_MONSTER);
+        Bind(cardMilitaryButton, AppConstants.MainType.CARD_MILITARY);
+        Bind(cardSpellButton, AppConstants.MainType.CARD_SPELL);
+
+        // Default chọn Hero
+        SetActiveButton(cardHeroButton);
+        RenderEmblems(data, AppConstants.MainType.CARD_HERO, contentPanel, resultTransforms);
+    }
+    public void RenderEmblems(List<EmblemDTO> data, string cardType, Transform contentPanel, Dictionary<string, Transform> resultTransforms)
+    {
+        // Clear cũ
+        foreach (Transform child in contentPanel)
+            Destroy(child.gameObject);
+
+        int GetFactionOrder(string type)
+        {
+            return type switch
+            {
+                AppConstants.Emblem.FACTION_A => 0,
+                AppConstants.Emblem.FACTION_B => 1,
+                AppConstants.Emblem.FACTION_C => 2,
+                AppConstants.Emblem.FACTION_D => 3,
+                AppConstants.Emblem.FACTION_E => 4,
+                _ => 999 // fallback nếu có type lạ
+            };
+        }
+        // Filter theo loại card
+        var filtered = data
+            .Where(x => x.CardType == cardType)
+            .OrderBy(x => GetFactionOrder(x.EmblemType))   // sort theo type
+            .ThenByDescending(x => x.Count);              // sort theo count
+
+        foreach (var item in filtered)
+        {
+            var emblemButtonObject = Instantiate(EmblemButtonPrefab, contentPanel);
+            Transform transform = emblemButtonObject.transform;
+
+            var selectButton = transform.Find("SelectButton").GetComponent<Button>();
+            var emblemImage = transform.Find("Image").GetComponent<RawImage>();
+            var quantityText = transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            var titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            var emblemBackground = transform.Find("EmblemBackground").GetComponent<Image>();
+            var emblemTypeText = transform.Find("EmblemTypeText").GetComponent<TextMeshProUGUI>();
+            emblemTypeText.text = item.EmblemType;
+
+            emblemBackground.color = ColorHelper.GetEmblemColor(item.EmblemType);
+
+            emblemImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(item.Image));
+            quantityText.text = "x" + item.Count;
+            titleText.text = item.Name;
+
+            // Xử lý sự kiện khi nhấn Select
+            selectButton.onClick.AddListener(async () =>
+            {
+                // 1. Gọi API Insert (Giả sử bạn đã có biến user_id ở đâu đó trong class)
+                bool isSuccess = await TeamsService.Create().InsertUserTeamEmblemsAsync(User.CurrentUserId, item);
+
+                if (isSuccess)
+                {
+                    // 2. Tìm Transform tương ứng dựa trên EmblemType (ví dụ: "Faction_A")
+                    if (resultTransforms.TryGetValue(item.EmblemType, out Transform targetSlot))
+                    {
+                        UpdateResultUI(targetSlot, item);
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Không tìm thấy slot cho loại: " + item.EmblemType);
+                    }
+                }
+            });
+        }
+    }
+    private void UpdateResultUI(Transform transform, EmblemDTO emblemDTO)
+    {
+        // Tìm các thành phần UI bên trong slot (EmblemA, B...)
+        // Lưu ý: Tên path (Image, TitleText...) phải khớp với cấu trúc trong Prefab của slot đó
+        var resImage = transform.Find("Image")?.GetComponent<RawImage>();
+        var resTitle = transform.Find("TitleText")?.GetComponent<Text>();
+        var resQty = transform.Find("QuantityText")?.GetComponent<Text>();
+
+        if (resImage != null) resImage.texture = TextureHelper.LoadTexture2DCached(emblemDTO.Image);
+        if (resTitle != null) resTitle.text = emblemDTO.Name;
+        if (resQty != null) resQty.text = "x" + emblemDTO.Count;
+
+        // Có thể thêm hiệu ứng feedback ở đây
+        Debug.Log($"Đã cập nhật {emblemDTO.Name} vào {transform.name}");
     }
     public async Task CreatePopupTeamSecondPanelAsync()
     {

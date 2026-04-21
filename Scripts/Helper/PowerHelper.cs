@@ -2,20 +2,20 @@ using System.Collections.Generic;
 public static class PowerHelper
 {
     public static double CalculatePower(
-    double health, double physicalAttack, double physicalDefense, double magicalAttack, double magicalDefense,
-    double chemicalAttack, double chemicalDefense, double atomicAttack, double atomicDefense, double mentalAttack, double mentalDefense,
-    double speed, double criticalDamageRate, double criticalRate, double criticalResistanceRate, double ignoreCriticalRate,
-    double penetrationRate, double penetrationResistanceRate, double evasionRate,
-    double damageAbsorptionRate, double ignoreDamageAbsorptionRate, double absorbedDamageRate,
-    double vitalityRegenerationRate, double vitalityRegenerationResistanceRate, double accuracyRate, double lifestealRate,
-    double shieldStrength, double tenacity, double resistanceRate, double comboRate, double ignoreComboRate, double comboDamageRate, double comboResistanceRate,
-    double stunRate, double ignoreStunRate, double reflectionRate, double ignoreReflectionRate, double reflectionDamageRate, double reflectionResistanceRate,
-    double mana, double manaRegenerationRate,
-    double damageToDifferentFactionRate, double resistanceToDifferentFactionRate,
-    double damageToSameFactionRate, double resistanceToSameFactionRate,
-    double normalDamageRate, double normalResistanceRate,
-    double skillDamageRate, double skillResistanceRate
-)
+        double health, double physicalAttack, double physicalDefense, double magicalAttack, double magicalDefense,
+        double chemicalAttack, double chemicalDefense, double atomicAttack, double atomicDefense, double mentalAttack, double mentalDefense,
+        double speed, double criticalDamageRate, double criticalRate, double criticalResistanceRate, double ignoreCriticalRate,
+        double penetrationRate, double penetrationResistanceRate, double evasionRate,
+        double damageAbsorptionRate, double ignoreDamageAbsorptionRate, double absorbedDamageRate,
+        double vitalityRegenerationRate, double vitalityRegenerationResistanceRate, double accuracyRate, double lifestealRate,
+        double shieldStrength, double tenacity, double resistanceRate, double comboRate, double ignoreComboRate, double comboDamageRate, double comboResistanceRate,
+        double stunRate, double ignoreStunRate, double reflectionRate, double ignoreReflectionRate, double reflectionDamageRate, double reflectionResistanceRate,
+        double mana, double manaRegenerationRate,
+        double damageToDifferentFactionRate, double resistanceToDifferentFactionRate,
+        double damageToSameFactionRate, double resistanceToSameFactionRate,
+        double normalDamageRate, double normalResistanceRate,
+        double skillDamageRate, double skillResistanceRate
+    )
     {
         double weight = 0.5;
 

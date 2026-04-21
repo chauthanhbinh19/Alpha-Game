@@ -512,6 +512,14 @@ public static class AppConstants
         public const string HUNTER_X_HUNTER = "Hunter X Hunter";
         public const string ONE_PUNCH_MAN = "One Punch Man";
     }
+    public static class Emblem
+    {
+        public const string FACTION_A = "Faction_A";
+        public const string FACTION_B = "Faction_B";
+        public const string FACTION_C = "Faction_C";
+        public const string FACTION_D = "Faction_D";
+        public const string FACTION_E = "Faction_E";
+    }
     public static class Market
     {
         public const string RARE_MARKET = "Rare Market";

@@ -87,4 +87,63 @@ public class TeamsRepository : ITeamsRepository
 
         return totalPower;
     }
+    public async Task<bool> InsertUserTeamEmblemsAsync(string user_id, EmblemDTO emblemDTO)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync(); // mở connection async
+
+            string userQuery = @"
+            INSERT INTO TEAM_EMBLEMS (user_id, team_id, position, card_type, emblem_id, emblem_quantity) 
+            VALUES (@user_id, @team_id, @position, @card_type, @emblem_id, @emblem_quantity)";
+
+            using (var userCommand = new MySqlCommand(userQuery, connection))
+            {
+                userCommand.Parameters.AddWithValue("@user_id", user_id);
+                userCommand.Parameters.AddWithValue("@team_id", emblemDTO.TeamId);
+                userCommand.Parameters.AddWithValue("@position", emblemDTO.Position);
+                userCommand.Parameters.AddWithValue("@card_type", emblemDTO.CardType);
+                userCommand.Parameters.AddWithValue("@emblem_id", emblemDTO.EmblemId);
+                userCommand.Parameters.AddWithValue("@emblem_quantity", emblemDTO.Count);
+
+                await userCommand.ExecuteNonQueryAsync(); // chạy async
+            }
+        }
+
+        return true;
+    }
+    public async Task<bool> DeleteUserTeamEmblemsAsync(string user_id, EmblemDTO emblemDTO)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+
+            // Câu lệnh SQL DELETE với các điều kiện WHERE cụ thể
+            string deleteQuery = @"
+            DELETE FROM TEAM_EMBLEMS 
+            WHERE user_id = @user_id 
+              AND team_id = @team_id 
+              AND position = @position 
+              AND card_type = @card_type";
+
+            using (var command = new MySqlCommand(deleteQuery, connection))
+            {
+                // Thêm các tham số để tránh SQL Injection
+                command.Parameters.AddWithValue("@user_id", user_id);
+                command.Parameters.AddWithValue("@team_id", emblemDTO.TeamId);
+                command.Parameters.AddWithValue("@position", emblemDTO.Position);
+                command.Parameters.AddWithValue("@card_type", emblemDTO.CardType);
+
+                // Thực thi lệnh xóa và lấy số lượng dòng bị ảnh hưởng
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+
+                // Trả về true nếu có ít nhất một dòng bị xóa, ngược lại false
+                return rowsAffected > 0;
+            }
+        }
+    }
 }

@@ -70,4 +70,14 @@ public class TeamsService : ITeamsService
 
         return totalPower;
     }
+
+    public Task<bool> InsertUserTeamEmblemsAsync(string user_id, EmblemDTO emblemDTO)
+    {
+        return _teamsRepository.InsertUserTeamEmblemsAsync(user_id, emblemDTO);
+    }
+
+    public Task<bool> DeleteUserTeamEmblemsAsync(string user_id, EmblemDTO emblemDTO)
+    {
+        return _teamsRepository.DeleteUserTeamEmblemsAsync(user_id, emblemDTO);
+    }
 }
