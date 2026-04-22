@@ -520,6 +520,102 @@ public static class AppConstants
         public const string FACTION_D = "Faction_D";
         public const string FACTION_E = "Faction_E";
     }
+    public static class Class
+    {
+        public const string CASTER = "Caster";
+        public const string DEFENDER = "Defender";
+        public const string GUARD = "Guard";
+        public const string MEDIC = "Medic";
+        public const string SNIPER = "Sniper";
+        public const string SPECIALIST = "Specialist";
+        public const string SUPPORTER = "Supporter";
+        public const string VANGUARD = "Vanguard";
+        public static class Caster
+        {
+            public const string BLAST_CASTER = "Blast_Caster";
+            public const string CHAIN_CASTER = "Chain_Caster";
+            public const string CORE_CASTER = "Core_Caster";
+            public const string MECH_ACCORD_CASTER = "Mech-Accord_Caster";
+            public const string MYSTIC_CASTER = "Mystic_Caster";
+            public const string PHALANX_CASTER = "Phalanx_Caster";
+            public const string PRIMAL_CASTER = "Primal_Caster";
+            public const string SHAPER_CASTER = "Shaper_Caster";
+            public const string SPLASH_CASTER = "Splash_Caster";
+        }
+        public static class Defender
+        {
+            public const string ARTS_PROTECTOR_DEFENDER = "Arts_Protector_Defender";
+            public const string DUELIST_DEFENDER = "Duelist_Defender";
+            public const string FORTRESS_DEFENDER = "Fortress_Defender";
+            public const string GUARDIAN_DEFENDER = "Guardian_Defender";
+            public const string JUGGERNAUT_DEFENDER = "Juggernaut_Defender";
+            public const string PROTECTOR_DEFENDER = "Protector_Defender";
+            public const string SENTINEL_PROTECTOR_DEFENDER = "Sentinel_Protector_Defender";
+        }
+        public static class Guard
+        {
+            public const string ARTS_FIGHTER_GUARD = "Arts_Fighter_Guard";
+            public const string CENTURION_GUARD = "Centurion_Guard";
+            public const string CRUSHER_GUARD = "Crusher_Guard";
+            public const string DREADNOUGHT_GUARD = "Dreadnought_Guard";
+            public const string FIGHTER_GUARD = "Fighter_Guard";
+            public const string INSTRUCOR_GUARD = "Instructor_Guard";
+            public const string LIBERATOR_GUARD = "Liberator_Guard";
+            public const string LORD_GUARD = "Lord_Guard";
+            public const string MESHA_GUARD = "Musha_Guard";
+            public const string REAPER_GUARD = "Reaper_Guard";
+            public const string SWORDMASTER_GUARD = "Swordmaster_Guard";
+        }
+        public static class Medic
+        {
+            public const string CHAIN_MEDIC = "Chain_Medic";
+            public const string INCANTATION_MEDIC = "Incantation_Medic";
+            public const string MEDIC_MEDIC = "Medic_Medic";
+            public const string MULTI_TARGET_MEDIC = "Multi-target_Medic";
+            public const string THERAPIST_MEDIC = "Therapist_Medic";
+            public const string WANDERING_MEDIC = "Wandering_Medic";
+        }
+        public static class Sniper
+        {
+            public const string ARTILLERYMAN_SNIPER = "Artilleryman_Sniper";
+            public const string BESIEGER_SNIPER = "Besieger_Sniper";
+            public const string DEADEYE_SNIPER = "Deadeye_Sniper";
+            public const string FLINGER_SNIPER = "Flinger_Sniper";
+            public const string HEAVYSHOOTER_SNIPER = "Heavyshooter_Sniper";
+            public const string HUNTER_SNIPER = "Hunter_Sniper";
+            public const string MARKSMAN_SNIPER = "Marksman_Sniper";
+            public const string SPREADSHOOTER_SNIPER = "Spreadshooter_Sniper";
+        }
+        public static class Specialist
+        {
+            public const string AMBUSHER_SPECIALIST = "Ambusher_Specialist";
+            public const string DOLLKEEPER_SPECIALIST = "Dollkeeper_Specialist";
+            public const string EXECUTOR_SPECIALIST = "Executor_Specialist";
+            public const string GEEK_SPECIALIST = "Geek_Specialist";
+            public const string HOOKMASTER_SPECIALIST = "Hookmaster_Specialist";
+            public const string MERCHANT_SPECIALIST = "Merchant_Specialist";
+            public const string PUSH_STROKER_SPECIALIST = "Push_Stroker_Specialist";
+            public const string TRAPMASTER_SPECIALIST = "Trapmaster_Specialist";
+        }
+        public static class Supporter
+        {
+            public const string ABJURER_SUPPORTER = "Abjurer_Supporter";
+            public const string ARTIFICER_SUPPORTER = "Artificer_Supporter";
+            public const string BARD_SUPPORTER = "Bard_Supporter";
+            public const string DECEL_BINDER_SUPPORTER = "Decel_Binder_Supporter";
+            public const string HEXER_SUPPORTER = "Hexer_Supporter";
+            public const string RITUALIST_SUPPORTER = "Ritualist_Supporter";
+            public const string SUMMONER_SUPPORTER = "Summoner_Supporter";
+        }
+        public static class Vanguard
+        {
+            public const string AGENT_VANGUARD = "Agent_Vanguard";
+            public const string CHARGER_VANGUARD = "Charger_Vanguard";
+            public const string PIONEER_VANGUARD = "Pioneer_Vanguard";
+            public const string STANDARD_BEARER_VANGUARD = "Standard_Bearer_Vanguard";
+            public const string TACTICIAN_VANGUARD = "Tactician_Vanguard";
+        }
+    }
     public static class Market
     {
         public const string RARE_MARKET = "Rare Market";
@@ -619,7 +715,7 @@ public static class AppConstants
         public const string SECURITY = "Security";
         public const string SURVEILLANCE = "Surveillance";
         public const string ANALYTICS = "Analytics";
-        public const string CONTROL = "Control";    
+        public const string CONTROL = "Control";
 
         public const string AUTOMATION = "Automation";
         public const string BIOLOGY = "Biology";

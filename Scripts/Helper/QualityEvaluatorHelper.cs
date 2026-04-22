@@ -32,25 +32,25 @@ public static class QualityEvaluatorHelper
         switch (rare)
         {
             case AppConstants.Rare.SR:
-                return ColorConstants.SR_COLOR;
+                return ColorConstants.Rare.SR_COLOR;
             case AppConstants.Rare.SSR:
-                return ColorConstants.SSR_COLOR;
+                return ColorConstants.Rare.SSR_COLOR;
             case AppConstants.Rare.UR:
-                return ColorConstants.UR_COLOR;
+                return ColorConstants.Rare.UR_COLOR;
             case AppConstants.Rare.LG:
-                return ColorConstants.LG_COLOR;
+                return ColorConstants.Rare.LG_COLOR;
             case AppConstants.Rare.LGPlus:
-                return ColorConstants.LGPlus_COLOR;
+                return ColorConstants.Rare.LGPlus_COLOR;
             case AppConstants.Rare.MR:
-                return ColorConstants.MR_COLOR;
+                return ColorConstants.Rare.MR_COLOR;
             case AppConstants.Rare.SLG:
-                return ColorConstants.SLG_COLOR;
+                return ColorConstants.Rare.SLG_COLOR;
             case AppConstants.Rare.SLGPlus:
-                return ColorConstants.SLGPlus_COLOR;
+                return ColorConstants.Rare.SLGPlus_COLOR;
             case AppConstants.Rare.SP:
-                return ColorConstants.SP_COLOR;
+                return ColorConstants.Rare.SP_COLOR;
             default:
-                return ColorConstants.SR_COLOR;
+                return ColorConstants.Rare.SR_COLOR;
         }
     }
     private static readonly Dictionary<string, int> qualityMap = new Dictionary<string, int>

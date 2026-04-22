@@ -110,7 +110,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_HERO);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_HERO);
             });
         }
         else if (data is Books book)
@@ -124,7 +124,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.BOOK);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.BOOK);
             });
         }
         else if (data is CardCaptains cardCaptain)
@@ -139,7 +139,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_CAPTAIN);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_CAPTAIN);
             });
         }
         else if (data is Pets pet)
@@ -153,7 +153,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.PET);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.PET);
             });
         }
         else if (data is CollaborationEquipments collaborationEquipmentsequipment)
@@ -167,7 +167,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.COLLABORATION_EQUIPMENT);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.COLLABORATION_EQUIPMENT);
             });
         }
         else if (data is CardMilitaries cardMilitary)
@@ -182,7 +182,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_MILITARY);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_MILITARY);
             });
         }
         else if (data is CardSpells cardSpell)
@@ -196,7 +196,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_SPELL);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_SPELL);
             });
         }
         else if (data is Collaborations collaboration)
@@ -210,7 +210,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.COLLABORATION);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.COLLABORATION);
             });
         }
         else if (data is CardMonsters cardMonster)
@@ -224,7 +224,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_MONSTER);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_MONSTER);
             });
         }
         else if (data is Equipments equipment)
@@ -238,7 +238,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.EQUIPMENT);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.EQUIPMENT);
             });
         }
         else if (data is Medals medal)
@@ -252,7 +252,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.MEDAL);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.MEDAL);
             });
         }
         else if (data is Skills skill)
@@ -266,7 +266,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.SKILL);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.SKILL);
             });
         }
         else if (data is Symbols symbol)
@@ -280,7 +280,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.SYMBOL);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.SYMBOL);
             });
         }
         else if (data is Titles title)
@@ -294,7 +294,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.TITLE);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.TITLE);
             });
         }
         else if (data is MagicFormationCircles magicFormationCircle)
@@ -308,7 +308,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.MAGIC_FORMATION_CIRCLE);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.MAGIC_FORMATION_CIRCLE);
             });
         }
         else if (data is Relics relic)
@@ -322,7 +322,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.RELIC);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.RELIC);
             });
         }
         else if (data is CardColonels cardColonel)
@@ -337,7 +337,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_COLONEL);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_COLONEL);
             });
         }
         else if (data is CardGenerals cardGeneral)
@@ -352,7 +352,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_GENERAL);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_GENERAL);
             });
         }
         else if (data is CardAdmirals cardAdmiral)
@@ -367,7 +367,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_ADMIRAL);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_ADMIRAL);
             });
         }
         // else if (data is Borders borders)
@@ -386,7 +386,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ACHIEVEMENT);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.ACHIEVEMENT);
             });
         }
         else if (data is Talismans talisman)
@@ -400,7 +400,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.TALISMAN);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.TALISMAN);
             });
         }
         else if (data is Puppets puppet)
@@ -414,7 +414,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.PUPPET);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.PUPPET);
             });
         }
         else if (data is Alchemies alchemy)
@@ -428,7 +428,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ALCHEMY);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.ALCHEMY);
             });
         }
         else if (data is Forges forge)
@@ -442,7 +442,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.FORGE);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.FORGE);
             });
         }
         else if (data is CardLives cardLife)
@@ -456,7 +456,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CARD_LIFE);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_LIFE);
             });
         }
         else if (data is Artworks artwork)
@@ -470,7 +470,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ARTWORK);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.ARTWORK);
             });
         }
         else if (data is SpiritBeasts spiritBeast)
@@ -484,7 +484,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.SPIRIT_BEAST);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.SPIRIT_BEAST);
             });
         }
         else if (data is SpiritCards spiritCard)
@@ -498,7 +498,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.SPIRIT_CARD);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.SPIRIT_CARD);
             });
         }
         else if (data is Artifacts artifact)
@@ -512,7 +512,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ARTIFACT);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.ARTIFACT);
             });
         }
         else if (data is Architectures architecture)
@@ -526,7 +526,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ARCHITECTURE);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.ARCHITECTURE);
             });
         }
         else if (data is Technologies technology)
@@ -540,7 +540,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.TECHNOLOGY);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.TECHNOLOGY);
             });
         }
         else if (data is Vehicles vehicle)
@@ -554,7 +554,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.VEHICLE);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.VEHICLE);
             });
         }
         else if (data is Cores core)
@@ -568,7 +568,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.CORE);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.CORE);
             });
         }
         else if (data is Weapons weapon)
@@ -582,7 +582,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.WEAPON);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.WEAPON);
             });
         }
         else if (data is Robots robot)
@@ -596,7 +596,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.ROBOT);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.ROBOT);
             });
         }
         else if (data is Badges badge)
@@ -610,7 +610,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.BADGE);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.BADGE);
             });
         }
         else if (data is MechaBeasts mechaBeast)
@@ -624,7 +624,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.MECHA_BEAST);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.MECHA_BEAST);
             });
         }
         else if (data is Runes rune)
@@ -638,7 +638,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.RUNE);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.RUNE);
             });
         }
         else if (data is Furnitures furniture)
@@ -652,7 +652,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.FURNITURE);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.FURNITURE);
             });
         }
         else if (data is Foods food)
@@ -666,7 +666,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.FOOD);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.FOOD);
             });
         }
         else if (data is Beverages beverage)
@@ -680,7 +680,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.BEVERAGE);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.BEVERAGE);
             });
         }
         else if (data is Buildings building)
@@ -694,7 +694,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.BUILDING);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.BUILDING);
             });
         }
         else if (data is Plants plant)
@@ -708,7 +708,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.PLANT);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.PLANT);
             });
         }
         else if (data is Fashions fashion)
@@ -722,7 +722,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.FASHION);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.FASHION);
             });
         }
         else if (data is Emojis emoji)
@@ -736,7 +736,7 @@ public class MainMenuDetailsManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(currentObject);
-                FindAnyObjectByType<MainMenuManager>().GetType(AppConstants.MainType.EMOJI);
+                MainMenuManager.Instance.GetType(AppConstants.MainType.EMOJI);
             });
         }
         else

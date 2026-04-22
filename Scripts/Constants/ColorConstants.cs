@@ -39,30 +39,51 @@ public static class ColorConstants
     public const string BLACK_TRANSPARENT_COLOR = "#000000CC";
     public const string WHITE_TRANSPARENT_COLOR = "#FFFFFFCC";
 
-    public const string SR_COLOR = "#3C52FF";
-    public const string SSR_COLOR = "#FFD33C";
-    public const string UR_COLOR = "#FF7D3C";
-    public const string LG_COLOR = "#FF423C";
-    public const string LGPlus_COLOR = "#FF3C55";
-    public const string MR_COLOR = "#BDFF3C";
-    public const string SLG_COLOR = "#82FF3C";
-    public const string SLGPlus_COLOR = "#3CFF98";
-    public const string SP_COLOR = "#3CE9FF";
+    public static class Rare
+    {
+        public const string SR_COLOR = "#3C52FF";
+        public const string SSR_COLOR = "#FFD33C";
+        public const string UR_COLOR = "#FF7D3C";
+        public const string LG_COLOR = "#FF423C";
+        public const string LGPlus_COLOR = "#FF3C55";
+        public const string MR_COLOR = "#BDFF3C";
+        public const string SLG_COLOR = "#82FF3C";
+        public const string SLGPlus_COLOR = "#3CFF98";
+        public const string SP_COLOR = "#3CE9FF";
+    }
 
-    public const string CARD_HERO_COLOR = "#FF0B06";
-    public const string CARD_CAPTAIN_COLOR = "#FF9406";
-    public const string CARD_COLONEL_COLOR = "#E1FF06";
-    public const string CARD_GENERAL_COLOR = "#4BFF06";
-    public const string CARD_ADMIRAL_COLOR = "#06FFC0";
-    public const string CARD_MONSTER_COLOR = "#0681FF";
-    public const string CARD_MILITARY_COLOR = "#6706FF";
-    public const string CARD_SPELL_COLOR = "#FF06CB";
+    public static class Card
+    {
+        public const string CARD_HERO_COLOR = "#FF0B06";
+        public const string CARD_CAPTAIN_COLOR = "#FF9406";
+        public const string CARD_COLONEL_COLOR = "#E1FF06";
+        public const string CARD_GENERAL_COLOR = "#4BFF06";
+        public const string CARD_ADMIRAL_COLOR = "#06FFC0";
+        public const string CARD_MONSTER_COLOR = "#0681FF";
+        public const string CARD_MILITARY_COLOR = "#6706FF";
+        public const string CARD_SPELL_COLOR = "#FF06CB";
+    }
 
-    public const string EMBLEM_FACTION_A_COLOR = "#CA1F1F";
-    public const string EMBLEM_FACTION_B_COLOR = "#CAB61F";
-    public const string EMBLEM_FACTION_C_COLOR = "#3ECA1F";
-    public const string EMBLEM_FACTION_D_COLOR = "#1FCAB0";
-    public const string EMBLEM_FACTION_E_COLOR = "#1F4ECA";
+    public static class Emblem
+    {
+        public const string EMBLEM_FACTION_A_COLOR = "#CA1F1F";
+        public const string EMBLEM_FACTION_B_COLOR = "#CAB61F";
+        public const string EMBLEM_FACTION_C_COLOR = "#3ECA1F";
+        public const string EMBLEM_FACTION_D_COLOR = "#1FCAB0";
+        public const string EMBLEM_FACTION_E_COLOR = "#1F4ECA";
+    }
+
+    public static class Class
+    {
+        public const string CASTER = "#CA1F1F";
+        public const string DEFENDER = "#b6ca1f";
+        public const string GUARD = "#22ca1f";
+        public const string MEDIC = "#1fcab6";
+        public const string SNIPER = "#1f25ca";
+        public const string SPECIALIST = "#9c1fca";
+        public const string SUPPORTER = "#ca1f97";
+        public const string VANGUARD = "#ca601f";
+    }
     public static VertexGradient PHYSICAL_GRADIENT_COLOR = new VertexGradient(
         new Color32(255, 99, 71, 255),   // Top Left - Tomato
         new Color32(255, 69, 0, 255),    // Top Right - OrangeRed

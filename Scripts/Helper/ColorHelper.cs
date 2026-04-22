@@ -26,11 +26,11 @@ public static class ColorHelper
     {
         string hex = emblemType switch
         {
-            AppConstants.Emblem.FACTION_A => ColorConstants.EMBLEM_FACTION_A_COLOR,
-            AppConstants.Emblem.FACTION_B => ColorConstants.EMBLEM_FACTION_B_COLOR,
-            AppConstants.Emblem.FACTION_C => ColorConstants.EMBLEM_FACTION_C_COLOR,
-            AppConstants.Emblem.FACTION_D => ColorConstants.EMBLEM_FACTION_D_COLOR,
-            AppConstants.Emblem.FACTION_E => ColorConstants.EMBLEM_FACTION_E_COLOR,
+            AppConstants.Emblem.FACTION_A => ColorConstants.Emblem.EMBLEM_FACTION_A_COLOR,
+            AppConstants.Emblem.FACTION_B => ColorConstants.Emblem.EMBLEM_FACTION_B_COLOR,
+            AppConstants.Emblem.FACTION_C => ColorConstants.Emblem.EMBLEM_FACTION_C_COLOR,
+            AppConstants.Emblem.FACTION_D => ColorConstants.Emblem.EMBLEM_FACTION_D_COLOR,
+            AppConstants.Emblem.FACTION_E => ColorConstants.Emblem.EMBLEM_FACTION_E_COLOR,
             _ => ColorConstants.DEFAULT_COLOR
         };
 
