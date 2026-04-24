@@ -22,13 +22,13 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
                 string query = @"
                 SELECT m.*, mg.current_star, mg.temp_star,
                     CASE 
-                        WHEN mg.Symbol_id IS NULL THEN 'block'
+                        WHEN mg.symbol_id IS NULL THEN 'block'
                         WHEN mg.status = 'pending' THEN 'pending'
                         WHEN mg.status = 'available' THEN 'available'
                     END AS status 
                 FROM Symbols m 
-                LEFT JOIN Symbols_gallery mg 
-                    ON m.id = mg.Symbol_id AND mg.user_id = @userId 
+                LEFT JOIN symbols_gallery mg 
+                    ON m.id = mg.symbol_id AND mg.user_id = @userId 
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -237,13 +237,13 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
                 // Kiểm tra bản ghi đã tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM Symbols_gallery 
-                WHERE user_id = @user_id AND Symbol_id = @Symbol_id;
+                FROM symbols_gallery 
+                WHERE user_id = @user_id AND symbol_id = @symbol_id;
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Symbol_id", Id);
+                checkCommand.Parameters.AddWithValue("@symbol_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -252,7 +252,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
                 {
                     string query = @"
                 INSERT INTO symbols_gallery (
-                    user_id, Symbol_id, status, current_star, temp_star, power, health, 
+                    user_id, symbol_id, status, current_star, temp_star, power, health, 
                     physical_attack, physical_defense, magical_attack, magical_defense, 
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                     mental_attack, mental_defense, speed, critical_damage_rate, critical_rate,
@@ -275,7 +275,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
                     percent_all_mental_defense
                 )
                 VALUES (
-                    @user_id, @Symbol_id, @status, @current_star, @temp_star, @power, @health,
+                    @user_id, @symbol_id, @status, @current_star, @temp_star, @power, @health,
                     @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense,
                     @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate,
@@ -302,7 +302,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
 
                     // Thêm param
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Symbol_id", Id);
+                    command.Parameters.AddWithValue("@symbol_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@current_star", 0);
                     command.Parameters.AddWithValue("@temp_star", 0);
@@ -395,10 +395,10 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE Symbols_gallery SET status=@status WHERE user_id=@user_id AND Symbol_id=@Symbol_id";
+                string query = "UPDATE symbols_gallery SET status=@status WHERE user_id=@user_id AND symbol_id=@symbol_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Symbol_id", Id);
+                command.Parameters.AddWithValue("@symbol_id", Id);
                 command.Parameters.AddWithValue("@status", "available");
 
                 await command.ExecuteNonQueryAsync();
@@ -426,13 +426,13 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
                 // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
                 string checkQuery = @"
                 SELECT current_star, temp_star
-                FROM Symbols_gallery 
-                WHERE user_id = @user_id AND Symbol_id = @Symbol_id;
+                FROM symbols_gallery 
+                WHERE user_id = @user_id AND symbol_id = @symbol_id;
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Symbol_id", Id);
+                checkCommand.Parameters.AddWithValue("@symbol_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
                 {
@@ -447,12 +447,12 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
                             string updateQuery = @"
                             UPDATE symbols_gallery 
                             SET temp_star = @temp_star 
-                            WHERE user_id = @user_id AND Symbol_id = @Symbol_id;
+                            WHERE user_id = @user_id AND symbol_id = @symbol_id;
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            updateCommand.Parameters.AddWithValue("@Symbol_id", Id);
+                            updateCommand.Parameters.AddWithValue("@symbol_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -480,7 +480,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Symbols_gallery
+                string query = @"UPDATE symbols_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -546,12 +546,12 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Symbol_id = @Symbol_id;
+                AND symbol_id = @symbol_id;
             ";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Symbol_id", Id);
+                command.Parameters.AddWithValue("@symbol_id", Id);
                 command.Parameters.AddWithValue("@status", "pending");
                 command.Parameters.AddWithValue("@current_star", 0);
                 command.Parameters.AddWithValue("@power", symbolFromDB.Power);
@@ -678,7 +678,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
                 SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
                 SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
                 SUM(percent_all_mental_defense) AS total_percent_all_mental_defense 
-            FROM Symbols_gallery 
+            FROM symbols_gallery 
             WHERE user_id = @user_id AND status = 'available';";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

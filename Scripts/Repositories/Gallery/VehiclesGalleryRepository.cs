@@ -22,13 +22,13 @@ public class VehiclesGalleryRepository : IVehiclesGalleryRepository
                 string query = @"
                 SELECT m.*, mg.current_star, mg.temp_star,
                     CASE 
-                        WHEN mg.Vehicle_id IS NULL THEN 'block'
+                        WHEN mg.vehicle_id IS NULL THEN 'block'
                         WHEN mg.status = 'pending' THEN 'pending'
                         WHEN mg.status = 'available' THEN 'available'
                     END AS status 
                 FROM Vehicles m 
-                LEFT JOIN Vehicles_gallery mg 
-                    ON m.id = mg.Vehicle_id AND mg.user_id = @userId 
+                LEFT JOIN vehicles_gallery mg 
+                    ON m.id = mg.vehicle_id AND mg.user_id = @userId 
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -237,13 +237,13 @@ public class VehiclesGalleryRepository : IVehiclesGalleryRepository
                 // Kiểm tra bản ghi đã tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM Vehicles_gallery 
-                WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;
+                FROM vehicles_gallery 
+                WHERE user_id = @user_id AND vehicle_id = @vehicle_id;
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Vehicle_id", Id);
+                checkCommand.Parameters.AddWithValue("@vehicle_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -251,8 +251,8 @@ public class VehiclesGalleryRepository : IVehiclesGalleryRepository
                 if (recordCount == 0)
                 {
                     string query = @"
-                INSERT INTO Vehicles_gallery (
-                    user_id, Vehicle_id, status, current_star, temp_star, power, health, 
+                INSERT INTO vehicles_gallery (
+                    user_id, vehicle_id, status, current_star, temp_star, power, health, 
                     physical_attack, physical_defense, magical_attack, magical_defense, 
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                     mental_attack, mental_defense, speed, critical_damage_rate, critical_rate,
@@ -275,7 +275,7 @@ public class VehiclesGalleryRepository : IVehiclesGalleryRepository
                     percent_all_mental_defense
                 )
                 VALUES (
-                    @user_id, @Vehicle_id, @status, @current_star, @temp_star, @power, @health,
+                    @user_id, @vehicle_id, @status, @current_star, @temp_star, @power, @health,
                     @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense,
                     @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate,
@@ -302,7 +302,7 @@ public class VehiclesGalleryRepository : IVehiclesGalleryRepository
 
                     // Thêm param
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Vehicle_id", Id);
+                    command.Parameters.AddWithValue("@vehicle_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@current_star", 0);
                     command.Parameters.AddWithValue("@temp_star", 0);
@@ -395,10 +395,10 @@ public class VehiclesGalleryRepository : IVehiclesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE Vehicles_gallery SET status=@status WHERE user_id=@user_id AND Vehicle_id=@Vehicle_id";
+                string query = "UPDATE vehicles_gallery SET status=@status WHERE user_id=@user_id AND vehicle_id=@vehicle_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Vehicle_id", Id);
+                command.Parameters.AddWithValue("@vehicle_id", Id);
                 command.Parameters.AddWithValue("@status", "available");
 
                 await command.ExecuteNonQueryAsync();
@@ -426,13 +426,13 @@ public class VehiclesGalleryRepository : IVehiclesGalleryRepository
                 // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
                 string checkQuery = @"
                 SELECT current_star, temp_star
-                FROM Vehicles_gallery 
-                WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;
+                FROM vehicles_gallery 
+                WHERE user_id = @user_id AND vehicle_id = @vehicle_id;
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Vehicle_id", Id);
+                checkCommand.Parameters.AddWithValue("@vehicle_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
                 {
@@ -445,14 +445,14 @@ public class VehiclesGalleryRepository : IVehiclesGalleryRepository
                             reader.Close(); // Đóng reader trước khi thực hiện update
 
                             string updateQuery = @"
-                            UPDATE Vehicles_gallery 
+                            UPDATE vehicles_gallery 
                             SET temp_star = @temp_star 
-                            WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;
+                            WHERE user_id = @user_id AND vehicle_id = @vehicle_id;
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            updateCommand.Parameters.AddWithValue("@Vehicle_id", Id);
+                            updateCommand.Parameters.AddWithValue("@vehicle_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -480,7 +480,7 @@ public class VehiclesGalleryRepository : IVehiclesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Vehicles_gallery
+                string query = @"UPDATE vehicles_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -546,12 +546,12 @@ public class VehiclesGalleryRepository : IVehiclesGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Vehicle_id = @Vehicle_id;
+                AND vehicle_id = @vehicle_id;
             ";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Vehicle_id", Id);
+                command.Parameters.AddWithValue("@vehicle_id", Id);
                 command.Parameters.AddWithValue("@status", "pending");
                 command.Parameters.AddWithValue("@current_star", 0);
                 command.Parameters.AddWithValue("@power", vehicleFromDB.Power);
@@ -678,7 +678,7 @@ public class VehiclesGalleryRepository : IVehiclesGalleryRepository
                 SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
                 SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
                 SUM(percent_all_mental_defense) AS total_percent_all_mental_defense 
-            FROM Vehicles_gallery 
+            FROM vehicles_gallery 
             WHERE user_id = @user_id AND status = 'available';";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

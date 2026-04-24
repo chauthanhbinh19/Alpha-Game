@@ -21,7 +21,7 @@ public class UserFoodsRepository : IUserFoodsRepository
                 string query = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Foods t
-                INNER JOIN user_Foods ut ON t.id = ut.Food_id
+                INNER JOIN user_foods ut ON t.id = ut.food_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -154,7 +154,7 @@ public class UserFoodsRepository : IUserFoodsRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Foods t
-                INNER JOIN user_Foods ut ON t.id = ut.Food_id
+                INNER JOIN user_foods ut ON t.id = ut.food_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -210,21 +210,21 @@ public class UserFoodsRepository : IUserFoodsRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) FROM user_Foods 
-                WHERE user_id = @user_id AND Food_id = @Food_id;";
+                SELECT COUNT(*) FROM user_foods 
+                WHERE user_id = @user_id AND food_id = @food_id;";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Food_id", food.Id);
+                    checkCommand.Parameters.AddWithValue("@food_id", food.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Foods (
-                            user_id, Food_id, rare, level, experiment, star, quality, block, quantity,
+                        INSERT INTO user_foods (
+                            user_id, food_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -241,7 +241,7 @@ public class UserFoodsRepository : IUserFoodsRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Food_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @food_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -262,7 +262,7 @@ public class UserFoodsRepository : IUserFoodsRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Food_id", food.Id);
+                            insertCommand.Parameters.AddWithValue("@food_id", food.Id);
                             insertCommand.Parameters.AddWithValue("@rare", food.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -328,14 +328,14 @@ public class UserFoodsRepository : IUserFoodsRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Foods
+                        UPDATE user_foods
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Food_id = @Food_id;";
+                        WHERE user_id = @user_id AND food_id = @food_id;";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Food_id", food.Id);
+                            updateCommand.Parameters.AddWithValue("@food_id", food.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", food.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -365,7 +365,7 @@ public class UserFoodsRepository : IUserFoodsRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Foods
+                UPDATE user_foods
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -392,12 +392,12 @@ public class UserFoodsRepository : IUserFoodsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Food_id = @Food_id;";
+                WHERE user_id = @user_id AND food_id = @food_id;";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Food_id", food.Id);
+                    command.Parameters.AddWithValue("@food_id", food.Id);
                     command.Parameters.AddWithValue("@level", FoodLevel);
                     command.Parameters.AddWithValue("@power", food.Power);
                     command.Parameters.AddWithValue("@health", food.Health);
@@ -474,7 +474,7 @@ public class UserFoodsRepository : IUserFoodsRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Foods
+                UPDATE user_foods
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -501,11 +501,11 @@ public class UserFoodsRepository : IUserFoodsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Food_id = @Food_id;";
+                WHERE user_id = @user_id AND food_id = @food_id;";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Food_id", food.Id);
+                    command.Parameters.AddWithValue("@food_id", food.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", food.Power);
@@ -583,8 +583,8 @@ public class UserFoodsRepository : IUserFoodsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"Select * from user_Foods where user_Foods.Food_id=@id 
-                and user_Foods.user_id=@user_id";
+                string query = @"Select * from user_foods where user_foods.food_id=@id 
+                and user_foods.user_id=@user_id";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
@@ -596,7 +596,7 @@ public class UserFoodsRepository : IUserFoodsRepository
                         {
                             Food = new Foods
                             {
-                                Id = reader.GetStringSafe("Food_id"),
+                                Id = reader.GetStringSafe("food_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),
@@ -728,7 +728,7 @@ public class UserFoodsRepository : IUserFoodsRepository
                 SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                 SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                 SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-            FROM user_Foods
+            FROM user_foods
             WHERE user_id = @user_id;
             ";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

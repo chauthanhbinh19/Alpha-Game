@@ -21,7 +21,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                 string query = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Technologies t
-                INNER JOIN user_Technologies ut ON t.id = ut.Technology_id
+                INNER JOIN user_technologies ut ON t.id = ut.technology_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -156,7 +156,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Technologies t
-                INNER JOIN user_Technologies ut ON t.id = ut.Technology_id
+                INNER JOIN user_technologies ut ON t.id = ut.technology_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -211,21 +211,21 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) FROM user_Technologies 
-                WHERE user_id = @user_id AND Technology_id = @Technology_id;";
+                SELECT COUNT(*) FROM user_technologies 
+                WHERE user_id = @user_id AND technology_id = @technology_id;";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Technology_id", technology.Id);
+                    checkCommand.Parameters.AddWithValue("@technology_id", technology.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Technologies (
-                            user_id, Technology_id, rare, level, experiment, star, quality, block, quantity,
+                        INSERT INTO user_technologies (
+                            user_id, technology_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -242,7 +242,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Technology_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @technology_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -263,7 +263,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Technology_id", technology.Id);
+                            insertCommand.Parameters.AddWithValue("@technology_id", technology.Id);
                             insertCommand.Parameters.AddWithValue("@rare", technology.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -329,14 +329,14 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Technologies
+                        UPDATE user_technologies
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Technology_id = @Technology_id;";
+                        WHERE user_id = @user_id AND technology_id = @technology_id;";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Technology_id", technology.Id);
+                            updateCommand.Parameters.AddWithValue("@technology_id", technology.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", technology.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -366,7 +366,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Technologies
+                UPDATE user_technologies
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -393,12 +393,12 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Technology_id = @Technology_id;";
+                WHERE user_id = @user_id AND technology_id = @technology_id;";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Technology_id", technology.Id);
+                    command.Parameters.AddWithValue("@technology_id", technology.Id);
                     command.Parameters.AddWithValue("@level", TechnologyLevel);
                     command.Parameters.AddWithValue("@power", technology.Power);
                     command.Parameters.AddWithValue("@health", technology.Health);
@@ -475,7 +475,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Technologies
+                UPDATE user_technologies
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -502,11 +502,11 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Technology_id = @Technology_id;";
+                WHERE user_id = @user_id AND technology_id = @technology_id;";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Technology_id", technology.Id);
+                    command.Parameters.AddWithValue("@technology_id", technology.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", technology.Power);
@@ -584,8 +584,8 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"Select * from user_Technologies where user_Technologies.Technology_id=@id 
-                and user_Technologies.user_id=@user_id";
+                string query = @"Select * from user_technologies where user_technologies.technology_id=@id 
+                and user_technologies.user_id=@user_id";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
@@ -597,7 +597,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                         {
                             Technology = new Technologies
                             {
-                                Id = reader.GetStringSafe("Technology_id"),
+                                Id = reader.GetStringSafe("technology_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),
@@ -729,7 +729,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                 SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                 SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                 SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-            FROM user_Technologies
+            FROM user_technologies
             WHERE user_id = @user_id;
             ";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

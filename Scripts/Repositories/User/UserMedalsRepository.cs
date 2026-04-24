@@ -21,7 +21,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                 string query = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Medals t
-                INNER JOIN user_Medals ut ON t.id = ut.medal_id
+                INNER JOIN user_medals ut ON t.id = ut.medal_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -154,7 +154,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                 string query = @"
                     SELECT COUNT(*) 
                     FROM Medals t
-                    INNER JOIN user_Medals ut ON t.id = ut.medal_id
+                    INNER JOIN user_medals ut ON t.id = ut.medal_id
                     WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -208,7 +208,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) FROM user_Medals 
+                SELECT COUNT(*) FROM user_medals 
                 WHERE user_id = @user_id AND medal_id = @medal_id;";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
@@ -221,7 +221,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Medals (
+                        INSERT INTO user_medals (
                             user_id, medal_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
@@ -326,7 +326,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Medals
+                        UPDATE user_medals
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND medal_id = @medal_id;";
 
@@ -363,7 +363,7 @@ public class UserMedalsRepository : IUserMedalsRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Medals
+                UPDATE user_medals
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -472,7 +472,7 @@ public class UserMedalsRepository : IUserMedalsRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Medals
+                UPDATE user_medals
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -581,8 +581,8 @@ public class UserMedalsRepository : IUserMedalsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"Select * from user_Medals where user_Medals.medal_id=@id 
-                and user_Medals.user_id=@user_id";
+                string query = @"Select * from user_medals where user_medals.medal_id=@id 
+                and user_medals.user_id=@user_id";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
@@ -726,7 +726,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                 SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                 SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                 SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-            FROM user_Medals
+            FROM user_medals
             WHERE user_id = @user_id;
             ";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

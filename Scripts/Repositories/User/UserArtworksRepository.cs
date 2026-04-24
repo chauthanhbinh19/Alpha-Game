@@ -21,7 +21,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                 string query = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM artworks m
-                INNER JOIN user_artworks um ON m.id = um.Artwork_id
+                INNER JOIN user_artworks um ON m.id = um.artwork_id
                 WHERE um.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -161,7 +161,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM artworks m
-                INNER JOIN user_artworks um ON m.id = um.Artwork_id
+                INNER JOIN user_artworks um ON m.id = um.artwork_id
                 WHERE um.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -228,13 +228,13 @@ public class UserArtworksRepository : IUserArtworksRepository
                 string checkQuery = @"
                 SELECT COUNT(*) 
                 FROM user_artworks 
-                WHERE user_id = @user_id AND Artwork_id = @Artwork_id;
+                WHERE user_id = @user_id AND artwork_id = @artwork_id;
             ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Artwork_id", artwork.Id);
+                    checkCommand.Parameters.AddWithValue("@artwork_id", artwork.Id);
 
                     object result = await checkCommand.ExecuteScalarAsync();
                     int count = Convert.ToInt32(result);
@@ -350,13 +350,13 @@ public class UserArtworksRepository : IUserArtworksRepository
                         string updateQuery = @"
                         UPDATE user_artworks
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Artwork_id = @Artwork_id;
+                        WHERE user_id = @user_id AND artwork_id = @artwork_id;
                     ";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Artwork_id", artwork.Id);
+                            updateCommand.Parameters.AddWithValue("@artwork_id", artwork.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", artwork.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -618,7 +618,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM user_artworks
-                             WHERE Artwork_id = @id AND user_id = @user_id";
+                             WHERE artwork_id = @id AND user_id = @user_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -631,7 +631,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                         {
                             artwork = new Artworks
                             {
-                                Id = reader.GetStringSafe("Artwork_id"),
+                                Id = reader.GetStringSafe("artwork_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),

@@ -21,7 +21,7 @@ public class UserWorldsRepository : IUserWorldsRepository
                 string query = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Worlds t
-                INNER JOIN user_Worlds ut ON t.id = ut.World_id
+                INNER JOIN user_worlds ut ON t.id = ut.world_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -146,7 +146,7 @@ public class UserWorldsRepository : IUserWorldsRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Worlds t
-                INNER JOIN user_Worlds ut ON t.id = ut.World_id
+                INNER JOIN user_worlds ut ON t.id = ut.world_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -191,21 +191,21 @@ public class UserWorldsRepository : IUserWorldsRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) FROM user_Worlds 
-                WHERE user_id = @user_id AND World_id = @World_id;";
+                SELECT COUNT(*) FROM user_worlds 
+                WHERE user_id = @user_id AND world_id = @world_id;";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@World_id", Worlds.Id);
+                    checkCommand.Parameters.AddWithValue("@world_id", Worlds.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Worlds (
-                            user_id, World_id, rare, level, experiment, star, quality, block, quantity,
+                        INSERT INTO user_worlds (
+                            user_id, world_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -222,7 +222,7 @@ public class UserWorldsRepository : IUserWorldsRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @World_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @world_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -243,7 +243,7 @@ public class UserWorldsRepository : IUserWorldsRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@World_id", Worlds.Id);
+                            insertCommand.Parameters.AddWithValue("@world_id", Worlds.Id);
                             insertCommand.Parameters.AddWithValue("@rare", Worlds.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -309,14 +309,14 @@ public class UserWorldsRepository : IUserWorldsRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Worlds
+                        UPDATE user_worlds
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND World_id = @World_id;";
+                        WHERE user_id = @user_id AND world_id = @world_id;";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@World_id", Worlds.Id);
+                            updateCommand.Parameters.AddWithValue("@world_id", Worlds.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", Worlds.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -346,7 +346,7 @@ public class UserWorldsRepository : IUserWorldsRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Worlds
+                UPDATE user_worlds
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -373,12 +373,12 @@ public class UserWorldsRepository : IUserWorldsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND World_id = @World_id;";
+                WHERE user_id = @user_id AND world_id = @world_id;";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@World_id", Worlds.Id);
+                    command.Parameters.AddWithValue("@world_id", Worlds.Id);
                     command.Parameters.AddWithValue("@level", WorldLevel);
                     command.Parameters.AddWithValue("@power", Worlds.Power);
                     command.Parameters.AddWithValue("@health", Worlds.Health);
@@ -455,7 +455,7 @@ public class UserWorldsRepository : IUserWorldsRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Worlds
+                UPDATE user_worlds
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -482,11 +482,11 @@ public class UserWorldsRepository : IUserWorldsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND World_id = @World_id;";
+                WHERE user_id = @user_id AND world_id = @world_id;";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@World_id", Worlds.Id);
+                    command.Parameters.AddWithValue("@world_id", Worlds.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", Worlds.Power);
@@ -564,8 +564,8 @@ public class UserWorldsRepository : IUserWorldsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"Select * from user_Worlds where user_Worlds.World_id=@id 
-                and user_Worlds.user_id=@user_id";
+                string query = @"Select * from user_worlds where user_worlds.world_id=@id 
+                and user_worlds.user_id=@user_id";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
@@ -577,7 +577,7 @@ public class UserWorldsRepository : IUserWorldsRepository
                         {
                             world = new Worlds
                             {
-                                Id = reader.GetStringSafe("World_id"),
+                                Id = reader.GetStringSafe("world_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),
@@ -709,7 +709,7 @@ public class UserWorldsRepository : IUserWorldsRepository
                 SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                 SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                 SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-            FROM user_Worlds
+            FROM user_worlds
             WHERE user_id = @user_id;
             ";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

@@ -20,35 +20,44 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                SELECT m.*, mg.current_star, mg.temp_star,
+                SELECT 
+                    m.*, 
+                    mg.current_star, 
+                    mg.temp_star,
                     CASE 
                         WHEN mg.card_general_id IS NULL THEN 'block'
                         WHEN mg.status = 'pending' THEN 'pending'
                         WHEN mg.status = 'available' THEN 'available'
                     END AS status,
-                    JSON_ARRAYAGG(
-                       JSON_OBJECT(
-                           'id', e.id,
-                           'name', e.name,
-                           'image', e.image,
-                           'type', e.type
-                       )
-                   ) AS emblems_json,
-                   JSON_ARRAYAGG(
-                       JSON_OBJECT(
-						   'id', cl.id,
-                           'sub_type', cl.sub_type,
-                           'sub_image', cl.sub_image,
-                           'main_type', cl.main_type,
-                           'main_image', cl.main_image
-                       )
-                   ) AS classes_json
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'id', e.id,
+                                'name', e.name,
+                                'image', e.image,
+                                'type', e.type
+                            )
+                        )
+                        FROM card_general_emblem che
+                        JOIN emblems e ON che.emblem_id = e.id
+                        WHERE che.card_general_id = m.id
+                    ) AS emblems_json,
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'id', cl.id,
+                                'sub_type', cl.sub_type,
+                                'sub_image', cl.sub_image,
+                                'main_type', cl.main_type,
+                                'main_image', cl.main_image
+                            )
+                        )
+                        FROM card_general_class cac
+                        JOIN classes cl ON cac.class_id = cl.id
+                        WHERE cac.card_general_id = m.id
+                    ) AS classes_json
                 FROM card_generals m 
-                LEFT JOIN card_generals_gallery mg ON m.id = mg.card_general_id AND mg.user_id = @userId 
-                LEFT JOIN card_general_emblem che ON m.id = che.card_general_id
-                LEFT JOIN emblems e ON che.emblem_id = e.id
-                LEFT JOIN card_hero_class chc ON c.id = chc.card_hero_id
-                LEFT JOIN classes cl ON chc.class_id = cl.id
+                LEFT JOIN card_generals_gallery mg ON m.id = mg.card_general_id AND mg.user_id = @userId
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -65,7 +74,6 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
                     query += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " GROUP BY m.id";
                 query += " ORDER BY m.name";
                 query += " LIMIT @limit OFFSET @offset";
 

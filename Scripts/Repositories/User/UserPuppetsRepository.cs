@@ -21,7 +21,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 string query = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM puppets m
-                JOIN user_puppets um ON m.id = um.Puppet_id
+                JOIN user_puppets um ON m.id = um.puppet_id
                 WHERE um.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -161,7 +161,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM puppets m
-                JOIN user_puppets um ON m.id = um.Puppet_id
+                JOIN user_puppets um ON m.id = um.puppet_id
                 WHERE um.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -227,13 +227,13 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 string checkQuery = @"
                     SELECT COUNT(*) 
                     FROM user_puppets
-                    WHERE user_id = @user_id AND Puppet_id = @Puppet_id;
+                    WHERE user_id = @user_id AND puppet_id = @puppet_id;
                 ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Puppet_id", puppet.Id);
+                    checkCommand.Parameters.AddWithValue("@puppet_id", puppet.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -241,7 +241,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                     {
                         string insertQuery = @"
                         INSERT INTO user_Puppets (
-                            user_id, Puppet_id, rare, level, experiment, star, quality, block, quantity,
+                            user_id, puppet_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -258,7 +258,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Puppet_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @puppet_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -280,7 +280,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Puppet_id", puppet.Id);
+                            insertCommand.Parameters.AddWithValue("@puppet_id", puppet.Id);
                             insertCommand.Parameters.AddWithValue("@rare", puppet.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -348,13 +348,13 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                         string updateQuery = @"
                         UPDATE user_Puppets
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Puppet_id = @Puppet_id;
+                        WHERE user_id = @user_id AND puppet_id = @puppet_id;
                     ";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Puppet_id", puppet.Id);
+                            updateCommand.Parameters.AddWithValue("@puppet_id", puppet.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", puppet.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -414,13 +414,13 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Puppet_id = @Puppet_id;
+                WHERE user_id = @user_id AND puppet_id = @puppet_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Puppet_id", puppet.Id);
+                    command.Parameters.AddWithValue("@puppet_id", puppet.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
                     command.Parameters.AddWithValue("@power", puppet.Power);
                     command.Parameters.AddWithValue("@health", puppet.Health);
@@ -527,13 +527,13 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Puppet_id = @Puppet_id;
+                WHERE user_id = @user_id AND puppet_id = @puppet_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Puppet_id", puppet.Id);
+                    command.Parameters.AddWithValue("@puppet_id", puppet.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", puppet.Power);
@@ -615,7 +615,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM user_puppets
-                             WHERE Puppet_id=@id AND user_id=@user_id";
+                             WHERE puppet_id=@id AND user_id=@user_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -628,7 +628,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                         {
                             puppet = new Puppets
                             {
-                                Id = reader.GetStringSafe("Puppet_id"),
+                                Id = reader.GetStringSafe("puppet_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),

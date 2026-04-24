@@ -21,7 +21,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                 string query = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Beverages t
-                INNER JOIN user_Beverages ut ON t.id = ut.Beverage_id
+                INNER JOIN user_beverages ut ON t.id = ut.beverage_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -156,7 +156,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Beverages t
-                INNER JOIN user_Beverages ut ON t.id = ut.Beverage_id
+                INNER JOIN user_beverages ut ON t.id = ut.beverage_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -211,21 +211,21 @@ public class UserBeveragesRepository : IUserBeveragesRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) FROM user_Beverages 
-                WHERE user_id = @user_id AND Beverage_id = @Beverage_id;";
+                SELECT COUNT(*) FROM user_beverages 
+                WHERE user_id = @user_id AND beverage_id = @beverage_id;";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Beverage_id", beverage.Id);
+                    checkCommand.Parameters.AddWithValue("@beverage_id", beverage.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Beverages (
-                            user_id, Beverage_id, rare, level, experiment, star, quality, block, quantity,
+                        INSERT INTO user_beverages (
+                            user_id, beverage_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -242,7 +242,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Beverage_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @beverage_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -263,7 +263,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Beverage_id", beverage.Id);
+                            insertCommand.Parameters.AddWithValue("@beverage_id", beverage.Id);
                             insertCommand.Parameters.AddWithValue("@rare", beverage.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -329,14 +329,14 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Beverages
+                        UPDATE user_beverages
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Beverage_id = @Beverage_id;";
+                        WHERE user_id = @user_id AND beverage_id = @beverage_id;";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Beverage_id", beverage.Id);
+                            updateCommand.Parameters.AddWithValue("@beverage_id", beverage.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", beverage.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -366,7 +366,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Beverages
+                UPDATE user_beverages
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -393,12 +393,12 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Beverage_id = @Beverage_id;";
+                WHERE user_id = @user_id AND beverage_id = @beverage_id;";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Beverage_id", beverage.Id);
+                    command.Parameters.AddWithValue("@beverage_id", beverage.Id);
                     command.Parameters.AddWithValue("@level", BeverageLevel);
                     command.Parameters.AddWithValue("@power", beverage.Power);
                     command.Parameters.AddWithValue("@health", beverage.Health);
@@ -475,7 +475,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Beverages
+                UPDATE user_beverages
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -502,11 +502,11 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Beverage_id = @Beverage_id;";
+                WHERE user_id = @user_id AND beverage_id = @beverage_id;";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Beverage_id", beverage.Id);
+                    command.Parameters.AddWithValue("@beverage_id", beverage.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", beverage.Power);
@@ -584,8 +584,8 @@ public class UserBeveragesRepository : IUserBeveragesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"Select * from user_Beverages where user_Beverages.Beverage_id=@id 
-                and user_Beverages.user_id=@user_id";
+                string query = @"Select * from user_beverages where user_beverages.beverage_id=@id 
+                and user_beverages.user_id=@user_id";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
@@ -597,7 +597,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                         {
                             Beverage = new Beverages
                             {
-                                Id = reader.GetStringSafe("Beverage_id"),
+                                Id = reader.GetStringSafe("beverage_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),
@@ -729,7 +729,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                 SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                 SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                 SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-            FROM user_Beverages
+            FROM user_beverages
             WHERE user_id = @user_id;
             ";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

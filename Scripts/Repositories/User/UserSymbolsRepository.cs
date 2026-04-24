@@ -21,7 +21,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 string query = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM Symbols m
-                JOIN user_Symbols um ON m.id = um.Symbol_id
+                JOIN user_symbols um ON m.id = um.symbol_id
                 WHERE um.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -161,7 +161,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Symbols m
-                JOIN user_Symbols um ON m.id = um.Symbol_id
+                JOIN user_symbols um ON m.id = um.symbol_id
                 WHERE um.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -226,22 +226,22 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
                     SELECT COUNT(*) 
-                    FROM user_Symbols 
-                    WHERE user_id = @user_id AND Symbol_id = @Symbol_id;
+                    FROM user_symbols 
+                    WHERE user_id = @user_id AND symbol_id = @symbol_id;
                 ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Symbol_id", symbol.Id);
+                    checkCommand.Parameters.AddWithValue("@symbol_id", symbol.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Symbols (
-                            user_id, Symbol_id, rare, level, experiment, star, quality, block, quantity,
+                        INSERT INTO user_symbols (
+                            user_id, symbol_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -258,7 +258,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Symbol_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @symbol_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -280,7 +280,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Symbol_id", symbol.Id);
+                            insertCommand.Parameters.AddWithValue("@symbol_id", symbol.Id);
                             insertCommand.Parameters.AddWithValue("@rare", symbol.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -346,15 +346,15 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Symbols
+                        UPDATE user_symbols
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Symbol_id = @Symbol_id;
+                        WHERE user_id = @user_id AND symbol_id = @symbol_id;
                     ";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Symbol_id", symbol.Id);
+                            updateCommand.Parameters.AddWithValue("@symbol_id", symbol.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", symbol.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -386,7 +386,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Symbols
+                UPDATE user_symbols
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -414,13 +414,13 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Symbol_id = @Symbol_id;
+                WHERE user_id = @user_id AND symbol_id = @symbol_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Symbol_id", symbol.Id);
+                    command.Parameters.AddWithValue("@symbol_id", symbol.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
                     command.Parameters.AddWithValue("@power", symbol.Power);
                     command.Parameters.AddWithValue("@health", symbol.Health);
@@ -500,7 +500,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Symbols
+                UPDATE user_symbols
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -527,13 +527,13 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Symbol_id = @Symbol_id;
+                WHERE user_id = @user_id AND symbol_id = @symbol_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Symbol_id", symbol.Id);
+                    command.Parameters.AddWithValue("@symbol_id", symbol.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", symbol.Power);
@@ -614,8 +614,8 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_Symbols 
-                             WHERE Symbol_id=@id AND user_id=@user_id";
+                string query = @"SELECT * FROM user_symbols 
+                             WHERE symbol_id=@id AND user_id=@user_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -628,7 +628,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                         {
                             symbol = new Symbols
                             {
-                                Id = reader.GetStringSafe("Symbol_id"),
+                                Id = reader.GetStringSafe("symbol_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),
@@ -763,7 +763,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                     SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                     SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                     SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-                FROM user_Symbols
+                FROM user_symbols
                 WHERE user_id = @user_id;";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

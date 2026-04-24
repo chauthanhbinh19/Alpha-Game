@@ -21,7 +21,7 @@ public class UserBadgesRepository : IUserBadgesRepository
                 string query = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description 
                 FROM Badges t
-                JOIN user_Badges ut ON t.id = ut.Badge_id
+                JOIN user_badges ut ON t.id = ut.badge_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -156,7 +156,7 @@ public class UserBadgesRepository : IUserBadgesRepository
                 string query = @"
                     SELECT COUNT(*) 
                     FROM Badges t
-                    JOIN user_Badges ut ON t.id = ut.Badge_id
+                    JOIN user_badges ut ON t.id = ut.badge_id
                     WHERE ut.user_id = @userId 
                 ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -211,21 +211,21 @@ public class UserBadgesRepository : IUserBadgesRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                    SELECT COUNT(*) FROM user_Badges 
-                    WHERE user_id = @user_id AND Badge_id = @Badge_id;
+                    SELECT COUNT(*) FROM user_badges 
+                    WHERE user_id = @user_id AND badge_id = @badge_id;
                 ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Badge_id", badge.Id);
+                    checkCommand.Parameters.AddWithValue("@badge_id", badge.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Badges (
-                            user_id, Badge_id, rare, level, experiment, star, quality, block, quantity,
+                        INSERT INTO user_badges (
+                            user_id, badge_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -242,7 +242,7 @@ public class UserBadgesRepository : IUserBadgesRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Badge_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @badge_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -264,7 +264,7 @@ public class UserBadgesRepository : IUserBadgesRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Badge_id", badge.Id);
+                            insertCommand.Parameters.AddWithValue("@badge_id", badge.Id);
                             insertCommand.Parameters.AddWithValue("@rare", badge.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -330,15 +330,15 @@ public class UserBadgesRepository : IUserBadgesRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Badges
+                        UPDATE user_badges
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Badge_id = @Badge_id;
+                        WHERE user_id = @user_id AND badge_id = @badge_id;
                     ";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Badge_id", badge.Id);
+                            updateCommand.Parameters.AddWithValue("@badge_id", badge.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", badge.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -370,7 +370,7 @@ public class UserBadgesRepository : IUserBadgesRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Badges
+                UPDATE user_badges
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -397,13 +397,13 @@ public class UserBadgesRepository : IUserBadgesRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Badge_id = @Badge_id;
+                WHERE user_id = @user_id AND badge_id = @badge_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Badge_id", badge.Id);
+                    command.Parameters.AddWithValue("@badge_id", badge.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
                     command.Parameters.AddWithValue("@power", badge.Power);
                     command.Parameters.AddWithValue("@health", badge.Health);
@@ -483,7 +483,7 @@ public class UserBadgesRepository : IUserBadgesRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Badges
+                UPDATE user_badges
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -510,13 +510,13 @@ public class UserBadgesRepository : IUserBadgesRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Badge_id = @Badge_id;
+                WHERE user_id = @user_id AND badge_id = @badge_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Badge_id", badge.Id);
+                    command.Parameters.AddWithValue("@badge_id", badge.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", badge.Power);
@@ -597,8 +597,8 @@ public class UserBadgesRepository : IUserBadgesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_Badges 
-                             WHERE Badge_id = @id AND user_id = @user_id";
+                string query = @"SELECT * FROM user_badges 
+                             WHERE badge_id = @id AND user_id = @user_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -611,7 +611,7 @@ public class UserBadgesRepository : IUserBadgesRepository
                         {
                             badge = new Badges
                             {
-                                Id = reader.GetStringSafe("Badge_id"),
+                                Id = reader.GetStringSafe("badge_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),
@@ -746,7 +746,7 @@ public class UserBadgesRepository : IUserBadgesRepository
                     SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                     SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                     SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-                FROM user_Badges
+                FROM user_badges
                 WHERE user_id = @user_id;
             ";
 

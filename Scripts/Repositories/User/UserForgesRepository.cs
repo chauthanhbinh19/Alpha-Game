@@ -21,7 +21,7 @@ public class UserForgesRepository : IUserForgesRepository
                 string query = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM Forges m
-                JOIN user_Forges um ON m.id = um.Forge_id
+                JOIN user_forges um ON m.id = um.forge_id
                 WHERE um.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -161,7 +161,7 @@ public class UserForgesRepository : IUserForgesRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Forges m
-                JOIN user_Forges um ON m.id = um.Forge_id
+                JOIN user_forges um ON m.id = um.forge_id
                 WHERE um.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -226,22 +226,22 @@ public class UserForgesRepository : IUserForgesRepository
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM user_Forges 
-                WHERE user_id = @user_id AND Forge_id = @Forge_id;
+                FROM user_forges 
+                WHERE user_id = @user_id AND forge_id = @forge_id;
             ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Forge_id", forge.Id);
+                    checkCommand.Parameters.AddWithValue("@forge_id", forge.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Forges (
-                            user_id, Forge_id, rare, level, experiment, star, quality, block, quantity,
+                        INSERT INTO user_forges (
+                            user_id, forge_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -258,7 +258,7 @@ public class UserForgesRepository : IUserForgesRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Forge_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @forge_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -280,7 +280,7 @@ public class UserForgesRepository : IUserForgesRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Forge_id", forge.Id);
+                            insertCommand.Parameters.AddWithValue("@forge_id", forge.Id);
                             insertCommand.Parameters.AddWithValue("@rare", forge.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -346,15 +346,15 @@ public class UserForgesRepository : IUserForgesRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Forges
+                        UPDATE user_forges
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Forge_id = @Forge_id;
+                        WHERE user_id = @user_id AND forge_id = @forge_id;
                     ";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Forge_id", forge.Id);
+                            updateCommand.Parameters.AddWithValue("@forge_id", forge.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", forge.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -386,7 +386,7 @@ public class UserForgesRepository : IUserForgesRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Forges
+                UPDATE user_forges
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -414,13 +414,13 @@ public class UserForgesRepository : IUserForgesRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Forge_id = @Forge_id;
+                WHERE user_id = @user_id AND forge_id = @forge_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Forge_id", forge.Id);
+                    command.Parameters.AddWithValue("@forge_id", forge.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
                     command.Parameters.AddWithValue("@power", forge.Power);
                     command.Parameters.AddWithValue("@health", forge.Health);
@@ -500,7 +500,7 @@ public class UserForgesRepository : IUserForgesRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Forges
+                UPDATE user_forges
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -527,13 +527,13 @@ public class UserForgesRepository : IUserForgesRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Forge_id = @Forge_id;
+                WHERE user_id = @user_id AND forge_id = @forge_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Forge_id", forge.Id);
+                    command.Parameters.AddWithValue("@forge_id", forge.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", forge.Power);
@@ -614,8 +614,8 @@ public class UserForgesRepository : IUserForgesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_Forges 
-                             WHERE Forge_id=@id AND user_id=@user_id";
+                string query = @"SELECT * FROM user_forges 
+                             WHERE forge_id=@id AND user_id=@user_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -628,7 +628,7 @@ public class UserForgesRepository : IUserForgesRepository
                         {
                             forge = new Forges
                             {
-                                Id = reader.GetStringSafe("Forge_id"),
+                                Id = reader.GetStringSafe("forge_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),
@@ -763,7 +763,7 @@ public class UserForgesRepository : IUserForgesRepository
                     SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                     SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                     SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-                FROM user_Forges
+                FROM user_forges
                 WHERE user_id = @user_id;";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

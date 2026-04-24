@@ -22,13 +22,13 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
                 string query = @"
                 SELECT m.*, mg.current_star, mg.temp_star,
                     CASE 
-                        WHEN mg.Furniture_id IS NULL THEN 'block'
+                        WHEN mg.furniture_id IS NULL THEN 'block'
                         WHEN mg.status = 'pending' THEN 'pending'
                         WHEN mg.status = 'available' THEN 'available'
                     END AS status 
                 FROM Furnitures m 
-                LEFT JOIN Furnitures_gallery mg 
-                    ON m.id = mg.Furniture_id AND mg.user_id = @userId 
+                LEFT JOIN furnitures_gallery mg 
+                    ON m.id = mg.furniture_id AND mg.user_id = @userId 
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -237,13 +237,13 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
                 // Kiểm tra bản ghi đã tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM Furnitures_gallery 
-                WHERE user_id = @user_id AND Furniture_id = @Furniture_id;
+                FROM furnitures_gallery 
+                WHERE user_id = @user_id AND furniture_id = @furniture_id;
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Furniture_id", Id);
+                checkCommand.Parameters.AddWithValue("@furniture_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -251,8 +251,8 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
                 if (recordCount == 0)
                 {
                     string query = @"
-                INSERT INTO Furnitures_gallery (
-                    user_id, Furniture_id, status, current_star, temp_star, power, health, 
+                INSERT INTO furnitures_gallery (
+                    user_id, furniture_id, status, current_star, temp_star, power, health, 
                     physical_attack, physical_defense, magical_attack, magical_defense, 
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                     mental_attack, mental_defense, speed, critical_damage_rate, critical_rate,
@@ -275,7 +275,7 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
                     percent_all_mental_defense
                 )
                 VALUES (
-                    @user_id, @Furniture_id, @status, @current_star, @temp_star, @power, @health,
+                    @user_id, @furniture_id, @status, @current_star, @temp_star, @power, @health,
                     @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense,
                     @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate,
@@ -302,7 +302,7 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
 
                     // Thêm param
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Furniture_id", Id);
+                    command.Parameters.AddWithValue("@furniture_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@current_star", 0);
                     command.Parameters.AddWithValue("@temp_star", 0);
@@ -395,10 +395,10 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE Furnitures_gallery SET status=@status WHERE user_id=@user_id AND Furniture_id=@Furniture_id";
+                string query = "UPDATE furnitures_gallery SET status=@status WHERE user_id=@user_id AND furniture_id=@furniture_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Furniture_id", Id);
+                command.Parameters.AddWithValue("@furniture_id", Id);
                 command.Parameters.AddWithValue("@status", "available");
 
                 await command.ExecuteNonQueryAsync();
@@ -426,13 +426,13 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
                 // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
                 string checkQuery = @"
                 SELECT current_star, temp_star
-                FROM Furnitures_gallery 
-                WHERE user_id = @user_id AND Furniture_id = @Furniture_id;
+                FROM furnitures_gallery 
+                WHERE user_id = @user_id AND furniture_id = @furniture_id;
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Furniture_id", Id);
+                checkCommand.Parameters.AddWithValue("@furniture_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
                 {
@@ -445,14 +445,14 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
                             reader.Close(); // Đóng reader trước khi thực hiện update
 
                             string updateQuery = @"
-                            UPDATE Furnitures_gallery 
+                            UPDATE furnitures_gallery 
                             SET temp_star = @temp_star 
-                            WHERE user_id = @user_id AND Furniture_id = @Furniture_id;
+                            WHERE user_id = @user_id AND furniture_id = @furniture_id;
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            updateCommand.Parameters.AddWithValue("@Furniture_id", Id);
+                            updateCommand.Parameters.AddWithValue("@furniture_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -480,7 +480,7 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Furnitures_gallery
+                string query = @"UPDATE furnitures_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -546,12 +546,12 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Furniture_id = @Furniture_id;
+                AND furniture_id = @furniture_id;
             ";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Furniture_id", Id);
+                command.Parameters.AddWithValue("@furniture_id", Id);
                 command.Parameters.AddWithValue("@status", "pending");
                 command.Parameters.AddWithValue("@current_star", 0);
                 command.Parameters.AddWithValue("@power", furnitureFromDB.Power);
@@ -678,7 +678,7 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
                 SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
                 SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
                 SUM(percent_all_mental_defense) AS total_percent_all_mental_defense 
-            FROM Furnitures_gallery 
+            FROM furnitures_gallery 
             WHERE user_id = @user_id AND status = 'available';";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

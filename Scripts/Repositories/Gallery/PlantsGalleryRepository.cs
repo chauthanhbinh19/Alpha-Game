@@ -22,13 +22,13 @@ public class PlantsGalleryRepository : IPlantsGalleryRepository
                 string query = @"
                 SELECT c.*, 
                        CASE 
-                           WHEN cg.Plant_id IS NULL THEN 'block' 
+                           WHEN cg.plant_id IS NULL THEN 'block' 
                            WHEN cg.status = 'pending' THEN 'pending' 
                            WHEN cg.status = 'available' THEN 'available' 
                        END AS status 
                 FROM Plants c 
-                LEFT JOIN Plants_gallery cg 
-                       ON c.id = cg.Plant_id AND cg.user_id = @userId 
+                LEFT JOIN plants_gallery cg 
+                       ON c.id = cg.plant_id AND cg.user_id = @userId 
                 WHERE 1=1
             ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -221,14 +221,14 @@ public class PlantsGalleryRepository : IPlantsGalleryRepository
                 // Kiểm tra bản ghi tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM Plants_gallery 
-                WHERE user_id = @user_id AND Plant_id = @Plant_id;
+                FROM plants_gallery 
+                WHERE user_id = @user_id AND plant_id = @plant_id;
             ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@Plant_id", Id);
+                    checkCommand.Parameters.AddWithValue("@plant_id", Id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -236,8 +236,8 @@ public class PlantsGalleryRepository : IPlantsGalleryRepository
                     if (recordCount == 0)
                     {
                         string query = @"
-                    INSERT INTO Plants_gallery (
-                        user_id, Plant_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
+                    INSERT INTO plants_gallery (
+                        user_id, plant_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate, 
                         penetration_rate, penetration_resistance_rate, evasion_rate, 
@@ -254,7 +254,7 @@ public class PlantsGalleryRepository : IPlantsGalleryRepository
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense
                     ) VALUES (
-                        @user_id, @Plant_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
+                        @user_id, @plant_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                         @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate, 
                         @penetration_rate, @penetration_resistance_rate, @evasion_rate, 
@@ -276,7 +276,7 @@ public class PlantsGalleryRepository : IPlantsGalleryRepository
                         await using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
                             command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            command.Parameters.AddWithValue("@Plant_id", Id);
+                            command.Parameters.AddWithValue("@plant_id", Id);
                             command.Parameters.AddWithValue("@status", "pending");
                             command.Parameters.AddWithValue("@current_star", 0);
                             command.Parameters.AddWithValue("@temp_star", 0);
@@ -377,14 +377,14 @@ public class PlantsGalleryRepository : IPlantsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Plants_gallery 
+                string query = @"UPDATE plants_gallery 
                              SET status=@status 
-                             WHERE user_id=@user_id AND Plant_id=@Plant_id";
+                             WHERE user_id=@user_id AND plant_id=@plant_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Plant_id", Id);
+                    command.Parameters.AddWithValue("@plant_id", Id);
                     command.Parameters.AddWithValue("@status", "available");
 
                     await command.ExecuteNonQueryAsync();
@@ -413,14 +413,14 @@ public class PlantsGalleryRepository : IPlantsGalleryRepository
                 // Lấy current_star và temp_star
                 string checkQuery = @"
                 SELECT current_star, temp_star 
-                FROM Plants_gallery 
-                WHERE user_id = @user_id AND Plant_id = @Plant_id;
+                FROM plants_gallery 
+                WHERE user_id = @user_id AND plant_id = @plant_id;
             ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@Plant_id", id);
+                    checkCommand.Parameters.AddWithValue("@plant_id", id);
 
                     await using (var reader = await checkCommand.ExecuteReaderAsync())
                     {
@@ -434,15 +434,15 @@ public class PlantsGalleryRepository : IPlantsGalleryRepository
                                 reader.Close(); // đóng trước khi chạy lệnh khác
 
                                 string updateQuery = @"
-                                UPDATE Plants_gallery 
+                                UPDATE plants_gallery 
                                 SET temp_star = @temp_star 
-                                WHERE user_id = @user_id AND Plant_id = @Plant_id;
+                                WHERE user_id = @user_id AND plant_id = @plant_id;
                             ";
 
                                 await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                                 {
                                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                                    updateCommand.Parameters.AddWithValue("@Plant_id", id);
+                                    updateCommand.Parameters.AddWithValue("@plant_id", id);
                                     updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                                     await updateCommand.ExecuteNonQueryAsync();
@@ -472,7 +472,7 @@ public class PlantsGalleryRepository : IPlantsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Plants_gallery
+                string query = @"UPDATE plants_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -538,14 +538,14 @@ public class PlantsGalleryRepository : IPlantsGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Plant_id = @Plant_id;
+                AND plant_id = @plant_id;
             ";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
 
                 // IDs
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Plant_id", id);
+                command.Parameters.AddWithValue("@plant_id", id);
 
                 // Base flags
                 command.Parameters.AddWithValue("@status", "pending");
@@ -685,7 +685,7 @@ public class PlantsGalleryRepository : IPlantsGalleryRepository
                 SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
                 SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
                 SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM Plants_gallery 
+                FROM plants_gallery 
                 WHERE user_id = @user_id AND status = 'available';
             ";
 

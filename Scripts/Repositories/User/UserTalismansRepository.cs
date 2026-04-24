@@ -21,7 +21,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 string query = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM Talismans m
-                JOIN user_Talismans um ON m.id = um.Talisman_id
+                JOIN user_talismans um ON m.id = um.talisman_id
                 WHERE um.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -169,7 +169,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Talismans m
-                JOIN user_Talismans um ON m.id = um.Talisman_id
+                JOIN user_talismans um ON m.id = um.talisman_id
                 WHERE um.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -235,22 +235,22 @@ public class UserTalismansRepository : IUserTalismansRepository
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM user_Talismans 
-                WHERE user_id = @user_id AND Talisman_id = @Talisman_id;
+                FROM user_talismans 
+                WHERE user_id = @user_id AND talisman_id = @talisman_id;
             ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Talisman_id", talisman.Id);
+                    checkCommand.Parameters.AddWithValue("@talisman_id", talisman.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Talismans (
-                            user_id, Talisman_id, rare, level, experiment, star, quality, block, quantity,
+                        INSERT INTO user_talismans (
+                            user_id, talisman_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -267,7 +267,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Talisman_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @talisman_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -289,7 +289,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Talisman_id", talisman.Id);
+                            insertCommand.Parameters.AddWithValue("@talisman_id", talisman.Id);
                             insertCommand.Parameters.AddWithValue("@rare", talisman.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -355,15 +355,15 @@ public class UserTalismansRepository : IUserTalismansRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Talismans
+                        UPDATE user_talismans
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Talisman_id = @Talisman_id;
+                        WHERE user_id = @user_id AND talisman_id = @talisman_id;
                     ";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Talisman_id", talisman.Id);
+                            updateCommand.Parameters.AddWithValue("@talisman_id", talisman.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", talisman.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -395,7 +395,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Talismans
+                UPDATE user_talismans
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -423,13 +423,13 @@ public class UserTalismansRepository : IUserTalismansRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Talisman_id = @Talisman_id;
+                WHERE user_id = @user_id AND talisman_id = @talisman_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Talisman_id", talisman.Id);
+                    command.Parameters.AddWithValue("@talisman_id", talisman.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
                     command.Parameters.AddWithValue("@power", talisman.Power);
                     command.Parameters.AddWithValue("@health", talisman.Health);
@@ -509,7 +509,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Talismans
+                UPDATE user_talismans
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -536,13 +536,13 @@ public class UserTalismansRepository : IUserTalismansRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Talisman_id = @Talisman_id;
+                WHERE user_id = @user_id AND talisman_id = @talisman_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Talisman_id", talisman.Id);
+                    command.Parameters.AddWithValue("@talisman_id", talisman.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", talisman.Power);
@@ -623,8 +623,8 @@ public class UserTalismansRepository : IUserTalismansRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_Talismans
-                             WHERE Talisman_id=@id AND user_id=@user_id";
+                string query = @"SELECT * FROM user_talismans
+                             WHERE talisman_id=@id AND user_id=@user_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -637,7 +637,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                         {
                             talisman = new Talismans
                             {
-                                Id = reader.GetStringSafe("Talisman_id"),
+                                Id = reader.GetStringSafe("talisman_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),
@@ -772,7 +772,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                     SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                     SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                     SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-                FROM user_Talismans
+                FROM user_talismans
                 WHERE user_id = @user_id;";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

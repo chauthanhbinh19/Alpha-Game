@@ -22,13 +22,13 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                 string query = @"
                 SELECT m.*, mg.current_star, mg.temp_star,
                     CASE 
-                        WHEN mg.Artwork_id IS NULL THEN 'block'
+                        WHEN mg.artwork_id IS NULL THEN 'block'
                         WHEN mg.status = 'pending' THEN 'pending'
                         WHEN mg.status = 'available' THEN 'available'
                     END AS status 
                 FROM Artworks m 
-                LEFT JOIN Artworks_gallery mg 
-                    ON m.id = mg.Artwork_id AND mg.user_id = @userId 
+                LEFT JOIN artworks_gallery mg 
+                    ON m.id = mg.artwork_id AND mg.user_id = @userId 
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -237,13 +237,13 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                 // Kiểm tra bản ghi đã tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM Artworks_gallery 
-                WHERE user_id = @user_id AND Artwork_id = @Artwork_id;
+                FROM artworks_gallery 
+                WHERE user_id = @user_id AND artwork_id = @artwork_id;
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Artwork_id", Id);
+                checkCommand.Parameters.AddWithValue("@artwork_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -251,8 +251,8 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                 if (recordCount == 0)
                 {
                     string query = @"
-                INSERT INTO Artworks_gallery (
-                    user_id, Artwork_id, status, current_star, temp_star, power, health, 
+                INSERT INTO artworks_gallery (
+                    user_id, artwork_id, status, current_star, temp_star, power, health, 
                     physical_attack, physical_defense, magical_attack, magical_defense, 
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                     mental_attack, mental_defense, speed, critical_damage_rate, critical_rate,
@@ -275,7 +275,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                     percent_all_mental_defense
                 )
                 VALUES (
-                    @user_id, @Artwork_id, @status, @current_star, @temp_star, @power, @health,
+                    @user_id, @artwork_id, @status, @current_star, @temp_star, @power, @health,
                     @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense,
                     @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate,
@@ -302,7 +302,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
 
                     // Thêm param
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Artwork_id", Id);
+                    command.Parameters.AddWithValue("@artwork_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@current_star", 0);
                     command.Parameters.AddWithValue("@temp_star", 0);
@@ -395,10 +395,10 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE artworks_gallery SET status=@status WHERE user_id=@user_id AND Artwork_id=@Artwork_id";
+                string query = "UPDATE artworks_gallery SET status=@status WHERE user_id=@user_id AND artwork_id=@artwork_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Artwork_id", Id);
+                command.Parameters.AddWithValue("@artwork_id", Id);
                 command.Parameters.AddWithValue("@status", "available");
 
                 await command.ExecuteNonQueryAsync();
@@ -427,12 +427,12 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                 string checkQuery = @"
                 SELECT current_star, temp_star
                 FROM artworks_gallery 
-                WHERE user_id = @user_id AND Artwork_id = @Artwork_id;
+                WHERE user_id = @user_id AND artwork_id = @artwork_id;
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Artwork_id", Id);
+                checkCommand.Parameters.AddWithValue("@artwork_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
                 {
@@ -447,12 +447,12 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                             string updateQuery = @"
                             UPDATE artworks_gallery 
                             SET temp_star = @temp_star 
-                            WHERE user_id = @user_id AND Artwork_id = @Artwork_id;
+                            WHERE user_id = @user_id AND artwork_id = @artwork_id;
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            updateCommand.Parameters.AddWithValue("@Artwork_id", Id);
+                            updateCommand.Parameters.AddWithValue("@artwork_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -546,12 +546,12 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Artwork_id = @Artwork_id;
+                AND artwork_id = @artwork_id;
             ";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Artwork_id", Id);
+                command.Parameters.AddWithValue("@artwork_id", Id);
                 command.Parameters.AddWithValue("@status", "pending");
                 command.Parameters.AddWithValue("@current_star", 0);
                 command.Parameters.AddWithValue("@power", artworkFromDB.Power);

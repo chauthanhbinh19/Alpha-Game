@@ -21,7 +21,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                 string query = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM Buildings m
-                JOIN user_Buildings um ON m.id = um.Building_id
+                JOIN user_buildings um ON m.id = um.building_id
                 WHERE um.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -161,7 +161,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Buildings m
-                JOIN user_Buildings um ON m.id = um.Building_id
+                JOIN user_buildings um ON m.id = um.building_id
                 WHERE um.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -226,22 +226,22 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM user_Buildings 
-                WHERE user_id = @user_id AND Building_id = @Building_id;
+                FROM user_buildings 
+                WHERE user_id = @user_id AND building_id = @building_id;
             ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Building_id", building.Id);
+                    checkCommand.Parameters.AddWithValue("@building_id", building.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Buildings (
-                            user_id, Building_id, rare, level, experiment, star, quality, block, quantity,
+                        INSERT INTO user_buildings (
+                            user_id, building_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -258,7 +258,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Building_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @building_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -280,7 +280,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Building_id", building.Id);
+                            insertCommand.Parameters.AddWithValue("@building_id", building.Id);
                             insertCommand.Parameters.AddWithValue("@rare", building.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -346,15 +346,15 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Buildings
+                        UPDATE user_buildings
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Building_id = @Building_id;
+                        WHERE user_id = @user_id AND building_id = @building_id;
                     ";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Building_id", building.Id);
+                            updateCommand.Parameters.AddWithValue("@building_id", building.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", building.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -386,7 +386,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Buildings
+                UPDATE user_buildings
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -414,13 +414,13 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Building_id = @Building_id;
+                WHERE user_id = @user_id AND building_id = @building_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Building_id", building.Id);
+                    command.Parameters.AddWithValue("@building_id", building.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
                     command.Parameters.AddWithValue("@power", building.Power);
                     command.Parameters.AddWithValue("@health", building.Health);
@@ -500,7 +500,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Buildings
+                UPDATE user_buildings
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -527,13 +527,13 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Building_id = @Building_id;
+                WHERE user_id = @user_id AND building_id = @building_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Building_id", building.Id);
+                    command.Parameters.AddWithValue("@building_id", building.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", building.Power);
@@ -614,8 +614,8 @@ public class UserBuildingsRepository : IUserBuildingsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_Buildings 
-                             WHERE Building_id=@id AND user_id=@user_id";
+                string query = @"SELECT * FROM user_buildings 
+                             WHERE building_id=@id AND user_id=@user_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -628,7 +628,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                         {
                             Building = new Buildings
                             {
-                                Id = reader.GetStringSafe("Building_id"),
+                                Id = reader.GetStringSafe("building_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),
@@ -763,7 +763,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                     SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                     SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                     SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-                FROM user_Buildings
+                FROM user_buildings
                 WHERE user_id = @user_id;";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

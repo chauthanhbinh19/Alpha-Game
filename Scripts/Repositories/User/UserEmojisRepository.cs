@@ -21,7 +21,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 string query = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description 
                 FROM Emojis t
-                INNER JOIN user_Emojis ut ON t.id = ut.emoji_id
+                INNER JOIN user_emojis ut ON t.id = ut.emoji_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -148,7 +148,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Emojis t
-                INNER JOIN user_Emojis ut ON t.id = ut.emoji_id
+                INNER JOIN user_emojis ut ON t.id = ut.emoji_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -201,7 +201,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM user_Emojis 
+                FROM user_emojis 
                 WHERE user_id = @user_id AND emoji_id = @emoji_id;
             ";
 
@@ -214,7 +214,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 if (count == 0)
                 {
                     string insertQuery = @"
-                    INSERT INTO user_Emojis (
+                    INSERT INTO user_emojis (
                         user_id, emoji_id, rare, level, experiment, star, quality, block, quantity,
                         power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                         chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
@@ -318,7 +318,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 {
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
-                    UPDATE user_Emojis
+                    UPDATE user_emojis
                     SET quantity = @quantity
                     WHERE user_id = @user_id AND emoji_id = @emoji_id;
                 ";
@@ -355,7 +355,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Emojis
+                UPDATE user_emojis
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -466,7 +466,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Emojis
+                UPDATE user_emojis
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -578,7 +578,7 @@ public class UserEmojisRepository : IUserEmojisRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_Emojis 
+                string query = @"SELECT * FROM user_emojis 
                              WHERE emoji_id = @id AND user_id = @user_id";
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
@@ -723,7 +723,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                     SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                     SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                     SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-                FROM user_Emojis
+                FROM user_emojis
                 WHERE user_id = @user_id;
             ";
 

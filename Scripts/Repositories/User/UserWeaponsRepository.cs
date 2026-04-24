@@ -21,7 +21,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 string query = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Weapons t
-                INNER JOIN user_Weapons ut ON t.id = ut.Weapon_id
+                INNER JOIN user_weapons ut ON t.id = ut.weapon_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -156,7 +156,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Weapons t
-                INNER JOIN user_Weapons ut ON t.id = ut.Weapon_id
+                INNER JOIN user_weapons ut ON t.id = ut.weapon_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -211,21 +211,21 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) FROM user_Weapons 
-                WHERE user_id = @user_id AND Weapon_id = @Weapon_id;";
+                SELECT COUNT(*) FROM user_weapons 
+                WHERE user_id = @user_id AND weapon_id = @weapon_id;";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Weapon_id", weapon.Id);
+                    checkCommand.Parameters.AddWithValue("@weapon_id", weapon.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Weapons (
-                            user_id, Weapon_id, rare, level, experiment, star, quality, block, quantity,
+                        INSERT INTO user_weapons (
+                            user_id, weapon_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -242,7 +242,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Weapon_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @weapon_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -263,7 +263,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Weapon_id", weapon.Id);
+                            insertCommand.Parameters.AddWithValue("@weapon_id", weapon.Id);
                             insertCommand.Parameters.AddWithValue("@rare", weapon.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -329,14 +329,14 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Weapons
+                        UPDATE user_weapons
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Weapon_id = @Weapon_id;";
+                        WHERE user_id = @user_id AND weapon_id = @weapon_id;";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Weapon_id", weapon.Id);
+                            updateCommand.Parameters.AddWithValue("@weapon_id", weapon.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", weapon.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -366,7 +366,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Weapons
+                UPDATE user_weapons
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -393,12 +393,12 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Weapon_id = @Weapon_id;";
+                WHERE user_id = @user_id AND weapon_id = @weapon_id;";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Weapon_id", weapon.Id);
+                    command.Parameters.AddWithValue("@weapon_id", weapon.Id);
                     command.Parameters.AddWithValue("@level", WeaponLevel);
                     command.Parameters.AddWithValue("@power", weapon.Power);
                     command.Parameters.AddWithValue("@health", weapon.Health);
@@ -475,7 +475,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Weapons
+                UPDATE user_weapons
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -502,11 +502,11 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Weapon_id = @Weapon_id;";
+                WHERE user_id = @user_id AND weapon_id = @weapon_id;";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Weapon_id", weapon.Id);
+                    command.Parameters.AddWithValue("@weapon_id", weapon.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", weapon.Power);
@@ -584,8 +584,8 @@ public class UserWeaponsRepository : IUserWeaponsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"Select * from user_Weapons where user_Weapons.Weapon_id=@id 
-                and user_Weapons.user_id=@user_id";
+                string query = @"Select * from user_weapons where user_weapons.weapon_id=@id 
+                and user_weapons.user_id=@user_id";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
@@ -597,7 +597,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                         {
                             weapon = new Weapons
                             {
-                                Id = reader.GetStringSafe("Weapon_id"),
+                                Id = reader.GetStringSafe("weapon_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),
@@ -729,7 +729,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                 SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                 SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-            FROM user_Weapons
+            FROM user_weapons
             WHERE user_id = @user_id;
             ";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

@@ -21,7 +21,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                 string query = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM vehicles m
-                JOIN user_vehicles um ON m.id = um.Vehicle_id
+                JOIN user_vehicles um ON m.id = um.vehicle_id
                 WHERE um.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -164,7 +164,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM vehicles m
-                JOIN user_vehicles um ON m.id = um.Vehicle_id
+                JOIN user_vehicles um ON m.id = um.vehicle_id
                 WHERE um.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -231,13 +231,13 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                 string checkQuery = @"
                 SELECT COUNT(*) 
                 FROM user_vehicles 
-                WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;
+                WHERE user_id = @user_id AND vehicle_id = @vehicle_id;
             ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Vehicle_id", vehicle.Id);
+                    checkCommand.Parameters.AddWithValue("@vehicle_id", vehicle.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -245,7 +245,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                     {
                         string insertQuery = @"
                         INSERT INTO user_vehicles (
-                            user_id, Vehicle_id, rare, level, experiment, star, quality, block, quantity,
+                            user_id, vehicle_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -262,7 +262,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Vehicle_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @vehicle_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -284,7 +284,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Vehicle_id", vehicle.Id);
+                            insertCommand.Parameters.AddWithValue("@vehicle_id", vehicle.Id);
                             insertCommand.Parameters.AddWithValue("@rare", vehicle.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -352,13 +352,13 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                         string updateQuery = @"
                         UPDATE user_vehicles
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;
+                        WHERE user_id = @user_id AND vehicle_id = @vehicle_id;
                     ";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Vehicle_id", vehicle.Id);
+                            updateCommand.Parameters.AddWithValue("@vehicle_id", vehicle.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", vehicle.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -418,13 +418,13 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;
+                WHERE user_id = @user_id AND vehicle_id = @vehicle_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Vehicle_id", vehicle.Id);
+                    command.Parameters.AddWithValue("@vehicle_id", vehicle.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
                     command.Parameters.AddWithValue("@power", vehicle.Power);
                     command.Parameters.AddWithValue("@health", vehicle.Health);
@@ -531,13 +531,13 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Vehicle_id = @Vehicle_id;
+                WHERE user_id = @user_id AND vehicle_id = @vehicle_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Vehicle_id", vehicle.Id);
+                    command.Parameters.AddWithValue("@vehicle_id", vehicle.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", vehicle.Power);
@@ -619,7 +619,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM user_vehicles 
-                             WHERE Vehicle_id=@id AND user_id=@user_id";
+                             WHERE vehicle_id=@id AND user_id=@user_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -632,7 +632,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                         {
                             vehicle = new Vehicles
                             {
-                                Id = reader.GetStringSafe("Vehicle_id"),
+                                Id = reader.GetStringSafe("vehicle_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),

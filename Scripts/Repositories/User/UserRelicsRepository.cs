@@ -21,7 +21,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                 string query = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM relics m
-                JOIN user_relics um ON m.id = um.Relic_id
+                JOIN user_relics um ON m.id = um.relic_id
                 WHERE um.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -161,7 +161,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM relics m
-                JOIN user_relics um ON m.id = um.Relic_id
+                JOIN user_relics um ON m.id = um.relic_id
                 WHERE um.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -227,13 +227,13 @@ public class UserRelicsRepository : IUserRelicsRepository
                 string checkQuery = @"
                     SELECT COUNT(*) 
                     FROM user_relics
-                    WHERE user_id = @user_id AND Relic_id = @Relic_id;
+                    WHERE user_id = @user_id AND relic_id = @relic_id;
                 ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Relic_id", relic.Id);
+                    checkCommand.Parameters.AddWithValue("@relic_id", relic.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -241,7 +241,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                     {
                         string insertQuery = @"
                         INSERT INTO user_relics (
-                            user_id, Relic_id, rare, level, experiment, star, quality, block, quantity,
+                            user_id, relic_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -258,7 +258,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Relic_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @relic_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -280,7 +280,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Relic_id", relic.Id);
+                            insertCommand.Parameters.AddWithValue("@relic_id", relic.Id);
                             insertCommand.Parameters.AddWithValue("@rare", relic.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -348,13 +348,13 @@ public class UserRelicsRepository : IUserRelicsRepository
                         string updateQuery = @"
                             UPDATE user_relics
                             SET quantity = @quantity
-                            WHERE user_id = @user_id AND Relic_id = @Relic_id;
+                            WHERE user_id = @user_id AND relic_id = @relic_id;
                         ";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Relic_id", relic.Id);
+                            updateCommand.Parameters.AddWithValue("@relic_id", relic.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", relic.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -414,13 +414,13 @@ public class UserRelicsRepository : IUserRelicsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Relic_id = @Relic_id;
+                WHERE user_id = @user_id AND relic_id = @relic_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Relic_id", relic.Id);
+                    command.Parameters.AddWithValue("@relic_id", relic.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
                     command.Parameters.AddWithValue("@power", relic.Power);
                     command.Parameters.AddWithValue("@health", relic.Health);
@@ -527,13 +527,13 @@ public class UserRelicsRepository : IUserRelicsRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Relic_id = @Relic_id;
+                WHERE user_id = @user_id AND relic_id = @relic_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Relic_id", relic.Id);
+                    command.Parameters.AddWithValue("@relic_id", relic.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", relic.Power);
@@ -615,7 +615,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                 await connection.OpenAsync();
 
                 string query = @"SELECT * FROM user_Relics 
-                             WHERE Relic_id=@id AND user_id=@user_id";
+                             WHERE relic_id=@id AND user_id=@user_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -628,7 +628,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                         {
                             relic = new Relics
                             {
-                                Id = reader.GetStringSafe("Relic_id"),
+                                Id = reader.GetStringSafe("relic_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),

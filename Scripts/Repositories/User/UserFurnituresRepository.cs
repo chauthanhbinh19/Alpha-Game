@@ -21,7 +21,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 string query = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM Furnitures m
-                JOIN user_Furnitures um ON m.id = um.Furniture_id
+                JOIN user_furnitures um ON m.id = um.furniture_id
                 WHERE um.user_id = @userId 
             ";
             if (!string.IsNullOrEmpty(type) && type != "All")
@@ -161,7 +161,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Furnitures m
-                JOIN user_Furnitures um ON m.id = um.Furniture_id
+                JOIN user_furnitures um ON m.id = um.furniture_id
                 WHERE um.user_id = @userId 
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -226,22 +226,22 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM user_Furnitures 
-                WHERE user_id = @user_id AND Furniture_id = @Furniture_id;
+                FROM user_furnitures 
+                WHERE user_id = @user_id AND furniture_id = @furniture_id;
             ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Furniture_id", furniture.Id);
+                    checkCommand.Parameters.AddWithValue("@furniture_id", furniture.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Furnitures (
-                            user_id, Furniture_id, rare, level, experiment, star, quality, block, quantity,
+                        INSERT INTO user_furnitures (
+                            user_id, furniture_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -258,7 +258,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Furniture_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @furniture_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -280,7 +280,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Furniture_id", furniture.Id);
+                            insertCommand.Parameters.AddWithValue("@furniture_id", furniture.Id);
                             insertCommand.Parameters.AddWithValue("@rare", furniture.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -346,15 +346,15 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Furnitures
+                        UPDATE user_furnitures
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Furniture_id = @Furniture_id;
+                        WHERE user_id = @user_id AND furniture_id = @furniture_id;
                     ";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Furniture_id", furniture.Id);
+                            updateCommand.Parameters.AddWithValue("@furniture_id", furniture.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", furniture.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -386,7 +386,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Furnitures
+                UPDATE user_furnitures
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -414,13 +414,13 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Furniture_id = @Furniture_id;
+                WHERE user_id = @user_id AND furniture_id = @furniture_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Furniture_id", furniture.Id);
+                    command.Parameters.AddWithValue("@furniture_id", furniture.Id);
                     command.Parameters.AddWithValue("@level", cardLevel);
                     command.Parameters.AddWithValue("@power", furniture.Power);
                     command.Parameters.AddWithValue("@health", furniture.Health);
@@ -500,7 +500,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Furnitures
+                UPDATE user_furnitures
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -527,13 +527,13 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Furniture_id = @Furniture_id;
+                WHERE user_id = @user_id AND furniture_id = @furniture_id;
             ";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Furniture_id", furniture.Id);
+                    command.Parameters.AddWithValue("@furniture_id", furniture.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", furniture.Power);
@@ -614,8 +614,8 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_Furnitures 
-                             WHERE Furniture_id=@id AND user_id=@user_id";
+                string query = @"SELECT * FROM user_furnitures 
+                             WHERE furniture_id=@id AND user_id=@user_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
@@ -628,7 +628,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                         {
                             Furniture = new Furnitures
                             {
-                                Id = reader.GetStringSafe("Furniture_id"),
+                                Id = reader.GetStringSafe("furniture_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),
@@ -763,7 +763,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                     SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                     SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                     SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-                FROM user_Furnitures
+                FROM user_furnitures
                 WHERE user_id = @user_id;";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

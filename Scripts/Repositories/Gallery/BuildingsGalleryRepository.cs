@@ -27,7 +27,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                         WHEN mg.status = 'available' THEN 'available'
                     END AS status 
                 FROM Buildings m 
-                LEFT JOIN Buildings_gallery mg 
+                LEFT JOIN buildings_gallery mg 
                     ON m.id = mg.building_id AND mg.user_id = @userId 
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -237,7 +237,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                 // Kiểm tra bản ghi đã tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM Buildings_gallery 
+                FROM buildings_gallery 
                 WHERE user_id = @user_id AND building_id = @building_id;
                 ";
 
@@ -251,7 +251,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                 if (recordCount == 0)
                 {
                     string query = @"
-                INSERT INTO Buildings_gallery (
+                INSERT INTO buildings_gallery (
                     user_id, building_id, status, current_star, temp_star, power, health, 
                     physical_attack, physical_defense, magical_attack, magical_defense, 
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
@@ -395,7 +395,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE Buildings_gallery SET status=@status WHERE user_id=@user_id AND building_id=@building_id";
+                string query = "UPDATE buildings_gallery SET status=@status WHERE user_id=@user_id AND building_id=@building_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 command.Parameters.AddWithValue("@building_id", Id);
@@ -426,7 +426,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                 // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
                 string checkQuery = @"
                 SELECT current_star, temp_star
-                FROM Buildings_gallery 
+                FROM buildings_gallery 
                 WHERE user_id = @user_id AND building_id = @building_id;
             ";
 
@@ -445,7 +445,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                             reader.Close(); // Đóng reader trước khi thực hiện update
 
                             string updateQuery = @"
-                            UPDATE Buildings_gallery 
+                            UPDATE buildings_gallery 
                             SET temp_star = @temp_star 
                             WHERE user_id = @user_id AND building_id = @building_id;
                         ";
@@ -480,7 +480,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Buildings_gallery
+                string query = @"UPDATE buildings_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -678,7 +678,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
                 SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
                 SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
                 SUM(percent_all_mental_defense) AS total_percent_all_mental_defense 
-            FROM Buildings_gallery 
+            FROM buildings_gallery 
             WHERE user_id = @user_id AND status = 'available';";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

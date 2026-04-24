@@ -19,31 +19,43 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
             await connection.OpenAsync();
 
             string query = @"
-            SELECT uc.*, c.name, c.image, c.type, c.description, COALESCE(t.team_number, 0) AS team_number,
-                JSON_ARRAYAGG(
-                       JSON_OBJECT(
-                           'id', e.id,
-                           'name', e.name,
-                           'image', e.image,
-                           'type', e.type
-                       )
-                   ) AS emblems_json,
-                JSON_ARRAYAGG(
-                       JSON_OBJECT(
-						   'id', cl.id,
-                           'sub_type', cl.sub_type,
-                           'sub_image', cl.sub_image,
-                           'main_type', cl.main_type,
-                           'main_image', cl.main_image
-                       )
-                   ) AS classes_json
-            FROM user_card_colonels uc
-            LEFT JOIN card_colonels c ON c.id = uc.card_colonel_id 
-            LEFT JOIN teams t on t.team_id = uc.team_id
-            LEFT JOIN card_colonel_emblem che ON c.id = che.card_colonel_id
-            LEFT JOIN emblems e ON che.emblem_id = e.id
-            LEFT JOIN card_hero_class chc ON c.id = chc.card_hero_id
-            LEFT JOIN classes cl ON chc.class_id = cl.id
+            SELECT 
+                    uc.*, 
+                    c.name, 
+                    c.image, 
+                    c.type, 
+                    c.description, 
+                    COALESCE(t.team_number, 0) AS team_number,
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'id', e.id,
+                                'name', e.name,
+                                'image', e.image,
+                                'type', e.type
+                            )
+                        )
+                        FROM card_colonel_emblem che
+                        JOIN emblems e ON che.emblem_id = e.id
+                        WHERE che.card_colonel_id = c.id
+                    ) AS emblems_json,
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'id', cl.id,
+                                'sub_type', cl.sub_type,
+                                'sub_image', cl.sub_image,
+                                'main_type', cl.main_type,
+                                'main_image', cl.main_image
+                            )
+                        )
+                        FROM card_colonel_class chc
+                        JOIN classes cl ON chc.class_id = cl.id
+                        WHERE chc.card_colonel_id = c.id
+                    ) AS classes_json
+                FROM user_card_colonels uc
+                LEFT JOIN card_colonels c ON c.id = uc.card_colonel_id 
+                LEFT JOIN teams t ON t.team_id = uc.team_id
             WHERE uc.user_id = @userId 
         ";
             if (!string.IsNullOrEmpty(type) && type != "All")
@@ -61,7 +73,6 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
                 query += " AND c.name LIKE CONCAT('%', @search, '%')";
             }
 
-            query += " GROUP BY uc.card_colonel_id, c.id, t.team_number";
             query += " ORDER BY c.name";
             query += " LIMIT @limit OFFSET @offset";
 
@@ -271,32 +282,43 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
             await connection.OpenAsync();
 
             string query = @"
-            SELECT uc.*, c.name, c.image, c.type, c.description,
-                JSON_ARRAYAGG(
-                       JSON_OBJECT(
-                           'id', e.id,
-                           'name', e.name,
-                           'image', e.image,
-                           'type', e.type
-                       )
-                   ) AS emblems_json,
-                JSON_ARRAYAGG(
-                       JSON_OBJECT(
-						   'id', cl.id,
-                           'sub_type', cl.sub_type,
-                           'sub_image', cl.sub_image,
-                           'main_type', cl.main_type,
-                           'main_image', cl.main_image
-                       )
-                   ) AS classes_json
-            FROM user_card_colonels uc
-            LEFT JOIN card_colonels c ON c.id = uc.card_colonel_id 
-            LEFT JOIN card_colonel_emblem che ON c.id = che.card_colonel_id
-            LEFT JOIN emblems e ON che.emblem_id = e.id
-            LEFT JOIN card_hero_class chc ON c.id = chc.card_hero_id
-            LEFT JOIN classes cl ON chc.class_id = cl.id
+            SELECT 
+                    uc.*, 
+                    c.name, 
+                    c.image, 
+                    c.type, 
+                    c.description, 
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'id', e.id,
+                                'name', e.name,
+                                'image', e.image,
+                                'type', e.type
+                            )
+                        )
+                        FROM card_colonel_emblem che
+                        JOIN emblems e ON che.emblem_id = e.id
+                        WHERE che.card_colonel_id = c.id
+                    ) AS emblems_json,
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'id', cl.id,
+                                'sub_type', cl.sub_type,
+                                'sub_image', cl.sub_image,
+                                'main_type', cl.main_type,
+                                'main_image', cl.main_image
+                            )
+                        )
+                        FROM card_colonel_class chc
+                        JOIN classes cl ON chc.class_id = cl.id
+                        WHERE chc.card_colonel_id = c.id
+                    ) AS classes_json
+                FROM user_card_colonels uc
+                LEFT JOIN card_colonels c ON c.id = uc.card_colonel_id 
+                LEFT JOIN teams t ON t.team_id = uc.team_id
             WHERE uc.user_id = @userId AND uc.team_id = @team_id AND SUBSTRING_INDEX(uc.position, '-', 1) = @position
-            GROUP BY uc.card_colonel_id, c.id
             ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
         ";
 
@@ -487,32 +509,43 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
             await connection.OpenAsync();
 
             string query = @"
-            SELECT uc.*, c.name, c.image, c.type, c.description,
-                JSON_ARRAYAGG(
-                       JSON_OBJECT(
-                           'id', e.id,
-                           'name', e.name,
-                           'image', e.image,
-                           'type', e.type
-                       )
-                   ) AS emblems_json,
-                JSON_ARRAYAGG(
-                       JSON_OBJECT(
-						   'id', cl.id,
-                           'sub_type', cl.sub_type,
-                           'sub_image', cl.sub_image,
-                           'main_type', cl.main_type,
-                           'main_image', cl.main_image
-                       )
-                   ) AS classes_json
-            FROM user_card_colonels uc
-            LEFT JOIN card_colonels c ON c.id = uc.card_colonel_id 
-            LEFT JOIN card_colonel_emblem che ON c.id = che.card_colonel_id
-            LEFT JOIN emblems e ON che.emblem_id = e.id
-            LEFT JOIN card_hero_class chc ON c.id = chc.card_hero_id
-            LEFT JOIN classes cl ON chc.class_id = cl.id
+            SELECT 
+                    uc.*, 
+                    c.name, 
+                    c.image, 
+                    c.type, 
+                    c.description, 
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'id', e.id,
+                                'name', e.name,
+                                'image', e.image,
+                                'type', e.type
+                            )
+                        )
+                        FROM card_colonel_emblem che
+                        JOIN emblems e ON che.emblem_id = e.id
+                        WHERE che.card_colonel_id = c.id
+                    ) AS emblems_json,
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'id', cl.id,
+                                'sub_type', cl.sub_type,
+                                'sub_image', cl.sub_image,
+                                'main_type', cl.main_type,
+                                'main_image', cl.main_image
+                            )
+                        )
+                        FROM card_colonel_class chc
+                        JOIN classes cl ON chc.class_id = cl.id
+                        WHERE chc.card_colonel_id = c.id
+                    ) AS classes_json
+                FROM user_card_colonels uc
+                LEFT JOIN card_colonels c ON c.id = uc.card_colonel_id 
+                LEFT JOIN teams t ON t.team_id = uc.team_id
             WHERE uc.user_id = @userId AND uc.team_id = @team_id
-            GROUP BY uc.card_colonel_id, c.id
             ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
         ";
 
@@ -1411,32 +1444,43 @@ public class UserCardColonelsRepository : IUserCardColonelsRepository
             await connection.OpenAsync();
 
             string userQuery = @"
-            SELECT uc.*, c.name, c.image, c.type, c.description,
-                JSON_ARRAYAGG(
-                       JSON_OBJECT(
-                           'id', e.id,
-                           'name', e.name,
-                           'image', e.image,
-                           'type', e.type
-                       )
-                   ) AS emblems_json,
-                JSON_ARRAYAGG(
-                       JSON_OBJECT(
-						   'id', cl.id,
-                           'sub_type', cl.sub_type,
-                           'sub_image', cl.sub_image,
-                           'main_type', cl.main_type,
-                           'main_image', cl.main_image
-                       )
-                   ) AS classes_json
-            FROM user_card_colonels uc
-            LEFT JOIN card_colonels c ON uc.card_colonel_id = c.id 
-            LEFT JOIN card_colonel_emblem che ON c.id = che.card_colonel_id
-            LEFT JOIN emblems e ON che.emblem_id = e.id
-            LEFT JOIN card_hero_class chc ON c.id = chc.card_hero_id
-            LEFT JOIN classes cl ON chc.class_id = cl.id
-            WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL
-            GROUP BY uc.card_colonel_id, c.id";
+            SELECT 
+                    uc.*, 
+                    c.name, 
+                    c.image, 
+                    c.type, 
+                    c.description, 
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'id', e.id,
+                                'name', e.name,
+                                'image', e.image,
+                                'type', e.type
+                            )
+                        )
+                        FROM card_colonel_emblem che
+                        JOIN emblems e ON che.emblem_id = e.id
+                        WHERE che.card_colonel_id = c.id
+                    ) AS emblems_json,
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'id', cl.id,
+                                'sub_type', cl.sub_type,
+                                'sub_image', cl.sub_image,
+                                'main_type', cl.main_type,
+                                'main_image', cl.main_image
+                            )
+                        )
+                        FROM card_colonel_class chc
+                        JOIN classes cl ON chc.class_id = cl.id
+                        WHERE chc.card_colonel_id = c.id
+                    ) AS classes_json
+                FROM user_card_colonels uc
+                LEFT JOIN card_colonels c ON c.id = uc.card_colonel_id 
+                LEFT JOIN teams t ON t.team_id = uc.team_id
+            WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL";
 
             await using MySqlCommand command = new MySqlCommand(userQuery, connection);
             command.Parameters.AddWithValue("@user_id", user_id);

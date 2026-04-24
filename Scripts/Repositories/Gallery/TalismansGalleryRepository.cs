@@ -22,13 +22,13 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
                 string query = @"
                 SELECT m.*, mg.current_star, mg.temp_star,
                     CASE 
-                        WHEN mg.Talisman_id IS NULL THEN 'block'
+                        WHEN mg.talisman_id IS NULL THEN 'block'
                         WHEN mg.status = 'pending' THEN 'pending'
                         WHEN mg.status = 'available' THEN 'available'
                     END AS status 
                 FROM Talismans m 
                 LEFT JOIN talismans_gallery mg 
-                    ON m.id = mg.Talisman_id AND mg.user_id = @userId 
+                    ON m.id = mg.talisman_id AND mg.user_id = @userId 
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -238,12 +238,12 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
                 string checkQuery = @"
                 SELECT COUNT(*) 
                 FROM talismans_gallery 
-                WHERE user_id = @user_id AND Talisman_id = @Talisman_id;
+                WHERE user_id = @user_id AND talisman_id = @talisman_id;
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Talisman_id", Id);
+                checkCommand.Parameters.AddWithValue("@talisman_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -252,7 +252,7 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
                 {
                     string query = @"
                 INSERT INTO talismans_gallery (
-                    user_id, Talisman_id, status, current_star, temp_star, power, health, 
+                    user_id, talisman_id, status, current_star, temp_star, power, health, 
                     physical_attack, physical_defense, magical_attack, magical_defense, 
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                     mental_attack, mental_defense, speed, critical_damage_rate, critical_rate,
@@ -275,7 +275,7 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
                     percent_all_mental_defense
                 )
                 VALUES (
-                    @user_id, @Talisman_id, @status, @current_star, @temp_star, @power, @health,
+                    @user_id, @talisman_id, @status, @current_star, @temp_star, @power, @health,
                     @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense,
                     @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate,
@@ -302,7 +302,7 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
 
                     // Thêm param
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Talisman_id", Id);
+                    command.Parameters.AddWithValue("@talisman_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@current_star", 0);
                     command.Parameters.AddWithValue("@temp_star", 0);
@@ -395,10 +395,10 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE talismans_gallery SET status=@status WHERE user_id=@user_id AND Talisman_id=@Talisman_id";
+                string query = "UPDATE talismans_gallery SET status=@status WHERE user_id=@user_id AND talisman_id=@talisman_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Talisman_id", Id);
+                command.Parameters.AddWithValue("@talisman_id", Id);
                 command.Parameters.AddWithValue("@status", "available");
 
                 await command.ExecuteNonQueryAsync();
@@ -427,12 +427,12 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
                 string checkQuery = @"
                 SELECT current_star, temp_star
                 FROM talismans_gallery 
-                WHERE user_id = @user_id AND Talisman_id = @Talisman_id;
+                WHERE user_id = @user_id AND talisman_id = @talisman_id;
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Talisman_id", Id);
+                checkCommand.Parameters.AddWithValue("@talisman_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
                 {
@@ -447,12 +447,12 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
                             string updateQuery = @"
                             UPDATE talismans_gallery 
                             SET temp_star = @temp_star 
-                            WHERE user_id = @user_id AND Talisman_id = @Talisman_id;
+                            WHERE user_id = @user_id AND talisman_id = @talisman_id;
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            updateCommand.Parameters.AddWithValue("@Talisman_id", Id);
+                            updateCommand.Parameters.AddWithValue("@talisman_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -546,12 +546,12 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Talisman_id = @Talisman_id;
+                AND talisman_id = @talisman_id;
             ";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Talisman_id", Id);
+                command.Parameters.AddWithValue("@talisman_id", Id);
                 command.Parameters.AddWithValue("@status", "pending");
                 command.Parameters.AddWithValue("@current_star", 0);
                 command.Parameters.AddWithValue("@power", talismanFromDB.Power);

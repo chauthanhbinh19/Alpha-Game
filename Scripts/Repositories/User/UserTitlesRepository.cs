@@ -21,7 +21,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                 string query = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Titles t
-                INNER JOIN user_Titles ut ON t.id = ut.Title_id
+                INNER JOIN user_titles ut ON t.id = ut.title_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -156,7 +156,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Titles t
-                INNER JOIN user_Titles ut ON t.id = ut.Title_id
+                INNER JOIN user_titles ut ON t.id = ut.title_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -211,21 +211,21 @@ public class UserTitlesRepository : IUserTitlesRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) FROM user_Titles 
-                WHERE user_id = @user_id AND Title_id = @Title_id;";
+                SELECT COUNT(*) FROM user_titles 
+                WHERE user_id = @user_id AND title_id = @title_id;";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@Title_id", title.Id);
+                    checkCommand.Parameters.AddWithValue("@title_id", title.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     if (count == 0)
                     {
                         string insertQuery = @"
-                        INSERT INTO user_Titles (
-                            user_id, Title_id, rare, level, experiment, star, quality, block, quantity,
+                        INSERT INTO user_titles (
+                            user_id, title_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -242,7 +242,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @Title_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @title_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -263,7 +263,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@Title_id", title.Id);
+                            insertCommand.Parameters.AddWithValue("@title_id", title.Id);
                             insertCommand.Parameters.AddWithValue("@rare", title.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experiment", 0);
@@ -329,14 +329,14 @@ public class UserTitlesRepository : IUserTitlesRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Titles
+                        UPDATE user_titles
                         SET quantity = @quantity
-                        WHERE user_id = @user_id AND Title_id = @Title_id;";
+                        WHERE user_id = @user_id AND title_id = @title_id;";
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@Title_id", title.Id);
+                            updateCommand.Parameters.AddWithValue("@title_id", title.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", title.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -366,7 +366,7 @@ public class UserTitlesRepository : IUserTitlesRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Titles
+                UPDATE user_titles
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -393,12 +393,12 @@ public class UserTitlesRepository : IUserTitlesRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Title_id = @Title_id;";
+                WHERE user_id = @user_id AND title_id = @title_id;";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Title_id", title.Id);
+                    command.Parameters.AddWithValue("@title_id", title.Id);
                     command.Parameters.AddWithValue("@level", TitleLevel);
                     command.Parameters.AddWithValue("@power", title.Power);
                     command.Parameters.AddWithValue("@health", title.Health);
@@ -475,7 +475,7 @@ public class UserTitlesRepository : IUserTitlesRepository
             {
                 await connection.OpenAsync();
                 string query = @"
-                UPDATE user_Titles
+                UPDATE user_titles
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -502,11 +502,11 @@ public class UserTitlesRepository : IUserTitlesRepository
                     resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND Title_id = @Title_id;";
+                WHERE user_id = @user_id AND title_id = @title_id;";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Title_id", title.Id);
+                    command.Parameters.AddWithValue("@title_id", title.Id);
                     command.Parameters.AddWithValue("@star", star);
                     command.Parameters.AddWithValue("@quantity", quantity);
                     command.Parameters.AddWithValue("@power", title.Power);
@@ -584,8 +584,8 @@ public class UserTitlesRepository : IUserTitlesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"Select * from user_Titles where user_Titles.Title_id=@id 
-                and user_Titles.user_id=@user_id";
+                string query = @"Select * from user_titles where user_titles.title_id=@id 
+                and user_titles.user_id=@user_id";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@id", Id);
@@ -597,7 +597,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                         {
                             title = new Titles
                             {
-                                Id = reader.GetStringSafe("Title_id"),
+                                Id = reader.GetStringSafe("title_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experiment = reader.GetDoubleSafe("experiment"),
@@ -729,7 +729,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                 SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                 SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                 SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-            FROM user_Titles
+            FROM user_titles
             WHERE user_id = @user_id;
             ";
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

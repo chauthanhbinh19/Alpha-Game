@@ -22,13 +22,13 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
                 string query = @"
                 SELECT m.*, mg.current_star, mg.temp_star,
                     CASE 
-                        WHEN mg.Puppet_id IS NULL THEN 'block'
+                        WHEN mg.puppet_id IS NULL THEN 'block'
                         WHEN mg.status = 'pending' THEN 'pending'
                         WHEN mg.status = 'available' THEN 'available'
                     END AS status 
                 FROM Puppets m 
                 LEFT JOIN puppets_gallery mg 
-                    ON m.id = mg.Puppet_id AND mg.user_id = @userId 
+                    ON m.id = mg.puppet_id AND mg.user_id = @userId 
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -238,12 +238,12 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
                 string checkQuery = @"
                 SELECT COUNT(*) 
                 FROM puppets_gallery 
-                WHERE user_id = @user_id AND Puppet_id = @Puppet_id;
+                WHERE user_id = @user_id AND puppet_id = @puppet_id;
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Puppet_id", Id);
+                checkCommand.Parameters.AddWithValue("@puppet_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -252,7 +252,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
                 {
                     string query = @"
                 INSERT INTO puppets_gallery (
-                    user_id, Puppet_id, status, current_star, temp_star, power, health, 
+                    user_id, puppet_id, status, current_star, temp_star, power, health, 
                     physical_attack, physical_defense, magical_attack, magical_defense, 
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                     mental_attack, mental_defense, speed, critical_damage_rate, critical_rate,
@@ -275,7 +275,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
                     percent_all_mental_defense
                 )
                 VALUES (
-                    @user_id, @Puppet_id, @status, @current_star, @temp_star, @power, @health,
+                    @user_id, @puppet_id, @status, @current_star, @temp_star, @power, @health,
                     @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense,
                     @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate,
@@ -302,7 +302,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
 
                     // Thêm param
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Puppet_id", Id);
+                    command.Parameters.AddWithValue("@puppet_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@current_star", 0);
                     command.Parameters.AddWithValue("@temp_star", 0);
@@ -395,10 +395,10 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE puppets_gallery SET status=@status WHERE user_id=@user_id AND Puppet_id=@Puppet_id";
+                string query = "UPDATE puppets_gallery SET status=@status WHERE user_id=@user_id AND puppet_id=@puppet_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Puppet_id", Id);
+                command.Parameters.AddWithValue("@puppet_id", Id);
                 command.Parameters.AddWithValue("@status", "available");
 
                 await command.ExecuteNonQueryAsync();
@@ -427,12 +427,12 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
                 string checkQuery = @"
                 SELECT current_star, temp_star
                 FROM puppets_gallery 
-                WHERE user_id = @user_id AND Puppet_id = @Puppet_id;
+                WHERE user_id = @user_id AND puppet_id = @puppet_id;
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Puppet_id", Id);
+                checkCommand.Parameters.AddWithValue("@puppet_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
                 {
@@ -447,12 +447,12 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
                             string updateQuery = @"
                             UPDATE puppets_gallery 
                             SET temp_star = @temp_star 
-                            WHERE user_id = @user_id AND Puppet_id = @Puppet_id;
+                            WHERE user_id = @user_id AND puppet_id = @puppet_id;
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            updateCommand.Parameters.AddWithValue("@Puppet_id", Id);
+                            updateCommand.Parameters.AddWithValue("@puppet_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -546,12 +546,12 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Puppet_id = @Puppet_id;
+                AND puppet_id = @puppet_id;
             ";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Puppet_id", Id);
+                command.Parameters.AddWithValue("@puppet_id", Id);
                 command.Parameters.AddWithValue("@status", "pending");
                 command.Parameters.AddWithValue("@current_star", 0);
                 command.Parameters.AddWithValue("@power", puppetFromDB.Power);

@@ -21,7 +21,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 string query = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description 
                 FROM Architectures t
-                JOIN user_Architectures ut ON t.id = ut.architecture_id
+                JOIN user_architectures ut ON t.id = ut.architecture_id
                 WHERE ut.user_id = @userId ";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -151,7 +151,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Architectures t
-                JOIN user_Architectures ut ON t.id = ut.architecture_id
+                JOIN user_architectures ut ON t.id = ut.architecture_id
                 WHERE ut.user_id = @userId ";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -205,7 +205,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
-                SELECT COUNT(*) FROM user_Architectures 
+                SELECT COUNT(*) FROM user_architectures 
                 WHERE user_id = @user_id AND architecture_id = @architecture_id;";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
@@ -218,7 +218,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                     if (count == 0)
                     {
                         string query = @"
-                        INSERT INTO user_Architectures (
+                        INSERT INTO user_architectures (
                             user_id, architecture_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
@@ -323,7 +323,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                         string updateQuery = @"
-                        UPDATE user_Architectures
+                        UPDATE user_architectures
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND architecture_id = @architecture_id;";
 
@@ -362,7 +362,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Architectures
+                UPDATE user_architectures
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -474,7 +474,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Architectures
+                UPDATE user_architectures
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -589,7 +589,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
                 string query = @"
                 SELECT * 
-                FROM user_Architectures 
+                FROM user_architectures 
                 WHERE architecture_id = @id AND user_id = @user_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
@@ -738,7 +738,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                     SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                     SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                     SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-                FROM user_Architectures
+                FROM user_architectures
                 WHERE user_id = @user_id;
             ";
 

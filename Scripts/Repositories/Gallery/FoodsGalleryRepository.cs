@@ -22,13 +22,13 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                 string query = @"
                 SELECT c.*, 
                        CASE 
-                           WHEN cg.Food_id IS NULL THEN 'block' 
+                           WHEN cg.food_id IS NULL THEN 'block' 
                            WHEN cg.status = 'pending' THEN 'pending' 
                            WHEN cg.status = 'available' THEN 'available' 
                        END AS status 
                 FROM Foods c 
-                LEFT JOIN Foods_gallery cg 
-                       ON c.id = cg.Food_id AND cg.user_id = @userId 
+                LEFT JOIN foods_gallery cg 
+                       ON c.id = cg.food_id AND cg.user_id = @userId 
                 WHERE 1=1
             ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -221,14 +221,14 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                 // Kiểm tra bản ghi tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM Foods_gallery 
-                WHERE user_id = @user_id AND Food_id = @Food_id;
+                FROM foods_gallery 
+                WHERE user_id = @user_id AND food_id = @food_id;
             ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@Food_id", Id);
+                    checkCommand.Parameters.AddWithValue("@food_id", Id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -236,8 +236,8 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                     if (recordCount == 0)
                     {
                         string query = @"
-                    INSERT INTO Foods_gallery (
-                        user_id, Food_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
+                    INSERT INTO foods_gallery (
+                        user_id, food_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate, 
                         penetration_rate, penetration_resistance_rate, evasion_rate, 
@@ -254,7 +254,7 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense
                     ) VALUES (
-                        @user_id, @Food_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
+                        @user_id, @food_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                         @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate, 
                         @penetration_rate, @penetration_resistance_rate, @evasion_rate, 
@@ -276,7 +276,7 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                         await using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
                             command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            command.Parameters.AddWithValue("@Food_id", Id);
+                            command.Parameters.AddWithValue("@food_id", Id);
                             command.Parameters.AddWithValue("@status", "pending");
                             command.Parameters.AddWithValue("@current_star", 0);
                             command.Parameters.AddWithValue("@temp_star", 0);
@@ -377,14 +377,14 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Foods_gallery 
+                string query = @"UPDATE foods_gallery 
                              SET status=@status 
-                             WHERE user_id=@user_id AND Food_id=@Food_id";
+                             WHERE user_id=@user_id AND food_id=@food_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Food_id", Id);
+                    command.Parameters.AddWithValue("@food_id", Id);
                     command.Parameters.AddWithValue("@status", "available");
 
                     await command.ExecuteNonQueryAsync();
@@ -413,14 +413,14 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                 // Lấy current_star và temp_star
                 string checkQuery = @"
                 SELECT current_star, temp_star 
-                FROM Foods_gallery 
-                WHERE user_id = @user_id AND Food_id = @Food_id;
+                FROM foods_gallery 
+                WHERE user_id = @user_id AND food_id = @food_id;
             ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@Food_id", id);
+                    checkCommand.Parameters.AddWithValue("@food_id", id);
 
                     await using (var reader = await checkCommand.ExecuteReaderAsync())
                     {
@@ -434,15 +434,15 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                                 reader.Close(); // đóng trước khi chạy lệnh khác
 
                                 string updateQuery = @"
-                                UPDATE Foods_gallery 
+                                UPDATE foods_gallery 
                                 SET temp_star = @temp_star 
-                                WHERE user_id = @user_id AND Food_id = @Food_id;
+                                WHERE user_id = @user_id AND food_id = @food_id;
                             ";
 
                                 await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                                 {
                                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                                    updateCommand.Parameters.AddWithValue("@Food_id", id);
+                                    updateCommand.Parameters.AddWithValue("@food_id", id);
                                     updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                                     await updateCommand.ExecuteNonQueryAsync();
@@ -472,7 +472,7 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Foods_gallery
+                string query = @"UPDATE foods_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -538,14 +538,14 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Food_id = @Food_id;
+                AND food_id = @food_id;
             ";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
 
                 // IDs
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Food_id", id);
+                command.Parameters.AddWithValue("@food_id", id);
 
                 // Base flags
                 command.Parameters.AddWithValue("@status", "pending");
@@ -685,7 +685,7 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                 SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
                 SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
                 SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM Foods_gallery 
+                FROM foods_gallery 
                 WHERE user_id = @user_id AND status = 'available';
             ";
 

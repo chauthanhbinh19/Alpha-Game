@@ -22,13 +22,13 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                 string query = @"
                 SELECT c.*, 
                        CASE 
-                           WHEN cg.Beverage_id IS NULL THEN 'block' 
+                           WHEN cg.beverage_id IS NULL THEN 'block' 
                            WHEN cg.status = 'pending' THEN 'pending' 
                            WHEN cg.status = 'available' THEN 'available' 
                        END AS status 
                 FROM Beverages c 
-                LEFT JOIN Beverages_gallery cg 
-                       ON c.id = cg.Beverage_id AND cg.user_id = @userId 
+                LEFT JOIN beverages_gallery cg 
+                       ON c.id = cg.beverage_id AND cg.user_id = @userId 
                 WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -221,14 +221,14 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                 // Kiểm tra bản ghi tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM Beverages_gallery 
-                WHERE user_id = @user_id AND Beverage_id = @Beverage_id;
+                FROM beverages_gallery 
+                WHERE user_id = @user_id AND beverage_id = @beverage_id;
             ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@Beverage_id", Id);
+                    checkCommand.Parameters.AddWithValue("@beverage_id", Id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -236,8 +236,8 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                     if (recordCount == 0)
                     {
                         string query = @"
-                    INSERT INTO Beverages_gallery (
-                        user_id, Beverage_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
+                    INSERT INTO beverages_gallery (
+                        user_id, beverage_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate, 
                         penetration_rate, penetration_resistance_rate, evasion_rate, 
@@ -254,7 +254,7 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense
                     ) VALUES (
-                        @user_id, @Beverage_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
+                        @user_id, @beverage_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                         @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate, 
                         @penetration_rate, @penetration_resistance_rate, @evasion_rate, 
@@ -276,7 +276,7 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                         await using (MySqlCommand command = new MySqlCommand(query, connection))
                         {
                             command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            command.Parameters.AddWithValue("@Beverage_id", Id);
+                            command.Parameters.AddWithValue("@beverage_id", Id);
                             command.Parameters.AddWithValue("@status", "pending");
                             command.Parameters.AddWithValue("@current_star", 0);
                             command.Parameters.AddWithValue("@temp_star", 0);
@@ -377,14 +377,14 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Beverages_gallery 
+                string query = @"UPDATE beverages_gallery 
                              SET status=@status 
-                             WHERE user_id=@user_id AND Beverage_id=@Beverage_id";
+                             WHERE user_id=@user_id AND beverage_id=@beverage_id";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Beverage_id", Id);
+                    command.Parameters.AddWithValue("@beverage_id", Id);
                     command.Parameters.AddWithValue("@status", "available");
 
                     await command.ExecuteNonQueryAsync();
@@ -413,14 +413,14 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                 // Lấy current_star và temp_star
                 string checkQuery = @"
                 SELECT current_star, temp_star 
-                FROM Beverages_gallery 
-                WHERE user_id = @user_id AND Beverage_id = @Beverage_id;
+                FROM beverages_gallery 
+                WHERE user_id = @user_id AND beverage_id = @beverage_id;
             ";
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@Beverage_id", id);
+                    checkCommand.Parameters.AddWithValue("@beverage_id", id);
 
                     await using (var reader = await checkCommand.ExecuteReaderAsync())
                     {
@@ -434,15 +434,15 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                                 reader.Close(); // đóng trước khi chạy lệnh khác
 
                                 string updateQuery = @"
-                                UPDATE Beverages_gallery 
+                                UPDATE beverages_gallery 
                                 SET temp_star = @temp_star 
-                                WHERE user_id = @user_id AND Beverage_id = @Beverage_id;
+                                WHERE user_id = @user_id AND beverage_id = @beverage_id;
                             ";
 
                                 await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
                                 {
                                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                                    updateCommand.Parameters.AddWithValue("@Beverage_id", id);
+                                    updateCommand.Parameters.AddWithValue("@beverage_id", id);
                                     updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                                     await updateCommand.ExecuteNonQueryAsync();
@@ -472,7 +472,7 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Beverages_gallery
+                string query = @"UPDATE beverages_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -538,14 +538,14 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Beverage_id = @Beverage_id;
+                AND beverage_id = @beverage_id;
             ";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
 
                 // IDs
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Beverage_id", id);
+                command.Parameters.AddWithValue("@beverage_id", id);
 
                 // Base flags
                 command.Parameters.AddWithValue("@status", "pending");
@@ -685,7 +685,7 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                 SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
                 SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
                 SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM Beverages_gallery 
+                FROM beverages_gallery 
                 WHERE user_id = @user_id AND status = 'available';
             ";
 

@@ -22,13 +22,13 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                 string query = @"
                 SELECT m.*, mg.current_star, mg.temp_star,
                     CASE 
-                        WHEN mg.Relic_id IS NULL THEN 'block'
+                        WHEN mg.relic_id IS NULL THEN 'block'
                         WHEN mg.status = 'pending' THEN 'pending'
                         WHEN mg.status = 'available' THEN 'available'
                     END AS status 
                 FROM Relics m 
-                LEFT JOIN Relics_gallery mg 
-                    ON m.id = mg.Relic_id AND mg.user_id = @userId 
+                LEFT JOIN relics_gallery mg 
+                    ON m.id = mg.relic_id AND mg.user_id = @userId 
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
@@ -237,13 +237,13 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                 // Kiểm tra bản ghi đã tồn tại
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM Relics_gallery 
-                WHERE user_id = @user_id AND Relic_id = @Relic_id;
+                FROM relics_gallery 
+                WHERE user_id = @user_id AND relic_id = @relic_id;
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Relic_id", Id);
+                checkCommand.Parameters.AddWithValue("@relic_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -252,7 +252,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                 {
                     string query = @"
                 INSERT INTO relics_gallery (
-                    user_id, Relic_id, status, current_star, temp_star, power, health, 
+                    user_id, relic_id, status, current_star, temp_star, power, health, 
                     physical_attack, physical_defense, magical_attack, magical_defense, 
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                     mental_attack, mental_defense, speed, critical_damage_rate, critical_rate,
@@ -275,7 +275,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                     percent_all_mental_defense
                 )
                 VALUES (
-                    @user_id, @Relic_id, @status, @current_star, @temp_star, @power, @health,
+                    @user_id, @relic_id, @status, @current_star, @temp_star, @power, @health,
                     @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense,
                     @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate,
@@ -302,7 +302,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
 
                     // Thêm param
                     command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Relic_id", Id);
+                    command.Parameters.AddWithValue("@relic_id", Id);
                     command.Parameters.AddWithValue("@status", "pending");
                     command.Parameters.AddWithValue("@current_star", 0);
                     command.Parameters.AddWithValue("@temp_star", 0);
@@ -395,10 +395,10 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE Relics_gallery SET status=@status WHERE user_id=@user_id AND Relic_id=@Relic_id";
+                string query = "UPDATE relics_gallery SET status=@status WHERE user_id=@user_id AND relic_id=@relic_id";
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Relic_id", Id);
+                command.Parameters.AddWithValue("@relic_id", Id);
                 command.Parameters.AddWithValue("@status", "available");
 
                 await command.ExecuteNonQueryAsync();
@@ -426,13 +426,13 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                 // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
                 string checkQuery = @"
                 SELECT current_star, temp_star
-                FROM Relics_gallery 
-                WHERE user_id = @user_id AND Relic_id = @Relic_id;
+                FROM relics_gallery 
+                WHERE user_id = @user_id AND relic_id = @relic_id;
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                checkCommand.Parameters.AddWithValue("@Relic_id", Id);
+                checkCommand.Parameters.AddWithValue("@relic_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
                 {
@@ -447,12 +447,12 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                             string updateQuery = @"
                             UPDATE relics_gallery 
                             SET temp_star = @temp_star 
-                            WHERE user_id = @user_id AND Relic_id = @Relic_id;
+                            WHERE user_id = @user_id AND relic_id = @relic_id;
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            updateCommand.Parameters.AddWithValue("@Relic_id", Id);
+                            updateCommand.Parameters.AddWithValue("@relic_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                             await updateCommand.ExecuteNonQueryAsync();
@@ -480,7 +480,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Relics_gallery
+                string query = @"UPDATE relics_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -546,12 +546,12 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Relic_id = @Relic_id;
+                AND relic_id = @relic_id;
             ";
 
                 MySqlCommand command = new MySqlCommand(query, connection);
                 command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Relic_id", Id);
+                command.Parameters.AddWithValue("@relic_id", Id);
                 command.Parameters.AddWithValue("@status", "pending");
                 command.Parameters.AddWithValue("@current_star", 0);
                 command.Parameters.AddWithValue("@power", relicFromDB.Power);
@@ -678,7 +678,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                 SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
                 SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
                 SUM(percent_all_mental_defense) AS total_percent_all_mental_defense 
-            FROM Relics_gallery 
+            FROM relics_gallery 
             WHERE user_id = @user_id AND status = 'available';";
 
                 await using (MySqlCommand command = new MySqlCommand(query, connection))

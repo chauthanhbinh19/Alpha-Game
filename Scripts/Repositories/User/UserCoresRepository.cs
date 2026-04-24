@@ -21,7 +21,7 @@ public class UserCoresRepository : IUserCoresRepository
                 string query = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description 
                 FROM Cores t
-                INNER JOIN user_Cores ut ON t.id = ut.core_id
+                INNER JOIN user_cores ut ON t.id = ut.core_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -148,7 +148,7 @@ public class UserCoresRepository : IUserCoresRepository
                 string query = @"
                 SELECT COUNT(*) 
                 FROM Cores t
-                INNER JOIN user_Cores ut ON t.id = ut.core_id
+                INNER JOIN user_cores ut ON t.id = ut.core_id
                 WHERE ut.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
@@ -201,7 +201,7 @@ public class UserCoresRepository : IUserCoresRepository
                 // Kiểm tra xem bản ghi đã tồn tại chưa
                 string checkQuery = @"
                 SELECT COUNT(*) 
-                FROM user_Cores 
+                FROM user_cores 
                 WHERE user_id = @user_id AND core_id = @core_id;
             ";
 
@@ -214,7 +214,7 @@ public class UserCoresRepository : IUserCoresRepository
                 if (count == 0)
                 {
                     string insertQuery = @"
-                    INSERT INTO user_Cores (
+                    INSERT INTO user_cores (
                         user_id, core_id, rare, level, experiment, star, quality, block, quantity,
                         power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                         chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
@@ -318,7 +318,7 @@ public class UserCoresRepository : IUserCoresRepository
                 {
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
                     string updateQuery = @"
-                    UPDATE user_Cores
+                    UPDATE user_cores
                     SET quantity = @quantity
                     WHERE user_id = @user_id AND core_id = @core_id;
                 ";
@@ -355,7 +355,7 @@ public class UserCoresRepository : IUserCoresRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Cores
+                UPDATE user_cores
                 SET 
                     level = @level, power = @power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -466,7 +466,7 @@ public class UserCoresRepository : IUserCoresRepository
                 await connection.OpenAsync();
 
                 string query = @"
-                UPDATE user_Cores
+                UPDATE user_cores
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
                     physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -578,7 +578,7 @@ public class UserCoresRepository : IUserCoresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_Cores 
+                string query = @"SELECT * FROM user_cores 
                              WHERE core_id = @id AND user_id = @user_id";
 
                 await using MySqlCommand command = new MySqlCommand(query, connection);
@@ -723,7 +723,7 @@ public class UserCoresRepository : IUserCoresRepository
                     SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
                     SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
                     SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-                FROM user_Cores
+                FROM user_cores
                 WHERE user_id = @user_id;
             ";
 
