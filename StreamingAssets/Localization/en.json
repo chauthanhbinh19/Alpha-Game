@@ -448,6 +448,7 @@
   { "key": "MainType.HIRN_FULLNAME", "value": "Hyper-Integrated Resource Nexus" },
   { "key": "MainType.HIDC_FULLNAME", "value": "Hyper-Integrated Defense Command" },
   { "key": "MainType.HICB_FULLNAME", "value": "Hyper-Integrated Core Base" },
+  { "key": "MainType.HISN_FULLNAME", "value": "Hyper-Integrated Spatial Nexus" },
 
   { "key": "HIIN.HIINI", "value": "HIIN I" },
   { "key": "HIIN.HIINII", "value": "HIIN II" },
@@ -547,6 +548,17 @@
   { "key": "HIDC.HICBVIII", "value": "HICB VIII" },
   { "key": "HIDC.HICBIX", "value": "HICB IX" },
   { "key": "HIDC.HICBX", "value": "HICB X" },
+
+  { "key": "HISN.HISNI", "value": "HISN I" },
+  { "key": "HISN.HISNII", "value": "HISN II" },
+  { "key": "HISN.HISNIII", "value": "HISN III" },
+  { "key": "HISN.HISNIV", "value": "HISN IV" },
+  { "key": "HISN.HISNV", "value": "HISN V" },
+  { "key": "HISN.HISNVI", "value": "HISN VI" },
+  { "key": "HISN.HISNVII", "value": "HISN VII" },
+  { "key": "HISN.HISNVIII", "value": "HISN VIII" },
+  { "key": "HISN.HISNIX", "value": "HISN IX" },
+  { "key": "HISN.HISNX", "value": "HISN X" },
 
   { "key": "Equipment.AmnitusEquipment", "value": "Amnitus" },
   { "key": "Equipment.AngelisEquipment", "value": "Angelis" },

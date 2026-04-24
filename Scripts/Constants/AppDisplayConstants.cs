@@ -224,6 +224,7 @@ public static class AppDisplayConstants
         public const string HIRN = "MainType.HIRN";
         public const string HIDC = "MainType.HIDC";
         public const string HICB = "MainType.HICB";
+        public const string HISN = "MainType.HISN";
 
         public const string HIIN_FULLNAME = "MainType.HIIN_FULLNAME";
         public const string SSWN_FULLNAME = "MainType.SSWN_FULLNAME";
@@ -234,6 +235,7 @@ public static class AppDisplayConstants
         public const string HIRN_FULLNAME = "MainType.HIRN_FULLNAME";
         public const string HIDC_FULLNAME = "MainType.HIDC_FULLNAME";
         public const string HICB_FULLNAME = "MainType.HICB_FULLNAME";
+        public const string HISN_FULLNAME = "MainType.HISN_FULLNAME";
     }
     public static class Gallery
     {
@@ -653,6 +655,19 @@ public static class AppDisplayConstants
         public const string HICB_VIII = "HICB.HICBVIII";
         public const string HICB_IX = "HICB.HICBIX";
         public const string HICB_X = "HICB.HICBX";
+    }
+    public static class HISN
+    {
+        public const string HISN_I = "HISN.HISNI";
+        public const string HISN_II = "HISN.HISNII";
+        public const string HISN_III = "HISN.HISNIII";
+        public const string HISN_IV = "HISN.HISNIV";
+        public const string HISN_V = "HISN.HISNV";
+        public const string HISN_VI = "HISN.HISNVI";
+        public const string HISN_VII = "HISN.HISNVII";
+        public const string HISN_VIII = "HISN.HISNVIII";
+        public const string HISN_IX = "HISN.HISNIX";
+        public const string HISN_X = "HISN.HISNX";
     }
     public static class Message
     {

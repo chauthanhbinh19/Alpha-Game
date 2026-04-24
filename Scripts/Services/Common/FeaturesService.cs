@@ -90,5 +90,10 @@ public class FeaturesService : IFeaturesService
         return await _featuresRepository.GetHICBFeaturesByTypeAsync(type);
     }
 
+    public async Task<Dictionary<string, FeatureHISNDTO>> GetHISNFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetHISNFeaturesByTypeAsync(type);
+    }
+
     // Implement other methods from IFeaturesService by calling the repository
 }

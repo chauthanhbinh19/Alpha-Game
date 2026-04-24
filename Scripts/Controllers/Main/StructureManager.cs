@@ -60,6 +60,7 @@ public class StructureManager : MonoBehaviour
         CreateStructureButtonUI(7, AppDisplayConstants.MainType.HIRN, AppDisplayConstants.MainType.HIRN_FULLNAME, contentPanel);
         CreateStructureButtonUI(8, AppDisplayConstants.MainType.HIDC, AppDisplayConstants.MainType.HIDC_FULLNAME, contentPanel);
         CreateStructureButtonUI(9, AppDisplayConstants.MainType.HICB, AppDisplayConstants.MainType.HICB_FULLNAME, contentPanel);
+        CreateStructureButtonUI(10, AppDisplayConstants.MainType.HISN, AppDisplayConstants.MainType.HISN_FULLNAME, contentPanel);
 
         CreateStructureButtonEvent(contentPanel);
     }
@@ -101,5 +102,6 @@ public class StructureManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, () => HIRNManager.Instance.CreateHIRN());
         ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, () => HIDCManager.Instance.CreateHIDC());
         ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, () => HICBManager.Instance.CreateHICB());
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, () => HISNManager.Instance.CreateHISN());
     }
 }

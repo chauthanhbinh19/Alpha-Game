@@ -899,6 +899,19 @@ public static class AppConstants
         public const string HICB_IX = "HICB IX";
         public const string HICB_X = "HICB X";
     }
+    public static class HISN
+    {
+        public const string HISN_I = "HISN I";
+        public const string HISN_II = "HISN II";
+        public const string HISN_III = "HISN III";
+        public const string HISN_IV = "HISN IV";
+        public const string HISN_V = "HISN V";
+        public const string HISN_VI = "HISN VI";
+        public const string HISN_VII = "HISN VII";
+        public const string HISN_VIII = "HISN VIII";
+        public const string HISN_IX = "HISN IX";
+        public const string HISN_X = "HISN X";
+    }
     public static class MainMenuSet1
     {
         public const string EQUIPMENTS = "Equipments";
