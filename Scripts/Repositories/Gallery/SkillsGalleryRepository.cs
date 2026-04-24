@@ -19,7 +19,7 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT m.*, mg.current_star, mg.temp_star,
                     CASE 
                         WHEN mg.skill_id IS NULL THEN 'block'
@@ -32,43 +32,43 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND m.type = @type";
+                    selectSQL += " AND m.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY m.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY m.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -175,40 +175,40 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Skills
+                string selectSQL = @"SELECT COUNT(*) FROM Skills
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    command.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@type", type);
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    command.Parameters.AddWithValue("@rare", rare);
+                    selectCommand.Parameters.AddWithValue("@rare", rare);
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    command.Parameters.AddWithValue("@search", search);
+                    selectCommand.Parameters.AddWithValue("@search", search);
                 }
 
-                object result = await command.ExecuteScalarAsync();
+                object result = await selectCommand.ExecuteScalarAsync();
                 count = Convert.ToInt32(result);
             }
             catch (MySqlException ex)
@@ -235,13 +235,13 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi đã tồn tại
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM skills_gallery 
                 WHERE user_id = @user_id AND skill_id = @skill_id;
                 ";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 checkCommand.Parameters.AddWithValue("@skill_id", Id);
 
@@ -250,7 +250,7 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
                 // Nếu chưa có thì insert
                 if (recordCount == 0)
                 {
-                    string query = @"
+                    string insertSQL = @"
                 INSERT INTO skills_gallery (
                     user_id, skill_id, status, current_star, temp_star, power, health, 
                     physical_attack, physical_defense, magical_attack, magical_defense, 
@@ -298,81 +298,81 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
                     @percent_all_mental_defense
                 );";
 
-                    MySqlCommand command = new MySqlCommand(query, connection);
+                    MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@skill_id", Id);
-                    command.Parameters.AddWithValue("@status", "pending");
-                    command.Parameters.AddWithValue("@current_star", 0);
-                    command.Parameters.AddWithValue("@temp_star", 0);
+                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@skill_id", Id);
+                    insertCommand.Parameters.AddWithValue("@status", "pending");
+                    insertCommand.Parameters.AddWithValue("@current_star", 0);
+                    insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
                     // Thuộc tính
-                    command.Parameters.AddWithValue("@power", skillFromDB.Power);
-                    command.Parameters.AddWithValue("@health", skillFromDB.Health);
-                    command.Parameters.AddWithValue("@physical_attack", skillFromDB.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", skillFromDB.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", skillFromDB.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", skillFromDB.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", skillFromDB.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", skillFromDB.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", skillFromDB.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", skillFromDB.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", skillFromDB.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", skillFromDB.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", skillFromDB.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", skillFromDB.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", skillFromDB.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", skillFromDB.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", skillFromDB.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", skillFromDB.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", skillFromDB.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", skillFromDB.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", skillFromDB.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", skillFromDB.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", skillFromDB.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", skillFromDB.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", skillFromDB.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", skillFromDB.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", skillFromDB.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", skillFromDB.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", skillFromDB.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", skillFromDB.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", skillFromDB.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", skillFromDB.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", skillFromDB.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", skillFromDB.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", skillFromDB.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", skillFromDB.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", skillFromDB.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", skillFromDB.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", skillFromDB.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", skillFromDB.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", skillFromDB.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", skillFromDB.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", skillFromDB.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", skillFromDB.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", skillFromDB.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", skillFromDB.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", skillFromDB.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", skillFromDB.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", skillFromDB.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", skillFromDB.SkillResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@power", skillFromDB.Power);
+                    insertCommand.Parameters.AddWithValue("@health", skillFromDB.Health);
+                    insertCommand.Parameters.AddWithValue("@physical_attack", skillFromDB.PhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@physical_defense", skillFromDB.PhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@magical_attack", skillFromDB.MagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@magical_defense", skillFromDB.MagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@chemical_attack", skillFromDB.ChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@chemical_defense", skillFromDB.ChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@atomic_attack", skillFromDB.AtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@atomic_defense", skillFromDB.AtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@mental_attack", skillFromDB.MentalAttack);
+                    insertCommand.Parameters.AddWithValue("@mental_defense", skillFromDB.MentalDefense);
+                    insertCommand.Parameters.AddWithValue("@speed", skillFromDB.Speed);
+                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", skillFromDB.CriticalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@critical_rate", skillFromDB.CriticalRate);
+                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", skillFromDB.CriticalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", skillFromDB.IgnoreCriticalRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_rate", skillFromDB.PenetrationRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", skillFromDB.PenetrationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@evasion_rate", skillFromDB.EvasionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", skillFromDB.DamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", skillFromDB.IgnoreDamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", skillFromDB.AbsorbedDamageRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", skillFromDB.VitalityRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", skillFromDB.VitalityRegenerationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@accuracy_rate", skillFromDB.AccuracyRate);
+                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", skillFromDB.LifestealRate);
+                    insertCommand.Parameters.AddWithValue("@shield_strength", skillFromDB.ShieldStrength);
+                    insertCommand.Parameters.AddWithValue("@tenacity", skillFromDB.Tenacity);
+                    insertCommand.Parameters.AddWithValue("@resistance_rate", skillFromDB.ResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@combo_rate", skillFromDB.ComboRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", skillFromDB.IgnoreComboRate);
+                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", skillFromDB.ComboDamageRate);
+                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", skillFromDB.ComboResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@stun_rate", skillFromDB.StunRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", skillFromDB.IgnoreStunRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_rate", skillFromDB.ReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", skillFromDB.IgnoreReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", skillFromDB.ReflectionDamageRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", skillFromDB.ReflectionResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@mana", skillFromDB.Mana);
+                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", skillFromDB.ManaRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", skillFromDB.DamageToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", skillFromDB.ResistanceToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", skillFromDB.DamageToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", skillFromDB.ResistanceToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", skillFromDB.NormalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", skillFromDB.NormalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", skillFromDB.SkillDamageRate);
+                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", skillFromDB.SkillResistanceRate);
 
                     // % buff theo quality
-                    command.Parameters.AddWithValue("@percent_all_health", percent);
-                    command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_magical_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_magical_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_mental_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_physical_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_magical_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_magical_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_mental_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_mental_defense", percent);
 
-                    await command.ExecuteNonQueryAsync();
+                    await insertCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -395,13 +395,13 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE skills_gallery SET status=@status WHERE user_id=@user_id AND skill_id=@skill_id";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@skill_id", Id);
-                command.Parameters.AddWithValue("@status", "available");
+                string updateSQL = "UPDATE skills_gallery SET status=@status WHERE user_id=@user_id AND skill_id=@skill_id";
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@skill_id", Id);
+                updateCommand.Parameters.AddWithValue("@status", "available");
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -424,13 +424,13 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT current_star, temp_star
                 FROM skills_gallery 
                 WHERE user_id = @user_id AND skill_id = @skill_id;
             ";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 checkCommand.Parameters.AddWithValue("@skill_id", Id);
 
@@ -444,13 +444,13 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
                         {
                             reader.Close(); // Đóng reader trước khi thực hiện update
 
-                            string updateQuery = @"
+                            string updateSQL = @"
                             UPDATE skills_gallery 
                             SET temp_star = @temp_star 
                             WHERE user_id = @user_id AND skill_id = @skill_id;
                         ";
 
-                            MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                            MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCommand.Parameters.AddWithValue("@skill_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
@@ -480,7 +480,7 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE skills_gallery
+                string updateSQL = @"UPDATE skills_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -549,74 +549,74 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
                 AND skill_id = @skill_id;
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@skill_id", Id);
-                command.Parameters.AddWithValue("@status", "pending");
-                command.Parameters.AddWithValue("@current_star", 0);
-                command.Parameters.AddWithValue("@power", skillFromDB.Power);
-                command.Parameters.AddWithValue("@health", skillFromDB.Health);
-                command.Parameters.AddWithValue("@physical_attack", skillFromDB.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", skillFromDB.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", skillFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", skillFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", skillFromDB.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", skillFromDB.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", skillFromDB.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", skillFromDB.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", skillFromDB.MentalAttack);
-                command.Parameters.AddWithValue("@mental_defense", skillFromDB.MentalDefense);
-                command.Parameters.AddWithValue("@speed", skillFromDB.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", skillFromDB.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", skillFromDB.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", skillFromDB.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", skillFromDB.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", skillFromDB.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", skillFromDB.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", skillFromDB.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", skillFromDB.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", skillFromDB.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", skillFromDB.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", skillFromDB.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", skillFromDB.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", skillFromDB.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", skillFromDB.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", skillFromDB.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", skillFromDB.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", skillFromDB.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", skillFromDB.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", skillFromDB.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", skillFromDB.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", skillFromDB.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", skillFromDB.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", skillFromDB.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", skillFromDB.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", skillFromDB.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", skillFromDB.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", skillFromDB.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", skillFromDB.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", skillFromDB.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", skillFromDB.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", skillFromDB.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", skillFromDB.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", skillFromDB.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", skillFromDB.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", skillFromDB.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", skillFromDB.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", skillFromDB.SkillResistanceRate);
-                command.Parameters.AddWithValue("@percent_all_health", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_defense", 5);
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@skill_id", Id);
+                updateCommand.Parameters.AddWithValue("@status", "pending");
+                updateCommand.Parameters.AddWithValue("@current_star", 0);
+                updateCommand.Parameters.AddWithValue("@power", skillFromDB.Power);
+                updateCommand.Parameters.AddWithValue("@health", skillFromDB.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", skillFromDB.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", skillFromDB.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", skillFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", skillFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", skillFromDB.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", skillFromDB.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", skillFromDB.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", skillFromDB.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", skillFromDB.MentalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", skillFromDB.MentalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", skillFromDB.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", skillFromDB.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", skillFromDB.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", skillFromDB.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", skillFromDB.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", skillFromDB.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", skillFromDB.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", skillFromDB.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", skillFromDB.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", skillFromDB.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", skillFromDB.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", skillFromDB.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", skillFromDB.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", skillFromDB.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", skillFromDB.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", skillFromDB.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", skillFromDB.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", skillFromDB.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", skillFromDB.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", skillFromDB.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", skillFromDB.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", skillFromDB.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", skillFromDB.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", skillFromDB.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", skillFromDB.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", skillFromDB.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", skillFromDB.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", skillFromDB.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", skillFromDB.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", skillFromDB.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", skillFromDB.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", skillFromDB.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", skillFromDB.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", skillFromDB.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", skillFromDB.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", skillFromDB.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", skillFromDB.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", skillFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_defense", 5);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -639,7 +639,7 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT 
+                string selectSQL = @"SELECT 
                 SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
                 SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
                 SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
@@ -681,11 +681,11 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             FROM skills_gallery 
             WHERE user_id = @user_id AND status = 'available';";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

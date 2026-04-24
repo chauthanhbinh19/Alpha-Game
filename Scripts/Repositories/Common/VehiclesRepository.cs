@@ -15,9 +15,9 @@ public class VehiclesRepository : IVehiclesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT type FROM Vehicles";
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+            string selectSQL = "SELECT DISTINCT type FROM Vehicles";
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -37,9 +37,9 @@ public class VehiclesRepository : IVehiclesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM Vehicles";
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+            string selectSQL = "SELECT DISTINCT id FROM Vehicles";
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -52,7 +52,7 @@ public class VehiclesRepository : IVehiclesRepository
     }
     public async Task<List<Vehicles>> GetVehiclesAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Vehicles> Vehicles = new List<Vehicles>();
+        List<Vehicles> vehicles = new List<Vehicles>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -61,47 +61,47 @@ public class VehiclesRepository : IVehiclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM Vehicles WHERE 1=1";
+                string selectSQL = @"SELECT * FROM Vehicles WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY Vehicles.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(Vehicles.name, '[0-9]+$') AS UNSIGNED), Vehicles.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY Vehicles.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(Vehicles.name, '[0-9]+$') AS UNSIGNED), Vehicles.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -177,7 +177,7 @@ public class VehiclesRepository : IVehiclesRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            Vehicles.Add(symbol);
+                            vehicles.Add(symbol);
                         }
                     }
                 }
@@ -188,7 +188,7 @@ public class VehiclesRepository : IVehiclesRepository
             }
         }
 
-        return Vehicles;
+        return vehicles;
     }
     public async Task<int> GetVehiclesCountAsync(string search, string type, string rare)
     {
@@ -201,41 +201,41 @@ public class VehiclesRepository : IVehiclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Vehicles WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Vehicles WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -249,7 +249,7 @@ public class VehiclesRepository : IVehiclesRepository
     }
     public async Task<List<Vehicles>> GetVehiclesWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Vehicles> Vehicles = new List<Vehicles>();
+        List<Vehicles> vehicles = new List<Vehicles>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -258,7 +258,7 @@ public class VehiclesRepository : IVehiclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT s.*, st.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM Vehicles s
                 JOIN vehicle_trade st ON s.id = st.vehicle_id
@@ -269,13 +269,13 @@ public class VehiclesRepository : IVehiclesRepository
                          s.name
                 LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -358,7 +358,7 @@ public class VehiclesRepository : IVehiclesRepository
                                 Quantity = reader.GetIntSafe("price")
                             };
 
-                            Vehicles.Add(symbol);
+                            vehicles.Add(symbol);
                         }
                     }
                 }
@@ -369,7 +369,7 @@ public class VehiclesRepository : IVehiclesRepository
             }
         }
 
-        return Vehicles;
+        return vehicles;
     }
     public async Task<int> GetVehiclesWithPriceCountAsync(string type)
     {
@@ -382,17 +382,17 @@ public class VehiclesRepository : IVehiclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM Vehicles s
                 JOIN vehicle_trade st ON s.id = st.vehicle_id
                 JOIN currencies cu ON st.currency_id = cu.id
                 WHERE s.type = @type;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
-                    object result = await command.ExecuteScalarAsync();
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -406,7 +406,7 @@ public class VehiclesRepository : IVehiclesRepository
     }
     public async Task<Vehicles> GetVehicleByIdAsync(string Id)
     {
-        Vehicles symbol = new Vehicles();
+        Vehicles vehicle = new Vehicles();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -415,16 +415,16 @@ public class VehiclesRepository : IVehiclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM Vehicles WHERE id=@id";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                string selectSQL = "SELECT * FROM Vehicles WHERE id=@id";
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
 
-                    using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            symbol = new Vehicles
+                            vehicle = new Vehicles
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -492,7 +492,7 @@ public class VehiclesRepository : IVehiclesRepository
             }
         }
 
-        return symbol;
+        return vehicle;
     }
     public async Task<Vehicles> SumPowerVehiclesPercentAsync()
     {
@@ -505,7 +505,7 @@ public class VehiclesRepository : IVehiclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health, 
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -523,11 +523,11 @@ public class VehiclesRepository : IVehiclesRepository
                 WHERE ua.user_id = @user_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

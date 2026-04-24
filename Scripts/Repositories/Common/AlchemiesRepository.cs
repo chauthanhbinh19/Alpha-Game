@@ -9,7 +9,7 @@ public class AlchemiesRepository : IAlchemiesRepository
 {
     public async Task<List<string>> GetUniqueAlchemiesTypesAsync()
     {
-        List<string> typeList = new List<string>();
+        List<string> types = new List<string>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -18,13 +18,13 @@ public class AlchemiesRepository : IAlchemiesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT type FROM alchemies";
-                await using var command = new MySqlCommand(query, connection);
+                string selectSQL = "SELECT DISTINCT type FROM alchemies";
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
-                await using var reader = await command.ExecuteReaderAsync();
+                await using var reader = await selectCommand.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {
-                    typeList.Add(reader.GetString(0));
+                    types.Add(reader.GetString(0));
                 }
             }
             catch (MySqlException ex)
@@ -37,11 +37,11 @@ public class AlchemiesRepository : IAlchemiesRepository
             }
         }
 
-        return typeList;
+        return types;
     }
     public async Task<List<string>> GetUniqueAlchemiesIdAsync()
     {
-        List<string> idList = new List<string>();
+        List<string> ids = new List<string>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using var connection = new MySqlConnector.MySqlConnection(connectionString);
@@ -49,13 +49,13 @@ public class AlchemiesRepository : IAlchemiesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM alchemies";
-            await using var command = new MySqlConnector.MySqlCommand(query, connection);
+            string selectSQL = "SELECT DISTINCT id FROM alchemies";
+            await using var selectCommand = new MySqlConnector.MySqlCommand(selectSQL, connection);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                idList.Add(reader.GetString(0));
+                ids.Add(reader.GetString(0));
             }
         }
         catch (MySqlConnector.MySqlException ex)
@@ -67,7 +67,7 @@ public class AlchemiesRepository : IAlchemiesRepository
             await connection.CloseAsync();
         }
 
-        return idList;
+        return ids;
     }
     public async Task<List<Alchemies>> GetAlchemiesAsync(string search, string type, string rare, int pageSize, int offset)
     {
@@ -79,50 +79,50 @@ public class AlchemiesRepository : IAlchemiesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT * 
             FROM alchemies
             WHERE 1=1";
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                query += " AND type = @type";
+                selectSQL += " AND type = @type";
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND rare = @rare";
+                selectSQL += " AND rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            query += " ORDER BY alchemies.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(alchemies.name, '[0-9]+$') AS UNSIGNED), alchemies.name";
-            query += " LIMIT @limit OFFSET @offset";
+            selectSQL += " ORDER BY alchemies.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(alchemies.name, '[0-9]+$') AS UNSIGNED), alchemies.name";
+            selectSQL += " LIMIT @limit OFFSET @offset";
 
-            await using var command = new MySqlConnector.MySqlCommand(query, connection);
+            await using var selectCommand = new MySqlConnector.MySqlCommand(selectSQL, connection);
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                command.Parameters.AddWithValue("@rare", rare);
+                selectCommand.Parameters.AddWithValue("@rare", rare);
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                command.Parameters.AddWithValue("@search", search);
+                selectCommand.Parameters.AddWithValue("@search", search);
             }
 
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 Alchemies alchemy = new Alchemies
@@ -220,41 +220,41 @@ public class AlchemiesRepository : IAlchemiesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT COUNT(*) FROM alchemies WHERE 1=1";
+            string selectSQL = @"SELECT COUNT(*) FROM alchemies WHERE 1=1";
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                query += " AND type = @type";
+                selectSQL += " AND type = @type";
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND rare = @rare";
+                selectSQL += " AND rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            await using var command = new MySqlConnector.MySqlCommand(query, connection);
+            await using var selectCommand = new MySqlConnector.MySqlCommand(selectSQL, connection);
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                command.Parameters.AddWithValue("@rare", rare);
+                selectCommand.Parameters.AddWithValue("@rare", rare);
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                command.Parameters.AddWithValue("@search", search);
+                selectCommand.Parameters.AddWithValue("@search", search);
             }
 
-            object result = await command.ExecuteScalarAsync();
+            object result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlConnector.MySqlException ex)
@@ -278,7 +278,7 @@ public class AlchemiesRepository : IAlchemiesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT m.*, mt.price, cu.image AS currency_image, cu.id AS currency_id
             FROM alchemies m
             INNER JOIN alchemy_trade mt ON m.id = mt.alchemy_id
@@ -287,12 +287,12 @@ public class AlchemiesRepository : IAlchemiesRepository
             ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name
             LIMIT @limit OFFSET @offset";
 
-            await using var command = new MySqlConnector.MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@type", type);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            await using var selectCommand = new MySqlConnector.MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@type", type);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 Alchemies Alchemy = new Alchemies
@@ -397,17 +397,17 @@ public class AlchemiesRepository : IAlchemiesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT COUNT(*)
             FROM alchemies m
             INNER JOIN alchemy_trade mt ON m.id = mt.alchemy_id
             INNER JOIN currencies cu ON mt.currency_id = cu.id
             WHERE m.type = @type;";
 
-            await using var command = new MySqlConnector.MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@type", type);
+            await using var selectCommand = new MySqlConnector.MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@type", type);
 
-            var result = await command.ExecuteScalarAsync();
+            var result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlConnector.MySqlException ex)
@@ -431,11 +431,11 @@ public class AlchemiesRepository : IAlchemiesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT * FROM alchemies WHERE id = @id";
-            await using var command = new MySqlConnector.MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@id", id);
+            string selectSQL = "SELECT * FROM alchemies WHERE id = @id";
+            await using var selectCommand = new MySqlConnector.MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@id", id);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 alchemy = new Alchemies
@@ -522,7 +522,7 @@ public class AlchemiesRepository : IAlchemiesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT 
                 SUM(a.percent_all_health) AS total_percent_all_health, 
                 SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -539,10 +539,10 @@ public class AlchemiesRepository : IAlchemiesRepository
             JOIN user_alchemies ua ON a.id = ua.alchemy_id
             WHERE ua.user_id = @user_id;";
 
-            await using var command = new MySqlConnector.MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            await using var selectCommand = new MySqlConnector.MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 sumAlchemies.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDoubleSafe("total_percent_all_health");

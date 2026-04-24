@@ -9,7 +9,7 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
 {
     public async Task<List<Foods>> GetFoodsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Foods> Foods = new List<Foods>();
+        List<Foods> foods = new List<Foods>();
         string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -19,7 +19,7 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT c.*, 
                        CASE 
                            WHEN cg.food_id IS NULL THEN 'block' 
@@ -33,37 +33,37 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
             ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY 
                     c.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED),
                     c.name
                 LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -139,7 +139,7 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                                 Status = reader.GetStringSafe("status"),
                             };
 
-                            Foods.Add(Food);
+                            foods.Add(Food);
                         }
                     }
                 }
@@ -154,7 +154,7 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
             }
         }
 
-        return Foods;
+        return foods;
     }
     public async Task<int> GetFoodsCountAsync(string search, string rare)
     {
@@ -167,31 +167,31 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Foods 
+                string selectSQL = @"SELECT COUNT(*) FROM Foods 
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -219,13 +219,13 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi tồn tại
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM foods_gallery 
                 WHERE user_id = @user_id AND food_id = @food_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     checkCommand.Parameters.AddWithValue("@food_id", Id);
@@ -235,7 +235,7 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                     // Nếu chưa có → INSERT
                     if (recordCount == 0)
                     {
-                        string query = @"
+                        string insertSQL = @"
                     INSERT INTO foods_gallery (
                         user_id, food_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
@@ -273,86 +273,86 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                     );
                     ";
 
-                        await using (MySqlCommand command = new MySqlCommand(query, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            command.Parameters.AddWithValue("@food_id", Id);
-                            command.Parameters.AddWithValue("@status", "pending");
-                            command.Parameters.AddWithValue("@current_star", 0);
-                            command.Parameters.AddWithValue("@temp_star", 0);
+                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@food_id", Id);
+                            insertCommand.Parameters.AddWithValue("@status", "pending");
+                            insertCommand.Parameters.AddWithValue("@current_star", 0);
+                            insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
-                            command.Parameters.AddWithValue("@power", foodFromDB.Power);
-                            command.Parameters.AddWithValue("@health", foodFromDB.Health);
-                            command.Parameters.AddWithValue("@physical_attack", foodFromDB.PhysicalAttack);
-                            command.Parameters.AddWithValue("@physical_defense", foodFromDB.PhysicalDefense);
-                            command.Parameters.AddWithValue("@magical_attack", foodFromDB.MagicalAttack);
-                            command.Parameters.AddWithValue("@magical_defense", foodFromDB.MagicalDefense);
-                            command.Parameters.AddWithValue("@chemical_attack", foodFromDB.ChemicalAttack);
-                            command.Parameters.AddWithValue("@chemical_defense", foodFromDB.ChemicalDefense);
-                            command.Parameters.AddWithValue("@atomic_attack", foodFromDB.AtomicAttack);
-                            command.Parameters.AddWithValue("@atomic_defense", foodFromDB.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@power", foodFromDB.Power);
+                            insertCommand.Parameters.AddWithValue("@health", foodFromDB.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", foodFromDB.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", foodFromDB.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", foodFromDB.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", foodFromDB.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", foodFromDB.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", foodFromDB.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", foodFromDB.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", foodFromDB.AtomicDefense);
 
-                            command.Parameters.AddWithValue("@mental_attack", foodFromDB.MentalAttack);
-                            command.Parameters.AddWithValue("@mental_defense", foodFromDB.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", foodFromDB.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", foodFromDB.MentalDefense);
 
-                            command.Parameters.AddWithValue("@speed", foodFromDB.Speed);
-                            command.Parameters.AddWithValue("@critical_damage_rate", foodFromDB.CriticalDamageRate);
-                            command.Parameters.AddWithValue("@critical_rate", foodFromDB.CriticalRate);
-                            command.Parameters.AddWithValue("@critical_resistance_rate", foodFromDB.CriticalResistanceRate);
-                            command.Parameters.AddWithValue("@ignore_critical_rate", foodFromDB.IgnoreCriticalRate);
-                            command.Parameters.AddWithValue("@penetration_rate", foodFromDB.PenetrationRate);
-                            command.Parameters.AddWithValue("@penetration_resistance_rate", foodFromDB.PenetrationResistanceRate);
-                            command.Parameters.AddWithValue("@evasion_rate", foodFromDB.EvasionRate);
-                            command.Parameters.AddWithValue("@damage_absorption_rate", foodFromDB.DamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", foodFromDB.IgnoreDamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@absorbed_damage_rate", foodFromDB.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@speed", foodFromDB.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", foodFromDB.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", foodFromDB.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", foodFromDB.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", foodFromDB.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", foodFromDB.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", foodFromDB.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", foodFromDB.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", foodFromDB.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", foodFromDB.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", foodFromDB.AbsorbedDamageRate);
 
-                            command.Parameters.AddWithValue("@vitality_regeneration_rate", foodFromDB.VitalityRegenerationRate);
-                            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", foodFromDB.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", foodFromDB.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", foodFromDB.VitalityRegenerationResistanceRate);
 
-                            command.Parameters.AddWithValue("@accuracy_rate", foodFromDB.AccuracyRate);
-                            command.Parameters.AddWithValue("@lifesteal_rate", foodFromDB.LifestealRate);
-                            command.Parameters.AddWithValue("@shield_strength", foodFromDB.ShieldStrength);
-                            command.Parameters.AddWithValue("@tenacity", foodFromDB.Tenacity);
-                            command.Parameters.AddWithValue("@resistance_rate", foodFromDB.ResistanceRate);
-                            command.Parameters.AddWithValue("@combo_rate", foodFromDB.ComboRate);
-                            command.Parameters.AddWithValue("@ignore_combo_rate", foodFromDB.IgnoreComboRate);
-                            command.Parameters.AddWithValue("@combo_damage_rate", foodFromDB.ComboDamageRate);
-                            command.Parameters.AddWithValue("@combo_resistance_rate", foodFromDB.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", foodFromDB.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", foodFromDB.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", foodFromDB.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", foodFromDB.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", foodFromDB.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", foodFromDB.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", foodFromDB.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", foodFromDB.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", foodFromDB.ComboResistanceRate);
 
-                            command.Parameters.AddWithValue("@stun_rate", foodFromDB.StunRate);
-                            command.Parameters.AddWithValue("@ignore_stun_rate", foodFromDB.IgnoreStunRate);
-                            command.Parameters.AddWithValue("@reflection_rate", foodFromDB.ReflectionRate);
-                            command.Parameters.AddWithValue("@ignore_reflection_rate", foodFromDB.IgnoreReflectionRate);
-                            command.Parameters.AddWithValue("@reflection_damage_rate", foodFromDB.ReflectionDamageRate);
-                            command.Parameters.AddWithValue("@reflection_resistance_rate", foodFromDB.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", foodFromDB.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", foodFromDB.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", foodFromDB.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", foodFromDB.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", foodFromDB.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", foodFromDB.ReflectionResistanceRate);
 
-                            command.Parameters.AddWithValue("@mana", foodFromDB.Mana);
-                            command.Parameters.AddWithValue("@mana_regeneration_rate", foodFromDB.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@mana", foodFromDB.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", foodFromDB.ManaRegenerationRate);
 
-                            command.Parameters.AddWithValue("@damage_to_different_faction_rate", foodFromDB.DamageToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", foodFromDB.ResistanceToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@damage_to_same_faction_rate", foodFromDB.DamageToSameFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", foodFromDB.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", foodFromDB.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", foodFromDB.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", foodFromDB.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", foodFromDB.ResistanceToSameFactionRate);
 
-                            command.Parameters.AddWithValue("@normal_damage_rate", foodFromDB.NormalDamageRate);
-                            command.Parameters.AddWithValue("@normal_resistance_rate", foodFromDB.NormalResistanceRate);
-                            command.Parameters.AddWithValue("@skill_damage_rate", foodFromDB.SkillDamageRate);
-                            command.Parameters.AddWithValue("@skill_resistance_rate", foodFromDB.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", foodFromDB.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", foodFromDB.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", foodFromDB.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", foodFromDB.SkillResistanceRate);
 
-                            command.Parameters.AddWithValue("@percent_all_health", percent);
-                            command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_magical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_magical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_mental_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_physical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_magical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_magical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_mental_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_mental_defense", percent);
 
-                            await command.ExecuteNonQueryAsync();
+                            await insertCommand.ExecuteNonQueryAsync();
                         }
                     }
                 }
@@ -377,17 +377,17 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE foods_gallery 
+                string updateSQL = @"UPDATE foods_gallery 
                              SET status=@status 
                              WHERE user_id=@user_id AND food_id=@food_id";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@food_id", Id);
-                    command.Parameters.AddWithValue("@status", "available");
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@food_id", Id);
+                    updateCommand.Parameters.AddWithValue("@status", "available");
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -411,13 +411,13 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                 await connection.OpenAsync();
 
                 // Lấy current_star và temp_star
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT current_star, temp_star 
                 FROM foods_gallery 
                 WHERE user_id = @user_id AND food_id = @food_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     checkCommand.Parameters.AddWithValue("@food_id", id);
@@ -433,13 +433,13 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                             {
                                 reader.Close(); // đóng trước khi chạy lệnh khác
 
-                                string updateQuery = @"
+                                string updateSQL = @"
                                 UPDATE foods_gallery 
                                 SET temp_star = @temp_star 
                                 WHERE user_id = @user_id AND food_id = @food_id;
                             ";
 
-                                await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                                 {
                                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                                     updateCommand.Parameters.AddWithValue("@food_id", id);
@@ -472,7 +472,7 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE foods_gallery
+                string updateSQL = @"UPDATE foods_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -541,82 +541,82 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                 AND food_id = @food_id;
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
                 // IDs
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@food_id", id);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@food_id", id);
 
                 // Base flags
-                command.Parameters.AddWithValue("@status", "pending");
-                command.Parameters.AddWithValue("@current_star", 0);
+                updateCommand.Parameters.AddWithValue("@status", "pending");
+                updateCommand.Parameters.AddWithValue("@current_star", 0);
 
                 // Stats
-                command.Parameters.AddWithValue("@power", foodFromDB.Power);
-                command.Parameters.AddWithValue("@health", foodFromDB.Health);
-                command.Parameters.AddWithValue("@physical_attack", foodFromDB.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", foodFromDB.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", foodFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", foodFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", foodFromDB.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", foodFromDB.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", foodFromDB.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", foodFromDB.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", foodFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@mental_defense", foodFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@speed", foodFromDB.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", foodFromDB.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", foodFromDB.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", foodFromDB.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", foodFromDB.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", foodFromDB.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", foodFromDB.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", foodFromDB.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", foodFromDB.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", foodFromDB.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", foodFromDB.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", foodFromDB.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", foodFromDB.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", foodFromDB.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", foodFromDB.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", foodFromDB.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", foodFromDB.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", foodFromDB.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", foodFromDB.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", foodFromDB.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", foodFromDB.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", foodFromDB.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", foodFromDB.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", foodFromDB.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", foodFromDB.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", foodFromDB.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", foodFromDB.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", foodFromDB.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", foodFromDB.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", foodFromDB.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", foodFromDB.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", foodFromDB.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", foodFromDB.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", foodFromDB.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", foodFromDB.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", foodFromDB.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", foodFromDB.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", foodFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", foodFromDB.Power);
+                updateCommand.Parameters.AddWithValue("@health", foodFromDB.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", foodFromDB.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", foodFromDB.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", foodFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", foodFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", foodFromDB.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", foodFromDB.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", foodFromDB.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", foodFromDB.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", foodFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", foodFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", foodFromDB.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", foodFromDB.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", foodFromDB.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", foodFromDB.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", foodFromDB.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", foodFromDB.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", foodFromDB.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", foodFromDB.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", foodFromDB.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", foodFromDB.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", foodFromDB.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", foodFromDB.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", foodFromDB.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", foodFromDB.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", foodFromDB.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", foodFromDB.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", foodFromDB.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", foodFromDB.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", foodFromDB.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", foodFromDB.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", foodFromDB.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", foodFromDB.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", foodFromDB.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", foodFromDB.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", foodFromDB.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", foodFromDB.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", foodFromDB.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", foodFromDB.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", foodFromDB.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", foodFromDB.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", foodFromDB.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", foodFromDB.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", foodFromDB.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", foodFromDB.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", foodFromDB.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", foodFromDB.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", foodFromDB.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", foodFromDB.SkillResistanceRate);
 
                 // Percent bonuses (hard-coded)
-                command.Parameters.AddWithValue("@percent_all_health", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_defense", 5);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -639,7 +639,7 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                 SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
                 SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
@@ -689,10 +689,10 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
                 WHERE user_id = @user_id AND status = 'available';
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     if (await reader.ReadAsync())
                     {

@@ -16,9 +16,9 @@ public class CitiesRepository : ICitiesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM Cities";
-            await using var command = new MySqlCommand(query, connection);
-            await using var reader = await command.ExecuteReaderAsync();
+            string selectSQL = "SELECT DISTINCT id FROM Cities";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            await using var reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -42,7 +42,7 @@ public class CitiesRepository : ICitiesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT w.*, 
                    CASE WHEN uw.city_id IS NULL THEN 'block' ELSE 'available' END AS status
             FROM Cities w
@@ -50,12 +50,12 @@ public class CitiesRepository : ICitiesRepository
             ORDER BY w.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(w.name, '[0-9]+$') AS UNSIGNED), w.name
             LIMIT @limit OFFSET @offset";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@userId", userId);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@userId", userId);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -151,11 +151,11 @@ public class CitiesRepository : ICitiesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT COUNT(*) FROM Cities WHERE (@rare = 'All' OR rare = @rare)";
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@rare", rare);
+            string selectSQL = "SELECT COUNT(*) FROM Cities WHERE (@rare = 'All' OR rare = @rare)";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@rare", rare);
 
-            var result = await command.ExecuteScalarAsync();
+            var result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
@@ -175,18 +175,18 @@ public class CitiesRepository : ICitiesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
+            string selectSQL = @"SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
                          FROM Cities t
                          JOIN Citie_trade tt ON t.id = tt.city_id
                          JOIN currencies cu ON tt.currency_id = cu.id
                          ORDER BY t.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name
                          LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 Cities citie = new Cities
@@ -287,13 +287,13 @@ public class CitiesRepository : ICitiesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT COUNT(*)
+            string selectSQL = @"SELECT COUNT(*)
                          FROM Cities t
                          JOIN Citie_trade tt ON t.id = tt.city_id
                          JOIN currencies cu ON tt.currency_id = cu.id;";
 
-            await using var command = new MySqlCommand(query, connection);
-            var result = await command.ExecuteScalarAsync();
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            var result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
@@ -313,11 +313,11 @@ public class CitiesRepository : ICitiesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT * FROM Cities WHERE id = @id";
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@id", Id);
+            string selectSQL = "SELECT * FROM Cities WHERE id = @id";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@id", Id);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 city = new Cities
@@ -398,7 +398,7 @@ public class CitiesRepository : ICitiesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT 
                 SUM(a.percent_all_health) AS total_percent_all_health,
                 SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -415,10 +415,10 @@ public class CitiesRepository : ICitiesRepository
             JOIN user_Cities ua ON a.id = ua.city_id
             WHERE ua.user_id = @user_id;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 sumCities.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDoubleSafe("total_percent_all_health");

@@ -17,10 +17,10 @@ public class ItemsRepository : IItemsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT id FROM items";
+                string selectSQL = "SELECT DISTINCT id FROM items";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -47,10 +47,10 @@ public class ItemsRepository : IItemsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT type FROM items ORDER BY type ASC";
+                string selectSQL = "SELECT DISTINCT type FROM items ORDER BY type ASC";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -77,12 +77,12 @@ public class ItemsRepository : IItemsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT * FROM items
                 ORDER BY id REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(id, '[0-9]+$') AS UNSIGNED), id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {

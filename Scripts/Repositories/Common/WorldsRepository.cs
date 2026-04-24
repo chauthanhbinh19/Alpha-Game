@@ -17,10 +17,10 @@ public class WorldsRepository : IWorldsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT id FROM Worlds";
+                string selectSQL = "SELECT DISTINCT id FROM Worlds";
 
-                await using (var command = new MySqlCommand(query, connection))
-                await using (var reader = await command.ExecuteReaderAsync())
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
+                await using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -38,7 +38,7 @@ public class WorldsRepository : IWorldsRepository
     }
     public async Task<List<Worlds>> GetWorldsAsync(string userId, int pageSize, int offset)
     {
-        List<Worlds> Worlds = new List<Worlds>();
+        List<Worlds> worlds = new List<Worlds>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (var connection = new MySqlConnection(connectionString))
@@ -47,7 +47,7 @@ public class WorldsRepository : IWorldsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT w.*, 
                        CASE WHEN uw.world_id IS NULL THEN 'block' ELSE 'available' END AS status 
                 FROM Worlds w 
@@ -58,13 +58,13 @@ public class WorldsRepository : IWorldsRepository
                          w.name
                 LIMIT @limit OFFSET @offset;";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -140,7 +140,7 @@ public class WorldsRepository : IWorldsRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            Worlds.Add(employee);
+                            worlds.Add(employee);
                         }
                     }
                 }
@@ -151,7 +151,7 @@ public class WorldsRepository : IWorldsRepository
             }
         }
 
-        return Worlds;
+        return worlds;
     }
     public async Task<int> GetWorldsCountAsync(string rare)
     {
@@ -164,11 +164,11 @@ public class WorldsRepository : IWorldsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Worlds WHERE (@rare = 'All' OR rare = @rare)";
-                await using (var command = new MySqlCommand(query, connection))
+                string selectSQL = "SELECT COUNT(*) FROM Worlds WHERE (@rare = 'All' OR rare = @rare)";
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@rare", rare);
-                    var result = await command.ExecuteScalarAsync();
+                    selectCommand.Parameters.AddWithValue("@rare", rare);
+                    var result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -191,7 +191,7 @@ public class WorldsRepository : IWorldsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM Worlds t
                 JOIN world_trade tt ON t.id = tt.world_id
@@ -202,12 +202,12 @@ public class WorldsRepository : IWorldsRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -312,16 +312,16 @@ public class WorldsRepository : IWorldsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM Worlds t
                 JOIN world_trade tt ON t.id = tt.world_id
                 JOIN currencies cu ON tt.currency_id = cu.id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -335,7 +335,7 @@ public class WorldsRepository : IWorldsRepository
     }
     public async Task<Worlds> GetWorldByIdAsync(string id)
     {
-        Worlds employee = null;
+        Worlds world = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (var connection = new MySqlConnection(connectionString))
@@ -344,17 +344,17 @@ public class WorldsRepository : IWorldsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM Worlds WHERE id = @id";
+                string selectSQL = "SELECT * FROM Worlds WHERE id = @id";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", id);
+                    selectCommand.Parameters.AddWithValue("@id", id);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            employee = new Worlds
+                            world = new Worlds
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -423,7 +423,7 @@ public class WorldsRepository : IWorldsRepository
             }
         }
 
-        return employee;
+        return world;
     }
     public async Task<Worlds> SumPowerWorldsPercentAsync()
     {
@@ -436,7 +436,7 @@ public class WorldsRepository : IWorldsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health,
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -454,11 +454,11 @@ public class WorldsRepository : IWorldsRepository
                 WHERE ua.user_id = @user_id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

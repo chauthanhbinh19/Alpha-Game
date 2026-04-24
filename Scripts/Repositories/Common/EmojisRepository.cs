@@ -17,9 +17,9 @@ public class EmojisRepository : IEmojisRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT id FROM Emojis";
-                await using (var command = new MySqlCommand(query, connection))
-                await using (var reader = await command.ExecuteReaderAsync())
+                string selectSQL = "SELECT DISTINCT id FROM Emojis";
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
+                await using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -37,7 +37,7 @@ public class EmojisRepository : IEmojisRepository
     }
     public async Task<List<Emojis>> GetEmojisAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Emojis> cores = new List<Emojis>();
+        List<Emojis> emojis = new List<Emojis>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (var connection = new MySqlConnection(connectionString))
@@ -46,47 +46,47 @@ public class EmojisRepository : IEmojisRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT * 
-                FROM cores 
+                FROM emojis 
                 WHERE 1=1";
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        query += " AND rare = @rare";
+                        selectSQL += " AND rare = @rare";
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        query += " AND name LIKE CONCAT('%', @search, '%')";
+                        selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                     }
 
-                    query += @"
+                    selectSQL += @"
                 ORDER BY 
-                    cores.name REGEXP '[0-9]+$',
-                    CAST(REGEXP_SUBSTR(cores.name, '[0-9]+$') AS UNSIGNED),
-                    cores.name
+                    emojis.name REGEXP '[0-9]+$',
+                    CAST(REGEXP_SUBSTR(emojis.name, '[0-9]+$') AS UNSIGNED),
+                    emojis.name
                 LIMIT @limit OFFSET @offset";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            var core = new Emojis
+                            var emoji = new Emojis
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -157,7 +157,7 @@ public class EmojisRepository : IEmojisRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            cores.Add(core);
+                            emojis.Add(emoji);
                         }
                     }
                 }
@@ -168,7 +168,7 @@ public class EmojisRepository : IEmojisRepository
             }
         }
 
-        return cores;
+        return emojis;
     }
     public async Task<int> GetEmojisCountAsync(string search, string rare)
     {
@@ -181,31 +181,31 @@ public class EmojisRepository : IEmojisRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Emojis WHERE 1= 1";
+                string selectSQL = @"SELECT COUNT(*) FROM Emojis WHERE 1= 1";
                 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    var result = await command.ExecuteScalarAsync();
+                    var result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -219,7 +219,7 @@ public class EmojisRepository : IEmojisRepository
     }
     public async Task<List<Emojis>> GetEmojisWithPriceAsync(int pageSize, int offset)
     {
-        List<Emojis> cores = new List<Emojis>();
+        List<Emojis> emojis = new List<Emojis>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (var connection = new MySqlConnection(connectionString))
@@ -228,10 +228,10 @@ public class EmojisRepository : IEmojisRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM Emojis t
-                JOIN Emoji_trade tt ON t.id = tt.Emoji_id
+                JOIN emoji_trade tt ON t.id = tt.emoji_id
                 JOIN currencies cu ON tt.currency_id = cu.id
                 ORDER BY t.name REGEXP '[0-9]+$', 
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), 
@@ -239,12 +239,12 @@ public class EmojisRepository : IEmojisRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -326,7 +326,7 @@ public class EmojisRepository : IEmojisRepository
                                 Quantity = reader.GetIntSafe("price")
                             };
 
-                            cores.Add(core);
+                            emojis.Add(core);
                         }
                     }
                 }
@@ -337,7 +337,7 @@ public class EmojisRepository : IEmojisRepository
             }
         }
 
-        return cores;
+        return emojis;
     }
     public async Task<int> GetEmojisWithPriceCountAsync()
     {
@@ -350,16 +350,16 @@ public class EmojisRepository : IEmojisRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM Emojis t
-                JOIN Emoji_trade tt ON t.id = tt.Emoji_id
+                JOIN emoji_trade tt ON t.id = tt.emoji_id
                 JOIN currencies cu ON tt.currency_id = cu.id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    var result = await command.ExecuteScalarAsync();
+                    var result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -373,7 +373,7 @@ public class EmojisRepository : IEmojisRepository
     }
     public async Task<Emojis> GetEmojiByIdAsync(string Id)
     {
-        Emojis core = new Emojis();
+        Emojis emoji = new Emojis();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (var connection = new MySqlConnection(connectionString))
@@ -382,17 +382,17 @@ public class EmojisRepository : IEmojisRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM Emojis WHERE id = @id";
+                string selectSQL = "SELECT * FROM Emojis WHERE id = @id";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            core = new Emojis
+                            emoji = new Emojis
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -461,7 +461,7 @@ public class EmojisRepository : IEmojisRepository
             }
         }
 
-        return core;
+        return emoji;
     }
     public async Task<Emojis> SumPowerEmojisPercentAsync()
     {
@@ -474,7 +474,7 @@ public class EmojisRepository : IEmojisRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health,
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -488,15 +488,15 @@ public class EmojisRepository : IEmojisRepository
                     SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
                     SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
                 FROM Emojis a
-                JOIN user_Emojis ua ON a.id = ua.Emoji_id
+                JOIN user_emojis ua ON a.id = ua.emoji_id
                 WHERE ua.user_id = @user_id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

@@ -16,16 +16,16 @@ public class AnimeStatsRepository : IAnimeStatsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT *
             FROM anime_stats
             WHERE user_id = @user_id AND anime_id = @type";
 
-            await using var command = new MySqlConnector.MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@type", id);
+            await using var selectCommand = new MySqlConnector.MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@type", id);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -114,21 +114,21 @@ public class AnimeStatsRepository : IAnimeStatsRepository
         {
             await connection.OpenAsync();
 
-            string checkQuery = @"
+            string selectSQL = @"
             SELECT COUNT(*) FROM anime_stats 
             WHERE user_id = @user_id AND anime_id = @anime_id";
 
-            await using (var checkCmd = new MySqlCommand(checkQuery, connection))
+            await using (var selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                checkCmd.Parameters.AddWithValue("@user_id", user_id);
-                checkCmd.Parameters.AddWithValue("@anime_id", animeStats.Id);
+                selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                selectCommand.Parameters.AddWithValue("@anime_id", animeStats.Id);
 
-                int count = Convert.ToInt32(await checkCmd.ExecuteScalarAsync());
+                int count = Convert.ToInt32(await selectCommand.ExecuteScalarAsync());
 
                 if (count > 0)
                 {
                     // -------- UPDATE ----------
-                    string updateQuery = @"
+                    string updateSQL = @"
                     UPDATE anime_stats
                     SET anime_level = @anime_level, power = @power, health = @health, mana = @mana, speed = @speed,  
                         physical_attack = @physical_attack, physical_defense = @physical_defense,  
@@ -156,15 +156,15 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                     WHERE user_id = @user_id AND anime_id = @anime_id;
                 ";
 
-                    await using var updateCmd = new MySqlCommand(updateQuery, connection);
-                    AddAllParameters(updateCmd, animeStats, user_id, animeStats.Id);
+                    await using var updateCommand = new MySqlCommand(updateSQL, connection);
+                    AddAllParameters(updateCommand, animeStats, user_id, animeStats.Id);
 
-                    await updateCmd.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
                 else
                 {
                     // -------- INSERT ----------
-                    string insertQuery = @"
+                    string insertSQL = @"
                     INSERT INTO anime_stats
                     (user_id, anime_id, anime_level, power, health, mana, speed, 
                      physical_attack, physical_defense, magical_attack, magical_defense, 
@@ -196,10 +196,10 @@ public class AnimeStatsRepository : IAnimeStatsRepository
                     );
                 ";
 
-                    await using var insertCmd = new MySqlCommand(insertQuery, connection);
-                    AddAllParameters(insertCmd, animeStats, user_id, animeStats.Id);
+                    await using var insertCommand = new MySqlCommand(insertSQL, connection);
+                    AddAllParameters(insertCommand, animeStats, user_id, animeStats.Id);
 
-                    await insertCmd.ExecuteNonQueryAsync();
+                    await insertCommand.ExecuteNonQueryAsync();
                 }
             }
         }
@@ -223,7 +223,7 @@ public class AnimeStatsRepository : IAnimeStatsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT 
                 SUM(power) AS power,
                 SUM(health) AS health,
@@ -289,10 +289,10 @@ public class AnimeStatsRepository : IAnimeStatsRepository
             FROM anime_stats 
             WHERE user_id = @user_id";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
 
             if (await reader.ReadAsync())
             {

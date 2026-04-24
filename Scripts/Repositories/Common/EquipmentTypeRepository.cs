@@ -16,16 +16,16 @@ public class EquipmentTypeRepository : IEquipmentTypeRepository
             await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT type, slot_value, can_use_border_effect
             FROM equipment_type
             WHERE type = @type
             LIMIT 1;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@type", type);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@type", type);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
 
             if (await reader.ReadAsync())
             {

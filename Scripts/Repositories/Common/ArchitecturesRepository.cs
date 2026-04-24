@@ -17,10 +17,10 @@ public class ArchitecturesRepository : IArchitecturesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT id FROM Architectures";
+                string selectSQL = "SELECT DISTINCT id FROM Architectures";
 
-                await using var command = new MySqlCommand(query, connection);
-                await using var reader = await command.ExecuteReaderAsync();
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+                await using var reader = await selectCommand.ExecuteReaderAsync();
 
                 while (await reader.ReadAsync())
                 {
@@ -47,44 +47,44 @@ public class ArchitecturesRepository : IArchitecturesRepository
         await using var connection = new MySqlConnection(connectionString);
         await connection.OpenAsync();
 
-        string query = @"
+        string selectSQL = @"
         SELECT * 
         FROM architectures 
         WHERE 1=1";
 
         if (!string.IsNullOrEmpty(rare) && rare != "All")
         {
-            query += " AND rare = @rare";
+            selectSQL += " AND rare = @rare";
         }
 
         if (!string.IsNullOrEmpty(search))
         {
-            query += " AND name LIKE CONCAT('%', @search, '%')";
+            selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
         }
 
-        query += @"
+        selectSQL += @"
         ORDER BY 
             architectures.name REGEXP '[0-9]+$',
             CAST(REGEXP_SUBSTR(architectures.name, '[0-9]+$') AS UNSIGNED),
             architectures.name
         LIMIT @limit OFFSET @offset";
 
-        await using var command = new MySqlCommand(query, connection);
+        await using var selectCommand = new MySqlCommand(selectSQL, connection);
         
         if (!string.IsNullOrEmpty(rare) && rare != "All")
         {
-            command.Parameters.AddWithValue("@rare", rare);
+            selectCommand.Parameters.AddWithValue("@rare", rare);
         }
 
         if (!string.IsNullOrEmpty(search))
         {
-            command.Parameters.AddWithValue("@search", search);
+            selectCommand.Parameters.AddWithValue("@search", search);
         }
 
-        command.Parameters.AddWithValue("@limit", pageSize);
-        command.Parameters.AddWithValue("@offset", offset);
+        selectCommand.Parameters.AddWithValue("@limit", pageSize);
+        selectCommand.Parameters.AddWithValue("@offset", offset);
 
-        await using var reader = await command.ExecuteReaderAsync();
+        await using var reader = await selectCommand.ExecuteReaderAsync();
 
         while (await reader.ReadAsync())
         {
@@ -175,31 +175,31 @@ public class ArchitecturesRepository : IArchitecturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT COUNT(*) FROM architectures WHERE 1=1";
+            string selectSQL = @"SELECT COUNT(*) FROM architectures WHERE 1=1";
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND rare = @rare";
+                selectSQL += " AND rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            await using var command = new MySqlCommand(query, connection);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
             
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                command.Parameters.AddWithValue("@rare", rare);
+                selectCommand.Parameters.AddWithValue("@rare", rare);
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                command.Parameters.AddWithValue("@search", search);
+                selectCommand.Parameters.AddWithValue("@search", search);
             }
 
-            object result = await command.ExecuteScalarAsync();
+            object result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
@@ -220,7 +220,7 @@ public class ArchitecturesRepository : IArchitecturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
             FROM architectures t
             JOIN architecture_trade tt ON t.id = tt.architecture_id
@@ -231,11 +231,11 @@ public class ArchitecturesRepository : IArchitecturesRepository
             LIMIT @limit OFFSET @offset;
         ";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -338,14 +338,14 @@ public class ArchitecturesRepository : IArchitecturesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select count(*)
                 from architectures t, architecture_trade tt, currencies cu
                 where t.id = tt.architecture_id and tt.currency_id = cu.id;";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -368,13 +368,13 @@ public class ArchitecturesRepository : IArchitecturesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM architectures WHERE id = @id";
+                string selectSQL = "SELECT * FROM architectures WHERE id = @id";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", id);
+                    selectCommand.Parameters.AddWithValue("@id", id);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -460,7 +460,7 @@ public class ArchitecturesRepository : IArchitecturesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health,
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -478,11 +478,11 @@ public class ArchitecturesRepository : IArchitecturesRepository
                 WHERE ua.user_id = @user_id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

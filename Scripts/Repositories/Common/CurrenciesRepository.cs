@@ -17,10 +17,10 @@ public class CurrenciesRepository : ICurrenciesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM currencies";
+                string selectSQL = "SELECT * FROM currencies";
 
-                await using (var command = new MySqlCommand(query, connection))
-                await using (var reader = await command.ExecuteReaderAsync())
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
+                await using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {

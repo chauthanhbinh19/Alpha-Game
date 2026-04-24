@@ -16,9 +16,9 @@ public class CollaborationsRepository : ICollaborationsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM collaborations";
-            await using var command = new MySqlCommand(query, connection);
-            await using var reader = await command.ExecuteReaderAsync();
+            string selectSQL = "SELECT DISTINCT id FROM collaborations";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            await using var reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -42,44 +42,44 @@ public class CollaborationsRepository : ICollaborationsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
                 SELECT * 
                 FROM collaborations 
                 WHERE 1=1";
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND rare = @rare";
+                selectSQL += " AND rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            query += @"
+            selectSQL += @"
                 ORDER BY 
                     collaborations.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(collaborations.name, '[0-9]+$') AS UNSIGNED),
                     collaborations.name
                 LIMIT @limit OFFSET @offset";
 
-            await using var command = new MySqlCommand(query, connection);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                command.Parameters.AddWithValue("@rare", rare);
+                selectCommand.Parameters.AddWithValue("@rare", rare);
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                command.Parameters.AddWithValue("@search", search);
+                selectCommand.Parameters.AddWithValue("@search", search);
             }
 
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 var collaboration = new Collaborations
@@ -174,30 +174,30 @@ public class CollaborationsRepository : ICollaborationsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Collaborations WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Collaborations WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    var result = await command.ExecuteScalarAsync();
+                    var result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -220,7 +220,7 @@ public class CollaborationsRepository : ICollaborationsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT c.*, ct.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM collaborations c
                 JOIN collaboration_trade ct ON c.id = ct.collaboration_id
@@ -231,12 +231,12 @@ public class CollaborationsRepository : ICollaborationsRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -341,16 +341,16 @@ public class CollaborationsRepository : ICollaborationsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM collaborations c
                 JOIN collaboration_trade ct ON c.id = ct.collaboration_id
                 JOIN currencies cu ON ct.currency_id = cu.id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    var result = await command.ExecuteScalarAsync();
+                    var result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -373,12 +373,12 @@ public class CollaborationsRepository : ICollaborationsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM collaborations WHERE id = @id";
-                await using (var command = new MySqlCommand(query, connection))
+                string selectSQL = "SELECT * FROM collaborations WHERE id = @id";
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", id);
+                    selectCommand.Parameters.AddWithValue("@id", id);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -463,7 +463,7 @@ public class CollaborationsRepository : ICollaborationsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health,
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -481,11 +481,11 @@ public class CollaborationsRepository : ICollaborationsRepository
                 WHERE ua.user_id = @user_id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

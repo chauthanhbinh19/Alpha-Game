@@ -18,18 +18,18 @@ public class UniversesRepository : IUniversesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT *
                 FROM Universes
                 WHERE user_id = @user_id AND universe_id = @universe_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", user_id);
-                    command.Parameters.AddWithValue("@universe_id", id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@universe_id", id);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -118,11 +118,11 @@ public class UniversesRepository : IUniversesRepository
         {
             await connection.OpenAsync();
 
-            string checkQuery = @"
+            string checkSQL = @"
             SELECT COUNT(*) FROM Universes 
             WHERE user_id = @user_id AND Universe_id = @Universe_id";
 
-            await using (var checkCommand = new MySqlCommand(checkQuery, connection))
+            await using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
                 checkCommand.Parameters.AddWithValue("@user_id", user_id);
                 checkCommand.Parameters.AddWithValue("@Universe_id", id);
@@ -132,7 +132,7 @@ public class UniversesRepository : IUniversesRepository
                 if (count > 0)
                 {
                     // -------- UPDATE ----------
-                    string updateQuery = @"
+                    string updateSQL = @"
                     UPDATE Universes
                     SET
                         Universe_level = @Universe_level, power = @power, health = @health, mana = @mana, speed = @speed,
@@ -182,7 +182,7 @@ public class UniversesRepository : IUniversesRepository
                     AND Universe_id = @Universe_id;
                 ";
 
-                    await using var updateCommand = new MySqlCommand(updateQuery, connection);
+                    await using var updateCommand = new MySqlCommand(updateSQL, connection);
                     AddAllParameters(updateCommand, Universes, user_id, id);
 
                     await updateCommand.ExecuteNonQueryAsync();
@@ -190,7 +190,7 @@ public class UniversesRepository : IUniversesRepository
                 else
                 {
                     // -------- INSERT ----------
-                    string insertQuery = @"
+                    string insertSQL = @"
                     INSERT INTO Universes (
                     user_id, Universe_id, Universe_level, power, health, mana, speed,
                     physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
@@ -241,7 +241,7 @@ public class UniversesRepository : IUniversesRepository
                 );
                 ";
 
-                    await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                    await using var insertCommand = new MySqlCommand(insertSQL, connection);
                     AddAllParameters(insertCommand, Universes, user_id, id);
 
                     await insertCommand.ExecuteNonQueryAsync();
@@ -264,7 +264,7 @@ public class UniversesRepository : IUniversesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(power) AS total_power,
                     SUM(health) AS total_health,
@@ -331,11 +331,11 @@ public class UniversesRepository : IUniversesRepository
                 WHERE user_id = @user_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

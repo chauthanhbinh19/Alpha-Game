@@ -18,35 +18,35 @@ public class AchievementsRepository : IAchievementsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM achievements WHERE 1=1";
+                string selectSQL = @"SELECT * FROM achievements WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " LIMIT @limit OFFSET @offset";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                selectSQL += " LIMIT @limit OFFSET @offset";
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -148,31 +148,31 @@ public class AchievementsRepository : IAchievementsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT COUNT(*) FROM achievements WHERE 1=1";
+            string selectSQL = @"SELECT COUNT(*) FROM achievements WHERE 1=1";
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND rare = @rare";
+                selectSQL += " AND rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            await using var command = new MySqlCommand(query, connection);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
             
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                command.Parameters.AddWithValue("@rare", rare);
+                selectCommand.Parameters.AddWithValue("@rare", rare);
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                command.Parameters.AddWithValue("@search", search);
+                selectCommand.Parameters.AddWithValue("@search", search);
             }
 
-            var result = await command.ExecuteScalarAsync();
+            var result = await selectCommand.ExecuteScalarAsync();
             if (result != null && result != DBNull.Value)
             {
                 count = Convert.ToInt32(result);
@@ -199,11 +199,11 @@ public class AchievementsRepository : IAchievementsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT * FROM achievements WHERE id = @id";
-            await using var command = new MySqlConnector.MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@id", id);
+            string selectSQL = "SELECT * FROM achievements WHERE id = @id";
+            await using var selectCommand = new MySqlConnector.MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@id", id);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 achievement = new Achievements
@@ -290,7 +290,7 @@ public class AchievementsRepository : IAchievementsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT a.*, at.price, cu.image AS currency_image, cu.id AS currency_id
             FROM achievements a
             INNER JOIN achievement_trade at ON a.id = at.achievement_id
@@ -301,11 +301,11 @@ public class AchievementsRepository : IAchievementsRepository
             LIMIT @limit OFFSET @offset;
         ";
 
-            await using var command = new MySqlConnector.MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            await using var selectCommand = new MySqlConnector.MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 Achievements achievement = new Achievements
@@ -410,15 +410,15 @@ public class AchievementsRepository : IAchievementsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT COUNT(*)
             FROM achievements a
             INNER JOIN achievement_trade at ON a.id = at.achievement_id
             INNER JOIN currencies cu ON at.currency_id = cu.id;
         ";
 
-            await using var command = new MySqlConnector.MySqlCommand(query, connection);
-            var result = await command.ExecuteScalarAsync();
+            await using var selectCommand = new MySqlConnector.MySqlCommand(selectSQL, connection);
+            var result = await selectCommand.ExecuteScalarAsync();
 
             if (result != null && result != DBNull.Value)
             {
@@ -446,7 +446,7 @@ public class AchievementsRepository : IAchievementsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT 
                 SUM(a.percent_all_health) AS total_percent_all_health,
                 SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -464,10 +464,10 @@ public class AchievementsRepository : IAchievementsRepository
             WHERE ua.user_id = @user_id;
         ";
 
-            await using var command = new MySqlConnector.MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            await using var selectCommand = new MySqlConnector.MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 sumAchievements.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDoubleSafe("total_percent_all_health");

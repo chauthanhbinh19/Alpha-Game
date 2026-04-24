@@ -18,18 +18,18 @@ public class ScienceFictionRepository : IScienceFictionRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT *
                 FROM science_fiction
                 WHERE user_id = @user_id AND science_fiction_id = @type;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", user_id);
-                    command.Parameters.AddWithValue("@type", id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@type", id);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -117,21 +117,21 @@ public class ScienceFictionRepository : IScienceFictionRepository
         {
             await connection.OpenAsync();
 
-            string checkQuery = @"
+            string checkSQL = @"
             SELECT COUNT(*) FROM science_fiction 
             WHERE user_id = @user_id AND science_fiction_id = @science_fiction_id";
 
-            await using (var checkCmd = new MySqlCommand(checkQuery, connection))
+            await using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
-                checkCmd.Parameters.AddWithValue("@user_id", user_id);
-                checkCmd.Parameters.AddWithValue("@science_fiction_id", id);
+                checkCommand.Parameters.AddWithValue("@user_id", user_id);
+                checkCommand.Parameters.AddWithValue("@science_fiction_id", id);
 
-                int count = Convert.ToInt32(await checkCmd.ExecuteScalarAsync());
+                int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                 if (count > 0)
                 {
                     // -------- UPDATE ----------
-                    string updateQuery = @"
+                    string updateSQL = @"
                     UPDATE science_fiction
                     SET
                         science_fiction_level = @science_fiction_level, power = @power, health = @health, mana = @mana, speed = @speed,
@@ -181,15 +181,15 @@ public class ScienceFictionRepository : IScienceFictionRepository
                     AND science_fiction_id = @science_fiction_id;
                 ";
 
-                    await using var updateCmd = new MySqlCommand(updateQuery, connection);
-                    AddAllParameters(updateCmd, scienceFiction, user_id, id);
+                    await using var updateCommand = new MySqlCommand(updateSQL, connection);
+                    AddAllParameters(updateCommand, scienceFiction, user_id, id);
 
-                    await updateCmd.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
                 else
                 {
                     // -------- INSERT ----------
-                    string insertQuery = @"
+                    string insertSQL = @"
                     INSERT INTO science_fiction (
                     user_id, science_fiction_id, science_fiction_level, power, health, mana, speed,
                     physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
@@ -240,10 +240,10 @@ public class ScienceFictionRepository : IScienceFictionRepository
                 );
                 ";
 
-                    await using var insertCmd = new MySqlCommand(insertQuery, connection);
-                    AddAllParameters(insertCmd, scienceFiction, user_id, id);
+                    await using var insertCommand = new MySqlCommand(insertSQL, connection);
+                    AddAllParameters(insertCommand, scienceFiction, user_id, id);
 
-                    await insertCmd.ExecuteNonQueryAsync();
+                    await insertCommand.ExecuteNonQueryAsync();
                 }
             }
         }
@@ -263,7 +263,7 @@ public class ScienceFictionRepository : IScienceFictionRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(power) AS total_power,
                     SUM(health) AS total_health,
@@ -330,11 +330,11 @@ public class ScienceFictionRepository : IScienceFictionRepository
                 WHERE user_id = @user_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

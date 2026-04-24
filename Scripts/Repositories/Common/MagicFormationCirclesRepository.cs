@@ -17,10 +17,10 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT type FROM magic_formation_circles";
+                string selectSQL = "SELECT DISTINCT type FROM magic_formation_circles";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -47,10 +47,10 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT id FROM magic_formation_circles";
+                string selectSQL = "SELECT DISTINCT id FROM magic_formation_circles";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -77,49 +77,49 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT * FROM magic_formation_circles
                 WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY magic_formation_circles.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(magic_formation_circles.name, '[0-9]+$') AS UNSIGNED), magic_formation_circles.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY magic_formation_circles.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(magic_formation_circles.name, '[0-9]+$') AS UNSIGNED), magic_formation_circles.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -218,41 +218,41 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM magic_formation_circles WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM magic_formation_circles WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     if (result != null && result != DBNull.Value)
                     {
                         count = Convert.ToInt32(result);
@@ -278,7 +278,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT m.*, mt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM magic_formation_circles m
                 INNER JOIN magic_formation_circle_trade mt ON m.id = mt.mfc_id
@@ -289,13 +289,13 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
                          m.name
                 LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -401,17 +401,17 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM magic_formation_circles m
                 INNER JOIN magic_formation_circle_trade mt ON m.id = mt.mfc_id
                 INNER JOIN currencies cu ON mt.currency_id = cu.id
                 WHERE m.type = @type;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
-                    object result = await command.ExecuteScalarAsync();
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -434,12 +434,12 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM magic_formation_circles WHERE id = @id";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                string selectSQL = "SELECT * FROM magic_formation_circles WHERE id = @id";
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -527,7 +527,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health,
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -545,11 +545,11 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
                 WHERE ua.user_id = @user_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

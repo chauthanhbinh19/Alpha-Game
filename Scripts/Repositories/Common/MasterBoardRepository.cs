@@ -15,9 +15,9 @@ public class MasterBoardRepository : IMasterBoardRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT name FROM master_board";
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+            string selectSQL = "SELECT DISTINCT name FROM master_board";
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {

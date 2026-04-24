@@ -15,9 +15,9 @@ public class MechaBeastsRepository : IMechaBeastsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM mecha_beasts";
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+            string selectSQL = "SELECT DISTINCT id FROM mecha_beasts";
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -39,43 +39,43 @@ public class MechaBeastsRepository : IMechaBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT * 
                 FROM mecha_beasts 
                 WHERE 1=1";
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        query += " AND rare = @rare";
+                        selectSQL += " AND rare = @rare";
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        query += " AND name LIKE CONCAT('%', @search, '%')";
+                        selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                     }
 
-                    query += @"
+                    selectSQL += @"
                 ORDER BY 
                     mecha_beasts.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(mecha_beasts.name, '[0-9]+$') AS UNSIGNED),
                     mecha_beasts.name
                 LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -174,30 +174,30 @@ public class MechaBeastsRepository : IMechaBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM mecha_beasts where 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM mecha_beasts where 1=1";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -220,7 +220,7 @@ public class MechaBeastsRepository : IMechaBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM mecha_beasts t
                 JOIN mecha_beast_trade tt ON t.id = tt.mecha_beast_id
@@ -228,12 +228,12 @@ public class MechaBeastsRepository : IMechaBeastsRepository
                 ORDER BY t.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name
                 LIMIT @limit OFFSET @offset;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -338,15 +338,15 @@ public class MechaBeastsRepository : IMechaBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM mecha_beasts t
                 JOIN mecha_beast_trade tt ON t.id = tt.mecha_beast_id
                 JOIN currencies cu ON tt.currency_id = cu.id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -369,13 +369,13 @@ public class MechaBeastsRepository : IMechaBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM mecha_beasts WHERE id=@id";
+                string selectSQL = "SELECT * FROM mecha_beasts WHERE id=@id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -461,7 +461,7 @@ public class MechaBeastsRepository : IMechaBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health,
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -478,11 +478,11 @@ public class MechaBeastsRepository : IMechaBeastsRepository
                 JOIN user_mecha_beasts ua ON a.id = ua.mecha_beast_id
                 WHERE ua.user_id = @user_id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

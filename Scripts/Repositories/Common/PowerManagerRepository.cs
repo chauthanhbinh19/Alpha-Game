@@ -16,7 +16,7 @@ public class PowerManagerRepository : IPowerManagerRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"INSERT INTO user_stats (
+                string insertSQL = @"INSERT INTO user_stats (
                     user_id, all_power, all_health, all_physical_attack, all_physical_defense,
                     all_magical_attack, all_magical_defense, all_chemical_attack, all_chemical_defense,
                     all_atomic_attack, all_atomic_defense, all_mental_attack, all_mental_defense,
@@ -59,72 +59,72 @@ public class PowerManagerRepository : IPowerManagerRepository
                     @percentAllMentalAttack, @percentAllMentalDefense
                 );";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@all_power", powerManager.Power);
-                    command.Parameters.AddWithValue("@all_health", powerManager.Health);
-                    command.Parameters.AddWithValue("@all_physical_attack", powerManager.PhysicalAttack);
-                    command.Parameters.AddWithValue("@all_physical_defense", powerManager.PhysicalDefense);
-                    command.Parameters.AddWithValue("@all_magical_attack", powerManager.MagicalAttack);
-                    command.Parameters.AddWithValue("@all_magical_defense", powerManager.MagicalDefense);
-                    command.Parameters.AddWithValue("@all_chemical_attack", powerManager.ChemicalAttack);
-                    command.Parameters.AddWithValue("@all_chemical_defense", powerManager.ChemicalDefense);
-                    command.Parameters.AddWithValue("@all_atomic_attack", powerManager.AtomicAttack);
-                    command.Parameters.AddWithValue("@all_atomic_defense", powerManager.AtomicDefense);
-                    command.Parameters.AddWithValue("@all_mental_attack", powerManager.MentalAttack);
-                    command.Parameters.AddWithValue("@all_mental_defense", powerManager.MentalDefense);
-                    command.Parameters.AddWithValue("@all_speed", powerManager.Speed);
-                    command.Parameters.AddWithValue("@all_critical_damage_rate", powerManager.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@all_critical_rate", powerManager.CriticalRate);
-                    command.Parameters.AddWithValue("@all_critical_resistance_rate", powerManager.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@all_ignore_critical_rate", powerManager.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@all_penetration_rate", powerManager.PenetrationRate);
-                    command.Parameters.AddWithValue("@all_penetration_resistance_rate", powerManager.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@all_evasion_rate", powerManager.EvasionRate);
-                    command.Parameters.AddWithValue("@all_damage_absorption_rate", powerManager.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@all_ignore_damage_absorption_rate", powerManager.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@all_absorbed_damage_rate", powerManager.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@all_vitality_regeneration_rate", powerManager.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@all_vitality_regeneration_resistance_rate", powerManager.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@all_accuracy_rate", powerManager.AccuracyRate);
-                    command.Parameters.AddWithValue("@all_lifesteal_rate", powerManager.LifestealRate);
-                    command.Parameters.AddWithValue("@all_shield_strength", powerManager.ShieldStrength);
-                    command.Parameters.AddWithValue("@all_tenacity", powerManager.Tenacity);
-                    command.Parameters.AddWithValue("@all_resistance_rate", powerManager.ResistanceRate);
-                    command.Parameters.AddWithValue("@all_combo_rate", powerManager.ComboRate);
-                    command.Parameters.AddWithValue("@all_ignore_combo_rate", powerManager.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@all_combo_damage_rate", powerManager.ComboDamageRate);
-                    command.Parameters.AddWithValue("@all_combo_resistance_rate", powerManager.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@all_stun_rate", powerManager.StunRate);
-                    command.Parameters.AddWithValue("@all_ignore_stun_rate", powerManager.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@all_reflection_rate", powerManager.ReflectionRate);
-                    command.Parameters.AddWithValue("@all_ignore_reflection_rate", powerManager.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@all_reflection_damage_rate", powerManager.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@all_reflection_resistance_rate", powerManager.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@all_mana", powerManager.Mana);
-                    command.Parameters.AddWithValue("@all_mana_regeneration_rate", powerManager.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@all_damage_to_different_faction_rate", powerManager.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@all_resistance_to_different_faction_rate", powerManager.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@all_damage_to_same_faction_rate", powerManager.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@all_resistance_to_same_faction_rate", powerManager.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@all_normal_damage_rate", powerManager.NormalDamageRate);
-                    command.Parameters.AddWithValue("@all_normal_resistance_rate", powerManager.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@all_skill_damage_rate", powerManager.SkillDamageRate);
-                    command.Parameters.AddWithValue("@all_skill_resistance_rate", powerManager.SkillResistanceRate);
-                    command.Parameters.AddWithValue("@percentAllHealth", powerManager.PercentAllHealth);
-                    command.Parameters.AddWithValue("@percentAllPhysicalAttack", powerManager.PercentAllPhysicalAttack);
-                    command.Parameters.AddWithValue("@percentAllPhysicalDefense", powerManager.PercentAllPhysicalDefense);
-                    command.Parameters.AddWithValue("@percentAllMagicalAttack", powerManager.PercentAllMagicalAttack);
-                    command.Parameters.AddWithValue("@percentAllMagicalDefense", powerManager.PercentAllMagicalDefense);
-                    command.Parameters.AddWithValue("@percentAllChemicalAttack", powerManager.PercentAllChemicalAttack);
-                    command.Parameters.AddWithValue("@percentAllChemicalDefense", powerManager.PercentAllChemicalDefense);
-                    command.Parameters.AddWithValue("@percentAllAtomicAttack", powerManager.PercentAllAtomicAttack);
-                    command.Parameters.AddWithValue("@percentAllAtomicDefense", powerManager.PercentAllAtomicDefense);
-                    command.Parameters.AddWithValue("@percentAllMentalAttack", powerManager.PercentAllMentalAttack);
-                    command.Parameters.AddWithValue("@percentAllMentalDefense", powerManager.PercentAllMentalDefense);
+                    insertCommand.Parameters.AddWithValue("@userId", user_id);
+                    insertCommand.Parameters.AddWithValue("@all_power", powerManager.Power);
+                    insertCommand.Parameters.AddWithValue("@all_health", powerManager.Health);
+                    insertCommand.Parameters.AddWithValue("@all_physical_attack", powerManager.PhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@all_physical_defense", powerManager.PhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@all_magical_attack", powerManager.MagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@all_magical_defense", powerManager.MagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@all_chemical_attack", powerManager.ChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@all_chemical_defense", powerManager.ChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@all_atomic_attack", powerManager.AtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@all_atomic_defense", powerManager.AtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@all_mental_attack", powerManager.MentalAttack);
+                    insertCommand.Parameters.AddWithValue("@all_mental_defense", powerManager.MentalDefense);
+                    insertCommand.Parameters.AddWithValue("@all_speed", powerManager.Speed);
+                    insertCommand.Parameters.AddWithValue("@all_critical_damage_rate", powerManager.CriticalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@all_critical_rate", powerManager.CriticalRate);
+                    insertCommand.Parameters.AddWithValue("@all_critical_resistance_rate", powerManager.CriticalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@all_ignore_critical_rate", powerManager.IgnoreCriticalRate);
+                    insertCommand.Parameters.AddWithValue("@all_penetration_rate", powerManager.PenetrationRate);
+                    insertCommand.Parameters.AddWithValue("@all_penetration_resistance_rate", powerManager.PenetrationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@all_evasion_rate", powerManager.EvasionRate);
+                    insertCommand.Parameters.AddWithValue("@all_damage_absorption_rate", powerManager.DamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@all_ignore_damage_absorption_rate", powerManager.IgnoreDamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@all_absorbed_damage_rate", powerManager.AbsorbedDamageRate);
+                    insertCommand.Parameters.AddWithValue("@all_vitality_regeneration_rate", powerManager.VitalityRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@all_vitality_regeneration_resistance_rate", powerManager.VitalityRegenerationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@all_accuracy_rate", powerManager.AccuracyRate);
+                    insertCommand.Parameters.AddWithValue("@all_lifesteal_rate", powerManager.LifestealRate);
+                    insertCommand.Parameters.AddWithValue("@all_shield_strength", powerManager.ShieldStrength);
+                    insertCommand.Parameters.AddWithValue("@all_tenacity", powerManager.Tenacity);
+                    insertCommand.Parameters.AddWithValue("@all_resistance_rate", powerManager.ResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@all_combo_rate", powerManager.ComboRate);
+                    insertCommand.Parameters.AddWithValue("@all_ignore_combo_rate", powerManager.IgnoreComboRate);
+                    insertCommand.Parameters.AddWithValue("@all_combo_damage_rate", powerManager.ComboDamageRate);
+                    insertCommand.Parameters.AddWithValue("@all_combo_resistance_rate", powerManager.ComboResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@all_stun_rate", powerManager.StunRate);
+                    insertCommand.Parameters.AddWithValue("@all_ignore_stun_rate", powerManager.IgnoreStunRate);
+                    insertCommand.Parameters.AddWithValue("@all_reflection_rate", powerManager.ReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@all_ignore_reflection_rate", powerManager.IgnoreReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@all_reflection_damage_rate", powerManager.ReflectionDamageRate);
+                    insertCommand.Parameters.AddWithValue("@all_reflection_resistance_rate", powerManager.ReflectionResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@all_mana", powerManager.Mana);
+                    insertCommand.Parameters.AddWithValue("@all_mana_regeneration_rate", powerManager.ManaRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@all_damage_to_different_faction_rate", powerManager.DamageToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@all_resistance_to_different_faction_rate", powerManager.ResistanceToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@all_damage_to_same_faction_rate", powerManager.DamageToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@all_resistance_to_same_faction_rate", powerManager.ResistanceToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@all_normal_damage_rate", powerManager.NormalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@all_normal_resistance_rate", powerManager.NormalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@all_skill_damage_rate", powerManager.SkillDamageRate);
+                    insertCommand.Parameters.AddWithValue("@all_skill_resistance_rate", powerManager.SkillResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@percentAllHealth", powerManager.PercentAllHealth);
+                    insertCommand.Parameters.AddWithValue("@percentAllPhysicalAttack", powerManager.PercentAllPhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@percentAllPhysicalDefense", powerManager.PercentAllPhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@percentAllMagicalAttack", powerManager.PercentAllMagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@percentAllMagicalDefense", powerManager.PercentAllMagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@percentAllChemicalAttack", powerManager.PercentAllChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@percentAllChemicalDefense", powerManager.PercentAllChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@percentAllAtomicAttack", powerManager.PercentAllAtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@percentAllAtomicDefense", powerManager.PercentAllAtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@percentAllMentalAttack", powerManager.PercentAllMentalAttack);
+                    insertCommand.Parameters.AddWithValue("@percentAllMentalDefense", powerManager.PercentAllMentalDefense);
 
-                    await command.ExecuteNonQueryAsync();
+                    await insertCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -143,7 +143,7 @@ public class PowerManagerRepository : IPowerManagerRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE user_stats
+                string updateSQL = @"UPDATE user_stats
                 SET 
                     all_power = @all_power, all_health = @all_health, 
                     all_physical_attack = @all_physical_attack, all_physical_defense = @all_physical_defense, 
@@ -178,72 +178,72 @@ public class PowerManagerRepository : IPowerManagerRepository
                     percent_all_mental_attack = @percentAllMentalAttack, percent_all_mental_defense = @percentAllMentalDefense
                 WHERE user_id = @userId;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@all_power", powerManager.Power);
-                    command.Parameters.AddWithValue("@all_health", powerManager.Health);
-                    command.Parameters.AddWithValue("@all_physical_attack", powerManager.PhysicalAttack);
-                    command.Parameters.AddWithValue("@all_physical_defense", powerManager.PhysicalDefense);
-                    command.Parameters.AddWithValue("@all_magical_attack", powerManager.MagicalAttack);
-                    command.Parameters.AddWithValue("@all_magical_defense", powerManager.MagicalDefense);
-                    command.Parameters.AddWithValue("@all_chemical_attack", powerManager.ChemicalAttack);
-                    command.Parameters.AddWithValue("@all_chemical_defense", powerManager.ChemicalDefense);
-                    command.Parameters.AddWithValue("@all_atomic_attack", powerManager.AtomicAttack);
-                    command.Parameters.AddWithValue("@all_atomic_defense", powerManager.AtomicDefense);
-                    command.Parameters.AddWithValue("@all_mental_attack", powerManager.MentalAttack);
-                    command.Parameters.AddWithValue("@all_mental_defense", powerManager.MentalDefense);
-                    command.Parameters.AddWithValue("@all_speed", powerManager.Speed);
-                    command.Parameters.AddWithValue("@all_critical_damage_rate", powerManager.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@all_critical_rate", powerManager.CriticalRate);
-                    command.Parameters.AddWithValue("@all_critical_resistance_rate", powerManager.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@all_ignore_critical_rate", powerManager.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@all_penetration_rate", powerManager.PenetrationRate);
-                    command.Parameters.AddWithValue("@all_penetration_resistance_rate", powerManager.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@all_evasion_rate", powerManager.EvasionRate);
-                    command.Parameters.AddWithValue("@all_damage_absorption_rate", powerManager.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@all_ignore_damage_absorption_rate", powerManager.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@all_absorbed_damage_rate", powerManager.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@all_vitality_regeneration_rate", powerManager.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@all_vitality_regeneration_resistance_rate", powerManager.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@all_accuracy_rate", powerManager.AccuracyRate);
-                    command.Parameters.AddWithValue("@all_lifesteal_rate", powerManager.LifestealRate);
-                    command.Parameters.AddWithValue("@all_shield_strength", powerManager.ShieldStrength);
-                    command.Parameters.AddWithValue("@all_tenacity", powerManager.Tenacity);
-                    command.Parameters.AddWithValue("@all_resistance_rate", powerManager.ResistanceRate);
-                    command.Parameters.AddWithValue("@all_combo_rate", powerManager.ComboRate);
-                    command.Parameters.AddWithValue("@all_ignore_combo_rate", powerManager.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@all_combo_damage_rate", powerManager.ComboDamageRate);
-                    command.Parameters.AddWithValue("@all_combo_resistance_rate", powerManager.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@all_stun_rate", powerManager.StunRate);
-                    command.Parameters.AddWithValue("@all_ignore_stun_rate", powerManager.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@all_reflection_rate", powerManager.ReflectionRate);
-                    command.Parameters.AddWithValue("@all_ignore_reflection_rate", powerManager.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@all_reflection_damage_rate", powerManager.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@all_reflection_resistance_rate", powerManager.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@all_mana", powerManager.Mana);
-                    command.Parameters.AddWithValue("@all_mana_regeneration_rate", powerManager.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@all_damage_to_different_faction_rate", powerManager.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@all_resistance_to_different_faction_rate", powerManager.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@all_damage_to_same_faction_rate", powerManager.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@all_resistance_to_same_faction_rate", powerManager.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@all_normal_damage_rate", powerManager.NormalDamageRate);
-                    command.Parameters.AddWithValue("@all_normal_resistance_rate", powerManager.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@all_skill_damage_rate", powerManager.SkillDamageRate);
-                    command.Parameters.AddWithValue("@all_skill_resistance_rate", powerManager.SkillResistanceRate);
-                    command.Parameters.AddWithValue("@percentAllHealth", powerManager.PercentAllHealth);
-                    command.Parameters.AddWithValue("@percentAllPhysicalAttack", powerManager.PercentAllPhysicalAttack);
-                    command.Parameters.AddWithValue("@percentAllPhysicalDefense", powerManager.PercentAllPhysicalDefense);
-                    command.Parameters.AddWithValue("@percentAllMagicalAttack", powerManager.PercentAllMagicalAttack);
-                    command.Parameters.AddWithValue("@percentAllMagicalDefense", powerManager.PercentAllMagicalDefense);
-                    command.Parameters.AddWithValue("@percentAllChemicalAttack", powerManager.PercentAllChemicalAttack);
-                    command.Parameters.AddWithValue("@percentAllChemicalDefense", powerManager.PercentAllChemicalDefense);
-                    command.Parameters.AddWithValue("@percentAllAtomicAttack", powerManager.PercentAllAtomicAttack);
-                    command.Parameters.AddWithValue("@percentAllAtomicDefense", powerManager.PercentAllAtomicDefense);
-                    command.Parameters.AddWithValue("@percentAllMentalAttack", powerManager.PercentAllMentalAttack);
-                    command.Parameters.AddWithValue("@percentAllMentalDefense", powerManager.PercentAllMentalDefense);
+                    updateCommand.Parameters.AddWithValue("@userId", user_id);
+                    updateCommand.Parameters.AddWithValue("@all_power", powerManager.Power);
+                    updateCommand.Parameters.AddWithValue("@all_health", powerManager.Health);
+                    updateCommand.Parameters.AddWithValue("@all_physical_attack", powerManager.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@all_physical_defense", powerManager.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@all_magical_attack", powerManager.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@all_magical_defense", powerManager.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@all_chemical_attack", powerManager.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@all_chemical_defense", powerManager.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@all_atomic_attack", powerManager.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@all_atomic_defense", powerManager.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@all_mental_attack", powerManager.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@all_mental_defense", powerManager.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@all_speed", powerManager.Speed);
+                    updateCommand.Parameters.AddWithValue("@all_critical_damage_rate", powerManager.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@all_critical_rate", powerManager.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@all_critical_resistance_rate", powerManager.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@all_ignore_critical_rate", powerManager.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@all_penetration_rate", powerManager.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@all_penetration_resistance_rate", powerManager.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@all_evasion_rate", powerManager.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@all_damage_absorption_rate", powerManager.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@all_ignore_damage_absorption_rate", powerManager.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@all_absorbed_damage_rate", powerManager.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@all_vitality_regeneration_rate", powerManager.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@all_vitality_regeneration_resistance_rate", powerManager.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@all_accuracy_rate", powerManager.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@all_lifesteal_rate", powerManager.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@all_shield_strength", powerManager.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@all_tenacity", powerManager.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@all_resistance_rate", powerManager.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@all_combo_rate", powerManager.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@all_ignore_combo_rate", powerManager.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@all_combo_damage_rate", powerManager.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@all_combo_resistance_rate", powerManager.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@all_stun_rate", powerManager.StunRate);
+                    updateCommand.Parameters.AddWithValue("@all_ignore_stun_rate", powerManager.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@all_reflection_rate", powerManager.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@all_ignore_reflection_rate", powerManager.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@all_reflection_damage_rate", powerManager.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@all_reflection_resistance_rate", powerManager.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@all_mana", powerManager.Mana);
+                    updateCommand.Parameters.AddWithValue("@all_mana_regeneration_rate", powerManager.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@all_damage_to_different_faction_rate", powerManager.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@all_resistance_to_different_faction_rate", powerManager.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@all_damage_to_same_faction_rate", powerManager.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@all_resistance_to_same_faction_rate", powerManager.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@all_normal_damage_rate", powerManager.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@all_normal_resistance_rate", powerManager.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@all_skill_damage_rate", powerManager.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@all_skill_resistance_rate", powerManager.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@percentAllHealth", powerManager.PercentAllHealth);
+                    updateCommand.Parameters.AddWithValue("@percentAllPhysicalAttack", powerManager.PercentAllPhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@percentAllPhysicalDefense", powerManager.PercentAllPhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@percentAllMagicalAttack", powerManager.PercentAllMagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@percentAllMagicalDefense", powerManager.PercentAllMagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@percentAllChemicalAttack", powerManager.PercentAllChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@percentAllChemicalDefense", powerManager.PercentAllChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@percentAllAtomicAttack", powerManager.PercentAllAtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@percentAllAtomicDefense", powerManager.PercentAllAtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@percentAllMentalAttack", powerManager.PercentAllMentalAttack);
+                    updateCommand.Parameters.AddWithValue("@percentAllMentalDefense", powerManager.PercentAllMentalDefense);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -267,13 +267,13 @@ public class PowerManagerRepository : IPowerManagerRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM USER_STATS WHERE USER_ID=@user_id;";
+                string selectSQL = "SELECT * FROM USER_STATS WHERE USER_ID=@user_id;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

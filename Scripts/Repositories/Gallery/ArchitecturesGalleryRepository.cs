@@ -19,7 +19,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT c.*, 
                        CASE 
                            WHEN cg.architecture_id IS NULL THEN 'block' 
@@ -33,37 +33,37 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
                 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY 
                     c.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED),
                     c.name
                 LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -167,31 +167,31 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Architectures WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Architectures WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -219,25 +219,25 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi tồn tại
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
-                FROM Architectures_gallery 
-                WHERE user_id = @user_id AND Architecture_id = @Architecture_id;
+                FROM architectures_gallery 
+                WHERE user_id = @user_id AND architecture_id = @architecture_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@Architecture_id", Id);
+                    checkCommand.Parameters.AddWithValue("@architecture_id", Id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     // Nếu chưa có → INSERT
                     if (recordCount == 0)
                     {
-                        string query = @"
-                    INSERT INTO Architectures_gallery (
-                        user_id, Architecture_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
+                        string insertSQL = @"
+                    INSERT INTO architectures_gallery (
+                        user_id, architecture_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate, 
                         penetration_rate, penetration_resistance_rate, evasion_rate, 
@@ -254,7 +254,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense
                     ) VALUES (
-                        @user_id, @Architecture_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
+                        @user_id, @architecture_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                         @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate, 
                         @penetration_rate, @penetration_resistance_rate, @evasion_rate, 
@@ -273,86 +273,86 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
                     );
                     ";
 
-                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            command.Parameters.AddWithValue("@Architecture_id", Id);
-                            command.Parameters.AddWithValue("@status", "pending");
-                            command.Parameters.AddWithValue("@current_star", 0);
-                            command.Parameters.AddWithValue("@temp_star", 0);
+                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@architecture_id", Id);
+                            insertCommand.Parameters.AddWithValue("@status", "pending");
+                            insertCommand.Parameters.AddWithValue("@current_star", 0);
+                            insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
-                            command.Parameters.AddWithValue("@power", architectureFromDB.Power);
-                            command.Parameters.AddWithValue("@health", architectureFromDB.Health);
-                            command.Parameters.AddWithValue("@physical_attack", architectureFromDB.PhysicalAttack);
-                            command.Parameters.AddWithValue("@physical_defense", architectureFromDB.PhysicalDefense);
-                            command.Parameters.AddWithValue("@magical_attack", architectureFromDB.MagicalAttack);
-                            command.Parameters.AddWithValue("@magical_defense", architectureFromDB.MagicalDefense);
-                            command.Parameters.AddWithValue("@chemical_attack", architectureFromDB.ChemicalAttack);
-                            command.Parameters.AddWithValue("@chemical_defense", architectureFromDB.ChemicalDefense);
-                            command.Parameters.AddWithValue("@atomic_attack", architectureFromDB.AtomicAttack);
-                            command.Parameters.AddWithValue("@atomic_defense", architectureFromDB.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@power", architectureFromDB.Power);
+                            insertCommand.Parameters.AddWithValue("@health", architectureFromDB.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", architectureFromDB.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", architectureFromDB.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", architectureFromDB.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", architectureFromDB.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", architectureFromDB.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", architectureFromDB.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", architectureFromDB.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", architectureFromDB.AtomicDefense);
 
-                            command.Parameters.AddWithValue("@mental_attack", architectureFromDB.MentalAttack);
-                            command.Parameters.AddWithValue("@mental_defense", architectureFromDB.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", architectureFromDB.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", architectureFromDB.MentalDefense);
 
-                            command.Parameters.AddWithValue("@speed", architectureFromDB.Speed);
-                            command.Parameters.AddWithValue("@critical_damage_rate", architectureFromDB.CriticalDamageRate);
-                            command.Parameters.AddWithValue("@critical_rate", architectureFromDB.CriticalRate);
-                            command.Parameters.AddWithValue("@critical_resistance_rate", architectureFromDB.CriticalResistanceRate);
-                            command.Parameters.AddWithValue("@ignore_critical_rate", architectureFromDB.IgnoreCriticalRate);
-                            command.Parameters.AddWithValue("@penetration_rate", architectureFromDB.PenetrationRate);
-                            command.Parameters.AddWithValue("@penetration_resistance_rate", architectureFromDB.PenetrationResistanceRate);
-                            command.Parameters.AddWithValue("@evasion_rate", architectureFromDB.EvasionRate);
-                            command.Parameters.AddWithValue("@damage_absorption_rate", architectureFromDB.DamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", architectureFromDB.IgnoreDamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@absorbed_damage_rate", architectureFromDB.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@speed", architectureFromDB.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", architectureFromDB.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", architectureFromDB.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", architectureFromDB.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", architectureFromDB.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", architectureFromDB.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", architectureFromDB.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", architectureFromDB.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", architectureFromDB.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", architectureFromDB.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", architectureFromDB.AbsorbedDamageRate);
 
-                            command.Parameters.AddWithValue("@vitality_regeneration_rate", architectureFromDB.VitalityRegenerationRate);
-                            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", architectureFromDB.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", architectureFromDB.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", architectureFromDB.VitalityRegenerationResistanceRate);
 
-                            command.Parameters.AddWithValue("@accuracy_rate", architectureFromDB.AccuracyRate);
-                            command.Parameters.AddWithValue("@lifesteal_rate", architectureFromDB.LifestealRate);
-                            command.Parameters.AddWithValue("@shield_strength", architectureFromDB.ShieldStrength);
-                            command.Parameters.AddWithValue("@tenacity", architectureFromDB.Tenacity);
-                            command.Parameters.AddWithValue("@resistance_rate", architectureFromDB.ResistanceRate);
-                            command.Parameters.AddWithValue("@combo_rate", architectureFromDB.ComboRate);
-                            command.Parameters.AddWithValue("@ignore_combo_rate", architectureFromDB.IgnoreComboRate);
-                            command.Parameters.AddWithValue("@combo_damage_rate", architectureFromDB.ComboDamageRate);
-                            command.Parameters.AddWithValue("@combo_resistance_rate", architectureFromDB.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", architectureFromDB.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", architectureFromDB.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", architectureFromDB.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", architectureFromDB.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", architectureFromDB.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", architectureFromDB.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", architectureFromDB.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", architectureFromDB.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", architectureFromDB.ComboResistanceRate);
 
-                            command.Parameters.AddWithValue("@stun_rate", architectureFromDB.StunRate);
-                            command.Parameters.AddWithValue("@ignore_stun_rate", architectureFromDB.IgnoreStunRate);
-                            command.Parameters.AddWithValue("@reflection_rate", architectureFromDB.ReflectionRate);
-                            command.Parameters.AddWithValue("@ignore_reflection_rate", architectureFromDB.IgnoreReflectionRate);
-                            command.Parameters.AddWithValue("@reflection_damage_rate", architectureFromDB.ReflectionDamageRate);
-                            command.Parameters.AddWithValue("@reflection_resistance_rate", architectureFromDB.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", architectureFromDB.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", architectureFromDB.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", architectureFromDB.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", architectureFromDB.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", architectureFromDB.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", architectureFromDB.ReflectionResistanceRate);
 
-                            command.Parameters.AddWithValue("@mana", architectureFromDB.Mana);
-                            command.Parameters.AddWithValue("@mana_regeneration_rate", architectureFromDB.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@mana", architectureFromDB.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", architectureFromDB.ManaRegenerationRate);
 
-                            command.Parameters.AddWithValue("@damage_to_different_faction_rate", architectureFromDB.DamageToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", architectureFromDB.ResistanceToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@damage_to_same_faction_rate", architectureFromDB.DamageToSameFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", architectureFromDB.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", architectureFromDB.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", architectureFromDB.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", architectureFromDB.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", architectureFromDB.ResistanceToSameFactionRate);
 
-                            command.Parameters.AddWithValue("@normal_damage_rate", architectureFromDB.NormalDamageRate);
-                            command.Parameters.AddWithValue("@normal_resistance_rate", architectureFromDB.NormalResistanceRate);
-                            command.Parameters.AddWithValue("@skill_damage_rate", architectureFromDB.SkillDamageRate);
-                            command.Parameters.AddWithValue("@skill_resistance_rate", architectureFromDB.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", architectureFromDB.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", architectureFromDB.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", architectureFromDB.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", architectureFromDB.SkillResistanceRate);
 
-                            command.Parameters.AddWithValue("@percent_all_health", percent);
-                            command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_magical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_magical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_mental_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_physical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_magical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_magical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_mental_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_mental_defense", percent);
 
-                            await command.ExecuteNonQueryAsync();
+                            await insertCommand.ExecuteNonQueryAsync();
                         }
                     }
                 }
@@ -378,17 +378,17 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Architectures_gallery 
+                string updateSQL = @"UPDATE architectures_gallery 
                              SET status=@status 
-                             WHERE user_id=@user_id AND Architecture_id=@Architecture_id";
+                             WHERE user_id=@user_id AND architecture_id=@architecture_id";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Architecture_id", Id);
-                    command.Parameters.AddWithValue("@status", "available");
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@architecture_id", Id);
+                    updateCommand.Parameters.AddWithValue("@status", "available");
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -412,16 +412,16 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
                 await connection.OpenAsync();
 
                 // Lấy current_star và temp_star
-                string checkQuery = @"
+                string checkSQL = @"
                     SELECT current_star, temp_star 
-                    FROM Architectures_gallery 
-                    WHERE user_id = @user_id AND Architecture_id = @Architecture_id;
+                    FROM architectures_gallery 
+                    WHERE user_id = @user_id AND architecture_id = @architecture_id;
                 ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@Architecture_id", id);
+                    checkCommand.Parameters.AddWithValue("@architecture_id", id);
 
                     await using (var reader = await checkCommand.ExecuteReaderAsync())
                     {
@@ -434,16 +434,16 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
                             {
                                 reader.Close(); // đóng trước khi chạy lệnh khác
 
-                                string updateQuery = @"
-                                UPDATE Architectures_gallery 
+                                string updateSQL = @"
+                                UPDATE architectures_gallery 
                                 SET temp_star = @temp_star 
-                                WHERE user_id = @user_id AND Architecture_id = @Architecture_id;
+                                WHERE user_id = @user_id AND architecture_id = @architecture_id;
                             ";
 
-                                using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                                using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                                 {
                                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                                    updateCommand.Parameters.AddWithValue("@Architecture_id", id);
+                                    updateCommand.Parameters.AddWithValue("@architecture_id", id);
                                     updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                                     await updateCommand.ExecuteNonQueryAsync();
@@ -473,7 +473,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Architectures_gallery
+                string updateSQL = @"UPDATE architectures_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -539,85 +539,85 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Architecture_id = @Architecture_id;
+                AND architecture_id = @architecture_id;
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
                 // IDs
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Architecture_id", id);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@architecture_id", id);
 
                 // Base flags
-                command.Parameters.AddWithValue("@status", "pending");
-                command.Parameters.AddWithValue("@current_star", 0);
+                updateCommand.Parameters.AddWithValue("@status", "pending");
+                updateCommand.Parameters.AddWithValue("@current_star", 0);
 
                 // Stats
-                command.Parameters.AddWithValue("@power", architectureFromDB.Power);
-                command.Parameters.AddWithValue("@health", architectureFromDB.Health);
-                command.Parameters.AddWithValue("@physical_attack", architectureFromDB.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", architectureFromDB.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", architectureFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", architectureFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", architectureFromDB.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", architectureFromDB.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", architectureFromDB.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", architectureFromDB.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", architectureFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@mental_defense", architectureFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@speed", architectureFromDB.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", architectureFromDB.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", architectureFromDB.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", architectureFromDB.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", architectureFromDB.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", architectureFromDB.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", architectureFromDB.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", architectureFromDB.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", architectureFromDB.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", architectureFromDB.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", architectureFromDB.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", architectureFromDB.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", architectureFromDB.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", architectureFromDB.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", architectureFromDB.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", architectureFromDB.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", architectureFromDB.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", architectureFromDB.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", architectureFromDB.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", architectureFromDB.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", architectureFromDB.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", architectureFromDB.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", architectureFromDB.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", architectureFromDB.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", architectureFromDB.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", architectureFromDB.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", architectureFromDB.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", architectureFromDB.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", architectureFromDB.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", architectureFromDB.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", architectureFromDB.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", architectureFromDB.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", architectureFromDB.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", architectureFromDB.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", architectureFromDB.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", architectureFromDB.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", architectureFromDB.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", architectureFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", architectureFromDB.Power);
+                updateCommand.Parameters.AddWithValue("@health", architectureFromDB.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", architectureFromDB.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", architectureFromDB.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", architectureFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", architectureFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", architectureFromDB.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", architectureFromDB.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", architectureFromDB.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", architectureFromDB.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", architectureFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", architectureFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", architectureFromDB.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", architectureFromDB.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", architectureFromDB.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", architectureFromDB.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", architectureFromDB.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", architectureFromDB.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", architectureFromDB.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", architectureFromDB.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", architectureFromDB.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", architectureFromDB.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", architectureFromDB.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", architectureFromDB.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", architectureFromDB.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", architectureFromDB.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", architectureFromDB.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", architectureFromDB.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", architectureFromDB.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", architectureFromDB.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", architectureFromDB.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", architectureFromDB.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", architectureFromDB.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", architectureFromDB.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", architectureFromDB.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", architectureFromDB.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", architectureFromDB.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", architectureFromDB.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", architectureFromDB.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", architectureFromDB.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", architectureFromDB.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", architectureFromDB.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", architectureFromDB.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", architectureFromDB.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", architectureFromDB.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", architectureFromDB.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", architectureFromDB.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", architectureFromDB.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", architectureFromDB.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", architectureFromDB.SkillResistanceRate);
 
                 // Percent bonuses (hard-coded)
-                command.Parameters.AddWithValue("@percent_all_health", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_defense", 5);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -640,7 +640,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                 SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
                 SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
@@ -686,14 +686,14 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
                 SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
                 SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
                 SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM Architectures_gallery 
+                FROM architectures_gallery 
                 WHERE user_id = @user_id AND status = 'available';
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     if (await reader.ReadAsync())
                     {

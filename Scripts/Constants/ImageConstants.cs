@@ -535,6 +535,10 @@ public static class ImageConstants
         public const string ARCHIVE_XXV_URL = "UI/Icon/roman_fourteen";
         public const string ARCHIVE_XXVI_URL = "UI/Icon/roman_fourteen";
         public const string ARCHIVE_XXVII_URL = "UI/Icon/roman_fourteen";
+        public const string ARCHIVE_XXVIII_URL = "UI/Icon/roman_fourteen";
+        public const string ARCHIVE_XXIX_URL = "UI/Icon/roman_fourteen";
+        public const string ARCHIVE_XXX_URL = "UI/Icon/roman_fourteen";
+        public const string ARCHIVE_XXXI_URL = "UI/Icon/roman_fourteen";
     }
     public static class Universe
     {

@@ -15,9 +15,9 @@ public class FurnituresRepository : IFurnituresRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT type FROM Furnitures";
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+            string selectSQL = "SELECT DISTINCT type FROM Furnitures";
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -37,9 +37,9 @@ public class FurnituresRepository : IFurnituresRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM Furnitures";
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+            string selectSQL = "SELECT DISTINCT id FROM Furnitures";
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -52,7 +52,7 @@ public class FurnituresRepository : IFurnituresRepository
     }
     public async Task<List<Furnitures>> GetFurnituresAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<Furnitures> Furnitures = new List<Furnitures>();
+        List<Furnitures> furnitures = new List<Furnitures>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -61,47 +61,47 @@ public class FurnituresRepository : IFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM Furnitures WHERE 1=1";
+                string selectSQL = @"SELECT * FROM Furnitures WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY Furnitures.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(Furnitures.name, '[0-9]+$') AS UNSIGNED), Furnitures.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY Furnitures.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(Furnitures.name, '[0-9]+$') AS UNSIGNED), Furnitures.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -177,7 +177,7 @@ public class FurnituresRepository : IFurnituresRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            Furnitures.Add(symbol);
+                            furnitures.Add(symbol);
                         }
                     }
                 }
@@ -188,7 +188,7 @@ public class FurnituresRepository : IFurnituresRepository
             }
         }
 
-        return Furnitures;
+        return furnitures;
     }
     public async Task<int> GetFurnituresCountAsync(string search, string type, string rare)
     {
@@ -201,41 +201,41 @@ public class FurnituresRepository : IFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Furnitures WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Furnitures WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -249,7 +249,7 @@ public class FurnituresRepository : IFurnituresRepository
     }
     public async Task<List<Furnitures>> GetFurnituresWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Furnitures> Furnitures = new List<Furnitures>();
+        List<Furnitures> furnitures = new List<Furnitures>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -258,10 +258,10 @@ public class FurnituresRepository : IFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT s.*, st.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM Furnitures s
-                JOIN Furniture_trade st ON s.id = st.Furniture_id
+                JOIN furniture_trade st ON s.id = st.Furniture_id
                 JOIN currencies cu ON st.currency_id = cu.id
                 WHERE s.type = @type
                 ORDER BY s.name REGEXP '[0-9]+$',
@@ -269,13 +269,13 @@ public class FurnituresRepository : IFurnituresRepository
                          s.name
                 LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -358,7 +358,7 @@ public class FurnituresRepository : IFurnituresRepository
                                 Quantity = reader.GetIntSafe("price")
                             };
 
-                            Furnitures.Add(symbol);
+                            furnitures.Add(symbol);
                         }
                     }
                 }
@@ -369,7 +369,7 @@ public class FurnituresRepository : IFurnituresRepository
             }
         }
 
-        return Furnitures;
+        return furnitures;
     }
     public async Task<int> GetFurnituresWithPriceCountAsync(string type)
     {
@@ -382,17 +382,17 @@ public class FurnituresRepository : IFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM Furnitures s
-                JOIN Furniture_trade st ON s.id = st.Furniture_id
+                JOIN furniture_trade st ON s.id = st.Furniture_id
                 JOIN currencies cu ON st.currency_id = cu.id
                 WHERE s.type = @type;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
-                    object result = await command.ExecuteScalarAsync();
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -406,7 +406,7 @@ public class FurnituresRepository : IFurnituresRepository
     }
     public async Task<Furnitures> GetFurnitureByIdAsync(string Id)
     {
-        Furnitures symbol = new Furnitures();
+        Furnitures furniture = new Furnitures();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -415,16 +415,16 @@ public class FurnituresRepository : IFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM Furnitures WHERE id=@id";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                string selectSQL = "SELECT * FROM Furnitures WHERE id=@id";
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
 
-                    using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            symbol = new Furnitures
+                            furniture = new Furnitures
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -492,7 +492,7 @@ public class FurnituresRepository : IFurnituresRepository
             }
         }
 
-        return symbol;
+        return furniture;
     }
     public async Task<Furnitures> SumPowerFurnituresPercentAsync()
     {
@@ -505,7 +505,7 @@ public class FurnituresRepository : IFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health, 
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -523,11 +523,11 @@ public class FurnituresRepository : IFurnituresRepository
                 WHERE ua.user_id = @user_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

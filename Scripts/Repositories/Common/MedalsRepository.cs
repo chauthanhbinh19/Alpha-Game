@@ -15,9 +15,9 @@ public class MedalsRepository : IMedalsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM medals";
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+            string selectSQL = "SELECT DISTINCT id FROM medals";
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -39,43 +39,43 @@ public class MedalsRepository : IMedalsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT * 
                 FROM medals 
                 WHERE 1=1";
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        query += " AND rare = @rare";
+                        selectSQL += " AND rare = @rare";
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        query += " AND name LIKE CONCAT('%', @search, '%')";
+                        selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                     }
 
-                    query += @"
+                    selectSQL += @"
                 ORDER BY 
                     medals.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(medals.name, '[0-9]+$') AS UNSIGNED),
                     medals.name
                 LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -174,30 +174,30 @@ public class MedalsRepository : IMedalsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Medals WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Medals WHERE 1=1";
                 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    var result = await command.ExecuteScalarAsync();
+                    var result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -220,7 +220,7 @@ public class MedalsRepository : IMedalsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT m.*, mt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM medals m
                 JOIN medal_trade mt ON m.id = mt.medal_id
@@ -229,12 +229,12 @@ public class MedalsRepository : IMedalsRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -339,16 +339,16 @@ public class MedalsRepository : IMedalsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM medals m
                 JOIN medal_trade mt ON m.id = mt.medal_id
                 JOIN currencies cu ON mt.currency_id = cu.id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -371,12 +371,12 @@ public class MedalsRepository : IMedalsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM medals WHERE id = @id";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                string selectSQL = "SELECT * FROM medals WHERE id = @id";
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -461,7 +461,7 @@ public class MedalsRepository : IMedalsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health, 
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -479,11 +479,11 @@ public class MedalsRepository : IMedalsRepository
                 WHERE ua.user_id = @user_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

@@ -17,10 +17,10 @@ public class TrainsRepository : ITrainsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT id FROM Trains";
+                string selectSQL = "SELECT DISTINCT id FROM Trains";
 
-                await using (var command = new MySqlCommand(query, connection))
-                await using (var reader = await command.ExecuteReaderAsync())
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
+                await using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -38,7 +38,7 @@ public class TrainsRepository : ITrainsRepository
     }
     public async Task<List<Trains>> GetTrainsAsync(string userId, int pageSize, int offset)
     {
-        List<Trains> Trains = new List<Trains>();
+        List<Trains> trains = new List<Trains>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (var connection = new MySqlConnection(connectionString))
@@ -47,7 +47,7 @@ public class TrainsRepository : ITrainsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT w.*, 
                        CASE WHEN uw.train_id IS NULL THEN 'block' ELSE 'available' END AS status 
                 FROM Trains w 
@@ -58,13 +58,13 @@ public class TrainsRepository : ITrainsRepository
                          w.name
                 LIMIT @limit OFFSET @offset;";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -140,7 +140,7 @@ public class TrainsRepository : ITrainsRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            Trains.Add(employee);
+                            trains.Add(employee);
                         }
                     }
                 }
@@ -151,7 +151,7 @@ public class TrainsRepository : ITrainsRepository
             }
         }
 
-        return Trains;
+        return trains;
     }
     public async Task<int> GetTrainsCountAsync(string rare)
     {
@@ -164,11 +164,11 @@ public class TrainsRepository : ITrainsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Trains WHERE (@rare = 'All' OR rare = @rare)";
-                await using (var command = new MySqlCommand(query, connection))
+                string selectSQL = "SELECT COUNT(*) FROM Trains WHERE (@rare = 'All' OR rare = @rare)";
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@rare", rare);
-                    var result = await command.ExecuteScalarAsync();
+                    selectCommand.Parameters.AddWithValue("@rare", rare);
+                    var result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -182,7 +182,7 @@ public class TrainsRepository : ITrainsRepository
     }
     public async Task<List<Trains>> GetTrainsWithPriceAsync(int pageSize, int offset)
     {
-        List<Trains> Trains = new List<Trains>();
+        List<Trains> trains = new List<Trains>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (var connection = new MySqlConnection(connectionString))
@@ -191,7 +191,7 @@ public class TrainsRepository : ITrainsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM Trains t
                 JOIN train_trade tt ON t.id = tt.train_id
@@ -202,12 +202,12 @@ public class TrainsRepository : ITrainsRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -288,7 +288,7 @@ public class TrainsRepository : ITrainsRepository
                                 }
                             };
 
-                            Trains.Add(employee);
+                            trains.Add(employee);
                         }
                     }
                 }
@@ -299,7 +299,7 @@ public class TrainsRepository : ITrainsRepository
             }
         }
 
-        return Trains;
+        return trains;
     }
     public async Task<int> GetTrainsWithPriceCountAsync()
     {
@@ -312,16 +312,16 @@ public class TrainsRepository : ITrainsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM Trains t
                 JOIN train_trade tt ON t.id = tt.train_id
                 JOIN currencies cu ON tt.currency_id = cu.id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -344,13 +344,13 @@ public class TrainsRepository : ITrainsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM Trains WHERE id = @id";
+                string selectSQL = "SELECT * FROM Trains WHERE id = @id";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", id);
+                    selectCommand.Parameters.AddWithValue("@id", id);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -436,7 +436,7 @@ public class TrainsRepository : ITrainsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health,
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -454,11 +454,11 @@ public class TrainsRepository : ITrainsRepository
                 WHERE ua.user_id = @user_id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

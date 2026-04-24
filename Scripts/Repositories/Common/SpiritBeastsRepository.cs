@@ -15,10 +15,10 @@ public class SpiritBeastsRepository : ISpiritBeastsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM spirit_beasts";
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            string selectSQL = "SELECT DISTINCT id FROM spirit_beasts";
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -41,43 +41,43 @@ public class SpiritBeastsRepository : ISpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT * 
                 FROM spirit_beasts 
                 WHERE 1=1";
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        query += " AND rare = @rare";
+                        selectSQL += " AND rare = @rare";
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        query += " AND name LIKE CONCAT('%', @search, '%')";
+                        selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                     }
 
-                    query += @"
+                    selectSQL += @"
                 ORDER BY 
                     spirit_beasts.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(spirit_beasts.name, '[0-9]+$') AS UNSIGNED),
                     spirit_beasts.name
                 LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -176,30 +176,30 @@ public class SpiritBeastsRepository : ISpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM spirit_beasts WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM spirit_beasts WHERE 1=1";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -222,7 +222,7 @@ public class SpiritBeastsRepository : ISpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM spirit_beasts t
                 JOIN spirit_beast_trade tt ON t.id = tt.spirit_beast_id
@@ -231,12 +231,12 @@ public class SpiritBeastsRepository : ISpiritBeastsRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -341,16 +341,16 @@ public class SpiritBeastsRepository : ISpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM spirit_beasts t
                 JOIN spirit_beast_trade tt ON t.id = tt.spirit_beast_id
                 JOIN currencies cu ON tt.currency_id = cu.id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -373,13 +373,13 @@ public class SpiritBeastsRepository : ISpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM spirit_beasts WHERE id = @id";
+                string selectSQL = "SELECT * FROM spirit_beasts WHERE id = @id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -465,7 +465,7 @@ public class SpiritBeastsRepository : ISpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health,
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -483,11 +483,11 @@ public class SpiritBeastsRepository : ISpiritBeastsRepository
                 WHERE ua.user_id = @user_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

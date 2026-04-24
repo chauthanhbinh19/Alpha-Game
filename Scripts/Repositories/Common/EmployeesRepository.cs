@@ -17,10 +17,10 @@ public class EmployeesRepository : IEmployeesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT id FROM Employees";
+                string selectSQL = "SELECT DISTINCT id FROM Employees";
 
-                await using (var command = new MySqlCommand(query, connection))
-                await using (var reader = await command.ExecuteReaderAsync())
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
+                await using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -47,24 +47,24 @@ public class EmployeesRepository : IEmployeesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT w.*, 
-                       CASE WHEN uw.Employee_id IS NULL THEN 'block' ELSE 'available' END AS status 
+                       CASE WHEN uw.employee_id IS NULL THEN 'block' ELSE 'available' END AS status 
                 FROM Employees w 
-                LEFT JOIN user_Employees uw 
-                       ON w.id = uw.Employee_id AND uw.user_id = @userId
+                LEFT JOIN user_employees uw 
+                       ON w.id = uw.employee_id AND uw.user_id = @userId
                 ORDER BY w.name REGEXP '[0-9]+$', 
                          CAST(REGEXP_SUBSTR(w.name, '[0-9]+$') AS UNSIGNED), 
                          w.name
                 LIMIT @limit OFFSET @offset;";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -164,11 +164,11 @@ public class EmployeesRepository : IEmployeesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT COUNT(*) FROM Employees WHERE (@rare = 'All' OR rare = @rare)";
-                await using (var command = new MySqlCommand(query, connection))
+                string selectSQL = "SELECT COUNT(*) FROM Employees WHERE (@rare = 'All' OR rare = @rare)";
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@rare", rare);
-                    var result = await command.ExecuteScalarAsync();
+                    selectCommand.Parameters.AddWithValue("@rare", rare);
+                    var result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -191,10 +191,10 @@ public class EmployeesRepository : IEmployeesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM Employees t
-                JOIN Employee_trade tt ON t.id = tt.Employee_id
+                JOIN employee_trade tt ON t.id = tt.employee_id
                 JOIN currencies cu ON tt.currency_id = cu.id
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
@@ -202,12 +202,12 @@ public class EmployeesRepository : IEmployeesRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -312,16 +312,16 @@ public class EmployeesRepository : IEmployeesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM Employees t
-                JOIN Employee_trade tt ON t.id = tt.Employee_id
+                JOIN employee_trade tt ON t.id = tt.employee_id
                 JOIN currencies cu ON tt.currency_id = cu.id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -344,13 +344,13 @@ public class EmployeesRepository : IEmployeesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM Employees WHERE id = @id";
+                string selectSQL = "SELECT * FROM Employees WHERE id = @id";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", id);
+                    selectCommand.Parameters.AddWithValue("@id", id);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -436,7 +436,7 @@ public class EmployeesRepository : IEmployeesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health,
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -450,15 +450,15 @@ public class EmployeesRepository : IEmployeesRepository
                     SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
                     SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
                 FROM Employees a
-                JOIN user_Employees ua ON a.id = ua.Employee_id
+                JOIN user_employees ua ON a.id = ua.employee_id
                 WHERE ua.user_id = @user_id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

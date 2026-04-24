@@ -15,10 +15,10 @@ public class RelicsRepository : IRelicsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT type FROM relics";
+            string selectSQL = "SELECT DISTINCT type FROM relics";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -38,10 +38,10 @@ public class RelicsRepository : IRelicsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM relics";
+            string selectSQL = "SELECT DISTINCT id FROM relics";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -63,47 +63,47 @@ public class RelicsRepository : IRelicsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM relics WHERE 1=1";
+                string selectSQL = @"SELECT * FROM relics WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY relics.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(relics.name, '[0-9]+$') AS UNSIGNED), relics.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY relics.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(relics.name, '[0-9]+$') AS UNSIGNED), relics.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -202,41 +202,41 @@ public class RelicsRepository : IRelicsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM relics WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM relics WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -259,7 +259,7 @@ public class RelicsRepository : IRelicsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT r.*, rt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM relics r
                 JOIN relic_trade rt ON r.id = rt.relic_id
@@ -268,13 +268,13 @@ public class RelicsRepository : IRelicsRepository
                 ORDER BY r.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(r.name, '[0-9]+$') AS UNSIGNED), r.name
                 LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -379,17 +379,17 @@ public class RelicsRepository : IRelicsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM relics r
                 JOIN relic_trade rt ON r.id = rt.relic_id
                 JOIN currencies cu ON rt.currency_id = cu.id
                 WHERE r.type = @type;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
-                    object result = await command.ExecuteScalarAsync();
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -412,13 +412,13 @@ public class RelicsRepository : IRelicsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM relics WHERE id = @id";
+                string selectSQL = "SELECT * FROM relics WHERE id = @id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", id);
+                    selectCommand.Parameters.AddWithValue("@id", id);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -506,7 +506,7 @@ public class RelicsRepository : IRelicsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health,
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -524,11 +524,11 @@ public class RelicsRepository : IRelicsRepository
                 WHERE ua.user_id = @user_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

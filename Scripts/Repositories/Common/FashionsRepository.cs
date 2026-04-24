@@ -15,9 +15,9 @@ public class FashionsRepository : IFashionsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT type FROM Fashions";
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+            string selectSQL = "SELECT DISTINCT type FROM Fashions";
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -37,9 +37,9 @@ public class FashionsRepository : IFashionsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM Fashions";
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+            string selectSQL = "SELECT DISTINCT id FROM Fashions";
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -61,47 +61,47 @@ public class FashionsRepository : IFashionsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM Fashions WHERE 1=1";
+                string selectSQL = @"SELECT * FROM Fashions WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY Fashions.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(Fashions.name, '[0-9]+$') AS UNSIGNED), Fashions.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY Fashions.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(Fashions.name, '[0-9]+$') AS UNSIGNED), Fashions.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -201,41 +201,41 @@ public class FashionsRepository : IFashionsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Fashions WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Fashions WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -249,7 +249,7 @@ public class FashionsRepository : IFashionsRepository
     }
     public async Task<List<Fashions>> GetFashionsWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<Fashions> Fashions = new List<Fashions>();
+        List<Fashions> fashions = new List<Fashions>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -258,10 +258,10 @@ public class FashionsRepository : IFashionsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT s.*, st.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM Fashions s
-                JOIN Fashion_trade st ON s.id = st.Fashion_id
+                JOIN fashion_trade st ON s.id = st.fashion_id
                 JOIN currencies cu ON st.currency_id = cu.id
                 WHERE s.type = @type
                 ORDER BY s.name REGEXP '[0-9]+$',
@@ -269,13 +269,13 @@ public class FashionsRepository : IFashionsRepository
                          s.name
                 LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -358,7 +358,7 @@ public class FashionsRepository : IFashionsRepository
                                 Quantity = reader.GetIntSafe("price")
                             };
 
-                            Fashions.Add(fashion);
+                            fashions.Add(fashion);
                         }
                     }
                 }
@@ -369,7 +369,7 @@ public class FashionsRepository : IFashionsRepository
             }
         }
 
-        return Fashions;
+        return fashions;
     }
     public async Task<int> GetFashionsWithPriceCountAsync(string type)
     {
@@ -382,17 +382,17 @@ public class FashionsRepository : IFashionsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM Fashions s
-                JOIN Fashion_trade st ON s.id = st.Fashion_id
+                JOIN fashion_trade st ON s.id = st.fashion_id
                 JOIN currencies cu ON st.currency_id = cu.id
                 WHERE s.type = @type;";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
-                    object result = await command.ExecuteScalarAsync();
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -415,12 +415,12 @@ public class FashionsRepository : IFashionsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM Fashions WHERE id=@id";
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                string selectSQL = "SELECT * FROM Fashions WHERE id=@id";
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
 
-                    using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -505,7 +505,7 @@ public class FashionsRepository : IFashionsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health, 
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -519,15 +519,15 @@ public class FashionsRepository : IFashionsRepository
                     SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
                     SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
                 FROM Fashions a
-                JOIN user_Fashions ua ON a.id = ua.Fashion_id
+                JOIN user_Fashions ua ON a.id = ua.fashion_id
                 WHERE ua.user_id = @user_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

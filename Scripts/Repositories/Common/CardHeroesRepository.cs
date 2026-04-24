@@ -17,10 +17,10 @@ public class CardHeroesRepository : ICardHeroesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT type FROM card_heroes";
+            string selectSQL = "SELECT DISTINCT type FROM card_heroes";
 
-            await using var command = new MySqlCommand(query, connection);
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            await using var reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -44,10 +44,10 @@ public class CardHeroesRepository : ICardHeroesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM card_heroes";
+            string selectSQL = "SELECT DISTINCT id FROM card_heroes";
 
-            await using var command = new MySqlCommand(query, connection);
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            await using var reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -71,7 +71,7 @@ public class CardHeroesRepository : ICardHeroesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT 
                 ch.*, 
                 (
@@ -106,43 +106,43 @@ public class CardHeroesRepository : ICardHeroesRepository
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                query += " AND ch.type = @type";
+                selectSQL += " AND ch.type = @type";
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND ch.rare = @rare";
+                selectSQL += " AND ch.rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            query += " ORDER BY ch.name";
-            query += " LIMIT @limit OFFSET @offset";
+            selectSQL += " ORDER BY ch.name";
+            selectSQL += " LIMIT @limit OFFSET @offset";
 
-            await using var command = new MySqlCommand(query, connection);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                command.Parameters.AddWithValue("@rare", rare);
+                selectCommand.Parameters.AddWithValue("@rare", rare);
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                command.Parameters.AddWithValue("@search", search);
+                selectCommand.Parameters.AddWithValue("@search", search);
             }
 
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 CardHeroes cardHero = new CardHeroes
@@ -260,40 +260,40 @@ public class CardHeroesRepository : ICardHeroesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT COUNT(*) FROM card_heroes WHERE 1=1";
+            string selectSQL = @"SELECT COUNT(*) FROM card_heroes WHERE 1=1";
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                query += " AND type = @type";
+                selectSQL += " AND type = @type";
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND rare = @rare";
+                selectSQL += " AND rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            await using var command = new MySqlCommand(query, connection);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                command.Parameters.AddWithValue("@rare", rare);
+                selectCommand.Parameters.AddWithValue("@rare", rare);
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                command.Parameters.AddWithValue("@search", search);
+                selectCommand.Parameters.AddWithValue("@search", search);
             }
-            object result = await command.ExecuteScalarAsync();
+            object result = await selectCommand.ExecuteScalarAsync();
             if (result != null && int.TryParse(result.ToString(), out int parsedCount))
             {
                 count = parsedCount;
@@ -316,12 +316,12 @@ public class CardHeroesRepository : ICardHeroesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT * FROM card_heroes WHERE type = @type ORDER BY RAND() LIMIT @limit";
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@type", type);
-            command.Parameters.AddWithValue("@limit", pageSize);
+            string selectSQL = "SELECT * FROM card_heroes WHERE type = @type ORDER BY RAND() LIMIT @limit";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@type", type);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 var card = new CardHeroes
@@ -406,11 +406,11 @@ public class CardHeroesRepository : ICardHeroesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT * FROM card_heroes WHERE type = @type";
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@type", type);
+            string selectSQL = "SELECT * FROM card_heroes WHERE type = @type";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@type", type);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 var card = new CardHeroes
@@ -495,12 +495,12 @@ public class CardHeroesRepository : ICardHeroesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT MAX(quantity) FROM user_card_heroes uc WHERE uc.user_id = @userId AND uc.card_hero_id = @card_hero_id";
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@userId", user_id);
-            command.Parameters.AddWithValue("@card_hero_id", Id);
+            string selectSQL = "SELECT MAX(quantity) FROM user_card_heroes uc WHERE uc.user_id = @userId AND uc.card_hero_id = @card_hero_id";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@userId", user_id);
+            selectCommand.Parameters.AddWithValue("@card_hero_id", Id);
 
-            object result = await command.ExecuteScalarAsync();
+            object result = await selectCommand.ExecuteScalarAsync();
             if (result != DBNull.Value)
             {
                 return Convert.ToInt32(result);
@@ -524,11 +524,11 @@ public class CardHeroesRepository : ICardHeroesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT * FROM card_heroes WHERE id = @id";
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@id", Id);
+            string selectSQL = "SELECT * FROM card_heroes WHERE id = @id";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@id", Id);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 cardHero = new CardHeroes
@@ -611,7 +611,7 @@ public class CardHeroesRepository : ICardHeroesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT c.*, ct.price, cu.image AS currency_image, cu.id AS currency_id
             FROM card_heroes c
             JOIN card_hero_trade ct ON c.id = ct.card_hero_id
@@ -621,12 +621,12 @@ public class CardHeroesRepository : ICardHeroesRepository
             LIMIT @limit OFFSET @offset;
         ";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@type", type);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@type", type);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 var card = new CardHeroes
@@ -717,7 +717,7 @@ public class CardHeroesRepository : ICardHeroesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT COUNT(*)
             FROM card_heroes c
             JOIN card_hero_trade ct ON c.id = ct.card_hero_id
@@ -725,10 +725,10 @@ public class CardHeroesRepository : ICardHeroesRepository
             WHERE c.type = @type;
         ";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@type", type);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@type", type);
 
-            object result = await command.ExecuteScalarAsync();
+            object result = await selectCommand.ExecuteScalarAsync();
             if (result != null && result != DBNull.Value)
             {
                 count = Convert.ToInt32(result);

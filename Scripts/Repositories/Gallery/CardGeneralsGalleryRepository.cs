@@ -19,7 +19,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     m.*, 
                     mg.current_star, 
@@ -61,43 +61,43 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND m.type = @type";
+                    selectSQL += " AND m.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY m.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY m.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -238,39 +238,39 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM card_generals 
+                string selectSQL = @"SELECT COUNT(*) FROM card_generals 
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
-                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    command.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@type", type);
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    command.Parameters.AddWithValue("@rare", rare);
+                    selectCommand.Parameters.AddWithValue("@rare", rare);
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    command.Parameters.AddWithValue("@search", search);
+                    selectCommand.Parameters.AddWithValue("@search", search);
                 }
 
-                object result = await command.ExecuteScalarAsync();
+                object result = await selectCommand.ExecuteScalarAsync();
                 count = Convert.ToInt32(result);
             }
             catch (MySqlException ex)
@@ -297,13 +297,13 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi đã tồn tại
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_generals_gallery 
                 WHERE user_id = @user_id AND card_general_id = @card_general_id;
                 ";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 checkCommand.Parameters.AddWithValue("@card_general_id", Id);
 
@@ -312,7 +312,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
                 // Nếu chưa có thì insert
                 if (recordCount == 0)
                 {
-                    string query = @"
+                    string insertSQL = @"
                 INSERT INTO card_generals_gallery (
                     user_id, card_general_id, status, current_star, temp_star, power, health, 
                     physical_attack, physical_defense, magical_attack, magical_defense, 
@@ -360,81 +360,81 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
                     @percent_all_mental_defense
                 );";
 
-                    MySqlCommand command = new MySqlCommand(query, connection);
+                    MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@card_general_id", Id);
-                    command.Parameters.AddWithValue("@status", "pending");
-                    command.Parameters.AddWithValue("@current_star", 0);
-                    command.Parameters.AddWithValue("@temp_star", 0);
+                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@card_general_id", Id);
+                    insertCommand.Parameters.AddWithValue("@status", "pending");
+                    insertCommand.Parameters.AddWithValue("@current_star", 0);
+                    insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
                     // Thuộc tính
-                    command.Parameters.AddWithValue("@power", cardGeneralFromDB.Power);
-                    command.Parameters.AddWithValue("@health", cardGeneralFromDB.Health);
-                    command.Parameters.AddWithValue("@physical_attack", cardGeneralFromDB.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", cardGeneralFromDB.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", cardGeneralFromDB.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", cardGeneralFromDB.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", cardGeneralFromDB.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", cardGeneralFromDB.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", cardGeneralFromDB.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", cardGeneralFromDB.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", cardGeneralFromDB.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", cardGeneralFromDB.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", cardGeneralFromDB.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", cardGeneralFromDB.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", cardGeneralFromDB.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", cardGeneralFromDB.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", cardGeneralFromDB.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", cardGeneralFromDB.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", cardGeneralFromDB.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", cardGeneralFromDB.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", cardGeneralFromDB.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardGeneralFromDB.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", cardGeneralFromDB.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", cardGeneralFromDB.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardGeneralFromDB.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", cardGeneralFromDB.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", cardGeneralFromDB.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", cardGeneralFromDB.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", cardGeneralFromDB.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", cardGeneralFromDB.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", cardGeneralFromDB.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", cardGeneralFromDB.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", cardGeneralFromDB.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", cardGeneralFromDB.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", cardGeneralFromDB.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", cardGeneralFromDB.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", cardGeneralFromDB.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", cardGeneralFromDB.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", cardGeneralFromDB.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", cardGeneralFromDB.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", cardGeneralFromDB.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", cardGeneralFromDB.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardGeneralFromDB.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardGeneralFromDB.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardGeneralFromDB.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardGeneralFromDB.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", cardGeneralFromDB.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", cardGeneralFromDB.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", cardGeneralFromDB.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", cardGeneralFromDB.SkillResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@power", cardGeneralFromDB.Power);
+                    insertCommand.Parameters.AddWithValue("@health", cardGeneralFromDB.Health);
+                    insertCommand.Parameters.AddWithValue("@physical_attack", cardGeneralFromDB.PhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@physical_defense", cardGeneralFromDB.PhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@magical_attack", cardGeneralFromDB.MagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@magical_defense", cardGeneralFromDB.MagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@chemical_attack", cardGeneralFromDB.ChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@chemical_defense", cardGeneralFromDB.ChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@atomic_attack", cardGeneralFromDB.AtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@atomic_defense", cardGeneralFromDB.AtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@mental_attack", cardGeneralFromDB.MentalAttack);
+                    insertCommand.Parameters.AddWithValue("@mental_defense", cardGeneralFromDB.MentalDefense);
+                    insertCommand.Parameters.AddWithValue("@speed", cardGeneralFromDB.Speed);
+                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", cardGeneralFromDB.CriticalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@critical_rate", cardGeneralFromDB.CriticalRate);
+                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", cardGeneralFromDB.CriticalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", cardGeneralFromDB.IgnoreCriticalRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_rate", cardGeneralFromDB.PenetrationRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardGeneralFromDB.PenetrationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@evasion_rate", cardGeneralFromDB.EvasionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", cardGeneralFromDB.DamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardGeneralFromDB.IgnoreDamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardGeneralFromDB.AbsorbedDamageRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardGeneralFromDB.VitalityRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardGeneralFromDB.VitalityRegenerationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@accuracy_rate", cardGeneralFromDB.AccuracyRate);
+                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", cardGeneralFromDB.LifestealRate);
+                    insertCommand.Parameters.AddWithValue("@shield_strength", cardGeneralFromDB.ShieldStrength);
+                    insertCommand.Parameters.AddWithValue("@tenacity", cardGeneralFromDB.Tenacity);
+                    insertCommand.Parameters.AddWithValue("@resistance_rate", cardGeneralFromDB.ResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@combo_rate", cardGeneralFromDB.ComboRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", cardGeneralFromDB.IgnoreComboRate);
+                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", cardGeneralFromDB.ComboDamageRate);
+                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", cardGeneralFromDB.ComboResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@stun_rate", cardGeneralFromDB.StunRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", cardGeneralFromDB.IgnoreStunRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_rate", cardGeneralFromDB.ReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardGeneralFromDB.IgnoreReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", cardGeneralFromDB.ReflectionDamageRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardGeneralFromDB.ReflectionResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@mana", cardGeneralFromDB.Mana);
+                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardGeneralFromDB.ManaRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardGeneralFromDB.DamageToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardGeneralFromDB.ResistanceToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardGeneralFromDB.DamageToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardGeneralFromDB.ResistanceToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", cardGeneralFromDB.NormalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", cardGeneralFromDB.NormalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", cardGeneralFromDB.SkillDamageRate);
+                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", cardGeneralFromDB.SkillResistanceRate);
 
                     // % buff theo quality
-                    command.Parameters.AddWithValue("@percent_all_health", percent);
-                    command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_magical_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_magical_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_mental_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_physical_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_magical_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_magical_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_mental_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_mental_defense", percent);
 
-                    await command.ExecuteNonQueryAsync();
+                    await insertCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -457,13 +457,13 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE card_generals_gallery SET status=@status WHERE user_id=@user_id AND card_general_id=@card_general_id";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@card_general_id", Id);
-                command.Parameters.AddWithValue("@status", "available");
+                string updateSQL = "UPDATE card_generals_gallery SET status=@status WHERE user_id=@user_id AND card_general_id=@card_general_id";
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@card_general_id", Id);
+                updateCommand.Parameters.AddWithValue("@status", "available");
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -486,13 +486,13 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT current_star, temp_star
                 FROM card_generals_gallery 
                 WHERE user_id = @user_id AND card_general_id = @card_general_id;
             ";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 checkCommand.Parameters.AddWithValue("@card_general_id", Id);
 
@@ -506,13 +506,13 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
                         {
                             reader.Close(); // Đóng reader trước khi thực hiện update
 
-                            string updateQuery = @"
+                            string updateSQL = @"
                             UPDATE card_generals_gallery 
                             SET temp_star = @temp_star 
                             WHERE user_id = @user_id AND card_general_id = @card_general_id;
                         ";
 
-                            MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                            MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCommand.Parameters.AddWithValue("@card_general_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
@@ -542,7 +542,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE card_generals_gallery
+                string updateSQL = @"UPDATE card_generals_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -611,74 +611,74 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
                 AND card_general_id = @card_general_id;
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@card_general_id", Id);
-                command.Parameters.AddWithValue("@status", "pending");
-                command.Parameters.AddWithValue("@current_star", 0);
-                command.Parameters.AddWithValue("@power", cardGeneralFromDB.Power);
-                command.Parameters.AddWithValue("@health", cardGeneralFromDB.Health);
-                command.Parameters.AddWithValue("@physical_attack", cardGeneralFromDB.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", cardGeneralFromDB.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", cardGeneralFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", cardGeneralFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", cardGeneralFromDB.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", cardGeneralFromDB.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", cardGeneralFromDB.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", cardGeneralFromDB.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", cardGeneralFromDB.MentalAttack);
-                command.Parameters.AddWithValue("@mental_defense", cardGeneralFromDB.MentalDefense);
-                command.Parameters.AddWithValue("@speed", cardGeneralFromDB.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", cardGeneralFromDB.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", cardGeneralFromDB.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", cardGeneralFromDB.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", cardGeneralFromDB.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", cardGeneralFromDB.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", cardGeneralFromDB.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", cardGeneralFromDB.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", cardGeneralFromDB.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardGeneralFromDB.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", cardGeneralFromDB.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", cardGeneralFromDB.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardGeneralFromDB.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", cardGeneralFromDB.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", cardGeneralFromDB.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", cardGeneralFromDB.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", cardGeneralFromDB.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", cardGeneralFromDB.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", cardGeneralFromDB.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", cardGeneralFromDB.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", cardGeneralFromDB.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", cardGeneralFromDB.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", cardGeneralFromDB.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", cardGeneralFromDB.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", cardGeneralFromDB.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", cardGeneralFromDB.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", cardGeneralFromDB.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", cardGeneralFromDB.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", cardGeneralFromDB.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", cardGeneralFromDB.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardGeneralFromDB.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardGeneralFromDB.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardGeneralFromDB.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardGeneralFromDB.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", cardGeneralFromDB.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", cardGeneralFromDB.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", cardGeneralFromDB.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", cardGeneralFromDB.SkillResistanceRate);
-                command.Parameters.AddWithValue("@percent_all_health", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_defense", 5);
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@card_general_id", Id);
+                updateCommand.Parameters.AddWithValue("@status", "pending");
+                updateCommand.Parameters.AddWithValue("@current_star", 0);
+                updateCommand.Parameters.AddWithValue("@power", cardGeneralFromDB.Power);
+                updateCommand.Parameters.AddWithValue("@health", cardGeneralFromDB.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", cardGeneralFromDB.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", cardGeneralFromDB.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", cardGeneralFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", cardGeneralFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", cardGeneralFromDB.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", cardGeneralFromDB.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", cardGeneralFromDB.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", cardGeneralFromDB.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", cardGeneralFromDB.MentalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", cardGeneralFromDB.MentalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", cardGeneralFromDB.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", cardGeneralFromDB.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", cardGeneralFromDB.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", cardGeneralFromDB.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", cardGeneralFromDB.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", cardGeneralFromDB.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardGeneralFromDB.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", cardGeneralFromDB.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", cardGeneralFromDB.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardGeneralFromDB.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardGeneralFromDB.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardGeneralFromDB.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardGeneralFromDB.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", cardGeneralFromDB.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", cardGeneralFromDB.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", cardGeneralFromDB.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", cardGeneralFromDB.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", cardGeneralFromDB.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", cardGeneralFromDB.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", cardGeneralFromDB.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", cardGeneralFromDB.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", cardGeneralFromDB.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", cardGeneralFromDB.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", cardGeneralFromDB.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", cardGeneralFromDB.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardGeneralFromDB.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", cardGeneralFromDB.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardGeneralFromDB.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", cardGeneralFromDB.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardGeneralFromDB.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardGeneralFromDB.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardGeneralFromDB.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardGeneralFromDB.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardGeneralFromDB.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", cardGeneralFromDB.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", cardGeneralFromDB.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", cardGeneralFromDB.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", cardGeneralFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_defense", 5);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -701,7 +701,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT 
+                string selectSQL = @"SELECT 
                 SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
                 SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
                 SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
@@ -743,11 +743,11 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             FROM card_generals_gallery 
             WHERE user_id = @user_id AND status = 'available';";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

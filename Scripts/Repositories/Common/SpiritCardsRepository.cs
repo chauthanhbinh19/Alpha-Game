@@ -15,9 +15,9 @@ public class SpiritCardsRepository : ISpiritCardsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT type FROM spirit_cards";
-            using (MySqlCommand command = new MySqlCommand(query, connection))
-            using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+            string selectSQL = "SELECT DISTINCT type FROM spirit_cards";
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -37,10 +37,10 @@ public class SpiritCardsRepository : ISpiritCardsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM spirit_cards";
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            string selectSQL = "SELECT DISTINCT id FROM spirit_cards";
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -54,7 +54,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
     }
     public async Task<List<SpiritCards>> GetSpiritCardsAsync(string search, string type, string rare, int pageSize, int offset)
     {
-        List<SpiritCards> SpiritCards = new List<SpiritCards>();
+        List<SpiritCards> spiritCards = new List<SpiritCards>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -63,47 +63,47 @@ public class SpiritCardsRepository : ISpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM spirit_cards WHERE 1=1";
+                string selectSQL = @"SELECT * FROM spirit_cards WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY spirit_cards.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(spirit_cards.name, '[0-9]+$') AS UNSIGNED), spirit_cards.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY spirit_cards.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(spirit_cards.name, '[0-9]+$') AS UNSIGNED), spirit_cards.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -178,7 +178,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            SpiritCards.Add(SpiritCard);
+                            spiritCards.Add(SpiritCard);
                         }
                     }
                 }
@@ -189,7 +189,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
             }
         }
 
-        return SpiritCards;
+        return spiritCards;
     }
     public async Task<int> GetSpiritCardsCountAsync(string search, string type, string rare)
     {
@@ -202,41 +202,41 @@ public class SpiritCardsRepository : ISpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM spirit_cards WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM spirit_cards WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -250,7 +250,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
     }
     public async Task<List<SpiritCards>> GetSpiritCardsWithPriceAsync(string type, int pageSize, int offset)
     {
-        List<SpiritCards> SpiritCards = new List<SpiritCards>();
+        List<SpiritCards> spiritCards = new List<SpiritCards>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -259,7 +259,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM spirit_cards t
                 JOIN spirit_card_trade tt ON t.id = tt.spirit_card_id
@@ -269,13 +269,13 @@ public class SpiritCardsRepository : ISpiritCardsRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -356,7 +356,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
                                 }
                             };
 
-                            SpiritCards.Add(SpiritCard);
+                            spiritCards.Add(SpiritCard);
                         }
                     }
                 }
@@ -367,7 +367,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
             }
         }
 
-        return SpiritCards;
+        return spiritCards;
     }
     public async Task<int> GetSpiritCardsWithPriceCountAsync(string type)
     {
@@ -380,7 +380,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM spirit_cards t
                 JOIN spirit_card_trade tt ON t.id = tt.spirit_card_id
@@ -388,10 +388,10 @@ public class SpiritCardsRepository : ISpiritCardsRepository
                 WHERE t.type = @type;;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
-                    object result = await command.ExecuteScalarAsync();
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -405,7 +405,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
     }
     public async Task<SpiritCards> GetSpiritCardByIdAsync(string Id)
     {
-        SpiritCards SpiritCard = new SpiritCards();
+        SpiritCards spiritCard = new SpiritCards();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -414,17 +414,17 @@ public class SpiritCardsRepository : ISpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM spirit_cards WHERE id = @id";
+                string selectSQL = "SELECT * FROM spirit_cards WHERE id = @id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            SpiritCard = new SpiritCards
+                            spiritCard = new SpiritCards
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -493,7 +493,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
             }
         }
 
-        return SpiritCard;
+        return spiritCard;
     }
     public async Task<SpiritCards> SumPowerSpiritCardsPercentAsync()
     {
@@ -506,7 +506,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health,
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -524,11 +524,11 @@ public class SpiritCardsRepository : ISpiritCardsRepository
                 WHERE ua.user_id = @user_id;
             ";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

@@ -19,7 +19,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT c.*, 
                        CASE 
                            WHEN cg.robot_id IS NULL THEN 'block' 
@@ -33,37 +33,37 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
             ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY 
                     c.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED),
                     c.name
                 LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -167,30 +167,30 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Robots WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Robots WHERE 1=1";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -218,25 +218,25 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi tồn tại
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
-                FROM Robots_gallery 
-                WHERE user_id = @user_id AND Robot_id = @Robot_id;
+                FROM robots_gallery 
+                WHERE user_id = @user_id AND robot_id = @robot_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@Robot_id", Id);
+                    checkCommand.Parameters.AddWithValue("@robot_id", Id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     // Nếu chưa có → INSERT
                     if (recordCount == 0)
                     {
-                        string query = @"
-                    INSERT INTO Robots_gallery (
-                        user_id, Robot_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
+                        string insertSQL = @"
+                    INSERT INTO robots_gallery (
+                        user_id, robot_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                         mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate, 
                         penetration_rate, penetration_resistance_rate, evasion_rate, 
@@ -253,7 +253,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
                         percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                         percent_all_mental_attack, percent_all_mental_defense
                     ) VALUES (
-                        @user_id, @Robot_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
+                        @user_id, @robot_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                         @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                         @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate, 
                         @penetration_rate, @penetration_resistance_rate, @evasion_rate, 
@@ -272,86 +272,86 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
                     );
                     ";
 
-                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            command.Parameters.AddWithValue("@Robot_id", Id);
-                            command.Parameters.AddWithValue("@status", "pending");
-                            command.Parameters.AddWithValue("@current_star", 0);
-                            command.Parameters.AddWithValue("@temp_star", 0);
+                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@robot_id", Id);
+                            insertCommand.Parameters.AddWithValue("@status", "pending");
+                            insertCommand.Parameters.AddWithValue("@current_star", 0);
+                            insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
-                            command.Parameters.AddWithValue("@power", robotFromDB.Power);
-                            command.Parameters.AddWithValue("@health", robotFromDB.Health);
-                            command.Parameters.AddWithValue("@physical_attack", robotFromDB.PhysicalAttack);
-                            command.Parameters.AddWithValue("@physical_defense", robotFromDB.PhysicalDefense);
-                            command.Parameters.AddWithValue("@magical_attack", robotFromDB.MagicalAttack);
-                            command.Parameters.AddWithValue("@magical_defense", robotFromDB.MagicalDefense);
-                            command.Parameters.AddWithValue("@chemical_attack", robotFromDB.ChemicalAttack);
-                            command.Parameters.AddWithValue("@chemical_defense", robotFromDB.ChemicalDefense);
-                            command.Parameters.AddWithValue("@atomic_attack", robotFromDB.AtomicAttack);
-                            command.Parameters.AddWithValue("@atomic_defense", robotFromDB.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@power", robotFromDB.Power);
+                            insertCommand.Parameters.AddWithValue("@health", robotFromDB.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", robotFromDB.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", robotFromDB.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", robotFromDB.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", robotFromDB.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", robotFromDB.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", robotFromDB.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", robotFromDB.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", robotFromDB.AtomicDefense);
 
-                            command.Parameters.AddWithValue("@mental_attack", robotFromDB.MentalAttack);
-                            command.Parameters.AddWithValue("@mental_defense", robotFromDB.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", robotFromDB.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", robotFromDB.MentalDefense);
 
-                            command.Parameters.AddWithValue("@speed", robotFromDB.Speed);
-                            command.Parameters.AddWithValue("@critical_damage_rate", robotFromDB.CriticalDamageRate);
-                            command.Parameters.AddWithValue("@critical_rate", robotFromDB.CriticalRate);
-                            command.Parameters.AddWithValue("@critical_resistance_rate", robotFromDB.CriticalResistanceRate);
-                            command.Parameters.AddWithValue("@ignore_critical_rate", robotFromDB.IgnoreCriticalRate);
-                            command.Parameters.AddWithValue("@penetration_rate", robotFromDB.PenetrationRate);
-                            command.Parameters.AddWithValue("@penetration_resistance_rate", robotFromDB.PenetrationResistanceRate);
-                            command.Parameters.AddWithValue("@evasion_rate", robotFromDB.EvasionRate);
-                            command.Parameters.AddWithValue("@damage_absorption_rate", robotFromDB.DamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", robotFromDB.IgnoreDamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@absorbed_damage_rate", robotFromDB.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@speed", robotFromDB.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", robotFromDB.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", robotFromDB.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", robotFromDB.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", robotFromDB.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", robotFromDB.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", robotFromDB.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", robotFromDB.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", robotFromDB.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", robotFromDB.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", robotFromDB.AbsorbedDamageRate);
 
-                            command.Parameters.AddWithValue("@vitality_regeneration_rate", robotFromDB.VitalityRegenerationRate);
-                            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", robotFromDB.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", robotFromDB.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", robotFromDB.VitalityRegenerationResistanceRate);
 
-                            command.Parameters.AddWithValue("@accuracy_rate", robotFromDB.AccuracyRate);
-                            command.Parameters.AddWithValue("@lifesteal_rate", robotFromDB.LifestealRate);
-                            command.Parameters.AddWithValue("@shield_strength", robotFromDB.ShieldStrength);
-                            command.Parameters.AddWithValue("@tenacity", robotFromDB.Tenacity);
-                            command.Parameters.AddWithValue("@resistance_rate", robotFromDB.ResistanceRate);
-                            command.Parameters.AddWithValue("@combo_rate", robotFromDB.ComboRate);
-                            command.Parameters.AddWithValue("@ignore_combo_rate", robotFromDB.IgnoreComboRate);
-                            command.Parameters.AddWithValue("@combo_damage_rate", robotFromDB.ComboDamageRate);
-                            command.Parameters.AddWithValue("@combo_resistance_rate", robotFromDB.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", robotFromDB.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", robotFromDB.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", robotFromDB.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", robotFromDB.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", robotFromDB.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", robotFromDB.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", robotFromDB.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", robotFromDB.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", robotFromDB.ComboResistanceRate);
 
-                            command.Parameters.AddWithValue("@stun_rate", robotFromDB.StunRate);
-                            command.Parameters.AddWithValue("@ignore_stun_rate", robotFromDB.IgnoreStunRate);
-                            command.Parameters.AddWithValue("@reflection_rate", robotFromDB.ReflectionRate);
-                            command.Parameters.AddWithValue("@ignore_reflection_rate", robotFromDB.IgnoreReflectionRate);
-                            command.Parameters.AddWithValue("@reflection_damage_rate", robotFromDB.ReflectionDamageRate);
-                            command.Parameters.AddWithValue("@reflection_resistance_rate", robotFromDB.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", robotFromDB.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", robotFromDB.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", robotFromDB.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", robotFromDB.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", robotFromDB.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", robotFromDB.ReflectionResistanceRate);
 
-                            command.Parameters.AddWithValue("@mana", robotFromDB.Mana);
-                            command.Parameters.AddWithValue("@mana_regeneration_rate", robotFromDB.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@mana", robotFromDB.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", robotFromDB.ManaRegenerationRate);
 
-                            command.Parameters.AddWithValue("@damage_to_different_faction_rate", robotFromDB.DamageToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", robotFromDB.ResistanceToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@damage_to_same_faction_rate", robotFromDB.DamageToSameFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", robotFromDB.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", robotFromDB.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", robotFromDB.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", robotFromDB.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", robotFromDB.ResistanceToSameFactionRate);
 
-                            command.Parameters.AddWithValue("@normal_damage_rate", robotFromDB.NormalDamageRate);
-                            command.Parameters.AddWithValue("@normal_resistance_rate", robotFromDB.NormalResistanceRate);
-                            command.Parameters.AddWithValue("@skill_damage_rate", robotFromDB.SkillDamageRate);
-                            command.Parameters.AddWithValue("@skill_resistance_rate", robotFromDB.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", robotFromDB.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", robotFromDB.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", robotFromDB.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", robotFromDB.SkillResistanceRate);
 
-                            command.Parameters.AddWithValue("@percent_all_health", percent);
-                            command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_magical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_magical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_mental_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_physical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_magical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_magical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_mental_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_mental_defense", percent);
 
-                            await command.ExecuteNonQueryAsync();
+                            await insertCommand.ExecuteNonQueryAsync();
                         }
                     }
                 }
@@ -376,17 +376,17 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Robots_gallery 
+                string updateSQL = @"UPDATE robots_gallery 
                              SET status=@status 
-                             WHERE user_id=@user_id AND Robot_id=@Robot_id";
+                             WHERE user_id=@user_id AND robot_id=@robot_id";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Robot_id", Id);
-                    command.Parameters.AddWithValue("@status", "available");
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@robot_id", Id);
+                    updateCommand.Parameters.AddWithValue("@status", "available");
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -410,16 +410,16 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
                 await connection.OpenAsync();
 
                 // Lấy current_star và temp_star
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT current_star, temp_star 
-                FROM Robots_gallery 
-                WHERE user_id = @user_id AND Robot_id = @Robot_id;
+                FROM robots_gallery 
+                WHERE user_id = @user_id AND robot_id = @robot_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@Robot_id", id);
+                    checkCommand.Parameters.AddWithValue("@robot_id", id);
 
                     await using (var reader = await checkCommand.ExecuteReaderAsync())
                     {
@@ -432,16 +432,16 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
                             {
                                 reader.Close(); // đóng trước khi chạy lệnh khác
 
-                                string updateQuery = @"
-                                UPDATE Robots_gallery 
+                                string updateSQL = @"
+                                UPDATE robots_gallery 
                                 SET temp_star = @temp_star 
-                                WHERE user_id = @user_id AND Robot_id = @Robot_id;
+                                WHERE user_id = @user_id AND robot_id = @robot_id;
                             ";
 
-                                await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                                 {
                                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                                    updateCommand.Parameters.AddWithValue("@Robot_id", id);
+                                    updateCommand.Parameters.AddWithValue("@robot_id", id);
                                     updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                                     await updateCommand.ExecuteNonQueryAsync();
@@ -471,7 +471,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Robots_gallery
+                string updateSQL = @"UPDATE robots_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -537,85 +537,85 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Robot_id = @Robot_id;
+                AND robot_id = @robot_id;
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
                 // IDs
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Robot_id", id);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@robot_id", id);
 
                 // Base flags
-                command.Parameters.AddWithValue("@status", "pending");
-                command.Parameters.AddWithValue("@current_star", 0);
+                updateCommand.Parameters.AddWithValue("@status", "pending");
+                updateCommand.Parameters.AddWithValue("@current_star", 0);
 
                 // Stats
-                command.Parameters.AddWithValue("@power", robotFromDB.Power);
-                command.Parameters.AddWithValue("@health", robotFromDB.Health);
-                command.Parameters.AddWithValue("@physical_attack", robotFromDB.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", robotFromDB.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", robotFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", robotFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", robotFromDB.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", robotFromDB.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", robotFromDB.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", robotFromDB.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", robotFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@mental_defense", robotFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@speed", robotFromDB.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", robotFromDB.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", robotFromDB.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", robotFromDB.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", robotFromDB.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", robotFromDB.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", robotFromDB.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", robotFromDB.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", robotFromDB.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", robotFromDB.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", robotFromDB.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", robotFromDB.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", robotFromDB.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", robotFromDB.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", robotFromDB.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", robotFromDB.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", robotFromDB.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", robotFromDB.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", robotFromDB.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", robotFromDB.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", robotFromDB.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", robotFromDB.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", robotFromDB.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", robotFromDB.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", robotFromDB.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", robotFromDB.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", robotFromDB.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", robotFromDB.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", robotFromDB.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", robotFromDB.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", robotFromDB.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", robotFromDB.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", robotFromDB.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", robotFromDB.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", robotFromDB.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", robotFromDB.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", robotFromDB.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", robotFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", robotFromDB.Power);
+                updateCommand.Parameters.AddWithValue("@health", robotFromDB.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", robotFromDB.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", robotFromDB.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", robotFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", robotFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", robotFromDB.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", robotFromDB.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", robotFromDB.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", robotFromDB.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", robotFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", robotFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", robotFromDB.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", robotFromDB.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", robotFromDB.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", robotFromDB.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", robotFromDB.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", robotFromDB.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", robotFromDB.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", robotFromDB.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", robotFromDB.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", robotFromDB.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", robotFromDB.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", robotFromDB.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", robotFromDB.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", robotFromDB.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", robotFromDB.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", robotFromDB.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", robotFromDB.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", robotFromDB.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", robotFromDB.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", robotFromDB.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", robotFromDB.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", robotFromDB.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", robotFromDB.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", robotFromDB.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", robotFromDB.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", robotFromDB.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", robotFromDB.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", robotFromDB.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", robotFromDB.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", robotFromDB.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", robotFromDB.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", robotFromDB.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", robotFromDB.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", robotFromDB.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", robotFromDB.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", robotFromDB.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", robotFromDB.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", robotFromDB.SkillResistanceRate);
 
                 // Percent bonuses (hard-coded)
-                command.Parameters.AddWithValue("@percent_all_health", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_defense", 5);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -638,7 +638,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                 SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
                 SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
@@ -684,14 +684,14 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
                 SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
                 SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
                 SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM Robots_gallery 
+                FROM robots_gallery 
                 WHERE user_id = @user_id AND status = 'available';
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     if (await reader.ReadAsync())
                     {

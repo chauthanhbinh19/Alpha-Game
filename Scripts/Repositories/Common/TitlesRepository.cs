@@ -17,10 +17,10 @@ public class TitlesRepository : ITitlesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT id FROM Titles";
+                string selectSQL = "SELECT DISTINCT id FROM Titles";
 
-                await using (var command = new MySqlCommand(query, connection))
-                await using (var reader = await command.ExecuteReaderAsync())
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
+                await using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -38,7 +38,7 @@ public class TitlesRepository : ITitlesRepository
     }
     public async Task<List<Titles>> GetTitlesAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Titles> Titles = new List<Titles>();
+        List<Titles> titles = new List<Titles>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -47,43 +47,43 @@ public class TitlesRepository : ITitlesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT * 
                 FROM titles 
                 WHERE 1=1";
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        query += " AND rare = @rare";
+                        selectSQL += " AND rare = @rare";
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        query += " AND name LIKE CONCAT('%', @search, '%')";
+                        selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                     }
 
-                    query += @"
+                    selectSQL += @"
                 ORDER BY 
                     titles.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(titles.name, '[0-9]+$') AS UNSIGNED),
                     titles.name
                 LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -158,7 +158,7 @@ public class TitlesRepository : ITitlesRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            Titles.Add(medal);
+                            titles.Add(medal);
                         }
                     }
                 }
@@ -169,7 +169,7 @@ public class TitlesRepository : ITitlesRepository
             }
         }
 
-        return Titles;
+        return titles;
     }
     public async Task<int> GetTitlesCountAsync(string search, string rare)
     {
@@ -182,30 +182,30 @@ public class TitlesRepository : ITitlesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Titles where 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Titles where 1=1";
                 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    var result = await command.ExecuteScalarAsync();
+                    var result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -219,7 +219,7 @@ public class TitlesRepository : ITitlesRepository
     }
     public async Task<List<Titles>> GetTitlesWithPriceAsync(int pageSize, int offset)
     {
-        List<Titles> Titles = new List<Titles>();
+        List<Titles> titles = new List<Titles>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (var connection = new MySqlConnection(connectionString))
@@ -228,7 +228,7 @@ public class TitlesRepository : ITitlesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM Titles t
                 JOIN title_trade tt ON t.id = tt.title_id
@@ -239,12 +239,12 @@ public class TitlesRepository : ITitlesRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -325,7 +325,7 @@ public class TitlesRepository : ITitlesRepository
                                 }
                             };
 
-                            Titles.Add(employee);
+                            titles.Add(employee);
                         }
                     }
                 }
@@ -336,7 +336,7 @@ public class TitlesRepository : ITitlesRepository
             }
         }
 
-        return Titles;
+        return titles;
     }
     public async Task<int> GetTitlesWithPriceCountAsync()
     {
@@ -349,16 +349,16 @@ public class TitlesRepository : ITitlesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM Titles t
                 JOIN title_trade tt ON t.id = tt.title_id
                 JOIN currencies cu ON tt.currency_id = cu.id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -372,7 +372,7 @@ public class TitlesRepository : ITitlesRepository
     }
     public async Task<Titles> GetTitleByIdAsync(string id)
     {
-        Titles employee = null;
+        Titles title = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (var connection = new MySqlConnection(connectionString))
@@ -381,17 +381,17 @@ public class TitlesRepository : ITitlesRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM Titles WHERE id = @id";
+                string selectSQL = "SELECT * FROM Titles WHERE id = @id";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", id);
+                    selectCommand.Parameters.AddWithValue("@id", id);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            employee = new Titles
+                            title = new Titles
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -460,7 +460,7 @@ public class TitlesRepository : ITitlesRepository
             }
         }
 
-        return employee;
+        return title;
     }
     public async Task<Titles> SumPowerTitlesPercentAsync()
     {
@@ -473,7 +473,7 @@ public class TitlesRepository : ITitlesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health,
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -491,11 +491,11 @@ public class TitlesRepository : ITitlesRepository
                 WHERE ua.user_id = @user_id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

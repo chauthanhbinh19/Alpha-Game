@@ -14,9 +14,9 @@ public class BasesRepository : IBasesRepository
         await using var connection = new MySqlConnection(connectionString);
         await connection.OpenAsync();
 
-        string query = "SELECT DISTINCT id FROM Bases";
-        await using var command = new MySqlCommand(query, connection);
-        await using var reader = await command.ExecuteReaderAsync();
+        string selectSQL = "SELECT DISTINCT id FROM Bases";
+        await using var selectCommand = new MySqlCommand(selectSQL, connection);
+        await using var reader = await selectCommand.ExecuteReaderAsync();
 
         while (await reader.ReadAsync())
         {
@@ -35,7 +35,7 @@ public class BasesRepository : IBasesRepository
 
         try
         {
-            string query = @"SELECT w.*, 
+            string selectSQL = @"SELECT w.*, 
                                 CASE WHEN uw.Base_id IS NULL THEN 'block' ELSE 'available' END AS status 
                          FROM Bases w 
                          LEFT JOIN user_Bases uw ON w.id = uw.Base_id AND uw.user_id = @userId
@@ -44,12 +44,12 @@ public class BasesRepository : IBasesRepository
                                   w.name
                          LIMIT @limit OFFSET @offset";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@userId", userId);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@userId", userId);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 Bases Base = new Bases
@@ -144,11 +144,11 @@ public class BasesRepository : IBasesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT COUNT(*) FROM Bases WHERE (@rare = 'All' OR rare = @rare)";
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@rare", rare);
+            string selectSQL = "SELECT COUNT(*) FROM Bases WHERE (@rare = 'All' OR rare = @rare)";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@rare", rare);
 
-            var result = await command.ExecuteScalarAsync();
+            var result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
@@ -168,7 +168,7 @@ public class BasesRepository : IBasesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
             FROM Bases t
             JOIN Base_trade tt ON t.id = tt.Base_id
@@ -179,11 +179,11 @@ public class BasesRepository : IBasesRepository
             LIMIT @limit OFFSET @offset;
         ";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 Bases Base = new Bases
@@ -283,15 +283,15 @@ public class BasesRepository : IBasesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT COUNT(*)
             FROM Bases t
             JOIN Base_trade tt ON t.id = tt.Base_id
             JOIN currencies cu ON tt.currency_id = cu.id;
         ";
 
-            await using var command = new MySqlCommand(query, connection);
-            var result = await command.ExecuteScalarAsync();
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            var result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
@@ -311,11 +311,11 @@ public class BasesRepository : IBasesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT * FROM Bases WHERE id=@id";
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@id", Id);
+            string selectSQL = "SELECT * FROM Bases WHERE id=@id";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@id", Id);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 bases = new Bases
@@ -396,7 +396,7 @@ public class BasesRepository : IBasesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT 
                 SUM(a.percent_all_health) AS total_percent_all_health, 
                 SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -414,10 +414,10 @@ public class BasesRepository : IBasesRepository
             WHERE ua.user_id = @user_id;
         ";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 sumBases.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDoubleSafe("total_percent_all_health");

@@ -15,9 +15,9 @@ public class ArenaRepository : IArenaRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id, mode FROM arena_mode ORDER BY id ASC;";
-            await using (var command = new MySqlCommand(query, connection))
-            await using (var reader = await command.ExecuteReaderAsync())
+            string selectSQL = "SELECT DISTINCT id, mode FROM arena_mode ORDER BY id ASC;";
+            await using (var selectCommand = new MySqlCommand(selectSQL, connection))
+            await using (var reader = await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -37,12 +37,12 @@ public class ArenaRepository : IArenaRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT id FROM arena_mode WHERE mode = @mode";
-            await using (var command = new MySqlCommand(query, connection))
+            string selectSQL = "SELECT id FROM arena_mode WHERE mode = @mode";
+            await using (var selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@mode", type);
+                selectCommand.Parameters.AddWithValue("@mode", type);
 
-                await using (var reader = await command.ExecuteReaderAsync())
+                await using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     if (await reader.ReadAsync())
                     {
@@ -64,13 +64,13 @@ public class ArenaRepository : IArenaRepository
             await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
 
-            string selectQuery = @"
+            string selectSQL = @"
             SELECT arena_id, user_id, rank_point,
                    RANK() OVER (PARTITION BY arena_id ORDER BY rank_point DESC) AS user_rank
             FROM arena_participant 
             WHERE arena_id = @arena_id;";
 
-            await using var selectCommand = new MySqlCommand(selectQuery, connection);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
             selectCommand.Parameters.AddWithValue("@arena_id", arena_id);
 
             await using var reader = await selectCommand.ExecuteReaderAsync();
@@ -103,11 +103,11 @@ public class ArenaRepository : IArenaRepository
             await connection.OpenAsync();
 
             // Kiểm tra xem bản ghi đã tồn tại chưa
-            string checkQuery = @"
+            string checkSQL = @"
             SELECT COUNT(*) FROM arena_participant 
             WHERE user_id = @user_id AND arena_id = @arena_id;";
 
-            await using (var checkCommand = new MySqlCommand(checkQuery, connection))
+            await using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
                 checkCommand.Parameters.AddWithValue("@user_id", user_id);
                 checkCommand.Parameters.AddWithValue("@arena_id", arena_id);
@@ -120,11 +120,11 @@ public class ArenaRepository : IArenaRepository
             }
 
             // Lấy rank_point
-            string selectQuery = @"
+            string selectSQL = @"
             SELECT rank_point FROM arena_participant 
             WHERE user_id = @user_id AND arena_id = @arena_id;";
 
-            await using (var selectCommand = new MySqlCommand(selectQuery, connection))
+            await using (var selectCommand = new MySqlCommand(selectSQL, connection))
             {
                 selectCommand.Parameters.AddWithValue("@user_id", user_id);
                 selectCommand.Parameters.AddWithValue("@arena_id", arena_id);
@@ -152,11 +152,11 @@ public class ArenaRepository : IArenaRepository
             await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
 
-            string insertQuery = @"
+            string insertSQL = @"
             INSERT INTO arena_participant (arena_id, user_id, rank_point)
             VALUES (@arena_id, @user_id, @rank_point);";
 
-            await using var insertCommand = new MySqlCommand(insertQuery, connection);
+            await using var insertCommand = new MySqlCommand(insertSQL, connection);
             insertCommand.Parameters.AddWithValue("@arena_id", arena_id);
             insertCommand.Parameters.AddWithValue("@user_id", user_id);
             insertCommand.Parameters.AddWithValue("@rank_point", 1000);

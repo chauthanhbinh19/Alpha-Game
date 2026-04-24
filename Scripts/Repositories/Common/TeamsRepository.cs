@@ -15,12 +15,12 @@ public class TeamsRepository : ITeamsRepository
         {
             await connection.OpenAsync(); // mở connection async
 
-            string userQuery = "SELECT * FROM Teams WHERE user_id=@user_id ORDER BY team_number ASC";
-            using (var userCommand = new MySqlCommand(userQuery, connection))
+            string selectSQL = "SELECT * FROM Teams WHERE user_id=@user_id ORDER BY team_number ASC";
+            using (var selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                userCommand.Parameters.AddWithValue("@user_id", user_id);
+                selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                using (var reader = await userCommand.ExecuteReaderAsync())
+                using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -47,19 +47,19 @@ public class TeamsRepository : ITeamsRepository
         {
             await connection.OpenAsync(); // mở connection async
 
-            string userQuery = @"
+            string insertSQL = @"
             INSERT INTO TEAMS (user_id, team_id, team_number, team_avatar, team_border) 
             VALUES (@user_id, @team_id, @team_number, @team_avatar, @team_border)";
 
-            using (var userCommand = new MySqlCommand(userQuery, connection))
+            using (var insertCommand = new MySqlCommand(insertSQL, connection))
             {
-                userCommand.Parameters.AddWithValue("@user_id", user_id);
-                userCommand.Parameters.AddWithValue("@team_id", Guid.NewGuid().ToString());
-                userCommand.Parameters.AddWithValue("@team_number", team_number);
-                userCommand.Parameters.AddWithValue("@team_avatar", "Team/Avatar/Team_Avatar_1");
-                userCommand.Parameters.AddWithValue("@team_border", "Team/Border/Team_Border_1");
+                insertCommand.Parameters.AddWithValue("@user_id", user_id);
+                insertCommand.Parameters.AddWithValue("@team_id", Guid.NewGuid().ToString());
+                insertCommand.Parameters.AddWithValue("@team_number", team_number);
+                insertCommand.Parameters.AddWithValue("@team_avatar", "Team/Avatar/Team_Avatar_1");
+                insertCommand.Parameters.AddWithValue("@team_border", "Team/Border/Team_Border_1");
 
-                await userCommand.ExecuteNonQueryAsync(); // chạy async
+                await insertCommand.ExecuteNonQueryAsync(); // chạy async
             }
         }
 
@@ -67,12 +67,12 @@ public class TeamsRepository : ITeamsRepository
     }
     public async Task<int> GetMaxTeamIdAsync(MySqlConnection connection)
     {
-        string query = "SELECT MAX(team_id) FROM teams WHERE user_id = @user_id";
-        using (var command = new MySqlCommand(query, connection))
+        string selectSQL = "SELECT MAX(team_id) FROM teams WHERE user_id = @user_id";
+        using (var selectCommand = new MySqlCommand(selectSQL, connection))
         {
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-            object result = await command.ExecuteScalarAsync(); // async call
+            object result = await selectCommand.ExecuteScalarAsync(); // async call
 
             if (result != DBNull.Value && result != null)
             {
@@ -96,7 +96,7 @@ public class TeamsRepository : ITeamsRepository
         {
             await connection.OpenAsync(); // mở connection async
 
-            string userQuery = @"SELECT te.emblem_id, e.name, e.type, e.image, te.emblem_quantity
+            string selectSQL = @"SELECT te.emblem_id, e.name, e.type, e.image, te.emblem_quantity
             FROM team_emblems te
             LEFT JOIN emblems e 
                 ON te.emblem_id = e.id
@@ -104,14 +104,14 @@ public class TeamsRepository : ITeamsRepository
                 AND te.team_id = @team_id 
                 AND te.position = @position
                 AND te.card_type = @card_type";
-            using (var userCommand = new MySqlCommand(userQuery, connection))
+            using (var selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                userCommand.Parameters.AddWithValue("@user_id", user_id);
-                userCommand.Parameters.AddWithValue("@team_id", team_id);
-                userCommand.Parameters.AddWithValue("@position", position);
-                userCommand.Parameters.AddWithValue("@card_type", cardType);
+                selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                selectCommand.Parameters.AddWithValue("@team_id", team_id);
+                selectCommand.Parameters.AddWithValue("@position", position);
+                selectCommand.Parameters.AddWithValue("@card_type", cardType);
 
-                using (var reader = await userCommand.ExecuteReaderAsync())
+                using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -145,20 +145,20 @@ public class TeamsRepository : ITeamsRepository
         {
             await connection.OpenAsync(); // mở connection async
 
-            string userQuery = @"
+            string insertSQL = @"
             INSERT INTO TEAM_EMBLEMS (user_id, team_id, position, card_type, emblem_id, emblem_quantity) 
             VALUES (@user_id, @team_id, @position, @card_type, @emblem_id, @emblem_quantity)";
 
-            using (var userCommand = new MySqlCommand(userQuery, connection))
+            using (var insertCommand = new MySqlCommand(insertSQL, connection))
             {
-                userCommand.Parameters.AddWithValue("@user_id", user_id);
-                userCommand.Parameters.AddWithValue("@team_id", teamId);
-                userCommand.Parameters.AddWithValue("@position", position);
-                userCommand.Parameters.AddWithValue("@card_type", emblemDTO.CardType);
-                userCommand.Parameters.AddWithValue("@emblem_id", emblemDTO.EmblemId);
-                userCommand.Parameters.AddWithValue("@emblem_quantity", emblemDTO.Count);
+                insertCommand.Parameters.AddWithValue("@user_id", user_id);
+                insertCommand.Parameters.AddWithValue("@team_id", teamId);
+                insertCommand.Parameters.AddWithValue("@position", position);
+                insertCommand.Parameters.AddWithValue("@card_type", emblemDTO.CardType);
+                insertCommand.Parameters.AddWithValue("@emblem_id", emblemDTO.EmblemId);
+                insertCommand.Parameters.AddWithValue("@emblem_quantity", emblemDTO.Count);
 
-                await userCommand.ExecuteNonQueryAsync(); // chạy async
+                await insertCommand.ExecuteNonQueryAsync(); // chạy async
             }
         }
 
@@ -173,23 +173,23 @@ public class TeamsRepository : ITeamsRepository
             await connection.OpenAsync();
 
             // Câu lệnh SQL DELETE với các điều kiện WHERE cụ thể
-            string deleteQuery = @"
+            string deleteSQL = @"
             DELETE FROM TEAM_EMBLEMS 
             WHERE user_id = @user_id 
               AND team_id = @team_id 
               AND position = @position 
               AND card_type = @card_type";
 
-            using (var command = new MySqlCommand(deleteQuery, connection))
+            using (var deleteCommand = new MySqlCommand(deleteSQL, connection))
             {
                 // Thêm các tham số để tránh SQL Injection
-                command.Parameters.AddWithValue("@user_id", user_id);
-                command.Parameters.AddWithValue("@team_id", teamId);
-                command.Parameters.AddWithValue("@position", position);
-                command.Parameters.AddWithValue("@card_type", cardType);
+                deleteCommand.Parameters.AddWithValue("@user_id", user_id);
+                deleteCommand.Parameters.AddWithValue("@team_id", teamId);
+                deleteCommand.Parameters.AddWithValue("@position", position);
+                deleteCommand.Parameters.AddWithValue("@card_type", cardType);
 
                 // Thực thi lệnh xóa và lấy số lượng dòng bị ảnh hưởng
-                int rowsAffected = await command.ExecuteNonQueryAsync();
+                int rowsAffected = await deleteCommand.ExecuteNonQueryAsync();
 
                 // Trả về true nếu có ít nhất một dòng bị xóa, ngược lại false
                 return rowsAffected > 0;

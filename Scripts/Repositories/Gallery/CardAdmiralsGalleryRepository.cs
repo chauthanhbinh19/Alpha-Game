@@ -18,7 +18,7 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                     SELECT 
                     m.*, 
                     mg.current_star, 
@@ -60,43 +60,43 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND m.type = @type";
+                    selectSQL += " AND m.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY m.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY m.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -238,40 +238,40 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM card_admirals 
+                string selectSQL = @"SELECT COUNT(*) FROM card_admirals 
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    command.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@type", type);
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    command.Parameters.AddWithValue("@rare", rare);
+                    selectCommand.Parameters.AddWithValue("@rare", rare);
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    command.Parameters.AddWithValue("@search", search);
+                    selectCommand.Parameters.AddWithValue("@search", search);
                 }
 
-                object result = await command.ExecuteScalarAsync();
+                object result = await selectCommand.ExecuteScalarAsync();
                 count = Convert.ToInt32(result);
             }
             catch (MySqlException ex)
@@ -298,13 +298,13 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi đã tồn tại
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_admirals_gallery 
                 WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id;
                 ";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 checkCommand.Parameters.AddWithValue("@card_admiral_id", Id);
 
@@ -313,7 +313,7 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                 // Nếu chưa có thì insert
                 if (recordCount == 0)
                 {
-                    string query = @"
+                    string insertSQL = @"
                     INSERT INTO card_admirals_gallery (
                         user_id, card_admiral_id, status, current_star, temp_star, power, health, 
                         physical_attack, physical_defense, magical_attack, magical_defense, 
@@ -361,81 +361,81 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                         @percent_all_mental_defense
                     );";
 
-                    MySqlCommand command = new MySqlCommand(query, connection);
+                    MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@card_admiral_id", Id);
-                    command.Parameters.AddWithValue("@status", "pending");
-                    command.Parameters.AddWithValue("@current_star", 0);
-                    command.Parameters.AddWithValue("@temp_star", 0);
+                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@card_admiral_id", Id);
+                    insertCommand.Parameters.AddWithValue("@status", "pending");
+                    insertCommand.Parameters.AddWithValue("@current_star", 0);
+                    insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
                     // Thuộc tính
-                    command.Parameters.AddWithValue("@power", cardAdmiralFromDB.Power);
-                    command.Parameters.AddWithValue("@health", cardAdmiralFromDB.Health);
-                    command.Parameters.AddWithValue("@physical_attack", cardAdmiralFromDB.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", cardAdmiralFromDB.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", cardAdmiralFromDB.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", cardAdmiralFromDB.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", cardAdmiralFromDB.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", cardAdmiralFromDB.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", cardAdmiralFromDB.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", cardAdmiralFromDB.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", cardAdmiralFromDB.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", cardAdmiralFromDB.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", cardAdmiralFromDB.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", cardAdmiralFromDB.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", cardAdmiralFromDB.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", cardAdmiralFromDB.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", cardAdmiralFromDB.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", cardAdmiralFromDB.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", cardAdmiralFromDB.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", cardAdmiralFromDB.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", cardAdmiralFromDB.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardAdmiralFromDB.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", cardAdmiralFromDB.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", cardAdmiralFromDB.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardAdmiralFromDB.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", cardAdmiralFromDB.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", cardAdmiralFromDB.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", cardAdmiralFromDB.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", cardAdmiralFromDB.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", cardAdmiralFromDB.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", cardAdmiralFromDB.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", cardAdmiralFromDB.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", cardAdmiralFromDB.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", cardAdmiralFromDB.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", cardAdmiralFromDB.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", cardAdmiralFromDB.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", cardAdmiralFromDB.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", cardAdmiralFromDB.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", cardAdmiralFromDB.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", cardAdmiralFromDB.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", cardAdmiralFromDB.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", cardAdmiralFromDB.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardAdmiralFromDB.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardAdmiralFromDB.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardAdmiralFromDB.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardAdmiralFromDB.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", cardAdmiralFromDB.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", cardAdmiralFromDB.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", cardAdmiralFromDB.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", cardAdmiralFromDB.SkillResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@power", cardAdmiralFromDB.Power);
+                    insertCommand.Parameters.AddWithValue("@health", cardAdmiralFromDB.Health);
+                    insertCommand.Parameters.AddWithValue("@physical_attack", cardAdmiralFromDB.PhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@physical_defense", cardAdmiralFromDB.PhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@magical_attack", cardAdmiralFromDB.MagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@magical_defense", cardAdmiralFromDB.MagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@chemical_attack", cardAdmiralFromDB.ChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@chemical_defense", cardAdmiralFromDB.ChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@atomic_attack", cardAdmiralFromDB.AtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@atomic_defense", cardAdmiralFromDB.AtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@mental_attack", cardAdmiralFromDB.MentalAttack);
+                    insertCommand.Parameters.AddWithValue("@mental_defense", cardAdmiralFromDB.MentalDefense);
+                    insertCommand.Parameters.AddWithValue("@speed", cardAdmiralFromDB.Speed);
+                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", cardAdmiralFromDB.CriticalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@critical_rate", cardAdmiralFromDB.CriticalRate);
+                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", cardAdmiralFromDB.CriticalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", cardAdmiralFromDB.IgnoreCriticalRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_rate", cardAdmiralFromDB.PenetrationRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardAdmiralFromDB.PenetrationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@evasion_rate", cardAdmiralFromDB.EvasionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", cardAdmiralFromDB.DamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardAdmiralFromDB.IgnoreDamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardAdmiralFromDB.AbsorbedDamageRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardAdmiralFromDB.VitalityRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardAdmiralFromDB.VitalityRegenerationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@accuracy_rate", cardAdmiralFromDB.AccuracyRate);
+                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", cardAdmiralFromDB.LifestealRate);
+                    insertCommand.Parameters.AddWithValue("@shield_strength", cardAdmiralFromDB.ShieldStrength);
+                    insertCommand.Parameters.AddWithValue("@tenacity", cardAdmiralFromDB.Tenacity);
+                    insertCommand.Parameters.AddWithValue("@resistance_rate", cardAdmiralFromDB.ResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@combo_rate", cardAdmiralFromDB.ComboRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", cardAdmiralFromDB.IgnoreComboRate);
+                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", cardAdmiralFromDB.ComboDamageRate);
+                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", cardAdmiralFromDB.ComboResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@stun_rate", cardAdmiralFromDB.StunRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", cardAdmiralFromDB.IgnoreStunRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_rate", cardAdmiralFromDB.ReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardAdmiralFromDB.IgnoreReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", cardAdmiralFromDB.ReflectionDamageRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardAdmiralFromDB.ReflectionResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@mana", cardAdmiralFromDB.Mana);
+                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardAdmiralFromDB.ManaRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardAdmiralFromDB.DamageToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardAdmiralFromDB.ResistanceToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardAdmiralFromDB.DamageToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardAdmiralFromDB.ResistanceToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", cardAdmiralFromDB.NormalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", cardAdmiralFromDB.NormalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", cardAdmiralFromDB.SkillDamageRate);
+                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", cardAdmiralFromDB.SkillResistanceRate);
 
                     // % buff theo quality
-                    command.Parameters.AddWithValue("@percent_all_health", percent);
-                    command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_magical_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_magical_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_mental_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_physical_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_magical_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_magical_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_mental_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_mental_defense", percent);
 
-                    await command.ExecuteNonQueryAsync();
+                    await insertCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -458,13 +458,13 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE card_admirals_gallery SET status=@status WHERE user_id=@user_id AND card_admiral_id=@card_admiral_id";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@card_admiral_id", Id);
-                command.Parameters.AddWithValue("@status", "available");
+                string updateSQL = "UPDATE card_admirals_gallery SET status=@status WHERE user_id=@user_id AND card_admiral_id=@card_admiral_id";
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@card_admiral_id", Id);
+                updateCommand.Parameters.AddWithValue("@status", "available");
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -487,13 +487,13 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
-                string checkQuery = @"
+                string checkSQL = @"
                     SELECT current_star, temp_star
                     FROM card_admirals_gallery 
                     WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id;
                 ";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 checkCommand.Parameters.AddWithValue("@card_admiral_id", Id);
 
@@ -507,13 +507,13 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                         {
                             reader.Close(); // Đóng reader trước khi thực hiện update
 
-                            string updateQuery = @"
+                            string updateSQL = @"
                                 UPDATE card_admirals_gallery 
                                 SET temp_star = @temp_star 
                                 WHERE user_id = @user_id AND card_admiral_id = @card_admiral_id;
                             ";
 
-                            MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                            MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCommand.Parameters.AddWithValue("@card_admiral_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
@@ -543,7 +543,7 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE card_admirals_gallery
+                string updateSQL = @"UPDATE card_admirals_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -612,74 +612,74 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                 AND card_admiral_id = @card_admiral_id;
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@card_admiral_id", Id);
-                command.Parameters.AddWithValue("@status", "pending");
-                command.Parameters.AddWithValue("@current_star", 0);
-                command.Parameters.AddWithValue("@power", cardAdmiralFromDB.Power);
-                command.Parameters.AddWithValue("@health", cardAdmiralFromDB.Health);
-                command.Parameters.AddWithValue("@physical_attack", cardAdmiralFromDB.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", cardAdmiralFromDB.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", cardAdmiralFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", cardAdmiralFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", cardAdmiralFromDB.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", cardAdmiralFromDB.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", cardAdmiralFromDB.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", cardAdmiralFromDB.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", cardAdmiralFromDB.MentalAttack);
-                command.Parameters.AddWithValue("@mental_defense", cardAdmiralFromDB.MentalDefense);
-                command.Parameters.AddWithValue("@speed", cardAdmiralFromDB.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", cardAdmiralFromDB.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", cardAdmiralFromDB.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", cardAdmiralFromDB.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", cardAdmiralFromDB.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", cardAdmiralFromDB.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", cardAdmiralFromDB.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", cardAdmiralFromDB.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", cardAdmiralFromDB.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardAdmiralFromDB.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", cardAdmiralFromDB.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", cardAdmiralFromDB.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardAdmiralFromDB.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", cardAdmiralFromDB.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", cardAdmiralFromDB.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", cardAdmiralFromDB.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", cardAdmiralFromDB.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", cardAdmiralFromDB.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", cardAdmiralFromDB.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", cardAdmiralFromDB.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", cardAdmiralFromDB.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", cardAdmiralFromDB.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", cardAdmiralFromDB.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", cardAdmiralFromDB.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", cardAdmiralFromDB.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", cardAdmiralFromDB.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", cardAdmiralFromDB.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", cardAdmiralFromDB.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", cardAdmiralFromDB.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", cardAdmiralFromDB.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardAdmiralFromDB.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardAdmiralFromDB.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardAdmiralFromDB.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardAdmiralFromDB.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", cardAdmiralFromDB.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", cardAdmiralFromDB.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", cardAdmiralFromDB.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", cardAdmiralFromDB.SkillResistanceRate);
-                command.Parameters.AddWithValue("@percent_all_health", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_defense", 5);
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@card_admiral_id", Id);
+                updateCommand.Parameters.AddWithValue("@status", "pending");
+                updateCommand.Parameters.AddWithValue("@current_star", 0);
+                updateCommand.Parameters.AddWithValue("@power", cardAdmiralFromDB.Power);
+                updateCommand.Parameters.AddWithValue("@health", cardAdmiralFromDB.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", cardAdmiralFromDB.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", cardAdmiralFromDB.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", cardAdmiralFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", cardAdmiralFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", cardAdmiralFromDB.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", cardAdmiralFromDB.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", cardAdmiralFromDB.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", cardAdmiralFromDB.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", cardAdmiralFromDB.MentalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", cardAdmiralFromDB.MentalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", cardAdmiralFromDB.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", cardAdmiralFromDB.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", cardAdmiralFromDB.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", cardAdmiralFromDB.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", cardAdmiralFromDB.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", cardAdmiralFromDB.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardAdmiralFromDB.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", cardAdmiralFromDB.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", cardAdmiralFromDB.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardAdmiralFromDB.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardAdmiralFromDB.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardAdmiralFromDB.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardAdmiralFromDB.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", cardAdmiralFromDB.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", cardAdmiralFromDB.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", cardAdmiralFromDB.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", cardAdmiralFromDB.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", cardAdmiralFromDB.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", cardAdmiralFromDB.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", cardAdmiralFromDB.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", cardAdmiralFromDB.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", cardAdmiralFromDB.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", cardAdmiralFromDB.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", cardAdmiralFromDB.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", cardAdmiralFromDB.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardAdmiralFromDB.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", cardAdmiralFromDB.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardAdmiralFromDB.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", cardAdmiralFromDB.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardAdmiralFromDB.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardAdmiralFromDB.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardAdmiralFromDB.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardAdmiralFromDB.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardAdmiralFromDB.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", cardAdmiralFromDB.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", cardAdmiralFromDB.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", cardAdmiralFromDB.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", cardAdmiralFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_defense", 5);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -693,7 +693,7 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
     }
     public async Task<CardAdmirals> SumPowerCardAdmiralsGalleryAsync()
     {
-        CardAdmirals sumCardAdmiral = new CardAdmirals();
+        CardAdmirals sumCardAdmirals = new CardAdmirals();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -702,7 +702,7 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT 
+                string selectSQL = @"SELECT 
                     SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
                     SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
                     SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
@@ -744,75 +744,75 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
                 FROM card_admirals_gallery 
                 WHERE user_id = @user_id AND status = 'available';";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            sumCardAdmiral.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDoubleSafe("total_power");
-                            sumCardAdmiral.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDoubleSafe("total_health");
-                            sumCardAdmiral.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDoubleSafe("total_physical_attack");
-                            sumCardAdmiral.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDoubleSafe("total_physical_defense");
-                            sumCardAdmiral.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDoubleSafe("total_magical_attack");
-                            sumCardAdmiral.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDoubleSafe("total_magical_defense");
-                            sumCardAdmiral.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_chemical_attack");
-                            sumCardAdmiral.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_chemical_defense");
-                            sumCardAdmiral.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_atomic_attack");
-                            sumCardAdmiral.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_atomic_defense");
-                            sumCardAdmiral.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDoubleSafe("total_mental_attack");
-                            sumCardAdmiral.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDoubleSafe("total_mental_defense");
-                            sumCardAdmiral.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDoubleSafe("total_speed");
-                            sumCardAdmiral.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDoubleSafe("total_critical_damage_rate");
-                            sumCardAdmiral.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDoubleSafe("total_critical_rate");
-                            sumCardAdmiral.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_critical_resistance_rate");
-                            sumCardAdmiral.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_critical_rate");
-                            sumCardAdmiral.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_rate");
-                            sumCardAdmiral.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_resistance_rate");
-                            sumCardAdmiral.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDoubleSafe("total_evasion_rate");
-                            sumCardAdmiral.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_damage_absorption_rate");
-                            sumCardAdmiral.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_damage_absorption_rate");
-                            sumCardAdmiral.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDoubleSafe("total_absorbed_damage_rate");
-                            sumCardAdmiral.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_rate");
-                            sumCardAdmiral.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_resistance_rate");
-                            sumCardAdmiral.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDoubleSafe("total_accuracy_rate");
-                            sumCardAdmiral.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDoubleSafe("total_lifesteal_rate");
-                            sumCardAdmiral.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDoubleSafe("total_shield_strength");
-                            sumCardAdmiral.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDoubleSafe("total_tenacity");
-                            sumCardAdmiral.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_rate");
-                            sumCardAdmiral.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDoubleSafe("total_combo_rate");
-                            sumCardAdmiral.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_combo_rate");
-                            sumCardAdmiral.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDoubleSafe("total_combo_damage_rate");
-                            sumCardAdmiral.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_combo_resistance_rate");
-                            sumCardAdmiral.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDoubleSafe("total_stun_rate");
-                            sumCardAdmiral.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_stun_rate");
-                            sumCardAdmiral.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_rate");
-                            sumCardAdmiral.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_reflection_rate");
-                            sumCardAdmiral.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_damage_rate");
-                            sumCardAdmiral.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_resistance_rate");
-                            sumCardAdmiral.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDoubleSafe("total_mana");
-                            sumCardAdmiral.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_mana_regeneration_rate");
-                            sumCardAdmiral.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_different_faction_rate");
-                            sumCardAdmiral.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_different_faction_rate");
-                            sumCardAdmiral.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_same_faction_rate");
-                            sumCardAdmiral.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_same_faction_rate");
-                            sumCardAdmiral.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDoubleSafe("total_normal_damage_rate");
-                            sumCardAdmiral.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_normal_resistance_rate");
-                            sumCardAdmiral.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDoubleSafe("total_skill_damage_rate");
-                            sumCardAdmiral.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_skill_resistance_rate");
-                            sumCardAdmiral.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDoubleSafe("total_percent_all_health");
-                            sumCardAdmiral.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_physical_attack");
-                            sumCardAdmiral.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_physical_defense");
-                            sumCardAdmiral.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_magical_attack");
-                            sumCardAdmiral.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_magical_defense");
-                            sumCardAdmiral.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_chemical_attack");
-                            sumCardAdmiral.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_chemical_defense");
-                            sumCardAdmiral.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_atomic_attack");
-                            sumCardAdmiral.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_atomic_defense");
-                            sumCardAdmiral.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_mental_attack");
-                            sumCardAdmiral.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_mental_defense");
+                            sumCardAdmirals.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDoubleSafe("total_power");
+                            sumCardAdmirals.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDoubleSafe("total_health");
+                            sumCardAdmirals.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDoubleSafe("total_physical_attack");
+                            sumCardAdmirals.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDoubleSafe("total_physical_defense");
+                            sumCardAdmirals.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDoubleSafe("total_magical_attack");
+                            sumCardAdmirals.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDoubleSafe("total_magical_defense");
+                            sumCardAdmirals.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_chemical_attack");
+                            sumCardAdmirals.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_chemical_defense");
+                            sumCardAdmirals.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_atomic_attack");
+                            sumCardAdmirals.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_atomic_defense");
+                            sumCardAdmirals.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDoubleSafe("total_mental_attack");
+                            sumCardAdmirals.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDoubleSafe("total_mental_defense");
+                            sumCardAdmirals.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDoubleSafe("total_speed");
+                            sumCardAdmirals.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDoubleSafe("total_critical_damage_rate");
+                            sumCardAdmirals.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDoubleSafe("total_critical_rate");
+                            sumCardAdmirals.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_critical_resistance_rate");
+                            sumCardAdmirals.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_critical_rate");
+                            sumCardAdmirals.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_rate");
+                            sumCardAdmirals.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_resistance_rate");
+                            sumCardAdmirals.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDoubleSafe("total_evasion_rate");
+                            sumCardAdmirals.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_damage_absorption_rate");
+                            sumCardAdmirals.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_damage_absorption_rate");
+                            sumCardAdmirals.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDoubleSafe("total_absorbed_damage_rate");
+                            sumCardAdmirals.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_rate");
+                            sumCardAdmirals.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_resistance_rate");
+                            sumCardAdmirals.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDoubleSafe("total_accuracy_rate");
+                            sumCardAdmirals.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDoubleSafe("total_lifesteal_rate");
+                            sumCardAdmirals.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDoubleSafe("total_shield_strength");
+                            sumCardAdmirals.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDoubleSafe("total_tenacity");
+                            sumCardAdmirals.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_rate");
+                            sumCardAdmirals.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDoubleSafe("total_combo_rate");
+                            sumCardAdmirals.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_combo_rate");
+                            sumCardAdmirals.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDoubleSafe("total_combo_damage_rate");
+                            sumCardAdmirals.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_combo_resistance_rate");
+                            sumCardAdmirals.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDoubleSafe("total_stun_rate");
+                            sumCardAdmirals.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_stun_rate");
+                            sumCardAdmirals.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_rate");
+                            sumCardAdmirals.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_reflection_rate");
+                            sumCardAdmirals.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_damage_rate");
+                            sumCardAdmirals.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_resistance_rate");
+                            sumCardAdmirals.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDoubleSafe("total_mana");
+                            sumCardAdmirals.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_mana_regeneration_rate");
+                            sumCardAdmirals.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_different_faction_rate");
+                            sumCardAdmirals.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_different_faction_rate");
+                            sumCardAdmirals.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_same_faction_rate");
+                            sumCardAdmirals.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_same_faction_rate");
+                            sumCardAdmirals.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDoubleSafe("total_normal_damage_rate");
+                            sumCardAdmirals.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_normal_resistance_rate");
+                            sumCardAdmirals.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDoubleSafe("total_skill_damage_rate");
+                            sumCardAdmirals.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_skill_resistance_rate");
+                            sumCardAdmirals.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDoubleSafe("total_percent_all_health");
+                            sumCardAdmirals.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_physical_attack");
+                            sumCardAdmirals.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_physical_defense");
+                            sumCardAdmirals.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_magical_attack");
+                            sumCardAdmirals.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_magical_defense");
+                            sumCardAdmirals.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_chemical_attack");
+                            sumCardAdmirals.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_chemical_defense");
+                            sumCardAdmirals.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_atomic_attack");
+                            sumCardAdmirals.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_atomic_defense");
+                            sumCardAdmirals.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_mental_attack");
+                            sumCardAdmirals.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_mental_defense");
                         }
                     }
                 }
@@ -827,6 +827,6 @@ public class CardAdmiralsGalleryRepository : ICardAdmiralsGalleryRepository
             }
         }
 
-        return sumCardAdmiral;
+        return sumCardAdmirals;
     }
 }

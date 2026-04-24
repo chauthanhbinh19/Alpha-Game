@@ -19,7 +19,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT m.*, mg.current_star, mg.temp_star,
                     CASE 
                         WHEN mg.relic_id IS NULL THEN 'block'
@@ -32,43 +32,43 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND m.type = @type";
+                    selectSQL += " AND m.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY m.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY m.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -175,40 +175,40 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Relics 
+                string selectSQL = @"SELECT COUNT(*) FROM Relics 
                 WHERE 1=1";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    command.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@type", type);
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    command.Parameters.AddWithValue("@rare", rare);
+                    selectCommand.Parameters.AddWithValue("@rare", rare);
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    command.Parameters.AddWithValue("@search", search);
+                    selectCommand.Parameters.AddWithValue("@search", search);
                 }
 
-                object result = await command.ExecuteScalarAsync();
+                object result = await selectCommand.ExecuteScalarAsync();
                 count = Convert.ToInt32(result);
             }
             catch (MySqlException ex)
@@ -235,13 +235,13 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi đã tồn tại
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM relics_gallery 
                 WHERE user_id = @user_id AND relic_id = @relic_id;
                 ";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 checkCommand.Parameters.AddWithValue("@relic_id", Id);
 
@@ -250,7 +250,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                 // Nếu chưa có thì insert
                 if (recordCount == 0)
                 {
-                    string query = @"
+                    string insertSQL = @"
                 INSERT INTO relics_gallery (
                     user_id, relic_id, status, current_star, temp_star, power, health, 
                     physical_attack, physical_defense, magical_attack, magical_defense, 
@@ -298,81 +298,81 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                     @percent_all_mental_defense
                 );";
 
-                    MySqlCommand command = new MySqlCommand(query, connection);
+                    MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@relic_id", Id);
-                    command.Parameters.AddWithValue("@status", "pending");
-                    command.Parameters.AddWithValue("@current_star", 0);
-                    command.Parameters.AddWithValue("@temp_star", 0);
+                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@relic_id", Id);
+                    insertCommand.Parameters.AddWithValue("@status", "pending");
+                    insertCommand.Parameters.AddWithValue("@current_star", 0);
+                    insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
                     // Thuộc tính
-                    command.Parameters.AddWithValue("@power", relicFromDB.Power);
-                    command.Parameters.AddWithValue("@health", relicFromDB.Health);
-                    command.Parameters.AddWithValue("@physical_attack", relicFromDB.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", relicFromDB.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", relicFromDB.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", relicFromDB.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", relicFromDB.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", relicFromDB.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", relicFromDB.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", relicFromDB.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", relicFromDB.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", relicFromDB.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", relicFromDB.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", relicFromDB.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", relicFromDB.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", relicFromDB.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", relicFromDB.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", relicFromDB.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", relicFromDB.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", relicFromDB.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", relicFromDB.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", relicFromDB.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", relicFromDB.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", relicFromDB.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relicFromDB.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", relicFromDB.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", relicFromDB.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", relicFromDB.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", relicFromDB.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", relicFromDB.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", relicFromDB.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", relicFromDB.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", relicFromDB.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", relicFromDB.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", relicFromDB.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", relicFromDB.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", relicFromDB.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", relicFromDB.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", relicFromDB.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", relicFromDB.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", relicFromDB.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", relicFromDB.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", relicFromDB.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", relicFromDB.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", relicFromDB.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", relicFromDB.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", relicFromDB.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", relicFromDB.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", relicFromDB.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", relicFromDB.SkillResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@power", relicFromDB.Power);
+                    insertCommand.Parameters.AddWithValue("@health", relicFromDB.Health);
+                    insertCommand.Parameters.AddWithValue("@physical_attack", relicFromDB.PhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@physical_defense", relicFromDB.PhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@magical_attack", relicFromDB.MagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@magical_defense", relicFromDB.MagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@chemical_attack", relicFromDB.ChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@chemical_defense", relicFromDB.ChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@atomic_attack", relicFromDB.AtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@atomic_defense", relicFromDB.AtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@mental_attack", relicFromDB.MentalAttack);
+                    insertCommand.Parameters.AddWithValue("@mental_defense", relicFromDB.MentalDefense);
+                    insertCommand.Parameters.AddWithValue("@speed", relicFromDB.Speed);
+                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", relicFromDB.CriticalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@critical_rate", relicFromDB.CriticalRate);
+                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", relicFromDB.CriticalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", relicFromDB.IgnoreCriticalRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_rate", relicFromDB.PenetrationRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", relicFromDB.PenetrationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@evasion_rate", relicFromDB.EvasionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", relicFromDB.DamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", relicFromDB.IgnoreDamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", relicFromDB.AbsorbedDamageRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", relicFromDB.VitalityRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relicFromDB.VitalityRegenerationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@accuracy_rate", relicFromDB.AccuracyRate);
+                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", relicFromDB.LifestealRate);
+                    insertCommand.Parameters.AddWithValue("@shield_strength", relicFromDB.ShieldStrength);
+                    insertCommand.Parameters.AddWithValue("@tenacity", relicFromDB.Tenacity);
+                    insertCommand.Parameters.AddWithValue("@resistance_rate", relicFromDB.ResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@combo_rate", relicFromDB.ComboRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", relicFromDB.IgnoreComboRate);
+                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", relicFromDB.ComboDamageRate);
+                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", relicFromDB.ComboResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@stun_rate", relicFromDB.StunRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", relicFromDB.IgnoreStunRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_rate", relicFromDB.ReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", relicFromDB.IgnoreReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", relicFromDB.ReflectionDamageRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", relicFromDB.ReflectionResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@mana", relicFromDB.Mana);
+                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", relicFromDB.ManaRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", relicFromDB.DamageToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", relicFromDB.ResistanceToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", relicFromDB.DamageToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", relicFromDB.ResistanceToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", relicFromDB.NormalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", relicFromDB.NormalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", relicFromDB.SkillDamageRate);
+                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", relicFromDB.SkillResistanceRate);
 
                     // % buff theo quality
-                    command.Parameters.AddWithValue("@percent_all_health", percent);
-                    command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_magical_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_magical_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
-                    command.Parameters.AddWithValue("@percent_all_mental_attack", percent);
-                    command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_physical_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_magical_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_magical_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_mental_attack", percent);
+                    insertCommand.Parameters.AddWithValue("@percent_all_mental_defense", percent);
 
-                    await command.ExecuteNonQueryAsync();
+                    await insertCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -395,13 +395,13 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE relics_gallery SET status=@status WHERE user_id=@user_id AND relic_id=@relic_id";
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@relic_id", Id);
-                command.Parameters.AddWithValue("@status", "available");
+                string updateSQL = "UPDATE relics_gallery SET status=@status WHERE user_id=@user_id AND relic_id=@relic_id";
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@relic_id", Id);
+                updateCommand.Parameters.AddWithValue("@status", "available");
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -424,13 +424,13 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT current_star, temp_star
                 FROM relics_gallery 
                 WHERE user_id = @user_id AND relic_id = @relic_id;
             ";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 checkCommand.Parameters.AddWithValue("@relic_id", Id);
 
@@ -444,13 +444,13 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                         {
                             reader.Close(); // Đóng reader trước khi thực hiện update
 
-                            string updateQuery = @"
+                            string updateSQL = @"
                             UPDATE relics_gallery 
                             SET temp_star = @temp_star 
                             WHERE user_id = @user_id AND relic_id = @relic_id;
                         ";
 
-                            MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                            MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCommand.Parameters.AddWithValue("@relic_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
@@ -480,7 +480,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE relics_gallery
+                string updateSQL = @"UPDATE relics_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -549,74 +549,74 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                 AND relic_id = @relic_id;
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@relic_id", Id);
-                command.Parameters.AddWithValue("@status", "pending");
-                command.Parameters.AddWithValue("@current_star", 0);
-                command.Parameters.AddWithValue("@power", relicFromDB.Power);
-                command.Parameters.AddWithValue("@health", relicFromDB.Health);
-                command.Parameters.AddWithValue("@physical_attack", relicFromDB.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", relicFromDB.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", relicFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", relicFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", relicFromDB.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", relicFromDB.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", relicFromDB.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", relicFromDB.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", relicFromDB.MentalAttack);
-                command.Parameters.AddWithValue("@mental_defense", relicFromDB.MentalDefense);
-                command.Parameters.AddWithValue("@speed", relicFromDB.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", relicFromDB.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", relicFromDB.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", relicFromDB.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", relicFromDB.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", relicFromDB.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", relicFromDB.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", relicFromDB.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", relicFromDB.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", relicFromDB.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", relicFromDB.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", relicFromDB.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relicFromDB.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", relicFromDB.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", relicFromDB.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", relicFromDB.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", relicFromDB.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", relicFromDB.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", relicFromDB.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", relicFromDB.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", relicFromDB.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", relicFromDB.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", relicFromDB.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", relicFromDB.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", relicFromDB.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", relicFromDB.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", relicFromDB.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", relicFromDB.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", relicFromDB.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", relicFromDB.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", relicFromDB.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", relicFromDB.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", relicFromDB.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", relicFromDB.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", relicFromDB.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", relicFromDB.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", relicFromDB.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", relicFromDB.SkillResistanceRate);
-                command.Parameters.AddWithValue("@percent_all_health", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_defense", 5);
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@relic_id", Id);
+                updateCommand.Parameters.AddWithValue("@status", "pending");
+                updateCommand.Parameters.AddWithValue("@current_star", 0);
+                updateCommand.Parameters.AddWithValue("@power", relicFromDB.Power);
+                updateCommand.Parameters.AddWithValue("@health", relicFromDB.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", relicFromDB.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", relicFromDB.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", relicFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", relicFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", relicFromDB.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", relicFromDB.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", relicFromDB.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", relicFromDB.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", relicFromDB.MentalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", relicFromDB.MentalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", relicFromDB.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", relicFromDB.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", relicFromDB.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", relicFromDB.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", relicFromDB.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", relicFromDB.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", relicFromDB.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", relicFromDB.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", relicFromDB.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", relicFromDB.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", relicFromDB.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", relicFromDB.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relicFromDB.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", relicFromDB.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", relicFromDB.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", relicFromDB.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", relicFromDB.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", relicFromDB.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", relicFromDB.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", relicFromDB.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", relicFromDB.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", relicFromDB.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", relicFromDB.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", relicFromDB.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", relicFromDB.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", relicFromDB.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", relicFromDB.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", relicFromDB.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", relicFromDB.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", relicFromDB.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", relicFromDB.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", relicFromDB.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", relicFromDB.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", relicFromDB.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", relicFromDB.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", relicFromDB.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", relicFromDB.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", relicFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_defense", 5);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -639,7 +639,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT 
+                string selectSQL = @"SELECT 
                 SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
                 SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
                 SUM(magical_attack) AS total_magical_attack, SUM(magical_defense) AS total_magical_defense, 
@@ -681,11 +681,11 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             FROM relics_gallery 
             WHERE user_id = @user_id AND status = 'available';";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

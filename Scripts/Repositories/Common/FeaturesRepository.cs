@@ -15,13 +15,13 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT id, feature_name, required_level FROM features WHERE type = @type";
+            string selectSQL = "SELECT id, feature_name, required_level FROM features WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -50,7 +50,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT f.id, 
+            string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
                 COALESCE(r.research_level, 0) AS research_level
@@ -58,11 +58,11 @@ public class FeaturesRepository : IFeaturesRepository
             LEFT JOIN researchs r on f.id = r.research_id
             WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -92,7 +92,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT f.id, 
+            string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
                 COALESCE(r.archive_level, 0) AS archive_level
@@ -100,11 +100,11 @@ public class FeaturesRepository : IFeaturesRepository
             LEFT JOIN archives r on f.id = r.archive_id
             WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -134,7 +134,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT f.id, 
+            string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
                 COALESCE(r.universe_level, 0) AS universe_level
@@ -142,11 +142,11 @@ public class FeaturesRepository : IFeaturesRepository
             LEFT JOIN researchs r on f.id = r.universe_id
             WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -176,7 +176,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT f.id, 
+            string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
                 COALESCE(r.hiin_level, 0) AS hiin_level
@@ -184,11 +184,11 @@ public class FeaturesRepository : IFeaturesRepository
             LEFT JOIN hiins r on f.id = r.hiin_id
             WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -218,7 +218,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT f.id, 
+            string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
                 COALESCE(r.sswn_level, 0) AS sswn_level
@@ -226,11 +226,11 @@ public class FeaturesRepository : IFeaturesRepository
             LEFT JOIN sswns r on f.id = r.sswn_id
             WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -260,7 +260,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT f.id, 
+            string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
                 COALESCE(r.hitn_level, 0) AS hitn_level
@@ -268,11 +268,11 @@ public class FeaturesRepository : IFeaturesRepository
             LEFT JOIN hitns r on f.id = r.hitn_id
             WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -302,7 +302,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT f.id, 
+            string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
                 COALESCE(r.hihn_level, 0) AS hihn_level
@@ -310,11 +310,11 @@ public class FeaturesRepository : IFeaturesRepository
             LEFT JOIN hihns r on f.id = r.hihn_id
             WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -344,7 +344,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT f.id, 
+            string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
                 COALESCE(r.hien_level, 0) AS hien_level
@@ -352,11 +352,11 @@ public class FeaturesRepository : IFeaturesRepository
             LEFT JOIN hiens r on f.id = r.hien_id
             WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -386,7 +386,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT f.id, 
+            string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
                 COALESCE(r.hica_level, 0) AS hica_level
@@ -394,11 +394,11 @@ public class FeaturesRepository : IFeaturesRepository
             LEFT JOIN hicas r on f.id = r.hica_id
             WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -428,7 +428,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT f.id, 
+            string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
                 COALESCE(r.hirn_level, 0) AS hirn_level
@@ -436,11 +436,11 @@ public class FeaturesRepository : IFeaturesRepository
             LEFT JOIN hirns r on f.id = r.hirn_id
             WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -470,7 +470,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT f.id, 
+            string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
                 COALESCE(r.hidc_level, 0) AS hidc_level
@@ -478,11 +478,11 @@ public class FeaturesRepository : IFeaturesRepository
             LEFT JOIN hidcs r on f.id = r.hidc_id
             WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -512,7 +512,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT f.id, 
+            string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
                 COALESCE(r.hicb_level, 0) AS hicb_level
@@ -520,11 +520,11 @@ public class FeaturesRepository : IFeaturesRepository
             LEFT JOIN hicbs r on f.id = r.hicb_id
             WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -554,7 +554,7 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT f.id, 
+            string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
                 COALESCE(r.hicb_level, 0) AS hicb_level
@@ -562,11 +562,11 @@ public class FeaturesRepository : IFeaturesRepository
             LEFT JOIN hicbs r on f.id = r.hicb_id
             WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -596,13 +596,13 @@ public class FeaturesRepository : IFeaturesRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT type FROM features WHERE type = @type";
+            string selectSQL = "SELECT DISTINCT type FROM features WHERE type = @type";
 
-            using (MySqlCommand command = new MySqlCommand(query, connection))
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
 
-                using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -614,7 +614,7 @@ public class FeaturesRepository : IFeaturesRepository
                             FeatureName = reader.GetString(1),
                             RequiredLevel = reader.GetInt32(2)
                         };
-                        // Vì query KHÔNG có cột thứ 2, đặt value mặc định
+                        // Vì selectSQL KHÔNG có cột thứ 2, đặt value mặc định
                         features[featureType] = feature;
                     }
                 }

@@ -14,7 +14,7 @@ public class EquipmentsRepository : IEquipmentsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT DISTINCT type 
             FROM Equipments
             ORDER BY 
@@ -23,8 +23,8 @@ public class EquipmentsRepository : IEquipmentsRepository
                 type;
         ";
 
-            await using (var command = new MySqlCommand(query, connection))
-            await using (var reader = await command.ExecuteReaderAsync())
+            await using (var selectCommand = new MySqlCommand(selectSQL, connection))
+            await using (var reader = await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -44,10 +44,10 @@ public class EquipmentsRepository : IEquipmentsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM Equipments";
+            string selectSQL = "SELECT DISTINCT id FROM Equipments";
 
-            await using (var command = new MySqlCommand(query, connection))
-            await using (var reader = await command.ExecuteReaderAsync())
+            await using (var selectCommand = new MySqlCommand(selectSQL, connection))
+            await using (var reader = await selectCommand.ExecuteReaderAsync())
             {
                 while (await reader.ReadAsync())
                 {
@@ -67,46 +67,46 @@ public class EquipmentsRepository : IEquipmentsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT * FROM Equipments WHERE 1=1";
+            string selectSQL = @"SELECT * FROM Equipments WHERE 1=1";
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                query += " AND type = @type";
+                selectSQL += " AND type = @type";
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND rare = @rare";
+                selectSQL += " AND rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            query += " LIMIT @limit OFFSET @offset";
+            selectSQL += " LIMIT @limit OFFSET @offset";
 
-            await using (var command = new MySqlCommand(query, connection))
+            await using (var selectCommand = new MySqlCommand(selectSQL, connection))
             {
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    command.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@type", type);
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    command.Parameters.AddWithValue("@rare", rare);
+                    selectCommand.Parameters.AddWithValue("@rare", rare);
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    command.Parameters.AddWithValue("@search", search);
+                    selectCommand.Parameters.AddWithValue("@search", search);
                 }
 
-                command.Parameters.AddWithValue("@limit", pageSize);
-                command.Parameters.AddWithValue("@offset", offset);
+                selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                await using (var reader = await command.ExecuteReaderAsync())
+                await using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -203,41 +203,41 @@ public class EquipmentsRepository : IEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Equipments WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Equipments WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND type = @type";
+                    selectSQL += " AND type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -260,7 +260,7 @@ public class EquipmentsRepository : IEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT e.*, c.image AS currency_image, et.price 
                 FROM equipments e
                 JOIN equipment_trade et ON e.id = et.equipment_id
@@ -268,13 +268,13 @@ public class EquipmentsRepository : IEquipmentsRepository
                 WHERE e.type = @type
                 LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -378,16 +378,16 @@ public class EquipmentsRepository : IEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT DISTINCT e.equipmentSet
                 FROM Equipments e
                 WHERE e.type = @type";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@type", type);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -415,13 +415,13 @@ public class EquipmentsRepository : IEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM equipments WHERE id = @id";
+                string selectSQL = "SELECT * FROM equipments WHERE id = @id";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", id);
+                    selectCommand.Parameters.AddWithValue("@id", id);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

@@ -11412,8 +11412,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2569679457981109949}
   m_HandleRect: {fileID: 3033266055021547509}
   m_Direction: 0
-  m_Value: -3807.5
-  m_Size: 0.99947476
+  m_Value: -95205670
+  m_Size: 0.9291992
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -14696,6 +14696,7 @@ MonoBehaviour:
   scrollRect: {fileID: 2415597877625095961}
   content: {fileID: 6932842183448829179}
   totalPanels: 3
+  page: 1
 --- !u!1 &4126033349209198667
 GameObject:
   m_ObjectHideFlags: 0
@@ -19119,7 +19120,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2856, y: 531.5}
+  m_AnchoredPosition: {x: 1.3804822e+10, y: 329.63876}
   m_SizeDelta: {x: 1904, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &2203335591720318334
@@ -20451,8 +20452,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1901509978151316802}
   m_HandleRect: {fileID: 5317982405952785389}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.32803035
+  m_Value: 1.0927246
+  m_Size: 0.1640432
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

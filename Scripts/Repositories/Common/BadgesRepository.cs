@@ -16,9 +16,9 @@ public class BadgesRepository : IBadgesRepository
             await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM Badges";
-            await using var command = new MySqlCommand(query, connection);
-            await using var reader = await command.ExecuteReaderAsync();
+            string selectSQL = "SELECT DISTINCT id FROM Badges";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            await using var reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -42,44 +42,44 @@ public class BadgesRepository : IBadgesRepository
             await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT * 
             FROM badges 
             WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
             ORDER BY 
                 badges.name REGEXP '[0-9]+$',
                 CAST(REGEXP_SUBSTR(badges.name, '[0-9]+$') AS UNSIGNED),
                 badges.name
             LIMIT @limit OFFSET @offset";
 
-            await using var command = new MySqlCommand(query, connection);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                command.Parameters.AddWithValue("@rare", rare);
+                selectCommand.Parameters.AddWithValue("@rare", rare);
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                command.Parameters.AddWithValue("@search", search);
+                selectCommand.Parameters.AddWithValue("@search", search);
             }
 
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 Badges Badge = new Badges
@@ -173,31 +173,31 @@ public class BadgesRepository : IBadgesRepository
             await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
 
-            string query = @"SELECT COUNT(*) FROM Badges WHERE 1=1";
+            string selectSQL = @"SELECT COUNT(*) FROM Badges WHERE 1=1";
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND rare = @rare";
+                selectSQL += " AND rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            await using var command = new MySqlCommand(query, connection);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                command.Parameters.AddWithValue("@rare", rare);
+                selectCommand.Parameters.AddWithValue("@rare", rare);
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                command.Parameters.AddWithValue("@search", search);
+                selectCommand.Parameters.AddWithValue("@search", search);
             }
 
-            object result = await command.ExecuteScalarAsync();
+            object result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
@@ -217,7 +217,7 @@ public class BadgesRepository : IBadgesRepository
             await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
             FROM Badges t
             JOIN Badge_trade tt ON t.id = tt.Badge_id
@@ -225,11 +225,11 @@ public class BadgesRepository : IBadgesRepository
             ORDER BY t.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 Badges badge = new Badges
@@ -330,14 +330,14 @@ public class BadgesRepository : IBadgesRepository
             await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT COUNT(*)
             FROM Badges t
             JOIN Badge_trade tt ON t.id = tt.Badge_id
             JOIN currencies cu ON tt.currency_id = cu.id;";
 
-            await using var command = new MySqlCommand(query, connection);
-            var result = await command.ExecuteScalarAsync();
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            var result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
@@ -357,11 +357,11 @@ public class BadgesRepository : IBadgesRepository
             await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
 
-            string query = "SELECT * FROM Badges WHERE id=@id";
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@id", id);
+            string selectSQL = "SELECT * FROM Badges WHERE id=@id";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@id", id);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 badge = new Badges
@@ -442,7 +442,7 @@ public class BadgesRepository : IBadgesRepository
             await using var connection = new MySqlConnection(connectionString);
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT 
                 SUM(a.percent_all_health) AS total_percent_all_health,
                 SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -460,10 +460,10 @@ public class BadgesRepository : IBadgesRepository
             WHERE ua.user_id = @user_id;
         ";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 sumBadges.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDoubleSafe("total_percent_all_health");

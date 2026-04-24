@@ -16,7 +16,7 @@ public class RecipeRepository : IRecipeRepository
         await using var connection = new MySqlConnection(connectionString);
         await connection.OpenAsync();
 
-        string sql = @"
+        string selectSQL = @"
             SELECT 
                 r.id AS recipe_id,
                 i.id AS item_id,
@@ -38,12 +38,12 @@ public class RecipeRepository : IRecipeRepository
             AND @level BETWEEN rl.min_level AND rl.max_level;
         ";
 
-        await using var command = new MySqlCommand(sql, connection);
-        command.Parameters.AddWithValue("@featureName", featureName);
-        command.Parameters.AddWithValue("@level", level);
-        command.Parameters.AddWithValue("@userId", userId);
+        await using var selectCommand = new MySqlCommand(selectSQL, connection);
+        selectCommand.Parameters.AddWithValue("@featureName", featureName);
+        selectCommand.Parameters.AddWithValue("@level", level);
+        selectCommand.Parameters.AddWithValue("@userId", userId);
 
-        await using var reader = await command.ExecuteReaderAsync();
+        await using var reader = await selectCommand.ExecuteReaderAsync();
 
         while (await reader.ReadAsync())
         {
@@ -73,18 +73,18 @@ public class RecipeRepository : IRecipeRepository
         {
             foreach (var item in items)
             {
-                string sql = @"
+                string updateSQL = @"
                     UPDATE user_items
                     SET quantity = quantity - @quantity
                     WHERE user_id = @userId
                     AND item_id = @itemId";
 
-                await using var command = new MySqlCommand(sql, connection, transaction);
-                command.Parameters.AddWithValue("@quantity", item.RequiredQuantity);
-                command.Parameters.AddWithValue("@userId", userId);
-                command.Parameters.AddWithValue("@itemId", item.ItemId);
+                await using var updateCommand = new MySqlCommand(updateSQL, connection, transaction);
+                updateCommand.Parameters.AddWithValue("@quantity", item.RequiredQuantity);
+                updateCommand.Parameters.AddWithValue("@userId", userId);
+                updateCommand.Parameters.AddWithValue("@itemId", item.ItemId);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
 
             await transaction.CommitAsync();
@@ -104,7 +104,7 @@ public class RecipeRepository : IRecipeRepository
         await using var connection = new MySqlConnection(connectionString);
         await connection.OpenAsync();
 
-        string sql = @"
+        string selectSQL = @"
             SELECT 
             r.id AS recipe_id,
             i.id AS item_id,
@@ -129,12 +129,12 @@ public class RecipeRepository : IRecipeRepository
         );
         ";
 
-        await using var command = new MySqlCommand(sql, connection);
-        command.Parameters.AddWithValue("@itemId", itemId);
-        command.Parameters.AddWithValue("@level", level);
-        command.Parameters.AddWithValue("@userId", userId);
+        await using var selectCommand = new MySqlCommand(selectSQL, connection);
+        selectCommand.Parameters.AddWithValue("@itemId", itemId);
+        selectCommand.Parameters.AddWithValue("@level", level);
+        selectCommand.Parameters.AddWithValue("@userId", userId);
 
-        await using var reader = await command.ExecuteReaderAsync();
+        await using var reader = await selectCommand.ExecuteReaderAsync();
 
         while (await reader.ReadAsync())
         {

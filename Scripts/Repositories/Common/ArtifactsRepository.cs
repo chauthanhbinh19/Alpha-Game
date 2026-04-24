@@ -16,10 +16,10 @@ public class ArtifactsRepository : IArtifactsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM artifacts";
+            string selectSQL = "SELECT DISTINCT id FROM artifacts";
 
-            await using var command = new MySqlCommand(query, connection);
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            await using var reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -43,28 +43,28 @@ public class ArtifactsRepository : IArtifactsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT * FROM artifacts WHERE 1=1";
+            string selectSQL = @"SELECT * FROM artifacts WHERE 1=1";
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND rare = @rare";
+                selectSQL += " AND rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            query += " ORDER BY name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(name, '[0-9]+$') AS UNSIGNED), name";
-            query += " LIMIT @limit OFFSET @offset";
+            selectSQL += " ORDER BY name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(name, '[0-9]+$') AS UNSIGNED), name";
+            selectSQL += " LIMIT @limit OFFSET @offset";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@search", search);
-            command.Parameters.AddWithValue("@rare", rare);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@search", search);
+            selectCommand.Parameters.AddWithValue("@rare", rare);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -159,23 +159,23 @@ public class ArtifactsRepository : IArtifactsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT COUNT(*) FROM artifacts WHERE 1=1";
+            string selectSQL = @"SELECT COUNT(*) FROM artifacts WHERE 1=1";
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND rare = @rare";
+                selectSQL += " AND rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@search", search);
-            command.Parameters.AddWithValue("@rare", rare);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@search", search);
+            selectCommand.Parameters.AddWithValue("@rare", rare);
 
-            var result = await command.ExecuteScalarAsync();
+            var result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
@@ -195,7 +195,7 @@ public class ArtifactsRepository : IArtifactsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
             FROM artifacts t
             JOIN artifact_trade tt ON t.id = tt.artifact_id
@@ -203,11 +203,11 @@ public class ArtifactsRepository : IArtifactsRepository
             ORDER BY t.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 Artifacts artifact = new Artifacts
@@ -308,14 +308,14 @@ public class ArtifactsRepository : IArtifactsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT COUNT(*)
             FROM artifacts t
             JOIN artifact_trade tt ON t.id = tt.artifact_id
             JOIN currencies cu ON tt.currency_id = cu.id;";
 
-            await using var command = new MySqlCommand(query, connection);
-            var result = await command.ExecuteScalarAsync();
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            var result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
@@ -335,11 +335,11 @@ public class ArtifactsRepository : IArtifactsRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT * FROM artifacts WHERE id = @id";
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@id", Id);
+            string selectSQL = "SELECT * FROM artifacts WHERE id = @id";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@id", Id);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 artifact = new Artifacts
@@ -420,7 +420,7 @@ public class ArtifactsRepository : IArtifactsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT 
                 SUM(a.percent_all_health) AS total_percent_all_health,
                 SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -438,10 +438,10 @@ public class ArtifactsRepository : IArtifactsRepository
             WHERE ua.user_id = @user_id;
         ";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 sumArtifacts.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDoubleSafe("total_percent_all_health");

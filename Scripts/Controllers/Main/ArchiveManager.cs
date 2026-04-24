@@ -64,6 +64,10 @@ public class ArchiveManager : MonoBehaviour
         CreateArchiveButtonUI(25, AppDisplayConstants.Archive.ARCHIVE_XXV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXV_URL), contentPanel);
         CreateArchiveButtonUI(26, AppDisplayConstants.Archive.ARCHIVE_XXVI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXVI_URL), contentPanel);
         CreateArchiveButtonUI(27, AppDisplayConstants.Archive.ARCHIVE_XXVII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXVII_URL), contentPanel);
+        CreateArchiveButtonUI(28, AppDisplayConstants.Archive.ARCHIVE_XXVIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXVIII_URL), contentPanel);
+        CreateArchiveButtonUI(29, AppDisplayConstants.Archive.ARCHIVE_XXIX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXIX_URL), contentPanel);
+        CreateArchiveButtonUI(30, AppDisplayConstants.Archive.ARCHIVE_XXX, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXX_URL), contentPanel);
+        CreateArchiveButtonUI(31, AppDisplayConstants.Archive.ARCHIVE_XXXI, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXI_URL), contentPanel);
 
         CreateArchiveButtonEvent(contentPanel);
     }
@@ -114,5 +118,9 @@ public class ArchiveManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_25", panel, async () => await ArchiveXXVManager.Instance.CreateArchiveXXVManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_26", panel, async () => await ArchiveXXVIManager.Instance.CreateArchiveXXVIManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_27", panel, async () => await ArchiveXXVIIManager.Instance.CreateArchiveXXVIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_28", panel, async () => await ArchiveXXVIIIManager.Instance.CreateArchiveXXVIIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_29", panel, async () => await ArchiveXXIXManager.Instance.CreateArchiveXXIXManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_30", panel, async () => await ArchiveXXXManager.Instance.CreateArchiveXXXManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_31", panel, async () => await ArchiveXXXIManager.Instance.CreateArchiveXXXIManagerAsync());
     }
 }

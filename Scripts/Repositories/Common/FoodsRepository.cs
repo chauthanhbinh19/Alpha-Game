@@ -17,10 +17,10 @@ public class FoodsRepository : IFoodsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT DISTINCT id FROM Foods";
+                string selectSQL = "SELECT DISTINCT id FROM Foods";
 
-                await using (var command = new MySqlCommand(query, connection))
-                await using (var reader = await command.ExecuteReaderAsync())
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
+                await using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -38,7 +38,7 @@ public class FoodsRepository : IFoodsRepository
     }
     public async Task<List<Foods>> GetFoodsAsync(string search, string rare, int pageSize, int offset)
     {
-        List<Foods> Foods = new List<Foods>();
+        List<Foods> foods = new List<Foods>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -47,43 +47,43 @@ public class FoodsRepository : IFoodsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT * 
                 FROM foods 
                 WHERE 1=1";
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        query += " AND rare = @rare";
+                        selectSQL += " AND rare = @rare";
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        query += " AND name LIKE CONCAT('%', @search, '%')";
+                        selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                     }
 
-                    query += @"
+                    selectSQL += @"
                 ORDER BY 
                     foods.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(foods.name, '[0-9]+$') AS UNSIGNED),
                     foods.name
                 LIMIT @limit OFFSET @offset";
 
-                using (MySqlCommand command = new MySqlCommand(query, connection))
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -158,7 +158,7 @@ public class FoodsRepository : IFoodsRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            Foods.Add(medal);
+                            foods.Add(medal);
                         }
                     }
                 }
@@ -169,7 +169,7 @@ public class FoodsRepository : IFoodsRepository
             }
         }
 
-        return Foods;
+        return foods;
     }
     public async Task<int> GetFoodsCountAsync(string search, string rare)
     {
@@ -182,30 +182,30 @@ public class FoodsRepository : IFoodsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Foods WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Foods WHERE 1=1";
                 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    var result = await command.ExecuteScalarAsync();
+                    var result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -219,7 +219,7 @@ public class FoodsRepository : IFoodsRepository
     }
     public async Task<List<Foods>> GetFoodsWithPriceAsync(int pageSize, int offset)
     {
-        List<Foods> Foods = new List<Foods>();
+        List<Foods> foods = new List<Foods>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (var connection = new MySqlConnection(connectionString))
@@ -228,10 +228,10 @@ public class FoodsRepository : IFoodsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT t.*, tt.price, cu.image AS currency_image, cu.id AS currency_id
                 FROM Foods t
-                JOIN food_trade tt ON t.id = tt.Food_id
+                JOIN food_trade tt ON t.id = tt.food_id
                 JOIN currencies cu ON tt.currency_id = cu.id
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
@@ -239,12 +239,12 @@ public class FoodsRepository : IFoodsRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -325,7 +325,7 @@ public class FoodsRepository : IFoodsRepository
                                 }
                             };
 
-                            Foods.Add(employee);
+                            foods.Add(employee);
                         }
                     }
                 }
@@ -336,7 +336,7 @@ public class FoodsRepository : IFoodsRepository
             }
         }
 
-        return Foods;
+        return foods;
     }
     public async Task<int> GetFoodsWithPriceCountAsync()
     {
@@ -349,16 +349,16 @@ public class FoodsRepository : IFoodsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM Foods t
-                JOIN food_trade tt ON t.id = tt.Food_id
+                JOIN food_trade tt ON t.id = tt.food_id
                 JOIN currencies cu ON tt.currency_id = cu.id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -372,7 +372,7 @@ public class FoodsRepository : IFoodsRepository
     }
     public async Task<Foods> GetFoodByIdAsync(string id)
     {
-        Foods employee = null;
+        Foods food = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (var connection = new MySqlConnection(connectionString))
@@ -381,17 +381,17 @@ public class FoodsRepository : IFoodsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM Foods WHERE id = @id";
+                string selectSQL = "SELECT * FROM Foods WHERE id = @id";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", id);
+                    selectCommand.Parameters.AddWithValue("@id", id);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            employee = new Foods
+                            food = new Foods
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -460,7 +460,7 @@ public class FoodsRepository : IFoodsRepository
             }
         }
 
-        return employee;
+        return food;
     }
     public async Task<Foods> SumPowerFoodsPercentAsync()
     {
@@ -473,7 +473,7 @@ public class FoodsRepository : IFoodsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(a.percent_all_health) AS total_percent_all_health,
                     SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
@@ -487,15 +487,15 @@ public class FoodsRepository : IFoodsRepository
                     SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
                     SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
                 FROM Foods a
-                JOIN user_Foods ua ON a.id = ua.Food_id
+                JOIN user_foods ua ON a.id = ua.food_id
                 WHERE ua.user_id = @user_id;
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

@@ -18,24 +18,24 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
             {
                 await connection.OpenAsync();
 
-                string currencyQuery = @"
+                string query = @"
                 SELECT c.image, c.name, uc.currency_id, uc.quantity
                 FROM user_currencies uc
                 JOIN currencies c ON uc.currency_id = c.id
                 WHERE uc.user_id = @userId";
 
-                await using (MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    currencyCommand.Parameters.AddWithValue("@userId", userId);
+                    command.Parameters.AddWithValue("@userId", userId);
 
-                    await using (MySqlDataReader currencyReader = await currencyCommand.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-                        while (await currencyReader.ReadAsync())
+                        while (await reader.ReadAsync())
                         {
-                            string image = currencyReader.GetStringSafe("image");
-                            string name = currencyReader.GetStringSafe("name");
-                            string currencyId = currencyReader.GetStringSafe("currency_id");
-                            double quantity = currencyReader.GetDoubleSafe("quantity");
+                            string image = reader.GetStringSafe("image");
+                            string name = reader.GetStringSafe("name");
+                            string currencyId = reader.GetStringSafe("currency_id");
+                            double quantity = reader.GetDoubleSafe("quantity");
 
                             currencies.Add(new Currencies
                             {
@@ -71,27 +71,27 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
             {
                 await connection.OpenAsync();
 
-                string currencyQuery = @"
+                string query = @"
                 SELECT c.image, c.name, uc.currency_id, uc.quantity
                 FROM user_currencies uc
                 JOIN currencies c ON uc.currency_id = c.id
                 WHERE uc.user_id = @userId AND c.id = @id";
 
-                await using (MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    currencyCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
-                    currencyCommand.Parameters.AddWithValue("@id", id);
+                    command.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@id", id);
 
-                    await using (MySqlDataReader currencyReader = await currencyCommand.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-                        if (await currencyReader.ReadAsync())
+                        if (await reader.ReadAsync())
                         {
                             currency = new Currencies
                             {
-                                Id = currencyReader.GetStringSafe("currency_id"),
-                                Name = currencyReader.GetStringSafe("name"),
-                                Image = currencyReader.GetStringSafe("image"),
-                                Quantity = currencyReader.GetDoubleSafe("quantity")
+                                Id = reader.GetStringSafe("currency_id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Quantity = reader.GetDoubleSafe("quantity")
                             };
                         }
                     }
@@ -120,27 +120,27 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
             {
                 await connection.OpenAsync();
 
-                string currencyQuery = @"
+                string query = @"
                 SELECT c.image, c.name, uc.currency_id, uc.quantity
                 FROM user_currencies uc
                 JOIN currencies c ON uc.currency_id = c.id
                 WHERE uc.user_id = @userId AND c.name = @name";
 
-                await using (MySqlCommand currencyCommand = new MySqlCommand(currencyQuery, connection))
+                await using (MySqlCommand command = new MySqlCommand(query, connection))
                 {
-                    currencyCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
-                    currencyCommand.Parameters.AddWithValue("@name", currencyName);
+                    command.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@name", currencyName);
 
-                    await using (MySqlDataReader currencyReader = await currencyCommand.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
                     {
-                        if (await currencyReader.ReadAsync())
+                        if (await reader.ReadAsync())
                         {
                             currency = new Currencies
                             {
-                                Id = currencyReader.GetStringSafe("currency_id"),
-                                Name = currencyReader.GetStringSafe("name"),
-                                Image = currencyReader.GetStringSafe("image"),
-                                Quantity = currencyReader.GetDoubleSafe("quantity")
+                                Id = reader.GetStringSafe("currency_id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Quantity = reader.GetDoubleSafe("quantity")
                             };
                         }
                     }

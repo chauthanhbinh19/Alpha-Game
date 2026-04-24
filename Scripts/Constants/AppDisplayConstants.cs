@@ -172,15 +172,15 @@ public static class AppDisplayConstants
         public const string EMOJI = "MainType.Emoji";
         public const string EMOJIS = "MainType.Emojis";
 
-        public const string SUMMON_CARD_HEROES = "MainType.SummonCardHeroes";
-        public const string SUMMON_BOOKS = "MainType.SummonBooks";
-        public const string SUMMON_CARD_CAPTAINS = "MainType.SummonCardCaptains";
-        public const string SUMMON_CARD_MONSTERS = "MainType.SummonCardMonsters";
-        public const string SUMMON_CARD_MILITARIES = "MainType.SummonCardMilitaries";
-        public const string SUMMON_CARD_SPELLS = "MainType.SummonCardSpells";
-        public const string SUMMON_CARD_COLONELS = "MainType.SummonCardColonels";
-        public const string SUMMON_CARD_GENERALS = "MainType.SummonCardGenerals";
-        public const string SUMMON_CARD_ADMIRALS = "MainType.SummonCardAdmirals";
+        public const string SUMMON_CARD_HERO = "MainType.SummonCardHero";
+        public const string SUMMON_BOOK = "MainType.SummonBook";
+        public const string SUMMON_CARD_CAPTAIN = "MainType.SummonCardCaptain";
+        public const string SUMMON_CARD_MONSTER = "MainType.SummonCardMonster";
+        public const string SUMMON_CARD_MILITARY= "MainType.SummonCardMilitary";
+        public const string SUMMON_CARD_SPELL = "MainType.SummonCardSpell";
+        public const string SUMMON_CARD_COLONEL = "MainType.SummonCardColonel";
+        public const string SUMMON_CARD_GENERAL = "MainType.SummonCardGeneral";
+        public const string SUMMON_CARD_ADMIRAL = "MainType.SummonCardAdmiral";
 
         public const string CAMPAIGN = "campaign";
         public const string CAMPAIGNS = "campaigns";
@@ -525,6 +525,10 @@ public static class AppDisplayConstants
         public const string ARCHIVE_XXV = "Archive.ArchiveXXV";
         public const string ARCHIVE_XXVI = "Archive.ArchiveXXVI";
         public const string ARCHIVE_XXVII = "Archive.ArchiveXXVII";
+        public const string ARCHIVE_XXVIII = "Archive.ArchiveXXVIII";
+        public const string ARCHIVE_XXIX = "Archive.ArchiveXXIX";
+        public const string ARCHIVE_XXX = "Archive.ArchiveXXX";
+        public const string ARCHIVE_XXXI = "Archive.ArchiveXXXI";
     }
     public static class Universe
     {

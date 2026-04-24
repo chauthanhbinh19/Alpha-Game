@@ -16,10 +16,10 @@ public class BooksRepository : IBooksRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT type FROM books";
-            await using var command = new MySqlCommand(query, connection);
+            string selectSQL = "SELECT DISTINCT type FROM books";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 typeList.Add(reader.GetString(0));
@@ -42,10 +42,10 @@ public class BooksRepository : IBooksRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT DISTINCT id FROM books";
-            await using var command = new MySqlCommand(query, connection);
+            string selectSQL = "SELECT DISTINCT id FROM books";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 idList.Add(reader.GetString(0));
@@ -68,50 +68,50 @@ public class BooksRepository : IBooksRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT * 
             FROM books 
             WHERE 1=1";
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                query += " AND type = @type";
+                selectSQL += " AND type = @type";
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND rare = @rare";
+                selectSQL += " AND rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            query += " ORDER BY books.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(books.name, '[0-9]+$') AS UNSIGNED), books.name";
-            query += " LIMIT @limit OFFSET @offset";
+            selectSQL += " ORDER BY books.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(books.name, '[0-9]+$') AS UNSIGNED), books.name";
+            selectSQL += " LIMIT @limit OFFSET @offset";
 
-            await using var command = new MySqlCommand(query, connection);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                command.Parameters.AddWithValue("@rare", rare);
+                selectCommand.Parameters.AddWithValue("@rare", rare);
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                command.Parameters.AddWithValue("@search", search);
+                selectCommand.Parameters.AddWithValue("@search", search);
             }
 
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 Books book = new Books
@@ -196,41 +196,41 @@ public class BooksRepository : IBooksRepository
         {
             await connection.OpenAsync();
 
-            string query = @"SELECT COUNT(*) FROM Books WHERE 1=1";
+            string selectSQL = @"SELECT COUNT(*) FROM Books WHERE 1=1";
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                query += " AND type = @type";
+                selectSQL += " AND type = @type";
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND rare = @rare";
+                selectSQL += " AND rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
             }
 
-            await using var command = new MySqlCommand(query, connection);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                command.Parameters.AddWithValue("@rare", rare);
+                selectCommand.Parameters.AddWithValue("@rare", rare);
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                command.Parameters.AddWithValue("@search", search);
+                selectCommand.Parameters.AddWithValue("@search", search);
             }
 
-            var result = await command.ExecuteScalarAsync();
+            var result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
@@ -250,12 +250,12 @@ public class BooksRepository : IBooksRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT * FROM books WHERE type = @type ORDER BY RAND() LIMIT @limit";
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@type", type);
-            command.Parameters.AddWithValue("@limit", pageSize);
+            string selectSQL = "SELECT * FROM books WHERE type = @type ORDER BY RAND() LIMIT @limit";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@type", type);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 Books book = new Books
@@ -340,11 +340,11 @@ public class BooksRepository : IBooksRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT * FROM books WHERE type = @type";
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@type", type);
+            string selectSQL = "SELECT * FROM books WHERE type = @type";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@type", type);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 Books book = new Books
@@ -429,11 +429,11 @@ public class BooksRepository : IBooksRepository
         {
             await connection.OpenAsync();
 
-            string query = "SELECT * FROM books WHERE books.id = @id";
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@id", Id);
+            string selectSQL = "SELECT * FROM books WHERE books.id = @id";
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@id", Id);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
                 book = new Books
@@ -516,7 +516,7 @@ public class BooksRepository : IBooksRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT b.*, bt.price, cu.image AS currency_image, cu.id AS currency_id
             FROM books b
             JOIN book_trade bt ON b.id = bt.book_id
@@ -526,12 +526,12 @@ public class BooksRepository : IBooksRepository
             LIMIT @limit OFFSET @offset;
         ";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@type", type);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@type", type);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 Books book = new Books
@@ -622,7 +622,7 @@ public class BooksRepository : IBooksRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT COUNT(*)
             FROM books b
             JOIN book_trade bt ON b.id = bt.book_id
@@ -630,10 +630,10 @@ public class BooksRepository : IBooksRepository
             WHERE b.type = @type;
         ";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@type", type);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@type", type);
 
-            var result = await command.ExecuteScalarAsync();
+            var result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)

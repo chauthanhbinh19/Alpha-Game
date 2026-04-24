@@ -19,7 +19,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                     SELECT c.*, 
                         CASE 
                             WHEN cg.badge_id IS NULL THEN 'block' 
@@ -33,41 +33,41 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
                 ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY 
                     c.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED),
                     c.name
                 LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            Badges Badge = new Badges
+                            Badges badge = new Badges
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -139,7 +139,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
                                 Status = reader.GetStringSafe("status"),
                             };
 
-                            badges.Add(Badge);
+                            badges.Add(badge);
                         }
                     }
                 }
@@ -167,31 +167,31 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Badges WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Badges WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -219,25 +219,25 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi tồn tại
-                string checkQuery = @"
+                string checkSQL = @"
                     SELECT COUNT(*) 
-                    FROM Badges_gallery 
-                    WHERE user_id = @user_id AND Badge_id = @Badge_id;
+                    FROM badges_gallery 
+                    WHERE user_id = @user_id AND badge_id = @badge_id;
                 ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@Badge_id", Id);
+                    checkCommand.Parameters.AddWithValue("@badge_id", Id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
                     // Nếu chưa có → INSERT
                     if (recordCount == 0)
                     {
-                        string query = @"
-                        INSERT INTO Badges_gallery (
-                            user_id, Badge_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
+                        string insertSQL = @"
+                        INSERT INTO badges_gallery (
+                            user_id, badge_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                             magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
                             mental_attack, mental_defense, speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate, 
                             penetration_rate, penetration_resistance_rate, evasion_rate, 
@@ -254,7 +254,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
                             percent_all_chemical_defense, percent_all_atomic_attack, percent_all_atomic_defense, 
                             percent_all_mental_attack, percent_all_mental_defense
                         ) VALUES (
-                            @user_id, @Badge_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
+                            @user_id, @badge_id, @status, @current_star, @temp_star, @power, @health, @physical_attack, @physical_defense, 
                             @magical_attack, @magical_defense, @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, 
                             @mental_attack, @mental_defense, @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate, 
                             @penetration_rate, @penetration_resistance_rate, @evasion_rate, 
@@ -273,86 +273,86 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
                         );
                         ";
 
-                        using (MySqlCommand command = new MySqlCommand(query, connection))
+                        using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            command.Parameters.AddWithValue("@Badge_id", Id);
-                            command.Parameters.AddWithValue("@status", "pending");
-                            command.Parameters.AddWithValue("@current_star", 0);
-                            command.Parameters.AddWithValue("@temp_star", 0);
+                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@badge_id", Id);
+                            insertCommand.Parameters.AddWithValue("@status", "pending");
+                            insertCommand.Parameters.AddWithValue("@current_star", 0);
+                            insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
-                            command.Parameters.AddWithValue("@power", badgeFromDB.Power);
-                            command.Parameters.AddWithValue("@health", badgeFromDB.Health);
-                            command.Parameters.AddWithValue("@physical_attack", badgeFromDB.PhysicalAttack);
-                            command.Parameters.AddWithValue("@physical_defense", badgeFromDB.PhysicalDefense);
-                            command.Parameters.AddWithValue("@magical_attack", badgeFromDB.MagicalAttack);
-                            command.Parameters.AddWithValue("@magical_defense", badgeFromDB.MagicalDefense);
-                            command.Parameters.AddWithValue("@chemical_attack", badgeFromDB.ChemicalAttack);
-                            command.Parameters.AddWithValue("@chemical_defense", badgeFromDB.ChemicalDefense);
-                            command.Parameters.AddWithValue("@atomic_attack", badgeFromDB.AtomicAttack);
-                            command.Parameters.AddWithValue("@atomic_defense", badgeFromDB.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@power", badgeFromDB.Power);
+                            insertCommand.Parameters.AddWithValue("@health", badgeFromDB.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", badgeFromDB.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", badgeFromDB.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", badgeFromDB.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", badgeFromDB.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", badgeFromDB.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", badgeFromDB.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", badgeFromDB.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", badgeFromDB.AtomicDefense);
 
-                            command.Parameters.AddWithValue("@mental_attack", badgeFromDB.MentalAttack);
-                            command.Parameters.AddWithValue("@mental_defense", badgeFromDB.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", badgeFromDB.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", badgeFromDB.MentalDefense);
 
-                            command.Parameters.AddWithValue("@speed", badgeFromDB.Speed);
-                            command.Parameters.AddWithValue("@critical_damage_rate", badgeFromDB.CriticalDamageRate);
-                            command.Parameters.AddWithValue("@critical_rate", badgeFromDB.CriticalRate);
-                            command.Parameters.AddWithValue("@critical_resistance_rate", badgeFromDB.CriticalResistanceRate);
-                            command.Parameters.AddWithValue("@ignore_critical_rate", badgeFromDB.IgnoreCriticalRate);
-                            command.Parameters.AddWithValue("@penetration_rate", badgeFromDB.PenetrationRate);
-                            command.Parameters.AddWithValue("@penetration_resistance_rate", badgeFromDB.PenetrationResistanceRate);
-                            command.Parameters.AddWithValue("@evasion_rate", badgeFromDB.EvasionRate);
-                            command.Parameters.AddWithValue("@damage_absorption_rate", badgeFromDB.DamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", badgeFromDB.IgnoreDamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@absorbed_damage_rate", badgeFromDB.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@speed", badgeFromDB.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", badgeFromDB.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", badgeFromDB.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", badgeFromDB.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", badgeFromDB.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", badgeFromDB.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", badgeFromDB.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", badgeFromDB.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", badgeFromDB.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", badgeFromDB.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", badgeFromDB.AbsorbedDamageRate);
 
-                            command.Parameters.AddWithValue("@vitality_regeneration_rate", badgeFromDB.VitalityRegenerationRate);
-                            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", badgeFromDB.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", badgeFromDB.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", badgeFromDB.VitalityRegenerationResistanceRate);
 
-                            command.Parameters.AddWithValue("@accuracy_rate", badgeFromDB.AccuracyRate);
-                            command.Parameters.AddWithValue("@lifesteal_rate", badgeFromDB.LifestealRate);
-                            command.Parameters.AddWithValue("@shield_strength", badgeFromDB.ShieldStrength);
-                            command.Parameters.AddWithValue("@tenacity", badgeFromDB.Tenacity);
-                            command.Parameters.AddWithValue("@resistance_rate", badgeFromDB.ResistanceRate);
-                            command.Parameters.AddWithValue("@combo_rate", badgeFromDB.ComboRate);
-                            command.Parameters.AddWithValue("@ignore_combo_rate", badgeFromDB.IgnoreComboRate);
-                            command.Parameters.AddWithValue("@combo_damage_rate", badgeFromDB.ComboDamageRate);
-                            command.Parameters.AddWithValue("@combo_resistance_rate", badgeFromDB.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", badgeFromDB.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", badgeFromDB.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", badgeFromDB.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", badgeFromDB.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", badgeFromDB.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", badgeFromDB.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", badgeFromDB.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", badgeFromDB.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", badgeFromDB.ComboResistanceRate);
 
-                            command.Parameters.AddWithValue("@stun_rate", badgeFromDB.StunRate);
-                            command.Parameters.AddWithValue("@ignore_stun_rate", badgeFromDB.IgnoreStunRate);
-                            command.Parameters.AddWithValue("@reflection_rate", badgeFromDB.ReflectionRate);
-                            command.Parameters.AddWithValue("@ignore_reflection_rate", badgeFromDB.IgnoreReflectionRate);
-                            command.Parameters.AddWithValue("@reflection_damage_rate", badgeFromDB.ReflectionDamageRate);
-                            command.Parameters.AddWithValue("@reflection_resistance_rate", badgeFromDB.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", badgeFromDB.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", badgeFromDB.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", badgeFromDB.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", badgeFromDB.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", badgeFromDB.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", badgeFromDB.ReflectionResistanceRate);
 
-                            command.Parameters.AddWithValue("@mana", badgeFromDB.Mana);
-                            command.Parameters.AddWithValue("@mana_regeneration_rate", badgeFromDB.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@mana", badgeFromDB.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", badgeFromDB.ManaRegenerationRate);
 
-                            command.Parameters.AddWithValue("@damage_to_different_faction_rate", badgeFromDB.DamageToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", badgeFromDB.ResistanceToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@damage_to_same_faction_rate", badgeFromDB.DamageToSameFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", badgeFromDB.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", badgeFromDB.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", badgeFromDB.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", badgeFromDB.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", badgeFromDB.ResistanceToSameFactionRate);
 
-                            command.Parameters.AddWithValue("@normal_damage_rate", badgeFromDB.NormalDamageRate);
-                            command.Parameters.AddWithValue("@normal_resistance_rate", badgeFromDB.NormalResistanceRate);
-                            command.Parameters.AddWithValue("@skill_damage_rate", badgeFromDB.SkillDamageRate);
-                            command.Parameters.AddWithValue("@skill_resistance_rate", badgeFromDB.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", badgeFromDB.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", badgeFromDB.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", badgeFromDB.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", badgeFromDB.SkillResistanceRate);
 
-                            command.Parameters.AddWithValue("@percent_all_health", percent);
-                            command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_magical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_magical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_mental_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_physical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_magical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_magical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_mental_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_mental_defense", percent);
 
-                            await command.ExecuteNonQueryAsync();
+                            await insertCommand.ExecuteNonQueryAsync();
                         }
                     }
                 }
@@ -377,17 +377,17 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Badges_gallery 
+                string updateSQL = @"UPDATE badges_gallery 
                              SET status=@status 
-                             WHERE user_id=@user_id AND Badge_id=@Badge_id";
+                             WHERE user_id=@user_id AND badge_id=@badge_id";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@Badge_id", Id);
-                    command.Parameters.AddWithValue("@status", "available");
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@badge_id", Id);
+                    updateCommand.Parameters.AddWithValue("@status", "available");
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -411,16 +411,16 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
                 await connection.OpenAsync();
 
                 // Lấy current_star và temp_star
-                string checkQuery = @"
+                string checkSQL = @"
                     SELECT current_star, temp_star 
-                    FROM Badges_gallery 
-                    WHERE user_id = @user_id AND Badge_id = @Badge_id;
+                    FROM badges_gallery 
+                    WHERE user_id = @user_id AND badge_id = @badge_id;
                 ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@Badge_id", id);
+                    checkCommand.Parameters.AddWithValue("@badge_id", id);
 
                     await using (var reader = await checkCommand.ExecuteReaderAsync())
                     {
@@ -433,16 +433,16 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
                             {
                                 reader.Close(); // đóng trước khi chạy lệnh khác
 
-                                string updateQuery = @"
-                                UPDATE Badges_gallery 
+                                string updateSQL = @"
+                                UPDATE badges_gallery 
                                 SET temp_star = @temp_star 
-                                WHERE user_id = @user_id AND Badge_id = @Badge_id;
+                                WHERE user_id = @user_id AND badge_id = @badge_id;
                             ";
 
-                                using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                                using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                                 {
                                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                                    updateCommand.Parameters.AddWithValue("@Badge_id", id);
+                                    updateCommand.Parameters.AddWithValue("@badge_id", id);
                                     updateCommand.Parameters.AddWithValue("@temp_star", star);
 
                                     await updateCommand.ExecuteNonQueryAsync();
@@ -472,7 +472,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE Badges_gallery
+                string updateSQL = @"UPDATE badges_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -538,85 +538,85 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
                     percent_all_mental_attack = percent_all_mental_attack + @percent_all_mental_attack,
                     percent_all_mental_defense = percent_all_mental_defense + @percent_all_mental_defense
                 WHERE user_id = @user_id
-                AND Badge_id = @Badge_id;
+                AND badge_id = @badge_id;
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
                 // IDs
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@Badge_id", id);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@badge_id", id);
 
                 // Base flags
-                command.Parameters.AddWithValue("@status", "pending");
-                command.Parameters.AddWithValue("@current_star", 0);
+                updateCommand.Parameters.AddWithValue("@status", "pending");
+                updateCommand.Parameters.AddWithValue("@current_star", 0);
 
                 // Stats
-                command.Parameters.AddWithValue("@power", badgeFromDB.Power);
-                command.Parameters.AddWithValue("@health", badgeFromDB.Health);
-                command.Parameters.AddWithValue("@physical_attack", badgeFromDB.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", badgeFromDB.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", badgeFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", badgeFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", badgeFromDB.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", badgeFromDB.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", badgeFromDB.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", badgeFromDB.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", badgeFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@mental_defense", badgeFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@speed", badgeFromDB.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", badgeFromDB.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", badgeFromDB.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", badgeFromDB.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", badgeFromDB.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", badgeFromDB.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", badgeFromDB.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", badgeFromDB.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", badgeFromDB.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", badgeFromDB.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", badgeFromDB.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", badgeFromDB.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", badgeFromDB.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", badgeFromDB.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", badgeFromDB.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", badgeFromDB.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", badgeFromDB.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", badgeFromDB.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", badgeFromDB.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", badgeFromDB.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", badgeFromDB.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", badgeFromDB.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", badgeFromDB.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", badgeFromDB.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", badgeFromDB.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", badgeFromDB.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", badgeFromDB.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", badgeFromDB.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", badgeFromDB.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", badgeFromDB.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", badgeFromDB.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", badgeFromDB.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", badgeFromDB.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", badgeFromDB.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", badgeFromDB.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", badgeFromDB.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", badgeFromDB.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", badgeFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", badgeFromDB.Power);
+                updateCommand.Parameters.AddWithValue("@health", badgeFromDB.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", badgeFromDB.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", badgeFromDB.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", badgeFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", badgeFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", badgeFromDB.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", badgeFromDB.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", badgeFromDB.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", badgeFromDB.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", badgeFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", badgeFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", badgeFromDB.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", badgeFromDB.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", badgeFromDB.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", badgeFromDB.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", badgeFromDB.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", badgeFromDB.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", badgeFromDB.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", badgeFromDB.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", badgeFromDB.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", badgeFromDB.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", badgeFromDB.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", badgeFromDB.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", badgeFromDB.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", badgeFromDB.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", badgeFromDB.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", badgeFromDB.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", badgeFromDB.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", badgeFromDB.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", badgeFromDB.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", badgeFromDB.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", badgeFromDB.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", badgeFromDB.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", badgeFromDB.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", badgeFromDB.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", badgeFromDB.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", badgeFromDB.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", badgeFromDB.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", badgeFromDB.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", badgeFromDB.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", badgeFromDB.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", badgeFromDB.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", badgeFromDB.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", badgeFromDB.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", badgeFromDB.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", badgeFromDB.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", badgeFromDB.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", badgeFromDB.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", badgeFromDB.SkillResistanceRate);
 
                 // Percent bonuses (hard-coded)
-                command.Parameters.AddWithValue("@percent_all_health", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_defense", 5);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -639,7 +639,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                 SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
                 SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
@@ -685,14 +685,14 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
                 SUM(percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
                 SUM(percent_all_mental_attack) AS total_percent_all_mental_attack, 
                 SUM(percent_all_mental_defense) AS total_percent_all_mental_defense
-                FROM Badges_gallery 
+                FROM badges_gallery 
                 WHERE user_id = @user_id AND status = 'available';
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     if (await reader.ReadAsync())
                     {

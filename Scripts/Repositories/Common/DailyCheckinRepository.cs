@@ -16,22 +16,22 @@ public class DailyCheckinRepository : IDailyCheckinRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string insertSQL = @"
                 INSERT INTO daily_checkin (id, day, month, year, type, object_id, quantity) VALUES 
                 (@id, @day, @month, @year, @type, @object_id, @quantity)
             ";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var insertCommand = new MySqlCommand(insertSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", dailyCheckin.Id);
-                    command.Parameters.AddWithValue("@day", dailyCheckin.Date);
-                    command.Parameters.AddWithValue("@month", dailyCheckin.Month);
-                    command.Parameters.AddWithValue("@year", dailyCheckin.Year);
-                    command.Parameters.AddWithValue("@type", dailyCheckin.Type);
-                    command.Parameters.AddWithValue("@object_id", dailyCheckin.ObjectId);
-                    command.Parameters.AddWithValue("@quantity", dailyCheckin.Quantity);
+                    insertCommand.Parameters.AddWithValue("@id", dailyCheckin.Id);
+                    insertCommand.Parameters.AddWithValue("@day", dailyCheckin.Date);
+                    insertCommand.Parameters.AddWithValue("@month", dailyCheckin.Month);
+                    insertCommand.Parameters.AddWithValue("@year", dailyCheckin.Year);
+                    insertCommand.Parameters.AddWithValue("@type", dailyCheckin.Type);
+                    insertCommand.Parameters.AddWithValue("@object_id", dailyCheckin.ObjectId);
+                    insertCommand.Parameters.AddWithValue("@quantity", dailyCheckin.Quantity);
 
-                    await command.ExecuteNonQueryAsync();
+                    await insertCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -50,12 +50,12 @@ public class DailyCheckinRepository : IDailyCheckinRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"DELETE FROM daily_checkin WHERE id = @id;";
+                string deleteSQL = @"DELETE FROM daily_checkin WHERE id = @id;";
 
-                await using (var command = new MySqlCommand(query, connection))
+                await using (var deleteCommand = new MySqlCommand(deleteSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", dailyCheckinId);
-                    await command.ExecuteNonQueryAsync();
+                    deleteCommand.Parameters.AddWithValue("@id", dailyCheckinId);
+                    await deleteCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)

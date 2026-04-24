@@ -19,7 +19,7 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT c.*, 
                        CASE 
                            WHEN cg.beverage_id IS NULL THEN 'block' 
@@ -33,37 +33,37 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY 
                     c.name REGEXP '[0-9]+$',
                     CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED),
                     c.name
                 LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = (MySqlDataReader)await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -167,31 +167,31 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT COUNT(*) FROM Beverages WHERE 1=1";
+                string selectSQL = @"SELECT COUNT(*) FROM Beverages WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND rare = @rare";
+                    selectSQL += " AND rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -219,13 +219,13 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi tồn tại
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM beverages_gallery 
                 WHERE user_id = @user_id AND beverage_id = @beverage_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     checkCommand.Parameters.AddWithValue("@beverage_id", Id);
@@ -235,7 +235,7 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                     // Nếu chưa có → INSERT
                     if (recordCount == 0)
                     {
-                        string query = @"
+                        string insertSQL = @"
                     INSERT INTO beverages_gallery (
                         user_id, beverage_id, status, current_star, temp_star, power, health, physical_attack, physical_defense, 
                         magical_attack, magical_defense, chemical_attack, chemical_defense, atomic_attack, atomic_defense, 
@@ -273,86 +273,86 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                     );
                     ";
 
-                        await using (MySqlCommand command = new MySqlCommand(query, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            command.Parameters.AddWithValue("@beverage_id", Id);
-                            command.Parameters.AddWithValue("@status", "pending");
-                            command.Parameters.AddWithValue("@current_star", 0);
-                            command.Parameters.AddWithValue("@temp_star", 0);
+                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@beverage_id", Id);
+                            insertCommand.Parameters.AddWithValue("@status", "pending");
+                            insertCommand.Parameters.AddWithValue("@current_star", 0);
+                            insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
-                            command.Parameters.AddWithValue("@power", beverageFromDB.Power);
-                            command.Parameters.AddWithValue("@health", beverageFromDB.Health);
-                            command.Parameters.AddWithValue("@physical_attack", beverageFromDB.PhysicalAttack);
-                            command.Parameters.AddWithValue("@physical_defense", beverageFromDB.PhysicalDefense);
-                            command.Parameters.AddWithValue("@magical_attack", beverageFromDB.MagicalAttack);
-                            command.Parameters.AddWithValue("@magical_defense", beverageFromDB.MagicalDefense);
-                            command.Parameters.AddWithValue("@chemical_attack", beverageFromDB.ChemicalAttack);
-                            command.Parameters.AddWithValue("@chemical_defense", beverageFromDB.ChemicalDefense);
-                            command.Parameters.AddWithValue("@atomic_attack", beverageFromDB.AtomicAttack);
-                            command.Parameters.AddWithValue("@atomic_defense", beverageFromDB.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@power", beverageFromDB.Power);
+                            insertCommand.Parameters.AddWithValue("@health", beverageFromDB.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", beverageFromDB.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", beverageFromDB.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", beverageFromDB.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", beverageFromDB.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", beverageFromDB.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", beverageFromDB.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", beverageFromDB.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", beverageFromDB.AtomicDefense);
 
-                            command.Parameters.AddWithValue("@mental_attack", beverageFromDB.MentalAttack);
-                            command.Parameters.AddWithValue("@mental_defense", beverageFromDB.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", beverageFromDB.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", beverageFromDB.MentalDefense);
 
-                            command.Parameters.AddWithValue("@speed", beverageFromDB.Speed);
-                            command.Parameters.AddWithValue("@critical_damage_rate", beverageFromDB.CriticalDamageRate);
-                            command.Parameters.AddWithValue("@critical_rate", beverageFromDB.CriticalRate);
-                            command.Parameters.AddWithValue("@critical_resistance_rate", beverageFromDB.CriticalResistanceRate);
-                            command.Parameters.AddWithValue("@ignore_critical_rate", beverageFromDB.IgnoreCriticalRate);
-                            command.Parameters.AddWithValue("@penetration_rate", beverageFromDB.PenetrationRate);
-                            command.Parameters.AddWithValue("@penetration_resistance_rate", beverageFromDB.PenetrationResistanceRate);
-                            command.Parameters.AddWithValue("@evasion_rate", beverageFromDB.EvasionRate);
-                            command.Parameters.AddWithValue("@damage_absorption_rate", beverageFromDB.DamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", beverageFromDB.IgnoreDamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@absorbed_damage_rate", beverageFromDB.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@speed", beverageFromDB.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", beverageFromDB.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", beverageFromDB.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", beverageFromDB.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", beverageFromDB.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", beverageFromDB.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", beverageFromDB.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", beverageFromDB.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", beverageFromDB.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", beverageFromDB.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", beverageFromDB.AbsorbedDamageRate);
 
-                            command.Parameters.AddWithValue("@vitality_regeneration_rate", beverageFromDB.VitalityRegenerationRate);
-                            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", beverageFromDB.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", beverageFromDB.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", beverageFromDB.VitalityRegenerationResistanceRate);
 
-                            command.Parameters.AddWithValue("@accuracy_rate", beverageFromDB.AccuracyRate);
-                            command.Parameters.AddWithValue("@lifesteal_rate", beverageFromDB.LifestealRate);
-                            command.Parameters.AddWithValue("@shield_strength", beverageFromDB.ShieldStrength);
-                            command.Parameters.AddWithValue("@tenacity", beverageFromDB.Tenacity);
-                            command.Parameters.AddWithValue("@resistance_rate", beverageFromDB.ResistanceRate);
-                            command.Parameters.AddWithValue("@combo_rate", beverageFromDB.ComboRate);
-                            command.Parameters.AddWithValue("@ignore_combo_rate", beverageFromDB.IgnoreComboRate);
-                            command.Parameters.AddWithValue("@combo_damage_rate", beverageFromDB.ComboDamageRate);
-                            command.Parameters.AddWithValue("@combo_resistance_rate", beverageFromDB.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", beverageFromDB.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", beverageFromDB.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", beverageFromDB.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", beverageFromDB.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", beverageFromDB.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", beverageFromDB.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", beverageFromDB.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", beverageFromDB.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", beverageFromDB.ComboResistanceRate);
 
-                            command.Parameters.AddWithValue("@stun_rate", beverageFromDB.StunRate);
-                            command.Parameters.AddWithValue("@ignore_stun_rate", beverageFromDB.IgnoreStunRate);
-                            command.Parameters.AddWithValue("@reflection_rate", beverageFromDB.ReflectionRate);
-                            command.Parameters.AddWithValue("@ignore_reflection_rate", beverageFromDB.IgnoreReflectionRate);
-                            command.Parameters.AddWithValue("@reflection_damage_rate", beverageFromDB.ReflectionDamageRate);
-                            command.Parameters.AddWithValue("@reflection_resistance_rate", beverageFromDB.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", beverageFromDB.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", beverageFromDB.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", beverageFromDB.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", beverageFromDB.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", beverageFromDB.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", beverageFromDB.ReflectionResistanceRate);
 
-                            command.Parameters.AddWithValue("@mana", beverageFromDB.Mana);
-                            command.Parameters.AddWithValue("@mana_regeneration_rate", beverageFromDB.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@mana", beverageFromDB.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", beverageFromDB.ManaRegenerationRate);
 
-                            command.Parameters.AddWithValue("@damage_to_different_faction_rate", beverageFromDB.DamageToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", beverageFromDB.ResistanceToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@damage_to_same_faction_rate", beverageFromDB.DamageToSameFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", beverageFromDB.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", beverageFromDB.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", beverageFromDB.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", beverageFromDB.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", beverageFromDB.ResistanceToSameFactionRate);
 
-                            command.Parameters.AddWithValue("@normal_damage_rate", beverageFromDB.NormalDamageRate);
-                            command.Parameters.AddWithValue("@normal_resistance_rate", beverageFromDB.NormalResistanceRate);
-                            command.Parameters.AddWithValue("@skill_damage_rate", beverageFromDB.SkillDamageRate);
-                            command.Parameters.AddWithValue("@skill_resistance_rate", beverageFromDB.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", beverageFromDB.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", beverageFromDB.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", beverageFromDB.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", beverageFromDB.SkillResistanceRate);
 
-                            command.Parameters.AddWithValue("@percent_all_health", percent);
-                            command.Parameters.AddWithValue("@percent_all_physical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_physical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_magical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_magical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
-                            command.Parameters.AddWithValue("@percent_all_mental_attack", percent);
-                            command.Parameters.AddWithValue("@percent_all_mental_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_physical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_magical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_magical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_chemical_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_chemical_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_atomic_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_atomic_defense", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_mental_attack", percent);
+                            insertCommand.Parameters.AddWithValue("@percent_all_mental_defense", percent);
 
-                            await command.ExecuteNonQueryAsync();
+                            await insertCommand.ExecuteNonQueryAsync();
                         }
                     }
                 }
@@ -377,17 +377,17 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE beverages_gallery 
+                string updateSQL = @"UPDATE beverages_gallery 
                              SET status=@status 
                              WHERE user_id=@user_id AND beverage_id=@beverage_id";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@beverage_id", Id);
-                    command.Parameters.AddWithValue("@status", "available");
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@beverage_id", Id);
+                    updateCommand.Parameters.AddWithValue("@status", "available");
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -411,13 +411,13 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                 await connection.OpenAsync();
 
                 // Lấy current_star và temp_star
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT current_star, temp_star 
                 FROM beverages_gallery 
                 WHERE user_id = @user_id AND beverage_id = @beverage_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     checkCommand.Parameters.AddWithValue("@beverage_id", id);
@@ -433,13 +433,13 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                             {
                                 reader.Close(); // đóng trước khi chạy lệnh khác
 
-                                string updateQuery = @"
+                                string updateSQL = @"
                                 UPDATE beverages_gallery 
                                 SET temp_star = @temp_star 
                                 WHERE user_id = @user_id AND beverage_id = @beverage_id;
                             ";
 
-                                await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                                 {
                                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                                     updateCommand.Parameters.AddWithValue("@beverage_id", id);
@@ -472,7 +472,7 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE beverages_gallery
+                string updateSQL = @"UPDATE beverages_gallery
                 SET 
                     status = @status,
                     current_star = @current_star,
@@ -541,82 +541,82 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                 AND beverage_id = @beverage_id;
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
                 // IDs
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@beverage_id", id);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@beverage_id", id);
 
                 // Base flags
-                command.Parameters.AddWithValue("@status", "pending");
-                command.Parameters.AddWithValue("@current_star", 0);
+                updateCommand.Parameters.AddWithValue("@status", "pending");
+                updateCommand.Parameters.AddWithValue("@current_star", 0);
 
                 // Stats
-                command.Parameters.AddWithValue("@power", beverageFromDB.Power);
-                command.Parameters.AddWithValue("@health", beverageFromDB.Health);
-                command.Parameters.AddWithValue("@physical_attack", beverageFromDB.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", beverageFromDB.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", beverageFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", beverageFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", beverageFromDB.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", beverageFromDB.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", beverageFromDB.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", beverageFromDB.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", beverageFromDB.MagicalAttack);
-                command.Parameters.AddWithValue("@mental_defense", beverageFromDB.MagicalDefense);
-                command.Parameters.AddWithValue("@speed", beverageFromDB.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", beverageFromDB.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", beverageFromDB.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", beverageFromDB.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", beverageFromDB.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", beverageFromDB.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", beverageFromDB.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", beverageFromDB.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", beverageFromDB.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", beverageFromDB.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", beverageFromDB.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", beverageFromDB.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", beverageFromDB.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", beverageFromDB.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", beverageFromDB.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", beverageFromDB.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", beverageFromDB.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", beverageFromDB.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", beverageFromDB.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", beverageFromDB.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", beverageFromDB.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", beverageFromDB.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", beverageFromDB.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", beverageFromDB.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", beverageFromDB.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", beverageFromDB.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", beverageFromDB.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", beverageFromDB.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", beverageFromDB.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", beverageFromDB.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", beverageFromDB.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", beverageFromDB.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", beverageFromDB.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", beverageFromDB.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", beverageFromDB.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", beverageFromDB.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", beverageFromDB.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", beverageFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", beverageFromDB.Power);
+                updateCommand.Parameters.AddWithValue("@health", beverageFromDB.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", beverageFromDB.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", beverageFromDB.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", beverageFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", beverageFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", beverageFromDB.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", beverageFromDB.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", beverageFromDB.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", beverageFromDB.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", beverageFromDB.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", beverageFromDB.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", beverageFromDB.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", beverageFromDB.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", beverageFromDB.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", beverageFromDB.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", beverageFromDB.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", beverageFromDB.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", beverageFromDB.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", beverageFromDB.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", beverageFromDB.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", beverageFromDB.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", beverageFromDB.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", beverageFromDB.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", beverageFromDB.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", beverageFromDB.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", beverageFromDB.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", beverageFromDB.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", beverageFromDB.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", beverageFromDB.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", beverageFromDB.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", beverageFromDB.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", beverageFromDB.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", beverageFromDB.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", beverageFromDB.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", beverageFromDB.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", beverageFromDB.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", beverageFromDB.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", beverageFromDB.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", beverageFromDB.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", beverageFromDB.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", beverageFromDB.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", beverageFromDB.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", beverageFromDB.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", beverageFromDB.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", beverageFromDB.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", beverageFromDB.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", beverageFromDB.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", beverageFromDB.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", beverageFromDB.SkillResistanceRate);
 
                 // Percent bonuses (hard-coded)
-                command.Parameters.AddWithValue("@percent_all_health", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_physical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_magical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_attack", 5);
-                command.Parameters.AddWithValue("@percent_all_mental_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_magical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_chemical_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_atomic_defense", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_attack", 5);
+                updateCommand.Parameters.AddWithValue("@percent_all_mental_defense", 5);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -639,7 +639,7 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                 SUM(power) AS total_power, SUM(health) AS total_health, SUM(mana) AS total_mana, 
                 SUM(physical_attack) AS total_physical_attack, SUM(physical_defense) AS total_physical_defense, 
@@ -689,10 +689,10 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
                 WHERE user_id = @user_id AND status = 'available';
             ";
 
-                MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     if (await reader.ReadAsync())
                     {
