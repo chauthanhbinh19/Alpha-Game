@@ -18,7 +18,7 @@ public class UserTalismansRepository : IUserTalismansRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM Talismans m
                 JOIN user_talismans um ON m.id = um.talisman_id
@@ -26,51 +26,51 @@ public class UserTalismansRepository : IUserTalismansRepository
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND m.type = @type";
+                    selectSQL += " AND m.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY m.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), m.name
                 LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
-                    command.Parameters.AddWithValue("@search", search);
-                    command.Parameters.AddWithValue("@type", type);
-                    command.Parameters.AddWithValue("@rare", rare);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@search", search);
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@rare", rare);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -166,7 +166,7 @@ public class UserTalismansRepository : IUserTalismansRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Talismans m
                 JOIN user_talismans um ON m.id = um.talisman_id
@@ -174,39 +174,39 @@ public class UserTalismansRepository : IUserTalismansRepository
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND m.type = @type";
+                    selectSQL += " AND m.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -233,13 +233,13 @@ public class UserTalismansRepository : IUserTalismansRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM user_talismans 
                 WHERE user_id = @user_id AND talisman_id = @talisman_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@talisman_id", talisman.Id);
@@ -248,7 +248,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO user_talismans (
                             user_id, talisman_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -286,7 +286,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                         );
                     ";
 
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@talisman_id", talisman.Id);
@@ -354,13 +354,13 @@ public class UserTalismansRepository : IUserTalismansRepository
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_talismans
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND talisman_id = @talisman_id;
                     ";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@talisman_id", talisman.Id);
@@ -394,7 +394,7 @@ public class UserTalismansRepository : IUserTalismansRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_talismans
                 SET 
                     level = @level, power = @power, health = @health, 
@@ -426,63 +426,63 @@ public class UserTalismansRepository : IUserTalismansRepository
                 WHERE user_id = @user_id AND talisman_id = @talisman_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@talisman_id", talisman.Id);
-                    command.Parameters.AddWithValue("@level", cardLevel);
-                    command.Parameters.AddWithValue("@power", talisman.Power);
-                    command.Parameters.AddWithValue("@health", talisman.Health);
-                    command.Parameters.AddWithValue("@physical_attack", talisman.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", talisman.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", talisman.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", talisman.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", talisman.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", talisman.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", talisman.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", talisman.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", talisman.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", talisman.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", talisman.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", talisman.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", talisman.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", talisman.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", talisman.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", talisman.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", talisman.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", talisman.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", talisman.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", talisman.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", talisman.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", talisman.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", talisman.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", talisman.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", talisman.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", talisman.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", talisman.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", talisman.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", talisman.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", talisman.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", talisman.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", talisman.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", talisman.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", talisman.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", talisman.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", talisman.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", talisman.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", talisman.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", talisman.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", talisman.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", talisman.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", talisman.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", talisman.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", talisman.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", talisman.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", talisman.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", talisman.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", talisman.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@talisman_id", talisman.Id);
+                    updateCommand.Parameters.AddWithValue("@level", cardLevel);
+                    updateCommand.Parameters.AddWithValue("@power", talisman.Power);
+                    updateCommand.Parameters.AddWithValue("@health", talisman.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", talisman.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", talisman.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", talisman.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", talisman.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", talisman.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", talisman.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", talisman.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", talisman.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", talisman.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", talisman.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", talisman.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", talisman.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", talisman.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", talisman.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", talisman.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", talisman.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", talisman.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", talisman.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", talisman.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", talisman.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", talisman.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", talisman.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", talisman.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", talisman.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", talisman.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", talisman.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", talisman.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", talisman.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", talisman.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", talisman.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", talisman.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", talisman.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", talisman.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", talisman.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", talisman.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", talisman.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", talisman.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", talisman.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", talisman.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", talisman.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", talisman.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", talisman.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", talisman.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", talisman.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", talisman.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", talisman.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", talisman.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", talisman.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -508,7 +508,7 @@ public class UserTalismansRepository : IUserTalismansRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_talismans
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -539,64 +539,64 @@ public class UserTalismansRepository : IUserTalismansRepository
                 WHERE user_id = @user_id AND talisman_id = @talisman_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@talisman_id", talisman.Id);
-                    command.Parameters.AddWithValue("@star", star);
-                    command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", talisman.Power);
-                    command.Parameters.AddWithValue("@health", talisman.Health);
-                    command.Parameters.AddWithValue("@physical_attack", talisman.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", talisman.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", talisman.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", talisman.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", talisman.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", talisman.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", talisman.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", talisman.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", talisman.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", talisman.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", talisman.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", talisman.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", talisman.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", talisman.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", talisman.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", talisman.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", talisman.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", talisman.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", talisman.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", talisman.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", talisman.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", talisman.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", talisman.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", talisman.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", talisman.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", talisman.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", talisman.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", talisman.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", talisman.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", talisman.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", talisman.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", talisman.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", talisman.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", talisman.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", talisman.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", talisman.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", talisman.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", talisman.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", talisman.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", talisman.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", talisman.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", talisman.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", talisman.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", talisman.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", talisman.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", talisman.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", talisman.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", talisman.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@talisman_id", talisman.Id);
+                    updateCommand.Parameters.AddWithValue("@star", star);
+                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
+                    updateCommand.Parameters.AddWithValue("@power", talisman.Power);
+                    updateCommand.Parameters.AddWithValue("@health", talisman.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", talisman.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", talisman.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", talisman.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", talisman.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", talisman.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", talisman.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", talisman.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", talisman.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", talisman.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", talisman.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", talisman.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", talisman.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", talisman.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", talisman.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", talisman.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", talisman.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", talisman.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", talisman.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", talisman.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", talisman.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", talisman.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", talisman.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", talisman.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", talisman.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", talisman.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", talisman.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", talisman.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", talisman.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", talisman.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", talisman.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", talisman.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", talisman.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", talisman.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", talisman.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", talisman.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", talisman.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", talisman.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", talisman.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", talisman.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", talisman.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", talisman.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", talisman.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", talisman.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", talisman.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", talisman.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", talisman.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", talisman.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", talisman.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -623,15 +623,15 @@ public class UserTalismansRepository : IUserTalismansRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_talismans
+                string selectSQL = @"SELECT * FROM user_talismans
                              WHERE talisman_id=@id AND user_id=@user_id";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -720,7 +720,7 @@ public class UserTalismansRepository : IUserTalismansRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(power * (1 + quality / 10.0)) AS total_power,
                     SUM(health * (1 + quality / 10.0)) AS total_health,
@@ -775,11 +775,11 @@ public class UserTalismansRepository : IUserTalismansRepository
                 FROM user_talismans
                 WHERE user_id = @user_id;";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

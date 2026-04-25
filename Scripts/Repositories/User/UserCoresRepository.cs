@@ -18,7 +18,7 @@ public class UserCoresRepository : IUserCoresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description 
                 FROM Cores t
                 INNER JOIN user_cores ut ON t.id = ut.core_id
@@ -26,33 +26,33 @@ public class UserCoresRepository : IUserCoresRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY t.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED), t.name
                 LIMIT @limit OFFSET @offset;
             ";
 
-                await using var command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userId", user_id);
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@userId", user_id);
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    command.Parameters.AddWithValue("@rare", rare);
+                    selectCommand.Parameters.AddWithValue("@rare", rare);
                 }
                 if (!string.IsNullOrEmpty(search))
                 {
-                    command.Parameters.AddWithValue("@search", search);
+                    selectCommand.Parameters.AddWithValue("@search", search);
                 }
-                command.Parameters.AddWithValue("@limit", pageSize);
-                command.Parameters.AddWithValue("@offset", offset);
+                selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                await using var reader = await command.ExecuteReaderAsync();
+                await using var reader = await selectCommand.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {
                     Cores core = new Cores
@@ -145,7 +145,7 @@ public class UserCoresRepository : IUserCoresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Cores t
                 INNER JOIN user_cores ut ON t.id = ut.core_id
@@ -153,26 +153,26 @@ public class UserCoresRepository : IUserCoresRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using var command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userId", user_id);
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@userId", user_id);
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    command.Parameters.AddWithValue("@rare", rare);
+                    selectCommand.Parameters.AddWithValue("@rare", rare);
                 }
                 if (!string.IsNullOrEmpty(search))
                 {
-                    command.Parameters.AddWithValue("@search", search);
+                    selectCommand.Parameters.AddWithValue("@search", search);
                 }
 
-                object result = await command.ExecuteScalarAsync();
+                object result = await selectCommand.ExecuteScalarAsync();
                 if (result != null)
                     count = Convert.ToInt32(result);
             }
@@ -199,13 +199,13 @@ public class UserCoresRepository : IUserCoresRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM user_cores 
                 WHERE user_id = @user_id AND core_id = @core_id;
             ";
 
-                await using var checkCommand = new MySqlCommand(checkQuery, connection);
+                await using var checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@core_id", core.Id);
 
@@ -213,7 +213,7 @@ public class UserCoresRepository : IUserCoresRepository
 
                 if (count == 0)
                 {
-                    string insertQuery = @"
+                    string insertSQL = @"
                     INSERT INTO user_cores (
                         user_id, core_id, rare, level, experiment, star, quality, block, quantity,
                         power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -250,7 +250,7 @@ public class UserCoresRepository : IUserCoresRepository
                         @skill_damage_rate, @skill_resistance_rate
                     );";
 
-                    await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                    await using var insertCommand = new MySqlCommand(insertSQL, connection);
 
                     insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@core_id", core.Id);
@@ -317,13 +317,13 @@ public class UserCoresRepository : IUserCoresRepository
                 else
                 {
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                    string updateQuery = @"
+                    string updateSQL = @"
                     UPDATE user_cores
                     SET quantity = @quantity
                     WHERE user_id = @user_id AND core_id = @core_id;
                 ";
 
-                    await using var updateCommand = new MySqlCommand(updateQuery, connection);
+                    await using var updateCommand = new MySqlCommand(updateSQL, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@core_id", core.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", core.Quantity);
@@ -354,7 +354,7 @@ public class UserCoresRepository : IUserCoresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_cores
                 SET 
                     level = @level, power = @power, health = @health, 
@@ -385,62 +385,62 @@ public class UserCoresRepository : IUserCoresRepository
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND core_id = @core_id;";
 
-                await using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@core_id", core.Id);
-                command.Parameters.AddWithValue("@level", cardLevel);
-                command.Parameters.AddWithValue("@power", core.Power);
-                command.Parameters.AddWithValue("@health", core.Health);
-                command.Parameters.AddWithValue("@physical_attack", core.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", core.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", core.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", core.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", core.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", core.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", core.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", core.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", core.MentalAttack);
-                command.Parameters.AddWithValue("@mental_defense", core.MentalDefense);
-                command.Parameters.AddWithValue("@speed", core.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", core.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", core.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", core.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", core.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", core.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", core.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", core.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", core.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", core.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", core.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", core.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", core.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", core.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", core.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", core.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", core.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", core.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", core.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", core.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", core.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", core.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", core.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", core.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", core.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", core.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", core.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", core.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", core.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", core.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", core.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", core.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", core.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", core.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", core.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", core.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", core.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", core.SkillResistanceRate);
+                await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@core_id", core.Id);
+                updateCommand.Parameters.AddWithValue("@level", cardLevel);
+                updateCommand.Parameters.AddWithValue("@power", core.Power);
+                updateCommand.Parameters.AddWithValue("@health", core.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", core.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", core.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", core.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", core.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", core.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", core.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", core.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", core.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", core.MentalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", core.MentalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", core.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", core.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", core.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", core.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", core.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", core.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", core.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", core.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", core.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", core.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", core.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", core.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", core.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", core.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", core.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", core.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", core.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", core.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", core.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", core.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", core.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", core.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", core.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", core.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", core.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", core.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", core.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", core.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", core.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", core.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", core.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", core.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", core.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", core.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", core.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", core.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", core.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", core.SkillResistanceRate);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -465,7 +465,7 @@ public class UserCoresRepository : IUserCoresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_cores
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -496,63 +496,63 @@ public class UserCoresRepository : IUserCoresRepository
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND core_id = @core_id;";
 
-                await using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                command.Parameters.AddWithValue("@core_id", core.Id);
-                command.Parameters.AddWithValue("@star", star);
-                command.Parameters.AddWithValue("@quantity", quantity);
-                command.Parameters.AddWithValue("@power", core.Power);
-                command.Parameters.AddWithValue("@health", core.Health);
-                command.Parameters.AddWithValue("@physical_attack", core.PhysicalAttack);
-                command.Parameters.AddWithValue("@physical_defense", core.PhysicalDefense);
-                command.Parameters.AddWithValue("@magical_attack", core.MagicalAttack);
-                command.Parameters.AddWithValue("@magical_defense", core.MagicalDefense);
-                command.Parameters.AddWithValue("@chemical_attack", core.ChemicalAttack);
-                command.Parameters.AddWithValue("@chemical_defense", core.ChemicalDefense);
-                command.Parameters.AddWithValue("@atomic_attack", core.AtomicAttack);
-                command.Parameters.AddWithValue("@atomic_defense", core.AtomicDefense);
-                command.Parameters.AddWithValue("@mental_attack", core.MentalAttack);
-                command.Parameters.AddWithValue("@mental_defense", core.MentalDefense);
-                command.Parameters.AddWithValue("@speed", core.Speed);
-                command.Parameters.AddWithValue("@critical_damage_rate", core.CriticalDamageRate);
-                command.Parameters.AddWithValue("@critical_rate", core.CriticalRate);
-                command.Parameters.AddWithValue("@critical_resistance_rate", core.CriticalResistanceRate);
-                command.Parameters.AddWithValue("@ignore_critical_rate", core.IgnoreCriticalRate);
-                command.Parameters.AddWithValue("@penetration_rate", core.PenetrationRate);
-                command.Parameters.AddWithValue("@penetration_resistance_rate", core.PenetrationResistanceRate);
-                command.Parameters.AddWithValue("@evasion_rate", core.EvasionRate);
-                command.Parameters.AddWithValue("@damage_absorption_rate", core.DamageAbsorptionRate);
-                command.Parameters.AddWithValue("@ignore_damage_absorption_rate", core.IgnoreDamageAbsorptionRate);
-                command.Parameters.AddWithValue("@absorbed_damage_rate", core.AbsorbedDamageRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_rate", core.VitalityRegenerationRate);
-                command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", core.VitalityRegenerationResistanceRate);
-                command.Parameters.AddWithValue("@accuracy_rate", core.AccuracyRate);
-                command.Parameters.AddWithValue("@lifesteal_rate", core.LifestealRate);
-                command.Parameters.AddWithValue("@shield_strength", core.ShieldStrength);
-                command.Parameters.AddWithValue("@tenacity", core.Tenacity);
-                command.Parameters.AddWithValue("@resistance_rate", core.ResistanceRate);
-                command.Parameters.AddWithValue("@combo_rate", core.ComboRate);
-                command.Parameters.AddWithValue("@ignore_combo_rate", core.IgnoreComboRate);
-                command.Parameters.AddWithValue("@combo_damage_rate", core.ComboDamageRate);
-                command.Parameters.AddWithValue("@combo_resistance_rate", core.ComboResistanceRate);
-                command.Parameters.AddWithValue("@stun_rate", core.StunRate);
-                command.Parameters.AddWithValue("@ignore_stun_rate", core.IgnoreStunRate);
-                command.Parameters.AddWithValue("@reflection_rate", core.ReflectionRate);
-                command.Parameters.AddWithValue("@ignore_reflection_rate", core.IgnoreReflectionRate);
-                command.Parameters.AddWithValue("@reflection_damage_rate", core.ReflectionDamageRate);
-                command.Parameters.AddWithValue("@reflection_resistance_rate", core.ReflectionResistanceRate);
-                command.Parameters.AddWithValue("@mana", core.Mana);
-                command.Parameters.AddWithValue("@mana_regeneration_rate", core.ManaRegenerationRate);
-                command.Parameters.AddWithValue("@damage_to_different_faction_rate", core.DamageToDifferentFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_different_faction_rate", core.ResistanceToDifferentFactionRate);
-                command.Parameters.AddWithValue("@damage_to_same_faction_rate", core.DamageToSameFactionRate);
-                command.Parameters.AddWithValue("@resistance_to_same_faction_rate", core.ResistanceToSameFactionRate);
-                command.Parameters.AddWithValue("@normal_damage_rate", core.NormalDamageRate);
-                command.Parameters.AddWithValue("@normal_resistance_rate", core.NormalResistanceRate);
-                command.Parameters.AddWithValue("@skill_damage_rate", core.SkillDamageRate);
-                command.Parameters.AddWithValue("@skill_resistance_rate", core.SkillResistanceRate);
+                await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@core_id", core.Id);
+                updateCommand.Parameters.AddWithValue("@star", star);
+                updateCommand.Parameters.AddWithValue("@quantity", quantity);
+                updateCommand.Parameters.AddWithValue("@power", core.Power);
+                updateCommand.Parameters.AddWithValue("@health", core.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", core.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", core.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", core.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", core.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", core.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", core.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", core.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", core.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", core.MentalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", core.MentalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", core.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", core.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", core.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", core.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", core.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", core.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", core.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", core.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", core.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", core.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", core.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", core.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", core.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", core.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", core.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", core.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", core.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", core.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", core.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", core.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", core.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", core.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", core.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", core.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", core.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", core.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", core.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", core.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", core.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", core.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", core.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", core.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", core.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", core.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", core.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", core.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", core.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", core.SkillResistanceRate);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -578,14 +578,14 @@ public class UserCoresRepository : IUserCoresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_cores 
+                string selectSQL = @"SELECT * FROM user_cores 
                              WHERE core_id = @id AND user_id = @user_id";
 
-                await using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@id", Id);
-                command.Parameters.AddWithValue("@user_id", user_id);
+                await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@id", Id);
+                selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                await using MySqlDataReader reader = await command.ExecuteReaderAsync();
+                await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
                 if (await reader.ReadAsync())
                 {
                     core = new Cores
@@ -671,7 +671,7 @@ public class UserCoresRepository : IUserCoresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(power * (1 + quality / 10.0)) AS total_power,
                     SUM(health * (1 + quality / 10.0)) AS total_health,
@@ -727,10 +727,10 @@ public class UserCoresRepository : IUserCoresRepository
                 WHERE user_id = @user_id;
             ";
 
-                await using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                await using MySqlDataReader reader = await command.ExecuteReaderAsync();
+                await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
                 if (await reader.ReadAsync())
                 {
                     sumCores.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDoubleSafe("total_power");

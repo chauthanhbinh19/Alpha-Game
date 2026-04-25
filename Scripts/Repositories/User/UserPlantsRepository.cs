@@ -9,7 +9,7 @@ public class UserPlantsRepository : IUserPlantsRepository
 {
     public async Task<List<Plants>> GetUserPlantsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {
-        List<Plants> Plants = new List<Plants>();
+        List<Plants> plants = new List<Plants>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -18,7 +18,7 @@ public class UserPlantsRepository : IUserPlantsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Plants t
                 INNER JOIN user_plants ut ON t.id = ut.plant_id
@@ -26,40 +26,40 @@ public class UserPlantsRepository : IUserPlantsRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
                          t.name
                 LIMIT @limit OFFSET @offset;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            Plants Plant = new Plants
+                            Plants plant = new Plants
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -123,7 +123,7 @@ public class UserPlantsRepository : IUserPlantsRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            Plants.Add(Plant);
+                            plants.Add(plant);
                         }
                     }
                 }
@@ -138,7 +138,7 @@ public class UserPlantsRepository : IUserPlantsRepository
             }
         }
 
-        return Plants;
+        return plants;
     }
     public async Task<int> GetUserPlantsCountAsync(string user_id, string search, string rare)
     {
@@ -151,7 +151,7 @@ public class UserPlantsRepository : IUserPlantsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Plants t
                 INNER JOIN user_plants ut ON t.id = ut.plant_id
@@ -159,28 +159,28 @@ public class UserPlantsRepository : IUserPlantsRepository
             ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -207,11 +207,11 @@ public class UserPlantsRepository : IUserPlantsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM user_plants 
                 WHERE user_id = @user_id AND plant_id = @plant_id;";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@plant_id", plant.Id);
@@ -220,7 +220,7 @@ public class UserPlantsRepository : IUserPlantsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO user_plants (
                             user_id, plant_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -257,7 +257,7 @@ public class UserPlantsRepository : IUserPlantsRepository
                             @skill_damage_rate, @skill_resistance_rate
                         );";
 
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@plant_id", plant.Id);
@@ -325,12 +325,12 @@ public class UserPlantsRepository : IUserPlantsRepository
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_plants
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND plant_id = @plant_id;";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@plant_id", plant.Id);
@@ -362,7 +362,7 @@ public class UserPlantsRepository : IUserPlantsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_plants
                 SET 
                     level = @level, power = @power, health = @health, 
@@ -392,63 +392,63 @@ public class UserPlantsRepository : IUserPlantsRepository
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND plant_id = @plant_id;";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@plant_id", plant.Id);
-                    command.Parameters.AddWithValue("@level", PlantLevel);
-                    command.Parameters.AddWithValue("@power", plant.Power);
-                    command.Parameters.AddWithValue("@health", plant.Health);
-                    command.Parameters.AddWithValue("@physical_attack", plant.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", plant.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", plant.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", plant.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", plant.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", plant.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", plant.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", plant.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", plant.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", plant.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", plant.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", plant.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", plant.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", plant.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", plant.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", plant.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", plant.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", plant.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", plant.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", plant.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", plant.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", plant.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", plant.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", plant.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", plant.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", plant.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", plant.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", plant.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", plant.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", plant.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", plant.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", plant.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", plant.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", plant.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", plant.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", plant.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", plant.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", plant.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", plant.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", plant.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", plant.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", plant.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", plant.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", plant.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", plant.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", plant.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", plant.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", plant.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@plant_id", plant.Id);
+                    updateCommand.Parameters.AddWithValue("@level", PlantLevel);
+                    updateCommand.Parameters.AddWithValue("@power", plant.Power);
+                    updateCommand.Parameters.AddWithValue("@health", plant.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", plant.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", plant.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", plant.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", plant.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", plant.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", plant.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", plant.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", plant.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", plant.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", plant.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", plant.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", plant.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", plant.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", plant.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", plant.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", plant.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", plant.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", plant.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", plant.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", plant.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", plant.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", plant.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", plant.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", plant.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", plant.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", plant.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", plant.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", plant.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", plant.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", plant.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", plant.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", plant.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", plant.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", plant.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", plant.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", plant.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", plant.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", plant.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", plant.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", plant.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", plant.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", plant.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", plant.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", plant.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", plant.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", plant.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", plant.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", plant.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -471,7 +471,7 @@ public class UserPlantsRepository : IUserPlantsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_plants
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -500,64 +500,64 @@ public class UserPlantsRepository : IUserPlantsRepository
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND plant_id = @plant_id;";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@plant_id", plant.Id);
-                    command.Parameters.AddWithValue("@star", star);
-                    command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", plant.Power);
-                    command.Parameters.AddWithValue("@health", plant.Health);
-                    command.Parameters.AddWithValue("@physical_attack", plant.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", plant.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", plant.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", plant.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", plant.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", plant.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", plant.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", plant.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", plant.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", plant.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", plant.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", plant.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", plant.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", plant.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", plant.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", plant.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", plant.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", plant.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", plant.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", plant.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", plant.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", plant.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", plant.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", plant.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", plant.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", plant.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", plant.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", plant.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", plant.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", plant.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", plant.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", plant.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", plant.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", plant.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", plant.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", plant.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", plant.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", plant.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", plant.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", plant.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", plant.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", plant.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", plant.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", plant.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", plant.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", plant.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", plant.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", plant.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@plant_id", plant.Id);
+                    updateCommand.Parameters.AddWithValue("@star", star);
+                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
+                    updateCommand.Parameters.AddWithValue("@power", plant.Power);
+                    updateCommand.Parameters.AddWithValue("@health", plant.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", plant.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", plant.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", plant.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", plant.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", plant.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", plant.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", plant.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", plant.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", plant.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", plant.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", plant.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", plant.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", plant.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", plant.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", plant.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", plant.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", plant.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", plant.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", plant.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", plant.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", plant.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", plant.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", plant.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", plant.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", plant.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", plant.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", plant.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", plant.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", plant.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", plant.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", plant.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", plant.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", plant.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", plant.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", plant.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", plant.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", plant.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", plant.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", plant.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", plant.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", plant.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", plant.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", plant.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", plant.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", plant.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", plant.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", plant.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", plant.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -574,25 +574,25 @@ public class UserPlantsRepository : IUserPlantsRepository
     }
     public async Task<Plants> GetUserPlantByIdAsync(string user_id, string Id)
     {
-        Plants Plant = new Plants();
+        Plants plant = new Plants();
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 await connection.OpenAsync();
-                string query = @"Select * from user_plants where user_plants.plant_id=@id 
+                string selectSQL = @"Select * from user_plants where user_plants.plant_id=@id 
                 and user_plants.user_id=@user_id";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            Plant = new Plants
+                            plant = new Plants
                             {
                                 Id = reader.GetStringSafe("plant_id"),
                                 Level = reader.GetIntSafe("level"),
@@ -664,7 +664,7 @@ public class UserPlantsRepository : IUserPlantsRepository
             }
 
         }
-        return Plant;
+        return plant;
     }
     public async Task<Plants> SumPowerUserPlantsAsync()
     {
@@ -675,7 +675,7 @@ public class UserPlantsRepository : IUserPlantsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"SELECT 
+                string selectSQL = @"SELECT 
                 SUM(power * (1 + quality / 10.0)) AS total_power,
                 SUM(health * (1 + quality / 10.0)) AS total_health,
                 SUM(mana * (1 + quality / 10.0)) AS total_mana,
@@ -729,11 +729,11 @@ public class UserPlantsRepository : IUserPlantsRepository
             FROM user_plants
             WHERE user_id = @user_id;
             ";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

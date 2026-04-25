@@ -18,7 +18,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Technologies t
                 INNER JOIN user_technologies ut ON t.id = ut.technology_id
@@ -26,38 +26,38 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
                          t.name
                 LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -153,7 +153,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Technologies t
                 INNER JOIN user_technologies ut ON t.id = ut.technology_id
@@ -161,29 +161,29 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -210,11 +210,11 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM user_technologies 
                 WHERE user_id = @user_id AND technology_id = @technology_id;";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@technology_id", technology.Id);
@@ -223,7 +223,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO user_technologies (
                             user_id, technology_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -260,7 +260,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                             @skill_damage_rate, @skill_resistance_rate
                         );";
 
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@technology_id", technology.Id);
@@ -328,12 +328,12 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_technologies
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND technology_id = @technology_id;";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@technology_id", technology.Id);
@@ -365,7 +365,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_technologies
                 SET 
                     level = @level, power = @power, health = @health, 
@@ -395,63 +395,63 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND technology_id = @technology_id;";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@technology_id", technology.Id);
-                    command.Parameters.AddWithValue("@level", TechnologyLevel);
-                    command.Parameters.AddWithValue("@power", technology.Power);
-                    command.Parameters.AddWithValue("@health", technology.Health);
-                    command.Parameters.AddWithValue("@physical_attack", technology.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", technology.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", technology.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", technology.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", technology.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", technology.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", technology.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", technology.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", technology.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", technology.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", technology.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", technology.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", technology.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", technology.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", technology.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", technology.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", technology.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", technology.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", technology.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", technology.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", technology.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", technology.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", technology.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", technology.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", technology.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", technology.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", technology.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", technology.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", technology.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", technology.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", technology.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", technology.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", technology.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", technology.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", technology.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", technology.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", technology.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", technology.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", technology.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", technology.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", technology.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", technology.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", technology.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", technology.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", technology.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", technology.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", technology.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", technology.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@technology_id", technology.Id);
+                    updateCommand.Parameters.AddWithValue("@level", TechnologyLevel);
+                    updateCommand.Parameters.AddWithValue("@power", technology.Power);
+                    updateCommand.Parameters.AddWithValue("@health", technology.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", technology.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", technology.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", technology.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", technology.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", technology.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", technology.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", technology.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", technology.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", technology.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", technology.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", technology.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", technology.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", technology.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", technology.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", technology.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", technology.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", technology.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", technology.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", technology.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", technology.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", technology.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", technology.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", technology.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", technology.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", technology.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", technology.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", technology.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", technology.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", technology.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", technology.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", technology.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", technology.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", technology.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", technology.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", technology.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", technology.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", technology.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", technology.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", technology.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", technology.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", technology.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", technology.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", technology.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", technology.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", technology.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", technology.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", technology.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", technology.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -474,7 +474,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_technologies
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -503,64 +503,64 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND technology_id = @technology_id;";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@technology_id", technology.Id);
-                    command.Parameters.AddWithValue("@star", star);
-                    command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", technology.Power);
-                    command.Parameters.AddWithValue("@health", technology.Health);
-                    command.Parameters.AddWithValue("@physical_attack", technology.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", technology.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", technology.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", technology.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", technology.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", technology.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", technology.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", technology.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", technology.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", technology.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", technology.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", technology.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", technology.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", technology.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", technology.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", technology.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", technology.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", technology.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", technology.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", technology.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", technology.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", technology.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", technology.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", technology.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", technology.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", technology.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", technology.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", technology.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", technology.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", technology.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", technology.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", technology.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", technology.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", technology.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", technology.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", technology.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", technology.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", technology.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", technology.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", technology.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", technology.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", technology.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", technology.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", technology.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", technology.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", technology.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", technology.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", technology.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@technology_id", technology.Id);
+                    updateCommand.Parameters.AddWithValue("@star", star);
+                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
+                    updateCommand.Parameters.AddWithValue("@power", technology.Power);
+                    updateCommand.Parameters.AddWithValue("@health", technology.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", technology.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", technology.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", technology.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", technology.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", technology.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", technology.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", technology.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", technology.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", technology.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", technology.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", technology.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", technology.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", technology.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", technology.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", technology.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", technology.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", technology.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", technology.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", technology.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", technology.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", technology.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", technology.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", technology.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", technology.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", technology.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", technology.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", technology.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", technology.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", technology.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", technology.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", technology.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", technology.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", technology.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", technology.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", technology.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", technology.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", technology.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", technology.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", technology.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", technology.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", technology.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", technology.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", technology.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", technology.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", technology.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", technology.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", technology.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", technology.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -577,25 +577,25 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
     }
     public async Task<Technologies> GetUserTechnologyByIdAsync(string user_id, string Id)
     {
-        Technologies Technology = new Technologies();
+        Technologies technology = new Technologies();
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 await connection.OpenAsync();
-                string query = @"Select * from user_technologies where user_technologies.technology_id=@id 
+                string selectSQL = @"Select * from user_technologies where user_technologies.technology_id=@id 
                 and user_technologies.user_id=@user_id";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            Technology = new Technologies
+                            technology = new Technologies
                             {
                                 Id = reader.GetStringSafe("technology_id"),
                                 Level = reader.GetIntSafe("level"),
@@ -667,7 +667,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             }
 
         }
-        return Technology;
+        return technology;
     }
     public async Task<Technologies> SumPowerUserTechnologiesAsync()
     {
@@ -678,7 +678,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"SELECT 
+                string selectSQL = @"SELECT 
                 SUM(power * (1 + quality / 10.0)) AS total_power,
                 SUM(health * (1 + quality / 10.0)) AS total_health,
                 SUM(mana * (1 + quality / 10.0)) AS total_mana,
@@ -732,11 +732,11 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             FROM user_technologies
             WHERE user_id = @user_id;
             ";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

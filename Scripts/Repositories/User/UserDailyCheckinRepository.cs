@@ -24,15 +24,15 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
                     (@user_id, @daily_checkin_id, @status, @day, @month, @year);
             ";
 
-                await using var command = new MySqlCommand(insertSQL, connection);
-                command.Parameters.AddWithValue("@user_id", userId);
-                command.Parameters.AddWithValue("@daily_checkin_id", userDailyCheckin.DailyCheckinId);
-                command.Parameters.AddWithValue("@day", userDailyCheckin.Day);
-                command.Parameters.AddWithValue("@month", userDailyCheckin.Month);
-                command.Parameters.AddWithValue("@year", userDailyCheckin.Year);
-                command.Parameters.AddWithValue("@status", userDailyCheckin.Status);
+                await using var insertCommand = new MySqlCommand(insertSQL, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", userId);
+                insertCommand.Parameters.AddWithValue("@daily_checkin_id", userDailyCheckin.DailyCheckinId);
+                insertCommand.Parameters.AddWithValue("@day", userDailyCheckin.Day);
+                insertCommand.Parameters.AddWithValue("@month", userDailyCheckin.Month);
+                insertCommand.Parameters.AddWithValue("@year", userDailyCheckin.Year);
+                insertCommand.Parameters.AddWithValue("@status", userDailyCheckin.Status);
 
-                await command.ExecuteNonQueryAsync();
+                await insertCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -60,12 +60,12 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
                 WHERE user_id = @user_id AND daily_checkin_id = @daily_checkin_id;
             ";
 
-                await using var command = new MySqlCommand(updateSQL, connection);
-                command.Parameters.AddWithValue("@user_id", userId);
-                command.Parameters.AddWithValue("@daily_checkin_id", dailyCheckinId);
-                command.Parameters.AddWithValue("@status", true);
+                await using var updateCommand = new MySqlCommand(updateSQL, connection);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
+                updateCommand.Parameters.AddWithValue("@daily_checkin_id", dailyCheckinId);
+                updateCommand.Parameters.AddWithValue("@status", true);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -92,11 +92,11 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
                 WHERE user_id = @user_id AND daily_checkin_id = @daily_checkin_id;
             ";
 
-                await using var command = new MySqlCommand(deleteSQL, connection);
-                command.Parameters.AddWithValue("@user_id", userId);
-                command.Parameters.AddWithValue("@daily_checkin_id", dailyCheckinId);
+                await using var deleteCommand = new MySqlCommand(deleteSQL, connection);
+                deleteCommand.Parameters.AddWithValue("@user_id", userId);
+                deleteCommand.Parameters.AddWithValue("@daily_checkin_id", dailyCheckinId);
 
-                await command.ExecuteNonQueryAsync();
+                await deleteCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -133,12 +133,12 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
                     );
             ";
 
-                await using var command = new MySqlCommand(selectSQL, connection);
-                command.Parameters.AddWithValue("@user_id", userId);
-                command.Parameters.AddWithValue("@month", month);
-                command.Parameters.AddWithValue("@year", year);
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
+                selectCommand.Parameters.AddWithValue("@month", month);
+                selectCommand.Parameters.AddWithValue("@year", year);
 
-                int count = Convert.ToInt32(await command.ExecuteScalarAsync());
+                int count = Convert.ToInt32(await selectCommand.ExecuteScalarAsync());
 
                 return count == 0;
             }
@@ -173,10 +173,10 @@ public class UserDailyCheckinRepository : IUserDailyCheckinRepository
                 ORDER BY dc.day ASC;
             ";
 
-                await using var command = new MySqlCommand(selectSQL, connection);
-                command.Parameters.AddWithValue("@user_id", userId);
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
-                await using var reader = await command.ExecuteReaderAsync();
+                await using var reader = await selectCommand.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {
                     DailyCheckin dailyCheckin = new DailyCheckin

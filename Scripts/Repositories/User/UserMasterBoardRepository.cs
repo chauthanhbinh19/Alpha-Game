@@ -17,7 +17,7 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT mb.*, 
                        CASE WHEN umb.name IS NULL THEN 'block' ELSE 'available' END AS status
                 FROM master_board mb
@@ -25,12 +25,12 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
                        ON mb.name = umb.name AND mb.node_id = umb.node_id AND umb.user_id = @userId
                 WHERE mb.name = @name";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@name", name);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@name", name);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -133,7 +133,7 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string insertSQL = @"
                 INSERT INTO user_master_board (
                     user_id, name, node_id, rank_level,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -181,77 +181,77 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
                     @percent_all_mental_attack, @percent_all_mental_defense
                 )";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", user_id);
-                    command.Parameters.AddWithValue("@name", masterBoard.Name);
-                    command.Parameters.AddWithValue("@node_id", masterBoard.Id);
-                    command.Parameters.AddWithValue("@rank_level", masterBoard.RankLevel);
+                    insertCommand.Parameters.AddWithValue("@user_id", user_id);
+                    insertCommand.Parameters.AddWithValue("@name", masterBoard.Name);
+                    insertCommand.Parameters.AddWithValue("@node_id", masterBoard.Id);
+                    insertCommand.Parameters.AddWithValue("@rank_level", masterBoard.RankLevel);
 
-                    command.Parameters.AddWithValue("@power", masterBoard.Power);
-                    command.Parameters.AddWithValue("@health", masterBoard.Health);
-                    command.Parameters.AddWithValue("@physical_attack", masterBoard.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", masterBoard.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", masterBoard.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", masterBoard.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", masterBoard.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", masterBoard.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", masterBoard.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", masterBoard.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", masterBoard.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", masterBoard.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", masterBoard.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", masterBoard.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", masterBoard.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", masterBoard.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", masterBoard.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", masterBoard.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", masterBoard.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", masterBoard.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", masterBoard.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", masterBoard.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", masterBoard.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", masterBoard.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", masterBoard.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", masterBoard.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", masterBoard.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", masterBoard.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", masterBoard.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", masterBoard.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", masterBoard.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", masterBoard.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", masterBoard.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", masterBoard.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", masterBoard.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", masterBoard.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", masterBoard.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", masterBoard.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", masterBoard.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", masterBoard.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", masterBoard.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", masterBoard.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", masterBoard.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", masterBoard.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", masterBoard.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", masterBoard.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", masterBoard.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", masterBoard.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", masterBoard.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", masterBoard.SkillResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@power", masterBoard.Power);
+                    insertCommand.Parameters.AddWithValue("@health", masterBoard.Health);
+                    insertCommand.Parameters.AddWithValue("@physical_attack", masterBoard.PhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@physical_defense", masterBoard.PhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@magical_attack", masterBoard.MagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@magical_defense", masterBoard.MagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@chemical_attack", masterBoard.ChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@chemical_defense", masterBoard.ChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@atomic_attack", masterBoard.AtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@atomic_defense", masterBoard.AtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@mental_attack", masterBoard.MentalAttack);
+                    insertCommand.Parameters.AddWithValue("@mental_defense", masterBoard.MentalDefense);
+                    insertCommand.Parameters.AddWithValue("@speed", masterBoard.Speed);
+                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", masterBoard.CriticalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@critical_rate", masterBoard.CriticalRate);
+                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", masterBoard.CriticalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", masterBoard.IgnoreCriticalRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_rate", masterBoard.PenetrationRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", masterBoard.PenetrationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@evasion_rate", masterBoard.EvasionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", masterBoard.DamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", masterBoard.IgnoreDamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", masterBoard.AbsorbedDamageRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", masterBoard.VitalityRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", masterBoard.VitalityRegenerationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@accuracy_rate", masterBoard.AccuracyRate);
+                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", masterBoard.LifestealRate);
+                    insertCommand.Parameters.AddWithValue("@shield_strength", masterBoard.ShieldStrength);
+                    insertCommand.Parameters.AddWithValue("@tenacity", masterBoard.Tenacity);
+                    insertCommand.Parameters.AddWithValue("@resistance_rate", masterBoard.ResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@combo_rate", masterBoard.ComboRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", masterBoard.IgnoreComboRate);
+                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", masterBoard.ComboDamageRate);
+                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", masterBoard.ComboResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@stun_rate", masterBoard.StunRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", masterBoard.IgnoreStunRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_rate", masterBoard.ReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", masterBoard.IgnoreReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", masterBoard.ReflectionDamageRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", masterBoard.ReflectionResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@mana", masterBoard.Mana);
+                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", masterBoard.ManaRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", masterBoard.DamageToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", masterBoard.ResistanceToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", masterBoard.DamageToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", masterBoard.ResistanceToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", masterBoard.NormalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", masterBoard.NormalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", masterBoard.SkillDamageRate);
+                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", masterBoard.SkillResistanceRate);
 
-                    command.Parameters.AddWithValue("@percent_all_health", masterBoard.PercentAllHealth);
-                    command.Parameters.AddWithValue("@percent_all_physical_attack", masterBoard.PercentAllPhysicalAttack);
-                    command.Parameters.AddWithValue("@percent_all_physical_defense", masterBoard.PercentAllPhysicalDefense);
-                    command.Parameters.AddWithValue("@percent_all_magical_attack", masterBoard.PercentAllMagicalAttack);
-                    command.Parameters.AddWithValue("@percent_all_magical_defense", masterBoard.PercentAllMagicalDefense);
-                    command.Parameters.AddWithValue("@percent_all_chemical_attack", masterBoard.PercentAllChemicalAttack);
-                    command.Parameters.AddWithValue("@percent_all_chemical_defense", masterBoard.PercentAllChemicalDefense);
-                    command.Parameters.AddWithValue("@percent_all_atomic_attack", masterBoard.PercentAllAtomicAttack);
-                    command.Parameters.AddWithValue("@percent_all_atomic_defense", masterBoard.PercentAllAtomicDefense);
-                    command.Parameters.AddWithValue("@percent_all_mental_attack", masterBoard.PercentAllMentalAttack);
-                    command.Parameters.AddWithValue("@percent_all_mental_defense", masterBoard.PercentAllMentalDefense);
+                    insertCommand.Parameters.AddWithValue("@percent_all_health", masterBoard.PercentAllHealth);
+                    insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", masterBoard.PercentAllPhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@percent_all_physical_defense", masterBoard.PercentAllPhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@percent_all_magical_attack", masterBoard.PercentAllMagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@percent_all_magical_defense", masterBoard.PercentAllMagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@percent_all_chemical_attack", masterBoard.PercentAllChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@percent_all_chemical_defense", masterBoard.PercentAllChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@percent_all_atomic_attack", masterBoard.PercentAllAtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@percent_all_atomic_defense", masterBoard.PercentAllAtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@percent_all_mental_attack", masterBoard.PercentAllMentalAttack);
+                    insertCommand.Parameters.AddWithValue("@percent_all_mental_defense", masterBoard.PercentAllMentalDefense);
 
-                    await command.ExecuteNonQueryAsync();
+                    await insertCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -275,7 +275,7 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_master_board SET
                 rank_level = @rank_level,
                 physical_attack = @physical_attack, physical_defense = @physical_defense, 
@@ -317,78 +317,78 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
                 user_id = @user_id AND name = @name AND node_id = @node_id
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", user_id);
-                    command.Parameters.AddWithValue("@name", masterBoard.Name);
-                    command.Parameters.AddWithValue("@node_id", masterBoard.Id);
-                    command.Parameters.AddWithValue("@rank_level", masterBoard.RankLevel);
+                    updateCommand.Parameters.AddWithValue("@user_id", user_id);
+                    updateCommand.Parameters.AddWithValue("@name", masterBoard.Name);
+                    updateCommand.Parameters.AddWithValue("@node_id", masterBoard.Id);
+                    updateCommand.Parameters.AddWithValue("@rank_level", masterBoard.RankLevel);
 
                     // Các giá trị số nhân với multiplier
-                    command.Parameters.AddWithValue("@power", masterBoard.Power);
-                    command.Parameters.AddWithValue("@health", masterBoard.Health * multiplier);
-                    command.Parameters.AddWithValue("@physical_attack", masterBoard.PhysicalAttack * multiplier);
-                    command.Parameters.AddWithValue("@physical_defense", masterBoard.PhysicalDefense * multiplier);
-                    command.Parameters.AddWithValue("@magical_attack", masterBoard.MagicalAttack * multiplier);
-                    command.Parameters.AddWithValue("@magical_defense", masterBoard.MagicalDefense * multiplier);
-                    command.Parameters.AddWithValue("@chemical_attack", masterBoard.ChemicalAttack * multiplier);
-                    command.Parameters.AddWithValue("@chemical_defense", masterBoard.ChemicalDefense * multiplier);
-                    command.Parameters.AddWithValue("@atomic_attack", masterBoard.AtomicAttack * multiplier);
-                    command.Parameters.AddWithValue("@atomic_defense", masterBoard.AtomicDefense * multiplier);
-                    command.Parameters.AddWithValue("@mental_attack", masterBoard.MentalAttack * multiplier);
-                    command.Parameters.AddWithValue("@mental_defense", masterBoard.MentalDefense * multiplier);
-                    command.Parameters.AddWithValue("@speed", masterBoard.Speed * multiplier);
-                    command.Parameters.AddWithValue("@critical_damage_rate", masterBoard.CriticalDamageRate * multiplier);
-                    command.Parameters.AddWithValue("@critical_rate", masterBoard.CriticalRate * multiplier);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", masterBoard.CriticalResistanceRate * multiplier);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", masterBoard.IgnoreCriticalRate * multiplier);
-                    command.Parameters.AddWithValue("@penetration_rate", masterBoard.PenetrationRate * multiplier);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", masterBoard.PenetrationResistanceRate * multiplier);
-                    command.Parameters.AddWithValue("@evasion_rate", masterBoard.EvasionRate * multiplier);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", masterBoard.DamageAbsorptionRate * multiplier);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", masterBoard.IgnoreDamageAbsorptionRate * multiplier);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", masterBoard.AbsorbedDamageRate * multiplier);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", masterBoard.VitalityRegenerationRate * multiplier);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", masterBoard.VitalityRegenerationResistanceRate * multiplier);
-                    command.Parameters.AddWithValue("@accuracy_rate", masterBoard.AccuracyRate * multiplier);
-                    command.Parameters.AddWithValue("@lifesteal_rate", masterBoard.LifestealRate * multiplier);
-                    command.Parameters.AddWithValue("@shield_strength", masterBoard.ShieldStrength * multiplier);
-                    command.Parameters.AddWithValue("@tenacity", masterBoard.Tenacity * multiplier);
-                    command.Parameters.AddWithValue("@resistance_rate", masterBoard.ResistanceRate * multiplier);
-                    command.Parameters.AddWithValue("@combo_rate", masterBoard.ComboRate * multiplier);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", masterBoard.IgnoreComboRate * multiplier);
-                    command.Parameters.AddWithValue("@combo_damage_rate", masterBoard.ComboDamageRate * multiplier);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", masterBoard.ComboResistanceRate * multiplier);
-                    command.Parameters.AddWithValue("@stun_rate", masterBoard.StunRate * multiplier);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", masterBoard.IgnoreStunRate * multiplier);
-                    command.Parameters.AddWithValue("@reflection_rate", masterBoard.ReflectionRate * multiplier);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", masterBoard.IgnoreReflectionRate * multiplier);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", masterBoard.ReflectionDamageRate * multiplier);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", masterBoard.ReflectionResistanceRate * multiplier);
-                    command.Parameters.AddWithValue("@mana", masterBoard.Mana * multiplier);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", masterBoard.ManaRegenerationRate * multiplier);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", masterBoard.DamageToDifferentFactionRate * multiplier);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", masterBoard.ResistanceToDifferentFactionRate * multiplier);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", masterBoard.DamageToSameFactionRate * multiplier);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", masterBoard.ResistanceToSameFactionRate * multiplier);
-                    command.Parameters.AddWithValue("@normal_damage_rate", masterBoard.NormalDamageRate * multiplier);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", masterBoard.NormalResistanceRate * multiplier);
-                    command.Parameters.AddWithValue("@skill_damage_rate", masterBoard.SkillDamageRate * multiplier);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", masterBoard.SkillResistanceRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@power", masterBoard.Power);
+                    updateCommand.Parameters.AddWithValue("@health", masterBoard.Health * multiplier);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", masterBoard.PhysicalAttack * multiplier);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", masterBoard.PhysicalDefense * multiplier);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", masterBoard.MagicalAttack * multiplier);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", masterBoard.MagicalDefense * multiplier);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", masterBoard.ChemicalAttack * multiplier);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", masterBoard.ChemicalDefense * multiplier);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", masterBoard.AtomicAttack * multiplier);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", masterBoard.AtomicDefense * multiplier);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", masterBoard.MentalAttack * multiplier);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", masterBoard.MentalDefense * multiplier);
+                    updateCommand.Parameters.AddWithValue("@speed", masterBoard.Speed * multiplier);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", masterBoard.CriticalDamageRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", masterBoard.CriticalRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", masterBoard.CriticalResistanceRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", masterBoard.IgnoreCriticalRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", masterBoard.PenetrationRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", masterBoard.PenetrationResistanceRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", masterBoard.EvasionRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", masterBoard.DamageAbsorptionRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", masterBoard.IgnoreDamageAbsorptionRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", masterBoard.AbsorbedDamageRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", masterBoard.VitalityRegenerationRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", masterBoard.VitalityRegenerationResistanceRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", masterBoard.AccuracyRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", masterBoard.LifestealRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", masterBoard.ShieldStrength * multiplier);
+                    updateCommand.Parameters.AddWithValue("@tenacity", masterBoard.Tenacity * multiplier);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", masterBoard.ResistanceRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", masterBoard.ComboRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", masterBoard.IgnoreComboRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", masterBoard.ComboDamageRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", masterBoard.ComboResistanceRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", masterBoard.StunRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", masterBoard.IgnoreStunRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", masterBoard.ReflectionRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", masterBoard.IgnoreReflectionRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", masterBoard.ReflectionDamageRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", masterBoard.ReflectionResistanceRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@mana", masterBoard.Mana * multiplier);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", masterBoard.ManaRegenerationRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", masterBoard.DamageToDifferentFactionRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", masterBoard.ResistanceToDifferentFactionRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", masterBoard.DamageToSameFactionRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", masterBoard.ResistanceToSameFactionRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", masterBoard.NormalDamageRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", masterBoard.NormalResistanceRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", masterBoard.SkillDamageRate * multiplier);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", masterBoard.SkillResistanceRate * multiplier);
 
-                    command.Parameters.AddWithValue("@percent_all_health", masterBoard.PercentAllHealth * multiplier);
-                    command.Parameters.AddWithValue("@percent_all_physical_attack", masterBoard.PercentAllPhysicalAttack * multiplier);
-                    command.Parameters.AddWithValue("@percent_all_physical_defense", masterBoard.PercentAllPhysicalDefense * multiplier);
-                    command.Parameters.AddWithValue("@percent_all_magical_attack", masterBoard.PercentAllMagicalAttack * multiplier);
-                    command.Parameters.AddWithValue("@percent_all_magical_defense", masterBoard.PercentAllMagicalDefense * multiplier);
-                    command.Parameters.AddWithValue("@percent_all_chemical_attack", masterBoard.PercentAllChemicalAttack * multiplier);
-                    command.Parameters.AddWithValue("@percent_all_chemical_defense", masterBoard.PercentAllChemicalDefense * multiplier);
-                    command.Parameters.AddWithValue("@percent_all_atomic_attack", masterBoard.PercentAllAtomicAttack * multiplier);
-                    command.Parameters.AddWithValue("@percent_all_atomic_defense", masterBoard.PercentAllAtomicDefense * multiplier);
-                    command.Parameters.AddWithValue("@percent_all_mental_attack", masterBoard.PercentAllMentalAttack * multiplier);
-                    command.Parameters.AddWithValue("@percent_all_mental_defense", masterBoard.PercentAllMentalDefense * multiplier);
+                    updateCommand.Parameters.AddWithValue("@percent_all_health", masterBoard.PercentAllHealth * multiplier);
+                    updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", masterBoard.PercentAllPhysicalAttack * multiplier);
+                    updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", masterBoard.PercentAllPhysicalDefense * multiplier);
+                    updateCommand.Parameters.AddWithValue("@percent_all_magical_attack", masterBoard.PercentAllMagicalAttack * multiplier);
+                    updateCommand.Parameters.AddWithValue("@percent_all_magical_defense", masterBoard.PercentAllMagicalDefense * multiplier);
+                    updateCommand.Parameters.AddWithValue("@percent_all_chemical_attack", masterBoard.PercentAllChemicalAttack * multiplier);
+                    updateCommand.Parameters.AddWithValue("@percent_all_chemical_defense", masterBoard.PercentAllChemicalDefense * multiplier);
+                    updateCommand.Parameters.AddWithValue("@percent_all_atomic_attack", masterBoard.PercentAllAtomicAttack * multiplier);
+                    updateCommand.Parameters.AddWithValue("@percent_all_atomic_defense", masterBoard.PercentAllAtomicDefense * multiplier);
+                    updateCommand.Parameters.AddWithValue("@percent_all_mental_attack", masterBoard.PercentAllMentalAttack * multiplier);
+                    updateCommand.Parameters.AddWithValue("@percent_all_mental_defense", masterBoard.PercentAllMentalDefense * multiplier);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)

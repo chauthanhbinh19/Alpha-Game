@@ -18,7 +18,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM mecha_beasts t
                 INNER JOIN user_mecha_beasts ut ON t.id = ut.mecha_beast_id
@@ -26,36 +26,36 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
                          t.name
                 LIMIT @limit OFFSET @offset;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -151,7 +151,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM mecha_beasts t
                 INNER JOIN user_mecha_beasts ut ON t.id = ut.mecha_beast_id
@@ -160,28 +160,28 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -208,11 +208,11 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM user_mecha_beasts
                 WHERE user_id = @user_id AND mecha_beast_id = @mecha_beast_id;";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@mecha_beast_id", mechaBeast.Id);
@@ -221,7 +221,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO user_mecha_beasts (
                             user_id, mecha_beast_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -258,7 +258,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                             @skill_damage_rate, @skill_resistance_rate
                         );";
 
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@mecha_beast_id", mechaBeast.Id);
@@ -326,12 +326,12 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_mecha_beasts
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND mecha_beast_id = @mecha_beast_id;";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@mecha_beast_id", mechaBeast.Id);
@@ -363,7 +363,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_mecha_beasts
                 SET 
                     level = @level, power = @power, health = @health, 
@@ -393,63 +393,63 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND mecha_beast_id = @mecha_beast_id;";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@mecha_beast_id", mechaBeast.Id);
-                    command.Parameters.AddWithValue("@level", TitleLevel);
-                    command.Parameters.AddWithValue("@power", mechaBeast.Power);
-                    command.Parameters.AddWithValue("@health", mechaBeast.Health);
-                    command.Parameters.AddWithValue("@physical_attack", mechaBeast.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", mechaBeast.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", mechaBeast.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", mechaBeast.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", mechaBeast.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", mechaBeast.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", mechaBeast.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", mechaBeast.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", mechaBeast.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", mechaBeast.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", mechaBeast.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", mechaBeast.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", mechaBeast.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", mechaBeast.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", mechaBeast.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", mechaBeast.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", mechaBeast.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", mechaBeast.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", mechaBeast.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", mechaBeast.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", mechaBeast.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", mechaBeast.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", mechaBeast.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", mechaBeast.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", mechaBeast.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", mechaBeast.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", mechaBeast.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", mechaBeast.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", mechaBeast.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", mechaBeast.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", mechaBeast.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", mechaBeast.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", mechaBeast.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", mechaBeast.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", mechaBeast.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", mechaBeast.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", mechaBeast.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", mechaBeast.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", mechaBeast.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", mechaBeast.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", mechaBeast.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", mechaBeast.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", mechaBeast.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", mechaBeast.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", mechaBeast.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", mechaBeast.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", mechaBeast.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", mechaBeast.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@mecha_beast_id", mechaBeast.Id);
+                    updateCommand.Parameters.AddWithValue("@level", TitleLevel);
+                    updateCommand.Parameters.AddWithValue("@power", mechaBeast.Power);
+                    updateCommand.Parameters.AddWithValue("@health", mechaBeast.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", mechaBeast.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", mechaBeast.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", mechaBeast.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", mechaBeast.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", mechaBeast.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", mechaBeast.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", mechaBeast.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", mechaBeast.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", mechaBeast.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", mechaBeast.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", mechaBeast.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", mechaBeast.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", mechaBeast.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", mechaBeast.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", mechaBeast.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", mechaBeast.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", mechaBeast.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", mechaBeast.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", mechaBeast.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", mechaBeast.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", mechaBeast.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", mechaBeast.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", mechaBeast.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", mechaBeast.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", mechaBeast.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", mechaBeast.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", mechaBeast.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", mechaBeast.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", mechaBeast.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", mechaBeast.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", mechaBeast.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", mechaBeast.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", mechaBeast.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", mechaBeast.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", mechaBeast.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", mechaBeast.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", mechaBeast.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", mechaBeast.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", mechaBeast.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", mechaBeast.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", mechaBeast.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", mechaBeast.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", mechaBeast.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", mechaBeast.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", mechaBeast.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", mechaBeast.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", mechaBeast.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", mechaBeast.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -472,7 +472,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_mecha_beasts
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -501,64 +501,64 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND mecha_beast_id = @mecha_beast_id;";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@mecha_beast_id", mechaBeast.Id);
-                    command.Parameters.AddWithValue("@star", star);
-                    command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", mechaBeast.Power);
-                    command.Parameters.AddWithValue("@health", mechaBeast.Health);
-                    command.Parameters.AddWithValue("@physical_attack", mechaBeast.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", mechaBeast.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", mechaBeast.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", mechaBeast.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", mechaBeast.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", mechaBeast.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", mechaBeast.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", mechaBeast.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", mechaBeast.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", mechaBeast.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", mechaBeast.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", mechaBeast.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", mechaBeast.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", mechaBeast.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", mechaBeast.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", mechaBeast.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", mechaBeast.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", mechaBeast.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", mechaBeast.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", mechaBeast.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", mechaBeast.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", mechaBeast.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", mechaBeast.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", mechaBeast.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", mechaBeast.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", mechaBeast.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", mechaBeast.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", mechaBeast.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", mechaBeast.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", mechaBeast.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", mechaBeast.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", mechaBeast.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", mechaBeast.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", mechaBeast.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", mechaBeast.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", mechaBeast.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", mechaBeast.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", mechaBeast.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", mechaBeast.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", mechaBeast.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", mechaBeast.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", mechaBeast.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", mechaBeast.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", mechaBeast.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", mechaBeast.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", mechaBeast.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", mechaBeast.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", mechaBeast.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@mecha_beast_id", mechaBeast.Id);
+                    updateCommand.Parameters.AddWithValue("@star", star);
+                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
+                    updateCommand.Parameters.AddWithValue("@power", mechaBeast.Power);
+                    updateCommand.Parameters.AddWithValue("@health", mechaBeast.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", mechaBeast.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", mechaBeast.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", mechaBeast.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", mechaBeast.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", mechaBeast.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", mechaBeast.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", mechaBeast.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", mechaBeast.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", mechaBeast.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", mechaBeast.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", mechaBeast.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", mechaBeast.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", mechaBeast.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", mechaBeast.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", mechaBeast.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", mechaBeast.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", mechaBeast.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", mechaBeast.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", mechaBeast.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", mechaBeast.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", mechaBeast.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", mechaBeast.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", mechaBeast.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", mechaBeast.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", mechaBeast.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", mechaBeast.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", mechaBeast.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", mechaBeast.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", mechaBeast.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", mechaBeast.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", mechaBeast.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", mechaBeast.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", mechaBeast.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", mechaBeast.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", mechaBeast.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", mechaBeast.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", mechaBeast.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", mechaBeast.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", mechaBeast.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", mechaBeast.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", mechaBeast.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", mechaBeast.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", mechaBeast.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", mechaBeast.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", mechaBeast.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", mechaBeast.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", mechaBeast.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", mechaBeast.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -582,14 +582,14 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"Select * from user_mecha_beasts where user_mecha_beasts.mecha_beast_id=@id 
+                string selectSQL = @"Select * from user_mecha_beasts where user_mecha_beasts.mecha_beast_id=@id 
                 and user_mecha_beasts.user_id=@user_id";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -676,7 +676,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"SELECT 
+                string selectSQL = @"SELECT 
                 SUM(power * (1 + quality / 10.0)) AS total_power,
                 SUM(health * (1 + quality / 10.0)) AS total_health,
                 SUM(mana * (1 + quality / 10.0)) AS total_mana,
@@ -730,11 +730,11 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
             FROM user_mecha_beasts
             WHERE user_id = @user_id;
             ";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

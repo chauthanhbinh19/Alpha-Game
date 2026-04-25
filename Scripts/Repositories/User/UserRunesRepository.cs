@@ -18,7 +18,7 @@ public class UserRunesRepository : IUserRunesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Runes t
                 INNER JOIN user_runes ut ON t.id = ut.rune_id
@@ -26,36 +26,36 @@ public class UserRunesRepository : IUserRunesRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
                          t.name
                 LIMIT @limit OFFSET @offset;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -151,7 +151,7 @@ public class UserRunesRepository : IUserRunesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Runes t
                 INNER JOIN user_runes ut ON t.id = ut.rune_id
@@ -159,29 +159,29 @@ public class UserRunesRepository : IUserRunesRepository
             ";
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -208,11 +208,11 @@ public class UserRunesRepository : IUserRunesRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM user_runes 
                 WHERE user_id = @user_id AND rune_id = @rune_id;";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@rune_id", rune.Id);
@@ -221,7 +221,7 @@ public class UserRunesRepository : IUserRunesRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO user_runes (
                             user_id, rune_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -258,7 +258,7 @@ public class UserRunesRepository : IUserRunesRepository
                             @skill_damage_rate, @skill_resistance_rate
                         );";
 
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@rune_id", rune.Id);
@@ -326,12 +326,12 @@ public class UserRunesRepository : IUserRunesRepository
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_runes
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND rune_id = @rune_id;";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@rune_id", rune.Id);
@@ -363,7 +363,7 @@ public class UserRunesRepository : IUserRunesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_runes
                 SET 
                     level = @level, power = @power, health = @health, 
@@ -393,63 +393,63 @@ public class UserRunesRepository : IUserRunesRepository
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND rune_id = @rune_id;";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@rune_id", rune.Id);
-                    command.Parameters.AddWithValue("@level", RuneLevel);
-                    command.Parameters.AddWithValue("@power", rune.Power);
-                    command.Parameters.AddWithValue("@health", rune.Health);
-                    command.Parameters.AddWithValue("@physical_attack", rune.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", rune.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", rune.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", rune.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", rune.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", rune.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", rune.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", rune.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", rune.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", rune.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", rune.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", rune.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", rune.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", rune.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", rune.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", rune.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", rune.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", rune.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", rune.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", rune.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", rune.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", rune.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", rune.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", rune.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", rune.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", rune.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", rune.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", rune.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", rune.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", rune.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", rune.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", rune.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", rune.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", rune.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", rune.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", rune.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", rune.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", rune.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", rune.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", rune.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", rune.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", rune.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", rune.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", rune.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", rune.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", rune.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", rune.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", rune.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@rune_id", rune.Id);
+                    updateCommand.Parameters.AddWithValue("@level", RuneLevel);
+                    updateCommand.Parameters.AddWithValue("@power", rune.Power);
+                    updateCommand.Parameters.AddWithValue("@health", rune.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", rune.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", rune.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", rune.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", rune.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", rune.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", rune.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", rune.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", rune.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", rune.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", rune.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", rune.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", rune.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", rune.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", rune.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", rune.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", rune.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", rune.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", rune.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", rune.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", rune.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", rune.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", rune.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", rune.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", rune.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", rune.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", rune.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", rune.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", rune.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", rune.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", rune.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", rune.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", rune.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", rune.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", rune.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", rune.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", rune.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", rune.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", rune.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", rune.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", rune.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", rune.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", rune.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", rune.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", rune.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", rune.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", rune.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", rune.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", rune.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -472,7 +472,7 @@ public class UserRunesRepository : IUserRunesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_runes
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -501,64 +501,64 @@ public class UserRunesRepository : IUserRunesRepository
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND rune_id = @rune_id;";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@rune_id", rune.Id);
-                    command.Parameters.AddWithValue("@star", star);
-                    command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", rune.Power);
-                    command.Parameters.AddWithValue("@health", rune.Health);
-                    command.Parameters.AddWithValue("@physical_attack", rune.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", rune.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", rune.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", rune.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", rune.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", rune.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", rune.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", rune.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", rune.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", rune.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", rune.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", rune.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", rune.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", rune.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", rune.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", rune.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", rune.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", rune.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", rune.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", rune.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", rune.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", rune.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", rune.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", rune.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", rune.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", rune.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", rune.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", rune.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", rune.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", rune.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", rune.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", rune.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", rune.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", rune.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", rune.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", rune.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", rune.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", rune.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", rune.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", rune.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", rune.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", rune.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", rune.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", rune.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", rune.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", rune.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", rune.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", rune.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@rune_id", rune.Id);
+                    updateCommand.Parameters.AddWithValue("@star", star);
+                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
+                    updateCommand.Parameters.AddWithValue("@power", rune.Power);
+                    updateCommand.Parameters.AddWithValue("@health", rune.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", rune.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", rune.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", rune.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", rune.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", rune.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", rune.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", rune.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", rune.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", rune.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", rune.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", rune.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", rune.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", rune.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", rune.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", rune.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", rune.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", rune.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", rune.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", rune.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", rune.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", rune.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", rune.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", rune.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", rune.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", rune.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", rune.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", rune.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", rune.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", rune.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", rune.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", rune.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", rune.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", rune.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", rune.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", rune.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", rune.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", rune.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", rune.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", rune.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", rune.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", rune.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", rune.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", rune.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", rune.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", rune.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", rune.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", rune.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", rune.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -582,14 +582,14 @@ public class UserRunesRepository : IUserRunesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"Select * from user_runes where user_runes.rune_id=@id 
+                string selectSQL = @"Select * from user_runes where user_runes.rune_id=@id 
                 and user_runes.user_id=@user_id";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -676,7 +676,7 @@ public class UserRunesRepository : IUserRunesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"SELECT 
+                string selectSQL = @"SELECT 
                 SUM(power * (1 + quality / 10.0)) AS total_power,
                 SUM(health * (1 + quality / 10.0)) AS total_health,
                 SUM(mana * (1 + quality / 10.0)) AS total_mana,
@@ -730,11 +730,11 @@ public class UserRunesRepository : IUserRunesRepository
             FROM user_runes
             WHERE user_id = @user_id;
             ";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

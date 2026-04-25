@@ -18,7 +18,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT 
                     uc.*, 
                     c.name, 
@@ -60,42 +60,42 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         ";
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                query += " AND c.type = @type";
+                selectSQL += " AND c.type = @type";
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND c.rare = @rare";
+                selectSQL += " AND c.rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND c.name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
             }
 
-            query += " ORDER BY c.name";
-            query += " LIMIT @limit OFFSET @offset";
+            selectSQL += " ORDER BY c.name";
+            selectSQL += " LIMIT @limit OFFSET @offset";
 
-            await using MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@userId", user_id);
+            await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@userId", user_id);
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                command.Parameters.AddWithValue("@rare", rare);
+                selectCommand.Parameters.AddWithValue("@rare", rare);
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                command.Parameters.AddWithValue("@search", search);
+                selectCommand.Parameters.AddWithValue("@search", search);
             }
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
 
-            await using MySqlDataReader reader = await command.ExecuteReaderAsync();
+            await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -281,7 +281,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT 
                     uc.*, 
                     c.name, 
@@ -322,12 +322,12 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
         ";
 
-            await using MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@userId", user_id);
-            command.Parameters.AddWithValue("@team_id", teamId);
-            command.Parameters.AddWithValue("@position", position);
+            await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@userId", user_id);
+            selectCommand.Parameters.AddWithValue("@team_id", teamId);
+            selectCommand.Parameters.AddWithValue("@position", position);
 
-            await using MySqlDataReader reader = await command.ExecuteReaderAsync();
+            await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -508,7 +508,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT 
                     uc.*, 
                     c.name, 
@@ -549,11 +549,11 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             ORDER BY c.name REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(c.name, '[0-9]+$') AS UNSIGNED), c.name;
         ";
 
-            await using MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@userId", user_id);
-            command.Parameters.AddWithValue("@team_id", teamId);
+            await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@userId", user_id);
+            selectCommand.Parameters.AddWithValue("@team_id", teamId);
 
-            await using MySqlDataReader reader = await command.ExecuteReaderAsync();
+            await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -734,7 +734,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT c.type, COUNT(c.type) AS number
             FROM user_card_monsters uc
             LEFT JOIN card_monsters c ON uc.card_monster_id = c.id 
@@ -742,11 +742,11 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             GROUP BY c.type;
         ";
 
-            await using MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@userId", User.CurrentUserId);
-            command.Parameters.AddWithValue("@team_id", teamId);
+            await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+            selectCommand.Parameters.AddWithValue("@team_id", teamId);
 
-            await using MySqlDataReader reader = await command.ExecuteReaderAsync();
+            await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
 
             while (await reader.ReadAsync())
             {
@@ -773,19 +773,19 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string updateSQL = @"
             UPDATE user_card_monsters 
             SET team_id = @team_id, position = @position 
             WHERE user_id = @user_id AND card_monster_id = @card_monster_id;
         ";
 
-            await using MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@team_id", team_id);
-            command.Parameters.AddWithValue("@position", position);
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-            command.Parameters.AddWithValue("@card_monster_id", card_id);
+            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+            updateCommand.Parameters.AddWithValue("@team_id", team_id);
+            updateCommand.Parameters.AddWithValue("@position", position);
+            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            updateCommand.Parameters.AddWithValue("@card_monster_id", card_id);
 
-            await command.ExecuteNonQueryAsync();
+            await updateCommand.ExecuteNonQueryAsync();
         }
         catch (MySqlException ex)
         {
@@ -806,7 +806,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT COUNT(*) 
             FROM card_monsters c
             JOIN user_card_monsters uc ON c.id = uc.card_monster_id
@@ -814,37 +814,37 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         ";
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                query += " AND c.type = @type";
+                selectSQL += " AND c.type = @type";
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                query += " AND c.rare = @rare";
+                selectSQL += " AND c.rare = @rare";
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                query += " AND c.name LIKE CONCAT('%', @search, '%')";
+                selectSQL += " AND c.name LIKE CONCAT('%', @search, '%')";
             }
 
-            await using MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@userId", user_id);
+            await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@userId", user_id);
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
-                command.Parameters.AddWithValue("@type", type);
+                selectCommand.Parameters.AddWithValue("@type", type);
             }
 
             if (!string.IsNullOrEmpty(rare) && rare != "All")
             {
-                command.Parameters.AddWithValue("@rare", rare);
+                selectCommand.Parameters.AddWithValue("@rare", rare);
             }
 
             if (!string.IsNullOrEmpty(search))
             {
-                command.Parameters.AddWithValue("@search", search);
+                selectCommand.Parameters.AddWithValue("@search", search);
             }
 
-            object result = await command.ExecuteScalarAsync();
+            object result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
@@ -865,7 +865,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT COUNT(*) 
             FROM user_card_monsters
             WHERE team_id = @team_id 
@@ -873,12 +873,12 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
               AND user_id = @userId;
         ";
 
-            await using MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@userId", user_id);
-            command.Parameters.AddWithValue("@team_id", team_id);
-            command.Parameters.AddWithValue("@position", position);
+            await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@userId", user_id);
+            selectCommand.Parameters.AddWithValue("@team_id", team_id);
+            selectCommand.Parameters.AddWithValue("@position", position);
 
-            object result = await command.ExecuteScalarAsync();
+            object result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
@@ -899,18 +899,18 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT COUNT(*) 
             FROM user_card_monsters
             WHERE team_id = @team_id 
               AND user_id = @userId;
         ";
 
-            await using MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@userId", user_id);
-            command.Parameters.AddWithValue("@team_id", team_id);
+            await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@userId", user_id);
+            selectCommand.Parameters.AddWithValue("@team_id", team_id);
 
-            object result = await command.ExecuteScalarAsync();
+            object result = await selectCommand.ExecuteScalarAsync();
             count = Convert.ToInt32(result);
         }
         catch (MySqlException ex)
@@ -931,13 +931,13 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             await connection.OpenAsync();
 
             // Kiểm tra xem bản ghi đã tồn tại chưa
-            string checkQuery = @"
+            string checkSQL = @"
             SELECT COUNT(*) 
             FROM user_card_monsters
             WHERE user_id = @user_id AND card_monster_id = @card_monster_id;
         ";
 
-            await using MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+            await using MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
             checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
             checkCommand.Parameters.AddWithValue("@card_monster_id", cardMonster.Id);
 
@@ -945,7 +945,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
 
             if (count == 0)
             {
-                string insertQuery = @"
+                string insertSQL = @"
                 INSERT INTO user_card_monsters (
                     user_id, card_monster_id, rare, level, experiment, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -983,7 +983,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
                 );
             ";
 
-                await using MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                await using MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                 insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 insertCommand.Parameters.AddWithValue("@card_monster_id", cardMonster.Id);
@@ -1050,13 +1050,13 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             else
             {
                 // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                string updateQuery = @"
+                string updateSQL = @"
                 UPDATE user_card_monsters
                 SET quantity = @quantity
                 WHERE user_id = @user_id AND card_monster_id = @card_monster_id;
             ";
 
-                await using MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                 updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 updateCommand.Parameters.AddWithValue("@card_monster_id", cardMonster.Id);
                 updateCommand.Parameters.AddWithValue("@quantity", cardMonster.Quantity);
@@ -1082,7 +1082,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string updateSQL = @"
             UPDATE user_card_monsters
             SET 
                 level = @level, power = @power, health = @health, 
@@ -1113,63 +1113,63 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             WHERE user_id = @user_id AND card_monster_id = @card_monster_id;
         ";
 
-            await using MySqlCommand command = new MySqlCommand(query, connection);
+            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-            command.Parameters.AddWithValue("@card_monster_id", cardMonster.Id);
-            command.Parameters.AddWithValue("@level", cardLevel);
-            command.Parameters.AddWithValue("@power", cardMonster.Power);
-            command.Parameters.AddWithValue("@health", cardMonster.Health);
-            command.Parameters.AddWithValue("@physical_attack", cardMonster.PhysicalAttack);
-            command.Parameters.AddWithValue("@physical_defense", cardMonster.PhysicalDefense);
-            command.Parameters.AddWithValue("@magical_attack", cardMonster.MagicalAttack);
-            command.Parameters.AddWithValue("@magical_defense", cardMonster.MagicalDefense);
-            command.Parameters.AddWithValue("@chemical_attack", cardMonster.ChemicalAttack);
-            command.Parameters.AddWithValue("@chemical_defense", cardMonster.ChemicalDefense);
-            command.Parameters.AddWithValue("@atomic_attack", cardMonster.AtomicAttack);
-            command.Parameters.AddWithValue("@atomic_defense", cardMonster.AtomicDefense);
-            command.Parameters.AddWithValue("@mental_attack", cardMonster.MentalAttack);
-            command.Parameters.AddWithValue("@mental_defense", cardMonster.MentalDefense);
-            command.Parameters.AddWithValue("@speed", cardMonster.Speed);
-            command.Parameters.AddWithValue("@critical_damage_rate", cardMonster.CriticalDamageRate);
-            command.Parameters.AddWithValue("@critical_rate", cardMonster.CriticalRate);
-            command.Parameters.AddWithValue("@critical_resistance_rate", cardMonster.CriticalResistanceRate);
-            command.Parameters.AddWithValue("@ignore_critical_rate", cardMonster.IgnoreCriticalRate);
-            command.Parameters.AddWithValue("@penetration_rate", cardMonster.PenetrationRate);
-            command.Parameters.AddWithValue("@penetration_resistance_rate", cardMonster.PenetrationResistanceRate);
-            command.Parameters.AddWithValue("@evasion_rate", cardMonster.EvasionRate);
-            command.Parameters.AddWithValue("@damage_absorption_rate", cardMonster.DamageAbsorptionRate);
-            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardMonster.IgnoreDamageAbsorptionRate);
-            command.Parameters.AddWithValue("@absorbed_damage_rate", cardMonster.AbsorbedDamageRate);
-            command.Parameters.AddWithValue("@vitality_regeneration_rate", cardMonster.VitalityRegenerationRate);
-            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardMonster.VitalityRegenerationResistanceRate);
-            command.Parameters.AddWithValue("@accuracy_rate", cardMonster.AccuracyRate);
-            command.Parameters.AddWithValue("@lifesteal_rate", cardMonster.LifestealRate);
-            command.Parameters.AddWithValue("@shield_strength", cardMonster.ShieldStrength);
-            command.Parameters.AddWithValue("@tenacity", cardMonster.Tenacity);
-            command.Parameters.AddWithValue("@resistance_rate", cardMonster.ResistanceRate);
-            command.Parameters.AddWithValue("@combo_rate", cardMonster.ComboRate);
-            command.Parameters.AddWithValue("@ignore_combo_rate", cardMonster.IgnoreComboRate);
-            command.Parameters.AddWithValue("@combo_damage_rate", cardMonster.ComboDamageRate);
-            command.Parameters.AddWithValue("@combo_resistance_rate", cardMonster.ComboResistanceRate);
-            command.Parameters.AddWithValue("@stun_rate", cardMonster.StunRate);
-            command.Parameters.AddWithValue("@ignore_stun_rate", cardMonster.IgnoreStunRate);
-            command.Parameters.AddWithValue("@reflection_rate", cardMonster.ReflectionRate);
-            command.Parameters.AddWithValue("@ignore_reflection_rate", cardMonster.IgnoreReflectionRate);
-            command.Parameters.AddWithValue("@reflection_damage_rate", cardMonster.ReflectionDamageRate);
-            command.Parameters.AddWithValue("@reflection_resistance_rate", cardMonster.ReflectionResistanceRate);
-            command.Parameters.AddWithValue("@mana", cardMonster.Mana);
-            command.Parameters.AddWithValue("@mana_regeneration_rate", cardMonster.ManaRegenerationRate);
-            command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardMonster.DamageToDifferentFactionRate);
-            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardMonster.ResistanceToDifferentFactionRate);
-            command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardMonster.DamageToSameFactionRate);
-            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardMonster.ResistanceToSameFactionRate);
-            command.Parameters.AddWithValue("@normal_damage_rate", cardMonster.NormalDamageRate);
-            command.Parameters.AddWithValue("@normal_resistance_rate", cardMonster.NormalResistanceRate);
-            command.Parameters.AddWithValue("@skill_damage_rate", cardMonster.SkillDamageRate);
-            command.Parameters.AddWithValue("@skill_resistance_rate", cardMonster.SkillResistanceRate);
+            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            updateCommand.Parameters.AddWithValue("@card_monster_id", cardMonster.Id);
+            updateCommand.Parameters.AddWithValue("@level", cardLevel);
+            updateCommand.Parameters.AddWithValue("@power", cardMonster.Power);
+            updateCommand.Parameters.AddWithValue("@health", cardMonster.Health);
+            updateCommand.Parameters.AddWithValue("@physical_attack", cardMonster.PhysicalAttack);
+            updateCommand.Parameters.AddWithValue("@physical_defense", cardMonster.PhysicalDefense);
+            updateCommand.Parameters.AddWithValue("@magical_attack", cardMonster.MagicalAttack);
+            updateCommand.Parameters.AddWithValue("@magical_defense", cardMonster.MagicalDefense);
+            updateCommand.Parameters.AddWithValue("@chemical_attack", cardMonster.ChemicalAttack);
+            updateCommand.Parameters.AddWithValue("@chemical_defense", cardMonster.ChemicalDefense);
+            updateCommand.Parameters.AddWithValue("@atomic_attack", cardMonster.AtomicAttack);
+            updateCommand.Parameters.AddWithValue("@atomic_defense", cardMonster.AtomicDefense);
+            updateCommand.Parameters.AddWithValue("@mental_attack", cardMonster.MentalAttack);
+            updateCommand.Parameters.AddWithValue("@mental_defense", cardMonster.MentalDefense);
+            updateCommand.Parameters.AddWithValue("@speed", cardMonster.Speed);
+            updateCommand.Parameters.AddWithValue("@critical_damage_rate", cardMonster.CriticalDamageRate);
+            updateCommand.Parameters.AddWithValue("@critical_rate", cardMonster.CriticalRate);
+            updateCommand.Parameters.AddWithValue("@critical_resistance_rate", cardMonster.CriticalResistanceRate);
+            updateCommand.Parameters.AddWithValue("@ignore_critical_rate", cardMonster.IgnoreCriticalRate);
+            updateCommand.Parameters.AddWithValue("@penetration_rate", cardMonster.PenetrationRate);
+            updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardMonster.PenetrationResistanceRate);
+            updateCommand.Parameters.AddWithValue("@evasion_rate", cardMonster.EvasionRate);
+            updateCommand.Parameters.AddWithValue("@damage_absorption_rate", cardMonster.DamageAbsorptionRate);
+            updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardMonster.IgnoreDamageAbsorptionRate);
+            updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardMonster.AbsorbedDamageRate);
+            updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardMonster.VitalityRegenerationRate);
+            updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardMonster.VitalityRegenerationResistanceRate);
+            updateCommand.Parameters.AddWithValue("@accuracy_rate", cardMonster.AccuracyRate);
+            updateCommand.Parameters.AddWithValue("@lifesteal_rate", cardMonster.LifestealRate);
+            updateCommand.Parameters.AddWithValue("@shield_strength", cardMonster.ShieldStrength);
+            updateCommand.Parameters.AddWithValue("@tenacity", cardMonster.Tenacity);
+            updateCommand.Parameters.AddWithValue("@resistance_rate", cardMonster.ResistanceRate);
+            updateCommand.Parameters.AddWithValue("@combo_rate", cardMonster.ComboRate);
+            updateCommand.Parameters.AddWithValue("@ignore_combo_rate", cardMonster.IgnoreComboRate);
+            updateCommand.Parameters.AddWithValue("@combo_damage_rate", cardMonster.ComboDamageRate);
+            updateCommand.Parameters.AddWithValue("@combo_resistance_rate", cardMonster.ComboResistanceRate);
+            updateCommand.Parameters.AddWithValue("@stun_rate", cardMonster.StunRate);
+            updateCommand.Parameters.AddWithValue("@ignore_stun_rate", cardMonster.IgnoreStunRate);
+            updateCommand.Parameters.AddWithValue("@reflection_rate", cardMonster.ReflectionRate);
+            updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardMonster.IgnoreReflectionRate);
+            updateCommand.Parameters.AddWithValue("@reflection_damage_rate", cardMonster.ReflectionDamageRate);
+            updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardMonster.ReflectionResistanceRate);
+            updateCommand.Parameters.AddWithValue("@mana", cardMonster.Mana);
+            updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardMonster.ManaRegenerationRate);
+            updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardMonster.DamageToDifferentFactionRate);
+            updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardMonster.ResistanceToDifferentFactionRate);
+            updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardMonster.DamageToSameFactionRate);
+            updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardMonster.ResistanceToSameFactionRate);
+            updateCommand.Parameters.AddWithValue("@normal_damage_rate", cardMonster.NormalDamageRate);
+            updateCommand.Parameters.AddWithValue("@normal_resistance_rate", cardMonster.NormalResistanceRate);
+            updateCommand.Parameters.AddWithValue("@skill_damage_rate", cardMonster.SkillDamageRate);
+            updateCommand.Parameters.AddWithValue("@skill_resistance_rate", cardMonster.SkillResistanceRate);
 
-            await command.ExecuteNonQueryAsync();
+            await updateCommand.ExecuteNonQueryAsync();
         }
         catch (MySqlException ex)
         {
@@ -1189,7 +1189,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string updateSQL = @"
             UPDATE user_card_monsters
             SET 
                 star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -1220,64 +1220,64 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             WHERE user_id = @user_id AND card_monster_id = @card_monster_id;
         ";
 
-            await using MySqlCommand command = new MySqlCommand(query, connection);
+            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
-            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-            command.Parameters.AddWithValue("@card_monster_id", cardMonster.Id);
-            command.Parameters.AddWithValue("@star", star);
-            command.Parameters.AddWithValue("@quantity", quantity);
-            command.Parameters.AddWithValue("@power", cardMonster.Power);
-            command.Parameters.AddWithValue("@health", cardMonster.Health);
-            command.Parameters.AddWithValue("@physical_attack", cardMonster.PhysicalAttack);
-            command.Parameters.AddWithValue("@physical_defense", cardMonster.PhysicalDefense);
-            command.Parameters.AddWithValue("@magical_attack", cardMonster.MagicalAttack);
-            command.Parameters.AddWithValue("@magical_defense", cardMonster.MagicalDefense);
-            command.Parameters.AddWithValue("@chemical_attack", cardMonster.ChemicalAttack);
-            command.Parameters.AddWithValue("@chemical_defense", cardMonster.ChemicalDefense);
-            command.Parameters.AddWithValue("@atomic_attack", cardMonster.AtomicAttack);
-            command.Parameters.AddWithValue("@atomic_defense", cardMonster.AtomicDefense);
-            command.Parameters.AddWithValue("@mental_attack", cardMonster.MentalAttack);
-            command.Parameters.AddWithValue("@mental_defense", cardMonster.MentalDefense);
-            command.Parameters.AddWithValue("@speed", cardMonster.Speed);
-            command.Parameters.AddWithValue("@critical_damage_rate", cardMonster.CriticalDamageRate);
-            command.Parameters.AddWithValue("@critical_rate", cardMonster.CriticalRate);
-            command.Parameters.AddWithValue("@critical_resistance_rate", cardMonster.CriticalResistanceRate);
-            command.Parameters.AddWithValue("@ignore_critical_rate", cardMonster.IgnoreCriticalRate);
-            command.Parameters.AddWithValue("@penetration_rate", cardMonster.PenetrationRate);
-            command.Parameters.AddWithValue("@penetration_resistance_rate", cardMonster.PenetrationResistanceRate);
-            command.Parameters.AddWithValue("@evasion_rate", cardMonster.EvasionRate);
-            command.Parameters.AddWithValue("@damage_absorption_rate", cardMonster.DamageAbsorptionRate);
-            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardMonster.IgnoreDamageAbsorptionRate);
-            command.Parameters.AddWithValue("@absorbed_damage_rate", cardMonster.AbsorbedDamageRate);
-            command.Parameters.AddWithValue("@vitality_regeneration_rate", cardMonster.VitalityRegenerationRate);
-            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardMonster.VitalityRegenerationResistanceRate);
-            command.Parameters.AddWithValue("@accuracy_rate", cardMonster.AccuracyRate);
-            command.Parameters.AddWithValue("@lifesteal_rate", cardMonster.LifestealRate);
-            command.Parameters.AddWithValue("@shield_strength", cardMonster.ShieldStrength);
-            command.Parameters.AddWithValue("@tenacity", cardMonster.Tenacity);
-            command.Parameters.AddWithValue("@resistance_rate", cardMonster.ResistanceRate);
-            command.Parameters.AddWithValue("@combo_rate", cardMonster.ComboRate);
-            command.Parameters.AddWithValue("@ignore_combo_rate", cardMonster.IgnoreComboRate);
-            command.Parameters.AddWithValue("@combo_damage_rate", cardMonster.ComboDamageRate);
-            command.Parameters.AddWithValue("@combo_resistance_rate", cardMonster.ComboResistanceRate);
-            command.Parameters.AddWithValue("@stun_rate", cardMonster.StunRate);
-            command.Parameters.AddWithValue("@ignore_stun_rate", cardMonster.IgnoreStunRate);
-            command.Parameters.AddWithValue("@reflection_rate", cardMonster.ReflectionRate);
-            command.Parameters.AddWithValue("@ignore_reflection_rate", cardMonster.IgnoreReflectionRate);
-            command.Parameters.AddWithValue("@reflection_damage_rate", cardMonster.ReflectionDamageRate);
-            command.Parameters.AddWithValue("@reflection_resistance_rate", cardMonster.ReflectionResistanceRate);
-            command.Parameters.AddWithValue("@mana", cardMonster.Mana);
-            command.Parameters.AddWithValue("@mana_regeneration_rate", cardMonster.ManaRegenerationRate);
-            command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardMonster.DamageToDifferentFactionRate);
-            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardMonster.ResistanceToDifferentFactionRate);
-            command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardMonster.DamageToSameFactionRate);
-            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardMonster.ResistanceToSameFactionRate);
-            command.Parameters.AddWithValue("@normal_damage_rate", cardMonster.NormalDamageRate);
-            command.Parameters.AddWithValue("@normal_resistance_rate", cardMonster.NormalResistanceRate);
-            command.Parameters.AddWithValue("@skill_damage_rate", cardMonster.SkillDamageRate);
-            command.Parameters.AddWithValue("@skill_resistance_rate", cardMonster.SkillResistanceRate);
+            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            updateCommand.Parameters.AddWithValue("@card_monster_id", cardMonster.Id);
+            updateCommand.Parameters.AddWithValue("@star", star);
+            updateCommand.Parameters.AddWithValue("@quantity", quantity);
+            updateCommand.Parameters.AddWithValue("@power", cardMonster.Power);
+            updateCommand.Parameters.AddWithValue("@health", cardMonster.Health);
+            updateCommand.Parameters.AddWithValue("@physical_attack", cardMonster.PhysicalAttack);
+            updateCommand.Parameters.AddWithValue("@physical_defense", cardMonster.PhysicalDefense);
+            updateCommand.Parameters.AddWithValue("@magical_attack", cardMonster.MagicalAttack);
+            updateCommand.Parameters.AddWithValue("@magical_defense", cardMonster.MagicalDefense);
+            updateCommand.Parameters.AddWithValue("@chemical_attack", cardMonster.ChemicalAttack);
+            updateCommand.Parameters.AddWithValue("@chemical_defense", cardMonster.ChemicalDefense);
+            updateCommand.Parameters.AddWithValue("@atomic_attack", cardMonster.AtomicAttack);
+            updateCommand.Parameters.AddWithValue("@atomic_defense", cardMonster.AtomicDefense);
+            updateCommand.Parameters.AddWithValue("@mental_attack", cardMonster.MentalAttack);
+            updateCommand.Parameters.AddWithValue("@mental_defense", cardMonster.MentalDefense);
+            updateCommand.Parameters.AddWithValue("@speed", cardMonster.Speed);
+            updateCommand.Parameters.AddWithValue("@critical_damage_rate", cardMonster.CriticalDamageRate);
+            updateCommand.Parameters.AddWithValue("@critical_rate", cardMonster.CriticalRate);
+            updateCommand.Parameters.AddWithValue("@critical_resistance_rate", cardMonster.CriticalResistanceRate);
+            updateCommand.Parameters.AddWithValue("@ignore_critical_rate", cardMonster.IgnoreCriticalRate);
+            updateCommand.Parameters.AddWithValue("@penetration_rate", cardMonster.PenetrationRate);
+            updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardMonster.PenetrationResistanceRate);
+            updateCommand.Parameters.AddWithValue("@evasion_rate", cardMonster.EvasionRate);
+            updateCommand.Parameters.AddWithValue("@damage_absorption_rate", cardMonster.DamageAbsorptionRate);
+            updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardMonster.IgnoreDamageAbsorptionRate);
+            updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardMonster.AbsorbedDamageRate);
+            updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardMonster.VitalityRegenerationRate);
+            updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardMonster.VitalityRegenerationResistanceRate);
+            updateCommand.Parameters.AddWithValue("@accuracy_rate", cardMonster.AccuracyRate);
+            updateCommand.Parameters.AddWithValue("@lifesteal_rate", cardMonster.LifestealRate);
+            updateCommand.Parameters.AddWithValue("@shield_strength", cardMonster.ShieldStrength);
+            updateCommand.Parameters.AddWithValue("@tenacity", cardMonster.Tenacity);
+            updateCommand.Parameters.AddWithValue("@resistance_rate", cardMonster.ResistanceRate);
+            updateCommand.Parameters.AddWithValue("@combo_rate", cardMonster.ComboRate);
+            updateCommand.Parameters.AddWithValue("@ignore_combo_rate", cardMonster.IgnoreComboRate);
+            updateCommand.Parameters.AddWithValue("@combo_damage_rate", cardMonster.ComboDamageRate);
+            updateCommand.Parameters.AddWithValue("@combo_resistance_rate", cardMonster.ComboResistanceRate);
+            updateCommand.Parameters.AddWithValue("@stun_rate", cardMonster.StunRate);
+            updateCommand.Parameters.AddWithValue("@ignore_stun_rate", cardMonster.IgnoreStunRate);
+            updateCommand.Parameters.AddWithValue("@reflection_rate", cardMonster.ReflectionRate);
+            updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardMonster.IgnoreReflectionRate);
+            updateCommand.Parameters.AddWithValue("@reflection_damage_rate", cardMonster.ReflectionDamageRate);
+            updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardMonster.ReflectionResistanceRate);
+            updateCommand.Parameters.AddWithValue("@mana", cardMonster.Mana);
+            updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardMonster.ManaRegenerationRate);
+            updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardMonster.DamageToDifferentFactionRate);
+            updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardMonster.ResistanceToDifferentFactionRate);
+            updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardMonster.DamageToSameFactionRate);
+            updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardMonster.ResistanceToSameFactionRate);
+            updateCommand.Parameters.AddWithValue("@normal_damage_rate", cardMonster.NormalDamageRate);
+            updateCommand.Parameters.AddWithValue("@normal_resistance_rate", cardMonster.NormalResistanceRate);
+            updateCommand.Parameters.AddWithValue("@skill_damage_rate", cardMonster.SkillDamageRate);
+            updateCommand.Parameters.AddWithValue("@skill_resistance_rate", cardMonster.SkillResistanceRate);
 
-            await command.ExecuteNonQueryAsync();
+            await updateCommand.ExecuteNonQueryAsync();
         }
         catch (MySqlException ex)
         {
@@ -1289,7 +1289,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
     }
     public async Task<CardMonsters> GetUserCardMonsterByIdAsync(string user_id, string Id)
     {
-        CardMonsters card = new CardMonsters();
+        CardMonsters cardMonster = new CardMonsters();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using MySqlConnection connection = new MySqlConnection(connectionString);
@@ -1298,20 +1298,20 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT uc.*, c.image
             FROM user_card_monsters uc
             JOIN card_monsters c ON uc.card_monster_id = c.id
             WHERE uc.card_monster_id = @id AND uc.user_id = @user_id";
 
-            await using MySqlCommand command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@id", Id);
-            command.Parameters.AddWithValue("@user_id", user_id);
+            await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@id", Id);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-            await using MySqlDataReader reader = await command.ExecuteReaderAsync();
+            await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())
             {
-                card = new CardMonsters
+                cardMonster = new CardMonsters
                 {
                     Id = reader.GetStringSafe("card_monster_id"),
                     Image = reader.GetStringSafe("image"),
@@ -1431,7 +1431,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
             Debug.LogError("Error: " + ex.Message);
         }
 
-        return card;
+        return cardMonster;
     }
     public async Task<List<CardMonsters>> GetAllUserCardMonstersInTeamAsync(string user_id)
     {
@@ -1443,7 +1443,7 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
         {
             await connection.OpenAsync();
 
-            string userQuery = @"
+            string selectSQL = @"
             SELECT 
                     uc.*, 
                     c.name, 
@@ -1482,10 +1482,10 @@ public class UserCardMonstersRepository : IUserCardMonstersRepository
                 LEFT JOIN teams t ON t.team_id = uc.team_id
             WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL";
 
-            await using MySqlCommand command = new MySqlCommand(userQuery, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
+            await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-            await using MySqlDataReader reader = await command.ExecuteReaderAsync();
+            await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
                 CardMonsters cardMonster = new CardMonsters

@@ -9,7 +9,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
 {
     public async Task<List<Furnitures>> GetUserFurnituresAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Furnitures> Furnitures = new List<Furnitures>();
+        List<Furnitures> furnitures = new List<Furnitures>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -18,7 +18,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM Furnitures m
                 JOIN user_furnitures um ON m.id = um.furniture_id
@@ -26,47 +26,47 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             ";
             if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND m.type = @type";
+                    selectSQL += " AND m.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY m.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY m.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            Furnitures Furniture = new Furnitures
+                            Furnitures furniture = new Furnitures
                             {
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
@@ -130,7 +130,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                                 Description = reader.GetStringSafe("description")
                             };
 
-                            Furnitures.Add(Furniture);
+                            furnitures.Add(furniture);
                         }
                     }
                 }
@@ -145,7 +145,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             }
         }
 
-        return Furnitures;
+        return furnitures;
     }
     public async Task<int> GetUserFurnituresCountAsync(string user_id, string search, string type, string rare)
     {
@@ -158,7 +158,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Furnitures m
                 JOIN user_furnitures um ON m.id = um.furniture_id
@@ -166,38 +166,38 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND m.type = @type";
+                    selectSQL += " AND m.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -224,13 +224,13 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM user_furnitures 
                 WHERE user_id = @user_id AND furniture_id = @furniture_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@furniture_id", furniture.Id);
@@ -239,7 +239,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO user_furnitures (
                             user_id, furniture_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -277,7 +277,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                         );
                     ";
 
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@furniture_id", furniture.Id);
@@ -345,13 +345,13 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_furnitures
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND furniture_id = @furniture_id;
                     ";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@furniture_id", furniture.Id);
@@ -385,7 +385,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_furnitures
                 SET 
                     level = @level, power = @power, health = @health, 
@@ -417,63 +417,63 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 WHERE user_id = @user_id AND furniture_id = @furniture_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@furniture_id", furniture.Id);
-                    command.Parameters.AddWithValue("@level", cardLevel);
-                    command.Parameters.AddWithValue("@power", furniture.Power);
-                    command.Parameters.AddWithValue("@health", furniture.Health);
-                    command.Parameters.AddWithValue("@physical_attack", furniture.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", furniture.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", furniture.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", furniture.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", furniture.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", furniture.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", furniture.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", furniture.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", furniture.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", furniture.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", furniture.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", furniture.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", furniture.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", furniture.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", furniture.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", furniture.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", furniture.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", furniture.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", furniture.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", furniture.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", furniture.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", furniture.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", furniture.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", furniture.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", furniture.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", furniture.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", furniture.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", furniture.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", furniture.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", furniture.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", furniture.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", furniture.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", furniture.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", furniture.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", furniture.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", furniture.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", furniture.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", furniture.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", furniture.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", furniture.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", furniture.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", furniture.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", furniture.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", furniture.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", furniture.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", furniture.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", furniture.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", furniture.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@furniture_id", furniture.Id);
+                    updateCommand.Parameters.AddWithValue("@level", cardLevel);
+                    updateCommand.Parameters.AddWithValue("@power", furniture.Power);
+                    updateCommand.Parameters.AddWithValue("@health", furniture.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", furniture.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", furniture.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", furniture.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", furniture.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", furniture.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", furniture.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", furniture.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", furniture.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", furniture.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", furniture.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", furniture.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", furniture.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", furniture.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", furniture.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", furniture.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", furniture.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", furniture.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", furniture.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", furniture.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", furniture.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", furniture.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", furniture.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", furniture.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", furniture.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", furniture.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", furniture.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", furniture.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", furniture.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", furniture.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", furniture.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", furniture.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", furniture.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", furniture.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", furniture.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", furniture.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", furniture.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", furniture.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", furniture.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", furniture.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", furniture.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", furniture.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", furniture.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", furniture.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", furniture.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", furniture.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", furniture.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", furniture.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", furniture.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -499,7 +499,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_furnitures
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -530,64 +530,64 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 WHERE user_id = @user_id AND furniture_id = @furniture_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@furniture_id", furniture.Id);
-                    command.Parameters.AddWithValue("@star", star);
-                    command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", furniture.Power);
-                    command.Parameters.AddWithValue("@health", furniture.Health);
-                    command.Parameters.AddWithValue("@physical_attack", furniture.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", furniture.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", furniture.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", furniture.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", furniture.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", furniture.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", furniture.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", furniture.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", furniture.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", furniture.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", furniture.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", furniture.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", furniture.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", furniture.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", furniture.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", furniture.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", furniture.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", furniture.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", furniture.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", furniture.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", furniture.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", furniture.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", furniture.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", furniture.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", furniture.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", furniture.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", furniture.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", furniture.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", furniture.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", furniture.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", furniture.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", furniture.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", furniture.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", furniture.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", furniture.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", furniture.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", furniture.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", furniture.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", furniture.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", furniture.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", furniture.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", furniture.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", furniture.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", furniture.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", furniture.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", furniture.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", furniture.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", furniture.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@furniture_id", furniture.Id);
+                    updateCommand.Parameters.AddWithValue("@star", star);
+                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
+                    updateCommand.Parameters.AddWithValue("@power", furniture.Power);
+                    updateCommand.Parameters.AddWithValue("@health", furniture.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", furniture.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", furniture.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", furniture.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", furniture.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", furniture.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", furniture.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", furniture.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", furniture.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", furniture.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", furniture.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", furniture.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", furniture.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", furniture.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", furniture.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", furniture.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", furniture.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", furniture.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", furniture.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", furniture.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", furniture.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", furniture.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", furniture.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", furniture.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", furniture.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", furniture.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", furniture.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", furniture.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", furniture.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", furniture.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", furniture.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", furniture.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", furniture.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", furniture.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", furniture.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", furniture.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", furniture.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", furniture.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", furniture.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", furniture.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", furniture.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", furniture.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", furniture.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", furniture.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", furniture.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", furniture.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", furniture.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", furniture.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", furniture.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -605,7 +605,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
     }
     public async Task<Furnitures> GetUserFurnitureByIdAsync(string user_id, string Id)
     {
-        Furnitures Furniture = null;
+        Furnitures furniture = null;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -614,19 +614,19 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_furnitures 
+                string selectSQL = @"SELECT * FROM user_furnitures 
                              WHERE furniture_id=@id AND user_id=@user_id";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            Furniture = new Furnitures
+                            furniture = new Furnitures
                             {
                                 Id = reader.GetStringSafe("furniture_id"),
                                 Level = reader.GetIntSafe("level"),
@@ -698,7 +698,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             }
         }
 
-        return Furniture;
+        return furniture;
     }
     public async Task<Furnitures> SumPowerUserFurnituresAsync()
     {
@@ -711,7 +711,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(power * (1 + quality / 10.0)) AS total_power,
                     SUM(health * (1 + quality / 10.0)) AS total_health,
@@ -766,11 +766,11 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 FROM user_furnitures
                 WHERE user_id = @user_id;";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

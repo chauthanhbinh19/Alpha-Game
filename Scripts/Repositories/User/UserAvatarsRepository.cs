@@ -18,7 +18,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT um.*, m.name, m.image, m.rare, m.description
                 FROM avatars m
                 JOIN user_avatars um ON m.id = um.avatar_id
@@ -26,15 +26,15 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY 
                     m.name REGEXP '[0-9]+$', 
                     CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), 
@@ -42,21 +42,21 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 LIMIT @limit OFFSET @offset;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -148,7 +148,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*)
                 FROM avatars m
                 JOIN user_avatars um ON m.id = um.avatar_id
@@ -156,27 +156,27 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -203,13 +203,13 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM user_avatars
                 WHERE user_id = @user_id AND avatar_id = @avatar_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@avatar_id", avatar.Id);
@@ -218,7 +218,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO user_avatars (
                             user_id, avatar_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -256,7 +256,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                         );
                     ";
 
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@avatar_id", avatar.Id);
@@ -324,13 +324,13 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_avatars
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND avatar_id = @avatar_id;
                     ";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@avatar_id", avatar.Id);
@@ -365,13 +365,13 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                     SELECT COUNT(*) 
                     FROM user_avatars
                     WHERE user_id = @user_id AND avatar_id = @avatar_id;
                 ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@avatar_id", avatar.Id);
@@ -380,7 +380,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO user_avatars (
                             user_id, avatar_id, rare, level, experiment, star, quality, block, quantity, is_used,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -418,7 +418,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                         );
                     ";
 
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@avatar_id", avatar.Id);
@@ -487,13 +487,13 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_avatars
                         SET quantity = quantity + 1
                         WHERE user_id = @user_id AND avatar_id = @avatar_id;
                     ";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@avatar_id", avatar.Id);
@@ -518,7 +518,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
     }
     public async Task<Avatars> GetAvatarByUsedAsync(string user_id)
     {
-        Avatars avatars = new Avatars();
+        Avatars avatar = new Avatars();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -527,22 +527,22 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                     SELECT ub.*, b.image, b.rare 
                     FROM user_avatars ub
                     JOIN avatars b ON ub.avatar_id = b.id
                     WHERE ub.is_used = TRUE AND ub.user_id = @user_id;
                 ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
-                            avatars = new Avatars
+                            avatar = new Avatars
                             {
                                 Id = reader.GetString("avatar_id"),
                                 Image = reader.GetString("image"),
@@ -613,7 +613,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             }
         }
 
-        return avatars;
+        return avatar;
     }
     public async Task UpdateIsUsedAvatarAsync(string avatarId, string userId, bool is_used)
     {
@@ -625,19 +625,19 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_avatars 
                 SET is_used = @is_used 
                 WHERE user_id = @user_id AND avatar_id = @avatar_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@avatar_id", avatarId);
-                    command.Parameters.AddWithValue("@is_used", is_used);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
+                    updateCommand.Parameters.AddWithValue("@avatar_id", avatarId);
+                    updateCommand.Parameters.AddWithValue("@is_used", is_used);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -661,7 +661,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(power * (1 + quality / 10.0)) AS total_power,
                     SUM(health * (1 + quality / 10.0)) AS total_health,
@@ -717,11 +717,11 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 WHERE user_id = @user_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

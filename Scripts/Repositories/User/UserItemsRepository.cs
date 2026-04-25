@@ -18,40 +18,40 @@ public class UserItemsRepository : IUserItemsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT ui.*, i.id, i.name, i.image
                 FROM items i
                 JOIN user_items ui ON i.id = ui.item_id
                 WHERE ui.user_id = @userId ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND i.type = @type";
+                    selectSQL += " AND i.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND i.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND i.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY i.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY i.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -91,35 +91,35 @@ public class UserItemsRepository : IUserItemsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM items i
                 JOIN user_items ui ON i.id = ui.item_id
                 WHERE ui.user_id = @userId ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND i.type = @type";
+                    selectSQL += " AND i.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND i.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND i.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -146,19 +146,19 @@ public class UserItemsRepository : IUserItemsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT i.id AS itemId, i.name AS itemName, i.image AS itemImage,
                        IFNULL(ui.quantity, 0) AS quantity
                 FROM items i
                 LEFT JOIN user_items ui ON ui.item_id = i.id AND ui.user_id = @userId
                 WHERE i.name = @itemName";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@itemName", itemName);
+                    selectCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@itemName", itemName);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync()) // Nếu có dữ liệu
                         {
@@ -195,8 +195,8 @@ public class UserItemsRepository : IUserItemsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem item đã tồn tại chưa
-                string query = @"SELECT COUNT(*) FROM user_items WHERE user_id = @user_id AND item_id = @item_id";
-                await using (MySqlCommand checkCommand = new MySqlCommand(query, connection))
+                string selectSQL = @"SELECT COUNT(*) FROM user_items WHERE user_id = @user_id AND item_id = @item_id";
+                await using (MySqlCommand checkCommand = new MySqlCommand(selectSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     checkCommand.Parameters.AddWithValue("@item_id", item.Id);
@@ -206,9 +206,9 @@ public class UserItemsRepository : IUserItemsRepository
                     if (count == 0)
                     {
                         // Chèn mới
-                        string insertQuery = @"INSERT INTO user_items (user_id, item_id, quantity) 
+                        string insertSQL = @"INSERT INTO user_items (user_id, item_id, quantity) 
                                            VALUES (@user_id, @item_id, @quantity)";
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCommand.Parameters.AddWithValue("@item_id", item.Id);
@@ -248,17 +248,17 @@ public class UserItemsRepository : IUserItemsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE user_items 
+                string updateSQL = @"UPDATE user_items 
                              SET quantity = @quantity
                              WHERE user_id = @user_id AND item_id = @item_id";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@item_id", item.Id);
-                    command.Parameters.AddWithValue("@quantity", item.Quantity);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@item_id", item.Id);
+                    updateCommand.Parameters.AddWithValue("@quantity", item.Quantity);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -283,17 +283,17 @@ public class UserItemsRepository : IUserItemsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE user_items 
+                string updateSQL = @"UPDATE user_items 
                              SET quantity = @quantity
                              WHERE user_id = @user_id AND item_id = @item_id";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@item_id", item.Id);
-                    command.Parameters.AddWithValue("@quantity", quantity);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@item_id", item.Id);
+                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)

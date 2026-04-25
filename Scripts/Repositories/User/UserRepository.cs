@@ -19,12 +19,12 @@ public class UserRepository : IUserRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM users WHERE username = @username";
-                await using (var command = new MySqlCommand(query, connection))
+                string selectSQL = "SELECT * FROM users WHERE username = @username";
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@username", username);
+                    selectCommand.Parameters.AddWithValue("@username", username);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -64,8 +64,8 @@ public class UserRepository : IUserRepository
             await connection.OpenAsync(); // mở connection async
 
             // --- Kiểm tra username đã tồn tại ---
-            string checkQuery = "SELECT COUNT(*) FROM Users WHERE username = @username";
-            using (var checkCommand = new MySqlCommand(checkQuery, connection))
+            string checkSQL = "SELECT COUNT(*) FROM Users WHERE username = @username";
+            using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
                 checkCommand.Parameters.AddWithValue("@username", username);
 
@@ -80,24 +80,24 @@ public class UserRepository : IUserRepository
 
             // --- Tạo user mới ---
             string userId = DateTime.Now.Ticks.ToString();
-            string query = @"
+            string selectSQL = @"
             INSERT INTO users (id, username, password, name, level, experiment, vip, power) 
             VALUES (@id, @username, @password, @name, @level, @experiment, @vip, @power)";
 
-            using (var command = new MySqlCommand(query, connection))
+            using (var selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                command.Parameters.AddWithValue("@id", userId);
-                command.Parameters.AddWithValue("@username", username);
-                command.Parameters.AddWithValue("@password", password);
-                command.Parameters.AddWithValue("@name", "");
-                command.Parameters.AddWithValue("@level", 1);
-                command.Parameters.AddWithValue("@experiment", 0);
-                command.Parameters.AddWithValue("@vip", 0);
-                command.Parameters.AddWithValue("@power", 0);
+                selectCommand.Parameters.AddWithValue("@id", userId);
+                selectCommand.Parameters.AddWithValue("@username", username);
+                selectCommand.Parameters.AddWithValue("@password", password);
+                selectCommand.Parameters.AddWithValue("@name", "");
+                selectCommand.Parameters.AddWithValue("@level", 1);
+                selectCommand.Parameters.AddWithValue("@experiment", 0);
+                selectCommand.Parameters.AddWithValue("@vip", 0);
+                selectCommand.Parameters.AddWithValue("@power", 0);
 
                 try
                 {
-                    await command.ExecuteNonQueryAsync(); // chạy query async
+                    await selectCommand.ExecuteNonQueryAsync(); // chạy selectSQL async
                     Debug.Log("User registered successfully!");
                     return userId;
                 }
@@ -121,13 +121,13 @@ public class UserRepository : IUserRepository
             await connection.OpenAsync(); // mở connection async
 
             // --- Lấy thông tin user ---
-            string userQuery = "SELECT * FROM Users WHERE username = @username AND password = @password";
-            using (var userCommand = new MySqlCommand(userQuery, connection))
+            string selectSQL = "SELECT * FROM Users WHERE username = @username AND password = @password";
+            using (var selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                userCommand.Parameters.AddWithValue("@username", username);
-                userCommand.Parameters.AddWithValue("@password", password);
+                selectCommand.Parameters.AddWithValue("@username", username);
+                selectCommand.Parameters.AddWithValue("@password", password);
 
-                using (var reader = await userCommand.ExecuteReaderAsync())
+                using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     if (!await reader.ReadAsync())
                         return null; // đăng nhập thất bại
@@ -208,12 +208,12 @@ public class UserRepository : IUserRepository
             await connection.OpenAsync(); // mở connection async
 
             // --- Lấy thông tin user ---
-            string userQuery = "SELECT * FROM Users WHERE id = @id";
-            using (var userCommand = new MySqlCommand(userQuery, connection))
+            string selectSQL = "SELECT * FROM Users WHERE id = @id";
+            using (var selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                userCommand.Parameters.AddWithValue("@id", userId);
+                selectCommand.Parameters.AddWithValue("@id", userId);
 
-                using (var reader = await userCommand.ExecuteReaderAsync())
+                using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     if (!await reader.ReadAsync())
                         return null; // không tìm thấy user
@@ -294,12 +294,12 @@ public class UserRepository : IUserRepository
             await connection.OpenAsync(); // mở kết nối async
 
             // --- Lấy thông tin user ---
-            string userQuery = "SELECT * FROM Users WHERE id=@id";
-            using (var userCommand = new MySqlCommand(userQuery, connection))
+            string selectSQL = "SELECT * FROM Users WHERE id=@id";
+            using (var selectCommand = new MySqlCommand(selectSQL, connection))
             {
-                userCommand.Parameters.AddWithValue("@id", Id);
+                selectCommand.Parameters.AddWithValue("@id", Id);
 
-                using (var reader = await userCommand.ExecuteReaderAsync())
+                using (var reader = await selectCommand.ExecuteReaderAsync())
                 {
                     if (!await reader.ReadAsync())
                         return null; // không tìm thấy user
@@ -373,13 +373,13 @@ public class UserRepository : IUserRepository
             {
                 await connection.OpenAsync(); // mở kết nối async
 
-                string updateQuery = "UPDATE Users SET name = @name WHERE id = @id";
-                await using (var command = new MySqlCommand(updateQuery, connection))
+                string updateSQL = "UPDATE Users SET name = @name WHERE id = @id";
+                await using (var updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@name", new_name);
-                    command.Parameters.AddWithValue("@id", user_id);
+                    updateCommand.Parameters.AddWithValue("@name", new_name);
+                    updateCommand.Parameters.AddWithValue("@id", user_id);
 
-                    await command.ExecuteNonQueryAsync(); // chạy query async
+                    await updateCommand.ExecuteNonQueryAsync(); // chạy selectSQL async
                 }
             }
             catch (Exception ex)
@@ -402,13 +402,13 @@ public class UserRepository : IUserRepository
             {
                 await connection.OpenAsync(); // mở kết nối async
 
-                string updateQuery = "UPDATE Users SET power = @power WHERE id = @id";
-                await using (var command = new MySqlCommand(updateQuery, connection))
+                string updateSQL = "UPDATE Users SET power = @power WHERE id = @id";
+                await using (var updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@power", power);
-                    command.Parameters.AddWithValue("@id", user_id);
+                    updateCommand.Parameters.AddWithValue("@power", power);
+                    updateCommand.Parameters.AddWithValue("@id", user_id);
 
-                    await command.ExecuteNonQueryAsync(); // chạy query async
+                    await updateCommand.ExecuteNonQueryAsync(); // chạy selectSQL async
                 }
             }
             catch (Exception ex)
@@ -433,14 +433,14 @@ public class UserRepository : IUserRepository
 
                 for (int currencyId = 1; currencyId <= 70; currencyId++)
                 {
-                    string insertQuery = "INSERT INTO user_currencies (user_id, currency_id, quantity) VALUES (@id, @currency_id, @quantity)";
-                    await using (var command = new MySqlCommand(insertQuery, connection))
+                    string insertSQL = "INSERT INTO user_currencies (user_id, currency_id, quantity) VALUES (@id, @currency_id, @quantity)";
+                    await using (var insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        command.Parameters.AddWithValue("@id", Id);
-                        command.Parameters.AddWithValue("@currency_id", currencyId);
-                        command.Parameters.AddWithValue("@quantity", 1000000000);
+                        insertCommand.Parameters.AddWithValue("@id", Id);
+                        insertCommand.Parameters.AddWithValue("@currency_id", currencyId);
+                        insertCommand.Parameters.AddWithValue("@quantity", 1000000000);
 
-                        await command.ExecuteNonQueryAsync(); // insert async
+                        await insertCommand.ExecuteNonQueryAsync(); // insert async
                     }
                 }
             }
@@ -464,12 +464,12 @@ public class UserRepository : IUserRepository
             {
                 await connection.OpenAsync(); // mở connection async
 
-                string query = "SELECT COUNT(*) FROM users WHERE name = @name";
-                await using (var command = new MySqlCommand(query, connection))
+                string selectSQL = "SELECT COUNT(*) FROM users WHERE name = @name";
+                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@name", name);
+                    selectCommand.Parameters.AddWithValue("@name", name);
 
-                    object result = await command.ExecuteScalarAsync(); // chạy query async
+                    object result = await selectCommand.ExecuteScalarAsync(); // chạy selectSQL async
                     int count = Convert.ToInt32(result);
 
                     return count > 0; // Nếu > 0 nghĩa là tồn tại Name

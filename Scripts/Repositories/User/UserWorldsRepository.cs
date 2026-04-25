@@ -18,7 +18,7 @@ public class UserWorldsRepository : IUserWorldsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Worlds t
                 INNER JOIN user_worlds ut ON t.id = ut.world_id
@@ -26,28 +26,28 @@ public class UserWorldsRepository : IUserWorldsRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
                          t.name
                 LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -143,7 +143,7 @@ public class UserWorldsRepository : IUserWorldsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Worlds t
                 INNER JOIN user_worlds ut ON t.id = ut.world_id
@@ -151,19 +151,19 @@ public class UserWorldsRepository : IUserWorldsRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -190,11 +190,11 @@ public class UserWorldsRepository : IUserWorldsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM user_worlds 
                 WHERE user_id = @user_id AND world_id = @world_id;";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@world_id", Worlds.Id);
@@ -203,7 +203,7 @@ public class UserWorldsRepository : IUserWorldsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO user_worlds (
                             user_id, world_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -240,7 +240,7 @@ public class UserWorldsRepository : IUserWorldsRepository
                             @skill_damage_rate, @skill_resistance_rate
                         );";
 
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@world_id", Worlds.Id);
@@ -308,12 +308,12 @@ public class UserWorldsRepository : IUserWorldsRepository
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_worlds
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND world_id = @world_id;";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@world_id", Worlds.Id);
@@ -345,7 +345,7 @@ public class UserWorldsRepository : IUserWorldsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_worlds
                 SET 
                     level = @level, power = @power, health = @health, 
@@ -375,63 +375,63 @@ public class UserWorldsRepository : IUserWorldsRepository
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND world_id = @world_id;";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@world_id", Worlds.Id);
-                    command.Parameters.AddWithValue("@level", WorldLevel);
-                    command.Parameters.AddWithValue("@power", Worlds.Power);
-                    command.Parameters.AddWithValue("@health", Worlds.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Worlds.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Worlds.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Worlds.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Worlds.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Worlds.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Worlds.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Worlds.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Worlds.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Worlds.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Worlds.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Worlds.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Worlds.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Worlds.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Worlds.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Worlds.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Worlds.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Worlds.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Worlds.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Worlds.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Worlds.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Worlds.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Worlds.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Worlds.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Worlds.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Worlds.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Worlds.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Worlds.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Worlds.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Worlds.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Worlds.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Worlds.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Worlds.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Worlds.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Worlds.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Worlds.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Worlds.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Worlds.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Worlds.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Worlds.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Worlds.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Worlds.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Worlds.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Worlds.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Worlds.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Worlds.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Worlds.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Worlds.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Worlds.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@world_id", Worlds.Id);
+                    updateCommand.Parameters.AddWithValue("@level", WorldLevel);
+                    updateCommand.Parameters.AddWithValue("@power", Worlds.Power);
+                    updateCommand.Parameters.AddWithValue("@health", Worlds.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", Worlds.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", Worlds.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", Worlds.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", Worlds.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", Worlds.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", Worlds.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", Worlds.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", Worlds.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", Worlds.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", Worlds.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", Worlds.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", Worlds.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", Worlds.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", Worlds.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", Worlds.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", Worlds.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", Worlds.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", Worlds.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", Worlds.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", Worlds.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", Worlds.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", Worlds.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Worlds.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", Worlds.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", Worlds.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", Worlds.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", Worlds.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", Worlds.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", Worlds.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", Worlds.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", Worlds.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", Worlds.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", Worlds.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", Worlds.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", Worlds.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", Worlds.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", Worlds.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", Worlds.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", Worlds.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", Worlds.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", Worlds.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", Worlds.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", Worlds.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", Worlds.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", Worlds.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", Worlds.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", Worlds.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", Worlds.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -454,7 +454,7 @@ public class UserWorldsRepository : IUserWorldsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_worlds
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -483,64 +483,64 @@ public class UserWorldsRepository : IUserWorldsRepository
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND world_id = @world_id;";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@world_id", Worlds.Id);
-                    command.Parameters.AddWithValue("@star", star);
-                    command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", Worlds.Power);
-                    command.Parameters.AddWithValue("@health", Worlds.Health);
-                    command.Parameters.AddWithValue("@physical_attack", Worlds.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", Worlds.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", Worlds.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", Worlds.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", Worlds.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", Worlds.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", Worlds.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", Worlds.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", Worlds.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", Worlds.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", Worlds.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", Worlds.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", Worlds.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", Worlds.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", Worlds.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", Worlds.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", Worlds.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", Worlds.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", Worlds.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", Worlds.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", Worlds.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", Worlds.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Worlds.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", Worlds.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", Worlds.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", Worlds.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", Worlds.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", Worlds.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", Worlds.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", Worlds.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", Worlds.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", Worlds.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", Worlds.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", Worlds.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", Worlds.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", Worlds.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", Worlds.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", Worlds.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", Worlds.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", Worlds.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", Worlds.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", Worlds.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", Worlds.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", Worlds.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", Worlds.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", Worlds.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", Worlds.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", Worlds.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@world_id", Worlds.Id);
+                    updateCommand.Parameters.AddWithValue("@star", star);
+                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
+                    updateCommand.Parameters.AddWithValue("@power", Worlds.Power);
+                    updateCommand.Parameters.AddWithValue("@health", Worlds.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", Worlds.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", Worlds.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", Worlds.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", Worlds.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", Worlds.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", Worlds.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", Worlds.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", Worlds.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", Worlds.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", Worlds.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", Worlds.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", Worlds.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", Worlds.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", Worlds.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", Worlds.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", Worlds.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", Worlds.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", Worlds.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", Worlds.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", Worlds.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", Worlds.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", Worlds.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", Worlds.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", Worlds.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", Worlds.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", Worlds.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", Worlds.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", Worlds.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", Worlds.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", Worlds.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", Worlds.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", Worlds.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", Worlds.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", Worlds.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", Worlds.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", Worlds.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", Worlds.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", Worlds.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", Worlds.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", Worlds.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", Worlds.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", Worlds.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", Worlds.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", Worlds.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", Worlds.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", Worlds.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", Worlds.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", Worlds.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -564,14 +564,14 @@ public class UserWorldsRepository : IUserWorldsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"Select * from user_worlds where user_worlds.world_id=@id 
+                string selectSQL = @"Select * from user_worlds where user_worlds.world_id=@id 
                 and user_worlds.user_id=@user_id";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -658,7 +658,7 @@ public class UserWorldsRepository : IUserWorldsRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"SELECT 
+                string selectSQL = @"SELECT 
                 SUM(power * (1 + quality / 10.0)) AS total_power,
                 SUM(health * (1 + quality / 10.0)) AS total_health,
                 SUM(mana * (1 + quality / 10.0)) AS total_mana,
@@ -712,11 +712,11 @@ public class UserWorldsRepository : IUserWorldsRepository
             FROM user_worlds
             WHERE user_id = @user_id;
             ";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

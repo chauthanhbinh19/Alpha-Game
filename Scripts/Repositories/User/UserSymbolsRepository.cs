@@ -18,7 +18,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM Symbols m
                 JOIN user_symbols um ON m.id = um.symbol_id
@@ -26,43 +26,43 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND m.type = @type";
+                    selectSQL += " AND m.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY m.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY m.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -158,7 +158,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Symbols m
                 JOIN user_symbols um ON m.id = um.symbol_id
@@ -166,38 +166,38 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND m.type = @type";
+                    selectSQL += " AND m.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -224,13 +224,13 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                     SELECT COUNT(*) 
                     FROM user_symbols 
                     WHERE user_id = @user_id AND symbol_id = @symbol_id;
                 ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@symbol_id", symbol.Id);
@@ -239,7 +239,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO user_symbols (
                             user_id, symbol_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -277,7 +277,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                         );
                     ";
 
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@symbol_id", symbol.Id);
@@ -345,13 +345,13 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_symbols
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND symbol_id = @symbol_id;
                     ";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@symbol_id", symbol.Id);
@@ -385,7 +385,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_symbols
                 SET 
                     level = @level, power = @power, health = @health, 
@@ -417,63 +417,63 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 WHERE user_id = @user_id AND symbol_id = @symbol_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@symbol_id", symbol.Id);
-                    command.Parameters.AddWithValue("@level", cardLevel);
-                    command.Parameters.AddWithValue("@power", symbol.Power);
-                    command.Parameters.AddWithValue("@health", symbol.Health);
-                    command.Parameters.AddWithValue("@physical_attack", symbol.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", symbol.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", symbol.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", symbol.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", symbol.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", symbol.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", symbol.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", symbol.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", symbol.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", symbol.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", symbol.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", symbol.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", symbol.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", symbol.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", symbol.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", symbol.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", symbol.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", symbol.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", symbol.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", symbol.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", symbol.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", symbol.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", symbol.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", symbol.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", symbol.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", symbol.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", symbol.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", symbol.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", symbol.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", symbol.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", symbol.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", symbol.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", symbol.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", symbol.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", symbol.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", symbol.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", symbol.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", symbol.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", symbol.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", symbol.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", symbol.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", symbol.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", symbol.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", symbol.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", symbol.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", symbol.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", symbol.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", symbol.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@symbol_id", symbol.Id);
+                    updateCommand.Parameters.AddWithValue("@level", cardLevel);
+                    updateCommand.Parameters.AddWithValue("@power", symbol.Power);
+                    updateCommand.Parameters.AddWithValue("@health", symbol.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", symbol.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", symbol.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", symbol.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", symbol.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", symbol.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", symbol.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", symbol.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", symbol.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", symbol.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", symbol.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", symbol.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", symbol.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", symbol.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", symbol.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", symbol.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", symbol.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", symbol.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", symbol.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", symbol.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", symbol.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", symbol.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", symbol.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", symbol.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", symbol.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", symbol.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", symbol.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", symbol.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", symbol.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", symbol.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", symbol.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", symbol.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", symbol.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", symbol.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", symbol.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", symbol.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", symbol.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", symbol.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", symbol.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", symbol.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", symbol.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", symbol.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", symbol.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", symbol.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", symbol.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", symbol.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", symbol.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", symbol.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", symbol.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -499,7 +499,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_symbols
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -530,64 +530,64 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 WHERE user_id = @user_id AND symbol_id = @symbol_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@symbol_id", symbol.Id);
-                    command.Parameters.AddWithValue("@star", star);
-                    command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", symbol.Power);
-                    command.Parameters.AddWithValue("@health", symbol.Health);
-                    command.Parameters.AddWithValue("@physical_attack", symbol.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", symbol.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", symbol.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", symbol.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", symbol.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", symbol.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", symbol.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", symbol.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", symbol.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", symbol.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", symbol.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", symbol.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", symbol.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", symbol.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", symbol.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", symbol.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", symbol.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", symbol.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", symbol.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", symbol.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", symbol.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", symbol.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", symbol.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", symbol.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", symbol.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", symbol.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", symbol.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", symbol.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", symbol.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", symbol.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", symbol.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", symbol.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", symbol.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", symbol.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", symbol.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", symbol.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", symbol.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", symbol.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", symbol.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", symbol.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", symbol.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", symbol.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", symbol.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", symbol.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", symbol.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", symbol.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", symbol.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", symbol.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@symbol_id", symbol.Id);
+                    updateCommand.Parameters.AddWithValue("@star", star);
+                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
+                    updateCommand.Parameters.AddWithValue("@power", symbol.Power);
+                    updateCommand.Parameters.AddWithValue("@health", symbol.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", symbol.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", symbol.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", symbol.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", symbol.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", symbol.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", symbol.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", symbol.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", symbol.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", symbol.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", symbol.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", symbol.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", symbol.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", symbol.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", symbol.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", symbol.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", symbol.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", symbol.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", symbol.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", symbol.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", symbol.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", symbol.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", symbol.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", symbol.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", symbol.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", symbol.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", symbol.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", symbol.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", symbol.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", symbol.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", symbol.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", symbol.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", symbol.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", symbol.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", symbol.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", symbol.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", symbol.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", symbol.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", symbol.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", symbol.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", symbol.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", symbol.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", symbol.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", symbol.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", symbol.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", symbol.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", symbol.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", symbol.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", symbol.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -614,15 +614,15 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_symbols 
+                string selectSQL = @"SELECT * FROM user_symbols 
                              WHERE symbol_id=@id AND user_id=@user_id";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -711,7 +711,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(power * (1 + quality / 10.0)) AS total_power,
                     SUM(health * (1 + quality / 10.0)) AS total_health,
@@ -766,11 +766,11 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 FROM user_symbols
                 WHERE user_id = @user_id;";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

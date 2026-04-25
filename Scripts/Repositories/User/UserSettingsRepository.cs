@@ -18,11 +18,11 @@ public class UserSettingsRepository : IUserSettingsRepository
             {
                 await connection.OpenAsync();
 
-                string query = "SELECT * FROM user_settings WHERE user_id = @userId";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                string selectSQL = "SELECT * FROM user_settings WHERE user_id = @userId";
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -61,18 +61,18 @@ public class UserSettingsRepository : IUserSettingsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"INSERT INTO user_settings
+                string insertSQL = @"INSERT INTO user_settings
                              (user_id, setting_key, setting_value, value_type) 
                              VALUES
                              (@user_id, @setting_key, @setting_value, @value_type)";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@setting_key", userSetting.SettingKey);
-                    command.Parameters.AddWithValue("@setting_value", userSetting.SettingValue);
-                    command.Parameters.AddWithValue("@value_type", userSetting.ValueType);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
+                    insertCommand.Parameters.AddWithValue("@setting_key", userSetting.SettingKey);
+                    insertCommand.Parameters.AddWithValue("@setting_value", userSetting.SettingValue);
+                    insertCommand.Parameters.AddWithValue("@value_type", userSetting.ValueType);
 
-                    await command.ExecuteNonQueryAsync();
+                    await insertCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (Exception ex)
@@ -95,17 +95,17 @@ public class UserSettingsRepository : IUserSettingsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"UPDATE user_settings
+                string updateSQL = @"UPDATE user_settings
                              SET setting_value = @setting_value
                              WHERE user_id = @user_id AND setting_key = @setting_key";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", userId);
-                    command.Parameters.AddWithValue("@setting_key", userSetting.SettingKey);
-                    command.Parameters.AddWithValue("@setting_value", userSetting.SettingValue);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
+                    updateCommand.Parameters.AddWithValue("@setting_key", userSetting.SettingKey);
+                    updateCommand.Parameters.AddWithValue("@setting_value", userSetting.SettingValue);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (Exception ex)

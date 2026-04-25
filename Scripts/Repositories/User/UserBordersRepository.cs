@@ -17,7 +17,7 @@ public class UserBordersRepository : IUserBordersRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                 FROM borders m
                 JOIN user_borders um ON m.id = um.border_id
@@ -25,34 +25,34 @@ public class UserBordersRepository : IUserBordersRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY m.name REGEXP '[0-9]+$', 
                         CAST(REGEXP_SUBSTR(m.name, '[0-9]+$') AS UNSIGNED), 
                         m.name
                 LIMIT @limit OFFSET @offset";
 
-                await using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userId", user_id);
+                await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@userId", user_id);
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    command.Parameters.AddWithValue("@rare", rare);
+                    selectCommand.Parameters.AddWithValue("@rare", rare);
                 }
                 if (!string.IsNullOrEmpty(search))
                 {
-                    command.Parameters.AddWithValue("@search", search);
+                    selectCommand.Parameters.AddWithValue("@search", search);
                 }
-                command.Parameters.AddWithValue("@limit", pageSize);
-                command.Parameters.AddWithValue("@offset", offset);
+                selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                await using MySqlDataReader reader = await command.ExecuteReaderAsync();
+                await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
                 {
                     Borders border = new Borders
@@ -140,7 +140,7 @@ public class UserBordersRepository : IUserBordersRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Medals m
                 JOIN user_medals um ON m.id = um.medal_id
@@ -148,26 +148,26 @@ public class UserBordersRepository : IUserBordersRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userId", user_id);
+                await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@userId", user_id);
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    command.Parameters.AddWithValue("@rare", rare);
+                    selectCommand.Parameters.AddWithValue("@rare", rare);
                 }
                 if (!string.IsNullOrEmpty(search))
                 {
-                    command.Parameters.AddWithValue("@search", search);
+                    selectCommand.Parameters.AddWithValue("@search", search);
                 }
 
-                object result = await command.ExecuteScalarAsync();
+                object result = await selectCommand.ExecuteScalarAsync();
                 if (result != null && int.TryParse(result.ToString(), out int parsedCount))
                 {
                     count = parsedCount;
@@ -195,11 +195,11 @@ public class UserBordersRepository : IUserBordersRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
-            SELECT COUNT(*) FROM user_borders 
-            WHERE user_id = @user_id AND border_id = @border_id;";
+                string checkSQL = @"
+                SELECT COUNT(*) FROM user_borders 
+                WHERE user_id = @user_id AND border_id = @border_id;";
 
-                await using MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                await using MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@border_id", border.Id);
 
@@ -212,44 +212,44 @@ public class UserBordersRepository : IUserBordersRepository
 
                 if (count == 0)
                 {
-                    string insertQuery = @"
-                INSERT INTO user_borders (
-                    user_id, border_id, rare, level, experiment, star, quality, block, quantity,
-                    power, health, physical_attack, physical_defense, magical_attack, magical_defense,
-                    chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
-                    speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                    penetration_rate, penetration_resistance_rate,
-                    evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                    vitality_regeneration_rate, vitality_regeneration_resistance_rate,
-                    accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
-                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                    stun_rate, ignore_stun_rate,
-                    reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
-                    mana, mana_regeneration_rate,
-                    damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                    damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                    normal_damage_rate, normal_resistance_rate,
-                    skill_damage_rate, skill_resistance_rate
-                ) VALUES (
-                    @user_id, @border_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
-                    @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
-                    @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
-                    @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
-                    @penetration_rate, @penetration_resistance_rate,
-                    @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
-                    @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
-                    @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
-                    @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
-                    @stun_rate, @ignore_stun_rate,
-                    @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
-                    @mana, @mana_regeneration_rate,
-                    @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
-                    @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
-                    @normal_damage_rate, @normal_resistance_rate,
-                    @skill_damage_rate, @skill_resistance_rate
-                );";
+                    string insertSQL = @"
+                    INSERT INTO user_borders (
+                        user_id, border_id, rare, level, experiment, star, quality, block, quantity,
+                        power, health, physical_attack, physical_defense, magical_attack, magical_defense,
+                        chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
+                        speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                        penetration_rate, penetration_resistance_rate,
+                        evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                        vitality_regeneration_rate, vitality_regeneration_resistance_rate,
+                        accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
+                        combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                        stun_rate, ignore_stun_rate,
+                        reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
+                        mana, mana_regeneration_rate,
+                        damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                        damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                        normal_damage_rate, normal_resistance_rate,
+                        skill_damage_rate, skill_resistance_rate
+                    ) VALUES (
+                        @user_id, @border_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                        @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
+                        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
+                        @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+                        @penetration_rate, @penetration_resistance_rate,
+                        @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+                        @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
+                        @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
+                        @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
+                        @stun_rate, @ignore_stun_rate,
+                        @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
+                        @mana, @mana_regeneration_rate,
+                        @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
+                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+                        @normal_damage_rate, @normal_resistance_rate,
+                        @skill_damage_rate, @skill_resistance_rate
+                    );";
 
-                    await using MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                    await using MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
                     insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@border_id", border.Id);
                     insertCommand.Parameters.AddWithValue("@rare", border.Rare);
@@ -315,12 +315,12 @@ public class UserBordersRepository : IUserBordersRepository
                 else
                 {
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                    string updateQuery = @"
-                UPDATE user_borders
-                SET quantity = @quantity
-                WHERE user_id = @user_id AND border_id = @border_id;";
+                    string updateSQL = @"
+                    UPDATE user_borders
+                    SET quantity = @quantity
+                    WHERE user_id = @user_id AND border_id = @border_id;";
 
-                    await using MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                    await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@border_id", border.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", border.Quantity);
@@ -352,11 +352,11 @@ public class UserBordersRepository : IUserBordersRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
             SELECT COUNT(*) FROM user_borders 
             WHERE user_id = @user_id AND border_id = @border_id;";
 
-                await using MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection);
+                await using MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@border_id", border.Id);
 
@@ -369,7 +369,7 @@ public class UserBordersRepository : IUserBordersRepository
 
                 if (count == 0)
                 {
-                    string insertQuery = @"
+                    string insertSQL = @"
                 INSERT INTO user_borders (
                     user_id, border_id, rare, level, experiment, star, quality, block, quantity, is_used,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -406,7 +406,7 @@ public class UserBordersRepository : IUserBordersRepository
                     @skill_damage_rate, @skill_resistance_rate
                 );";
 
-                    await using MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                    await using MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
                     insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@border_id", border.Id);
                     insertCommand.Parameters.AddWithValue("@rare", border.Rare);
@@ -473,12 +473,12 @@ public class UserBordersRepository : IUserBordersRepository
                 else
                 {
                     // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                    string updateQuery = @"
+                    string updateSQL = @"
                 UPDATE user_borders
                 SET quantity = quantity + 1
                 WHERE user_id = @user_id AND border_id = @border_id;";
 
-                    await using MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                    await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                     updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@border_id", border.Id);
 
@@ -508,14 +508,14 @@ public class UserBordersRepository : IUserBordersRepository
             {
                 await connection.OpenAsync();
 
-                string query = "UPDATE user_borders SET is_used=@is_used WHERE user_id=@user_id AND border_id=@border_id";
+                string updateSQL = "UPDATE user_borders SET is_used=@is_used WHERE user_id=@user_id AND border_id=@border_id";
 
-                await using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", userId);
-                command.Parameters.AddWithValue("@border_id", borderId);
-                command.Parameters.AddWithValue("@is_used", is_used);
+                await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
+                updateCommand.Parameters.AddWithValue("@border_id", borderId);
+                updateCommand.Parameters.AddWithValue("@is_used", is_used);
 
-                await command.ExecuteNonQueryAsync();
+                await updateCommand.ExecuteNonQueryAsync();
             }
             catch (MySqlException ex)
             {
@@ -529,7 +529,7 @@ public class UserBordersRepository : IUserBordersRepository
     }
     public async Task<Borders> GetBorderByUsedAsync(string user_id)
     {
-        Borders borders = new Borders();
+        Borders border = new Borders();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -538,20 +538,20 @@ public class UserBordersRepository : IUserBordersRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
             SELECT ub.*, b.image, b.rare 
             FROM user_borders ub
             JOIN borders b ON ub.border_id = b.id
             WHERE ub.is_used = TRUE AND ub.user_id = @user_id";
 
-                await using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", user_id);
+                await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                await using MySqlDataReader reader = await command.ExecuteReaderAsync();
+                await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
 
                 while (await reader.ReadAsync())
                 {
-                    borders = new Borders
+                    border = new Borders
                     {
                         Id = reader.GetString("border_id"),
                         Image = reader.GetString("image"),
@@ -619,7 +619,7 @@ public class UserBordersRepository : IUserBordersRepository
                 await connection.CloseAsync();
             }
         }
-        return borders;
+        return border;
     }
     public async Task<Borders> SumPowerUserBordersAsync()
     {
@@ -632,7 +632,7 @@ public class UserBordersRepository : IUserBordersRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
             SELECT 
                 SUM(power * (1 + quality / 10.0)) AS total_power,
                 SUM(health * (1 + quality / 10.0)) AS total_health,
@@ -687,10 +687,10 @@ public class UserBordersRepository : IUserBordersRepository
             FROM user_borders
             WHERE user_id = @user_id;";
 
-                await using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                await using MySqlDataReader reader = await command.ExecuteReaderAsync();
+                await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
 
                 if (await reader.ReadAsync())
                 {

@@ -19,41 +19,41 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 Select ut.*, t.id, t.name, t.image, t.rare, t.description 
                 from spirit_beasts t, user_spirit_beasts ut 
                 where t.id = ut.spirit_beast_id ";
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY t.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY t.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -149,7 +149,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 Select ut.*, t.id, t.name, t.image, t.rare, t.description 
                 from spirit_beasts t, user_spirit_beasts ut
                 where t.id = ut.spirit_beast_id 
@@ -159,13 +159,13 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                          t.name
                 LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -266,26 +266,26 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             string inClause = string.Join(",", paramNames);
 
             // 2. Ghép vào câu Query
-            string query = $@"
+            string selectSQL = $@"
             SELECT ut.*, t.id, t.name, t.image, t.rare, t.description 
             FROM spirit_beasts t, user_spirit_beasts ut
             WHERE t.id = ut.spirit_beast_id 
                 AND ut.user_id = @userId
                 AND ut.card_hero_id IN ({inClause})";
 
-            await using (MySqlCommand command = new MySqlCommand(query, connection))
+            await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
                 // 3. Add tham số cố định
-                command.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", user_id);
 
                 // 4. Add danh sách tham số động
                 for (int i = 0; i < cardIds.Count; i++)
                 {
-                    command.Parameters.AddWithValue("@id" + i, cardIds[i]);
+                    selectCommand.Parameters.AddWithValue("@id" + i, cardIds[i]);
                 }
 
                 // 5. Đọc dữ liệu (Vẫn dùng các hàm Get...Safe của bạn)
-                await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -369,7 +369,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 Select count(*) 
                 from spirit_beasts t, user_spirit_beasts ut
                 where t.id = ut.spirit_beast_id
@@ -377,29 +377,29 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -426,7 +426,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_beasts e 
                 left join user_spirit_beasts ue 
@@ -438,12 +438,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 and che.user_card_hero_id = @user_card_hero_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -544,7 +544,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_beasts e 
                 left join user_spirit_beasts ue 
@@ -556,12 +556,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                   and che.user_card_captain_id = @user_card_captain_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -662,7 +662,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_beasts e 
                 left join user_spirit_beasts ue 
@@ -674,11 +674,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                   and che.user_card_colonel_id = @user_card_colonel_id;
             ";
 
-                await using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userId", userId);
-                command.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
+                await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+                selectCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
 
-                await using MySqlDataReader reader = await command.ExecuteReaderAsync();
+                await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
 
                 if (await reader.ReadAsync())
                 {
@@ -777,7 +777,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_beasts e 
                 left join user_spirit_beasts ue 
@@ -789,12 +789,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     and che.user_card_general_id = @user_card_general_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -895,7 +895,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_beasts e 
                 left join user_spirit_beasts ue 
@@ -907,12 +907,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     and che.user_card_admiral_id = @user_card_admiral_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -1013,7 +1013,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_beasts e 
                 left join user_spirit_beasts ue 
@@ -1025,12 +1025,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     and che.user_card_military_id = @user_card_military_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -1131,7 +1131,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_beasts e 
                 left join user_spirit_beasts ue 
@@ -1143,12 +1143,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     and che.user_card_monster_id = @user_card_monster_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -1249,7 +1249,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_beasts e 
                 left join user_spirit_beasts ue 
@@ -1261,12 +1261,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     and che.user_card_spell_id = @user_card_spell_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -1367,12 +1367,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM user_spirit_beasts 
                 WHERE user_id = @user_id AND spirit_beast_id = @spirit_beast_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     checkCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
@@ -1381,7 +1381,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count == 0)
                     {
-                        string query = @"
+                        string insertSQL = @"
                         INSERT INTO user_spirit_beasts (
                             user_id, spirit_beast_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -1419,81 +1419,81 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                         );
                     ";
 
-                        await using (MySqlCommand command = new MySqlCommand(query, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            command.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
-                            command.Parameters.AddWithValue("@rare", SpiritBeast.Rare);
-                            command.Parameters.AddWithValue("@level", 0);
-                            command.Parameters.AddWithValue("@experiment", 0);
-                            command.Parameters.AddWithValue("@star", 0);
-                            command.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(SpiritBeast.Rare));
-                            command.Parameters.AddWithValue("@block", false);
-                            command.Parameters.AddWithValue("@quantity", SpiritBeast.Quantity);
-                            command.Parameters.AddWithValue("@power", SpiritBeast.Power);
-                            command.Parameters.AddWithValue("@health", SpiritBeast.Health);
-                            command.Parameters.AddWithValue("@physical_attack", SpiritBeast.PhysicalAttack);
-                            command.Parameters.AddWithValue("@physical_defense", SpiritBeast.PhysicalDefense);
-                            command.Parameters.AddWithValue("@magical_attack", SpiritBeast.MagicalAttack);
-                            command.Parameters.AddWithValue("@magical_defense", SpiritBeast.MagicalDefense);
-                            command.Parameters.AddWithValue("@chemical_attack", SpiritBeast.ChemicalAttack);
-                            command.Parameters.AddWithValue("@chemical_defense", SpiritBeast.ChemicalDefense);
-                            command.Parameters.AddWithValue("@atomic_attack", SpiritBeast.AtomicAttack);
-                            command.Parameters.AddWithValue("@atomic_defense", SpiritBeast.AtomicDefense);
-                            command.Parameters.AddWithValue("@mental_attack", SpiritBeast.MentalAttack);
-                            command.Parameters.AddWithValue("@mental_defense", SpiritBeast.MentalDefense);
-                            command.Parameters.AddWithValue("@speed", SpiritBeast.Speed);
-                            command.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.CriticalDamageRate);
-                            command.Parameters.AddWithValue("@critical_rate", SpiritBeast.CriticalRate);
-                            command.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.CriticalResistanceRate);
-                            command.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.IgnoreCriticalRate);
-                            command.Parameters.AddWithValue("@penetration_rate", SpiritBeast.PenetrationRate);
-                            command.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.PenetrationResistanceRate);
-                            command.Parameters.AddWithValue("@evasion_rate", SpiritBeast.EvasionRate);
-                            command.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.DamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.IgnoreDamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.AbsorbedDamageRate);
-                            command.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.VitalityRegenerationRate);
-                            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.VitalityRegenerationResistanceRate);
-                            command.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.AccuracyRate);
-                            command.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.LifestealRate);
-                            command.Parameters.AddWithValue("@shield_strength", SpiritBeast.ShieldStrength);
-                            command.Parameters.AddWithValue("@tenacity", SpiritBeast.Tenacity);
-                            command.Parameters.AddWithValue("@resistance_rate", SpiritBeast.ResistanceRate);
-                            command.Parameters.AddWithValue("@combo_rate", SpiritBeast.ComboRate);
-                            command.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.IgnoreComboRate);
-                            command.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.ComboDamageRate);
-                            command.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.ComboResistanceRate);
-                            command.Parameters.AddWithValue("@stun_rate", SpiritBeast.StunRate);
-                            command.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.IgnoreStunRate);
-                            command.Parameters.AddWithValue("@reflection_rate", SpiritBeast.ReflectionRate);
-                            command.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.IgnoreReflectionRate);
-                            command.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.ReflectionDamageRate);
-                            command.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.ReflectionResistanceRate);
-                            command.Parameters.AddWithValue("@mana", SpiritBeast.Mana);
-                            command.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.ManaRegenerationRate);
-                            command.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.DamageToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.ResistanceToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.DamageToSameFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.ResistanceToSameFactionRate);
-                            command.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.NormalDamageRate);
-                            command.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.NormalResistanceRate);
-                            command.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.SkillDamageRate);
-                            command.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
+                            insertCommand.Parameters.AddWithValue("@rare", SpiritBeast.Rare);
+                            insertCommand.Parameters.AddWithValue("@level", 0);
+                            insertCommand.Parameters.AddWithValue("@experiment", 0);
+                            insertCommand.Parameters.AddWithValue("@star", 0);
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(SpiritBeast.Rare));
+                            insertCommand.Parameters.AddWithValue("@block", false);
+                            insertCommand.Parameters.AddWithValue("@quantity", SpiritBeast.Quantity);
+                            insertCommand.Parameters.AddWithValue("@power", SpiritBeast.Power);
+                            insertCommand.Parameters.AddWithValue("@health", SpiritBeast.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", SpiritBeast.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", SpiritBeast.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", SpiritBeast.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", SpiritBeast.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", SpiritBeast.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", SpiritBeast.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", SpiritBeast.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", SpiritBeast.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", SpiritBeast.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", SpiritBeast.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@speed", SpiritBeast.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", SpiritBeast.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", SpiritBeast.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", SpiritBeast.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", SpiritBeast.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", SpiritBeast.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", SpiritBeast.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", SpiritBeast.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", SpiritBeast.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", SpiritBeast.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@mana", SpiritBeast.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.SkillResistanceRate);
 
-                            await command.ExecuteNonQueryAsync();
+                            await insertCommand.ExecuteNonQueryAsync();
                         }
                     }
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_spirit_beasts
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND spirit_beast_id = @spirit_beast_id;
                     ";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
@@ -1527,7 +1527,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_spirit_beasts
                 SET 
                     level = @level, power = @power, health = @health, 
@@ -1559,63 +1559,63 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 WHERE user_id = @user_id AND spirit_beast_id = @spirit_beast_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
-                    command.Parameters.AddWithValue("@level", cardLevel);
-                    command.Parameters.AddWithValue("@power", SpiritBeast.Power);
-                    command.Parameters.AddWithValue("@health", SpiritBeast.Health);
-                    command.Parameters.AddWithValue("@physical_attack", SpiritBeast.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", SpiritBeast.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", SpiritBeast.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", SpiritBeast.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", SpiritBeast.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", SpiritBeast.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", SpiritBeast.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", SpiritBeast.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", SpiritBeast.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", SpiritBeast.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", SpiritBeast.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", SpiritBeast.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", SpiritBeast.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", SpiritBeast.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", SpiritBeast.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", SpiritBeast.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", SpiritBeast.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", SpiritBeast.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", SpiritBeast.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", SpiritBeast.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", SpiritBeast.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
+                    updateCommand.Parameters.AddWithValue("@level", cardLevel);
+                    updateCommand.Parameters.AddWithValue("@power", SpiritBeast.Power);
+                    updateCommand.Parameters.AddWithValue("@health", SpiritBeast.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", SpiritBeast.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", SpiritBeast.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", SpiritBeast.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", SpiritBeast.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", SpiritBeast.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", SpiritBeast.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", SpiritBeast.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", SpiritBeast.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", SpiritBeast.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", SpiritBeast.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", SpiritBeast.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", SpiritBeast.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", SpiritBeast.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", SpiritBeast.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", SpiritBeast.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", SpiritBeast.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", SpiritBeast.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", SpiritBeast.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", SpiritBeast.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", SpiritBeast.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", SpiritBeast.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -1641,7 +1641,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_spirit_beasts
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -1672,64 +1672,64 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 WHERE user_id = @user_id AND spirit_beast_id = @spirit_beast_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
-                    command.Parameters.AddWithValue("@star", star);
-                    command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", SpiritBeast.Power);
-                    command.Parameters.AddWithValue("@health", SpiritBeast.Health);
-                    command.Parameters.AddWithValue("@physical_attack", SpiritBeast.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", SpiritBeast.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", SpiritBeast.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", SpiritBeast.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", SpiritBeast.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", SpiritBeast.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", SpiritBeast.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", SpiritBeast.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", SpiritBeast.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", SpiritBeast.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", SpiritBeast.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", SpiritBeast.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", SpiritBeast.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", SpiritBeast.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", SpiritBeast.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", SpiritBeast.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", SpiritBeast.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", SpiritBeast.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", SpiritBeast.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", SpiritBeast.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", SpiritBeast.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
+                    updateCommand.Parameters.AddWithValue("@star", star);
+                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
+                    updateCommand.Parameters.AddWithValue("@power", SpiritBeast.Power);
+                    updateCommand.Parameters.AddWithValue("@health", SpiritBeast.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", SpiritBeast.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", SpiritBeast.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", SpiritBeast.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", SpiritBeast.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", SpiritBeast.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", SpiritBeast.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", SpiritBeast.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", SpiritBeast.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", SpiritBeast.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", SpiritBeast.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", SpiritBeast.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", SpiritBeast.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", SpiritBeast.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", SpiritBeast.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", SpiritBeast.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", SpiritBeast.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", SpiritBeast.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", SpiritBeast.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", SpiritBeast.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", SpiritBeast.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", SpiritBeast.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -1755,9 +1755,9 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string checkQuery = @"SELECT COUNT(*) FROM card_heroes_spirit_beast WHERE user_id = @user_id AND user_card_hero_id = @user_card_hero_id;";
+                string checkSQL = @"SELECT COUNT(*) FROM card_heroes_spirit_beast WHERE user_id = @user_id AND user_card_hero_id = @user_card_hero_id;";
 
-                await using (var checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (var checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
@@ -1766,9 +1766,9 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"INSERT INTO card_heroes_spirit_beast (user_id, user_card_hero_id, user_spirit_beast_id) VALUES (@user_id, @user_card_hero_id, @user_spirit_beast_id);";
+                        string insertSQL = @"INSERT INTO card_heroes_spirit_beast (user_id, user_card_hero_id, user_spirit_beast_id) VALUES (@user_id, @user_card_hero_id, @user_spirit_beast_id);";
 
-                        await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                        await using var insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -1777,9 +1777,9 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     }
                     else
                     {
-                        string updateQuery = @"UPDATE card_heroes_spirit_beast SET user_spirit_beast_id = @user_spirit_beast_id WHERE user_id = @user_id AND user_card_hero_id = @user_card_hero_id;";
+                        string updateSQL = @"UPDATE card_heroes_spirit_beast SET user_spirit_beast_id = @user_spirit_beast_id WHERE user_id = @user_id AND user_card_hero_id = @user_card_hero_id;";
 
-                        await using var updateCommand = new MySqlCommand(updateQuery, connection);
+                        await using var updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
                         updateCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -1811,10 +1811,10 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string checkQuery = @"SELECT COUNT(*) FROM card_captains_spirit_beast 
+                string checkSQL = @"SELECT COUNT(*) FROM card_captains_spirit_beast 
                               WHERE user_id = @user_id AND user_card_captain_id = @user_card_captain_id;";
 
-                await using (var checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (var checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
@@ -1823,11 +1823,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"INSERT INTO card_captains_spirit_beast 
+                        string insertSQL = @"INSERT INTO card_captains_spirit_beast 
                                       (user_id, user_card_captain_id, user_spirit_beast_id)
                                        VALUES (@user_id, @user_card_captain_id, @user_spirit_beast_id);";
 
-                        await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                        await using var insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -1836,11 +1836,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     }
                     else
                     {
-                        string updateQuery = @"UPDATE card_captains_spirit_beast
+                        string updateSQL = @"UPDATE card_captains_spirit_beast
                                        SET user_spirit_beast_id = @user_spirit_beast_id
                                        WHERE user_id = @user_id AND user_card_captain_id = @user_card_captain_id;";
 
-                        await using var updateCommand = new MySqlCommand(updateQuery, connection);
+                        await using var updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
                         updateCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -1871,10 +1871,10 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string checkQuery = @"SELECT COUNT(*) FROM card_colonels_spirit_beast 
+                string checkSQL = @"SELECT COUNT(*) FROM card_colonels_spirit_beast 
                               WHERE user_id = @user_id AND user_card_colonel_id = @user_card_colonel_id;";
 
-                await using (var checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (var checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
@@ -1883,11 +1883,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"INSERT INTO card_colonels_spirit_beast
+                        string insertSQL = @"INSERT INTO card_colonels_spirit_beast
                                       (user_id, user_card_colonel_id, user_spirit_beast_id)
                                       VALUES (@user_id, @user_card_colonel_id, @user_spirit_beast_id);";
 
-                        await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                        await using var insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -1896,11 +1896,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     }
                     else
                     {
-                        string updateQuery = @"UPDATE card_colonels_spirit_beast
+                        string updateSQL = @"UPDATE card_colonels_spirit_beast
                                        SET user_spirit_beast_id = @user_spirit_beast_id
                                        WHERE user_id = @user_id AND user_card_colonel_id = @user_card_colonel_id;";
 
-                        await using var updateCommand = new MySqlCommand(updateQuery, connection);
+                        await using var updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
                         updateCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -1931,10 +1931,10 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string checkQuery = @"SELECT COUNT(*) FROM card_generals_spirit_beast 
+                string checkSQL = @"SELECT COUNT(*) FROM card_generals_spirit_beast 
                               WHERE user_id = @user_id AND user_card_general_id = @user_card_general_id;";
 
-                await using (var checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (var checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
@@ -1943,11 +1943,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"INSERT INTO card_generals_spirit_beast
+                        string insertSQL = @"INSERT INTO card_generals_spirit_beast
                                       (user_id, user_card_general_id, user_spirit_beast_id)
                                       VALUES (@user_id, @user_card_general_id, @user_spirit_beast_id);";
 
-                        await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                        await using var insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -1956,11 +1956,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     }
                     else
                     {
-                        string updateQuery = @"UPDATE card_generals_spirit_beast
+                        string updateSQL = @"UPDATE card_generals_spirit_beast
                                        SET user_spirit_beast_id = @user_spirit_beast_id
                                        WHERE user_id = @user_id AND user_card_general_id = @user_card_general_id;";
 
-                        await using var updateCommand = new MySqlCommand(updateQuery, connection);
+                        await using var updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId); // sửa lỗi User.CurrentUserId
                         updateCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -1991,10 +1991,10 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string checkQuery = @"SELECT COUNT(*) FROM card_admirals_spirit_beast 
+                string checkSQL = @"SELECT COUNT(*) FROM card_admirals_spirit_beast 
                               WHERE user_id = @user_id AND user_card_admiral_id = @user_card_admiral_id;";
 
-                await using (var checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (var checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
@@ -2003,11 +2003,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"INSERT INTO card_admirals_spirit_beast
+                        string insertSQL = @"INSERT INTO card_admirals_spirit_beast
                                       (user_id, user_card_admiral_id, user_spirit_beast_id)
                                       VALUES (@user_id, @user_card_admiral_id, @user_spirit_beast_id);";
 
-                        await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                        await using var insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id); // sửa lỗi
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -2016,11 +2016,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     }
                     else
                     {
-                        string updateQuery = @"UPDATE card_admirals_spirit_beast
+                        string updateSQL = @"UPDATE card_admirals_spirit_beast
                                        SET user_spirit_beast_id = @user_spirit_beast_id
                                        WHERE user_id = @user_id AND user_card_admiral_id = @user_card_admiral_id;";
 
-                        await using var updateCommand = new MySqlCommand(updateQuery, connection);
+                        await using var updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId); // sửa lỗi User.CurrentUserId
                         updateCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -2051,11 +2051,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi tồn tại
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM card_military_spirit_beast 
                 WHERE user_id = @user_id AND user_card_military_id = @user_card_military_id;";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
@@ -2064,14 +2064,14 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO card_military_spirit_beast (
                             user_id, user_card_military_id, user_spirit_beast_id
                         ) VALUES (
                             @user_id, @user_card_military_id, @user_spirit_beast_id
                         );";
 
-                        MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                        MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -2080,12 +2080,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     }
                     else
                     {
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE card_military_spirit_beast
                         SET user_spirit_beast_id = @user_spirit_beast_id
                         WHERE user_id = @user_id AND user_card_military_id = @user_card_military_id;";
 
-                        MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                        MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
                         updateCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -2118,11 +2118,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM card_monsters_spirit_beast 
                 WHERE user_id = @user_id AND user_card_monster_id = @user_card_monster_id;";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
@@ -2132,14 +2132,14 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     if (count == 0)
                     {
                         // INSERT
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO card_monsters_spirit_beast (
                             user_id, user_card_monster_id, user_spirit_beast_id
                         ) VALUES (
                             @user_id, @user_card_monster_id, @user_spirit_beast_id
                         );";
 
-                        MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                        MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -2149,12 +2149,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     else
                     {
                         // UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE card_monsters_spirit_beast
                         SET user_spirit_beast_id = @user_spirit_beast_id
                         WHERE user_id = @user_id AND user_card_monster_id = @user_card_monster_id;";
 
-                        MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                        MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
                         updateCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -2187,11 +2187,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM card_spell_spirit_beast 
                 WHERE user_id = @user_id AND user_card_spell_id = @user_card_spell_id;";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
@@ -2201,14 +2201,14 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     if (count == 0)
                     {
                         // INSERT
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO card_spell_spirit_beast (
                             user_id, user_card_spell_id, user_spirit_beast_id
                         ) VALUES (
                             @user_id, @user_card_spell_id, @user_spirit_beast_id
                         );";
 
-                        MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                        MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -2218,12 +2218,12 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     else
                     {
                         // UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE card_spell_spirit_beast
                         SET user_spirit_beast_id = @user_spirit_beast_id
                         WHERE user_id = @user_id AND user_card_spell_id = @user_card_spell_id;";
 
-                        MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                        MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
                         updateCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
@@ -2256,7 +2256,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_beast_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_beasts e
@@ -2272,16 +2272,16 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritBeasts sb = new SpiritBeasts
+                SpiritBeasts spiritBeast = new SpiritBeasts
                 {
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
@@ -2345,7 +2345,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritBeasts.Add(sb);
+                spiritBeasts.Add(spiritBeast);
             }
         }
         catch (MySqlException ex)
@@ -2370,7 +2370,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_beast_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_beasts e
@@ -2386,16 +2386,16 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritBeasts sb = new SpiritBeasts
+                SpiritBeasts spiritBeast = new SpiritBeasts
                 {
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
@@ -2459,7 +2459,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritBeasts.Add(sb);
+                spiritBeasts.Add(spiritBeast);
             }
         }
         catch (MySqlException ex)
@@ -2484,7 +2484,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_beast_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_beasts e
@@ -2500,16 +2500,16 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritBeasts sb = new SpiritBeasts
+                SpiritBeasts spiritBeast = new SpiritBeasts
                 {
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
@@ -2573,7 +2573,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritBeasts.Add(sb);
+                spiritBeasts.Add(spiritBeast);
             }
         }
         catch (MySqlException ex)
@@ -2598,7 +2598,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_beast_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_beasts e
@@ -2614,16 +2614,16 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritBeasts sb = new SpiritBeasts
+                SpiritBeasts spiritBeast = new SpiritBeasts
                 {
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
@@ -2687,7 +2687,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritBeasts.Add(sb);
+                spiritBeasts.Add(spiritBeast);
             }
         }
         catch (MySqlException ex)
@@ -2712,7 +2712,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_beast_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_beasts e
@@ -2728,16 +2728,16 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritBeasts sb = new SpiritBeasts
+                SpiritBeasts spiritBeast = new SpiritBeasts
                 {
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
@@ -2801,7 +2801,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritBeasts.Add(sb);
+                spiritBeasts.Add(spiritBeast);
             }
         }
         catch (MySqlException ex)
@@ -2826,7 +2826,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_beast_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_beasts e
@@ -2842,16 +2842,16 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritBeasts sb = new SpiritBeasts
+                SpiritBeasts spiritBeast = new SpiritBeasts
                 {
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
@@ -2915,7 +2915,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritBeasts.Add(sb);
+                spiritBeasts.Add(spiritBeast);
             }
         }
         catch (MySqlException ex)
@@ -2940,7 +2940,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_beast_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_beasts e
@@ -2956,16 +2956,16 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritBeasts sb = new SpiritBeasts
+                SpiritBeasts spiritBeast = new SpiritBeasts
                 {
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
@@ -3029,7 +3029,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritBeasts.Add(sb);
+                spiritBeasts.Add(spiritBeast);
             }
         }
         catch (MySqlException ex)
@@ -3054,7 +3054,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_beast_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_beasts e
@@ -3070,16 +3070,16 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritBeasts sb = new SpiritBeasts
+                SpiritBeasts spiritBeast = new SpiritBeasts
                 {
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
@@ -3143,7 +3143,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritBeasts.Add(sb);
+                spiritBeasts.Add(spiritBeast);
             }
         }
         catch (MySqlException ex)
@@ -3168,7 +3168,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_heroes_spirit_beast 
                 WHERE user_id = @user_id 
@@ -3176,7 +3176,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                   AND user_spirit_beast_id = @user_spirit_beast_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
@@ -3186,14 +3186,14 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_heroes_spirit_beast
                         WHERE user_id = @user_id 
                           AND user_card_hero_id = @user_card_hero_id 
                           AND user_spirit_beast_id = @user_spirit_beast_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
@@ -3228,7 +3228,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_captains_spirit_beast 
                 WHERE user_id = @user_id 
@@ -3236,7 +3236,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                   AND user_spirit_beast_id = @user_spirit_beast_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
@@ -3246,14 +3246,14 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_captains_spirit_beast
                         WHERE user_id = @user_id 
                           AND user_card_captain_id = @user_card_captain_id 
                           AND user_spirit_beast_id = @user_spirit_beast_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
@@ -3288,7 +3288,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_colonels_spirit_beast 
                 WHERE user_id = @user_id 
@@ -3296,7 +3296,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                   AND user_spirit_beast_id = @user_spirit_beast_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
@@ -3306,14 +3306,14 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_colonels_spirit_beast
                         WHERE user_id = @user_id 
                           AND user_card_colonel_id = @user_card_colonel_id 
                           AND user_spirit_beast_id = @user_spirit_beast_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
@@ -3348,7 +3348,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_generals_spirit_beast 
                 WHERE user_id = @user_id 
@@ -3356,7 +3356,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                   AND user_spirit_beast_id = @user_spirit_beast_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
@@ -3366,14 +3366,14 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_generals_spirit_beast
                         WHERE user_id = @user_id 
                           AND user_card_general_id = @user_card_general_id 
                           AND user_spirit_beast_id = @user_spirit_beast_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
@@ -3408,7 +3408,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_admirals_spirit_beast 
                 WHERE user_id = @user_id 
@@ -3416,7 +3416,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                   AND user_spirit_beast_id = @user_spirit_beast_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
@@ -3426,14 +3426,14 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_admirals_spirit_beast
                         WHERE user_id = @user_id 
                           AND user_card_admiral_id = @user_card_admiral_id 
                           AND user_spirit_beast_id = @user_spirit_beast_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
@@ -3468,7 +3468,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_militaries_spirit_beast 
                 WHERE user_id = @user_id 
@@ -3476,7 +3476,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                   AND user_spirit_beast_id = @user_spirit_beast_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
@@ -3486,14 +3486,14 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_militaries_spirit_beast
                         WHERE user_id = @user_id 
                           AND user_card_military_id = @user_card_military_id 
                           AND user_spirit_beast_id = @user_spirit_beast_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
@@ -3528,7 +3528,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_monsters_spirit_beast 
                 WHERE user_id = @user_id 
@@ -3536,7 +3536,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                   AND user_spirit_beast_id = @user_spirit_beast_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
@@ -3546,14 +3546,14 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_monsters_spirit_beast
                         WHERE user_id = @user_id 
                           AND user_card_monster_id = @user_card_monster_id 
                           AND user_spirit_beast_id = @user_spirit_beast_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
@@ -3588,7 +3588,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_spells_spirit_beast 
                 WHERE user_id = @user_id 
@@ -3596,7 +3596,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                   AND user_spirit_beast_id = @user_spirit_beast_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpells.Id);
@@ -3606,14 +3606,14 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_spells_spirit_beast
                         WHERE user_id = @user_id 
                           AND user_card_spell_id = @user_card_spell_id 
                           AND user_spirit_beast_id = @user_spirit_beast_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpells.Id);
@@ -3648,18 +3648,18 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT * 
                 FROM user_spirit_beasts 
                 WHERE spirit_beast_id = @id AND user_id = @user_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -3748,7 +3748,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(power * (1 + quality / 10.0)) AS total_power,
                     SUM(health * (1 + quality / 10.0)) AS total_health,
@@ -3804,11 +3804,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 WHERE user_id = @user_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

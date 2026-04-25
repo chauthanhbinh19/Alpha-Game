@@ -18,7 +18,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                     SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
                     FROM alchemies m
                     JOIN user_alchemies um ON m.id = um.alchemy_id
@@ -26,43 +26,43 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND m.type = @type";
+                    selectSQL += " AND m.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY m.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY m.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -158,7 +158,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM alchemies m
                 JOIN user_alchemies um ON m.id = um.alchemy_id
@@ -166,38 +166,38 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
             ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND m.type = @type";
+                    selectSQL += " AND m.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND m.rare = @rare";
+                    selectSQL += " AND m.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND m.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND m.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -224,13 +224,13 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                     SELECT COUNT(*) 
                     FROM user_alchemies
                     WHERE user_id = @user_id AND alchemy_id = @alchemy_id;
                 ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
@@ -239,7 +239,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO user_alchemies (
                             user_id, alchemy_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -277,7 +277,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                         );
                     ";
 
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
@@ -345,13 +345,13 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_alchemies
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND alchemy_id = @alchemy_id;
                     ";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
@@ -385,7 +385,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_alchemies
                 SET 
                     level = @level, power = @power, health = @health, 
@@ -417,63 +417,63 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 WHERE user_id = @user_id AND alchemy_id = @alchemy_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
-                    command.Parameters.AddWithValue("@level", cardLevel);
-                    command.Parameters.AddWithValue("@power", alchemy.Power);
-                    command.Parameters.AddWithValue("@health", alchemy.Health);
-                    command.Parameters.AddWithValue("@physical_attack", alchemy.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", alchemy.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", alchemy.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", alchemy.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", alchemy.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", alchemy.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", alchemy.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", alchemy.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", alchemy.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", alchemy.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", alchemy.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", alchemy.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", alchemy.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", alchemy.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", alchemy.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", alchemy.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", alchemy.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", alchemy.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", alchemy.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", alchemy.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", alchemy.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", alchemy.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", alchemy.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", alchemy.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", alchemy.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", alchemy.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", alchemy.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", alchemy.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", alchemy.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", alchemy.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", alchemy.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", alchemy.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", alchemy.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", alchemy.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", alchemy.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", alchemy.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", alchemy.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", alchemy.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", alchemy.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", alchemy.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", alchemy.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", alchemy.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", alchemy.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", alchemy.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", alchemy.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", alchemy.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", alchemy.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", alchemy.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
+                    updateCommand.Parameters.AddWithValue("@level", cardLevel);
+                    updateCommand.Parameters.AddWithValue("@power", alchemy.Power);
+                    updateCommand.Parameters.AddWithValue("@health", alchemy.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", alchemy.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", alchemy.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", alchemy.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", alchemy.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", alchemy.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", alchemy.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", alchemy.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", alchemy.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", alchemy.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", alchemy.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", alchemy.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", alchemy.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", alchemy.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", alchemy.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", alchemy.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", alchemy.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", alchemy.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", alchemy.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", alchemy.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", alchemy.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", alchemy.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", alchemy.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", alchemy.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", alchemy.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", alchemy.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", alchemy.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", alchemy.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", alchemy.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", alchemy.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", alchemy.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", alchemy.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", alchemy.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", alchemy.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", alchemy.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", alchemy.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", alchemy.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", alchemy.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", alchemy.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", alchemy.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", alchemy.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", alchemy.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", alchemy.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", alchemy.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", alchemy.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", alchemy.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", alchemy.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", alchemy.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", alchemy.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -499,7 +499,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_alchemies
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -530,64 +530,64 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 WHERE user_id = @user_id AND alchemy_id = @alchemy_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
-                    command.Parameters.AddWithValue("@star", star);
-                    command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", alchemy.Power);
-                    command.Parameters.AddWithValue("@health", alchemy.Health);
-                    command.Parameters.AddWithValue("@physical_attack", alchemy.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", alchemy.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", alchemy.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", alchemy.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", alchemy.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", alchemy.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", alchemy.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", alchemy.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", alchemy.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", alchemy.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", alchemy.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", alchemy.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", alchemy.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", alchemy.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", alchemy.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", alchemy.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", alchemy.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", alchemy.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", alchemy.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", alchemy.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", alchemy.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", alchemy.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", alchemy.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", alchemy.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", alchemy.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", alchemy.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", alchemy.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", alchemy.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", alchemy.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", alchemy.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", alchemy.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", alchemy.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", alchemy.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", alchemy.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", alchemy.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", alchemy.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", alchemy.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", alchemy.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", alchemy.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", alchemy.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", alchemy.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", alchemy.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", alchemy.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", alchemy.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", alchemy.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", alchemy.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", alchemy.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", alchemy.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
+                    updateCommand.Parameters.AddWithValue("@star", star);
+                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
+                    updateCommand.Parameters.AddWithValue("@power", alchemy.Power);
+                    updateCommand.Parameters.AddWithValue("@health", alchemy.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", alchemy.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", alchemy.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", alchemy.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", alchemy.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", alchemy.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", alchemy.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", alchemy.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", alchemy.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", alchemy.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", alchemy.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", alchemy.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", alchemy.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", alchemy.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", alchemy.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", alchemy.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", alchemy.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", alchemy.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", alchemy.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", alchemy.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", alchemy.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", alchemy.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", alchemy.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", alchemy.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", alchemy.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", alchemy.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", alchemy.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", alchemy.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", alchemy.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", alchemy.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", alchemy.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", alchemy.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", alchemy.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", alchemy.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", alchemy.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", alchemy.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", alchemy.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", alchemy.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", alchemy.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", alchemy.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", alchemy.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", alchemy.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", alchemy.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", alchemy.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", alchemy.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", alchemy.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", alchemy.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", alchemy.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", alchemy.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -614,15 +614,15 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"SELECT * FROM user_alchemies
+                string selectSQL = @"SELECT * FROM user_alchemies
                              WHERE alchemy_id=@id AND user_id=@user_id";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -711,7 +711,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(power * (1 + quality / 10.0)) AS total_power,
                     SUM(health * (1 + quality / 10.0)) AS total_health,
@@ -766,11 +766,11 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 FROM user_alchemies
                 WHERE user_id = @user_id;";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (var reader = await command.ExecuteReaderAsync())
+                    await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

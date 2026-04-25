@@ -19,50 +19,50 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 Select ut.*, t.id, t.name, t.image, t.rare, t.description 
                 from spirit_cards t, user_spirit_cards ut 
                 where t.id = ut.spirit_card_id 
                     and ut.user_id = @userId ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND t.type = @type";
+                    selectSQL += " AND t.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += " ORDER BY t.name";
-                query += " LIMIT @limit OFFSET @offset";
+                selectSQL += " ORDER BY t.name";
+                selectSQL += " LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -158,7 +158,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 Select ut.*, t.id, t.name, t.image, t.rare, t.description 
                 from spirit_cards t, user_spirit_cards ut
                 where t.id = ut.spirit_card_id 
@@ -168,13 +168,13 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                          t.name
                 LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -275,26 +275,26 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             string inClause = string.Join(",", paramNames);
 
             // 2. Ghép vào câu Query
-            string query = $@"
+            string selectSQL = $@"
             SELECT ut.*, t.id, t.name, t.image, t.rare, t.description 
             FROM spirit_cards t, user_spirit_cards ut
             WHERE t.id = ut.spirit_card_id 
                 AND ut.user_id = @userId
                 AND ut.card_hero_id IN ({inClause})";
 
-            await using (MySqlCommand command = new MySqlCommand(query, connection))
+            await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
                 // 3. Add tham số cố định
-                command.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", user_id);
 
                 // 4. Add danh sách tham số động
                 for (int i = 0; i < cardIds.Count; i++)
                 {
-                    command.Parameters.AddWithValue("@id" + i, cardIds[i]);
+                    selectCommand.Parameters.AddWithValue("@id" + i, cardIds[i]);
                 }
 
                 // 5. Đọc dữ liệu (Vẫn dùng các hàm Get...Safe của bạn)
-                await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
@@ -378,7 +378,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 Select count(*) 
                 from spirit_cards t, user_spirit_cards ut
                 where t.id = ut.spirit_card_id
@@ -386,38 +386,38 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 ";
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
-                    query += " AND t.type = @type";
+                    selectSQL += " AND t.type = @type";
                 }
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
-                        command.Parameters.AddWithValue("@type", type);
+                        selectCommand.Parameters.AddWithValue("@type", type);
                     }
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -444,7 +444,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_cards e 
                 left join user_spirit_cards ue 
@@ -456,12 +456,12 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 and che.user_card_hero_id = @user_card_hero_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -562,7 +562,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_cards e 
                 left join user_spirit_cards ue 
@@ -574,12 +574,12 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                   and che.user_card_captain_id = @user_card_captain_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -680,7 +680,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_cards e 
                 left join user_spirit_cards ue 
@@ -692,11 +692,11 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                   and che.user_card_colonel_id = @user_card_colonel_id;
             ";
 
-                await using MySqlCommand command = new MySqlCommand(query, connection);
-                command.Parameters.AddWithValue("@userId", userId);
-                command.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
+                await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+                selectCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
 
-                await using MySqlDataReader reader = await command.ExecuteReaderAsync();
+                await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
 
                 if (await reader.ReadAsync())
                 {
@@ -795,7 +795,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_cards e 
                 left join user_spirit_cards ue 
@@ -807,12 +807,12 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     and che.user_card_general_id = @user_card_general_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -913,7 +913,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_cards e 
                 left join user_spirit_cards ue 
@@ -925,12 +925,12 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     and che.user_card_admiral_id = @user_card_admiral_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -1031,7 +1031,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_cards e 
                 left join user_spirit_cards ue 
@@ -1043,12 +1043,12 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     and che.user_card_military_id = @user_card_military_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -1149,7 +1149,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_cards e 
                 left join user_spirit_cards ue 
@@ -1161,12 +1161,12 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     and che.user_card_monster_id = @user_card_monster_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -1267,7 +1267,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 select ue.*, e.*
                 from spirit_cards e 
                 left join user_spirit_cards ue 
@@ -1279,12 +1279,12 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     and che.user_card_spell_id = @user_card_spell_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", userId);
-                    command.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -1385,12 +1385,12 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM user_spirit_cards 
                 WHERE user_id = @user_id AND spirit_card_id = @spirit_card_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     checkCommand.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
@@ -1399,7 +1399,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count == 0)
                     {
-                        string query = @"
+                        string insertSQL = @"
                         INSERT INTO user_spirit_cards (
                             user_id, spirit_card_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -1437,81 +1437,81 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                         );
                     ";
 
-                        await using (MySqlCommand command = new MySqlCommand(query, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            command.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
-                            command.Parameters.AddWithValue("@rare", SpiritCard.Rare);
-                            command.Parameters.AddWithValue("@level", 0);
-                            command.Parameters.AddWithValue("@experiment", 0);
-                            command.Parameters.AddWithValue("@star", 0);
-                            command.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(SpiritCard.Rare));
-                            command.Parameters.AddWithValue("@block", false);
-                            command.Parameters.AddWithValue("@quantity", SpiritCard.Quantity);
-                            command.Parameters.AddWithValue("@power", SpiritCard.Power);
-                            command.Parameters.AddWithValue("@health", SpiritCard.Health);
-                            command.Parameters.AddWithValue("@physical_attack", SpiritCard.PhysicalAttack);
-                            command.Parameters.AddWithValue("@physical_defense", SpiritCard.PhysicalDefense);
-                            command.Parameters.AddWithValue("@magical_attack", SpiritCard.MagicalAttack);
-                            command.Parameters.AddWithValue("@magical_defense", SpiritCard.MagicalDefense);
-                            command.Parameters.AddWithValue("@chemical_attack", SpiritCard.ChemicalAttack);
-                            command.Parameters.AddWithValue("@chemical_defense", SpiritCard.ChemicalDefense);
-                            command.Parameters.AddWithValue("@atomic_attack", SpiritCard.AtomicAttack);
-                            command.Parameters.AddWithValue("@atomic_defense", SpiritCard.AtomicDefense);
-                            command.Parameters.AddWithValue("@mental_attack", SpiritCard.MentalAttack);
-                            command.Parameters.AddWithValue("@mental_defense", SpiritCard.MentalDefense);
-                            command.Parameters.AddWithValue("@speed", SpiritCard.Speed);
-                            command.Parameters.AddWithValue("@critical_damage_rate", SpiritCard.CriticalDamageRate);
-                            command.Parameters.AddWithValue("@critical_rate", SpiritCard.CriticalRate);
-                            command.Parameters.AddWithValue("@critical_resistance_rate", SpiritCard.CriticalResistanceRate);
-                            command.Parameters.AddWithValue("@ignore_critical_rate", SpiritCard.IgnoreCriticalRate);
-                            command.Parameters.AddWithValue("@penetration_rate", SpiritCard.PenetrationRate);
-                            command.Parameters.AddWithValue("@penetration_resistance_rate", SpiritCard.PenetrationResistanceRate);
-                            command.Parameters.AddWithValue("@evasion_rate", SpiritCard.EvasionRate);
-                            command.Parameters.AddWithValue("@damage_absorption_rate", SpiritCard.DamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritCard.IgnoreDamageAbsorptionRate);
-                            command.Parameters.AddWithValue("@absorbed_damage_rate", SpiritCard.AbsorbedDamageRate);
-                            command.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritCard.VitalityRegenerationRate);
-                            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritCard.VitalityRegenerationResistanceRate);
-                            command.Parameters.AddWithValue("@accuracy_rate", SpiritCard.AccuracyRate);
-                            command.Parameters.AddWithValue("@lifesteal_rate", SpiritCard.LifestealRate);
-                            command.Parameters.AddWithValue("@shield_strength", SpiritCard.ShieldStrength);
-                            command.Parameters.AddWithValue("@tenacity", SpiritCard.Tenacity);
-                            command.Parameters.AddWithValue("@resistance_rate", SpiritCard.ResistanceRate);
-                            command.Parameters.AddWithValue("@combo_rate", SpiritCard.ComboRate);
-                            command.Parameters.AddWithValue("@ignore_combo_rate", SpiritCard.IgnoreComboRate);
-                            command.Parameters.AddWithValue("@combo_damage_rate", SpiritCard.ComboDamageRate);
-                            command.Parameters.AddWithValue("@combo_resistance_rate", SpiritCard.ComboResistanceRate);
-                            command.Parameters.AddWithValue("@stun_rate", SpiritCard.StunRate);
-                            command.Parameters.AddWithValue("@ignore_stun_rate", SpiritCard.IgnoreStunRate);
-                            command.Parameters.AddWithValue("@reflection_rate", SpiritCard.ReflectionRate);
-                            command.Parameters.AddWithValue("@ignore_reflection_rate", SpiritCard.IgnoreReflectionRate);
-                            command.Parameters.AddWithValue("@reflection_damage_rate", SpiritCard.ReflectionDamageRate);
-                            command.Parameters.AddWithValue("@reflection_resistance_rate", SpiritCard.ReflectionResistanceRate);
-                            command.Parameters.AddWithValue("@mana", SpiritCard.Mana);
-                            command.Parameters.AddWithValue("@mana_regeneration_rate", SpiritCard.ManaRegenerationRate);
-                            command.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritCard.DamageToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritCard.ResistanceToDifferentFactionRate);
-                            command.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritCard.DamageToSameFactionRate);
-                            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritCard.ResistanceToSameFactionRate);
-                            command.Parameters.AddWithValue("@normal_damage_rate", SpiritCard.NormalDamageRate);
-                            command.Parameters.AddWithValue("@normal_resistance_rate", SpiritCard.NormalResistanceRate);
-                            command.Parameters.AddWithValue("@skill_damage_rate", SpiritCard.SkillDamageRate);
-                            command.Parameters.AddWithValue("@skill_resistance_rate", SpiritCard.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
+                            insertCommand.Parameters.AddWithValue("@rare", SpiritCard.Rare);
+                            insertCommand.Parameters.AddWithValue("@level", 0);
+                            insertCommand.Parameters.AddWithValue("@experiment", 0);
+                            insertCommand.Parameters.AddWithValue("@star", 0);
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(SpiritCard.Rare));
+                            insertCommand.Parameters.AddWithValue("@block", false);
+                            insertCommand.Parameters.AddWithValue("@quantity", SpiritCard.Quantity);
+                            insertCommand.Parameters.AddWithValue("@power", SpiritCard.Power);
+                            insertCommand.Parameters.AddWithValue("@health", SpiritCard.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", SpiritCard.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", SpiritCard.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", SpiritCard.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", SpiritCard.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", SpiritCard.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", SpiritCard.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", SpiritCard.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", SpiritCard.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", SpiritCard.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", SpiritCard.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@speed", SpiritCard.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", SpiritCard.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", SpiritCard.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", SpiritCard.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", SpiritCard.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", SpiritCard.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", SpiritCard.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", SpiritCard.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", SpiritCard.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritCard.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", SpiritCard.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritCard.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritCard.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", SpiritCard.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", SpiritCard.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", SpiritCard.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", SpiritCard.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", SpiritCard.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", SpiritCard.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", SpiritCard.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", SpiritCard.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", SpiritCard.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", SpiritCard.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", SpiritCard.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", SpiritCard.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", SpiritCard.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", SpiritCard.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", SpiritCard.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@mana", SpiritCard.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", SpiritCard.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritCard.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritCard.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritCard.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritCard.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", SpiritCard.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", SpiritCard.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", SpiritCard.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", SpiritCard.SkillResistanceRate);
 
-                            await command.ExecuteNonQueryAsync();
+                            await insertCommand.ExecuteNonQueryAsync();
                         }
                     }
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_spirit_cards
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND spirit_card_id = @spirit_card_id;
                     ";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             updateCommand.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
@@ -1545,7 +1545,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_spirit_cards
                 SET 
                     level = @level, power = @power, health = @health, 
@@ -1577,63 +1577,63 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 WHERE user_id = @user_id AND spirit_card_id = @spirit_card_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
-                    command.Parameters.AddWithValue("@level", cardLevel);
-                    command.Parameters.AddWithValue("@power", SpiritCard.Power);
-                    command.Parameters.AddWithValue("@health", SpiritCard.Health);
-                    command.Parameters.AddWithValue("@physical_attack", SpiritCard.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", SpiritCard.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", SpiritCard.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", SpiritCard.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", SpiritCard.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", SpiritCard.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", SpiritCard.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", SpiritCard.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", SpiritCard.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", SpiritCard.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", SpiritCard.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", SpiritCard.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", SpiritCard.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", SpiritCard.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", SpiritCard.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", SpiritCard.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", SpiritCard.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", SpiritCard.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", SpiritCard.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritCard.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", SpiritCard.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritCard.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritCard.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", SpiritCard.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", SpiritCard.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", SpiritCard.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", SpiritCard.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", SpiritCard.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", SpiritCard.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", SpiritCard.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", SpiritCard.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", SpiritCard.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", SpiritCard.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", SpiritCard.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", SpiritCard.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", SpiritCard.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", SpiritCard.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", SpiritCard.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", SpiritCard.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", SpiritCard.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritCard.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritCard.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritCard.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritCard.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", SpiritCard.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", SpiritCard.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", SpiritCard.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", SpiritCard.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
+                    updateCommand.Parameters.AddWithValue("@level", cardLevel);
+                    updateCommand.Parameters.AddWithValue("@power", SpiritCard.Power);
+                    updateCommand.Parameters.AddWithValue("@health", SpiritCard.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", SpiritCard.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", SpiritCard.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", SpiritCard.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", SpiritCard.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", SpiritCard.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", SpiritCard.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", SpiritCard.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", SpiritCard.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", SpiritCard.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", SpiritCard.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", SpiritCard.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", SpiritCard.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", SpiritCard.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", SpiritCard.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", SpiritCard.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", SpiritCard.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", SpiritCard.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", SpiritCard.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", SpiritCard.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritCard.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", SpiritCard.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritCard.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritCard.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", SpiritCard.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", SpiritCard.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", SpiritCard.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", SpiritCard.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", SpiritCard.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", SpiritCard.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", SpiritCard.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", SpiritCard.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", SpiritCard.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", SpiritCard.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", SpiritCard.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", SpiritCard.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", SpiritCard.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", SpiritCard.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", SpiritCard.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", SpiritCard.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", SpiritCard.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritCard.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritCard.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritCard.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritCard.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", SpiritCard.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", SpiritCard.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", SpiritCard.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", SpiritCard.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -1659,7 +1659,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_spirit_cards
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -1690,64 +1690,64 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 WHERE user_id = @user_id AND spirit_card_id = @spirit_card_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
-                    command.Parameters.AddWithValue("@star", star);
-                    command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", SpiritCard.Power);
-                    command.Parameters.AddWithValue("@health", SpiritCard.Health);
-                    command.Parameters.AddWithValue("@physical_attack", SpiritCard.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", SpiritCard.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", SpiritCard.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", SpiritCard.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", SpiritCard.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", SpiritCard.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", SpiritCard.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", SpiritCard.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", SpiritCard.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", SpiritCard.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", SpiritCard.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", SpiritCard.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", SpiritCard.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", SpiritCard.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", SpiritCard.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", SpiritCard.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", SpiritCard.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", SpiritCard.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", SpiritCard.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritCard.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", SpiritCard.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritCard.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritCard.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", SpiritCard.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", SpiritCard.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", SpiritCard.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", SpiritCard.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", SpiritCard.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", SpiritCard.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", SpiritCard.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", SpiritCard.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", SpiritCard.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", SpiritCard.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", SpiritCard.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", SpiritCard.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", SpiritCard.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", SpiritCard.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", SpiritCard.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", SpiritCard.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", SpiritCard.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritCard.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritCard.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritCard.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritCard.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", SpiritCard.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", SpiritCard.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", SpiritCard.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", SpiritCard.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
+                    updateCommand.Parameters.AddWithValue("@star", star);
+                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
+                    updateCommand.Parameters.AddWithValue("@power", SpiritCard.Power);
+                    updateCommand.Parameters.AddWithValue("@health", SpiritCard.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", SpiritCard.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", SpiritCard.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", SpiritCard.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", SpiritCard.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", SpiritCard.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", SpiritCard.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", SpiritCard.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", SpiritCard.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", SpiritCard.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", SpiritCard.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", SpiritCard.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", SpiritCard.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", SpiritCard.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", SpiritCard.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", SpiritCard.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", SpiritCard.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", SpiritCard.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", SpiritCard.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", SpiritCard.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritCard.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", SpiritCard.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritCard.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritCard.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", SpiritCard.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", SpiritCard.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", SpiritCard.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", SpiritCard.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", SpiritCard.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", SpiritCard.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", SpiritCard.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", SpiritCard.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", SpiritCard.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", SpiritCard.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", SpiritCard.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", SpiritCard.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", SpiritCard.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", SpiritCard.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", SpiritCard.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", SpiritCard.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", SpiritCard.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritCard.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritCard.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritCard.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritCard.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", SpiritCard.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", SpiritCard.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", SpiritCard.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", SpiritCard.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -1773,9 +1773,9 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string checkQuery = @"SELECT COUNT(*) FROM card_heroes_spirit_card WHERE user_id = @user_id AND user_card_hero_id = @user_card_hero_id;";
+                string checkSQL = @"SELECT COUNT(*) FROM card_heroes_spirit_card WHERE user_id = @user_id AND user_card_hero_id = @user_card_hero_id;";
 
-                await using (var checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (var checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
@@ -1784,9 +1784,9 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"INSERT INTO card_heroes_spirit_card (user_id, user_card_hero_id, user_spirit_card_id) VALUES (@user_id, @user_card_hero_id, @user_spirit_card_id);";
+                        string insertSQL = @"INSERT INTO card_heroes_spirit_card (user_id, user_card_hero_id, user_spirit_card_id) VALUES (@user_id, @user_card_hero_id, @user_spirit_card_id);";
 
-                        await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                        await using var insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -1795,9 +1795,9 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     }
                     else
                     {
-                        string updateQuery = @"UPDATE card_heroes_spirit_card SET user_spirit_card_id = @user_spirit_card_id WHERE user_id = @user_id AND user_card_hero_id = @user_card_hero_id;";
+                        string updateSQL = @"UPDATE card_heroes_spirit_card SET user_spirit_card_id = @user_spirit_card_id WHERE user_id = @user_id AND user_card_hero_id = @user_card_hero_id;";
 
-                        await using var updateCommand = new MySqlCommand(updateQuery, connection);
+                        await using var updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
                         updateCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -1829,10 +1829,10 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string checkQuery = @"SELECT COUNT(*) FROM card_captains_spirit_card 
+                string checkSQL = @"SELECT COUNT(*) FROM card_captains_spirit_card 
                               WHERE user_id = @user_id AND user_card_captain_id = @user_card_captain_id;";
 
-                await using (var checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (var checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
@@ -1841,11 +1841,11 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"INSERT INTO card_captains_spirit_card 
+                        string insertSQL = @"INSERT INTO card_captains_spirit_card 
                                       (user_id, user_card_captain_id, user_spirit_card_id)
                                        VALUES (@user_id, @user_card_captain_id, @user_spirit_card_id);";
 
-                        await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                        await using var insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -1854,11 +1854,11 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     }
                     else
                     {
-                        string updateQuery = @"UPDATE card_captains_spirit_card
+                        string updateSQL = @"UPDATE card_captains_spirit_card
                                        SET user_spirit_card_id = @user_spirit_card_id
                                        WHERE user_id = @user_id AND user_card_captain_id = @user_card_captain_id;";
 
-                        await using var updateCommand = new MySqlCommand(updateQuery, connection);
+                        await using var updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
                         updateCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -1889,10 +1889,10 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string checkQuery = @"SELECT COUNT(*) FROM card_colonels_spirit_card 
+                string checkSQL = @"SELECT COUNT(*) FROM card_colonels_spirit_card 
                               WHERE user_id = @user_id AND user_card_colonel_id = @user_card_colonel_id;";
 
-                await using (var checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (var checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
@@ -1901,11 +1901,11 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"INSERT INTO card_colonels_spirit_card
+                        string insertSQL = @"INSERT INTO card_colonels_spirit_card
                                       (user_id, user_card_colonel_id, user_spirit_card_id)
                                       VALUES (@user_id, @user_card_colonel_id, @user_spirit_card_id);";
 
-                        await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                        await using var insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -1914,11 +1914,11 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     }
                     else
                     {
-                        string updateQuery = @"UPDATE card_colonels_spirit_card
+                        string updateSQL = @"UPDATE card_colonels_spirit_card
                                        SET user_spirit_card_id = @user_spirit_card_id
                                        WHERE user_id = @user_id AND user_card_colonel_id = @user_card_colonel_id;";
 
-                        await using var updateCommand = new MySqlCommand(updateQuery, connection);
+                        await using var updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
                         updateCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -1949,10 +1949,10 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string checkQuery = @"SELECT COUNT(*) FROM card_generals_spirit_card 
+                string checkSQL = @"SELECT COUNT(*) FROM card_generals_spirit_card 
                               WHERE user_id = @user_id AND user_card_general_id = @user_card_general_id;";
 
-                await using (var checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (var checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
@@ -1961,11 +1961,11 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"INSERT INTO card_generals_spirit_card
+                        string insertSQL = @"INSERT INTO card_generals_spirit_card
                                       (user_id, user_card_general_id, user_spirit_card_id)
                                       VALUES (@user_id, @user_card_general_id, @user_spirit_card_id);";
 
-                        await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                        await using var insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -1974,11 +1974,11 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     }
                     else
                     {
-                        string updateQuery = @"UPDATE card_generals_spirit_card
+                        string updateSQL = @"UPDATE card_generals_spirit_card
                                        SET user_spirit_card_id = @user_spirit_card_id
                                        WHERE user_id = @user_id AND user_card_general_id = @user_card_general_id;";
 
-                        await using var updateCommand = new MySqlCommand(updateQuery, connection);
+                        await using var updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId); // sửa lỗi User.CurrentUserId
                         updateCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -2009,10 +2009,10 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string checkQuery = @"SELECT COUNT(*) FROM card_admirals_spirit_card 
+                string checkSQL = @"SELECT COUNT(*) FROM card_admirals_spirit_card 
                               WHERE user_id = @user_id AND user_card_admiral_id = @user_card_admiral_id;";
 
-                await using (var checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (var checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
@@ -2021,11 +2021,11 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"INSERT INTO card_admirals_spirit_card
+                        string insertSQL = @"INSERT INTO card_admirals_spirit_card
                                       (user_id, user_card_admiral_id, user_spirit_card_id)
                                       VALUES (@user_id, @user_card_admiral_id, @user_spirit_card_id);";
 
-                        await using var insertCommand = new MySqlCommand(insertQuery, connection);
+                        await using var insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id); // sửa lỗi
                         insertCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -2034,11 +2034,11 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     }
                     else
                     {
-                        string updateQuery = @"UPDATE card_admirals_spirit_card
+                        string updateSQL = @"UPDATE card_admirals_spirit_card
                                        SET user_spirit_card_id = @user_spirit_card_id
                                        WHERE user_id = @user_id AND user_card_admiral_id = @user_card_admiral_id;";
 
-                        await using var updateCommand = new MySqlCommand(updateQuery, connection);
+                        await using var updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId); // sửa lỗi User.CurrentUserId
                         updateCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -2069,11 +2069,11 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra bản ghi tồn tại
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM card_military_spirit_card 
                 WHERE user_id = @user_id AND user_card_military_id = @user_card_military_id;";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
@@ -2082,14 +2082,14 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO card_military_spirit_card (
                             user_id, user_card_military_id, user_spirit_card_id
                         ) VALUES (
                             @user_id, @user_card_military_id, @user_spirit_card_id
                         );";
 
-                        MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                        MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -2098,12 +2098,12 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     }
                     else
                     {
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE card_military_spirit_card
                         SET user_spirit_card_id = @user_spirit_card_id
                         WHERE user_id = @user_id AND user_card_military_id = @user_card_military_id;";
 
-                        MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                        MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
                         updateCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -2136,11 +2136,11 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM card_monsters_spirit_card 
                 WHERE user_id = @user_id AND user_card_monster_id = @user_card_monster_id;";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
@@ -2150,14 +2150,14 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     if (count == 0)
                     {
                         // INSERT
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO card_monsters_spirit_card (
                             user_id, user_card_monster_id, user_spirit_card_id
                         ) VALUES (
                             @user_id, @user_card_monster_id, @user_spirit_card_id
                         );";
 
-                        MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                        MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -2167,12 +2167,12 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     else
                     {
                         // UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE card_monsters_spirit_card
                         SET user_spirit_card_id = @user_spirit_card_id
                         WHERE user_id = @user_id AND user_card_monster_id = @user_card_monster_id;";
 
-                        MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                        MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
                         updateCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -2205,11 +2205,11 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM card_spell_spirit_card 
                 WHERE user_id = @user_id AND user_card_spell_id = @user_card_spell_id;";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
@@ -2219,14 +2219,14 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     if (count == 0)
                     {
                         // INSERT
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO card_spell_spirit_card (
                             user_id, user_card_spell_id, user_spirit_card_id
                         ) VALUES (
                             @user_id, @user_card_spell_id, @user_spirit_card_id
                         );";
 
-                        MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection);
+                        MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
                         insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
                         insertCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -2236,12 +2236,12 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     else
                     {
                         // UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE card_spell_spirit_card
                         SET user_spirit_card_id = @user_spirit_card_id
                         WHERE user_id = @user_id AND user_card_spell_id = @user_card_spell_id;";
 
-                        MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection);
+                        MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                         updateCommand.Parameters.AddWithValue("@user_id", userId);
                         updateCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_card_id", SpiritCard.Id);
@@ -2274,7 +2274,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_card_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_cards e
@@ -2290,16 +2290,16 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritCards sb = new SpiritCards
+                SpiritCards spiritCard = new SpiritCards
                 {
                     Id = reader.GetStringSafe("spirit_card_id"),
                     Name = reader.GetStringSafe("name"),
@@ -2363,7 +2363,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritCards.Add(sb);
+                spiritCards.Add(spiritCard);
             }
         }
         catch (MySqlException ex)
@@ -2388,7 +2388,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_card_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_cards e
@@ -2404,16 +2404,16 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritCards sb = new SpiritCards
+                SpiritCards spiritCard = new SpiritCards
                 {
                     Id = reader.GetStringSafe("spirit_card_id"),
                     Name = reader.GetStringSafe("name"),
@@ -2477,7 +2477,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritCards.Add(sb);
+                spiritCards.Add(spiritCard);
             }
         }
         catch (MySqlException ex)
@@ -2502,7 +2502,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_card_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_cards e
@@ -2518,16 +2518,16 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritCards sb = new SpiritCards
+                SpiritCards spiritCard = new SpiritCards
                 {
                     Id = reader.GetStringSafe("spirit_card_id"),
                     Name = reader.GetStringSafe("name"),
@@ -2591,7 +2591,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritCards.Add(sb);
+                spiritCards.Add(spiritCard);
             }
         }
         catch (MySqlException ex)
@@ -2616,7 +2616,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_card_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_cards e
@@ -2632,16 +2632,16 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritCards sb = new SpiritCards
+                SpiritCards spiritCard = new SpiritCards
                 {
                     Id = reader.GetStringSafe("spirit_card_id"),
                     Name = reader.GetStringSafe("name"),
@@ -2705,7 +2705,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritCards.Add(sb);
+                spiritCards.Add(spiritCard);
             }
         }
         catch (MySqlException ex)
@@ -2730,7 +2730,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_card_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_cards e
@@ -2746,16 +2746,16 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritCards sb = new SpiritCards
+                SpiritCards spiritCard = new SpiritCards
                 {
                     Id = reader.GetStringSafe("spirit_card_id"),
                     Name = reader.GetStringSafe("name"),
@@ -2819,7 +2819,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritCards.Add(sb);
+                spiritCards.Add(spiritCard);
             }
         }
         catch (MySqlException ex)
@@ -2844,7 +2844,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_card_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_cards e
@@ -2860,16 +2860,16 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritCards sb = new SpiritCards
+                SpiritCards spiritCard = new SpiritCards
                 {
                     Id = reader.GetStringSafe("spirit_card_id"),
                     Name = reader.GetStringSafe("name"),
@@ -2933,7 +2933,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritCards.Add(sb);
+                spiritCards.Add(spiritCard);
             }
         }
         catch (MySqlException ex)
@@ -2958,7 +2958,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_card_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_cards e
@@ -2974,16 +2974,16 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritCards sb = new SpiritCards
+                SpiritCards spiritCard = new SpiritCards
                 {
                     Id = reader.GetStringSafe("spirit_card_id"),
                     Name = reader.GetStringSafe("name"),
@@ -3047,7 +3047,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritCards.Add(sb);
+                spiritCards.Add(spiritCard);
             }
         }
         catch (MySqlException ex)
@@ -3072,7 +3072,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
         {
             await connection.OpenAsync();
 
-            string query = @"
+            string selectSQL = @"
             SELECT e.name, ue.*, e.image, e.rare, 
                 CASE WHEN che.user_spirit_card_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
             from spirit_cards e
@@ -3088,16 +3088,16 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             )
             LIMIT @limit OFFSET @offset;";
 
-            await using var command = new MySqlCommand(query, connection);
-            command.Parameters.AddWithValue("@user_id", user_id);
-            command.Parameters.AddWithValue("@limit", pageSize);
-            command.Parameters.AddWithValue("@offset", offset);
-            command.Parameters.AddWithValue("@status", status);
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
 
-            await using var reader = await command.ExecuteReaderAsync();
+            await using var reader = await selectCommand.ExecuteReaderAsync();
             while (await reader.ReadAsync())
             {
-                SpiritCards sb = new SpiritCards
+                SpiritCards spiritCard = new SpiritCards
                 {
                     Id = reader.GetStringSafe("spirit_card_id"),
                     Name = reader.GetStringSafe("name"),
@@ -3161,7 +3161,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                     // EquipStatus = reader.GetStringSafe("equip_status")
                 };
 
-                spiritCards.Add(sb);
+                spiritCards.Add(spiritCard);
             }
         }
         catch (MySqlException ex)
@@ -3186,7 +3186,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_heroes_spirit_card 
                 WHERE user_id = @user_id 
@@ -3194,7 +3194,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                   AND user_spirit_card_id = @user_spirit_card_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
@@ -3204,14 +3204,14 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_heroes_spirit_card
                         WHERE user_id = @user_id 
                           AND user_card_hero_id = @user_card_hero_id 
                           AND user_spirit_card_id = @user_spirit_card_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_hero_id", cardHero.Id);
@@ -3246,7 +3246,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_captains_spirit_card 
                 WHERE user_id = @user_id 
@@ -3254,7 +3254,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                   AND user_spirit_card_id = @user_spirit_card_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
@@ -3264,14 +3264,14 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_captains_spirit_card
                         WHERE user_id = @user_id 
                           AND user_card_captain_id = @user_card_captain_id 
                           AND user_spirit_card_id = @user_spirit_card_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_captain_id", cardCaptain.Id);
@@ -3306,7 +3306,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_colonels_spirit_card 
                 WHERE user_id = @user_id 
@@ -3314,7 +3314,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                   AND user_spirit_card_id = @user_spirit_card_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
@@ -3324,14 +3324,14 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_colonels_spirit_card
                         WHERE user_id = @user_id 
                           AND user_card_colonel_id = @user_card_colonel_id 
                           AND user_spirit_card_id = @user_spirit_card_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_colonel_id", cardColonel.Id);
@@ -3366,7 +3366,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_generals_spirit_card 
                 WHERE user_id = @user_id 
@@ -3374,7 +3374,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                   AND user_spirit_card_id = @user_spirit_card_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
@@ -3384,14 +3384,14 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_generals_spirit_card
                         WHERE user_id = @user_id 
                           AND user_card_general_id = @user_card_general_id 
                           AND user_spirit_card_id = @user_spirit_card_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
@@ -3426,7 +3426,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_admirals_spirit_card 
                 WHERE user_id = @user_id 
@@ -3434,7 +3434,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                   AND user_spirit_card_id = @user_spirit_card_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
@@ -3444,14 +3444,14 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_admirals_spirit_card
                         WHERE user_id = @user_id 
                           AND user_card_admiral_id = @user_card_admiral_id 
                           AND user_spirit_card_id = @user_spirit_card_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
@@ -3486,7 +3486,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_militaries_spirit_card 
                 WHERE user_id = @user_id 
@@ -3494,7 +3494,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                   AND user_spirit_card_id = @user_spirit_card_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
@@ -3504,14 +3504,14 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_militaries_spirit_card
                         WHERE user_id = @user_id 
                           AND user_card_military_id = @user_card_military_id 
                           AND user_spirit_card_id = @user_spirit_card_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_military_id", cardMilitary.Id);
@@ -3546,7 +3546,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_monsters_spirit_card 
                 WHERE user_id = @user_id 
@@ -3554,7 +3554,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                   AND user_spirit_card_id = @user_spirit_card_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
@@ -3564,14 +3564,14 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_monsters_spirit_card
                         WHERE user_id = @user_id 
                           AND user_card_monster_id = @user_card_monster_id 
                           AND user_spirit_card_id = @user_spirit_card_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_monster_id", cardMonster.Id);
@@ -3606,7 +3606,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) 
                 FROM card_spells_spirit_card 
                 WHERE user_id = @user_id 
@@ -3614,7 +3614,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                   AND user_spirit_card_id = @user_spirit_card_id;
             ";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpells.Id);
@@ -3624,14 +3624,14 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
                     if (count != 0)
                     {
-                        string deleteQuery = @"
+                        string deleteSQL = @"
                         DELETE FROM card_spells_spirit_card
                         WHERE user_id = @user_id 
                           AND user_card_spell_id = @user_card_spell_id 
                           AND user_spirit_card_id = @user_spirit_card_id;
                     ";
 
-                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteQuery, connection))
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
                             deleteCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpells.Id);
@@ -3666,18 +3666,18 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT * 
                 FROM user_spirit_cards 
                 WHERE spirit_card_id = @id AND user_id = @user_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
@@ -3766,7 +3766,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT 
                     SUM(power * (1 + quality / 10.0)) AS total_power,
                     SUM(health * (1 + quality / 10.0)) AS total_health,
@@ -3822,11 +3822,11 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 WHERE user_id = @user_id;
             ";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {

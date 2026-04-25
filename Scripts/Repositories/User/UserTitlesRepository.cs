@@ -18,7 +18,7 @@ public class UserTitlesRepository : IUserTitlesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
                 FROM Titles t
                 INNER JOIN user_titles ut ON t.id = ut.title_id
@@ -26,38 +26,38 @@ public class UserTitlesRepository : IUserTitlesRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                query += @"
+                selectSQL += @"
                 ORDER BY t.name REGEXP '[0-9]+$',
                          CAST(REGEXP_SUBSTR(t.name, '[0-9]+$') AS UNSIGNED),
                          t.name
                 LIMIT @limit OFFSET @offset";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    command.Parameters.AddWithValue("@limit", pageSize);
-                    command.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -153,7 +153,7 @@ public class UserTitlesRepository : IUserTitlesRepository
             {
                 await connection.OpenAsync();
 
-                string query = @"
+                string selectSQL = @"
                 SELECT COUNT(*) 
                 FROM Titles t
                 INNER JOIN user_titles ut ON t.id = ut.title_id
@@ -161,29 +161,29 @@ public class UserTitlesRepository : IUserTitlesRepository
 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
-                    query += " AND t.rare = @rare";
+                    selectSQL += " AND t.rare = @rare";
                 }
 
                 if (!string.IsNullOrEmpty(search))
                 {
-                    query += " AND t.name LIKE CONCAT('%', @search, '%')";
+                    selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", user_id);
                     
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
-                        command.Parameters.AddWithValue("@rare", rare);
+                        selectCommand.Parameters.AddWithValue("@rare", rare);
                     }
 
                     if (!string.IsNullOrEmpty(search))
                     {
-                        command.Parameters.AddWithValue("@search", search);
+                        selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    object result = await command.ExecuteScalarAsync();
+                    object result = await selectCommand.ExecuteScalarAsync();
                     count = Convert.ToInt32(result);
                 }
             }
@@ -210,11 +210,11 @@ public class UserTitlesRepository : IUserTitlesRepository
                 await connection.OpenAsync();
 
                 // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkQuery = @"
+                string checkSQL = @"
                 SELECT COUNT(*) FROM user_titles 
                 WHERE user_id = @user_id AND title_id = @title_id;";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkQuery, connection))
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@title_id", title.Id);
@@ -223,7 +223,7 @@ public class UserTitlesRepository : IUserTitlesRepository
 
                     if (count == 0)
                     {
-                        string insertQuery = @"
+                        string insertSQL = @"
                         INSERT INTO user_titles (
                             user_id, title_id, rare, level, experiment, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
@@ -260,7 +260,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                             @skill_damage_rate, @skill_resistance_rate
                         );";
 
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertQuery, connection))
+                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@title_id", title.Id);
@@ -328,12 +328,12 @@ public class UserTitlesRepository : IUserTitlesRepository
                     else
                     {
                         // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateQuery = @"
+                        string updateSQL = @"
                         UPDATE user_titles
                         SET quantity = @quantity
                         WHERE user_id = @user_id AND title_id = @title_id;";
 
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateQuery, connection))
+                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@title_id", title.Id);
@@ -365,7 +365,7 @@ public class UserTitlesRepository : IUserTitlesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_titles
                 SET 
                     level = @level, power = @power, health = @health, 
@@ -395,63 +395,63 @@ public class UserTitlesRepository : IUserTitlesRepository
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND title_id = @title_id;";
 
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@title_id", title.Id);
-                    command.Parameters.AddWithValue("@level", TitleLevel);
-                    command.Parameters.AddWithValue("@power", title.Power);
-                    command.Parameters.AddWithValue("@health", title.Health);
-                    command.Parameters.AddWithValue("@physical_attack", title.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", title.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", title.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", title.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", title.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", title.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", title.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", title.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", title.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", title.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", title.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", title.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", title.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", title.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", title.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", title.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", title.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", title.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", title.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", title.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", title.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", title.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", title.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", title.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", title.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", title.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", title.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", title.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", title.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", title.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", title.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", title.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", title.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", title.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", title.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", title.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", title.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", title.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", title.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", title.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", title.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", title.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", title.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", title.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", title.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", title.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", title.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", title.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@title_id", title.Id);
+                    updateCommand.Parameters.AddWithValue("@level", TitleLevel);
+                    updateCommand.Parameters.AddWithValue("@power", title.Power);
+                    updateCommand.Parameters.AddWithValue("@health", title.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", title.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", title.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", title.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", title.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", title.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", title.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", title.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", title.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", title.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", title.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", title.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", title.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", title.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", title.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", title.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", title.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", title.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", title.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", title.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", title.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", title.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", title.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", title.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", title.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", title.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", title.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", title.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", title.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", title.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", title.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", title.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", title.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", title.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", title.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", title.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", title.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", title.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", title.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", title.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", title.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", title.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", title.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", title.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", title.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", title.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", title.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", title.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", title.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -474,7 +474,7 @@ public class UserTitlesRepository : IUserTitlesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"
+                string updateSQL = @"
                 UPDATE user_titles
                 SET 
                     star = @star, quantity = @quantity, power=@power, health = @health, 
@@ -503,64 +503,64 @@ public class UserTitlesRepository : IUserTitlesRepository
                     normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
                     skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
                 WHERE user_id = @user_id AND title_id = @title_id;";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    command.Parameters.AddWithValue("@title_id", title.Id);
-                    command.Parameters.AddWithValue("@star", star);
-                    command.Parameters.AddWithValue("@quantity", quantity);
-                    command.Parameters.AddWithValue("@power", title.Power);
-                    command.Parameters.AddWithValue("@health", title.Health);
-                    command.Parameters.AddWithValue("@physical_attack", title.PhysicalAttack);
-                    command.Parameters.AddWithValue("@physical_defense", title.PhysicalDefense);
-                    command.Parameters.AddWithValue("@magical_attack", title.MagicalAttack);
-                    command.Parameters.AddWithValue("@magical_defense", title.MagicalDefense);
-                    command.Parameters.AddWithValue("@chemical_attack", title.ChemicalAttack);
-                    command.Parameters.AddWithValue("@chemical_defense", title.ChemicalDefense);
-                    command.Parameters.AddWithValue("@atomic_attack", title.AtomicAttack);
-                    command.Parameters.AddWithValue("@atomic_defense", title.AtomicDefense);
-                    command.Parameters.AddWithValue("@mental_attack", title.MentalAttack);
-                    command.Parameters.AddWithValue("@mental_defense", title.MentalDefense);
-                    command.Parameters.AddWithValue("@speed", title.Speed);
-                    command.Parameters.AddWithValue("@critical_damage_rate", title.CriticalDamageRate);
-                    command.Parameters.AddWithValue("@critical_rate", title.CriticalRate);
-                    command.Parameters.AddWithValue("@critical_resistance_rate", title.CriticalResistanceRate);
-                    command.Parameters.AddWithValue("@ignore_critical_rate", title.IgnoreCriticalRate);
-                    command.Parameters.AddWithValue("@penetration_rate", title.PenetrationRate);
-                    command.Parameters.AddWithValue("@penetration_resistance_rate", title.PenetrationResistanceRate);
-                    command.Parameters.AddWithValue("@evasion_rate", title.EvasionRate);
-                    command.Parameters.AddWithValue("@damage_absorption_rate", title.DamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@ignore_damage_absorption_rate", title.IgnoreDamageAbsorptionRate);
-                    command.Parameters.AddWithValue("@absorbed_damage_rate", title.AbsorbedDamageRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_rate", title.VitalityRegenerationRate);
-                    command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", title.VitalityRegenerationResistanceRate);
-                    command.Parameters.AddWithValue("@accuracy_rate", title.AccuracyRate);
-                    command.Parameters.AddWithValue("@lifesteal_rate", title.LifestealRate);
-                    command.Parameters.AddWithValue("@shield_strength", title.ShieldStrength);
-                    command.Parameters.AddWithValue("@tenacity", title.Tenacity);
-                    command.Parameters.AddWithValue("@resistance_rate", title.ResistanceRate);
-                    command.Parameters.AddWithValue("@combo_rate", title.ComboRate);
-                    command.Parameters.AddWithValue("@ignore_combo_rate", title.IgnoreComboRate);
-                    command.Parameters.AddWithValue("@combo_damage_rate", title.ComboDamageRate);
-                    command.Parameters.AddWithValue("@combo_resistance_rate", title.ComboResistanceRate);
-                    command.Parameters.AddWithValue("@stun_rate", title.StunRate);
-                    command.Parameters.AddWithValue("@ignore_stun_rate", title.IgnoreStunRate);
-                    command.Parameters.AddWithValue("@reflection_rate", title.ReflectionRate);
-                    command.Parameters.AddWithValue("@ignore_reflection_rate", title.IgnoreReflectionRate);
-                    command.Parameters.AddWithValue("@reflection_damage_rate", title.ReflectionDamageRate);
-                    command.Parameters.AddWithValue("@reflection_resistance_rate", title.ReflectionResistanceRate);
-                    command.Parameters.AddWithValue("@mana", title.Mana);
-                    command.Parameters.AddWithValue("@mana_regeneration_rate", title.ManaRegenerationRate);
-                    command.Parameters.AddWithValue("@damage_to_different_faction_rate", title.DamageToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_different_faction_rate", title.ResistanceToDifferentFactionRate);
-                    command.Parameters.AddWithValue("@damage_to_same_faction_rate", title.DamageToSameFactionRate);
-                    command.Parameters.AddWithValue("@resistance_to_same_faction_rate", title.ResistanceToSameFactionRate);
-                    command.Parameters.AddWithValue("@normal_damage_rate", title.NormalDamageRate);
-                    command.Parameters.AddWithValue("@normal_resistance_rate", title.NormalResistanceRate);
-                    command.Parameters.AddWithValue("@skill_damage_rate", title.SkillDamageRate);
-                    command.Parameters.AddWithValue("@skill_resistance_rate", title.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@title_id", title.Id);
+                    updateCommand.Parameters.AddWithValue("@star", star);
+                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
+                    updateCommand.Parameters.AddWithValue("@power", title.Power);
+                    updateCommand.Parameters.AddWithValue("@health", title.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", title.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", title.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", title.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", title.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", title.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", title.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", title.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", title.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", title.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", title.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", title.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", title.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", title.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", title.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", title.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", title.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", title.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", title.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", title.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", title.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", title.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", title.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", title.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", title.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", title.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", title.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", title.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", title.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", title.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", title.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", title.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", title.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", title.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", title.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", title.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", title.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", title.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", title.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", title.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", title.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", title.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", title.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", title.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", title.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", title.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", title.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", title.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", title.SkillResistanceRate);
 
-                    await command.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
@@ -584,14 +584,14 @@ public class UserTitlesRepository : IUserTitlesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"Select * from user_titles where user_titles.title_id=@id 
+                string selectSQL = @"Select * from user_titles where user_titles.title_id=@id 
                 and user_titles.user_id=@user_id";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@id", Id);
-                    command.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
                         {
@@ -678,7 +678,7 @@ public class UserTitlesRepository : IUserTitlesRepository
             try
             {
                 await connection.OpenAsync();
-                string query = @"SELECT 
+                string selectSQL = @"SELECT 
                 SUM(power * (1 + quality / 10.0)) AS total_power,
                 SUM(health * (1 + quality / 10.0)) AS total_health,
                 SUM(mana * (1 + quality / 10.0)) AS total_mana,
@@ -732,11 +732,11 @@ public class UserTitlesRepository : IUserTitlesRepository
             FROM user_titles
             WHERE user_id = @user_id;
             ";
-                await using (MySqlCommand command = new MySqlCommand(query, connection))
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
 
-                    await using (MySqlDataReader reader = await command.ExecuteReaderAsync())
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
