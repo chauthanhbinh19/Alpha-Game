@@ -12,6 +12,7 @@ public class User
     public double Experiment;
     public int Vip;
     public double Power;
+    public string Email { get; set; }
     public string Username { get; set; }
     public string Password { get; set; }
     public static string CurrentUserId { get; set; }
