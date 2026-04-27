@@ -6,9 +6,9 @@ public class HomeManager : MonoBehaviour
     public static HomeManager Instance { get; private set; }
     private GameObject HomePanelPrefab;
     private Transform MainPanel;
-    private string search;
-    private string type;
-    private string rare;
+    private string search = "";
+    private string type = AppConstants.Type.ALL;
+    private string rare = AppConstants.Rare.ALL;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -29,9 +29,6 @@ public class HomeManager : MonoBehaviour
     }
     public void Initialize()
     {
-        search ="";
-        type = AppConstants.Type.ALL;
-        rare = AppConstants.Rare.ALL;
         HomePanelPrefab = UIManager.Instance.Get("HomePanelPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
     }

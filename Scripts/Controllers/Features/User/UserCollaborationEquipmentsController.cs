@@ -13,8 +13,8 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject CollaborationEquipmentButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
         if (obj is CollaborationEquipments collaborationEquipment)
         {
             PropertyInfo[] properties = collaborationEquipment.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, collaborationEquipment, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, collaborationEquipment, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.COLLABORATION_EQUIPMENT);
@@ -220,7 +220,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
                 {
                     CollaborationEquipments newCollaborationEquipment = new CollaborationEquipments();
 
-                    newCollaborationEquipment = await UserCollaborationEquipmentsService.Create().GetNewLevelPowerAsync(collaborationEquipment, increasePerLevel);
+                    newCollaborationEquipment = await UnitLevelHelper.GetNewLevelPowerAsync(collaborationEquipment, INCREASE_PER_LEVEL);
                     await UserCollaborationEquipmentsService.Create().UpdateCollaborationEquipmentLevelAsync(newCollaborationEquipment, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    CollaborationEquipments newCollaborationEquipment = await UserCollaborationEquipmentsService.Create().GetNewLevelPowerAsync(collaborationEquipment, levelsGained * increasePerLevel);
+                    CollaborationEquipments newCollaborationEquipment = await UnitLevelHelper.GetNewLevelPowerAsync(collaborationEquipment, levelsGained * INCREASE_PER_LEVEL);
                     await UserCollaborationEquipmentsService.Create().UpdateCollaborationEquipmentLevelAsync(newCollaborationEquipment, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(collaborationEquipment, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.COLLABORATION_EQUIPMENT);
@@ -370,7 +370,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     CollaborationEquipments newCollaborationEquipment = new CollaborationEquipments();
 
-                    newCollaborationEquipment = await UserCollaborationEquipmentsService.Create().GetNewBreakthroughPowerAsync(collaborationEquipment, increasePerUpgrade);
+                    newCollaborationEquipment = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(collaborationEquipment, INCREASE_PER_UPGRADE);
                     await UserCollaborationEquipmentsService.Create().UpdateCollaborationEquipmentBreakthroughAsync(newCollaborationEquipment, collaborationEquipment.Star + 1, collaborationEquipment.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

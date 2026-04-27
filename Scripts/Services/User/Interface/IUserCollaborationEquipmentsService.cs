@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserCollaborationEquipmentsService
 {
-    Task<CollaborationEquipments> GetNewLevelPowerAsync(CollaborationEquipments c, double coefficient);
-    Task<CollaborationEquipments> GetNewBreakthroughPowerAsync(CollaborationEquipments c, double coefficient);
     Task<List<CollaborationEquipments>> GetUserCollaborationEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetUserCollaborationEquipmentsCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserCollaborationEquipmentAsync(CollaborationEquipments CollaborationEquipment, string userId);

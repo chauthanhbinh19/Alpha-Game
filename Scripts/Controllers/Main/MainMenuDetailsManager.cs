@@ -156,11 +156,11 @@ public class MainMenuDetailsManager : MonoBehaviour
                 MainMenuManager.Instance.GetType(AppConstants.MainType.PET);
             });
         }
-        else if (data is CollaborationEquipments collaborationEquipmentsequipment)
+        else if (data is CollaborationEquipments collaborationEquipment)
         {
             // Xử lý đối tượng CollaborationEquipment
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLABORATION_EQUIPMENT);
-            UserCollaborationEquipmentsController.Instance.ShowCollaborationEquipmentDetails(collaborationEquipmentsequipment, currentObject);
+            UserCollaborationEquipmentsController.Instance.ShowCollaborationEquipmentDetails(collaborationEquipment, currentObject);
             Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.COLLABORATION_EQUIPMENT_BACKGROUND_URL);
             cardBackground.texture = texture;
             closeButton.onClick.AddListener(() =>

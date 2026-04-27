@@ -13,8 +13,8 @@ public class UserSkillsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject SkillButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserSkillsController : MonoBehaviour
         if (obj is Skills skill)
         {
             PropertyInfo[] properties = skill.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, skill, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, skill, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.SKILL);
@@ -220,7 +220,7 @@ public class UserSkillsController : MonoBehaviour
                 {
                     Skills newSkill = new Skills();
 
-                    newSkill = await UserSkillsService.Create().GetNewLevelPowerAsync(skill, increasePerLevel);
+                    newSkill = await UnitLevelHelper.GetNewLevelPowerAsync(skill, INCREASE_PER_LEVEL);
                     await UserSkillsService.Create().UpdateSkillsLevelAsync(newSkill, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserSkillsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Skills newSkill = await UserSkillsService.Create().GetNewLevelPowerAsync(skill, levelsGained * increasePerLevel);
+                    Skills newSkill = await UnitLevelHelper.GetNewLevelPowerAsync(skill, levelsGained * INCREASE_PER_LEVEL);
                     await UserSkillsService.Create().UpdateSkillsLevelAsync(newSkill, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserSkillsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(skill, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.SKILL);
@@ -370,7 +370,7 @@ public class UserSkillsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Skills newSkill = new Skills();
 
-                    newSkill = await UserSkillsService.Create().GetNewBreakthroughPowerAsync(skill, increasePerUpgrade);
+                    newSkill = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(skill, INCREASE_PER_UPGRADE);
                     await UserSkillsService.Create().UpdateSkillsBreakthroughAsync(newSkill, skill.Star + 1, skill.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

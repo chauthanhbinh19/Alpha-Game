@@ -13,8 +13,8 @@ public class UserBuildingsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject BuildingButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -201,7 +201,7 @@ public class UserBuildingsController : MonoBehaviour
         if (obj is Buildings building)
         {
             PropertyInfo[] properties = building.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, building, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, building, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.BUILDING);
@@ -224,7 +224,7 @@ public class UserBuildingsController : MonoBehaviour
                 {
                     Buildings newBuilding = new Buildings();
 
-                    newBuilding = await UserBuildingsService.Create().GetNewLevelPowerAsync(building, increasePerLevel);
+                    newBuilding = await UnitLevelHelper.GetNewLevelPowerAsync(building, INCREASE_PER_LEVEL);
                     await UserBuildingsService.Create().UpdateBuildingLevelAsync(newBuilding, currentLevel + 1);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -256,7 +256,7 @@ public class UserBuildingsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Buildings newBuilding = await UserBuildingsService.Create().GetNewLevelPowerAsync(building, levelsGained * increasePerLevel);
+                    Buildings newBuilding = await UnitLevelHelper.GetNewLevelPowerAsync(building, levelsGained * INCREASE_PER_LEVEL);
                     await UserBuildingsService.Create().UpdateBuildingLevelAsync(newBuilding, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -290,7 +290,7 @@ public class UserBuildingsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(building, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.BUILDING);
@@ -374,7 +374,7 @@ public class UserBuildingsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Buildings newBuilding = new Buildings();
 
-                    newBuilding = await UserBuildingsService.Create().GetNewBreakthroughPowerAsync(building, increasePerUpgrade);
+                    newBuilding = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(building, INCREASE_PER_UPGRADE);
                     await UserBuildingsService.Create().UpdateBuildingBreakthroughAsync(newBuilding, building.Star + 1, building.Quantity);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

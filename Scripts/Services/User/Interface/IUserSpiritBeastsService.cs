@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserSpiritBeastsService
 {
-    Task<SpiritBeasts> GetNewLevelPowerAsync(SpiritBeasts c, double coefficient);
-    Task<SpiritBeasts> GetNewBreakthroughPowerAsync(SpiritBeasts c, double coefficient);
     Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string user_id, string search, int pageSize, int offset, string rare);
     Task<List<SpiritBeasts>> GetAllUserSpiritBeastsAsync(string user_id, int pageSize, int offset);
     Task<List<SpiritBeasts>> GetSpiritBeastsByCardIdsAsync(string user_id, List<string> cardIds);

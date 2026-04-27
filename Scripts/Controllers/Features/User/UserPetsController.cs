@@ -14,8 +14,8 @@ public class UserPetsController : MonoBehaviour
     private GameObject PetButtonPrefab;
     private GameObject equipmentsPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -207,7 +207,7 @@ public class UserPetsController : MonoBehaviour
         if (obj is Pets pet)
         {
             PropertyInfo[] properties = pet.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, pet, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, pet, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.PET);
@@ -230,7 +230,7 @@ public class UserPetsController : MonoBehaviour
                 {
                     Pets newPet = new Pets();
 
-                    newPet = await UserPetsService.Create().GetNewLevelPowerAsync(pet, increasePerLevel);
+                    newPet = await UnitLevelHelper.GetNewLevelPowerAsync(pet, INCREASE_PER_LEVEL);
                     await UserPetsService.Create().UpdatePetLevelAsync(newPet, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -262,7 +262,7 @@ public class UserPetsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Pets newPet = await UserPetsService.Create().GetNewLevelPowerAsync(pet, levelsGained * increasePerLevel);
+                    Pets newPet = await UnitLevelHelper.GetNewLevelPowerAsync(pet, levelsGained * INCREASE_PER_LEVEL);
                     await UserPetsService.Create().UpdatePetLevelAsync(newPet, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -296,7 +296,7 @@ public class UserPetsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(pet, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.PET);
@@ -380,7 +380,7 @@ public class UserPetsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Pets newPet = new Pets();
 
-                    newPet = await UserPetsService.Create().GetNewBreakthroughPowerAsync(pet, increasePerUpgrade);
+                    newPet = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(pet, INCREASE_PER_UPGRADE);
                     await UserPetsService.Create().UpdatePetBreakthroughAsync(newPet, pet.Star + 1, pet.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

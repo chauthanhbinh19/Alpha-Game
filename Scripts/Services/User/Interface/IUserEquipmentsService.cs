@@ -4,8 +4,6 @@ using System.Threading.Tasks;
 public interface IUserEquipmentsService
 {
     Task<List<Equipments>> GetAllRankPowerAsync(string user_id, List<Equipments> EquipmentsList);
-    Task<Equipments> GetNewLevelPowerAsync(Equipments c, double coefficient);
-    Task<Equipments> GetNewBreakthroughPowerAsync(Equipments c, double coefficient);
     Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<List<Equipments>> GetUserAllEquipmentsAsync(string user_id);
     Task<int> GetUserEquipmentsCountAsync(string user_id, string search, string type, string rare);

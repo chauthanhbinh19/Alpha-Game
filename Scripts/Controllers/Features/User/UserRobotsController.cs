@@ -13,8 +13,8 @@ public class UserRobotsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject RobotButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserRobotsController : MonoBehaviour
         if (obj is Robots robot)
         {
             PropertyInfo[] properties = robot.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, robot, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, robot, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TITLE);
@@ -220,7 +220,7 @@ public class UserRobotsController : MonoBehaviour
                 {
                     Robots newRobot = new Robots();
 
-                    newRobot = await UserRobotsService.Create().GetNewLevelPowerAsync(robot, increasePerLevel);
+                    newRobot = await UnitLevelHelper.GetNewLevelPowerAsync(robot, INCREASE_PER_LEVEL);
                     await UserRobotsService.Create().UpdateRobotLevelAsync(newRobot, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserRobotsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Robots newRobot = await UserRobotsService.Create().GetNewLevelPowerAsync(robot, levelsGained * increasePerLevel);
+                    Robots newRobot = await UnitLevelHelper.GetNewLevelPowerAsync(robot, levelsGained * INCREASE_PER_LEVEL);
                     await UserRobotsService.Create().UpdateRobotLevelAsync(newRobot, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserRobotsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(robot, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.TITLE);
@@ -370,7 +370,7 @@ public class UserRobotsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Robots newRobot = new Robots();
 
-                    newRobot = await UserRobotsService.Create().GetNewBreakthroughPowerAsync(robot, increasePerUpgrade);
+                    newRobot = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(robot, INCREASE_PER_UPGRADE);
                     await UserRobotsService.Create().UpdateRobotBreakthroughAsync(newRobot, robot.Star + 1, robot.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

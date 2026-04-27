@@ -13,8 +13,8 @@ public class UserTechnologiesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject TechnologyButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserTechnologiesController : MonoBehaviour
         if (obj is Technologies technology)
         {
             PropertyInfo[] properties = technology.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, technology, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, technology, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TITLE);
@@ -220,7 +220,7 @@ public class UserTechnologiesController : MonoBehaviour
                 {
                     Technologies newTechnology = new Technologies();
 
-                    newTechnology = await UserTechnologiesService.Create().GetNewLevelPowerAsync(technology, increasePerLevel);
+                    newTechnology = await UnitLevelHelper.GetNewLevelPowerAsync(technology, INCREASE_PER_LEVEL);
                     await UserTechnologiesService.Create().UpdateTechnologyLevelAsync(newTechnology, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserTechnologiesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Technologies newTechnology = await UserTechnologiesService.Create().GetNewLevelPowerAsync(technology, levelsGained * increasePerLevel);
+                    Technologies newTechnology = await UnitLevelHelper.GetNewLevelPowerAsync(technology, levelsGained * INCREASE_PER_LEVEL);
                     await UserTechnologiesService.Create().UpdateTechnologyLevelAsync(newTechnology, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserTechnologiesController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(technology, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.TITLE);
@@ -370,7 +370,7 @@ public class UserTechnologiesController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Technologies newTechnology = new Technologies();
 
-                    newTechnology = await UserTechnologiesService.Create().GetNewBreakthroughPowerAsync(technology, increasePerUpgrade);
+                    newTechnology = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(technology, INCREASE_PER_UPGRADE);
                     await UserTechnologiesService.Create().UpdateTechnologyBreakthroughAsync(newTechnology, technology.Star + 1, technology.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

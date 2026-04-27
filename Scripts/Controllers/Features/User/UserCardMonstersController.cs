@@ -16,8 +16,8 @@ public class UserCardMonstersController : MonoBehaviour
     private GameObject CardMonsterButtonPrefab;
     private GameObject PositionPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private GameObject PopupSpiritBeastPanelPrefab;
@@ -286,7 +286,7 @@ public class UserCardMonstersController : MonoBehaviour
         if (obj is CardMonsters cardMonster)
         {
             PropertyInfo[] properties = cardMonster.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, cardMonster, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, cardMonster, INCREASE_PER_LEVEL, currentObject);
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.CARD_MONSTER);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -308,7 +308,7 @@ public class UserCardMonstersController : MonoBehaviour
                 {
                     CardMonsters newCardMonster = new CardMonsters();
 
-                    newCardMonster = await UserCardMonstersService.Create().GetNewLevelPowerAsync(cardMonster, increasePerLevel);
+                    newCardMonster = await UnitLevelHelper.GetNewLevelPowerAsync(cardMonster, INCREASE_PER_LEVEL);
                     await UserCardMonstersService.Create().UpdateCardMonsterLevelAsync(newCardMonster, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -340,7 +340,7 @@ public class UserCardMonstersController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    CardMonsters newCardMonster = await UserCardMonstersService.Create().GetNewLevelPowerAsync(cardMonster, levelsGained * increasePerLevel);
+                    CardMonsters newCardMonster = await UnitLevelHelper.GetNewLevelPowerAsync(cardMonster, levelsGained * INCREASE_PER_LEVEL);
                     await UserCardMonstersService.Create().UpdateCardMonsterLevelAsync(newCardMonster, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -608,7 +608,7 @@ public class UserCardMonstersController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(cardMonster, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.CARD_MONSTER);
@@ -692,7 +692,7 @@ public class UserCardMonstersController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     CardMonsters newCardMonster = new CardMonsters();
 
-                    newCardMonster = await UserCardMonstersService.Create().GetNewBreakthroughPowerAsync(cardMonster, increasePerUpgrade);
+                    newCardMonster = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(cardMonster, INCREASE_PER_UPGRADE);
                     await UserCardMonstersService.Create().UpdateCardMonsterBreakthroughAsync(newCardMonster, cardMonster.Star + 1, cardMonster.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

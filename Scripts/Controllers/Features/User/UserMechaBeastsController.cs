@@ -13,8 +13,8 @@ public class UserMechaBeastsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject MechaBeastButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserMechaBeastsController : MonoBehaviour
         if (obj is MechaBeasts mechaBeast)
         {
             PropertyInfo[] properties = mechaBeast.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, mechaBeast, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, mechaBeast, INCREASE_PER_LEVEL, currentObject);
             
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TITLE);
@@ -220,7 +220,7 @@ public class UserMechaBeastsController : MonoBehaviour
                 {
                     MechaBeasts newMechaBeast = new MechaBeasts();
 
-                    newMechaBeast = await UserMechaBeastsService.Create().GetNewLevelPowerAsync(mechaBeast, increasePerLevel);
+                    newMechaBeast = await UnitLevelHelper.GetNewLevelPowerAsync(mechaBeast, INCREASE_PER_LEVEL);
                     await UserMechaBeastsService.Create().UpdateMechaBeastLevelAsync(newMechaBeast, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserMechaBeastsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    MechaBeasts newMechaBeast = await UserMechaBeastsService.Create().GetNewLevelPowerAsync(mechaBeast, levelsGained * increasePerLevel);
+                    MechaBeasts newMechaBeast = await UnitLevelHelper.GetNewLevelPowerAsync(mechaBeast, levelsGained * INCREASE_PER_LEVEL);
                     await UserMechaBeastsService.Create().UpdateMechaBeastLevelAsync(newMechaBeast, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserMechaBeastsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(mechaBeast, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.TITLE);
@@ -370,7 +370,7 @@ public class UserMechaBeastsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     MechaBeasts newMechaBeast = new MechaBeasts();
 
-                    newMechaBeast = await UserMechaBeastsService.Create().GetNewBreakthroughPowerAsync(mechaBeast, increasePerUpgrade);
+                    newMechaBeast = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(mechaBeast, INCREASE_PER_UPGRADE);
                     await UserMechaBeastsService.Create().UpdateMechaBeastBreakthroughAsync(newMechaBeast, mechaBeast.Star + 1, mechaBeast.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

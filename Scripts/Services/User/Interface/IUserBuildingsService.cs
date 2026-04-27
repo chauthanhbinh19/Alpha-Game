@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserBuildingsService
 {
-    Task<Buildings> GetNewLevelPowerAsync(Buildings c, double coefficient);
-    Task<Buildings> GetNewBreakthroughPowerAsync(Buildings c, double coefficient);
     Task<List<Buildings>> GetUserBuildingsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetUserBuildingsCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserBuildingAsync(Buildings Building, string userId);

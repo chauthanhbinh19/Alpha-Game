@@ -13,8 +13,8 @@ public class UserFashionsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject FashionButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -201,7 +201,7 @@ public class UserFashionsController : MonoBehaviour
         if (obj is Fashions fashion)
         {
             PropertyInfo[] properties = fashion.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, fashion, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, fashion, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.FASHION);
@@ -224,7 +224,7 @@ public class UserFashionsController : MonoBehaviour
                 {
                     Fashions newFashion = new Fashions();
 
-                    newFashion = await UserFashionsService.Create().GetNewLevelPowerAsync(fashion, increasePerLevel);
+                    newFashion = await UnitLevelHelper.GetNewLevelPowerAsync(fashion, INCREASE_PER_LEVEL);
                     await UserFashionsService.Create().UpdateFashionLevelAsync(newFashion, currentLevel + 1);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -256,7 +256,7 @@ public class UserFashionsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Fashions newFashion = await UserFashionsService.Create().GetNewLevelPowerAsync(fashion, levelsGained * increasePerLevel);
+                    Fashions newFashion = await UnitLevelHelper.GetNewLevelPowerAsync(fashion, levelsGained * INCREASE_PER_LEVEL);
                     await UserFashionsService.Create().UpdateFashionLevelAsync(newFashion, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -290,7 +290,7 @@ public class UserFashionsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(fashion, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.FASHION);
@@ -374,7 +374,7 @@ public class UserFashionsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Fashions newFashion = new Fashions();
 
-                    newFashion = await UserFashionsService.Create().GetNewBreakthroughPowerAsync(fashion, increasePerUpgrade);
+                    newFashion = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(fashion, INCREASE_PER_UPGRADE);
                     await UserFashionsService.Create().UpdateFashionBreakthroughAsync(newFashion, fashion.Star + 1, fashion.Quantity);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

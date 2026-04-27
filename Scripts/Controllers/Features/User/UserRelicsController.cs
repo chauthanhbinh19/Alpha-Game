@@ -13,8 +13,8 @@ public class UserRelicsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject RelicButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -201,7 +201,7 @@ public class UserRelicsController : MonoBehaviour
         if (obj is Relics relic)
         {
             PropertyInfo[] properties = relic.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, relic, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, relic, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.RELIC);
@@ -224,7 +224,7 @@ public class UserRelicsController : MonoBehaviour
                 {
                     Relics newRelic = new Relics();
 
-                    newRelic = await UserRelicsService.Create().GetNewLevelPowerAsync(relic, increasePerLevel);
+                    newRelic = await UnitLevelHelper.GetNewLevelPowerAsync(relic, INCREASE_PER_LEVEL);
                     await UserRelicsService.Create().UpdateRelicLevelAsync(newRelic, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -256,7 +256,7 @@ public class UserRelicsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Relics newRelic = await UserRelicsService.Create().GetNewLevelPowerAsync(relic, levelsGained * increasePerLevel);
+                    Relics newRelic = await UnitLevelHelper.GetNewLevelPowerAsync(relic, levelsGained * INCREASE_PER_LEVEL);
                     await UserRelicsService.Create().UpdateRelicLevelAsync(newRelic, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -290,7 +290,7 @@ public class UserRelicsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(relic, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.RELIC);
@@ -374,7 +374,7 @@ public class UserRelicsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Relics newRelic = new Relics();
 
-                    newRelic = await UserRelicsService.Create().GetNewBreakthroughPowerAsync(relic, increasePerUpgrade);
+                    newRelic = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(relic, INCREASE_PER_UPGRADE);
                     await UserRelicsService.Create().UpdateRelicBreakthroughAsync(newRelic, relic.Star + 1, relic.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

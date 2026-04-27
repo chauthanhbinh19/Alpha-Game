@@ -10,8 +10,8 @@ public class UserAchievementsController : MonoBehaviour
 {
     public static UserAchievementsController Instance { get; private set; }
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -131,7 +131,7 @@ public class UserAchievementsController : MonoBehaviour
         if (obj is Achievements achievement)
         {
             PropertyInfo[] properties = achievement.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, achievement, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, achievement, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.ACHIEVEMENT);
@@ -154,7 +154,7 @@ public class UserAchievementsController : MonoBehaviour
                 {
                     Achievements newCard = new Achievements();
 
-                    newCard = await UserAchievementsService.Create().GetNewLevelPowerAsync(achievement, increasePerLevel);
+                    newCard = await UnitLevelHelper.GetNewLevelPowerAsync(achievement, INCREASE_PER_LEVEL);
                     await UserAchievementsService.Create().UpdateAchievementLevelAsync(newCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -186,7 +186,7 @@ public class UserAchievementsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Achievements newCard = await UserAchievementsService.Create().GetNewLevelPowerAsync(achievement, levelsGained * increasePerLevel);
+                    Achievements newCard = await UnitLevelHelper.GetNewLevelPowerAsync(achievement, levelsGained * INCREASE_PER_LEVEL);
                     await UserAchievementsService.Create().UpdateAchievementLevelAsync(newCard, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -220,7 +220,7 @@ public class UserAchievementsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(achievement, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.ACHIEVEMENT);
@@ -304,7 +304,7 @@ public class UserAchievementsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Achievements newAchievement = new Achievements();
 
-                    newAchievement = await UserAchievementsService.Create().GetNewBreakthroughPowerAsync(achievement, increasePerUpgrade);
+                    newAchievement = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(achievement, INCREASE_PER_UPGRADE);
                     await UserAchievementsService.Create().UpdateAchievementBreakthroughAsync(newAchievement, achievement.Star + 1, achievement.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

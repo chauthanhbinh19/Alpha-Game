@@ -14,8 +14,8 @@ public class UserBooksController : MonoBehaviour
     private GameObject cardsPrefab;
     private GameObject PositionPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -257,7 +257,7 @@ public class UserBooksController : MonoBehaviour
         if (obj is Books book)
         {
             PropertyInfo[] properties = book.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, book, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, book, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.BOOK);
@@ -280,7 +280,7 @@ public class UserBooksController : MonoBehaviour
                 {
                     Books newBook = new Books();
 
-                    newBook = await UserBooksService.Create().GetNewLevelPowerAsync(book, increasePerLevel);
+                    newBook = await UnitLevelHelper.GetNewLevelPowerAsync(book, INCREASE_PER_LEVEL);
                     await UserBooksService.Create().UpdateBookLevelAsync(newBook, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -312,7 +312,7 @@ public class UserBooksController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Books newBook = await UserBooksService.Create().GetNewLevelPowerAsync(book, levelsGained * increasePerLevel);
+                    Books newBook = await UnitLevelHelper.GetNewLevelPowerAsync(book, levelsGained * INCREASE_PER_LEVEL);
                     await UserBooksService.Create().UpdateBookLevelAsync(newBook, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -346,7 +346,7 @@ public class UserBooksController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(book, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.BOOK);
@@ -430,7 +430,7 @@ public class UserBooksController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Books newBook = new Books();
 
-                    newBook = await UserBooksService.Create().GetNewBreakthroughPowerAsync(book, increasePerUpgrade);
+                    newBook = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(book, INCREASE_PER_UPGRADE);
                     await UserBooksService.Create().UpdateBookBreakthroughAsync(newBook, book.Star + 1, book.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

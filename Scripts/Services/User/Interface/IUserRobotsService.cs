@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserRobotsService
 {
-    Task<Robots> GetNewLevelPowerAsync(Robots c, double coefficient);
-    Task<Robots> GetNewBreakthroughPowerAsync(Robots c, double coefficient);
     Task<List<Robots>> GetUserRobotsAsync(string user_id, string search, int pageSize, int offset, string rare);
     Task<int> GetUserRobotsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserRobotAsync(Robots Robots, string userId);

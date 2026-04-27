@@ -13,8 +13,8 @@ public class UserRunesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject RuneButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserRunesController : MonoBehaviour
         if (obj is Runes rune)
         {
             PropertyInfo[] properties = rune.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, rune, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, rune, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TITLE);
@@ -220,7 +220,7 @@ public class UserRunesController : MonoBehaviour
                 {
                     Runes newRune = new Runes();
 
-                    newRune = await UserRunesService.Create().GetNewLevelPowerAsync(rune, increasePerLevel);
+                    newRune = await UnitLevelHelper.GetNewLevelPowerAsync(rune, INCREASE_PER_LEVEL);
                     await UserRunesService.Create().UpdateRuneLevelAsync(newRune, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserRunesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Runes newRune = await UserRunesService.Create().GetNewLevelPowerAsync(rune, levelsGained * increasePerLevel);
+                    Runes newRune = await UnitLevelHelper.GetNewLevelPowerAsync(rune, levelsGained * INCREASE_PER_LEVEL);
                     await UserRunesService.Create().UpdateRuneLevelAsync(newRune, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserRunesController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(rune, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.TITLE);
@@ -370,7 +370,7 @@ public class UserRunesController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Runes newRune = new Runes();
 
-                    newRune = await UserRunesService.Create().GetNewBreakthroughPowerAsync(rune, increasePerUpgrade);
+                    newRune = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(rune, INCREASE_PER_UPGRADE);
                     await UserRunesService.Create().UpdateRuneBreakthroughAsync(newRune, rune.Star + 1, rune.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

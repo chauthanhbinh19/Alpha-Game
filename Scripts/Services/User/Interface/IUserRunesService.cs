@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserRunesService
 {
-    Task<Runes> GetNewLevelPowerAsync(Runes c, double coefficient);
-    Task<Runes> GetNewBreakthroughPowerAsync(Runes c, double coefficient);
     Task<List<Runes>> GetUserRunesAsync(string user_id, string search, int pageSize, int offset, string rare);
     Task<int> GetUserRunesCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserRuneAsync(Runes Runes, string userId);

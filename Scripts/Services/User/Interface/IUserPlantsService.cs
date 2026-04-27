@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserPlantsService
 {
-    Task<Plants> GetNewLevelPowerAsync(Plants c, double coefficient);
-    Task<Plants> GetNewBreakthroughPowerAsync(Plants c, double coefficient);
     Task<List<Plants>> GetUserPlantsAsync(string user_id, string search, int pageSize, int offset, string rare);
     Task<int> GetUserPlantsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserPlantAsync(Plants Plants, string userId);

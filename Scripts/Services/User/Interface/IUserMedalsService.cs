@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserMedalsService
 {
-    Task<Medals> GetNewLevelPowerAsync(Medals c, double coefficient);
-    Task<Medals> GetNewBreakthroughPowerAsync(Medals c, double coefficient);
     Task<List<Medals>> GetUserMedalsAsync(string user_id, string search, int pageSize, int offset, string rare);
     Task<int> GetUserMedalsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserMedalAsync(Medals Medals, string userId);

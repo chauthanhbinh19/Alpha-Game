@@ -33,14 +33,14 @@ public class EquipmentManager : MonoBehaviour
     private GameObject cardsPrefab;
     private GameObject ReceivedNotificationPanelPrefab;
     private GameObject ItemPopupPrefab;
-    private int offset;
-    private int currentPage;
+    private int offset = 0;
+    private int currentPage = 1;
     private int totalPage;
     private const int PAGE_SIZE = 100;
     private int count = 1;
-    private string search;
+    private string search = "";
     // private string type;
-    private string rare;
+    private string rare = AppConstants.Rare.ALL;
     private GameObject currentObject;
     public static EquipmentManager Instance { get; private set; }
     private void Awake()
@@ -110,11 +110,7 @@ public class EquipmentManager : MonoBehaviour
     }
     public void CreateEquipments(Transform EquipmentMenuPanel)
     {
-        offset = 0;
-        currentPage = 1;
-        search = "";
         // type = AppConstants.Type.ALL;
-        rare = AppConstants.Rare.ALL;
         equipmentMenuPanel = EquipmentMenuPanel.gameObject;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ItemsPrefab = UIManager.Instance.Get("ItemPrefab");

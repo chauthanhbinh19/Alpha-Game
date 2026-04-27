@@ -13,8 +13,8 @@ public class UserEmojisController : MonoBehaviour
     private Transform MainPanel;
     private GameObject EmojiButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserEmojisController : MonoBehaviour
         if (obj is Emojis emoji)
         {
             PropertyInfo[] properties = emoji.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, emoji, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, emoji, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TITLE);
@@ -220,7 +220,7 @@ public class UserEmojisController : MonoBehaviour
                 {
                     Emojis newEmoji = new Emojis();
 
-                    newEmoji = await UserEmojisService.Create().GetNewLevelPowerAsync(emoji, increasePerLevel);
+                    newEmoji = await UnitLevelHelper.GetNewLevelPowerAsync(emoji, INCREASE_PER_LEVEL);
                     await UserEmojisService.Create().UpdateEmojiLevelAsync(newEmoji, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserEmojisController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Emojis newEmoji = await UserEmojisService.Create().GetNewLevelPowerAsync(emoji, levelsGained * increasePerLevel);
+                    Emojis newEmoji = await UnitLevelHelper.GetNewLevelPowerAsync(emoji, levelsGained * INCREASE_PER_LEVEL);
                     await UserEmojisService.Create().UpdateEmojiLevelAsync(newEmoji, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserEmojisController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(emoji, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.TITLE);
@@ -370,7 +370,7 @@ public class UserEmojisController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Emojis newEmoji = new Emojis();
 
-                    newEmoji = await UserEmojisService.Create().GetNewBreakthroughPowerAsync(emoji, increasePerUpgrade);
+                    newEmoji = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(emoji, INCREASE_PER_UPGRADE);
                     await UserEmojisService.Create().UpdateEmojiBreakthroughAsync(newEmoji, emoji.Star + 1, emoji.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

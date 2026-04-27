@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserSymbolsService
 {
-    Task<Symbols> GetNewLevelPowerAsync(Symbols c, double coefficient);
-    Task<Symbols> GetNewBreakthroughPowerAsync(Symbols c, double coefficient);
     Task<List<Symbols>> GetUserSymbolsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetUserSymbolsCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserSymbolAsync(Symbols Symbol, string userId);

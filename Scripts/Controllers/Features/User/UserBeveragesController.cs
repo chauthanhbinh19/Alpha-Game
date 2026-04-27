@@ -13,8 +13,8 @@ public class UserBeveragesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject BeverageButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserBeveragesController : MonoBehaviour
         if (obj is Beverages beverage)
         {
             PropertyInfo[] properties = beverage.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, beverage, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, beverage, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.BEVERAGE);
@@ -220,7 +220,7 @@ public class UserBeveragesController : MonoBehaviour
                 {
                     Beverages newBeverage = new Beverages();
 
-                    newBeverage = await UserBeveragesService.Create().GetNewLevelPowerAsync(beverage, increasePerLevel);
+                    newBeverage = await UnitLevelHelper.GetNewLevelPowerAsync(beverage, INCREASE_PER_LEVEL);
                     await UserBeveragesService.Create().UpdateBeverageLevelAsync(newBeverage, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserBeveragesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Beverages newBeverage = await UserBeveragesService.Create().GetNewLevelPowerAsync(beverage, levelsGained * increasePerLevel);
+                    Beverages newBeverage = await UnitLevelHelper.GetNewLevelPowerAsync(beverage, levelsGained * INCREASE_PER_LEVEL);
                     await UserBeveragesService.Create().UpdateBeverageLevelAsync(newBeverage, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserBeveragesController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(beverage, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.BEVERAGE);
@@ -370,7 +370,7 @@ public class UserBeveragesController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Beverages newBeverage = new Beverages();
 
-                    newBeverage = await UserBeveragesService.Create().GetNewBreakthroughPowerAsync(beverage, increasePerUpgrade);
+                    newBeverage = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(beverage, INCREASE_PER_UPGRADE);
                     await UserBeveragesService.Create().UpdateBeverageBreakthroughAsync(newBeverage, beverage.Star + 1, beverage.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

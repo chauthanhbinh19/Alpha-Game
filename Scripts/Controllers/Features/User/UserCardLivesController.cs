@@ -13,8 +13,8 @@ public class UserCardLivesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject CardLifeButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -186,7 +186,7 @@ public class UserCardLivesController : MonoBehaviour
         if (obj is CardLives cardLife)
         {
             PropertyInfo[] properties = cardLife.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, cardLife, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, cardLife, INCREASE_PER_LEVEL, currentObject);
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.CARD_LIFE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -208,7 +208,7 @@ public class UserCardLivesController : MonoBehaviour
                 {
                     CardLives newCardLife = new CardLives();
 
-                    newCardLife = await UserCardLivesService.Create().GetNewLevelPowerAsync(cardLife, increasePerLevel);
+                    newCardLife = await UnitLevelHelper.GetNewLevelPowerAsync(cardLife, INCREASE_PER_LEVEL);
                     await UserCardLivesService.Create().UpdateCardLifeLevelAsync(newCardLife, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -240,7 +240,7 @@ public class UserCardLivesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    CardLives newCardLife = await UserCardLivesService.Create().GetNewLevelPowerAsync(cardLife, levelsGained * increasePerLevel);
+                    CardLives newCardLife = await UnitLevelHelper.GetNewLevelPowerAsync(cardLife, levelsGained * INCREASE_PER_LEVEL);
                     await UserCardLivesService.Create().UpdateCardLifeLevelAsync(newCardLife, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -274,7 +274,7 @@ public class UserCardLivesController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(cardLife, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.CARD_LIFE);
@@ -358,7 +358,7 @@ public class UserCardLivesController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     CardLives newCardLife = new CardLives();
 
-                    newCardLife = await UserCardLivesService.Create().GetNewBreakthroughPowerAsync(cardLife, increasePerUpgrade);
+                    newCardLife = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(cardLife, INCREASE_PER_UPGRADE);
                     await UserCardLivesService.Create().UpdateCardLifeBreakthroughAsync(newCardLife, cardLife.Star + 1, cardLife.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 public interface IUserAchievementsService
 {
-    Task<Achievements> GetNewLevelPowerAsync(Achievements c, double coefficient);
-    Task<Achievements> GetNewBreakthroughPowerAsync(Achievements c, double coefficient);
     Task<List<Achievements>> GetUserAchievementsAsync(string user_id, string search, int pageSize, int offset, string rare);
     Task<int> GetUserAchievementsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserAchievementAsync(Achievements achievements, string userId);

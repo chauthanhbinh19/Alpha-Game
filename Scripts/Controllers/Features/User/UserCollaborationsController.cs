@@ -13,8 +13,8 @@ public class UserCollaborationsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject CollaborationButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -202,7 +202,7 @@ public class UserCollaborationsController : MonoBehaviour
         if (obj is Collaborations collaboration)
         {
             PropertyInfo[] properties = collaboration.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, collaboration, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, collaboration, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.COLLABORATION);
@@ -225,7 +225,7 @@ public class UserCollaborationsController : MonoBehaviour
                 {
                     Collaborations newCollaboration = new Collaborations();
 
-                    newCollaboration = await UserCollaborationsService.Create().GetNewLevelPowerAsync(collaboration, increasePerLevel);
+                    newCollaboration = await UnitLevelHelper.GetNewLevelPowerAsync(collaboration, INCREASE_PER_LEVEL);
                     await UserCollaborationsService.Create().UpdateCollaborationLevelAsync(newCollaboration, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -257,7 +257,7 @@ public class UserCollaborationsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Collaborations newCollaboration = await UserCollaborationsService.Create().GetNewLevelPowerAsync(collaboration, levelsGained * increasePerLevel);
+                    Collaborations newCollaboration = await UnitLevelHelper.GetNewLevelPowerAsync(collaboration, levelsGained * INCREASE_PER_LEVEL);
                     await UserCollaborationsService.Create().UpdateCollaborationLevelAsync(newCollaboration, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -291,7 +291,7 @@ public class UserCollaborationsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(collaboration, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.COLLABORATION);
@@ -375,7 +375,7 @@ public class UserCollaborationsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Collaborations newCollaboration = new Collaborations();
 
-                    newCollaboration = await UserCollaborationsService.Create().GetNewBreakthroughPowerAsync(collaboration, increasePerUpgrade);
+                    newCollaboration = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(collaboration, INCREASE_PER_UPGRADE);
                     await UserCollaborationsService.Create().UpdateCollaborationBreakthroughAsync(newCollaboration, collaboration.Star + 1, collaboration.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

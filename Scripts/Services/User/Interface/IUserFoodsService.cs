@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserFoodsService
 {
-    Task<Foods> GetNewLevelPowerAsync(Foods c, double coefficient);
-    Task<Foods> GetNewBreakthroughPowerAsync(Foods c, double coefficient);
     Task<List<Foods>> GetUserFoodsAsync(string user_id, string search, int pageSize, int offset, string rare);
     Task<int> GetUserFoodsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserFoodAsync(Foods Foods, string userId);

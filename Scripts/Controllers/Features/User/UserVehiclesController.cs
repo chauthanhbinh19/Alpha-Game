@@ -13,8 +13,8 @@ public class UserVehiclesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject VehicleButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -201,7 +201,7 @@ public class UserVehiclesController : MonoBehaviour
         if (obj is Vehicles vehicle)
         {
             PropertyInfo[] properties = vehicle.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, vehicle, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, vehicle, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.VEHICLE);
@@ -224,7 +224,7 @@ public class UserVehiclesController : MonoBehaviour
                 {
                     Vehicles newVehicle = new Vehicles();
 
-                    newVehicle = await UserVehiclesService.Create().GetNewLevelPowerAsync(vehicle, increasePerLevel);
+                    newVehicle = await UnitLevelHelper.GetNewLevelPowerAsync(vehicle, INCREASE_PER_LEVEL);
                     await UserVehiclesService.Create().UpdateVehicleLevelAsync(newVehicle, currentLevel + 1);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -256,7 +256,7 @@ public class UserVehiclesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Vehicles newVehicle = await UserVehiclesService.Create().GetNewLevelPowerAsync(vehicle, levelsGained * increasePerLevel);
+                    Vehicles newVehicle = await UnitLevelHelper.GetNewLevelPowerAsync(vehicle, levelsGained * INCREASE_PER_LEVEL);
                     await UserVehiclesService.Create().UpdateVehicleLevelAsync(newVehicle, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -290,7 +290,7 @@ public class UserVehiclesController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(vehicle, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.VEHICLE);
@@ -374,7 +374,7 @@ public class UserVehiclesController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Vehicles newVehicle = new Vehicles();
 
-                    newVehicle = await UserVehiclesService.Create().GetNewBreakthroughPowerAsync(vehicle, increasePerUpgrade);
+                    newVehicle = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(vehicle, INCREASE_PER_UPGRADE);
                     await UserVehiclesService.Create().UpdateVehicleBreakthroughAsync(newVehicle, vehicle.Star + 1, vehicle.Quantity);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

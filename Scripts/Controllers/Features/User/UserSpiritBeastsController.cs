@@ -13,8 +13,8 @@ public class UserSpiritBeastsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject SpiritBeastButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserSpiritBeastsController : MonoBehaviour
         if (obj is SpiritBeasts spiritBeast)
         {
             PropertyInfo[] properties = spiritBeast.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, spiritBeast, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, spiritBeast, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.SPIRIT_BEAST);
@@ -220,7 +220,7 @@ public class UserSpiritBeastsController : MonoBehaviour
                 {
                     SpiritBeasts newSpiritBeast = new SpiritBeasts();
 
-                    newSpiritBeast = await UserSpiritBeastsService.Create().GetNewLevelPowerAsync(spiritBeast, increasePerLevel);
+                    newSpiritBeast = await UnitLevelHelper.GetNewLevelPowerAsync(spiritBeast, INCREASE_PER_LEVEL);
                     await UserSpiritBeastsService.Create().UpdateSpiritBeastLevelAsync(newSpiritBeast, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserSpiritBeastsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    SpiritBeasts newSpiritBeast = await UserSpiritBeastsService.Create().GetNewLevelPowerAsync(spiritBeast, levelsGained * increasePerLevel);
+                    SpiritBeasts newSpiritBeast = await UnitLevelHelper.GetNewLevelPowerAsync(spiritBeast, levelsGained * INCREASE_PER_LEVEL);
                     await UserSpiritBeastsService.Create().UpdateSpiritBeastLevelAsync(newSpiritBeast, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserSpiritBeastsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(spiritBeast, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.SPIRIT_BEAST);
@@ -370,7 +370,7 @@ public class UserSpiritBeastsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     SpiritBeasts newSpiritBeast = new SpiritBeasts();
 
-                    newSpiritBeast = await UserSpiritBeastsService.Create().GetNewBreakthroughPowerAsync(spiritBeast, increasePerUpgrade);
+                    newSpiritBeast = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(spiritBeast, INCREASE_PER_UPGRADE);
                     await UserSpiritBeastsService.Create().UpdateSpiritBeastBreakthroughAsync(newSpiritBeast, spiritBeast.Star + 1, spiritBeast.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserMechaBeastsService
 {
-    Task<MechaBeasts> GetNewLevelPowerAsync(MechaBeasts c, double coefficient);
-    Task<MechaBeasts> GetNewBreakthroughPowerAsync(MechaBeasts c, double coefficient);
     Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string user_id, string search, int pageSize, int offset, string rare);
     Task<int> GetUserMechaBeastsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserMechaBeastAsync(MechaBeasts MechaBeasts, string userId);

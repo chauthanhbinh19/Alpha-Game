@@ -13,8 +13,8 @@ public class UserArtifactsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject ArtifactButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -183,7 +183,7 @@ public class UserArtifactsController : MonoBehaviour
         if (obj is Artifacts artifact)
         {
             PropertyInfo[] properties = artifact.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, artifact, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, artifact, INCREASE_PER_LEVEL, currentObject);
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.CARD_LIFE);
             UIManager.Instance.CreateMaterialUI(items, currentObject);
@@ -205,7 +205,7 @@ public class UserArtifactsController : MonoBehaviour
                 {
                     Artifacts newArtifact = new Artifacts();
 
-                    newArtifact = await UserArtifactsService.Create().GetNewLevelPowerAsync(artifact, increasePerLevel);
+                    newArtifact = await UnitLevelHelper.GetNewLevelPowerAsync(artifact, INCREASE_PER_LEVEL);
                     await UserArtifactsService.Create().UpdateArtifactLevelAsync(newArtifact, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -237,7 +237,7 @@ public class UserArtifactsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Artifacts newArtifact = await UserArtifactsService.Create().GetNewLevelPowerAsync(artifact, levelsGained * increasePerLevel);
+                    Artifacts newArtifact = await UnitLevelHelper.GetNewLevelPowerAsync(artifact, levelsGained * INCREASE_PER_LEVEL);
                     await UserArtifactsService.Create().UpdateArtifactLevelAsync(newArtifact, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -271,7 +271,7 @@ public class UserArtifactsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(artifact, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.ARTIFACT);
@@ -355,7 +355,7 @@ public class UserArtifactsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Artifacts newArtifact = new Artifacts();
 
-                    newArtifact = await UserArtifactsService.Create().GetNewBreakthroughPowerAsync(artifact, increasePerUpgrade);
+                    newArtifact = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(artifact, INCREASE_PER_UPGRADE);
                     await UserArtifactsService.Create().UpdateArtifactBreakthroughAsync(newArtifact, artifact.Star + 1, artifact.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserVehiclesService
 {
-    Task<Vehicles> GetNewLevelPowerAsync(Vehicles c, double coefficient);
-    Task<Vehicles> GetNewBreakthroughPowerAsync(Vehicles c, double coefficient);
     Task<List<Vehicles>> GetUserVehiclesAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetUserVehiclesCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserVehicleAsync(Vehicles Vehicle, string userId);

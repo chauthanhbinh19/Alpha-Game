@@ -22,8 +22,8 @@ public class ShopManager : MonoBehaviour
     private RawImage secondDecorationImage;
     private Button closeButton;
     private Button homeButton;
-    private int offset;
-    private int currentPage;
+    private int offset = 0;
+    private int currentPage = 1;
     private int totalPage;
     private const int PAGE_SIZE = 100;
     private TextMeshProUGUI PageText;
@@ -54,9 +54,6 @@ public class ShopManager : MonoBehaviour
     }
     public void Initialize()
     {
-        offset = 0;
-        currentPage = 1;
-        // rare = "All";
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ShopButtonPrefab = UIManager.Instance.Get("ShopButtonPrefab");
         ShopManagerPrefab = UIManager.Instance.Get("ShopManagerPrefab");

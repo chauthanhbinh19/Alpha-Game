@@ -13,8 +13,8 @@ public class UserFurnituresController : MonoBehaviour
     private Transform MainPanel;
     private GameObject FurnitureButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -201,7 +201,7 @@ public class UserFurnituresController : MonoBehaviour
         if (obj is Furnitures furniture)
         {
             PropertyInfo[] properties = furniture.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, furniture, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, furniture, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.FURNITURE);
@@ -224,7 +224,7 @@ public class UserFurnituresController : MonoBehaviour
                 {
                     Furnitures newFurniture = new Furnitures();
 
-                    newFurniture = await UserFurnituresService.Create().GetNewLevelPowerAsync(furniture, increasePerLevel);
+                    newFurniture = await UnitLevelHelper.GetNewLevelPowerAsync(furniture, INCREASE_PER_LEVEL);
                     await UserFurnituresService.Create().UpdateFurnitureLevelAsync(newFurniture, currentLevel + 1);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -256,7 +256,7 @@ public class UserFurnituresController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Furnitures newFurniture = await UserFurnituresService.Create().GetNewLevelPowerAsync(furniture, levelsGained * increasePerLevel);
+                    Furnitures newFurniture = await UnitLevelHelper.GetNewLevelPowerAsync(furniture, levelsGained * INCREASE_PER_LEVEL);
                     await UserFurnituresService.Create().UpdateFurnitureLevelAsync(newFurniture, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -290,7 +290,7 @@ public class UserFurnituresController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(furniture, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.FURNITURE);
@@ -374,7 +374,7 @@ public class UserFurnituresController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Furnitures newFurniture = new Furnitures();
 
-                    newFurniture = await UserFurnituresService.Create().GetNewBreakthroughPowerAsync(furniture, increasePerUpgrade);
+                    newFurniture = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(furniture, INCREASE_PER_UPGRADE);
                     await UserFurnituresService.Create().UpdateFurnitureBreakthroughAsync(newFurniture, furniture.Star + 1, furniture.Quantity);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

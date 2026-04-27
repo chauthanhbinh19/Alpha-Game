@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserWeaponsService
 {
-    Task<Weapons> GetNewLevelPowerAsync(Weapons c, double coefficient);
-    Task<Weapons> GetNewBreakthroughPowerAsync(Weapons c, double coefficient);
     Task<List<Weapons>> GetUserWeaponsAsync(string user_id, string search, int pageSize, int offset, string rare);
     Task<int> GetUserWeaponsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserWeaponAsync(Weapons Weapons, string userId);

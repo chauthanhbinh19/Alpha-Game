@@ -29,8 +29,8 @@ public class MainMenuManager : MonoBehaviour
     private GameObject currentObject;
     private Material UI_Red_Gradient_Radius_Mat_MaskPercent_70;
     //Variable for pagination
-    private int offset;
-    private int currentPage;
+    private int offset = 0;
+    private int currentPage = 1;
     private int totalPage;
     private const int PAGE_SIZE = 100;
     private TextMeshProUGUI PageText;
@@ -38,9 +38,9 @@ public class MainMenuManager : MonoBehaviour
     private Button previousButton;
     private string mainType;
     private TextMeshProUGUI titleText;
-    private string search;
-    private string type;
-    private string rare;
+    private string search = "";
+    private string type = AppConstants.Type.ALL;
+    private string rare = AppConstants.Rare.ALL;
     public static MainMenuManager Instance { get; private set; }
     private void Awake()
     {
@@ -62,11 +62,6 @@ public class MainMenuManager : MonoBehaviour
 
     public void Initialize()
     {
-        offset = 0;
-        currentPage = 1;
-        search = "";
-        type = AppConstants.Type.ALL;
-        rare = AppConstants.Rare.ALL;
         RootPanel = UIManager.Instance.GetTransform("RootPanel");
         MainPanelPrefab = UIManager.Instance.Get("MainPanelPrefab");
         PopupButtonPanelPrefab = UIManager.Instance.Get("PopupButtonPanelPrefab");

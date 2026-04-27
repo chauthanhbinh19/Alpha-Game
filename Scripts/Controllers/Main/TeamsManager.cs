@@ -62,11 +62,11 @@ public class TeamsManager : MonoBehaviour
     private TextMeshProUGUI PageText;
     private Button nextButton;
     private Button previousButton;
-    private string search;
-    private string type;
-    private string rare;
-    private int offset;
-    private int currentPage;
+    private string search = "";
+    private string type = AppConstants.Type.ALL;
+    private string rare = AppConstants.Rare.ALL;
+    private int offset = 0;
+    private int currentPage = 1;
     private int totalPage;
     private const int PAGE_SIZE = 100;
     private void Awake()
@@ -89,12 +89,6 @@ public class TeamsManager : MonoBehaviour
     }
     public void Initialize()
     {
-        offset = 0;
-        currentPage = 1;
-        search = "";
-        type = AppConstants.Type.ALL;
-        rare = AppConstants.Rare.ALL;
-
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         CardThirdPrefab = UIManager.Instance.Get("CardThirdPrefab");
         PopupTeamFirstPrefab = UIManager.Instance.Get("PopupTeamFirstPanelPrefab");

@@ -13,8 +13,8 @@ public class UserFoodsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject FoodButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserFoodsController : MonoBehaviour
         if (obj is Foods food)
         {
             PropertyInfo[] properties = food.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, food, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, food, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.FOOD);
@@ -220,7 +220,7 @@ public class UserFoodsController : MonoBehaviour
                 {
                     Foods newFood = new Foods();
 
-                    newFood = await UserFoodsService.Create().GetNewLevelPowerAsync(food, increasePerLevel);
+                    newFood = await UnitLevelHelper.GetNewLevelPowerAsync(food, INCREASE_PER_LEVEL);
                     await UserFoodsService.Create().UpdateFoodLevelAsync(newFood, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserFoodsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Foods newFood = await UserFoodsService.Create().GetNewLevelPowerAsync(food, levelsGained * increasePerLevel);
+                    Foods newFood = await UnitLevelHelper.GetNewLevelPowerAsync(food, levelsGained * INCREASE_PER_LEVEL);
                     await UserFoodsService.Create().UpdateFoodLevelAsync(newFood, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserFoodsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(food, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.FOOD);
@@ -370,7 +370,7 @@ public class UserFoodsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Foods newFood = new Foods();
 
-                    newFood = await UserFoodsService.Create().GetNewBreakthroughPowerAsync(food, increasePerUpgrade);
+                    newFood = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(food, INCREASE_PER_UPGRADE);
                     await UserFoodsService.Create().UpdateFoodBreakthroughAsync(newFood, food.Star + 1, food.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

@@ -13,8 +13,8 @@ public class UserPlantsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject PlantButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserPlantsController : MonoBehaviour
         if (obj is Plants plant)
         {
             PropertyInfo[] properties = plant.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, plant, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, plant, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.PLANT);
@@ -220,7 +220,7 @@ public class UserPlantsController : MonoBehaviour
                 {
                     Plants newPlant = new Plants();
 
-                    newPlant = await UserPlantsService.Create().GetNewLevelPowerAsync(plant, increasePerLevel);
+                    newPlant = await UnitLevelHelper.GetNewLevelPowerAsync(plant, INCREASE_PER_LEVEL);
                     await UserPlantsService.Create().UpdatePlantLevelAsync(newPlant, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserPlantsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Plants newPlant = await UserPlantsService.Create().GetNewLevelPowerAsync(plant, levelsGained * increasePerLevel);
+                    Plants newPlant = await UnitLevelHelper.GetNewLevelPowerAsync(plant, levelsGained * INCREASE_PER_LEVEL);
                     await UserPlantsService.Create().UpdatePlantLevelAsync(newPlant, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserPlantsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(plant, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.PLANT);
@@ -370,7 +370,7 @@ public class UserPlantsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Plants newPlant = new Plants();
 
-                    newPlant = await UserPlantsService.Create().GetNewBreakthroughPowerAsync(plant, increasePerUpgrade);
+                    newPlant = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(plant, INCREASE_PER_UPGRADE);
                     await UserPlantsService.Create().UpdatePlantBreakthroughAsync(newPlant, plant.Star + 1, plant.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

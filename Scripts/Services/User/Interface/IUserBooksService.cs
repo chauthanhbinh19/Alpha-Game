@@ -6,8 +6,6 @@ public interface IUserBooksService
     Task<List<Books>> GetAllEquipmentPowerAsync(string user_id, List<Books> BooksList);
     Task<List<Books>> GetAllRankPowerAsync(string user_id, List<Books> BooksList);
     Task<List<Books>> GetAllMasterPowerAsync(string user_id, List<Books> BooksList);
-    Task<Books> GetNewLevelPowerAsync(Books c, double coefficient);
-    Task<Books> GetNewBreakthroughPowerAsync(Books c, double coefficient);
     Task<List<Books>> GetUserBooksAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     // Task<List<Books>> GetUserBooksTeamAsync(string teamId);
     Task<Dictionary<string, int>> GetUniqueBooksTypesTeamAsync(string teamId);

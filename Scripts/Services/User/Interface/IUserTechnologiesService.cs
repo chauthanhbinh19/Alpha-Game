@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserTechnologiesService
 {
-    Task<Technologies> GetNewLevelPowerAsync(Technologies c, double coefficient);
-    Task<Technologies> GetNewBreakthroughPowerAsync(Technologies c, double coefficient);
     Task<List<Technologies>> GetUserTechnologiesAsync(string user_id, string search, int pageSize, int offset, string rare);
     Task<int> GetUserTechnologiesCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserTechnologyAsync(Technologies Technologies, string userId);

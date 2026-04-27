@@ -13,8 +13,8 @@ public class UserArtworksController : MonoBehaviour
     private Transform MainPanel;
     private GameObject ArtworkButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -186,7 +186,7 @@ public class UserArtworksController : MonoBehaviour
         if (obj is Artworks artwork)
         {
             PropertyInfo[] properties = artwork.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, artwork, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, artwork, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.ARTWORK);
@@ -209,7 +209,7 @@ public class UserArtworksController : MonoBehaviour
                 {
                     Artworks newArtwork = new Artworks();
 
-                    newArtwork = await UserArtworksService.Create().GetNewLevelPowerAsync(artwork, increasePerLevel);
+                    newArtwork = await UnitLevelHelper.GetNewLevelPowerAsync(artwork, INCREASE_PER_LEVEL);
                     await UserArtworksService.Create().UpdateArtworkLevelAsync(newArtwork, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -241,7 +241,7 @@ public class UserArtworksController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Artworks newArtwork = await UserArtworksService.Create().GetNewLevelPowerAsync(artwork, levelsGained * increasePerLevel);
+                    Artworks newArtwork = await UnitLevelHelper.GetNewLevelPowerAsync(artwork, levelsGained * INCREASE_PER_LEVEL);
                     await UserArtworksService.Create().UpdateArtworkLevelAsync(newArtwork, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -275,7 +275,7 @@ public class UserArtworksController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(artwork, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.ARTWORK);
@@ -359,7 +359,7 @@ public class UserArtworksController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Artworks newArtwork = new Artworks();
 
-                    newArtwork = await UserArtworksService.Create().GetNewBreakthroughPowerAsync(artwork, increasePerUpgrade);
+                    newArtwork = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(artwork, INCREASE_PER_UPGRADE);
                     await UserArtworksService.Create().UpdateArtworkBreakthroughAsync(newArtwork, artwork.Star + 1, artwork.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

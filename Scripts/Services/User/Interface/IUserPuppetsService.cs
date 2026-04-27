@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserPuppetsService
 {
-    Task<Puppets> GetNewLevelPowerAsync(Puppets c, double coefficient);
-    Task<Puppets> GetNewBreakthroughPowerAsync(Puppets c, double coefficient);
     Task<List<Puppets>> GetUserPuppetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetUserPuppetsCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserPuppetAsync(Puppets Puppet, string userId);

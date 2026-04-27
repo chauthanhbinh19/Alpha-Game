@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 public interface IUserAlchemiesService
 {
-    Task<Alchemies> GetNewLevelPowerAsync(Alchemies c, double coefficient);
-    Task<Alchemies> GetNewBreakthroughPowerAsync(Alchemies c, double coefficient);
     Task<List<Alchemies>> GetUserAlchemiesAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetUserAlchemiesCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserAlchemyAsync(Alchemies Alchemy, string userId);

@@ -10,8 +10,8 @@ public class UserEquipmentsController : MonoBehaviour
 {
     public static UserEquipmentsController Instance { get; private set; }
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -130,7 +130,7 @@ public class UserEquipmentsController : MonoBehaviour
         if (obj is Equipments equipment)
         {
             PropertyInfo[] properties = equipment.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, equipment, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, equipment, INCREASE_PER_LEVEL, currentObject);
             
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.EQUIPMENT);
@@ -153,7 +153,7 @@ public class UserEquipmentsController : MonoBehaviour
                 {
                     Equipments newEquipment = new Equipments();
 
-                    newEquipment = await UserEquipmentsService.Create().GetNewLevelPowerAsync(equipment, increasePerLevel);
+                    newEquipment = await UnitLevelHelper.GetNewLevelPowerAsync(equipment, INCREASE_PER_LEVEL);
                     await UserEquipmentsService.Create().UpdateEquipmentsLevelAsync(newEquipment, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -185,7 +185,7 @@ public class UserEquipmentsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Equipments newEquipment = await UserEquipmentsService.Create().GetNewLevelPowerAsync(equipment, levelsGained * increasePerLevel);
+                    Equipments newEquipment = await UnitLevelHelper.GetNewLevelPowerAsync(equipment, levelsGained * INCREASE_PER_LEVEL);
                     await UserEquipmentsService.Create().UpdateEquipmentsLevelAsync(newEquipment, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -218,7 +218,7 @@ public class UserEquipmentsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(equipment, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.EQUIPMENT);
@@ -300,7 +300,7 @@ public class UserEquipmentsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Equipments newEquipment = new Equipments();
 
-                    newEquipment = await UserEquipmentsService.Create().GetNewBreakthroughPowerAsync(equipment, increasePerUpgrade);
+                    newEquipment = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(equipment, INCREASE_PER_UPGRADE);
                     await UserEquipmentsService.Create().UpdateEquipmentsBreakthroughAsync(newEquipment, equipment.Star + 1, equipment.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

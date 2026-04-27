@@ -13,8 +13,8 @@ public class UserTalismansController : MonoBehaviour
     private Transform MainPanel;
     private GameObject TalismanButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -201,7 +201,7 @@ public class UserTalismansController : MonoBehaviour
         if (obj is Talismans talisman)
         {
             PropertyInfo[] properties = talisman.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, talisman, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, talisman, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TALISMAN);
@@ -224,7 +224,7 @@ public class UserTalismansController : MonoBehaviour
                 {
                     Talismans newTalisman = new Talismans();
 
-                    newTalisman = await UserTalismansService.Create().GetNewLevelPowerAsync(talisman, increasePerLevel);
+                    newTalisman = await UnitLevelHelper.GetNewLevelPowerAsync(talisman, INCREASE_PER_LEVEL);
                     await UserTalismansService.Create().UpdateTalismanLevelAsync(newTalisman, currentLevel + 1);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -256,7 +256,7 @@ public class UserTalismansController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Talismans newTalisman = await UserTalismansService.Create().GetNewLevelPowerAsync(talisman, levelsGained * increasePerLevel);
+                    Talismans newTalisman = await UnitLevelHelper.GetNewLevelPowerAsync(talisman, levelsGained * INCREASE_PER_LEVEL);
                     await UserTalismansService.Create().UpdateTalismanLevelAsync(newTalisman, currentLevel);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -290,7 +290,7 @@ public class UserTalismansController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(talisman, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.TALISMAN);
@@ -374,7 +374,7 @@ public class UserTalismansController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Talismans newTalisman = new Talismans();
 
-                    newTalisman = await UserTalismansService.Create().GetNewBreakthroughPowerAsync(talisman, increasePerUpgrade);
+                    newTalisman = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(talisman, INCREASE_PER_UPGRADE);
                     await UserTalismansService.Create().UpdateTalismanBreakthroughAsync(newTalisman, talisman.Star + 1, talisman.Quantity);
                     double newPower =  await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

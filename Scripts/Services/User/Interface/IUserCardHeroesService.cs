@@ -7,8 +7,6 @@ public interface IUserCardHeroesService
     Task<List<CardHeroes>> GetAllRankPowerAsync(string user_id, List<CardHeroes> CardHeroesList);
     Task<List<CardHeroes>> GetAllMasterPowerAsync(string user_id, List<CardHeroes> CardHeroesList);
     Task<List<CardHeroes>> GetAllSpiritBeastPowerAsync(string user_id, List<CardHeroes> cardHeroes);
-    Task<CardHeroes> GetNewLevelPowerAsync(CardHeroes c, double coefficient);
-    Task<CardHeroes> GetNewBreakthroughPowerAsync(CardHeroes c, double coefficient);
     Task<List<CardHeroes>> GetSkillsAsync(string user_id, List<CardHeroes> CardHeroesList);
     Task<List<CardHeroes>> GetUserCardHeroesAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<List<CardHeroes>> GetUserCardHeroesTeamAsync(string user_id, string teamId, string position);

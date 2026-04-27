@@ -13,8 +13,8 @@ public class UserSpiritCardsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject SpiritCardButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserSpiritCardsController : MonoBehaviour
         if (obj is SpiritCards spiritCard)
         {
             PropertyInfo[] properties = spiritCard.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, spiritCard, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, spiritCard, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.SPIRIT_CARD);
@@ -220,7 +220,7 @@ public class UserSpiritCardsController : MonoBehaviour
                 {
                     SpiritCards newSpiritCard = new SpiritCards();
 
-                    newSpiritCard = await UserSpiritCardsService.Create().GetNewLevelPowerAsync(spiritCard, increasePerLevel);
+                    newSpiritCard = await UnitLevelHelper.GetNewLevelPowerAsync(spiritCard, INCREASE_PER_LEVEL);
                     await UserSpiritCardsService.Create().UpdateSpiritCardLevelAsync(newSpiritCard, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserSpiritCardsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    SpiritCards newSpiritCard = await UserSpiritCardsService.Create().GetNewLevelPowerAsync(spiritCard, levelsGained * increasePerLevel);
+                    SpiritCards newSpiritCard = await UnitLevelHelper.GetNewLevelPowerAsync(spiritCard, levelsGained * INCREASE_PER_LEVEL);
                     await UserSpiritCardsService.Create().UpdateSpiritCardLevelAsync(newSpiritCard, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserSpiritCardsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(spiritBeast, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.SPIRIT_CARD);
@@ -370,7 +370,7 @@ public class UserSpiritCardsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     SpiritCards newSpiritCard = new SpiritCards();
 
-                    newSpiritCard = await UserSpiritCardsService.Create().GetNewBreakthroughPowerAsync(spiritBeast, increasePerUpgrade);
+                    newSpiritCard = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(spiritBeast, INCREASE_PER_UPGRADE);
                     await UserSpiritCardsService.Create().UpdateSpiritCardBreakthroughAsync(newSpiritCard, spiritBeast.Star + 1, spiritBeast.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

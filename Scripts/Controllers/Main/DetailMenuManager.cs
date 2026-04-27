@@ -11,6 +11,8 @@ public class DetailMenuManager : MonoBehaviour
     private TMP_FontAsset EuroStyleNormalFont;
     private const int FONT_SIZE = 20;
     private const int MAX_LEVEL = 10000;
+    private const int MATERIAL_PER_LEVEL = 1;
+    private const int CURRENCY_PER_LEVEL = 10;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -41,14 +43,14 @@ public class DetailMenuManager : MonoBehaviour
         GameObject slotObject = Instantiate(prefab, SlotPanel);
         rank.Id = feature.Id;
 
-        Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
+        Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         RankService rankService = new RankService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, currency.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         upLevelButtonText.font = EuroStyleNormalFont;
@@ -66,7 +68,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -74,7 +76,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardHero, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -89,7 +91,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -97,7 +99,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardHero, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -117,14 +119,14 @@ public class DetailMenuManager : MonoBehaviour
         GameObject slotObject = Instantiate(prefab, SlotPanel);
         rank.Id = feature.Id;
 
-        Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
+        Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         RankService rankService = new RankService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, currency.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         upLevelButtonText.font = EuroStyleNormalFont;
@@ -142,7 +144,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -150,7 +152,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(book, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -165,7 +167,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -173,7 +175,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(book, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -193,14 +195,14 @@ public class DetailMenuManager : MonoBehaviour
         GameObject slotObject = Instantiate(prefab, SlotPanel);
         rank.Id = feature.Id;
 
-        Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
+        Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         RankService rankService = new RankService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, currency.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         upLevelButtonText.font = EuroStyleNormalFont;
@@ -218,7 +220,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -226,7 +228,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardCaptain, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -241,7 +243,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -249,7 +251,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardCaptain, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -269,14 +271,14 @@ public class DetailMenuManager : MonoBehaviour
         GameObject slotObject = Instantiate(prefab, SlotPanel);
         rank.Id = feature.Id;
 
-        Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
+        Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         RankService rankService = new RankService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, currency.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         upLevelButtonText.font = EuroStyleNormalFont;
@@ -294,7 +296,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -302,7 +304,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(pet, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -317,7 +319,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -325,7 +327,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(pet, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -345,14 +347,14 @@ public class DetailMenuManager : MonoBehaviour
         GameObject slotObject = Instantiate(prefab, SlotPanel);
         rank.Id = feature.Id;
 
-        Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
+        Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         RankService rankService = new RankService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, currency.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         upLevelButtonText.font = EuroStyleNormalFont;
@@ -370,7 +372,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -378,7 +380,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardMilitary, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -393,7 +395,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -401,7 +403,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 double currentPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 await rankService.UpLevelAsync(cardMilitary, newRank, feature.FeatureName);
@@ -419,14 +421,14 @@ public class DetailMenuManager : MonoBehaviour
         GameObject slotObject = Instantiate(prefab, SlotPanel);
         rank.Id = feature.Id;
 
-        Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
+        Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         RankService rankService = new RankService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, currency.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         upLevelButtonText.font = EuroStyleNormalFont;
@@ -444,7 +446,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -452,7 +454,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardSpell, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -467,7 +469,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -475,7 +477,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 double currentPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 await rankService.UpLevelAsync(cardSpell, newRank, feature.FeatureName);
@@ -493,14 +495,14 @@ public class DetailMenuManager : MonoBehaviour
         GameObject slotObject = Instantiate(prefab, SlotPanel);
         rank.Id = feature.Id;
 
-        Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
+        Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         RankService rankService = new RankService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, currency.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         upLevelButtonText.font = EuroStyleNormalFont;
@@ -518,7 +520,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -526,7 +528,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardMonster, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -541,7 +543,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -549,7 +551,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardMonster, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -569,14 +571,14 @@ public class DetailMenuManager : MonoBehaviour
         GameObject slotObject = Instantiate(prefab, SlotPanel);
         rank.Id = feature.Id;
 
-        Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
+        Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         RankService rankService = new RankService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, currency.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         upLevelButtonText.font = EuroStyleNormalFont;
@@ -594,7 +596,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -602,7 +604,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardColonel, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -617,7 +619,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -625,7 +627,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardColonel, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -645,14 +647,14 @@ public class DetailMenuManager : MonoBehaviour
         GameObject slotObject = Instantiate(prefab, SlotPanel);
         rank.Id = feature.Id;
 
-        Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
+        Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         RankService rankService = new RankService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, currency.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         upLevelButtonText.font = EuroStyleNormalFont;
@@ -670,7 +672,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -678,7 +680,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardGeneral, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -693,7 +695,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -701,7 +703,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardGeneral, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -721,14 +723,14 @@ public class DetailMenuManager : MonoBehaviour
         GameObject slotObject = Instantiate(prefab, SlotPanel);
         rank.Id = feature.Id;
 
-        Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
+        Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         RankService rankService = new RankService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, currency.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         upLevelButtonText.font = EuroStyleNormalFont;
@@ -746,7 +748,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -754,7 +756,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardAdmiral, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -769,7 +771,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -777,7 +779,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardAdmiral, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -797,14 +799,14 @@ public class DetailMenuManager : MonoBehaviour
         GameObject slotObject = Instantiate(prefab, SlotPanel);
         rank.Id = feature.Id;
 
-        Currencies silver = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
+        Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
         RankService rankService = new RankService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         UIManager.Instance.SetUI(slotObject, feature.FeatureName, rank.Level, type);
-        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, silver.Quantity, rank.Level, MAX_LEVEL);
+        UIManager.Instance.SetMaterialUI(currentObject, item.Image, item.Quantity, currency.Quantity, rank.Level, MAX_LEVEL);
 
         TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
         upLevelButtonText.font = EuroStyleNormalFont;
@@ -822,7 +824,7 @@ public class DetailMenuManager : MonoBehaviour
         upLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, false, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, false, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -830,7 +832,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(equipment, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -845,7 +847,7 @@ public class DetailMenuManager : MonoBehaviour
         upMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            var result = ItemHelper.CalculateLevelUp(item.Quantity, silver.Quantity, 1, 10, rank.Level, true, MAX_LEVEL);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, true, MAX_LEVEL);
 
             if (result.message.Equals(AppConstants.Status.SUCCESS))
             {
@@ -853,7 +855,7 @@ public class DetailMenuManager : MonoBehaviour
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
                 newRank = rankService.EnhanceRank(rank, result.levelsGained);
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(silver.Id, result.currencyLeft);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(equipment, newRank, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);

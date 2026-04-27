@@ -13,8 +13,8 @@ public class UserAlchemiesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject AlchemyButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_upgrade = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -201,7 +201,7 @@ public class UserAlchemiesController : MonoBehaviour
         if (obj is Alchemies alchemy)
         {
             PropertyInfo[] properties = alchemy.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, alchemy, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, alchemy, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.ALCHEMY);
@@ -224,7 +224,7 @@ public class UserAlchemiesController : MonoBehaviour
                 {
                     Alchemies newAlchemy = new Alchemies();
 
-                    newAlchemy = await UserAlchemiesService.Create().GetNewLevelPowerAsync(alchemy, increasePerLevel);
+                    newAlchemy = await UnitLevelHelper.GetNewLevelPowerAsync(alchemy, INCREASE_PER_LEVEL);
                     await UserAlchemiesService.Create().UpdateAlchemyLevelAsync(newAlchemy, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -256,7 +256,7 @@ public class UserAlchemiesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Alchemies newAlchemy = await UserAlchemiesService.Create().GetNewLevelPowerAsync(alchemy, levelsGained * increasePerLevel);
+                    Alchemies newAlchemy = await UnitLevelHelper.GetNewLevelPowerAsync(alchemy, levelsGained * INCREASE_PER_LEVEL);
                     await UserAlchemiesService.Create().UpdateAlchemyLevelAsync(newAlchemy, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -290,7 +290,7 @@ public class UserAlchemiesController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(alchemy, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_upgrade, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.ALCHEMY);
@@ -374,7 +374,7 @@ public class UserAlchemiesController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Alchemies newAlchemy = new Alchemies();
 
-                    newAlchemy = await UserAlchemiesService.Create().GetNewBreakthroughPowerAsync(alchemy, increasePerUpgrade);
+                    newAlchemy = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(alchemy, INCREASE_PER_upgrade);
                     await UserAlchemiesService.Create().UpdateAlchemyBreakthroughAsync(newAlchemy, alchemy.Star + 1, alchemy.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

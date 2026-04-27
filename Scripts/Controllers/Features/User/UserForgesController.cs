@@ -13,8 +13,8 @@ public class UserForgesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject ForgeButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -201,7 +201,7 @@ public class UserForgesController : MonoBehaviour
         if (obj is Forges forge)
         {
             PropertyInfo[] properties = forge.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, forge, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, forge, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.FORGE);
@@ -224,7 +224,7 @@ public class UserForgesController : MonoBehaviour
                 {
                     Forges newForge = new Forges();
 
-                    newForge = await UserForgesService.Create().GetNewLevelPowerAsync(forge, increasePerLevel);
+                    newForge = await UnitLevelHelper.GetNewLevelPowerAsync(forge, INCREASE_PER_LEVEL);
                     await UserForgesService.Create().UpdateForgeLevelAsync(newForge, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -256,7 +256,7 @@ public class UserForgesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Forges newForge = await UserForgesService.Create().GetNewLevelPowerAsync(forge, levelsGained * increasePerLevel);
+                    Forges newForge = await UnitLevelHelper.GetNewLevelPowerAsync(forge, levelsGained * INCREASE_PER_LEVEL);
                     await UserForgesService.Create().UpdateForgeLevelAsync(newForge, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -290,7 +290,7 @@ public class UserForgesController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(forge, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.FORGE);
@@ -374,7 +374,7 @@ public class UserForgesController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Forges newforge = new Forges();
 
-                    newforge = await UserForgesService.Create().GetNewBreakthroughPowerAsync(forge, increasePerUpgrade);
+                    newforge = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(forge, INCREASE_PER_UPGRADE);
                     await UserForgesService.Create().UpdateForgeBreakthroughAsync(newforge, forge.Star + 1, forge.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

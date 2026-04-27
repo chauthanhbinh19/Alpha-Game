@@ -13,8 +13,8 @@ public class UserPuppetsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject PuppetButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -201,7 +201,7 @@ public class UserPuppetsController : MonoBehaviour
         if (obj is Puppets puppet)
         {
             PropertyInfo[] properties = puppet.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, puppet, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, puppet, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.PUPPET);
@@ -224,7 +224,7 @@ public class UserPuppetsController : MonoBehaviour
                 {
                     Puppets newPuppet = new Puppets();
 
-                    newPuppet = await UserPuppetsService.Create().GetNewLevelPowerAsync(puppet, increasePerLevel);
+                    newPuppet = await UnitLevelHelper.GetNewLevelPowerAsync(puppet, INCREASE_PER_LEVEL);
                     await UserPuppetsService.Create().UpdatePuppetLevelAsync(newPuppet, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -256,7 +256,7 @@ public class UserPuppetsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Puppets newPuppet = await UserPuppetsService.Create().GetNewLevelPowerAsync(puppet, levelsGained * increasePerLevel);
+                    Puppets newPuppet = await UnitLevelHelper.GetNewLevelPowerAsync(puppet, levelsGained * INCREASE_PER_LEVEL);
                     await UserPuppetsService.Create().UpdatePuppetLevelAsync(newPuppet, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -290,7 +290,7 @@ public class UserPuppetsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(puppet, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.PUPPET);
@@ -374,7 +374,7 @@ public class UserPuppetsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Puppets newPuppet = new Puppets();
 
-                    newPuppet = await UserPuppetsService.Create().GetNewBreakthroughPowerAsync(puppet, increasePerUpgrade);
+                    newPuppet = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(puppet, INCREASE_PER_UPGRADE);
                     await UserPuppetsService.Create().UpdatePuppetBreakthroughAsync(newPuppet, puppet.Star + 1, puppet.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

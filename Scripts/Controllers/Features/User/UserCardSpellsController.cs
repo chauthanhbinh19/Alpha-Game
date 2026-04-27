@@ -16,8 +16,8 @@ public class UserCardSpellsController : MonoBehaviour
     private GameObject CardSpellButtonPrefab;
     private GameObject PositionPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private GameObject PopupSpiritBeastPanelPrefab;
@@ -279,7 +279,7 @@ public class UserCardSpellsController : MonoBehaviour
         if (obj is CardSpells cardSpell)
         {
             PropertyInfo[] properties = cardSpell.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, cardSpell, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, cardSpell, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.CARD_SPELL);
@@ -302,7 +302,7 @@ public class UserCardSpellsController : MonoBehaviour
                 {
                     CardSpells newCardSpell = new CardSpells();
 
-                    newCardSpell = await UserCardSpellsService.Create().GetNewLevelPowerAsync(cardSpell, increasePerLevel);
+                    newCardSpell = await UnitLevelHelper.GetNewLevelPowerAsync(cardSpell, INCREASE_PER_LEVEL);
                     await UserCardSpellsService.Create().UpdateCardSpellLevelAsync(newCardSpell, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -334,7 +334,7 @@ public class UserCardSpellsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    CardSpells newCardSpell = await UserCardSpellsService.Create().GetNewLevelPowerAsync(cardSpell, levelsGained * increasePerLevel);
+                    CardSpells newCardSpell = await UnitLevelHelper.GetNewLevelPowerAsync(cardSpell, levelsGained * INCREASE_PER_LEVEL);
                     await UserCardSpellsService.Create().UpdateCardSpellLevelAsync(newCardSpell, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -602,7 +602,7 @@ public class UserCardSpellsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(cardSpell, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.CARD_SPELL);
@@ -686,7 +686,7 @@ public class UserCardSpellsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     CardSpells newCardSpell = new CardSpells();
 
-                    newCardSpell = await UserCardSpellsService.Create().GetNewBreakthroughPowerAsync(cardSpell, increasePerUpgrade);
+                    newCardSpell = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(cardSpell, INCREASE_PER_UPGRADE);
                     await UserCardSpellsService.Create().UpdateCardSpellBreakthroughAsync(newCardSpell, cardSpell.Star + 1, cardSpell.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

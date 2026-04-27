@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 
 public interface IUserFurnituresService
 {
-    Task<Furnitures> GetNewLevelPowerAsync(Furnitures c, double coefficient);
-    Task<Furnitures> GetNewBreakthroughPowerAsync(Furnitures c, double coefficient);
     Task<List<Furnitures>> GetUserFurnituresAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetUserFurnituresCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserFurnitureAsync(Furnitures Furniture, string userId);

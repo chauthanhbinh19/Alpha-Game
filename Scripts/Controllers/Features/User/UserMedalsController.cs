@@ -13,8 +13,8 @@ public class UserMedalsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject MedalButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserMedalsController : MonoBehaviour
         if (obj is Medals medal)
         {
             PropertyInfo[] properties = medal.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, medal, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, medal, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.MEDAL);
@@ -220,7 +220,7 @@ public class UserMedalsController : MonoBehaviour
                 {
                     Medals newMedal = new Medals();
 
-                    newMedal = await UserMedalsService.Create().GetNewLevelPowerAsync(medal, increasePerLevel);
+                    newMedal = await UnitLevelHelper.GetNewLevelPowerAsync(medal, INCREASE_PER_LEVEL);
                     await UserMedalsService.Create().UpdateMedalLevelAsync(newMedal, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserMedalsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Medals newMedal = await UserMedalsService.Create().GetNewLevelPowerAsync(medal, levelsGained * increasePerLevel);
+                    Medals newMedal = await UnitLevelHelper.GetNewLevelPowerAsync(medal, levelsGained * INCREASE_PER_LEVEL);
                     await UserMedalsService.Create().UpdateMedalLevelAsync(newMedal, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserMedalsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(medal, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.MEDAL);
@@ -370,7 +370,7 @@ public class UserMedalsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Medals newMedal = new Medals();
 
-                    newMedal = await UserMedalsService.Create().GetNewBreakthroughPowerAsync(medal, increasePerUpgrade);
+                    newMedal = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(medal, INCREASE_PER_UPGRADE);
                     await UserMedalsService.Create().UpdateMedalBreakthroughAsync(newMedal, medal.Star + 1, medal.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

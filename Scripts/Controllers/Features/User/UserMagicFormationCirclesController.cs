@@ -13,8 +13,8 @@ public class UserMagicFormationCirclesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject MagicFormationCircleButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -201,7 +201,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
         if (obj is MagicFormationCircles magicFormationCircle)
         {
             PropertyInfo[] properties = magicFormationCircle.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, magicFormationCircle, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, magicFormationCircle, INCREASE_PER_LEVEL, currentObject);
             
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.MAGIC_FORMATION_CIRCLE);
@@ -224,7 +224,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
                 {
                     MagicFormationCircles newMagicFormationCircle = new MagicFormationCircles();
 
-                    newMagicFormationCircle = await UserMagicFormationCirclesService.Create().GetNewLevelPowerAsync(magicFormationCircle, increasePerLevel);
+                    newMagicFormationCircle = await UnitLevelHelper.GetNewLevelPowerAsync(magicFormationCircle, INCREASE_PER_LEVEL);
                     await UserMagicFormationCirclesService.Create().UpdateMagicFormationCircleLevelAsync(newMagicFormationCircle, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -256,7 +256,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    MagicFormationCircles newMagicFormationCircle = await UserMagicFormationCirclesService.Create().GetNewLevelPowerAsync(magicFormationCircle, levelsGained * increasePerLevel);
+                    MagicFormationCircles newMagicFormationCircle = await UnitLevelHelper.GetNewLevelPowerAsync(magicFormationCircle, levelsGained * INCREASE_PER_LEVEL);
                     await UserMagicFormationCirclesService.Create().UpdateMagicFormationCircleLevelAsync(newMagicFormationCircle, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -290,7 +290,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(magicFormationCircle, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.MAGIC_FORMATION_CIRCLE);
@@ -374,7 +374,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     MagicFormationCircles newMagicFormationCircle = new MagicFormationCircles();
 
-                    newMagicFormationCircle = await UserMagicFormationCirclesService.Create().GetNewBreakthroughPowerAsync(magicFormationCircle, increasePerUpgrade);
+                    newMagicFormationCircle = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(magicFormationCircle, INCREASE_PER_UPGRADE);
                     await UserMagicFormationCirclesService.Create().UpdateMagicFormationCircleBreakthroughAsync(newMagicFormationCircle, magicFormationCircle.Star + 1, magicFormationCircle.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

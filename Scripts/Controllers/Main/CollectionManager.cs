@@ -20,8 +20,8 @@ public class CollectionManager : MonoBehaviour
     private Button closeButton;
     private Button homeButton;
     //Variable for pagination
-    private int offset;
-    private int currentPage;
+    private int offset = 0;
+    private int currentPage = 1;
     private int totalPage;
     private const int PAGE_SIZE = 100;
     private TextMeshProUGUI PageText;
@@ -29,9 +29,9 @@ public class CollectionManager : MonoBehaviour
     private Button previousButton;
     private string mainType;
     private TextMeshProUGUI titleText;
-    private string search;
-    private string type;
-    private string rare;
+    private string search = "";
+    private string type = AppConstants.Type.ALL;
+    private string rare = AppConstants.Rare.ALL;
     public static CollectionManager Instance { get; private set; }
     private void Awake()
     {
@@ -138,11 +138,6 @@ public class CollectionManager : MonoBehaviour
     }
     public void CreateCollection(Transform CollectionMenuPanel)
     {
-        offset = 0;
-        currentPage = 1;
-        search = "";
-        type = AppConstants.Type.ALL;
-        rare = AppConstants.Rare.ALL;
         collectionMenuPanel = CollectionMenuPanel;
         TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");

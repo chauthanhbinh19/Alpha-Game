@@ -16,8 +16,8 @@ public class UserCardAdmiralsController : MonoBehaviour
     private GameObject CardAdmiralButtonPrefab;
     private GameObject PositionPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private GameObject PopupSpiritBeastPanelPrefab;
@@ -280,7 +280,7 @@ public class UserCardAdmiralsController : MonoBehaviour
         if (obj is CardAdmirals cardAdmiral)
         {
             PropertyInfo[] properties = cardAdmiral.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, cardAdmiral, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, cardAdmiral, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.CARD_ADMIRAL);
@@ -303,7 +303,7 @@ public class UserCardAdmiralsController : MonoBehaviour
                 {
                     CardAdmirals newCardAdmiral = new CardAdmirals();
 
-                    newCardAdmiral = await UserCardAdmiralsService.Create().GetNewLevelPowerAsync(cardAdmiral, increasePerLevel);
+                    newCardAdmiral = await UnitLevelHelper.GetNewLevelPowerAsync(cardAdmiral, INCREASE_PER_LEVEL);
                     await UserCardAdmiralsService.Create().UpdateCardAdmiralLevelAsync(newCardAdmiral, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -335,7 +335,7 @@ public class UserCardAdmiralsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    CardAdmirals newCardAdmiral = await UserCardAdmiralsService.Create().GetNewLevelPowerAsync(cardAdmiral, levelsGained * increasePerLevel);
+                    CardAdmirals newCardAdmiral = await UnitLevelHelper.GetNewLevelPowerAsync(cardAdmiral, levelsGained * INCREASE_PER_LEVEL);
                     await UserCardAdmiralsService.Create().UpdateCardAdmiralLevelAsync(newCardAdmiral, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -603,7 +603,7 @@ public class UserCardAdmiralsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(cardAdmiral, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.CARD_ADMIRAL);
@@ -687,7 +687,7 @@ public class UserCardAdmiralsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     CardAdmirals newCardAdmiral = new CardAdmirals();
 
-                    newCardAdmiral = await UserCardAdmiralsService.Create().GetNewBreakthroughPowerAsync(cardAdmiral, increasePerUpgrade);
+                    newCardAdmiral = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(cardAdmiral, INCREASE_PER_UPGRADE);
                     await UserCardAdmiralsService.Create().UpdateCardAdmiralBreakthroughAsync(newCardAdmiral, cardAdmiral.Star + 1, cardAdmiral.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

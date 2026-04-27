@@ -13,8 +13,8 @@ public class UserSymbolsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject SymbolButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -199,7 +199,7 @@ public class UserSymbolsController : MonoBehaviour
         if (obj is Symbols symbol)
         {
             PropertyInfo[] properties = symbol.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, symbol, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, symbol, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.SYMBOL);
@@ -222,7 +222,7 @@ public class UserSymbolsController : MonoBehaviour
                 {
                     Symbols newSymbol = new Symbols();
 
-                    newSymbol = await UserSymbolsService.Create().GetNewLevelPowerAsync(symbol, increasePerLevel);
+                    newSymbol = await UnitLevelHelper.GetNewLevelPowerAsync(symbol, INCREASE_PER_LEVEL);
                     await UserSymbolsService.Create().UpdateSymbolLevelAsync(newSymbol, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -254,7 +254,7 @@ public class UserSymbolsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Symbols newSymbol = await UserSymbolsService.Create().GetNewLevelPowerAsync(symbol, levelsGained * increasePerLevel);
+                    Symbols newSymbol = await UnitLevelHelper.GetNewLevelPowerAsync(symbol, levelsGained * INCREASE_PER_LEVEL);
                     await UserSymbolsService.Create().UpdateSymbolLevelAsync(newSymbol, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -288,7 +288,7 @@ public class UserSymbolsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(symbol, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.SYMBOL);
@@ -372,7 +372,7 @@ public class UserSymbolsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Symbols newSymbol = new Symbols();
 
-                    newSymbol = await UserSymbolsService.Create().GetNewBreakthroughPowerAsync(symbol, increasePerUpgrade);
+                    newSymbol = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(symbol, INCREASE_PER_UPGRADE);
                     await UserSymbolsService.Create().UpdateSymbolBreakthroughAsync(newSymbol, symbol.Star + 1, symbol.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

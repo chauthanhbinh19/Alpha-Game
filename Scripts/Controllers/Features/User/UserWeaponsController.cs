@@ -13,8 +13,8 @@ public class UserWeaponsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject WeaponButtonPrefab;
     private GameObject ElementDetails2Prefab;
-    private double increasePerLevel = 0.01;
-    private double increasePerUpgrade = 1.1;
+    private const double INCREASE_PER_LEVEL = 0.01;
+    private const double INCREASE_PER_UPGRADE = 1.1;
     private TeamsService teamsService;
     private UserItemsService userItemsService;
     private void Awake()
@@ -197,7 +197,7 @@ public class UserWeaponsController : MonoBehaviour
         if (obj is Weapons weapon)
         {
             PropertyInfo[] properties = weapon.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyLevelUI(properties, weapon, increasePerLevel, currentObject);
+            UIManager.Instance.CreatePropertyLevelUI(properties, weapon, INCREASE_PER_LEVEL, currentObject);
 
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForLevelAsync(AppConstants.MainType.TITLE);
@@ -220,7 +220,7 @@ public class UserWeaponsController : MonoBehaviour
                 {
                     Weapons newWeapon = new Weapons();
 
-                    newWeapon = await UserWeaponsService.Create().GetNewLevelPowerAsync(weapon, increasePerLevel);
+                    newWeapon = await UnitLevelHelper.GetNewLevelPowerAsync(weapon, INCREASE_PER_LEVEL);
                     await UserWeaponsService.Create().UpdateWeaponLevelAsync(newWeapon, currentLevel + 1);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -252,7 +252,7 @@ public class UserWeaponsController : MonoBehaviour
 
                     // Cập nhật cấp độ và trạng thái của thẻ bài
 
-                    Weapons newWeapon = await UserWeaponsService.Create().GetNewLevelPowerAsync(weapon, levelsGained * increasePerLevel);
+                    Weapons newWeapon = await UnitLevelHelper.GetNewLevelPowerAsync(weapon, levelsGained * INCREASE_PER_LEVEL);
                     await UserWeaponsService.Create().UpdateWeaponLevelAsync(newWeapon, currentLevel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -286,7 +286,7 @@ public class UserWeaponsController : MonoBehaviour
             {
                 // Lấy giá trị của thuộc tính
                 object value = property.GetValue(weapon, null);
-                UIManager.Instance.CreatePropertyUpgradeUI(property, value, increasePerUpgrade, currentObject);
+                UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
             items = await userItemsService.GetItemForBreakthourghAsync(AppConstants.MainType.TITLE);
@@ -370,7 +370,7 @@ public class UserWeaponsController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     Weapons newWeapon = new Weapons();
 
-                    newWeapon = await UserWeaponsService.Create().GetNewBreakthroughPowerAsync(weapon, increasePerUpgrade);
+                    newWeapon = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(weapon, INCREASE_PER_UPGRADE);
                     await UserWeaponsService.Create().UpdateWeaponBreakthroughAsync(newWeapon, weapon.Star + 1, weapon.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
