@@ -34,18 +34,18 @@ public class UserItemsService : IUserItemsService
         return await _userItemsRepository.GetUserItemByNameAsync(itemName);
     }
 
-    public async Task<bool> InsertUserItemAsync(Items items, double quantity)
+    public async Task<bool> InsertUserItemAsync(Items item, double quantity)
     {
-        return await _userItemsRepository.InsertUserItemAsync(items, quantity);
+        return await _userItemsRepository.InsertUserItemAsync(item, quantity);
     }
 
-    public async Task<Items> UpdateUserItemQuantityAsync(Items items)
+    public async Task<Items> UpdateUserItemQuantityAsync(Items item)
     {
-        return await _userItemsRepository.UpdateUserItemQuantityAsync(items);
+        return await _userItemsRepository.UpdateUserItemQuantityAsync(item);
     }
-    public async Task<Items> UpdateUserItemQuantityAsync(Items items, double quantity)
+    public async Task<Items> UpdateUserItemQuantityAsync(Items item, double quantity)
     {
-        return await _userItemsRepository.UpdateUserItemQuantityAsync(items, quantity);
+        return await _userItemsRepository.UpdateUserItemQuantityAsync(item, quantity);
     }
     public async Task<List<Items>> GetItemForLevelAsync(string type)
     {

@@ -71,4 +71,9 @@ public class CardModel : CardBase
             property.SetValue(target, value);
         }
     }
+
+    public override void Initialize(object data)
+    {
+        throw new NotImplementedException();
+    }
 }

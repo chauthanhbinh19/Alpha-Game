@@ -398,8 +398,8 @@ public class ButtonLoader : MonoBehaviour
         TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         titleText.text = "Set " + set.ToString();
 
-        Button CloseButton = transform.Find("CloseButton").GetComponent<Button>();
-        CloseButton.onClick.AddListener(() =>
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(popUpPanelGameObject);

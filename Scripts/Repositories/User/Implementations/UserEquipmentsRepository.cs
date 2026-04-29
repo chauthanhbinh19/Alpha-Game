@@ -763,6 +763,168 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
+    public async Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(List<(string equipmentId, Equipments data, double quantity)> list)
+    {
+        if (list == null || list.Count == 0)
+            return true;
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
+        {
+            await connection.OpenAsync();
+            await using var transaction = await connection.BeginTransactionAsync();
+
+            int batchSize = 300; // nhiều column → giảm batch
+
+            for (int i = 0; i < list.Count; i += batchSize)
+            {
+                var batch = list.Skip(i).Take(batchSize).ToList();
+
+                var stringBuilder = new System.Text.StringBuilder();
+                var parameters = new List<MySqlParameter>();
+
+                stringBuilder.Append(@"
+                INSERT INTO user_equipments (
+                    user_id, equipment_id, rare, level, experiment, star, quality, block, quantity,
+                    power, health, physical_attack, physical_defense, magical_attack, magical_defense,
+                    chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
+                    speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                    penetration_rate, penetration_resistance_rate, evasion_rate, damage_absorption_rate,
+                    ignore_damage_absorption_rate, absorbed_damage_rate, vitality_regeneration_rate,
+                    vitality_regeneration_resistance_rate, accuracy_rate, lifesteal_rate, shield_strength, tenacity,
+                    resistance_rate, combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                    stun_rate, ignore_stun_rate, reflection_rate, ignore_reflection_rate, reflection_damage_rate,
+                    reflection_resistance_rate, mana, mana_regeneration_rate, damage_to_different_faction_rate,
+                    resistance_to_different_faction_rate, damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                    normal_damage_rate, normal_resistance_rate, skill_damage_rate, skill_resistance_rate,
+                    special_health, special_physical_attack, special_physical_defense, special_magical_attack,
+                    special_magical_defense, special_chemical_attack, special_chemical_defense, special_atomic_attack,
+                    special_atomic_defense, special_mental_attack, special_mental_defense, special_speed
+                ) VALUES ");
+
+                for (int j = 0; j < batch.Count; j++)
+                {
+                    var item = batch[j];
+                    var e = item.data;
+
+                    stringBuilder.Append($@"
+                    (@user_id, @equipment_id_{j}, @rare_{j}, 0, 0, 0, @quality_{j}, 0, @quantity_{j},
+                    @power_{j}, @health_{j}, @physical_attack_{j}, @physical_defense_{j}, @magical_attack_{j}, @magical_defense_{j},
+                    @chemical_attack_{j}, @chemical_defense_{j}, @atomic_attack_{j}, @atomic_defense_{j}, @mental_attack_{j}, @mental_defense_{j},
+                    @speed_{j}, @critical_damage_rate_{j}, @critical_rate_{j}, @critical_resistance_rate_{j}, @ignore_critical_rate_{j},
+                    @penetration_rate_{j}, @penetration_resistance_rate_{j}, @evasion_rate_{j}, @damage_absorption_rate_{j},
+                    @ignore_damage_absorption_rate_{j}, @absorbed_damage_rate_{j}, @vitality_regeneration_rate_{j},
+                    @vitality_regeneration_resistance_rate_{j}, @accuracy_rate_{j}, @lifesteal_rate_{j}, @shield_strength_{j}, @tenacity_{j},
+                    @resistance_rate_{j}, @combo_rate_{j}, @ignore_combo_rate_{j}, @combo_damage_rate_{j}, @combo_resistance_rate_{j},
+                    @stun_rate_{j}, @ignore_stun_rate_{j}, @reflection_rate_{j}, @ignore_reflection_rate_{j}, @reflection_damage_rate_{j},
+                    @reflection_resistance_rate_{j}, @mana_{j}, @mana_regeneration_rate_{j}, @damage_to_different_faction_rate_{j},
+                    @resistance_to_different_faction_rate_{j}, @damage_to_same_faction_rate_{j}, @resistance_to_same_faction_rate_{j},
+                    @normal_damage_rate_{j}, @normal_resistance_rate_{j}, @skill_damage_rate_{j}, @skill_resistance_rate_{j},
+                    @special_health_{j}, @special_physical_attack_{j}, @special_physical_defense_{j}, @special_magical_attack_{j},
+                    @special_magical_defense_{j}, @special_chemical_attack_{j}, @special_chemical_defense_{j}, @special_atomic_attack_{j},
+                    @special_atomic_defense_{j}, @special_mental_attack_{j}, @special_mental_defense_{j}, @special_speed_{j}
+                    ),");
+
+                    parameters.AddRange(new[]
+                    {
+                    new MySqlParameter($"@equipment_id_{j}", item.equipmentId),
+                    new MySqlParameter($"@rare_{j}", e.Rare),
+                    new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(e.Rare)),
+                    new MySqlParameter($"@quantity_{j}", item.quantity),
+                    new MySqlParameter($"@power_{j}", e.Power),
+                    new MySqlParameter($"@health_{j}", e.Health),
+                    new MySqlParameter($"@physical_attack_{j}", e.PhysicalAttack),
+                    new MySqlParameter($"@physical_defense_{j}", e.PhysicalDefense),
+                    new MySqlParameter($"@magical_attack_{j}", e.MagicalAttack),
+                    new MySqlParameter($"@magical_defense_{j}", e.MagicalDefense),
+                    new MySqlParameter($"@chemical_attack_{j}", e.ChemicalAttack),
+                    new MySqlParameter($"@chemical_defense_{j}", e.ChemicalDefense),
+                    new MySqlParameter($"@atomic_attack_{j}", e.AtomicAttack),
+                    new MySqlParameter($"@atomic_defense_{j}", e.AtomicDefense),
+                    new MySqlParameter($"@mental_attack_{j}", e.MentalAttack),
+                    new MySqlParameter($"@mental_defense_{j}", e.MentalDefense),
+                    new MySqlParameter($"@speed_{j}", e.Speed),
+                    new MySqlParameter($"@critical_damage_rate_{j}", e.CriticalDamageRate),
+                    new MySqlParameter($"@critical_rate_{j}", e.CriticalRate),
+                    new MySqlParameter($"@critical_resistance_rate_{j}", e.CriticalResistanceRate),
+                    new MySqlParameter($"@ignore_critical_rate_{j}", e.IgnoreCriticalRate),
+                    new MySqlParameter($"@penetration_rate_{j}", e.PenetrationRate),
+                    new MySqlParameter($"@penetration_resistance_rate_{j}", e.PenetrationResistanceRate),
+                    new MySqlParameter($"@evasion_rate_{j}", e.EvasionRate),
+                    new MySqlParameter($"@damage_absorption_rate_{j}", e.DamageAbsorptionRate),
+                    new MySqlParameter($"@ignore_damage_absorption_rate_{j}", e.IgnoreDamageAbsorptionRate),
+                    new MySqlParameter($"@absorbed_damage_rate_{j}", e.AbsorbedDamageRate),
+                    new MySqlParameter($"@vitality_regeneration_rate_{j}", e.VitalityRegenerationRate),
+                    new MySqlParameter($"@vitality_regeneration_resistance_rate_{j}", e.VitalityRegenerationResistanceRate),
+                    new MySqlParameter($"@accuracy_rate_{j}", e.AccuracyRate),
+                    new MySqlParameter($"@lifesteal_rate_{j}", e.LifestealRate),
+                    new MySqlParameter($"@shield_strength_{j}", e.ShieldStrength),
+                    new MySqlParameter($"@tenacity_{j}", e.Tenacity),
+                    new MySqlParameter($"@resistance_rate_{j}", e.ResistanceRate),
+                    new MySqlParameter($"@combo_rate_{j}", e.ComboRate),
+                    new MySqlParameter($"@ignore_combo_rate_{j}", e.IgnoreComboRate),
+                    new MySqlParameter($"@combo_damage_rate_{j}", e.ComboDamageRate),
+                    new MySqlParameter($"@combo_resistance_rate_{j}", e.ComboResistanceRate),
+                    new MySqlParameter($"@stun_rate_{j}", e.StunRate),
+                    new MySqlParameter($"@ignore_stun_rate_{j}", e.IgnoreStunRate),
+                    new MySqlParameter($"@reflection_rate_{j}", e.ReflectionRate),
+                    new MySqlParameter($"@ignore_reflection_rate_{j}", e.IgnoreReflectionRate),
+                    new MySqlParameter($"@reflection_damage_rate_{j}", e.ReflectionDamageRate),
+                    new MySqlParameter($"@reflection_resistance_rate_{j}", e.ReflectionResistanceRate),
+                    new MySqlParameter($"@mana_{j}", e.Mana),
+                    new MySqlParameter($"@mana_regeneration_rate_{j}", e.ManaRegenerationRate),
+                    new MySqlParameter($"@damage_to_different_faction_rate_{j}", e.DamageToDifferentFactionRate),
+                    new MySqlParameter($"@resistance_to_different_faction_rate_{j}", e.ResistanceToDifferentFactionRate),
+                    new MySqlParameter($"@damage_to_same_faction_rate_{j}", e.DamageToSameFactionRate),
+                    new MySqlParameter($"@resistance_to_same_faction_rate_{j}", e.ResistanceToSameFactionRate),
+                    new MySqlParameter($"@normal_damage_rate_{j}", e.NormalDamageRate),
+                    new MySqlParameter($"@normal_resistance_rate_{j}", e.NormalResistanceRate),
+                    new MySqlParameter($"@skill_damage_rate_{j}", e.SkillDamageRate),
+                    new MySqlParameter($"@skill_resistance_rate_{j}", e.SkillResistanceRate),
+                    new MySqlParameter($"@special_health_{j}", e.SpecialHealth),
+                    new MySqlParameter($"@special_physical_attack_{j}", e.SpecialPhysicalAttack),
+                    new MySqlParameter($"@special_physical_defense_{j}", e.SpecialPhysicalDefense),
+                    new MySqlParameter($"@special_magical_attack_{j}", e.SpecialMagicalAttack),
+                    new MySqlParameter($"@special_magical_defense_{j}", e.SpecialMagicalDefense),
+                    new MySqlParameter($"@special_chemical_attack_{j}", e.SpecialChemicalAttack),
+                    new MySqlParameter($"@special_chemical_defense_{j}", e.SpecialChemicalDefense),
+                    new MySqlParameter($"@special_atomic_attack_{j}", e.SpecialAtomicAttack),
+                    new MySqlParameter($"@special_atomic_defense_{j}", e.SpecialAtomicDefense),
+                    new MySqlParameter($"@special_mental_attack_{j}", e.SpecialMentalAttack),
+                    new MySqlParameter($"@special_mental_defense_{j}", e.SpecialMentalDefense),
+                    new MySqlParameter($"@special_speed_{j}", e.SpecialSpeed),
+                });
+                }
+
+                stringBuilder.Length--;
+
+                stringBuilder.Append(@"
+                ON DUPLICATE KEY UPDATE
+                    quantity = user_equipments.quantity + VALUES(quantity),
+                    quality = user_equipments.quality + VALUES(quantity);
+                ");
+
+                await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
+
+                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddRange(parameters.ToArray());
+
+                await command.ExecuteNonQueryAsync();
+            }
+
+            await transaction.CommitAsync();
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError("Batch Error: " + ex.Message);
+            return false;
+        }
+
+        return true;
+    }
     public async Task<bool> UpdateEquipmentsLevelAsync(Equipments equipment, int level)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4137,53 +4299,53 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public Equipments ChangeValueToZero(Equipments equipments)
+    public Equipments ChangeValueToZero(Equipments equipment)
     {
-        equipments.Power = 0;
-        equipments.Health = 0;
-        equipments.PhysicalAttack = 0;
-        equipments.PhysicalDefense = 0;
-        equipments.MagicalAttack = 0;
-        equipments.MagicalDefense = 0;
-        equipments.ChemicalAttack = 0;
-        equipments.ChemicalDefense = 0;
-        equipments.AtomicAttack = 0;
-        equipments.AtomicDefense = 0;
-        equipments.MentalAttack = 0;
-        equipments.MentalDefense = 0;
-        equipments.Speed = 0;
-        equipments.CriticalDamageRate = 0;
-        equipments.CriticalRate = 0;
-        equipments.PenetrationRate = 0;
-        equipments.EvasionRate = 0;
-        equipments.DamageAbsorptionRate = 0;
-        equipments.VitalityRegenerationRate = 0;
-        equipments.AccuracyRate = 0;
-        equipments.LifestealRate = 0;
-        equipments.ShieldStrength = 0;
-        equipments.Tenacity = 0;
-        equipments.ResistanceRate = 0;
-        equipments.ComboRate = 0;
-        equipments.ReflectionRate = 0;
-        equipments.Mana = 0;
-        equipments.ManaRegenerationRate = 0;
-        equipments.DamageToDifferentFactionRate = 0;
-        equipments.ResistanceToDifferentFactionRate = 0;
-        equipments.DamageToSameFactionRate = 0;
-        equipments.ResistanceToSameFactionRate = 0;
-        equipments.SpecialHealth = 0;
-        equipments.SpecialPhysicalAttack = 0;
-        equipments.SpecialPhysicalDefense = 0;
-        equipments.SpecialMagicalAttack = 0;
-        equipments.SpecialMagicalDefense = 0;
-        equipments.SpecialChemicalAttack = 0;
-        equipments.SpecialChemicalDefense = 0;
-        equipments.SpecialAtomicAttack = 0;
-        equipments.SpecialAtomicDefense = 0;
-        equipments.SpecialMentalAttack = 0;
-        equipments.SpecialMentalDefense = 0;
-        equipments.SpecialSpeed = 0;
-        return equipments;
+        equipment.Power = 0;
+        equipment.Health = 0;
+        equipment.PhysicalAttack = 0;
+        equipment.PhysicalDefense = 0;
+        equipment.MagicalAttack = 0;
+        equipment.MagicalDefense = 0;
+        equipment.ChemicalAttack = 0;
+        equipment.ChemicalDefense = 0;
+        equipment.AtomicAttack = 0;
+        equipment.AtomicDefense = 0;
+        equipment.MentalAttack = 0;
+        equipment.MentalDefense = 0;
+        equipment.Speed = 0;
+        equipment.CriticalDamageRate = 0;
+        equipment.CriticalRate = 0;
+        equipment.PenetrationRate = 0;
+        equipment.EvasionRate = 0;
+        equipment.DamageAbsorptionRate = 0;
+        equipment.VitalityRegenerationRate = 0;
+        equipment.AccuracyRate = 0;
+        equipment.LifestealRate = 0;
+        equipment.ShieldStrength = 0;
+        equipment.Tenacity = 0;
+        equipment.ResistanceRate = 0;
+        equipment.ComboRate = 0;
+        equipment.ReflectionRate = 0;
+        equipment.Mana = 0;
+        equipment.ManaRegenerationRate = 0;
+        equipment.DamageToDifferentFactionRate = 0;
+        equipment.ResistanceToDifferentFactionRate = 0;
+        equipment.DamageToSameFactionRate = 0;
+        equipment.ResistanceToSameFactionRate = 0;
+        equipment.SpecialHealth = 0;
+        equipment.SpecialPhysicalAttack = 0;
+        equipment.SpecialPhysicalDefense = 0;
+        equipment.SpecialMagicalAttack = 0;
+        equipment.SpecialMagicalDefense = 0;
+        equipment.SpecialChemicalAttack = 0;
+        equipment.SpecialChemicalDefense = 0;
+        equipment.SpecialAtomicAttack = 0;
+        equipment.SpecialAtomicDefense = 0;
+        equipment.SpecialMentalAttack = 0;
+        equipment.SpecialMentalDefense = 0;
+        equipment.SpecialSpeed = 0;
+        return equipment;
     }
     public async Task<Equipments> GetAllEquipmentsByCardHeroIdAsync(string user_id, string cardHeroId)
     {

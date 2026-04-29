@@ -8,6 +8,6 @@ public enum CardType
     CardMonster,
     CardMilitary,
     CardSpell,
-    Books,
-    Pets
+    Book,
+    Pet
 }

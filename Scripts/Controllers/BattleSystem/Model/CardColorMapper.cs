@@ -16,8 +16,8 @@ public static class CardColorMapper
         // Thêm các loại thẻ khác
         { CardType.CardMilitary, ColorHelper.HexToColor(ColorConstants.CYAN_TRANSPARENT_COLOR) },
         { CardType.CardSpell,    ColorHelper.HexToColor(ColorConstants.MAGENTA_TRANSPARENT_COLOR) },
-        { CardType.Books,        ColorHelper.HexToColor(ColorConstants.BLACK_TRANSPARENT_COLOR) },
-        { CardType.Pets,         ColorHelper.HexToColor(ColorConstants.WHITE_TRANSPARENT_COLOR) }
+        { CardType.Book,        ColorHelper.HexToColor(ColorConstants.BLACK_TRANSPARENT_COLOR) },
+        { CardType.Pet,         ColorHelper.HexToColor(ColorConstants.WHITE_TRANSPARENT_COLOR) }
     };
 
     /// <summary>

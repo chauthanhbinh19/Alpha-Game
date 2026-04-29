@@ -63,6 +63,7 @@ public abstract class CardBase
     public double NormalResistanceRate { get; set; } = 0;
     public double SkillDamageRate { get; set; } = 0;
     public double SkillResistanceRate { get; set; } = 0;
+    public CardType CardType;
     public List<Skills> Skills { get; set; } = new List<Skills>{ };
     public List<string> Emblems { get; set; } = new();
     //Current
@@ -121,6 +122,7 @@ public abstract class CardBase
     public bool IsAlive { get; set; }
     public GameObject damagePopupPrefab;
     public HealthBar healthBar;
+    public abstract void Initialize(object data);
     public virtual void PerformAction(PlayerController opponent)
     {
         var target = ChooseTarget(opponent);

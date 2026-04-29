@@ -135,21 +135,21 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 {
                     mainType = subtype;
                     ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-                    if (data is CardHeroes cardHeroes)
+                    if (data is CardHeroes cardHero)
                     {
-                        await CreateCardHeroesEquipmentsAsync(cardHeroes);
+                        await CreateCardHeroesEquipmentsAsync(cardHero);
                     }
-                    else if (data is Books books)
+                    else if (data is Books book)
                     {
-                        await CreateBooksEquipmentsAsync(books);
+                        await CreateBooksEquipmentsAsync(book);
                     }
-                    else if (data is CardCaptains cardCaptains)
+                    else if (data is CardCaptains cardCaptain)
                     {
-                        await CreateCardCaptainsEquipmentsAsync(cardCaptains);
+                        await CreateCardCaptainsEquipmentsAsync(cardCaptain);
                     }
-                    else if (data is Pets pets)
+                    else if (data is Pets pet)
                     {
-                        await CreatePetsEquipmentsAsync(pets);
+                        await CreatePetsEquipmentsAsync(pet);
                     }
                     else if (data is CardMilitaries cardMilitary)
                     {
@@ -159,21 +159,21 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     {
                         await CreateCardSpellEquipmentsAsync(cardSpell);
                     }
-                    else if (data is CardMonsters cardMonsters)
+                    else if (data is CardMonsters cardMonster)
                     {
-                        await CreateCardMonstersEquipmentsAsync(cardMonsters);
+                        await CreateCardMonstersEquipmentsAsync(cardMonster);
                     }
-                    else if (data is CardColonels cardColonels)
+                    else if (data is CardColonels cardColonel)
                     {
-                        await CreateCardColonelsEquipmentsAsync(cardColonels);
+                        await CreateCardColonelsEquipmentsAsync(cardColonel);
                     }
-                    else if (data is CardGenerals cardGenerals)
+                    else if (data is CardGenerals cardGeneral)
                     {
-                        await CreateCardGeneralsEquipmentsAsync(cardGenerals);
+                        await CreateCardGeneralsEquipmentsAsync(cardGeneral);
                     }
-                    else if (data is CardAdmirals cardAdmirals)
+                    else if (data is CardAdmirals cardAdmiral)
                     {
-                        await CreateCardAdmiralsEquipmentsAsync(cardAdmirals);
+                        await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
                     }
                 }
                 else
@@ -187,12 +187,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
         equipOneTypeButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            if (data is CardHeroes cardHeroes)
+            if (data is CardHeroes cardHero)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardHeroAsync((string)cardHeroes.Id, mainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardHeroAsync((string)cardHero.Id, mainType);
                 if (success)
                 {
-                    await CreateCardHeroesEquipmentsAsync(cardHeroes);
+                    await CreateCardHeroesEquipmentsAsync(cardHero);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -203,12 +203,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments of type to CardHero.");
                 }
             }
-            else if (data is CardCaptains cardCaptains)
+            else if (data is CardCaptains cardCaptain)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardCaptainAsync(cardCaptains.Id, mainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardCaptainAsync(cardCaptain.Id, mainType);
                 if (success)
                 {
-                    await CreateCardCaptainsEquipmentsAsync(cardCaptains);
+                    await CreateCardCaptainsEquipmentsAsync(cardCaptain);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -219,12 +219,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments of type to CardCaptain.");
                 }
             }
-            else if (data is CardColonels cardColonels)
+            else if (data is CardColonels cardColonel)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardColonelAsync(cardColonels.Id, mainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardColonelAsync(cardColonel.Id, mainType);
                 if (success)
                 {
-                    await CreateCardColonelsEquipmentsAsync(cardColonels);
+                    await CreateCardColonelsEquipmentsAsync(cardColonel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -235,12 +235,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments of type to CardColonel.");
                 }
             }
-            else if (data is CardGenerals cardGenerals)
+            else if (data is CardGenerals cardGeneral)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardGeneralAsync(cardGenerals.Id, mainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardGeneralAsync(cardGeneral.Id, mainType);
                 if (success)
                 {
-                    await CreateCardGeneralsEquipmentsAsync(cardGenerals);
+                    await CreateCardGeneralsEquipmentsAsync(cardGeneral);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -251,12 +251,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments of type to CardGeneral.");
                 }
             }
-            else if (data is CardAdmirals cardAdmirals)
+            else if (data is CardAdmirals cardAdmiral)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardAdmiralAsync(cardAdmirals.Id, mainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardAdmiralAsync(cardAdmiral.Id, mainType);
                 if (success)
                 {
-                    await CreateCardAdmiralsEquipmentsAsync(cardAdmirals);
+                    await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -267,12 +267,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments of type to CardAdmiral.");
                 }
             }
-            else if (data is CardMonsters cardMonsters)
+            else if (data is CardMonsters cardMonster)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardMonsterAsync(cardMonsters.Id, mainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardMonsterAsync(cardMonster.Id, mainType);
                 if (success)
                 {
-                    await CreateCardMonstersEquipmentsAsync(cardMonsters);
+                    await CreateCardMonstersEquipmentsAsync(cardMonster);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -315,12 +315,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments of type to CardSpell.");
                 }
             }
-            else if (data is Books books)
+            else if (data is Books book)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToBookAsync(books.Id, mainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToBookAsync(book.Id, mainType);
                 if (success)
                 {
-                    await CreateBooksEquipmentsAsync(books);
+                    await CreateBooksEquipmentsAsync(book);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -331,12 +331,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments of type to Book.");
                 }
             }
-            else if (data is Pets pets)
+            else if (data is Pets pet)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToPetAsync(pets.Id, mainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToPetAsync(pet.Id, mainType);
                 if (success)
                 {
-                    await CreatePetsEquipmentsAsync(pets);
+                    await CreatePetsEquipmentsAsync(pet);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -352,12 +352,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
         equipAllTypeButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            if (data is CardHeroes cardHeroes)
+            if (data is CardHeroes cardHero)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardHeroAsync((string)cardHeroes.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardHeroAsync((string)cardHero.Id);
                 if (success)
                 {
-                    await CreateCardHeroesEquipmentsAsync(cardHeroes);
+                    await CreateCardHeroesEquipmentsAsync(cardHero);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -368,12 +368,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments to CardHero.");
                 }
             }
-            else if (data is CardCaptains cardCaptains)
+            else if (data is CardCaptains cardCaptain)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardCaptainAsync(cardCaptains.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardCaptainAsync(cardCaptain.Id);
                 if (success)
                 {
-                    await CreateCardCaptainsEquipmentsAsync(cardCaptains);
+                    await CreateCardCaptainsEquipmentsAsync(cardCaptain);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -384,12 +384,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments to CardCaptain.");
                 }
             }
-            else if (data is CardColonels cardColonels)
+            else if (data is CardColonels cardColonel)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardColonelAsync(cardColonels.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardColonelAsync(cardColonel.Id);
                 if (success)
                 {
-                    await CreateCardColonelsEquipmentsAsync(cardColonels);
+                    await CreateCardColonelsEquipmentsAsync(cardColonel);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -400,12 +400,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments to CardColonel.");
                 }
             }
-            else if (data is CardGenerals cardGenerals)
+            else if (data is CardGenerals cardGeneral)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardGeneralAsync(cardGenerals.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardGeneralAsync(cardGeneral.Id);
                 if (success)
                 {
-                    await CreateCardGeneralsEquipmentsAsync(cardGenerals);
+                    await CreateCardGeneralsEquipmentsAsync(cardGeneral);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -416,12 +416,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments to CardGeneral.");
                 }
             }
-            else if (data is CardAdmirals cardAdmirals)
+            else if (data is CardAdmirals cardAdmiral)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardAdmiralAsync(cardAdmirals.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardAdmiralAsync(cardAdmiral.Id);
                 if (success)
                 {
-                    await CreateCardAdmiralsEquipmentsAsync(cardAdmirals);
+                    await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -432,12 +432,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments to CardAdmiral.");
                 }
             }
-            else if (data is CardMonsters cardMonsters)
+            else if (data is CardMonsters cardMonster)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardMonsterAsync(cardMonsters.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardMonsterAsync(cardMonster.Id);
                 if (success)
                 {
-                    await CreateCardMonstersEquipmentsAsync(cardMonsters);
+                    await CreateCardMonstersEquipmentsAsync(cardMonster);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -480,12 +480,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments to CardSpell.");
                 }
             }
-            else if (data is Books books)
+            else if (data is Books book)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToBookAsync(books.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToBookAsync(book.Id);
                 if (success)
                 {
-                    await CreateBooksEquipmentsAsync(books);
+                    await CreateBooksEquipmentsAsync(book);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
@@ -496,12 +496,12 @@ public class MainMenuEquipmentManager : MonoBehaviour
                     Debug.LogError("Failed to equip all equipments to Book.");
                 }
             }
-            else if (data is Pets pets)
+            else if (data is Pets pet)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToPetAsync(pets.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToPetAsync(pet.Id);
                 if (success)
                 {
-                    await CreatePetsEquipmentsAsync(pets);
+                    await CreatePetsEquipmentsAsync(pet);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;

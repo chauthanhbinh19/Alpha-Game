@@ -71,25 +71,25 @@ public class MainMenuAffinityManager : MonoBehaviour
         RawImage titleBackground = transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
         titleBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
 
-        if (data is CardHeroes cardHeroes)
+        if (data is CardHeroes cardHero)
         {
-            // mainId = cardHeroes.id;
-            _=CreateCardHeroesEquipmentsAsync(cardHeroes);
+            // mainId = cardHero.id;
+            _=CreateCardHeroesEquipmentsAsync(cardHero);
         }
-        else if (data is Books books)
+        else if (data is Books book)
         {
             // mainId = books.id;
-            _=CreateBooksEquipmentsAsync(books);
+            _=CreateBooksEquipmentsAsync(book);
         }
-        else if (data is CardCaptains cardCaptains)
+        else if (data is CardCaptains cardCaptain)
         {
             // mainId = cardCaptains.id;
-            _=CreateCardCaptainsEquipmentsAsync(cardCaptains);
+            _=CreateCardCaptainsEquipmentsAsync(cardCaptain);
         }
-        else if (data is Pets pets)
+        else if (data is Pets pet)
         {
             // mainId = pets.id;
-            _=CreatePetsEquipmentsAsync(pets);
+            _=CreatePetsEquipmentsAsync(pet);
         }
         else if (data is CardMilitaries cardMilitary)
         {
@@ -101,25 +101,25 @@ public class MainMenuAffinityManager : MonoBehaviour
             // mainId = cardSpell.id;
             _=CreateCardSpellEquipmentsAsync(cardSpell);
         }
-        else if (data is CardMonsters cardMonsters)
+        else if (data is CardMonsters cardMonster)
         {
             // mainId = cardMonsters.id;
-            _=CreateCardMonstersEquipmentsAsync(cardMonsters);
+            _=CreateCardMonstersEquipmentsAsync(cardMonster);
         }
-        else if (data is CardColonels cardColonels)
+        else if (data is CardColonels cardColonel)
         {
             // mainId = cardColonels.id;
-            _=CreateCardColonelsEquipmentsAsync(cardColonels);
+            _=CreateCardColonelsEquipmentsAsync(cardColonel);
         }
-        else if (data is CardGenerals cardGenerals)
+        else if (data is CardGenerals cardGeneral)
         {
             // mainId = cardGenerals.id;
-            _=CreateCardGeneralsEquipmentsAsync(cardGenerals);
+            _=CreateCardGeneralsEquipmentsAsync(cardGeneral);
         }
-        else if (data is CardAdmirals cardAdmirals)
+        else if (data is CardAdmirals cardAdmiral)
         {
             // mainId = cardAdmirals.id;
-            _=CreateCardAdmiralsEquipmentsAsync(cardAdmirals);
+            _=CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
         }
     }
     public void Close(Transform content)

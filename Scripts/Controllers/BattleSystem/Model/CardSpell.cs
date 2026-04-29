@@ -2,8 +2,15 @@ using System;
 using UnityEngine;
 public class CardSpell : CardBase
 {
-    public void Initialize(CardSpells cardSpell)
+    public override void Initialize(object data)
     {
+        var cardSpell = data as CardSpells;
+
+        if (cardSpell == null)
+        {
+            Debug.LogError("Sai type CardSpells");
+            return;
+        }
         // copy thuộc tính từ CardBase
         this.Id = cardSpell.Id;
         this.Name = cardSpell.Name;
@@ -63,6 +70,7 @@ public class CardSpell : CardBase
         this.Position = cardSpell.Position;
         this.IsAlive = true;
         this.Skills = cardSpell.Skills;
+        this.CardType = CardType.CardSpell;
 
         this.CurrentHealth = cardSpell.Health;
         this.CurrentPhysicalAttack = cardSpell.PhysicalAttack;

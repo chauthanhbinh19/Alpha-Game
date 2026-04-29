@@ -2,8 +2,15 @@ using System;
 using UnityEngine;
 public class CardMilitary : CardBase
 {
-    public void Initialize(CardMilitaries cardMilitary)
+    public override void Initialize(object data)
     {
+        var cardMilitary = data as CardMilitaries;
+
+        if (cardMilitary == null)
+        {
+            Debug.LogError("Sai type CardMilitaries");
+            return;
+        }
         // copy thuộc tính từ CardBase
         this.Id = cardMilitary.Id;
         this.Name = cardMilitary.Name;
@@ -63,6 +70,7 @@ public class CardMilitary : CardBase
         this.Position = cardMilitary.Position;
         this.IsAlive = true;
         this.Skills = cardMilitary.Skills;
+        this.CardType = CardType.CardMilitary;
 
         this.CurrentHealth = cardMilitary.Health;
         this.CurrentPhysicalAttack = cardMilitary.PhysicalAttack;

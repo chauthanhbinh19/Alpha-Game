@@ -16,8 +16,8 @@ public static class CardImageMapper
         // Thêm các loại thẻ khác
         { CardType.CardMilitary, ImageConstants.Background.CARD_MILITARY_GRADIENT_BACKGROUND_URL },
         { CardType.CardSpell,    ImageConstants.Background.CARD_SPELL_GRADIENT_BACKGROUND_URL },
-        { CardType.Books,        ImageConstants.Background.CARD_HERO_GRADIENT_BACKGROUND_URL },
-        { CardType.Pets,         ImageConstants.Background.CARD_HERO_GRADIENT_BACKGROUND_URL }
+        { CardType.Book,        ImageConstants.Background.CARD_HERO_GRADIENT_BACKGROUND_URL },
+        { CardType.Pet,         ImageConstants.Background.CARD_HERO_GRADIENT_BACKGROUND_URL }
     };
 
     /// <summary>

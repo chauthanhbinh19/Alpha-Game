@@ -502,4 +502,8 @@ public class UserEquipmentsService : IUserEquipmentsService
         return await _userEquipmentsRepository.EquipAllEquipmentsToPetAsync(petId, allEquipments);
     }
 
+    public async Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(List<(string equipmentId, Equipments data, double quantity)> list)
+    {
+        return await _userEquipmentsRepository.InsertOrUpdateUserEquipmentsBatchAsync(list);
+    }
 }
