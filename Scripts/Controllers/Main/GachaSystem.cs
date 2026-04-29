@@ -314,11 +314,11 @@ public class GachaSystem : MonoBehaviour
         switch (name)
         {
             case AppConstants.MainType.SUMMON_CARD_HERO:
-                if (card is CardHeroes hero)
+                if (card is CardHeroes cardHero)
                 {
-                    hero.Quantity += 1;
-                    await UserCardHeroesService.Create().InsertUserCardHeroAsync(hero);
-                    await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync(hero.Id);
+                    cardHero.Quantity += 1;
+                    await UserCardHeroesService.Create().InsertUserCardHeroAsync(cardHero);
+                    await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync(cardHero.Id);
                 }
                 break;
             case AppConstants.MainType.SUMMON_BOOK:
@@ -330,59 +330,59 @@ public class GachaSystem : MonoBehaviour
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_CAPTAIN:
-                if (card is CardCaptains captain)
+                if (card is CardCaptains cardCaptain)
                 {
-                    captain.Quantity += 1;
-                    await UserCardCaptainsService.Create().InsertUserCardCaptainAsync(captain);
-                    await CardCaptainsGalleryService.Create().InsertCardCaptainGalleryAsync(captain.Id);
+                    cardCaptain.Quantity += 1;
+                    await UserCardCaptainsService.Create().InsertUserCardCaptainAsync(cardCaptain);
+                    await CardCaptainsGalleryService.Create().InsertCardCaptainGalleryAsync(cardCaptain.Id);
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_MONSTER:
-                if (card is CardMonsters monster)
+                if (card is CardMonsters cardMonster)
                 {
-                    monster.Quantity += 1;
-                    await UserCardMonstersService.Create().InsertUserCardMonsterAsync(monster);
-                    await CardMonstersGalleryService.Create().InsertCardMonsterGalleryAsync(monster.Id);
+                    cardMonster.Quantity += 1;
+                    await UserCardMonstersService.Create().InsertUserCardMonsterAsync(cardMonster);
+                    await CardMonstersGalleryService.Create().InsertCardMonsterGalleryAsync(cardMonster.Id);
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_MILITARY:
-                if (card is CardMilitaries military)
+                if (card is CardMilitaries cardMilitary)
                 {
-                    military.Quantity += 1;
-                    await UserCardMilitariesService.Create().InsertUserCardMilitaryAsync(military);
-                    await CardMilitariesGalleryService.Create().InsertCardMilitaryGalleryAsync(military.Id);
+                    cardMilitary.Quantity += 1;
+                    await UserCardMilitariesService.Create().InsertUserCardMilitaryAsync(cardMilitary);
+                    await CardMilitariesGalleryService.Create().InsertCardMilitaryGalleryAsync(cardMilitary.Id);
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_SPELL:
-                if (card is CardSpells spell)
+                if (card is CardSpells cardSpell)
                 {
-                    spell.Quantity += 1;
-                    await UserCardSpellsService.Create().InsertUserCardSpellAsync(spell);
-                    await CardSpellsGalleryService.Create().InsertCardSpellGalleryAsync(spell.Id);
+                    cardSpell.Quantity += 1;
+                    await UserCardSpellsService.Create().InsertUserCardSpellAsync(cardSpell);
+                    await CardSpellsGalleryService.Create().InsertCardSpellGalleryAsync(cardSpell.Id);
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_COLONEL:
-                if (card is CardColonels colonel)
+                if (card is CardColonels cardColonel)
                 {
-                    colonel.Quantity += 1;
-                    await UserCardColonelsService.Create().InsertUserCardColonelAsync(colonel);
-                    await CardColonelsGalleryService.Create().InsertCardColonelGalleryAsync(colonel.Id);
+                    cardColonel.Quantity += 1;
+                    await UserCardColonelsService.Create().InsertUserCardColonelAsync(cardColonel);
+                    await CardColonelsGalleryService.Create().InsertCardColonelGalleryAsync(cardColonel.Id);
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_GENERAL:
-                if (card is CardGenerals general)
+                if (card is CardGenerals cardGeneral)
                 {
-                    general.Quantity += 1;
-                    await UserCardGeneralsService.Create().InsertUserCardGeneralAsync(general);
-                    await CardGeneralsGalleryService.Create().InsertCardGeneralGalleryAsync(general.Id);
+                    cardGeneral.Quantity += 1;
+                    await UserCardGeneralsService.Create().InsertUserCardGeneralAsync(cardGeneral);
+                    await CardGeneralsGalleryService.Create().InsertCardGeneralGalleryAsync(cardGeneral.Id);
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_ADMIRAL:
-                if (card is CardAdmirals admiral)
+                if (card is CardAdmirals cardAdmiral)
                 {
-                    admiral.Quantity += 1;
-                    await UserCardAdmiralsService.Create().InsertUserCardAdmiralAsync(admiral);
-                    await CardAdmiralsGalleryService.Create().InsertCardAdmiralGalleryAsync(admiral.Id);
+                    cardAdmiral.Quantity += 1;
+                    await UserCardAdmiralsService.Create().InsertUserCardAdmiralAsync(cardAdmiral);
+                    await CardAdmiralsGalleryService.Create().InsertCardAdmiralGalleryAsync(cardAdmiral.Id);
                 }
                 break;
         }
@@ -392,7 +392,7 @@ public class GachaSystem : MonoBehaviour
     {
         return item switch
         {
-            CardHeroes c => $"UI/UI/{c.Rare}",
+            Equipments c => $"UI/UI/{c.Rare}",
             Books b => $"UI/UI/{b.Rare}",
             CardCaptains c => $"UI/UI/{c.Rare}",
             CardMonsters c => $"UI/UI/{c.Rare}",
@@ -409,7 +409,7 @@ public class GachaSystem : MonoBehaviour
     {
         return item switch
         {
-            CardHeroes c => c.Image,
+            Equipments c => c.Image,
             Books c => c.Image,
             CardCaptains c => c.Image,
             CardMonsters c => c.Image,

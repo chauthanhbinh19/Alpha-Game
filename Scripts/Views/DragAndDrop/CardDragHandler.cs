@@ -120,7 +120,7 @@ public class CardDragHandler : MonoBehaviour, IBeginDragHandler, IDragHandler, I
         object obj = this.obj;
         string position = mainPosition + "-" + dropHandler.position_id;
         double currentPower = User.CurrentUserPower;
-        if (obj is CardHeroes cardHero)
+        if (obj is Equipments cardHero)
         {
             if (!string.IsNullOrEmpty(dropHandler.card_id))
             {

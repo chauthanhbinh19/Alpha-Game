@@ -283,7 +283,7 @@ public class ButtonLoader : MonoBehaviour
     }
     public void CreateSetButtonGroup(object data, Transform buttonPanel)
     {
-        if (data is CardHeroes cardHero || data is CardCaptains cardCaptain ||
+        if (data is Equipments cardHero || data is CardCaptains cardCaptain ||
         data is CardColonels cardColonel || data is CardGenerals cardGeneral ||
         data is CardAdmirals cardAdmiral || data is CardMonsters cardMonster ||
         data is CardMilitaries cardMilitary || data is CardSpells cardSpell ||
@@ -405,7 +405,7 @@ public class ButtonLoader : MonoBehaviour
             Destroy(popUpPanelGameObject);
         });
 
-        if (data is CardHeroes cardHero)
+        if (data is Equipments cardHero)
         {
             CreateButtonGroupDetails(data, content);
         }
@@ -486,7 +486,7 @@ public class ButtonLoader : MonoBehaviour
     }
     public void CreateButtonGroupDetails(object data, Transform content)
     {
-        if (data is CardHeroes cardHero || data is CardCaptains cardCaptain ||
+        if (data is Equipments cardHero || data is CardCaptains cardCaptain ||
         data is CardColonels cardColonel || data is CardGenerals cardGeneral ||
         data is CardAdmirals cardAdmiral || data is CardMonsters cardMonster ||
         data is CardMilitaries cardMilitary || data is CardSpells cardSpell ||

@@ -307,7 +307,7 @@ public class CardHeroesController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(popupPanel);
         });
-        confirmButton.onClick.AddListener(async () =>
+        confirmButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
@@ -329,9 +329,9 @@ public class CardHeroesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync(cardHeroes.Id);
+                    await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync((string)cardHeroes.Id);
                     currencies = await UserCurrenciesService.Create().GetCardHeroesCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardHeroes.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)cardHeroes.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
@@ -355,6 +355,6 @@ public class CardHeroesController : MonoBehaviour
                     NotificationManager.Instance.ShowNotification(LocalizationManager.Get(AppDisplayConstants.Message.PURCHASE_FAILED));
                 }
             }
-        });
+        }));
     }
 }

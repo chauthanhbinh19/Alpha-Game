@@ -342,8 +342,8 @@ public class GalleryManager : MonoBehaviour
         ButtonEvent.Instance.Close(DictionaryContentPanel);
         if (mainType.Equals(AppConstants.MainType.CARD_HERO))
         {
-            List<CardHeroes> cards = await CardHeroesService.Create().GetCardHeroesAsync(search, type, rare, PAGE_SIZE, offset);
-            CardHeroesController.Instance.CreateCardHeroesGallery(cards, DictionaryContentPanel);
+            List<CardHeroes> cardHeroes = await CardHeroesService.Create().GetCardHeroesAsync(search, type, rare, PAGE_SIZE, offset);
+            CardHeroesController.Instance.CreateCardHeroesGallery(cardHeroes, DictionaryContentPanel);
 
             totalRecord = await CardHeroesService.Create().GetCardHeroesCountAsync(search, type, rare);
         }

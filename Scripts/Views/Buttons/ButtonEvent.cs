@@ -84,7 +84,7 @@ public class ButtonEvent : MonoBehaviour
         Transform transform = button.transform;
         RawImage buttonImage = transform.GetComponent<RawImage>();
         RawImage buttonLockedImage = transform.Find("Locked")?.GetComponent<RawImage>();
-        if (data is CardHeroes cardHero)
+        if (data is Equipments cardHero)
         {
             // mainId = cardHeroes.id;
             if (cardHero.Level >= value)

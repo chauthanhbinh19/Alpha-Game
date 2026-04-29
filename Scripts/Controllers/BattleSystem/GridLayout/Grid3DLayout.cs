@@ -5,9 +5,9 @@ using UnityEngine;
 public class Grid3DLayout : MonoBehaviour
 {
     [Header("Grid Settings")]
-    public int columns = 5;        // số cột
-    public float spacingX = 3f;  // khoảng cách ngang
-    public float spacingZ = 3f;  // khoảng cách dọc
+    public int columns = 12;        // số cột
+    public float spacingX = 1f;  // khoảng cách ngang
+    public float spacingZ = 1f;  // khoảng cách dọc
 
     [Header("Alignment")]
     public bool center = true;     // căn giữa grid

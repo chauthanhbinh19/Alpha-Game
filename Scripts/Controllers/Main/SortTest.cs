@@ -5,11 +5,11 @@ public class SortTest : MonoBehaviour
 {
     void Start()
     {
-        List<CardHeroes> heroes = new()
+        List<Equipments> heroes = new()
         {
-            new CardHeroes{Name = "Hero A", Power = 120},
-            new CardHeroes{Name = "Hero B", Power = 300},
-            new CardHeroes{Name = "Hero C", Power = 200},
+            new Equipments{Name = "Hero A", Power = 120},
+            new Equipments{Name = "Hero B", Power = 300},
+            new Equipments{Name = "Hero C", Power = 200},
         };
 
         ListSortHelper.SortByPower(heroes);

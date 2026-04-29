@@ -17,20 +17,20 @@ public class GridCell : MonoBehaviour
 
     public CellType CellType;
     public bool IsWalkable = true;
-    public CardController CurrentCard; // Card đang đứng tại ô này
-    public bool IsOccupied => CurrentCard != null; // Kiểm tra ô có người chưa
+    public CardController CurrentCard;
+    public bool IsOccupied => CurrentCard != null;
 
-    [Header("Object")]
-    public Renderer platform;
-    public Renderer basePlatform;
+    // ================= RENDERERS =================
+    [Header("Renderers (Toggle by SetActive)")]
+    public GameObject walkableRenderer;
+    public GameObject blockedRenderer;
+    public GameObject playerRenderer;
+    public GameObject enemyRenderer;
 
-    [Header("Material")]
-    public Material isWalkable1Material; // walkable
-    public Material playerMaterial;
-    public Material enemyMaterial;   // enemy
-    public Material isWalkable0Material;  // default / blocked
+    // (Optional) list để tắt nhanh
+    private List<GameObject> allRenderers;
 
-    // Thêm vào phần khai báo biến
+    // ================= TEAM DISPLAY =================
     [Header("Team Display (Auto Found)")]
     private TextMeshProUGUI teamText;
     private GameObject teamCanvas;
@@ -38,20 +38,46 @@ public class GridCell : MonoBehaviour
     // ================= INIT =================
     private void Awake()
     {
-        // LoadMaterials();
-        // UpdateMaterial();
+        CacheRenderers();
+        FindTeamDisplay();
+        UpdateVisual();
+        UpdateTeamDisplay();
     }
 
     private void OnValidate()
     {
-        // LoadMaterials();
-        UpdateMaterial();
+        CacheRenderers();
+        UpdateVisual();
         UpdateTeamDisplay();
+    }
+
+    private void CacheRenderers()
+    {
+        allRenderers = new List<GameObject>();
+
+        if (walkableRenderer != null) allRenderers.Add(walkableRenderer);
+        if (blockedRenderer != null) allRenderers.Add(blockedRenderer);
+        if (playerRenderer != null) allRenderers.Add(playerRenderer);
+        if (enemyRenderer != null) allRenderers.Add(enemyRenderer);
+    }
+
+    private void FindTeamDisplay()
+    {
+        // Tự tìm nếu chưa gán
+        if (teamCanvas == null)
+        {
+            teamCanvas = transform.Find("TeamCanvas")?.gameObject;
+        }
+
+        if (teamText == null && teamCanvas != null)
+        {
+            teamText = teamCanvas.GetComponentInChildren<TextMeshProUGUI>();
+        }
     }
 
     public void Refresh()
     {
-        UpdateMaterial();
+        UpdateVisual();
     }
 
     // ================= SET DATA =================
@@ -64,76 +90,87 @@ public class GridCell : MonoBehaviour
     public void SetType(CellType type)
     {
         CellType = type;
-        UpdateMaterial();
+        UpdateVisual();
     }
 
     public void SetWalkable(bool isWalkable)
     {
         IsWalkable = isWalkable;
-        UpdateMaterial();
+        UpdateVisual();
     }
 
-    // ================= CẬP NHẬT HIỂN THỊ =================
     public void SetTeam(int _teamNumber)
     {
         teamNumber = _teamNumber;
         UpdateTeamDisplay();
     }
 
+    // ================= VISUAL =================
+    private void DisableAllRenderers()
+    {
+        if (allRenderers == null) return;
+
+        foreach (var obj in allRenderers)
+        {
+            if (obj != null)
+                obj.SetActive(false);
+        }
+    }
+
+    private void UpdateVisual()
+    {
+        DisableAllRenderers();
+
+        // 1. Blocked ưu tiên cao nhất
+        if (!IsWalkable)
+        {
+            if (blockedRenderer != null)
+                blockedRenderer.SetActive(true);
+            return;
+        }
+
+        // 2. Xét loại cell
+        switch (CellType)
+        {
+            case CellType.Player:
+                if (playerRenderer != null)
+                    playerRenderer.SetActive(true);
+                break;
+
+            case CellType.Enemy:
+                if (enemyRenderer != null)
+                    enemyRenderer.SetActive(true);
+                break;
+
+            case CellType.Empty:
+            default:
+                if (walkableRenderer != null)
+                    walkableRenderer.SetActive(true);
+                break;
+        }
+    }
+
+    // ================= TEAM UI =================
     private void UpdateTeamDisplay()
     {
         bool shouldShow = (teamNumber != 0);
 
         if (teamCanvas != null)
-        {
             teamCanvas.SetActive(shouldShow);
-        }
 
         if (teamText != null && shouldShow)
-        {
             teamText.text = teamNumber.ToString();
-        }
     }
 
-    private void ApplyMaterial(Material mat)
-    {
-        platform.material = mat;
-    }
-
-    private void UpdateMaterial()
-    {
-        // 1. Nếu không thể đi (Blocked) -> Ưu tiên hiện màu đỏ/đen ngay lập tức
-        if (!IsWalkable)
-        {
-            ApplyMaterial(isWalkable0Material);
-            return;
-        }
-
-        // 2. Nếu có thể đi (IsWalkable == true) -> Xét tiếp loại Cell
-        Material mat;
-        switch (CellType)
-        {
-            case CellType.Enemy:
-                mat = enemyMaterial;
-                break;
-            case CellType.Player:
-                mat = playerMaterial;
-                break;
-            case CellType.Empty:
-            default:
-                mat = isWalkable1Material;
-                break;
-        }
-
-        ApplyMaterial(mat);
-    }
-
-    // Hàm để Card "nhập hộ khẩu" vào ô
+    // ================= OCCUPY =================
     public void OccupyCell(CardController card)
     {
         CurrentCard = card;
-        // Cập nhật CellType dựa trên team của Card nếu cần
-        SetType(card.CardData.MainPosition == 1 ? CellType.Player : CellType.Enemy);
+
+        // Set type theo team
+        SetType(card.CardData.MainPosition == 1 
+            ? CellType.Player 
+            : CellType.Enemy);
     }
 
     public void ClearCell()

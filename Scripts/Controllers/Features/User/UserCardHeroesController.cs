@@ -365,7 +365,7 @@ public class UserCardHeroesController : MonoBehaviour
         Transform transform = currentObject.transform;
         Transform skillContent = transform.Find("DictionaryCards/Content/SkillsPanel/Scroll View/Viewport/Content");
         Button setUpButton = transform.Find("DictionaryCards/Content/SkillsPanel/SetUpButton").GetComponent<Button>();
-        if (obj is CardHeroes cardHero)
+        if (obj is Equipments cardHero)
         {
             var skills = await UserSkillsService.Create().GetUserCardHeroesSkillsAsync(User.CurrentUserId, cardHero.Id);
             skills = skills.Where(x => x.Position != 0).ToList();
@@ -836,7 +836,7 @@ public class UserCardHeroesController : MonoBehaviour
             rareImage.texture = rareTexture;
 
             Button EquipButton = transform.Find("EquipButton").GetComponent<Button>();
-            EquipButton.onClick.AddListener(async () =>
+            EquipButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(popupSpiritBeastObject);
@@ -855,12 +855,12 @@ public class UserCardHeroesController : MonoBehaviour
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    var card = await UserCardHeroesService.Create().GetUserCardHeroByIdAsync(User.CurrentUserId, cardHero.Id);
-                    ShowCardHeroDetails(card, currentObject, 5);
+                    var card = await UserCardHeroesService.Create().GetUserCardHeroByIdAsync(User.CurrentUserId, (string)cardHero.Id);
+                    ShowCardHeroDetails((CardHeroes)card, currentObject, 5);
                 }
 
                 Destroy(popupSpiritBeastObject);
-            });
+            }));
         }
         GridLayoutGroup gridLayout = content.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

@@ -1257,7 +1257,7 @@ public class TeamsManager : MonoBehaviour
     {
         double currentPower = User.CurrentUserPower;
         string newPosition = teamPositionIndex.ToString() + "-" + teamSlotIndex.ToString();
-        if (newCard is CardHeroes cardHero)
+        if (newCard is Equipments cardHero)
         {
             if (oldCard == null)
             {

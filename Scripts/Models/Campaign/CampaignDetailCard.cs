@@ -8,7 +8,7 @@ public class CampaignDetailCard
     public int CampaignDetailId { get; set; }
     public int CardId { get; set; }
     public string Chapter { get; set; }
-    public CardHeroes Cards{ get; set; }
+    public Equipments Cards{ get; set; }
     // Constructor
     public CampaignDetailCard(int campaignId, int campaignDetailId, int cardId, string chapter)
     {

@@ -88,7 +88,7 @@ public class PopupDetailsManager : MonoBehaviour
 
         Debug.LogError($"Không hỗ trợ loại dữ liệu này: {dataType}");
     }
-    private void ShowCardHeroDetails(CardHeroes cardHero)
+    private void ShowCardHeroDetails(Equipments cardHero)
     {
         Transform transform = popupObject.transform;
         RawImage Image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();

@@ -55,7 +55,7 @@ public class CardDropHandler : MonoBehaviour, IDropHandler
             object obj = draggedCard.obj;
             string position = draggedCard.mainPosition + "-" + position_id;
             double currentPower = User.CurrentUserPower;
-            if (obj is CardHeroes cardHero)
+            if (obj is Equipments cardHero)
             {
                 if (!string.IsNullOrEmpty(card_id))
                 {

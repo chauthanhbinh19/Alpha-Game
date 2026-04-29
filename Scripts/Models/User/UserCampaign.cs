@@ -51,7 +51,7 @@ public class UserCampaign
         return null;
     }
     // Phương thức truy vấn thẻ (cards) của UserCampaign
-    public List<CardHeroes> GetCards(List<Campaigns> allCampaigns, List<CardHeroes> allCards)
+    public List<Equipments> GetCards(List<Campaigns> allCampaigns, List<Equipments> allCards)
     {
         var campaign = GetCampaign(allCampaigns);
         return campaign?.GetCardsForCampaign(allCards);
