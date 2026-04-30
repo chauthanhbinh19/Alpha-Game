@@ -165,27 +165,27 @@ public class EquipmentManager : MonoBehaviour
         Transform gridLayout = equipmentObject.transform.Find("GridLayout");
         if (gridLayout != null)
         {
-            Button bagBtn = gridLayout.transform.Find("Bag").GetComponent<Button>();
-            bagBtn.onClick.AddListener(async () =>
+            Button bagButton = gridLayout.transform.Find("Bag").GetComponent<Button>();
+            bagButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 await GetBagAsync(type);
             });
-            Button shopBtn = gridLayout.transform.Find("Shop").GetComponent<Button>();
-            shopBtn.onClick.AddListener(async () =>
+            Button shopButton = gridLayout.transform.Find("Shop").GetComponent<Button>();
+            shopButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 await GetShopAsync(type);
             });
-            Button enhancementBtn = gridLayout.transform.Find("Enhancement").GetComponent<Button>();
-            enhancementBtn.onClick.AddListener(async () =>
+            Button enhancementButton = gridLayout.transform.Find("Enhancement").GetComponent<Button>();
+            enhancementButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 await GetEnhancementAsync(type);
             });
-            Button missionBtn = gridLayout.transform.Find("Mission").GetComponent<Button>();
-            Button campaignBtn = gridLayout.transform.Find("Campaign").GetComponent<Button>();
-            campaignBtn.onClick.AddListener(() =>
+            Button missionButton = gridLayout.transform.Find("Mission").GetComponent<Button>();
+            Button campaignButton = gridLayout.transform.Find("Campaign").GetComponent<Button>();
+            campaignButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 // await GetCampaignAsync(type);
@@ -222,30 +222,30 @@ public class EquipmentManager : MonoBehaviour
         {
             GameObject equipmentObject = Instantiate(EquipmentPrefab, tempContent);
 
-            TextMeshProUGUI Title = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = equipment.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = equipmentObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = equipment.Name.Replace("_", " ");
 
-            TextMeshProUGUI Power = equipmentObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
-            Power.text = equipment.Power.ToString();
+            TextMeshProUGUI powerText = equipmentObject.transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
+            powerText.text = equipment.Power.ToString();
 
-            RawImage BackgroundImage = equipmentObject.transform.Find("Background").GetComponent<RawImage>();
+            RawImage backgroundImage = equipmentObject.transform.Find("Background").GetComponent<RawImage>();
             Texture backgroundTexture = TextureHelper.LoadTextureCached($"{EquipmentHelper.BackgroundImageForEquipment(type)}");
-            BackgroundImage.texture = backgroundTexture;
+            backgroundImage.texture = backgroundTexture;
 
-            RawImage Image = equipmentObject.transform.Find("MainImage").GetComponent<RawImage>();
+            RawImage image = equipmentObject.transform.Find("MainImage").GetComponent<RawImage>();
             Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(equipment.Image)}");
-            Image.texture = texture;
+            image.texture = texture;
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
-            RawImage BorderImage = equipmentObject.transform.Find("FrameImage").GetComponent<RawImage>();
+            RawImage borderImage = equipmentObject.transform.Find("FrameImage").GetComponent<RawImage>();
             Texture frameTexture = TextureHelper.LoadTextureCached($"{EquipmentHelper.FrameImageForEquipment(type)}");
-            BorderImage.texture = frameTexture;
+            borderImage.texture = frameTexture;
             // Lấy EventTrigger của RawImage
-            EventTrigger eventTrigger = BorderImage.gameObject.GetComponent<EventTrigger>();
+            EventTrigger eventTrigger = borderImage.gameObject.GetComponent<EventTrigger>();
             if (eventTrigger == null)
             {
-                eventTrigger = BorderImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
+                eventTrigger = borderImage.gameObject.AddComponent<EventTrigger>(); // Nếu chưa có thì thêm EventTrigger
             }
 
             // Gán sự kiện click
@@ -274,12 +274,12 @@ public class EquipmentManager : MonoBehaviour
         {
             GameObject equipmentObject = Instantiate(EquipmentShopPrefab, tempContent);
 
-            TextMeshProUGUI Title = equipmentObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            Title.text = equipment.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = equipmentObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = equipment.Name.Replace("_", " ");
 
-            RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
             Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(equipment.Image)}");
-            Image.texture = texture;
+            image.texture = texture;
             // RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
             // Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.rare}");
             // rareImage.texture = rareTexture;
@@ -288,13 +288,13 @@ public class EquipmentManager : MonoBehaviour
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(equipment.CurrencyImage)}");
             currencyImage.texture = currencyTexture;
 
-            TextMeshProUGUI currencyTitle = equipmentObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyTitle.text = equipment.Price.ToString().Replace("_", " ");
+            TextMeshProUGUI currencyTitleText = equipmentObject.transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
+            currencyTitleText.text = equipment.Price.ToString().Replace("_", " ");
 
-            Button buy = equipmentObject.transform.Find("Buy").GetComponent<Button>();
-            TextMeshProUGUI buttonText = buy.GetComponentInChildren<TextMeshProUGUI>();
+            Button buyButton = equipmentObject.transform.Find("Buy").GetComponent<Button>();
+            TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
             buttonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUY);
-            buy.onClick.AddListener(async () =>
+            buyButton.onClick.AddListener(async () =>
             {
                 await GetQuantityAsync(type, equipment);
             });
@@ -312,12 +312,12 @@ public class EquipmentManager : MonoBehaviour
         {
             GameObject equipmentObject = Instantiate(equipmentsPrefab, MainMenuEnhancementContent);
 
-            Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
-            Title.text = equipment.Name.Replace("_", " ");
+            Text titleText = equipmentObject.transform.Find("Title").GetComponent<Text>();
+            titleText.text = equipment.Name.Replace("_", " ");
 
-            RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
+            RawImage image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
             Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(equipment.Image)}");
-            Image.texture = texture;
+            image.texture = texture;
             // cardImage.SetNativeSize();
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
@@ -342,8 +342,8 @@ public class EquipmentManager : MonoBehaviour
         {
             GameObject equipmentObject = Instantiate(campaignPrefab, tempContent);
 
-            TextMeshProUGUI title = equipmentObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
-            title.text = campaignDetail.Name.Replace("_", " ");
+            TextMeshProUGUI titleText = equipmentObject.transform.Find("NameText").GetComponent<TextMeshProUGUI>();
+            titleText.text = campaignDetail.Name.Replace("_", " ");
 
             // RawImage Image = equipmentObject.transform.Find("Image").GetComponent<RawImage>();
             // string fileNameWithoutExtension = equipment.image.Replace(".png", "");
@@ -412,8 +412,8 @@ public class EquipmentManager : MonoBehaviour
         Transform DictionaryPanel = currentObject.transform.Find("DictionaryCards");
         if (DictionaryPanel != null)
         {
-            Text Title = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
-            Title.text = LocalizationManager.Get("bag");
+            Text titleText = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
+            titleText.text = LocalizationManager.Get("bag");
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuContentPanel");
             Button closeButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             closeButton.onClick.AddListener(() =>
@@ -439,19 +439,19 @@ public class EquipmentManager : MonoBehaviour
         if (button != null)
         {
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuContentPanel");
-            TextMeshProUGUI PageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
-            PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+            TextMeshProUGUI pageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
+            pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
             Button nextButton = button.transform.Find("Next").GetComponent<Button>();
             nextButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-                _=ChangeNextPageAsync(1, PageText, content, type);
+                _=ChangeNextPageAsync(1, pageText, content, type);
             });
             Button previousButton = button.transform.Find("Previous").GetComponent<Button>();
             previousButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-                _=ChangePreviousPageAsync(1, PageText, content, type);
+                _=ChangePreviousPageAsync(1, pageText, content, type);
             });
         }
 
@@ -471,8 +471,8 @@ public class EquipmentManager : MonoBehaviour
         Transform DictionaryPanel = currentObject.transform.Find("DictionaryCards");
         if (DictionaryPanel != null)
         {
-            TextMeshProUGUI Title = DictionaryPanel.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            Title.text = LocalizationManager.Get(AppDisplayConstants.MainType.SHOP);
+            TextMeshProUGUI titleText = DictionaryPanel.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SHOP);
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/Content");
             Button closeButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             closeButton.onClick.AddListener(() =>
@@ -495,19 +495,19 @@ public class EquipmentManager : MonoBehaviour
         if (button != null)
         {
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/Content");
-            TextMeshProUGUI PageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
-            PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+            TextMeshProUGUI pageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
+            pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
             Button nextButton = button.transform.Find("Next").GetComponent<Button>();
             nextButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-                _=ChangeNextPageAsync(2, PageText, content, type);
+                _=ChangeNextPageAsync(2, pageText, content, type);
             });
             Button previousButton = button.transform.Find("Previous").GetComponent<Button>();
             previousButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-                _=ChangePreviousPageAsync(2, PageText, content, type);
+                _=ChangePreviousPageAsync(2, pageText, content, type);
             });
         }
         Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
@@ -528,8 +528,8 @@ public class EquipmentManager : MonoBehaviour
         Transform DictionaryPanel = currentObject.transform.Find("DictionaryCards");
         if (DictionaryPanel != null)
         {
-            Text Title = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
-            Title.text = LocalizationManager.Get("enhancement");
+            Text titleText = DictionaryPanel.transform.Find("Title").GetComponent<Text>();
+            titleText.text = LocalizationManager.Get("enhancement");
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuEnhancementContentPanel");
             Button closeButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
             closeButton.onClick.AddListener(() => Destroy(currentObject));
@@ -541,12 +541,12 @@ public class EquipmentManager : MonoBehaviour
         if (button != null)
         {
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/MainMenuEnhancementContentPanel");
-            TextMeshProUGUI PageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
-            PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+            TextMeshProUGUI pageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
+            pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
             Button nextButton = button.transform.Find("Next").GetComponent<Button>();
-            nextButton.onClick.AddListener(() => _=ChangeNextPageAsync(3, PageText, content, type));
+            nextButton.onClick.AddListener(() => _=ChangeNextPageAsync(3, pageText, content, type));
             Button previousButton = button.transform.Find("Previous").GetComponent<Button>();
-            previousButton.onClick.AddListener(() => _=ChangePreviousPageAsync(3, PageText, content, type));
+            previousButton.onClick.AddListener(() => _=ChangePreviousPageAsync(3, pageText, content, type));
         }
     }
     // public async Task GetCampaignAsync(string type)
@@ -824,7 +824,7 @@ public class EquipmentManager : MonoBehaviour
             }
             else
             {
-                FindObjectOfType<NotificationManager>().ShowNotification("Purchase Failed!");
+                NotificationManager.Instance.ShowNotification(LocalizationManager.Get(AppDisplayConstants.Notification.PURCHASE_FAILED));
             }
         });
     }

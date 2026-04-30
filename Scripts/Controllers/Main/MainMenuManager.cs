@@ -25,7 +25,6 @@ public class MainMenuManager : MonoBehaviour
     private Transform LeftScrollViewContentPanel;
 
     private Transform PositionPanel;
-    private GameObject summonObject;
     private GameObject currentObject;
     private Material UI_Red_Gradient_Radius_Mat_MaskPercent_70;
     //Variable for pagination

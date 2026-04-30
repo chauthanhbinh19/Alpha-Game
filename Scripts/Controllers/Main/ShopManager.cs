@@ -26,7 +26,7 @@ public class ShopManager : MonoBehaviour
     private int currentPage = 1;
     private int totalPage;
     private const int PAGE_SIZE = 100;
-    private TextMeshProUGUI PageText;
+    private TextMeshProUGUI pageText;
     private Button nextButton;
     private Button previousButton;
     private string mainType;
@@ -233,7 +233,7 @@ public class ShopManager : MonoBehaviour
         currencyPanel = transform.Find("DictionaryCards/Currency");
         firstDecorationImage = transform.Find("DictionaryCards/FirstDecorationImage").GetComponent<RawImage>();
         secondDecorationImage = transform.Find("DictionaryCards/SecondDecorationImage").GetComponent<RawImage>();
-        PageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
+        pageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
         nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
         previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
         titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
@@ -247,7 +247,9 @@ public class ShopManager : MonoBehaviour
         homeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Close(MainPanel);
+            offset = 0;
+            currentPage = 1;
+            ButtonEvent.Instance.Close(MainPanel);
             await HomeManager.Instance.CreateHomePanelAsync();
         });
         nextButton.onClick.AddListener(() =>
@@ -321,7 +323,7 @@ public class ShopManager : MonoBehaviour
         this.type = type;
         currentPage = 1;
         offset = 0;
-        ClearAllPrefabs();
+        ButtonEvent.Instance.Close(currentContent);
         ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
         _=LoadCurrentPageAsync();
     }
@@ -837,26 +839,18 @@ public class ShopManager : MonoBehaviour
         }
 
         totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
-        PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
-    }
-    public void ClearAllPrefabs()
-    {
-        // Duyệt qua tất cả các con cái của cardsContent
-        foreach (Transform child in currentContent)
-        {
-            Destroy(child.gameObject);
-        }
+        pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
     }
     public void ChangeNextPage()
     {
         if (currentPage < totalPage)
         {
-            ClearAllPrefabs();
+            ButtonEvent.Instance.Close(currentContent);
             currentPage = currentPage + 1;
             offset = offset + PAGE_SIZE;
             _=LoadCurrentPageAsync();
 
-            PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+            pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
         }
     }
@@ -864,22 +858,13 @@ public class ShopManager : MonoBehaviour
     {
         if (currentPage > 1)
         {
-            ClearAllPrefabs();
+            ButtonEvent.Instance.Close(currentContent);
             currentPage = currentPage - 1;
             offset = offset - PAGE_SIZE;
             _=LoadCurrentPageAsync();
 
-            PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+            pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
 
-        }
-    }
-    public void Close(Transform content)
-    {
-        offset = 0;
-        currentPage = 1;
-        foreach (Transform child in content)
-        {
-            Destroy(child.gameObject);
         }
     }
 

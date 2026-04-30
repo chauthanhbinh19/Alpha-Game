@@ -91,19 +91,19 @@ public class PopupDetailsManager : MonoBehaviour
     private void ShowCardHeroDetails(Equipments cardHero)
     {
         Transform transform = popupObject.transform;
-        RawImage Image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardHero.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        Image.texture = texture;
+        image.texture = texture;
 
-        TextMeshProUGUI name = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        name.text = cardHero.Name;
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = cardHero.Name;
 
-        TextMeshProUGUI power = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        power.text = NumberFormatterHelper.FormatNumber(cardHero.Power, false);
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatterHelper.FormatNumber(cardHero.Power, false);
 
-        TextMeshProUGUI level = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
-        level.text = cardHero.Level.ToString();
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = cardHero.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
         Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardHero.Rare}");

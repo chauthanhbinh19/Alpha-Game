@@ -9,9 +9,7 @@ public class CollectionManager : MonoBehaviour
 {
     private GameObject ItemButtonPrefab;
     private Transform collectionMenuPanel;
-    private GameObject TypeButtonPrefab;
     private GameObject DictionaryPanelPrefab;
-    private GameObject RareButtonPrefab;
     private Transform DictionaryContentPanel;
     private Transform RightScrollViewContentPanel;
     private Transform LeftScrollViewContentPanel;
@@ -139,8 +137,6 @@ public class CollectionManager : MonoBehaviour
     public void CreateCollection(Transform CollectionMenuPanel)
     {
         collectionMenuPanel = CollectionMenuPanel;
-        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
-        RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
         DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
         UI_Green_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Green_Gradient_Radius_Mat_MaskPercent_70");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");

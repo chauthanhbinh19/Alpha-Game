@@ -940,5 +940,8 @@ public static class AppDisplayConstants
         public const string Zodiac = "Equipment.ZodiacEquipment";
         public const string Zerox = "Equipment.ZeroxEquipment";
     }
-
+    public static class Notification
+    {
+        public const string PURCHASE_FAILED = "Notification.MessageNumber1";
+    }
 }

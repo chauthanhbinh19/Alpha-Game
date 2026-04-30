@@ -15,7 +15,6 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
     private GameObject TypeButtonPrefab;
     private GameObject currentObject;
     private GameObject SlotObject;
-    private GameObject ElementDetails2Prefab;
     private Button upLevelButton;
     private Button upMaxLevelButton;
     private Transform LevelCondition;
@@ -50,7 +49,6 @@ public class MainMenuAnimeStatsManager : MonoBehaviour
         MainMenuAnimePanelPrefab = UIManager.Instance.Get("MainMenuAnimePanelPrefab");
         TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
         AnimeSlotPrefab = UIManager.Instance.Get("AnimeSlotPrefab");
-        ElementDetails2Prefab = UIManager.Instance.Get("ElementDetails2Prefab");
         AnimeButtonPrefab = UIManager.Instance.Get("AnimeButtonPrefab");
 
         userItemsService = UserItemsService.Create();

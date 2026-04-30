@@ -22,9 +22,9 @@ public class MainMenuDetailsManager : MonoBehaviour
     private Transform UpgradeElementContent;
     private Transform UpgradeMaterialContent;
     private GameObject currentObject;
-    private Transform buttonGroupPanel1;
-    private Transform buttonGroupPanel2;
-    private Transform buttonGroupPanel3;
+    // private Transform buttonGroupPanel1;
+    // private Transform buttonGroupPanel2;
+    // private Transform buttonGroupPanel3;
     private Transform setButtonGroupPanel;
     private RawImage cardBackground;
     // private double increasePerLevel = 0.01;
@@ -79,9 +79,9 @@ public class MainMenuDetailsManager : MonoBehaviour
         TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         // Button HomeButton = currentObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        buttonGroupPanel1 = transform.Find("DictionaryCards/ButtonGroup1");
-        buttonGroupPanel2 = transform.Find("DictionaryCards/ButtonGroup2");
-        buttonGroupPanel3 = transform.Find("DictionaryCards/ButtonGroup3");
+        // buttonGroupPanel1 = transform.Find("DictionaryCards/ButtonGroup1");
+        // buttonGroupPanel2 = transform.Find("DictionaryCards/ButtonGroup2");
+        // buttonGroupPanel3 = transform.Find("DictionaryCards/ButtonGroup3");
         setButtonGroupPanel = transform.Find("DictionaryCards/SetButtonGroup/Viewport/Content");
         cardBackground = transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
         RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();

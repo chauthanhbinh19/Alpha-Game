@@ -826,5 +826,7 @@
   { "key": "ScienceFiction.ReactorNumber19", "value": "Reactor Number 19" },
   { "key": "ScienceFiction.ReactorNumber20", "value": "Reactor Number 20" },
 
-  { "key": "Message.MessageNumber1", "value": "This card is already used in another position." }
+  { "key": "Message.MessageNumber1", "value": "This card is already used in another position." },
+  
+  { "key": "Notification.MessageNumber1", "value": "Purchase Failed." }
 ]

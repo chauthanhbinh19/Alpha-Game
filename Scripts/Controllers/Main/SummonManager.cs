@@ -23,15 +23,15 @@ public class SummonManager : MonoBehaviour
     private GameObject summonObject;
     private Transform CurrencyPanel;
     //Variable for pagination
-    private int currentPage;
+    private int currentPage = 1;
     private int totalPage;
     private const int PAGE_SIZE = 100;
     private TextMeshProUGUI PageText;
     private string mainType;
     private TextMeshProUGUI titleText;
-    private string type;
+    private string type = AppConstants.Type.ALL;
     private TMP_FontAsset EuroStyleNormalFont;
-    private int fontSize;
+    private int fontSize = 24;
     public static SummonManager Instance { get; private set; }
     private void Awake()
     {
@@ -53,14 +53,11 @@ public class SummonManager : MonoBehaviour
 
     public void Initialize()
     {
-        currentPage = 1;
-        type = AppConstants.Type.ALL;
         // mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
         SummonTabButtonPrefab = UIManager.Instance.Get("SummonTabButtonPrefab");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         SummonPanelPrefab = UIManager.Instance.Get("SummonPanelPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
-        fontSize = 24;
     }
     public void GetButtonEvent(GameObject popupButtonObject)
     {
