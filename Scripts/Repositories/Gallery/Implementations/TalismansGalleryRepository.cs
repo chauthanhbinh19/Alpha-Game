@@ -10,7 +10,7 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
     public async Task<List<Talismans>> GetTalismansCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Talismans> talismans = new List<Talismans>();
-        string user_id = User.CurrentUserId;
+        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -64,7 +64,7 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
                     {
                         selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     selectCommand.Parameters.AddWithValue("@limit", pageSize);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
 
@@ -223,9 +223,9 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
 
         return count;
     }
-    public async Task InsertTalismanGalleryAsync(string Id, Talismans talismanFromDB)
+    public async Task InsertTalismanGalleryAsync(string Id, Talismans talisman)
     {
-        int percent = QualityEvaluatorHelper.CheckQuality(talismanFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(talisman.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -308,56 +308,56 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
                     insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
                     // Thuộc tính
-                    insertCommand.Parameters.AddWithValue("@power", talismanFromDB.Power);
-                    insertCommand.Parameters.AddWithValue("@health", talismanFromDB.Health);
-                    insertCommand.Parameters.AddWithValue("@physical_attack", talismanFromDB.PhysicalAttack);
-                    insertCommand.Parameters.AddWithValue("@physical_defense", talismanFromDB.PhysicalDefense);
-                    insertCommand.Parameters.AddWithValue("@magical_attack", talismanFromDB.MagicalAttack);
-                    insertCommand.Parameters.AddWithValue("@magical_defense", talismanFromDB.MagicalDefense);
-                    insertCommand.Parameters.AddWithValue("@chemical_attack", talismanFromDB.ChemicalAttack);
-                    insertCommand.Parameters.AddWithValue("@chemical_defense", talismanFromDB.ChemicalDefense);
-                    insertCommand.Parameters.AddWithValue("@atomic_attack", talismanFromDB.AtomicAttack);
-                    insertCommand.Parameters.AddWithValue("@atomic_defense", talismanFromDB.AtomicDefense);
-                    insertCommand.Parameters.AddWithValue("@mental_attack", talismanFromDB.MentalAttack);
-                    insertCommand.Parameters.AddWithValue("@mental_defense", talismanFromDB.MentalDefense);
-                    insertCommand.Parameters.AddWithValue("@speed", talismanFromDB.Speed);
-                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", talismanFromDB.CriticalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@critical_rate", talismanFromDB.CriticalRate);
-                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", talismanFromDB.CriticalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", talismanFromDB.IgnoreCriticalRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_rate", talismanFromDB.PenetrationRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", talismanFromDB.PenetrationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@evasion_rate", talismanFromDB.EvasionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", talismanFromDB.DamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", talismanFromDB.IgnoreDamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", talismanFromDB.AbsorbedDamageRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", talismanFromDB.VitalityRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", talismanFromDB.VitalityRegenerationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@accuracy_rate", talismanFromDB.AccuracyRate);
-                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", talismanFromDB.LifestealRate);
-                    insertCommand.Parameters.AddWithValue("@shield_strength", talismanFromDB.ShieldStrength);
-                    insertCommand.Parameters.AddWithValue("@tenacity", talismanFromDB.Tenacity);
-                    insertCommand.Parameters.AddWithValue("@resistance_rate", talismanFromDB.ResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@combo_rate", talismanFromDB.ComboRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", talismanFromDB.IgnoreComboRate);
-                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", talismanFromDB.ComboDamageRate);
-                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", talismanFromDB.ComboResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@stun_rate", talismanFromDB.StunRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", talismanFromDB.IgnoreStunRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_rate", talismanFromDB.ReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", talismanFromDB.IgnoreReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", talismanFromDB.ReflectionDamageRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", talismanFromDB.ReflectionResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@mana", talismanFromDB.Mana);
-                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", talismanFromDB.ManaRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", talismanFromDB.DamageToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", talismanFromDB.ResistanceToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", talismanFromDB.DamageToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", talismanFromDB.ResistanceToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", talismanFromDB.NormalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", talismanFromDB.NormalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", talismanFromDB.SkillDamageRate);
-                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", talismanFromDB.SkillResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@power", talisman.Power);
+                    insertCommand.Parameters.AddWithValue("@health", talisman.Health);
+                    insertCommand.Parameters.AddWithValue("@physical_attack", talisman.PhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@physical_defense", talisman.PhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@magical_attack", talisman.MagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@magical_defense", talisman.MagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@chemical_attack", talisman.ChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@chemical_defense", talisman.ChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@atomic_attack", talisman.AtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@atomic_defense", talisman.AtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@mental_attack", talisman.MentalAttack);
+                    insertCommand.Parameters.AddWithValue("@mental_defense", talisman.MentalDefense);
+                    insertCommand.Parameters.AddWithValue("@speed", talisman.Speed);
+                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", talisman.CriticalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@critical_rate", talisman.CriticalRate);
+                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", talisman.CriticalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", talisman.IgnoreCriticalRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_rate", talisman.PenetrationRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", talisman.PenetrationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@evasion_rate", talisman.EvasionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", talisman.DamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", talisman.IgnoreDamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", talisman.AbsorbedDamageRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", talisman.VitalityRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", talisman.VitalityRegenerationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@accuracy_rate", talisman.AccuracyRate);
+                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", talisman.LifestealRate);
+                    insertCommand.Parameters.AddWithValue("@shield_strength", talisman.ShieldStrength);
+                    insertCommand.Parameters.AddWithValue("@tenacity", talisman.Tenacity);
+                    insertCommand.Parameters.AddWithValue("@resistance_rate", talisman.ResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@combo_rate", talisman.ComboRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", talisman.IgnoreComboRate);
+                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", talisman.ComboDamageRate);
+                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", talisman.ComboResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@stun_rate", talisman.StunRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", talisman.IgnoreStunRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_rate", talisman.ReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", talisman.IgnoreReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", talisman.ReflectionDamageRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", talisman.ReflectionResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@mana", talisman.Mana);
+                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", talisman.ManaRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", talisman.DamageToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", talisman.ResistanceToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", talisman.DamageToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", talisman.ResistanceToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", talisman.NormalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", talisman.NormalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", talisman.SkillDamageRate);
+                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", talisman.SkillResistanceRate);
 
                     // % buff theo quality
                     insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
@@ -470,7 +470,7 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
             }
         }
     }
-    public async Task UpdateTalismanGalleryPowerAsync(string Id, Talismans talismanFromDB)
+    public async Task UpdateTalismanGalleryPowerAsync(string Id, Talismans talisman)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -554,56 +554,56 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
                 updateCommand.Parameters.AddWithValue("@talisman_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
-                updateCommand.Parameters.AddWithValue("@power", talismanFromDB.Power);
-                updateCommand.Parameters.AddWithValue("@health", talismanFromDB.Health);
-                updateCommand.Parameters.AddWithValue("@physical_attack", talismanFromDB.PhysicalAttack);
-                updateCommand.Parameters.AddWithValue("@physical_defense", talismanFromDB.PhysicalDefense);
-                updateCommand.Parameters.AddWithValue("@magical_attack", talismanFromDB.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@magical_defense", talismanFromDB.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@chemical_attack", talismanFromDB.ChemicalAttack);
-                updateCommand.Parameters.AddWithValue("@chemical_defense", talismanFromDB.ChemicalDefense);
-                updateCommand.Parameters.AddWithValue("@atomic_attack", talismanFromDB.AtomicAttack);
-                updateCommand.Parameters.AddWithValue("@atomic_defense", talismanFromDB.AtomicDefense);
-                updateCommand.Parameters.AddWithValue("@mental_attack", talismanFromDB.MentalAttack);
-                updateCommand.Parameters.AddWithValue("@mental_defense", talismanFromDB.MentalDefense);
-                updateCommand.Parameters.AddWithValue("@speed", talismanFromDB.Speed);
-                updateCommand.Parameters.AddWithValue("@critical_damage_rate", talismanFromDB.CriticalDamageRate);
-                updateCommand.Parameters.AddWithValue("@critical_rate", talismanFromDB.CriticalRate);
-                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", talismanFromDB.CriticalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", talismanFromDB.IgnoreCriticalRate);
-                updateCommand.Parameters.AddWithValue("@penetration_rate", talismanFromDB.PenetrationRate);
-                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", talismanFromDB.PenetrationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@evasion_rate", talismanFromDB.EvasionRate);
-                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", talismanFromDB.DamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", talismanFromDB.IgnoreDamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", talismanFromDB.AbsorbedDamageRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", talismanFromDB.VitalityRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", talismanFromDB.VitalityRegenerationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@accuracy_rate", talismanFromDB.AccuracyRate);
-                updateCommand.Parameters.AddWithValue("@lifesteal_rate", talismanFromDB.LifestealRate);
-                updateCommand.Parameters.AddWithValue("@shield_strength", talismanFromDB.ShieldStrength);
-                updateCommand.Parameters.AddWithValue("@tenacity", talismanFromDB.Tenacity);
-                updateCommand.Parameters.AddWithValue("@resistance_rate", talismanFromDB.ResistanceRate);
-                updateCommand.Parameters.AddWithValue("@combo_rate", talismanFromDB.ComboRate);
-                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", talismanFromDB.IgnoreComboRate);
-                updateCommand.Parameters.AddWithValue("@combo_damage_rate", talismanFromDB.ComboDamageRate);
-                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", talismanFromDB.ComboResistanceRate);
-                updateCommand.Parameters.AddWithValue("@stun_rate", talismanFromDB.StunRate);
-                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", talismanFromDB.IgnoreStunRate);
-                updateCommand.Parameters.AddWithValue("@reflection_rate", talismanFromDB.ReflectionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", talismanFromDB.IgnoreReflectionRate);
-                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", talismanFromDB.ReflectionDamageRate);
-                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", talismanFromDB.ReflectionResistanceRate);
-                updateCommand.Parameters.AddWithValue("@mana", talismanFromDB.Mana);
-                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", talismanFromDB.ManaRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", talismanFromDB.DamageToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", talismanFromDB.ResistanceToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", talismanFromDB.DamageToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", talismanFromDB.ResistanceToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@normal_damage_rate", talismanFromDB.NormalDamageRate);
-                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", talismanFromDB.NormalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@skill_damage_rate", talismanFromDB.SkillDamageRate);
-                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", talismanFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", talisman.Power);
+                updateCommand.Parameters.AddWithValue("@health", talisman.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", talisman.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", talisman.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", talisman.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", talisman.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", talisman.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", talisman.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", talisman.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", talisman.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", talisman.MentalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", talisman.MentalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", talisman.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", talisman.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", talisman.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", talisman.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", talisman.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", talisman.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", talisman.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", talisman.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", talisman.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", talisman.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", talisman.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", talisman.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", talisman.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", talisman.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", talisman.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", talisman.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", talisman.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", talisman.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", talisman.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", talisman.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", talisman.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", talisman.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", talisman.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", talisman.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", talisman.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", talisman.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", talisman.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", talisman.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", talisman.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", talisman.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", talisman.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", talisman.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", talisman.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", talisman.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", talisman.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", talisman.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", talisman.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", talisman.SkillResistanceRate);
                 updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
                 updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
                 updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);

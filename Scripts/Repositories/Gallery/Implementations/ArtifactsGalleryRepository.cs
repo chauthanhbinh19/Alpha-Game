@@ -10,7 +10,7 @@ public class ArtifactsGalleryRepository : IArtifactsGalleryRepository
     public async Task<List<Artifacts>> GetArtifactsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Artifacts> artifacts = new List<Artifacts>();
-        string user_id = User.CurrentUserId;
+        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -50,7 +50,7 @@ public class ArtifactsGalleryRepository : IArtifactsGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -207,7 +207,7 @@ public class ArtifactsGalleryRepository : IArtifactsGalleryRepository
 
         return count;
     }
-    public async Task InsertArtifactGalleryAsync(string Id, Artifacts artifactFromDB)
+    public async Task InsertArtifactGalleryAsync(string Id, Artifacts artifact)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -281,64 +281,64 @@ public class ArtifactsGalleryRepository : IArtifactsGalleryRepository
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
                             insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
-                            insertCommand.Parameters.AddWithValue("@power", artifactFromDB.Power);
-                            insertCommand.Parameters.AddWithValue("@health", artifactFromDB.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", artifactFromDB.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", artifactFromDB.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", artifactFromDB.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", artifactFromDB.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", artifactFromDB.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", artifactFromDB.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", artifactFromDB.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", artifactFromDB.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@power", artifact.Power);
+                            insertCommand.Parameters.AddWithValue("@health", artifact.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", artifact.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", artifact.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", artifact.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", artifact.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", artifact.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", artifact.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", artifact.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", artifact.AtomicDefense);
 
-                            insertCommand.Parameters.AddWithValue("@mental_attack", artifactFromDB.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", artifactFromDB.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", artifact.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", artifact.MentalDefense);
 
-                            insertCommand.Parameters.AddWithValue("@speed", artifactFromDB.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", artifactFromDB.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", artifactFromDB.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", artifactFromDB.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", artifactFromDB.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", artifactFromDB.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", artifactFromDB.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", artifactFromDB.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", artifactFromDB.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", artifactFromDB.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", artifactFromDB.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@speed", artifact.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", artifact.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", artifact.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", artifact.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", artifact.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", artifact.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", artifact.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", artifact.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", artifact.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", artifact.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", artifact.AbsorbedDamageRate);
 
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", artifactFromDB.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", artifactFromDB.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", artifact.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", artifact.VitalityRegenerationResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", artifactFromDB.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", artifactFromDB.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", artifactFromDB.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", artifactFromDB.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", artifactFromDB.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", artifactFromDB.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", artifactFromDB.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", artifactFromDB.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", artifactFromDB.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", artifact.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", artifact.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", artifact.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", artifact.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", artifact.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", artifact.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", artifact.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", artifact.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", artifact.ComboResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@stun_rate", artifactFromDB.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", artifactFromDB.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", artifactFromDB.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", artifactFromDB.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", artifactFromDB.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", artifactFromDB.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", artifact.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", artifact.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", artifact.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", artifact.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", artifact.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", artifact.ReflectionResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@mana", artifactFromDB.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", artifactFromDB.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@mana", artifact.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", artifact.ManaRegenerationRate);
 
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", artifactFromDB.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", artifactFromDB.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", artifactFromDB.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", artifactFromDB.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", artifact.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", artifact.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", artifact.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", artifact.ResistanceToSameFactionRate);
 
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", artifactFromDB.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", artifactFromDB.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", artifactFromDB.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", artifactFromDB.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", artifact.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", artifact.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", artifact.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", artifact.SkillResistanceRate);
 
                             insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
                             insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
@@ -462,7 +462,7 @@ public class ArtifactsGalleryRepository : IArtifactsGalleryRepository
             }
         }
     }
-    public async Task UpdateArtifactGalleryPowerAsync(string id, Artifacts artifactFromDB)
+    public async Task UpdateArtifactGalleryPowerAsync(string id, Artifacts artifact)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -552,56 +552,56 @@ public class ArtifactsGalleryRepository : IArtifactsGalleryRepository
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
 
                 // Stats
-                updateCommand.Parameters.AddWithValue("@power", artifactFromDB.Power);
-                updateCommand.Parameters.AddWithValue("@health", artifactFromDB.Health);
-                updateCommand.Parameters.AddWithValue("@physical_attack", artifactFromDB.PhysicalAttack);
-                updateCommand.Parameters.AddWithValue("@physical_defense", artifactFromDB.PhysicalDefense);
-                updateCommand.Parameters.AddWithValue("@magical_attack", artifactFromDB.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@magical_defense", artifactFromDB.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@chemical_attack", artifactFromDB.ChemicalAttack);
-                updateCommand.Parameters.AddWithValue("@chemical_defense", artifactFromDB.ChemicalDefense);
-                updateCommand.Parameters.AddWithValue("@atomic_attack", artifactFromDB.AtomicAttack);
-                updateCommand.Parameters.AddWithValue("@atomic_defense", artifactFromDB.AtomicDefense);
-                updateCommand.Parameters.AddWithValue("@mental_attack", artifactFromDB.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@mental_defense", artifactFromDB.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@speed", artifactFromDB.Speed);
-                updateCommand.Parameters.AddWithValue("@critical_damage_rate", artifactFromDB.CriticalDamageRate);
-                updateCommand.Parameters.AddWithValue("@critical_rate", artifactFromDB.CriticalRate);
-                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", artifactFromDB.CriticalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", artifactFromDB.IgnoreCriticalRate);
-                updateCommand.Parameters.AddWithValue("@penetration_rate", artifactFromDB.PenetrationRate);
-                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", artifactFromDB.PenetrationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@evasion_rate", artifactFromDB.EvasionRate);
-                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", artifactFromDB.DamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", artifactFromDB.IgnoreDamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", artifactFromDB.AbsorbedDamageRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", artifactFromDB.VitalityRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", artifactFromDB.VitalityRegenerationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@accuracy_rate", artifactFromDB.AccuracyRate);
-                updateCommand.Parameters.AddWithValue("@lifesteal_rate", artifactFromDB.LifestealRate);
-                updateCommand.Parameters.AddWithValue("@shield_strength", artifactFromDB.ShieldStrength);
-                updateCommand.Parameters.AddWithValue("@tenacity", artifactFromDB.Tenacity);
-                updateCommand.Parameters.AddWithValue("@resistance_rate", artifactFromDB.ResistanceRate);
-                updateCommand.Parameters.AddWithValue("@combo_rate", artifactFromDB.ComboRate);
-                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", artifactFromDB.IgnoreComboRate);
-                updateCommand.Parameters.AddWithValue("@combo_damage_rate", artifactFromDB.ComboDamageRate);
-                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", artifactFromDB.ComboResistanceRate);
-                updateCommand.Parameters.AddWithValue("@stun_rate", artifactFromDB.StunRate);
-                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", artifactFromDB.IgnoreStunRate);
-                updateCommand.Parameters.AddWithValue("@reflection_rate", artifactFromDB.ReflectionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", artifactFromDB.IgnoreReflectionRate);
-                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", artifactFromDB.ReflectionDamageRate);
-                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", artifactFromDB.ReflectionResistanceRate);
-                updateCommand.Parameters.AddWithValue("@mana", artifactFromDB.Mana);
-                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", artifactFromDB.ManaRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", artifactFromDB.DamageToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", artifactFromDB.ResistanceToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", artifactFromDB.DamageToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", artifactFromDB.ResistanceToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@normal_damage_rate", artifactFromDB.NormalDamageRate);
-                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", artifactFromDB.NormalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@skill_damage_rate", artifactFromDB.SkillDamageRate);
-                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", artifactFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", artifact.Power);
+                updateCommand.Parameters.AddWithValue("@health", artifact.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", artifact.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", artifact.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", artifact.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", artifact.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", artifact.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", artifact.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", artifact.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", artifact.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", artifact.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", artifact.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", artifact.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", artifact.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", artifact.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", artifact.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", artifact.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", artifact.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", artifact.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", artifact.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", artifact.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", artifact.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", artifact.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", artifact.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", artifact.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", artifact.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", artifact.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", artifact.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", artifact.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", artifact.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", artifact.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", artifact.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", artifact.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", artifact.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", artifact.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", artifact.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", artifact.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", artifact.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", artifact.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", artifact.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", artifact.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", artifact.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", artifact.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", artifact.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", artifact.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", artifact.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", artifact.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", artifact.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", artifact.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", artifact.SkillResistanceRate);
 
                 // Percent bonuses (hard-coded)
                 updateCommand.Parameters.AddWithValue("@percent_all_health", 5);

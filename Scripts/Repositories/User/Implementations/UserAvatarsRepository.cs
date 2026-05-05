@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserAvatarsRepository : IUserAvatarsRepository
 {
-    public async Task<List<Avatars>> GetUserAvatarsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Avatars>> GetUserAvatarsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Avatars> avatars = new List<Avatars>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -45,7 +45,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -138,7 +138,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
         return avatars;
     }
-    public async Task<int> GetUserAvatarsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserAvatarsCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -167,7 +167,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -668,7 +668,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
         return true;
     }
-    public async Task<Avatars> GetAvatarByUsedAsync(string user_id)
+    public async Task<Avatars> GetAvatarByUsedAsync(string userId)
     {
         Avatars avatar = new Avatars();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -688,7 +688,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

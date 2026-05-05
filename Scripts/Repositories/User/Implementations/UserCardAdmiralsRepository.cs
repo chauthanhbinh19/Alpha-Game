@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
 {
-    public async Task<List<CardAdmirals>> GetUserCardAdmiralsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardAdmirals>> GetUserCardAdmiralsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<CardAdmirals> cardAdmirals = new List<CardAdmirals>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -77,7 +77,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 selectSQL += " LIMIT @limit OFFSET @offset";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectCommand.Parameters.AddWithValue("@type", type);
@@ -274,7 +274,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return cardAdmirals;
     }
-    public async Task<List<CardAdmirals>> GetUserCardAdmiralsTeamAsync(string user_id, string teamId, string position)
+    public async Task<List<CardAdmirals>> GetUserCardAdmiralsTeamAsync(string userId, string teamId, string position)
     {
         List<CardAdmirals> cardAdmirals = new List<CardAdmirals>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -327,7 +327,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
             ";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 selectCommand.Parameters.AddWithValue("@team_id", teamId);
                 selectCommand.Parameters.AddWithValue("@position", position);
 
@@ -505,7 +505,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return cardAdmirals;
     }
-    public async Task<List<CardAdmirals>> GetUserCardAdmiralsTeamWithoutPositionAsync(string user_id, string teamId)
+    public async Task<List<CardAdmirals>> GetUserCardAdmiralsTeamWithoutPositionAsync(string userId, string teamId)
     {
         List<CardAdmirals> cardAdmirals = new List<CardAdmirals>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -558,7 +558,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
             ";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 selectCommand.Parameters.AddWithValue("@team_id", teamId);
 
                 await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
@@ -779,7 +779,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return result;
     }
-    public async Task<bool> UpdateTeamCardAdmiralAsync(string team_id, string position, string card_id)
+    public async Task<bool> UpdateTeamCardAdmiralAsync(string teamId, string position, string cardId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -796,10 +796,10 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         ";
 
                 await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@team_id", team_id);
+                updateCommand.Parameters.AddWithValue("@team_id", teamId);
                 updateCommand.Parameters.AddWithValue("@position", position);
                 updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                updateCommand.Parameters.AddWithValue("@card_admiral_id", card_id);
+                updateCommand.Parameters.AddWithValue("@card_admiral_id", cardId);
 
                 await updateCommand.ExecuteNonQueryAsync();
             }
@@ -815,7 +815,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return true;
     }
-    public async Task<int> GetUserCardAdmiralsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserCardAdmiralsCountAsync(string userId, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -848,7 +848,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 }
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectCommand.Parameters.AddWithValue("@type", type);
@@ -878,7 +878,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return count;
     }
-    public async Task<int> GetUserCardAdmiralsTeamsPositionCountAsync(string user_id, string team_id, string position)
+    public async Task<int> GetUserCardAdmiralsTeamsPositionCountAsync(string userId, string teamId, string position)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -898,8 +898,8 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         ";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
-                selectCommand.Parameters.AddWithValue("@team_id", team_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+                selectCommand.Parameters.AddWithValue("@team_id", teamId);
                 selectCommand.Parameters.AddWithValue("@position", position);
 
                 object result = await selectCommand.ExecuteScalarAsync();
@@ -916,7 +916,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return count;
     }
-    public async Task<int> GetUserCardAdmiralsTeamsCountAsync(string user_id, string team_id)
+    public async Task<int> GetUserCardAdmiralsTeamsCountAsync(string userId, string teamId)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -935,8 +935,8 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         ";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
-                selectCommand.Parameters.AddWithValue("@team_id", team_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+                selectCommand.Parameters.AddWithValue("@team_id", teamId);
 
                 object result = await selectCommand.ExecuteScalarAsync();
                 count = Convert.ToInt32(result);
@@ -1482,7 +1482,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return true;
     }
-    public async Task<CardAdmirals> GetUserCardAdmiralByIdAsync(string user_id, string Id)
+    public async Task<CardAdmirals> GetUserCardAdmiralByIdAsync(string userId, string Id)
     {
         CardAdmirals cardAdmiral = new CardAdmirals();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1501,7 +1501,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@id", Id);
-                selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
                 if (await reader.ReadAsync())
@@ -1632,7 +1632,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return cardAdmiral;
     }
-    public async Task<List<CardAdmirals>> GetAllUserCardAdmiralsInTeamAsync(string user_id)
+    public async Task<List<CardAdmirals>> GetAllUserCardAdmiralsInTeamAsync(string userId)
     {
         List<CardAdmirals> cardAdmirals = new List<CardAdmirals>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1683,7 +1683,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
                 while (await reader.ReadAsync())

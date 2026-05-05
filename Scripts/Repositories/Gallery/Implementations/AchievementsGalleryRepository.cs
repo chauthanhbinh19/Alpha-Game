@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 public class AchievementsGalleryRepository : IAchievementsGalleryRepository
 {
-    public async Task<List<Achievements>> GetAchievementCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Achievements>> GetAchievementsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Achievements> achievements = new List<Achievements>();
-        string user_id = User.CurrentUserId;
+        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -50,7 +50,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -209,7 +209,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
 
         return count;
     }
-    public async Task InsertAchievementsGalleryAsync(string Id, Achievements achievementFromDB)
+    public async Task InsertAchievementsGalleryAsync(string Id, Achievements achievement)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -283,64 +283,64 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
                             insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
-                            insertCommand.Parameters.AddWithValue("@power", achievementFromDB.Power);
-                            insertCommand.Parameters.AddWithValue("@health", achievementFromDB.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", achievementFromDB.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", achievementFromDB.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", achievementFromDB.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", achievementFromDB.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", achievementFromDB.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", achievementFromDB.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", achievementFromDB.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", achievementFromDB.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@power", achievement.Power);
+                            insertCommand.Parameters.AddWithValue("@health", achievement.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", achievement.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", achievement.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", achievement.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", achievement.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", achievement.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", achievement.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", achievement.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", achievement.AtomicDefense);
 
-                            insertCommand.Parameters.AddWithValue("@mental_attack", achievementFromDB.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", achievementFromDB.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", achievement.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", achievement.MentalDefense);
 
-                            insertCommand.Parameters.AddWithValue("@speed", achievementFromDB.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", achievementFromDB.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", achievementFromDB.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", achievementFromDB.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", achievementFromDB.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", achievementFromDB.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", achievementFromDB.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", achievementFromDB.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", achievementFromDB.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", achievementFromDB.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", achievementFromDB.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@speed", achievement.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", achievement.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", achievement.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", achievement.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", achievement.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", achievement.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", achievement.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", achievement.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", achievement.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", achievement.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", achievement.AbsorbedDamageRate);
 
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", achievementFromDB.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", achievementFromDB.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", achievement.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", achievement.VitalityRegenerationResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", achievementFromDB.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", achievementFromDB.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", achievementFromDB.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", achievementFromDB.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", achievementFromDB.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", achievementFromDB.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", achievementFromDB.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", achievementFromDB.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", achievementFromDB.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", achievement.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", achievement.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", achievement.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", achievement.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", achievement.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", achievement.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", achievement.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", achievement.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", achievement.ComboResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@stun_rate", achievementFromDB.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", achievementFromDB.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", achievementFromDB.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", achievementFromDB.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", achievementFromDB.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", achievementFromDB.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", achievement.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", achievement.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", achievement.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", achievement.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", achievement.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", achievement.ReflectionResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@mana", achievementFromDB.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", achievementFromDB.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@mana", achievement.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", achievement.ManaRegenerationRate);
 
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", achievementFromDB.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", achievementFromDB.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", achievementFromDB.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", achievementFromDB.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", achievement.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", achievement.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", achievement.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", achievement.ResistanceToSameFactionRate);
 
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", achievementFromDB.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", achievementFromDB.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", achievementFromDB.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", achievementFromDB.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", achievement.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", achievement.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", achievement.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", achievement.SkillResistanceRate);
 
                             insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
                             insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
@@ -466,7 +466,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
             }
         }
     }
-    public async Task UpdateAchievementsGalleryPowerAsync(string id, Achievements achievementFromDB)
+    public async Task UpdateAchievementsGalleryPowerAsync(string id, Achievements achievement)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -556,56 +556,56 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
                     updateCommand.Parameters.AddWithValue("@current_star", 0);
 
                     // Stats
-                    updateCommand.Parameters.AddWithValue("@power", achievementFromDB.Power);
-                    updateCommand.Parameters.AddWithValue("@health", achievementFromDB.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", achievementFromDB.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", achievementFromDB.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", achievementFromDB.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", achievementFromDB.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", achievementFromDB.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", achievementFromDB.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", achievementFromDB.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", achievementFromDB.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", achievementFromDB.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", achievementFromDB.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", achievementFromDB.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", achievementFromDB.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", achievementFromDB.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", achievementFromDB.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", achievementFromDB.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", achievementFromDB.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", achievementFromDB.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", achievementFromDB.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", achievementFromDB.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", achievementFromDB.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", achievementFromDB.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", achievementFromDB.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", achievementFromDB.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", achievementFromDB.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", achievementFromDB.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", achievementFromDB.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", achievementFromDB.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", achievementFromDB.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", achievementFromDB.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", achievementFromDB.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", achievementFromDB.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", achievementFromDB.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", achievementFromDB.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", achievementFromDB.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", achievementFromDB.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", achievementFromDB.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", achievementFromDB.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", achievementFromDB.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", achievementFromDB.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", achievementFromDB.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", achievementFromDB.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", achievementFromDB.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", achievementFromDB.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", achievementFromDB.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", achievementFromDB.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", achievementFromDB.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", achievementFromDB.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", achievementFromDB.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@power", achievement.Power);
+                    updateCommand.Parameters.AddWithValue("@health", achievement.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", achievement.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", achievement.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", achievement.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", achievement.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", achievement.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", achievement.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", achievement.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", achievement.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", achievement.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", achievement.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", achievement.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", achievement.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", achievement.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", achievement.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", achievement.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", achievement.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", achievement.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", achievement.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", achievement.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", achievement.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", achievement.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", achievement.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", achievement.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", achievement.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", achievement.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", achievement.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", achievement.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", achievement.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", achievement.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", achievement.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", achievement.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", achievement.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", achievement.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", achievement.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", achievement.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", achievement.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", achievement.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", achievement.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", achievement.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", achievement.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", achievement.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", achievement.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", achievement.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", achievement.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", achievement.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", achievement.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", achievement.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", achievement.SkillResistanceRate);
 
                     // Percent bonuses (hard-coded)
                     updateCommand.Parameters.AddWithValue("@percent_all_health", 5);

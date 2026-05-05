@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserArchitecturesRepository : IUserArchitecturesRepository
 {
-    public async Task<List<Architectures>> GetUserArchitecturesAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Architectures>> GetUserArchitecturesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Architectures> architectures = new List<Architectures>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -40,7 +40,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -138,7 +138,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
         return architectures;
     }
-    public async Task<int> GetUserArchitecturesCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserArchitecturesCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -167,7 +167,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -728,7 +728,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
         return true;
     }
-    public async Task<Architectures> GetUserArchitectureByIdAsync(string user_id, string Id)
+    public async Task<Architectures> GetUserArchitectureByIdAsync(string userId, string Id)
     {
         Architectures architecture = null;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -747,7 +747,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

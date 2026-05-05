@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserSkillsRepository : IUserSkillsRepository
 {
-    public async Task<List<Skills>> GetUserSkillsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Skills>> GetUserSkillsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -45,7 +45,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 LIMIT @limit OFFSET @offset";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectCommand.Parameters.AddWithValue("@type", type);
@@ -147,7 +147,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return skills;
     }
-    public async Task<int> GetUserSkillsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserSkillsCountAsync(string userId, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -179,7 +179,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 if (!string.IsNullOrEmpty(type) && type != "All")
                 {
                     selectCommand.Parameters.AddWithValue("@type", type);
@@ -739,7 +739,7 @@ public class UserSkillsRepository : IUserSkillsRepository
             }
         }
     }
-    public async Task<Skills> GetUserSkillsByIdAsync(string user_id, string Id)
+    public async Task<Skills> GetUserSkillsByIdAsync(string userId, string Id)
     {
         Skills skill = new Skills();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -754,7 +754,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@id", Id);
-                selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using var reader = await selectCommand.ExecuteReaderAsync();
                 if (await reader.ReadAsync())
@@ -831,7 +831,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return skill;
     }
-    public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -854,7 +854,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                          CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 selectCommand.Parameters.AddWithValue("@skill_id", cardId);
 
                 await using var reader = await selectCommand.ExecuteReaderAsync();
@@ -931,7 +931,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills
-                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -945,7 +945,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return skills;
     }
-    public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -968,7 +968,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                          CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 selectCommand.Parameters.AddWithValue("@card_captain_id", cardId);
 
                 await using var reader = await selectCommand.ExecuteReaderAsync();
@@ -1045,7 +1045,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills
-                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1059,7 +1059,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return skills;
     }
-    public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1082,7 +1082,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                          CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 selectCommand.Parameters.AddWithValue("@card_colonel_id", cardId);
 
                 await using var reader = await selectCommand.ExecuteReaderAsync();
@@ -1159,7 +1159,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills
-                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1173,7 +1173,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return skills;
     }
-    public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1196,7 +1196,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                          CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 selectCommand.Parameters.AddWithValue("@card_general_id", cardId);
 
                 await using var reader = await selectCommand.ExecuteReaderAsync();
@@ -1273,7 +1273,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills
-                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1287,7 +1287,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return skills;
     }
-    public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1310,7 +1310,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                          CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 selectCommand.Parameters.AddWithValue("@card_admiral_id", cardId);
 
                 await using var reader = await selectCommand.ExecuteReaderAsync();
@@ -1387,7 +1387,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
-                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1401,7 +1401,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return skills;
     }
-    public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1424,7 +1424,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                          CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 selectCommand.Parameters.AddWithValue("@card_military_id", cardId);
 
                 await using var reader = await selectCommand.ExecuteReaderAsync();
@@ -1501,7 +1501,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
-                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1515,7 +1515,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return skills;
     }
-    public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1538,7 +1538,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                          CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 selectCommand.Parameters.AddWithValue("@card_monster_id", cardId);
 
                 await using var reader = await selectCommand.ExecuteReaderAsync();
@@ -1615,7 +1615,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
-                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1629,7 +1629,7 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return skills;
     }
-    public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1652,7 +1652,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                          CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 selectCommand.Parameters.AddWithValue("@card_spell_id", cardId);
 
                 await using var reader = await selectCommand.ExecuteReaderAsync();
@@ -1729,7 +1729,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
-                skills = await LoadSkillsWithEffectsAsync(user_id, skills, connection);
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {

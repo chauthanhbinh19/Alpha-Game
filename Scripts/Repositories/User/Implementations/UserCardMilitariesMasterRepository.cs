@@ -6,10 +6,10 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserCardMilitariesMasterRepository : IUserCardMilitariesMasterRepository
 {
-    public async Task<Master> GetCardMilitaryMasterAsync(string id, string card_id)
+    public async Task<Master> GetCardMilitaryMasterAsync(string id, string cardId)
     {
         Master master = new Master();
-        string user_id = User.CurrentUserId;
+        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -26,9 +26,9 @@ public class UserCardMilitariesMasterRepository : IUserCardMilitariesMasterRepos
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@id", id);
-                    selectCommand.Parameters.AddWithValue("@card_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@card_id", cardId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -113,7 +113,7 @@ public class UserCardMilitariesMasterRepository : IUserCardMilitariesMasterRepos
 
         return master;
     }
-    public async Task InsertOrUpdateCardMilitaryMasterAsync(Master master, string card_id)
+    public async Task InsertOrUpdateCardMilitaryMasterAsync(Master master, string cardId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -132,7 +132,7 @@ public class UserCardMilitariesMasterRepository : IUserCardMilitariesMasterRepos
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@card_id", card_id);
+                    checkCommand.Parameters.AddWithValue("@card_id", cardId);
                     checkCommand.Parameters.AddWithValue("@master_id", master.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -179,7 +179,7 @@ public class UserCardMilitariesMasterRepository : IUserCardMilitariesMasterRepos
                         {
                             // Thêm tất cả các parameter như cũ
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            updateCommand.Parameters.AddWithValue("@card_id", card_id);
+                            updateCommand.Parameters.AddWithValue("@card_id", cardId);
                             updateCommand.Parameters.AddWithValue("@master_id", master.Id);
                             updateCommand.Parameters.AddWithValue("@master_level", master.Level);
                             updateCommand.Parameters.AddWithValue("@power", master.Power);
@@ -310,7 +310,7 @@ public class UserCardMilitariesMasterRepository : IUserCardMilitariesMasterRepos
                         {
                             // Thêm các parameter giống như trên (giữ nguyên)
                             insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            insertCommand.Parameters.AddWithValue("@card_id", card_id);
+                            insertCommand.Parameters.AddWithValue("@card_id", cardId);
                             insertCommand.Parameters.AddWithValue("@master_id", master.Id);
                             insertCommand.Parameters.AddWithValue("@master_level", master.Level == 0 ? 1 : master.Level);
                             insertCommand.Parameters.AddWithValue("@power", master.Power);
@@ -390,7 +390,7 @@ public class UserCardMilitariesMasterRepository : IUserCardMilitariesMasterRepos
             }
         }
     }
-    public async Task<Master> GetSumCardMilitariesMasterAsync(string user_id, string card_id)
+    public async Task<Master> GetSumCardMilitariesMasterAsync(string userId, string cardId)
     {
         Master master = new Master();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -469,8 +469,8 @@ public class UserCardMilitariesMasterRepository : IUserCardMilitariesMasterRepos
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@card_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@card_id", cardId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

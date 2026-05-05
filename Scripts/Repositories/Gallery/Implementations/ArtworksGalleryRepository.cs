@@ -10,7 +10,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
     public async Task<List<Artworks>> GetArtworksCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Artworks> artworks = new List<Artworks>();
-        string user_id = User.CurrentUserId;
+        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -64,7 +64,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                     {
                         selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     selectCommand.Parameters.AddWithValue("@limit", pageSize);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
 
@@ -223,9 +223,9 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
 
         return count;
     }
-    public async Task InsertArtworkGalleryAsync(string Id, Artworks artworkFromDB)
+    public async Task InsertArtworkGalleryAsync(string Id, Artworks artwork)
     {
-        int percent = QualityEvaluatorHelper.CheckQuality(artworkFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(artwork.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -308,56 +308,56 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                     insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
                     // Thuộc tính
-                    insertCommand.Parameters.AddWithValue("@power", artworkFromDB.Power);
-                    insertCommand.Parameters.AddWithValue("@health", artworkFromDB.Health);
-                    insertCommand.Parameters.AddWithValue("@physical_attack", artworkFromDB.PhysicalAttack);
-                    insertCommand.Parameters.AddWithValue("@physical_defense", artworkFromDB.PhysicalDefense);
-                    insertCommand.Parameters.AddWithValue("@magical_attack", artworkFromDB.MagicalAttack);
-                    insertCommand.Parameters.AddWithValue("@magical_defense", artworkFromDB.MagicalDefense);
-                    insertCommand.Parameters.AddWithValue("@chemical_attack", artworkFromDB.ChemicalAttack);
-                    insertCommand.Parameters.AddWithValue("@chemical_defense", artworkFromDB.ChemicalDefense);
-                    insertCommand.Parameters.AddWithValue("@atomic_attack", artworkFromDB.AtomicAttack);
-                    insertCommand.Parameters.AddWithValue("@atomic_defense", artworkFromDB.AtomicDefense);
-                    insertCommand.Parameters.AddWithValue("@mental_attack", artworkFromDB.MentalAttack);
-                    insertCommand.Parameters.AddWithValue("@mental_defense", artworkFromDB.MentalDefense);
-                    insertCommand.Parameters.AddWithValue("@speed", artworkFromDB.Speed);
-                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", artworkFromDB.CriticalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@critical_rate", artworkFromDB.CriticalRate);
-                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", artworkFromDB.CriticalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", artworkFromDB.IgnoreCriticalRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_rate", artworkFromDB.PenetrationRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", artworkFromDB.PenetrationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@evasion_rate", artworkFromDB.EvasionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", artworkFromDB.DamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", artworkFromDB.IgnoreDamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", artworkFromDB.AbsorbedDamageRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", artworkFromDB.VitalityRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", artworkFromDB.VitalityRegenerationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@accuracy_rate", artworkFromDB.AccuracyRate);
-                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", artworkFromDB.LifestealRate);
-                    insertCommand.Parameters.AddWithValue("@shield_strength", artworkFromDB.ShieldStrength);
-                    insertCommand.Parameters.AddWithValue("@tenacity", artworkFromDB.Tenacity);
-                    insertCommand.Parameters.AddWithValue("@resistance_rate", artworkFromDB.ResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@combo_rate", artworkFromDB.ComboRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", artworkFromDB.IgnoreComboRate);
-                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", artworkFromDB.ComboDamageRate);
-                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", artworkFromDB.ComboResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@stun_rate", artworkFromDB.StunRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", artworkFromDB.IgnoreStunRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_rate", artworkFromDB.ReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", artworkFromDB.IgnoreReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", artworkFromDB.ReflectionDamageRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", artworkFromDB.ReflectionResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@mana", artworkFromDB.Mana);
-                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", artworkFromDB.ManaRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", artworkFromDB.DamageToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", artworkFromDB.ResistanceToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", artworkFromDB.DamageToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", artworkFromDB.ResistanceToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", artworkFromDB.NormalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", artworkFromDB.NormalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", artworkFromDB.SkillDamageRate);
-                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", artworkFromDB.SkillResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@power", artwork.Power);
+                    insertCommand.Parameters.AddWithValue("@health", artwork.Health);
+                    insertCommand.Parameters.AddWithValue("@physical_attack", artwork.PhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@physical_defense", artwork.PhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@magical_attack", artwork.MagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@magical_defense", artwork.MagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@chemical_attack", artwork.ChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@chemical_defense", artwork.ChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@atomic_attack", artwork.AtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@atomic_defense", artwork.AtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@mental_attack", artwork.MentalAttack);
+                    insertCommand.Parameters.AddWithValue("@mental_defense", artwork.MentalDefense);
+                    insertCommand.Parameters.AddWithValue("@speed", artwork.Speed);
+                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", artwork.CriticalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@critical_rate", artwork.CriticalRate);
+                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", artwork.CriticalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", artwork.IgnoreCriticalRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_rate", artwork.PenetrationRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", artwork.PenetrationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@evasion_rate", artwork.EvasionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", artwork.DamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", artwork.IgnoreDamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", artwork.AbsorbedDamageRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", artwork.VitalityRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", artwork.VitalityRegenerationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@accuracy_rate", artwork.AccuracyRate);
+                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", artwork.LifestealRate);
+                    insertCommand.Parameters.AddWithValue("@shield_strength", artwork.ShieldStrength);
+                    insertCommand.Parameters.AddWithValue("@tenacity", artwork.Tenacity);
+                    insertCommand.Parameters.AddWithValue("@resistance_rate", artwork.ResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@combo_rate", artwork.ComboRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", artwork.IgnoreComboRate);
+                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", artwork.ComboDamageRate);
+                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", artwork.ComboResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@stun_rate", artwork.StunRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", artwork.IgnoreStunRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_rate", artwork.ReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", artwork.IgnoreReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", artwork.ReflectionDamageRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", artwork.ReflectionResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@mana", artwork.Mana);
+                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", artwork.ManaRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", artwork.DamageToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", artwork.ResistanceToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", artwork.DamageToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", artwork.ResistanceToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", artwork.NormalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", artwork.NormalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", artwork.SkillDamageRate);
+                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", artwork.SkillResistanceRate);
 
                     // % buff theo quality
                     insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
@@ -470,7 +470,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
             }
         }
     }
-    public async Task UpdateArtworkGalleryPowerAsync(string Id, Artworks artworkFromDB)
+    public async Task UpdateArtworkGalleryPowerAsync(string Id, Artworks artwork)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -554,56 +554,56 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                 updateCommand.Parameters.AddWithValue("@artwork_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
-                updateCommand.Parameters.AddWithValue("@power", artworkFromDB.Power);
-                updateCommand.Parameters.AddWithValue("@health", artworkFromDB.Health);
-                updateCommand.Parameters.AddWithValue("@physical_attack", artworkFromDB.PhysicalAttack);
-                updateCommand.Parameters.AddWithValue("@physical_defense", artworkFromDB.PhysicalDefense);
-                updateCommand.Parameters.AddWithValue("@magical_attack", artworkFromDB.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@magical_defense", artworkFromDB.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@chemical_attack", artworkFromDB.ChemicalAttack);
-                updateCommand.Parameters.AddWithValue("@chemical_defense", artworkFromDB.ChemicalDefense);
-                updateCommand.Parameters.AddWithValue("@atomic_attack", artworkFromDB.AtomicAttack);
-                updateCommand.Parameters.AddWithValue("@atomic_defense", artworkFromDB.AtomicDefense);
-                updateCommand.Parameters.AddWithValue("@mental_attack", artworkFromDB.MentalAttack);
-                updateCommand.Parameters.AddWithValue("@mental_defense", artworkFromDB.MentalDefense);
-                updateCommand.Parameters.AddWithValue("@speed", artworkFromDB.Speed);
-                updateCommand.Parameters.AddWithValue("@critical_damage_rate", artworkFromDB.CriticalDamageRate);
-                updateCommand.Parameters.AddWithValue("@critical_rate", artworkFromDB.CriticalRate);
-                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", artworkFromDB.CriticalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", artworkFromDB.IgnoreCriticalRate);
-                updateCommand.Parameters.AddWithValue("@penetration_rate", artworkFromDB.PenetrationRate);
-                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", artworkFromDB.PenetrationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@evasion_rate", artworkFromDB.EvasionRate);
-                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", artworkFromDB.DamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", artworkFromDB.IgnoreDamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", artworkFromDB.AbsorbedDamageRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", artworkFromDB.VitalityRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", artworkFromDB.VitalityRegenerationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@accuracy_rate", artworkFromDB.AccuracyRate);
-                updateCommand.Parameters.AddWithValue("@lifesteal_rate", artworkFromDB.LifestealRate);
-                updateCommand.Parameters.AddWithValue("@shield_strength", artworkFromDB.ShieldStrength);
-                updateCommand.Parameters.AddWithValue("@tenacity", artworkFromDB.Tenacity);
-                updateCommand.Parameters.AddWithValue("@resistance_rate", artworkFromDB.ResistanceRate);
-                updateCommand.Parameters.AddWithValue("@combo_rate", artworkFromDB.ComboRate);
-                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", artworkFromDB.IgnoreComboRate);
-                updateCommand.Parameters.AddWithValue("@combo_damage_rate", artworkFromDB.ComboDamageRate);
-                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", artworkFromDB.ComboResistanceRate);
-                updateCommand.Parameters.AddWithValue("@stun_rate", artworkFromDB.StunRate);
-                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", artworkFromDB.IgnoreStunRate);
-                updateCommand.Parameters.AddWithValue("@reflection_rate", artworkFromDB.ReflectionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", artworkFromDB.IgnoreReflectionRate);
-                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", artworkFromDB.ReflectionDamageRate);
-                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", artworkFromDB.ReflectionResistanceRate);
-                updateCommand.Parameters.AddWithValue("@mana", artworkFromDB.Mana);
-                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", artworkFromDB.ManaRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", artworkFromDB.DamageToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", artworkFromDB.ResistanceToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", artworkFromDB.DamageToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", artworkFromDB.ResistanceToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@normal_damage_rate", artworkFromDB.NormalDamageRate);
-                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", artworkFromDB.NormalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@skill_damage_rate", artworkFromDB.SkillDamageRate);
-                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", artworkFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", artwork.Power);
+                updateCommand.Parameters.AddWithValue("@health", artwork.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", artwork.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", artwork.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", artwork.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", artwork.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", artwork.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", artwork.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", artwork.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", artwork.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", artwork.MentalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", artwork.MentalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", artwork.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", artwork.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", artwork.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", artwork.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", artwork.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", artwork.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", artwork.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", artwork.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", artwork.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", artwork.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", artwork.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", artwork.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", artwork.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", artwork.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", artwork.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", artwork.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", artwork.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", artwork.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", artwork.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", artwork.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", artwork.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", artwork.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", artwork.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", artwork.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", artwork.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", artwork.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", artwork.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", artwork.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", artwork.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", artwork.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", artwork.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", artwork.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", artwork.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", artwork.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", artwork.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", artwork.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", artwork.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", artwork.SkillResistanceRate);
                 updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
                 updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
                 updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);

@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserCollaborationsRepository : IUserCollaborationsRepository
 {
-    public async Task<List<Collaborations>> GetUserCollaborationsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Collaborations>> GetUserCollaborationsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Collaborations> collaborations = new List<Collaborations>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -41,7 +41,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
             ";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
                     selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -135,7 +135,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
         return collaborations;
     }
-    public async Task<int> GetUserCollaborationsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserCollaborationsCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -163,7 +163,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                 }
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
                     selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -729,7 +729,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
         return true;
     }
-    public async Task<Collaborations> GetUserCollaborationByIdAsync(string user_id, string Id)
+    public async Task<Collaborations> GetUserCollaborationByIdAsync(string userId, string Id)
     {
         Collaborations collaboration = null;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -750,7 +750,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

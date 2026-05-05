@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserAchievementsRepository : IUserAchievementsRepository
 {
-    public async Task<List<Achievements>> GetUserAchievementsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Achievements>> GetUserAchievementsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Achievements> achievements = new List<Achievements>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -38,7 +38,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
@@ -138,7 +138,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
         return achievements;
     }
-    public async Task<int> GetUserArchievementsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserArchievementsCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -166,7 +166,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 }
 
                 MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
@@ -731,7 +731,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
         return true;
     }
-    public async Task<Achievements> GetUserAchievementByIdAsync(string user_id, string id)
+    public async Task<Achievements> GetUserAchievementByIdAsync(string userId, string id)
     {
         Achievements achievement = new Achievements();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -750,7 +750,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserEquipmentsRepository : IUserEquipmentsRepository
 {
-    public async Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Equipments>> GetUserEquipmentsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -44,7 +44,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -210,7 +210,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetUserAllEquipmentsAsync(string user_id)
+    public async Task<List<Equipments>> GetUserAllEquipmentsAsync(string userId)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -230,7 +230,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -380,7 +380,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<int> GetUserEquipmentsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserEquipmentsCountAsync(string userId, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -414,7 +414,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -446,7 +446,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return count;
     }
-    public async Task<Equipments> GetUserEquipmentsByIdAsync(string user_id, string Id)
+    public async Task<Equipments> GetUserEquipmentsByIdAsync(string userId, string Id)
     {
         Equipments equipment = new Equipments();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -464,7 +464,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -598,7 +598,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipment;
     }
-    public async Task<bool> BuyEquipmentAsync(string Id, Equipments equipmentFromDB, double quantity)
+    public async Task<bool> BuyEquipmentAsync(string Id, Equipments equipment, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -677,75 +677,75 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 {
                     insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     insertCommand.Parameters.AddWithValue("@equipment_id", Id);
-                    insertCommand.Parameters.AddWithValue("@rare", equipmentFromDB.Rare);
+                    insertCommand.Parameters.AddWithValue("@rare", equipment.Rare);
                     insertCommand.Parameters.AddWithValue("@level", 0);
                     insertCommand.Parameters.AddWithValue("@experiment", 0);
                     insertCommand.Parameters.AddWithValue("@star", 0);
-                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(equipmentFromDB.Rare));
+                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(equipment.Rare));
                     insertCommand.Parameters.AddWithValue("@block", false);
                     insertCommand.Parameters.AddWithValue("@quantity", quantity);
-                    insertCommand.Parameters.AddWithValue("@power", equipmentFromDB.Power);
-                    insertCommand.Parameters.AddWithValue("@health", equipmentFromDB.Health);
-                    insertCommand.Parameters.AddWithValue("@physical_attack", equipmentFromDB.PhysicalAttack);
-                    insertCommand.Parameters.AddWithValue("@physical_defense", equipmentFromDB.PhysicalDefense);
-                    insertCommand.Parameters.AddWithValue("@magical_attack", equipmentFromDB.MagicalAttack);
-                    insertCommand.Parameters.AddWithValue("@magical_defense", equipmentFromDB.MagicalDefense);
-                    insertCommand.Parameters.AddWithValue("@chemical_attack", equipmentFromDB.ChemicalAttack);
-                    insertCommand.Parameters.AddWithValue("@chemical_defense", equipmentFromDB.ChemicalDefense);
-                    insertCommand.Parameters.AddWithValue("@atomic_attack", equipmentFromDB.AtomicAttack);
-                    insertCommand.Parameters.AddWithValue("@atomic_defense", equipmentFromDB.AtomicDefense);
-                    insertCommand.Parameters.AddWithValue("@mental_attack", equipmentFromDB.MentalAttack);
-                    insertCommand.Parameters.AddWithValue("@mental_defense", equipmentFromDB.MentalDefense);
-                    insertCommand.Parameters.AddWithValue("@speed", equipmentFromDB.Speed);
-                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", equipmentFromDB.CriticalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@critical_rate", equipmentFromDB.CriticalRate);
-                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", equipmentFromDB.CriticalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", equipmentFromDB.IgnoreCriticalRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_rate", equipmentFromDB.PenetrationRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", equipmentFromDB.PenetrationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@evasion_rate", equipmentFromDB.EvasionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", equipmentFromDB.DamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", equipmentFromDB.IgnoreDamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", equipmentFromDB.AbsorbedDamageRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", equipmentFromDB.VitalityRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", equipmentFromDB.VitalityRegenerationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@accuracy_rate", equipmentFromDB.AccuracyRate);
-                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", equipmentFromDB.LifestealRate);
-                    insertCommand.Parameters.AddWithValue("@shield_strength", equipmentFromDB.ShieldStrength);
-                    insertCommand.Parameters.AddWithValue("@tenacity", equipmentFromDB.Tenacity);
-                    insertCommand.Parameters.AddWithValue("@resistance_rate", equipmentFromDB.ResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@combo_rate", equipmentFromDB.ComboRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", equipmentFromDB.IgnoreComboRate);
-                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", equipmentFromDB.ComboDamageRate);
-                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", equipmentFromDB.ComboResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@stun_rate", equipmentFromDB.StunRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", equipmentFromDB.IgnoreStunRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_rate", equipmentFromDB.ReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", equipmentFromDB.IgnoreReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", equipmentFromDB.ReflectionDamageRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", equipmentFromDB.ReflectionResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@mana", equipmentFromDB.Mana);
-                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", equipmentFromDB.ManaRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", equipmentFromDB.DamageToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", equipmentFromDB.ResistanceToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", equipmentFromDB.DamageToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", equipmentFromDB.ResistanceToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", equipmentFromDB.NormalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", equipmentFromDB.NormalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", equipmentFromDB.SkillDamageRate);
-                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", equipmentFromDB.SkillResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@special_health", equipmentFromDB.SpecialHealth);
-                    insertCommand.Parameters.AddWithValue("@special_physical_attack", equipmentFromDB.SpecialPhysicalAttack);
-                    insertCommand.Parameters.AddWithValue("@special_physical_defense", equipmentFromDB.SpecialPhysicalDefense);
-                    insertCommand.Parameters.AddWithValue("@special_magical_attack", equipmentFromDB.SpecialMagicalAttack);
-                    insertCommand.Parameters.AddWithValue("@special_magical_defense", equipmentFromDB.SpecialMagicalDefense);
-                    insertCommand.Parameters.AddWithValue("@special_chemical_attack", equipmentFromDB.SpecialChemicalAttack);
-                    insertCommand.Parameters.AddWithValue("@special_chemical_defense", equipmentFromDB.SpecialChemicalDefense);
-                    insertCommand.Parameters.AddWithValue("@special_atomic_attack", equipmentFromDB.SpecialAtomicAttack);
-                    insertCommand.Parameters.AddWithValue("@special_atomic_defense", equipmentFromDB.SpecialAtomicDefense);
-                    insertCommand.Parameters.AddWithValue("@special_mental_attack", equipmentFromDB.SpecialMentalAttack);
-                    insertCommand.Parameters.AddWithValue("@special_mental_defense", equipmentFromDB.SpecialMentalDefense);
-                    insertCommand.Parameters.AddWithValue("@special_speed", equipmentFromDB.SpecialSpeed);
+                    insertCommand.Parameters.AddWithValue("@power", equipment.Power);
+                    insertCommand.Parameters.AddWithValue("@health", equipment.Health);
+                    insertCommand.Parameters.AddWithValue("@physical_attack", equipment.PhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@physical_defense", equipment.PhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@magical_attack", equipment.MagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@magical_defense", equipment.MagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@chemical_attack", equipment.ChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@chemical_defense", equipment.ChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@atomic_attack", equipment.AtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@atomic_defense", equipment.AtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@mental_attack", equipment.MentalAttack);
+                    insertCommand.Parameters.AddWithValue("@mental_defense", equipment.MentalDefense);
+                    insertCommand.Parameters.AddWithValue("@speed", equipment.Speed);
+                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", equipment.CriticalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@critical_rate", equipment.CriticalRate);
+                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", equipment.CriticalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", equipment.IgnoreCriticalRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_rate", equipment.PenetrationRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", equipment.PenetrationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@evasion_rate", equipment.EvasionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", equipment.DamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", equipment.IgnoreDamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", equipment.AbsorbedDamageRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", equipment.VitalityRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", equipment.VitalityRegenerationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@accuracy_rate", equipment.AccuracyRate);
+                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", equipment.LifestealRate);
+                    insertCommand.Parameters.AddWithValue("@shield_strength", equipment.ShieldStrength);
+                    insertCommand.Parameters.AddWithValue("@tenacity", equipment.Tenacity);
+                    insertCommand.Parameters.AddWithValue("@resistance_rate", equipment.ResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@combo_rate", equipment.ComboRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", equipment.IgnoreComboRate);
+                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", equipment.ComboDamageRate);
+                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", equipment.ComboResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@stun_rate", equipment.StunRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", equipment.IgnoreStunRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_rate", equipment.ReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", equipment.IgnoreReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", equipment.ReflectionDamageRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", equipment.ReflectionResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@mana", equipment.Mana);
+                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", equipment.ManaRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", equipment.DamageToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", equipment.ResistanceToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", equipment.DamageToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", equipment.ResistanceToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", equipment.NormalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", equipment.NormalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", equipment.SkillDamageRate);
+                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", equipment.SkillResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@special_health", equipment.SpecialHealth);
+                    insertCommand.Parameters.AddWithValue("@special_physical_attack", equipment.SpecialPhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@special_physical_defense", equipment.SpecialPhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@special_magical_attack", equipment.SpecialMagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@special_magical_defense", equipment.SpecialMagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@special_chemical_attack", equipment.SpecialChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@special_chemical_defense", equipment.SpecialChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@special_atomic_attack", equipment.SpecialAtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@special_atomic_defense", equipment.SpecialAtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@special_mental_attack", equipment.SpecialMentalAttack);
+                    insertCommand.Parameters.AddWithValue("@special_mental_defense", equipment.SpecialMentalDefense);
+                    insertCommand.Parameters.AddWithValue("@special_speed", equipment.SpecialSpeed);
 
                     await insertCommand.ExecuteNonQueryAsync();
                 }
@@ -1775,7 +1775,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<List<Equipments>> GetCardHeroesEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardHeroesEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1798,8 +1798,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@card_hero_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@card_hero_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -1898,7 +1898,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardCaptainsEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardCaptainsEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1921,8 +1921,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@card_captain_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@card_captain_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -2021,7 +2021,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardColonelsEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardColonelsEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2044,8 +2044,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@card_colonel_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@card_colonel_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -2144,7 +2144,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardGeneralsEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardGeneralsEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2167,8 +2167,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@card_general_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@card_general_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -2267,7 +2267,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardAdmiralsEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardAdmiralsEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2290,8 +2290,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@card_admiral_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@card_admiral_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -2390,7 +2390,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardMonstersEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardMonstersEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2413,8 +2413,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@card_monster_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@card_monster_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -2513,7 +2513,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardMilitariesEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardMilitariesEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2536,8 +2536,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@card_military_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@card_military_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -2632,7 +2632,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardSpellsEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardSpellsEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2655,8 +2655,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@card_spell_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@card_spell_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -2755,7 +2755,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetBooksEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetBooksEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2778,8 +2778,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@book_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@book_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -2878,7 +2878,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetPetsEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetPetsEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2901,8 +2901,8 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@pet_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@pet_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -3001,7 +3001,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardHeroesEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardHeroesEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3030,7 +3030,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
@@ -3132,7 +3132,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardCaptainsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardCaptainsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3161,7 +3161,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
@@ -3263,7 +3263,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardColonelsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardColonelsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3291,7 +3291,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
@@ -3393,7 +3393,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardGeneralsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardGeneralsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3421,7 +3421,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
@@ -3519,7 +3519,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardAdmiralsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardAdmiralsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3547,7 +3547,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
@@ -3649,7 +3649,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardMonstersEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardMonstersEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3677,7 +3677,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
@@ -3779,7 +3779,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardMilitariesEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardMilitariesEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3807,7 +3807,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
@@ -3909,7 +3909,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardSpellsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardSpellsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3937,7 +3937,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
@@ -4039,7 +4039,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllBooksEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllBooksEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4067,7 +4067,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
@@ -4169,7 +4169,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllPetsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllPetsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4197,7 +4197,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@limit", limit);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
@@ -4347,7 +4347,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         equipment.SpecialSpeed = 0;
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardHeroIdAsync(string user_id, string cardHeroId)
+    public async Task<Equipments> GetAllEquipmentsByCardHeroIdAsync(string userId, string cardHeroId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -4371,7 +4371,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@card_hero_id", cardHeroId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -4525,7 +4525,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardCaptainIdAsync(string user_id, string cardCaptainId)
+    public async Task<Equipments> GetAllEquipmentsByCardCaptainIdAsync(string userId, string cardCaptainId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -4549,7 +4549,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@card_captain_id", cardCaptainId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -4703,7 +4703,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardColonelIdAsync(string user_id, string cardColonelId)
+    public async Task<Equipments> GetAllEquipmentsByCardColonelIdAsync(string userId, string cardColonelId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -4727,7 +4727,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@card_colonel_id", cardColonelId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -4881,7 +4881,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardGeneralIdAsync(string user_id, string cardGeneralId)
+    public async Task<Equipments> GetAllEquipmentsByCardGeneralIdAsync(string userId, string cardGeneralId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -4905,7 +4905,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@card_general_id", cardGeneralId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -5059,7 +5059,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardAdmiralIdAsync(string user_id, string cardAdmiralId)
+    public async Task<Equipments> GetAllEquipmentsByCardAdmiralIdAsync(string userId, string cardAdmiralId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -5083,7 +5083,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@card_admiral_id", cardAdmiralId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -5237,7 +5237,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardMonsterIdAsync(string user_id, string cardMonsterId)
+    public async Task<Equipments> GetAllEquipmentsByCardMonsterIdAsync(string userId, string cardMonsterId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -5261,7 +5261,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@card_monster_id", cardMonsterId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -5415,7 +5415,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardMilitaryIdAsync(string user_id, string cardMilitaryId)
+    public async Task<Equipments> GetAllEquipmentsByCardMilitaryIdAsync(string userId, string cardMilitaryId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -5439,7 +5439,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@card_military_id", cardMilitaryId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -5593,7 +5593,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardSpellIdAsync(string user_id, string cardSpellId)
+    public async Task<Equipments> GetAllEquipmentsByCardSpellIdAsync(string userId, string cardSpellId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -5617,7 +5617,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@card_spell_id", cardSpellId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -5771,7 +5771,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByBookIdAsync(string user_id, string bookId)
+    public async Task<Equipments> GetAllEquipmentsByBookIdAsync(string userId, string bookId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -5795,7 +5795,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@book_id", bookId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -5949,7 +5949,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByPetIdAsync(string user_id, string petId)
+    public async Task<Equipments> GetAllEquipmentsByPetIdAsync(string userId, string petId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -5973,7 +5973,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@pet_id", petId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())

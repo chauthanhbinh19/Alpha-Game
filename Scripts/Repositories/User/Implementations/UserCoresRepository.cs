@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserCoresRepository : IUserCoresRepository
 {
-    public async Task<List<Cores>> GetUserCoresAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Cores>> GetUserCoresAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Cores> cores = new List<Cores>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -41,7 +41,7 @@ public class UserCoresRepository : IUserCoresRepository
             ";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
                     selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -135,7 +135,7 @@ public class UserCoresRepository : IUserCoresRepository
 
         return cores;
     }
-    public async Task<int> GetUserCoresCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserCoresCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -163,7 +163,7 @@ public class UserCoresRepository : IUserCoresRepository
                 }
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
                     selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -719,7 +719,7 @@ public class UserCoresRepository : IUserCoresRepository
 
         return true;
     }
-    public async Task<Cores> GetUserCoreByIdAsync(string user_id, string Id)
+    public async Task<Cores> GetUserCoreByIdAsync(string userId, string Id)
     {
         Cores core = null;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -735,7 +735,7 @@ public class UserCoresRepository : IUserCoresRepository
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@id", Id);
-                selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
                 if (await reader.ReadAsync())

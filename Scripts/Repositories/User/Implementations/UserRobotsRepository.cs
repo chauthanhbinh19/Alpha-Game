@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserRobotsRepository : IUserRobotsRepository
 {
-    public async Task<List<Robots>> GetUserRobotsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Robots>> GetUserRobotsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Robots> robots = new List<Robots>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -44,7 +44,7 @@ public class UserRobotsRepository : IUserRobotsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -141,7 +141,7 @@ public class UserRobotsRepository : IUserRobotsRepository
 
         return robots;
     }
-    public async Task<int> GetUserRobotsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserRobotsCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -170,7 +170,7 @@ public class UserRobotsRepository : IUserRobotsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
@@ -725,7 +725,7 @@ public class UserRobotsRepository : IUserRobotsRepository
         }
         return true;
     }
-    public async Task<Robots> GetUserRobotByIdAsync(string user_id, string Id)
+    public async Task<Robots> GetUserRobotByIdAsync(string userId, string Id)
     {
         Robots robot = new Robots();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -739,7 +739,7 @@ public class UserRobotsRepository : IUserRobotsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

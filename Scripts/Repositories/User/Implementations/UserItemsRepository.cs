@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserItemsRepository : IUserItemsRepository
 {
-    public async Task<List<Items>> GetUserItemsAsync(string user_id, string search, string type, int pageSize, int offset)
+    public async Task<List<Items>> GetUserItemsAsync(string userId, string search, string type, int pageSize, int offset)
     {
         List<Items> items = new List<Items>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -39,7 +39,7 @@ public class UserItemsRepository : IUserItemsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -81,7 +81,7 @@ public class UserItemsRepository : IUserItemsRepository
 
         return items;
     }
-    public async Task<int> GetUserItemsCountAsync(string user_id, string search, string type)
+    public async Task<int> GetUserItemsCountAsync(string userId, string search, string type)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -109,7 +109,7 @@ public class UserItemsRepository : IUserItemsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);

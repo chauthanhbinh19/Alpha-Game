@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserTalismansRepository : IUserTalismansRepository
 {
-    public async Task<List<Talismans>> GetUserTalismansAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Talismans>> GetUserTalismansAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Talismans> talismans = new List<Talismans>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -46,7 +46,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
@@ -156,7 +156,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
         return talismans;
     }
-    public async Task<int> GetUserTalismansCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserTalismansCountAsync(string userId, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -190,7 +190,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
@@ -764,7 +764,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
         return true;
     }
-    public async Task<Talismans> GetUserTalismanByIdAsync(string user_id, string Id)
+    public async Task<Talismans> GetUserTalismanByIdAsync(string userId, string Id)
     {
         Talismans talisman = null;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -781,7 +781,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

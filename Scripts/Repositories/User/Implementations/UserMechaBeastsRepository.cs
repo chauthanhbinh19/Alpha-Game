@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 {
-    public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<MechaBeasts> mechaBeasts = new List<MechaBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -44,7 +44,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -141,7 +141,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
         return mechaBeasts;
     }
-    public async Task<int> GetUserMechaBeastsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserMechaBeastsCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -171,7 +171,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -725,7 +725,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
         }
         return true;
     }
-    public async Task<MechaBeasts> GetUserMechaBeastByIdAsync(string user_id, string Id)
+    public async Task<MechaBeasts> GetUserMechaBeastByIdAsync(string userId, string Id)
     {
         MechaBeasts mechaBeast = new MechaBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -739,7 +739,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

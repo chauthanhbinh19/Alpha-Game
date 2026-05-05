@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipmentsRepository
 {
-    public async Task<List<CollaborationEquipments>> GetUserCollaborationEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CollaborationEquipments>> GetUserCollaborationEquipmentsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<CollaborationEquipments> collaborationEquipments = new List<CollaborationEquipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -45,7 +45,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -148,7 +148,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
 
         return collaborationEquipments;
     }
-    public async Task<int> GetUserCollaborationEquipmentsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserCollaborationEquipmentsCountAsync(string userId, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -182,7 +182,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -755,7 +755,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
 
         return true;
     }
-    public async Task<CollaborationEquipments> GetUserCollaborationEquipmentByIdAsync(string user_id, string Id)
+    public async Task<CollaborationEquipments> GetUserCollaborationEquipmentByIdAsync(string userId, string Id)
     {
         CollaborationEquipments collaborationEquipment = null;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -772,7 +772,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

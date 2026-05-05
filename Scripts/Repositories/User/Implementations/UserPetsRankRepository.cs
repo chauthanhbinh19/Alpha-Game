@@ -6,10 +6,10 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserPetsRankRepository : IUserPetsRankRepository
 { 
-    public async Task<Rank> GetPetRankAsync(string id, string card_id)
+    public async Task<Rank> GetPetRankAsync(string id, string cardId)
     {
         Rank rank = new Rank();
-        string user_id = User.CurrentUserId;
+        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -26,9 +26,9 @@ public class UserPetsRankRepository : IUserPetsRankRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@id", id);
-                    selectCommand.Parameters.AddWithValue("@card_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@card_id", cardId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -113,7 +113,7 @@ public class UserPetsRankRepository : IUserPetsRankRepository
 
         return rank;
     }
-    public async Task InsertOrUpdatePetRankAsync(Rank rank, string card_id)
+    public async Task InsertOrUpdatePetRankAsync(Rank rank, string cardId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -132,7 +132,7 @@ public class UserPetsRankRepository : IUserPetsRankRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@card_id", card_id);
+                    checkCommand.Parameters.AddWithValue("@card_id", cardId);
                     checkCommand.Parameters.AddWithValue("@rank_id", rank.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -179,7 +179,7 @@ public class UserPetsRankRepository : IUserPetsRankRepository
                         {
                             // Thêm tất cả các parameter như cũ
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            updateCommand.Parameters.AddWithValue("@card_id", card_id);
+                            updateCommand.Parameters.AddWithValue("@card_id", cardId);
                             updateCommand.Parameters.AddWithValue("@rank_id", rank.Id);
                             updateCommand.Parameters.AddWithValue("@rank_level", rank.Level);
                             updateCommand.Parameters.AddWithValue("@power", rank.Power);
@@ -310,7 +310,7 @@ public class UserPetsRankRepository : IUserPetsRankRepository
                         {
                             // Thêm các parameter giống như trên (giữ nguyên)
                             insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            insertCommand.Parameters.AddWithValue("@card_id", card_id);
+                            insertCommand.Parameters.AddWithValue("@card_id", cardId);
                             insertCommand.Parameters.AddWithValue("@rank_id", rank.Id);
                             insertCommand.Parameters.AddWithValue("@rank_level", rank.Level == 0 ? 1 : rank.Level);
                             insertCommand.Parameters.AddWithValue("@power", rank.Power);
@@ -390,7 +390,7 @@ public class UserPetsRankRepository : IUserPetsRankRepository
             }
         }
     }
-    public async Task<Rank> GetSumPetsRankAsync(string user_id, string card_id)
+    public async Task<Rank> GetSumPetsRankAsync(string userId, string cardId)
     {
         Rank rank = new Rank();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -469,8 +469,8 @@ public class UserPetsRankRepository : IUserPetsRankRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
-                    selectCommand.Parameters.AddWithValue("@card_id", card_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@card_id", cardId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

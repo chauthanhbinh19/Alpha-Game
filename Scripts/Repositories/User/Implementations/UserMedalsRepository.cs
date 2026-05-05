@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserMedalsRepository : IUserMedalsRepository
 {
-    public async Task<List<Medals>> GetUserMedalsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Medals>> GetUserMedalsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Medals> medals = new List<Medals>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -44,7 +44,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -141,7 +141,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 
         return medals;
     }
-    public async Task<int> GetUserMedalsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserMedalsCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -170,7 +170,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -724,7 +724,7 @@ public class UserMedalsRepository : IUserMedalsRepository
         }
         return true;
     }
-    public async Task<Medals> GetUserMedalByIdAsync(string user_id, string Id)
+    public async Task<Medals> GetUserMedalByIdAsync(string userId, string Id)
     {
         Medals medal = new Medals();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -738,7 +738,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

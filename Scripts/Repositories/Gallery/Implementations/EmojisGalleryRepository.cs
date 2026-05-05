@@ -10,7 +10,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
     public async Task<List<Emojis>> GetEmojisCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Emojis> emojis = new List<Emojis>();
-        string user_id = User.CurrentUserId;
+        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -50,7 +50,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -208,7 +208,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
 
         return count;
     }
-    public async Task InsertEmojiGalleryAsync(string Id, Emojis emojiFromDB)
+    public async Task InsertEmojiGalleryAsync(string Id, Emojis emoji)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -282,64 +282,64 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
                             insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
-                            insertCommand.Parameters.AddWithValue("@power", emojiFromDB.Power);
-                            insertCommand.Parameters.AddWithValue("@health", emojiFromDB.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", emojiFromDB.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", emojiFromDB.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", emojiFromDB.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", emojiFromDB.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", emojiFromDB.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", emojiFromDB.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", emojiFromDB.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", emojiFromDB.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@power", emoji.Power);
+                            insertCommand.Parameters.AddWithValue("@health", emoji.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", emoji.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", emoji.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", emoji.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", emoji.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", emoji.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", emoji.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", emoji.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", emoji.AtomicDefense);
 
-                            insertCommand.Parameters.AddWithValue("@mental_attack", emojiFromDB.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", emojiFromDB.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", emoji.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", emoji.MentalDefense);
 
-                            insertCommand.Parameters.AddWithValue("@speed", emojiFromDB.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", emojiFromDB.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", emojiFromDB.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", emojiFromDB.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", emojiFromDB.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", emojiFromDB.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", emojiFromDB.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", emojiFromDB.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", emojiFromDB.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", emojiFromDB.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", emojiFromDB.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@speed", emoji.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", emoji.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", emoji.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", emoji.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", emoji.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", emoji.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", emoji.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", emoji.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", emoji.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", emoji.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", emoji.AbsorbedDamageRate);
 
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", emojiFromDB.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", emojiFromDB.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", emoji.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", emoji.VitalityRegenerationResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", emojiFromDB.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", emojiFromDB.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", emojiFromDB.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", emojiFromDB.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", emojiFromDB.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", emojiFromDB.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", emojiFromDB.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", emojiFromDB.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", emojiFromDB.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", emoji.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", emoji.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", emoji.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", emoji.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", emoji.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", emoji.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", emoji.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", emoji.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", emoji.ComboResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@stun_rate", emojiFromDB.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", emojiFromDB.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", emojiFromDB.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", emojiFromDB.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", emojiFromDB.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", emojiFromDB.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", emoji.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", emoji.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", emoji.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", emoji.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", emoji.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", emoji.ReflectionResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@mana", emojiFromDB.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", emojiFromDB.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@mana", emoji.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", emoji.ManaRegenerationRate);
 
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", emojiFromDB.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", emojiFromDB.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", emojiFromDB.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", emojiFromDB.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", emoji.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", emoji.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", emoji.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", emoji.ResistanceToSameFactionRate);
 
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", emojiFromDB.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", emojiFromDB.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", emojiFromDB.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", emojiFromDB.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", emoji.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", emoji.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", emoji.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", emoji.SkillResistanceRate);
 
                             insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
                             insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
@@ -463,7 +463,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
             }
         }
     }
-    public async Task UpdateEmojiGalleryPowerAsync(string id, Emojis emojiFromDB)
+    public async Task UpdateEmojiGalleryPowerAsync(string id, Emojis emoji)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -553,56 +553,56 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
 
                 // Stats
-                updateCommand.Parameters.AddWithValue("@power", emojiFromDB.Power);
-                updateCommand.Parameters.AddWithValue("@health", emojiFromDB.Health);
-                updateCommand.Parameters.AddWithValue("@physical_attack", emojiFromDB.PhysicalAttack);
-                updateCommand.Parameters.AddWithValue("@physical_defense", emojiFromDB.PhysicalDefense);
-                updateCommand.Parameters.AddWithValue("@magical_attack", emojiFromDB.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@magical_defense", emojiFromDB.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@chemical_attack", emojiFromDB.ChemicalAttack);
-                updateCommand.Parameters.AddWithValue("@chemical_defense", emojiFromDB.ChemicalDefense);
-                updateCommand.Parameters.AddWithValue("@atomic_attack", emojiFromDB.AtomicAttack);
-                updateCommand.Parameters.AddWithValue("@atomic_defense", emojiFromDB.AtomicDefense);
-                updateCommand.Parameters.AddWithValue("@mental_attack", emojiFromDB.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@mental_defense", emojiFromDB.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@speed", emojiFromDB.Speed);
-                updateCommand.Parameters.AddWithValue("@critical_damage_rate", emojiFromDB.CriticalDamageRate);
-                updateCommand.Parameters.AddWithValue("@critical_rate", emojiFromDB.CriticalRate);
-                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", emojiFromDB.CriticalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", emojiFromDB.IgnoreCriticalRate);
-                updateCommand.Parameters.AddWithValue("@penetration_rate", emojiFromDB.PenetrationRate);
-                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", emojiFromDB.PenetrationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@evasion_rate", emojiFromDB.EvasionRate);
-                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", emojiFromDB.DamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", emojiFromDB.IgnoreDamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", emojiFromDB.AbsorbedDamageRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", emojiFromDB.VitalityRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", emojiFromDB.VitalityRegenerationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@accuracy_rate", emojiFromDB.AccuracyRate);
-                updateCommand.Parameters.AddWithValue("@lifesteal_rate", emojiFromDB.LifestealRate);
-                updateCommand.Parameters.AddWithValue("@shield_strength", emojiFromDB.ShieldStrength);
-                updateCommand.Parameters.AddWithValue("@tenacity", emojiFromDB.Tenacity);
-                updateCommand.Parameters.AddWithValue("@resistance_rate", emojiFromDB.ResistanceRate);
-                updateCommand.Parameters.AddWithValue("@combo_rate", emojiFromDB.ComboRate);
-                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", emojiFromDB.IgnoreComboRate);
-                updateCommand.Parameters.AddWithValue("@combo_damage_rate", emojiFromDB.ComboDamageRate);
-                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", emojiFromDB.ComboResistanceRate);
-                updateCommand.Parameters.AddWithValue("@stun_rate", emojiFromDB.StunRate);
-                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", emojiFromDB.IgnoreStunRate);
-                updateCommand.Parameters.AddWithValue("@reflection_rate", emojiFromDB.ReflectionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", emojiFromDB.IgnoreReflectionRate);
-                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", emojiFromDB.ReflectionDamageRate);
-                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", emojiFromDB.ReflectionResistanceRate);
-                updateCommand.Parameters.AddWithValue("@mana", emojiFromDB.Mana);
-                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", emojiFromDB.ManaRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", emojiFromDB.DamageToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", emojiFromDB.ResistanceToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", emojiFromDB.DamageToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", emojiFromDB.ResistanceToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@normal_damage_rate", emojiFromDB.NormalDamageRate);
-                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", emojiFromDB.NormalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@skill_damage_rate", emojiFromDB.SkillDamageRate);
-                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", emojiFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", emoji.Power);
+                updateCommand.Parameters.AddWithValue("@health", emoji.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", emoji.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", emoji.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", emoji.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", emoji.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", emoji.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", emoji.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", emoji.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", emoji.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", emoji.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", emoji.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", emoji.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", emoji.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", emoji.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", emoji.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", emoji.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", emoji.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", emoji.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", emoji.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", emoji.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", emoji.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", emoji.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", emoji.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", emoji.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", emoji.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", emoji.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", emoji.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", emoji.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", emoji.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", emoji.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", emoji.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", emoji.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", emoji.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", emoji.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", emoji.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", emoji.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", emoji.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", emoji.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", emoji.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", emoji.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", emoji.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", emoji.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", emoji.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", emoji.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", emoji.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", emoji.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", emoji.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", emoji.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", emoji.SkillResistanceRate);
 
                 // Percent bonuses (hard-coded)
                 updateCommand.Parameters.AddWithValue("@percent_all_health", 5);

@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 {
-    public async Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -39,7 +39,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
@@ -138,7 +138,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeasts;
     }
-    public async Task<List<SpiritBeasts>> GetAllUserSpiritBeastsAsync(string user_id, int pageSize, int offset)
+    public async Task<List<SpiritBeasts>> GetAllUserSpiritBeastsAsync(string userId, int pageSize, int offset)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -161,7 +161,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     selectCommand.Parameters.AddWithValue("@limit", pageSize);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
 
@@ -250,7 +250,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeasts;
     }
-    public async Task<List<SpiritBeasts>> GetSpiritBeastsByCardIdsAsync(string user_id, List<string> cardIds)
+    public async Task<List<SpiritBeasts>> GetSpiritBeastsByCardIdsAsync(string userId, List<string> cardIds)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         if (cardIds == null || cardIds.Count == 0) return spiritBeasts;
@@ -276,7 +276,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
                 // 3. Add tham số cố định
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
 
                 // 4. Add danh sách tham số động
                 for (int i = 0; i < cardIds.Count; i++)
@@ -358,7 +358,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
         }
         return spiritBeasts;
     }
-    public async Task<int> GetUserSpiritBeastsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserSpiritBeastsCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -387,7 +387,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
@@ -2396,7 +2396,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<List<SpiritBeasts>> GetAllUserCardHeroesSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardHeroesSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2424,7 +2424,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             LIMIT @limit OFFSET @offset;";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
             selectCommand.Parameters.AddWithValue("@limit", pageSize);
             selectCommand.Parameters.AddWithValue("@offset", offset);
             selectCommand.Parameters.AddWithValue("@status", status);
@@ -2510,7 +2510,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeasts;
     }
-    public async Task<List<SpiritBeasts>> GetAllUserCardCaptainsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardCaptainsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2538,7 +2538,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             LIMIT @limit OFFSET @offset;";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
             selectCommand.Parameters.AddWithValue("@limit", pageSize);
             selectCommand.Parameters.AddWithValue("@offset", offset);
             selectCommand.Parameters.AddWithValue("@status", status);
@@ -2624,7 +2624,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeasts;
     }
-    public async Task<List<SpiritBeasts>> GetAllUserCardColonelsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardColonelsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2652,7 +2652,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             LIMIT @limit OFFSET @offset;";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
             selectCommand.Parameters.AddWithValue("@limit", pageSize);
             selectCommand.Parameters.AddWithValue("@offset", offset);
             selectCommand.Parameters.AddWithValue("@status", status);
@@ -2738,7 +2738,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeasts;
     }
-    public async Task<List<SpiritBeasts>> GetAllUserCardGeneralsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardGeneralsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2766,7 +2766,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             LIMIT @limit OFFSET @offset;";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
             selectCommand.Parameters.AddWithValue("@limit", pageSize);
             selectCommand.Parameters.AddWithValue("@offset", offset);
             selectCommand.Parameters.AddWithValue("@status", status);
@@ -2852,7 +2852,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeasts;
     }
-    public async Task<List<SpiritBeasts>> GetAllUserCardAdmiralsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardAdmiralsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2880,7 +2880,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             LIMIT @limit OFFSET @offset;";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
             selectCommand.Parameters.AddWithValue("@limit", pageSize);
             selectCommand.Parameters.AddWithValue("@offset", offset);
             selectCommand.Parameters.AddWithValue("@status", status);
@@ -2966,7 +2966,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeasts;
     }
-    public async Task<List<SpiritBeasts>> GetAllUserCardMilitariesSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardMilitariesSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2994,7 +2994,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             LIMIT @limit OFFSET @offset;";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
             selectCommand.Parameters.AddWithValue("@limit", pageSize);
             selectCommand.Parameters.AddWithValue("@offset", offset);
             selectCommand.Parameters.AddWithValue("@status", status);
@@ -3080,7 +3080,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeasts;
     }
-    public async Task<List<SpiritBeasts>> GetAllUserCardMonstersSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardMonstersSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3108,7 +3108,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             LIMIT @limit OFFSET @offset;";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
             selectCommand.Parameters.AddWithValue("@limit", pageSize);
             selectCommand.Parameters.AddWithValue("@offset", offset);
             selectCommand.Parameters.AddWithValue("@status", status);
@@ -3194,7 +3194,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeasts;
     }
-    public async Task<List<SpiritBeasts>> GetAllUserCardSpellsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardSpellsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3222,7 +3222,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
             LIMIT @limit OFFSET @offset;";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", user_id);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
             selectCommand.Parameters.AddWithValue("@limit", pageSize);
             selectCommand.Parameters.AddWithValue("@offset", offset);
             selectCommand.Parameters.AddWithValue("@status", status);
@@ -3788,7 +3788,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<SpiritBeasts> GetUserSpiritBeastByIdAsync(string user_id, string Id)
+    public async Task<SpiritBeasts> GetUserSpiritBeastByIdAsync(string userId, string Id)
     {
         SpiritBeasts spiritBeast = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3808,7 +3808,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserFashionsRepository : IUserFashionsRepository
 {
-    public async Task<List<Fashions>> GetUserFashionsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Fashions>> GetUserFashionsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Fashions> fashions = new List<Fashions>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -45,7 +45,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -148,7 +148,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
         return fashions;
     }
-    public async Task<int> GetUserFashionsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserFashionsCountAsync(string userId, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -182,7 +182,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -755,7 +755,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
         return true;
     }
-    public async Task<Fashions> GetUserFashionByIdAsync(string user_id, string Id)
+    public async Task<Fashions> GetUserFashionByIdAsync(string userId, string Id)
     {
         Fashions fashion = null;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -772,7 +772,7 @@ public class UserFashionsRepository : IUserFashionsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

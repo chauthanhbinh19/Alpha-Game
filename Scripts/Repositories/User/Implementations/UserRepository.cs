@@ -363,7 +363,7 @@ public class UserRepository : IUserRepository
             }
         }
     }
-    public async Task UpdateUserNameAsync(string user_id, string new_name)
+    public async Task UpdateUserNameAsync(string userId, string new_name)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -377,7 +377,7 @@ public class UserRepository : IUserRepository
                 await using (var updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@name", new_name);
-                    updateCommand.Parameters.AddWithValue("@id", user_id);
+                    updateCommand.Parameters.AddWithValue("@id", userId);
 
                     await updateCommand.ExecuteNonQueryAsync(); // chạy selectSQL async
                 }
@@ -392,7 +392,7 @@ public class UserRepository : IUserRepository
             }
         }
     }
-    public async Task UpdateUserPowerAsync(string user_id, double power)
+    public async Task UpdateUserPowerAsync(string userId, double power)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -406,7 +406,7 @@ public class UserRepository : IUserRepository
                 await using (var updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@power", power);
-                    updateCommand.Parameters.AddWithValue("@id", user_id);
+                    updateCommand.Parameters.AddWithValue("@id", userId);
 
                     await updateCommand.ExecuteNonQueryAsync(); // chạy selectSQL async
                 }

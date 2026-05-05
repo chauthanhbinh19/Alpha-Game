@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserArtworksRepository : IUserArtworksRepository
 {
-    public async Task<List<Artworks>> GetUserArtworksAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Artworks>> GetUserArtworksAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Artworks> artworks = new List<Artworks>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -45,7 +45,7 @@ public class UserArtworksRepository : IUserArtworksRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -148,7 +148,7 @@ public class UserArtworksRepository : IUserArtworksRepository
 
         return artworks;
     }
-    public async Task<int> GetUserArtworksCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserArtworksCountAsync(string userId, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -182,7 +182,7 @@ public class UserArtworksRepository : IUserArtworksRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -758,7 +758,7 @@ public class UserArtworksRepository : IUserArtworksRepository
 
         return true;
     }
-    public async Task<Artworks> GetUserArtworkByIdAsync(string user_id, string Id)
+    public async Task<Artworks> GetUserArtworkByIdAsync(string userId, string Id)
     {
         Artworks artwork = null; // null nếu không tìm thấy
         string connectionString = DatabaseConfig.ConnectionString;
@@ -775,7 +775,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

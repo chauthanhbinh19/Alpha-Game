@@ -20,9 +20,9 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
         return _instance;
     }
 
-    public async Task<List<Alchemies>> GetAlchemyCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Alchemies>> GetAlchemiesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
-        List<Alchemies> list = await _alchemiesGalleryRepository.GetAlchemyCollectionAsync(search, type, pageSize, offset, rare);
+        List<Alchemies> list = await _alchemiesGalleryRepository.GetAlchemiesCollectionAsync(search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }

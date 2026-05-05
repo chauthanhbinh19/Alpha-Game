@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserVehiclesRepository : IUserVehiclesRepository
 {
-    public async Task<List<Vehicles>> GetUserVehiclesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Vehicles>> GetUserVehiclesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Vehicles> vehicles = new List<Vehicles>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -46,7 +46,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
@@ -151,7 +151,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
         return vehicles;
     }
-    public async Task<int> GetUserVehiclesCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserVehiclesCountAsync(string userId, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -185,7 +185,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
@@ -759,7 +759,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
         return true;
     }
-    public async Task<Vehicles> GetUserVehicleByIdAsync(string user_id, string Id)
+    public async Task<Vehicles> GetUserVehicleByIdAsync(string userId, string Id)
     {
         Vehicles vehicle = null;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -776,7 +776,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

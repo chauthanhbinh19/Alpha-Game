@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserRelicsRepository : IUserRelicsRepository
 {
-    public async Task<List<Relics>> GetUserRelicsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Relics>> GetUserRelicsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Relics> relics = new List<Relics>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -45,7 +45,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -148,7 +148,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
         return relics;
     }
-    public async Task<int> GetUserRelicsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserRelicsCountAsync(string userId, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -182,7 +182,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -755,7 +755,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
         return true;
     }
-    public async Task<Relics> GetUserRelicByIdAsync(string user_id, string Id)
+    public async Task<Relics> GetUserRelicByIdAsync(string userId, string Id)
     {
         Relics relic = null;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -772,7 +772,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

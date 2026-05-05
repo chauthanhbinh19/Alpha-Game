@@ -21,9 +21,9 @@ public class AchievementsGalleryService : IAchievementsGalleryService
         return _instance;
     }
 
-    public async Task<List<Achievements>> GetAchievementCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Achievements>> GetAchievementsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
-        List<Achievements> list = await _achievementsGalleryRepository.GetAchievementCollectionAsync(search, pageSize, offset, rare);
+        List<Achievements> list = await _achievementsGalleryRepository.GetAchievementsCollectionAsync(search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }

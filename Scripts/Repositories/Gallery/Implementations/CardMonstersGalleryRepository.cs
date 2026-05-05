@@ -10,7 +10,7 @@ public class CardMonstersGalleryRepository : ICardMonstersGalleryRepository
     public async Task<List<CardMonsters>> GetCardMonstersCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<CardMonsters> cardMonsters = new List<CardMonsters>();
-        string user_id = User.CurrentUserId;
+        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -93,7 +93,7 @@ public class CardMonstersGalleryRepository : ICardMonstersGalleryRepository
                     {
                         selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     selectCommand.Parameters.AddWithValue("@limit", pageSize);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
 
@@ -286,9 +286,9 @@ public class CardMonstersGalleryRepository : ICardMonstersGalleryRepository
 
         return count;
     }
-    public async Task InsertCardMonsterGalleryAsync(string Id, CardMonsters cardMonsterFromDB)
+    public async Task InsertCardMonsterGalleryAsync(string Id, CardMonsters cardMonster)
     {
-        int percent = QualityEvaluatorHelper.CheckQuality(cardMonsterFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(cardMonster.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -371,56 +371,56 @@ public class CardMonstersGalleryRepository : ICardMonstersGalleryRepository
                     insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
                     // Thuộc tính
-                    insertCommand.Parameters.AddWithValue("@power", cardMonsterFromDB.Power);
-                    insertCommand.Parameters.AddWithValue("@health", cardMonsterFromDB.Health);
-                    insertCommand.Parameters.AddWithValue("@physical_attack", cardMonsterFromDB.PhysicalAttack);
-                    insertCommand.Parameters.AddWithValue("@physical_defense", cardMonsterFromDB.PhysicalDefense);
-                    insertCommand.Parameters.AddWithValue("@magical_attack", cardMonsterFromDB.MagicalAttack);
-                    insertCommand.Parameters.AddWithValue("@magical_defense", cardMonsterFromDB.MagicalDefense);
-                    insertCommand.Parameters.AddWithValue("@chemical_attack", cardMonsterFromDB.ChemicalAttack);
-                    insertCommand.Parameters.AddWithValue("@chemical_defense", cardMonsterFromDB.ChemicalDefense);
-                    insertCommand.Parameters.AddWithValue("@atomic_attack", cardMonsterFromDB.AtomicAttack);
-                    insertCommand.Parameters.AddWithValue("@atomic_defense", cardMonsterFromDB.AtomicDefense);
-                    insertCommand.Parameters.AddWithValue("@mental_attack", cardMonsterFromDB.MentalAttack);
-                    insertCommand.Parameters.AddWithValue("@mental_defense", cardMonsterFromDB.MentalDefense);
-                    insertCommand.Parameters.AddWithValue("@speed", cardMonsterFromDB.Speed);
-                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", cardMonsterFromDB.CriticalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@critical_rate", cardMonsterFromDB.CriticalRate);
-                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", cardMonsterFromDB.CriticalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", cardMonsterFromDB.IgnoreCriticalRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_rate", cardMonsterFromDB.PenetrationRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardMonsterFromDB.PenetrationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@evasion_rate", cardMonsterFromDB.EvasionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", cardMonsterFromDB.DamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardMonsterFromDB.IgnoreDamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardMonsterFromDB.AbsorbedDamageRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardMonsterFromDB.VitalityRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardMonsterFromDB.VitalityRegenerationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@accuracy_rate", cardMonsterFromDB.AccuracyRate);
-                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", cardMonsterFromDB.LifestealRate);
-                    insertCommand.Parameters.AddWithValue("@shield_strength", cardMonsterFromDB.ShieldStrength);
-                    insertCommand.Parameters.AddWithValue("@tenacity", cardMonsterFromDB.Tenacity);
-                    insertCommand.Parameters.AddWithValue("@resistance_rate", cardMonsterFromDB.ResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@combo_rate", cardMonsterFromDB.ComboRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", cardMonsterFromDB.IgnoreComboRate);
-                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", cardMonsterFromDB.ComboDamageRate);
-                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", cardMonsterFromDB.ComboResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@stun_rate", cardMonsterFromDB.StunRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", cardMonsterFromDB.IgnoreStunRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_rate", cardMonsterFromDB.ReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardMonsterFromDB.IgnoreReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", cardMonsterFromDB.ReflectionDamageRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardMonsterFromDB.ReflectionResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@mana", cardMonsterFromDB.Mana);
-                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardMonsterFromDB.ManaRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardMonsterFromDB.DamageToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardMonsterFromDB.ResistanceToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardMonsterFromDB.DamageToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardMonsterFromDB.ResistanceToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", cardMonsterFromDB.NormalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", cardMonsterFromDB.NormalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", cardMonsterFromDB.SkillDamageRate);
-                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", cardMonsterFromDB.SkillResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@power", cardMonster.Power);
+                    insertCommand.Parameters.AddWithValue("@health", cardMonster.Health);
+                    insertCommand.Parameters.AddWithValue("@physical_attack", cardMonster.PhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@physical_defense", cardMonster.PhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@magical_attack", cardMonster.MagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@magical_defense", cardMonster.MagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@chemical_attack", cardMonster.ChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@chemical_defense", cardMonster.ChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@atomic_attack", cardMonster.AtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@atomic_defense", cardMonster.AtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@mental_attack", cardMonster.MentalAttack);
+                    insertCommand.Parameters.AddWithValue("@mental_defense", cardMonster.MentalDefense);
+                    insertCommand.Parameters.AddWithValue("@speed", cardMonster.Speed);
+                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", cardMonster.CriticalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@critical_rate", cardMonster.CriticalRate);
+                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", cardMonster.CriticalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", cardMonster.IgnoreCriticalRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_rate", cardMonster.PenetrationRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardMonster.PenetrationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@evasion_rate", cardMonster.EvasionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", cardMonster.DamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardMonster.IgnoreDamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardMonster.AbsorbedDamageRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardMonster.VitalityRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardMonster.VitalityRegenerationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@accuracy_rate", cardMonster.AccuracyRate);
+                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", cardMonster.LifestealRate);
+                    insertCommand.Parameters.AddWithValue("@shield_strength", cardMonster.ShieldStrength);
+                    insertCommand.Parameters.AddWithValue("@tenacity", cardMonster.Tenacity);
+                    insertCommand.Parameters.AddWithValue("@resistance_rate", cardMonster.ResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@combo_rate", cardMonster.ComboRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", cardMonster.IgnoreComboRate);
+                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", cardMonster.ComboDamageRate);
+                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", cardMonster.ComboResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@stun_rate", cardMonster.StunRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", cardMonster.IgnoreStunRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_rate", cardMonster.ReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardMonster.IgnoreReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", cardMonster.ReflectionDamageRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardMonster.ReflectionResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@mana", cardMonster.Mana);
+                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardMonster.ManaRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardMonster.DamageToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardMonster.ResistanceToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardMonster.DamageToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardMonster.ResistanceToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", cardMonster.NormalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", cardMonster.NormalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", cardMonster.SkillDamageRate);
+                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", cardMonster.SkillResistanceRate);
 
                     // % buff theo quality
                     insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
@@ -533,7 +533,7 @@ public class CardMonstersGalleryRepository : ICardMonstersGalleryRepository
             }
         }
     }
-    public async Task UpdateCardMonsterGalleryPowerAsync(string Id, CardMonsters cardMonsterFromDB)
+    public async Task UpdateCardMonsterGalleryPowerAsync(string Id, CardMonsters cardMonster)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -617,56 +617,56 @@ public class CardMonstersGalleryRepository : ICardMonstersGalleryRepository
                 updateCommand.Parameters.AddWithValue("@card_monster_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
-                updateCommand.Parameters.AddWithValue("@power", cardMonsterFromDB.Power);
-                updateCommand.Parameters.AddWithValue("@health", cardMonsterFromDB.Health);
-                updateCommand.Parameters.AddWithValue("@physical_attack", cardMonsterFromDB.PhysicalAttack);
-                updateCommand.Parameters.AddWithValue("@physical_defense", cardMonsterFromDB.PhysicalDefense);
-                updateCommand.Parameters.AddWithValue("@magical_attack", cardMonsterFromDB.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@magical_defense", cardMonsterFromDB.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@chemical_attack", cardMonsterFromDB.ChemicalAttack);
-                updateCommand.Parameters.AddWithValue("@chemical_defense", cardMonsterFromDB.ChemicalDefense);
-                updateCommand.Parameters.AddWithValue("@atomic_attack", cardMonsterFromDB.AtomicAttack);
-                updateCommand.Parameters.AddWithValue("@atomic_defense", cardMonsterFromDB.AtomicDefense);
-                updateCommand.Parameters.AddWithValue("@mental_attack", cardMonsterFromDB.MentalAttack);
-                updateCommand.Parameters.AddWithValue("@mental_defense", cardMonsterFromDB.MentalDefense);
-                updateCommand.Parameters.AddWithValue("@speed", cardMonsterFromDB.Speed);
-                updateCommand.Parameters.AddWithValue("@critical_damage_rate", cardMonsterFromDB.CriticalDamageRate);
-                updateCommand.Parameters.AddWithValue("@critical_rate", cardMonsterFromDB.CriticalRate);
-                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", cardMonsterFromDB.CriticalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", cardMonsterFromDB.IgnoreCriticalRate);
-                updateCommand.Parameters.AddWithValue("@penetration_rate", cardMonsterFromDB.PenetrationRate);
-                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardMonsterFromDB.PenetrationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@evasion_rate", cardMonsterFromDB.EvasionRate);
-                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", cardMonsterFromDB.DamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardMonsterFromDB.IgnoreDamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardMonsterFromDB.AbsorbedDamageRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardMonsterFromDB.VitalityRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardMonsterFromDB.VitalityRegenerationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@accuracy_rate", cardMonsterFromDB.AccuracyRate);
-                updateCommand.Parameters.AddWithValue("@lifesteal_rate", cardMonsterFromDB.LifestealRate);
-                updateCommand.Parameters.AddWithValue("@shield_strength", cardMonsterFromDB.ShieldStrength);
-                updateCommand.Parameters.AddWithValue("@tenacity", cardMonsterFromDB.Tenacity);
-                updateCommand.Parameters.AddWithValue("@resistance_rate", cardMonsterFromDB.ResistanceRate);
-                updateCommand.Parameters.AddWithValue("@combo_rate", cardMonsterFromDB.ComboRate);
-                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", cardMonsterFromDB.IgnoreComboRate);
-                updateCommand.Parameters.AddWithValue("@combo_damage_rate", cardMonsterFromDB.ComboDamageRate);
-                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", cardMonsterFromDB.ComboResistanceRate);
-                updateCommand.Parameters.AddWithValue("@stun_rate", cardMonsterFromDB.StunRate);
-                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", cardMonsterFromDB.IgnoreStunRate);
-                updateCommand.Parameters.AddWithValue("@reflection_rate", cardMonsterFromDB.ReflectionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardMonsterFromDB.IgnoreReflectionRate);
-                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", cardMonsterFromDB.ReflectionDamageRate);
-                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardMonsterFromDB.ReflectionResistanceRate);
-                updateCommand.Parameters.AddWithValue("@mana", cardMonsterFromDB.Mana);
-                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardMonsterFromDB.ManaRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardMonsterFromDB.DamageToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardMonsterFromDB.ResistanceToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardMonsterFromDB.DamageToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardMonsterFromDB.ResistanceToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@normal_damage_rate", cardMonsterFromDB.NormalDamageRate);
-                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", cardMonsterFromDB.NormalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@skill_damage_rate", cardMonsterFromDB.SkillDamageRate);
-                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", cardMonsterFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", cardMonster.Power);
+                updateCommand.Parameters.AddWithValue("@health", cardMonster.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", cardMonster.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", cardMonster.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", cardMonster.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", cardMonster.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", cardMonster.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", cardMonster.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", cardMonster.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", cardMonster.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", cardMonster.MentalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", cardMonster.MentalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", cardMonster.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", cardMonster.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", cardMonster.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", cardMonster.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", cardMonster.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", cardMonster.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardMonster.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", cardMonster.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", cardMonster.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardMonster.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardMonster.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardMonster.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardMonster.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", cardMonster.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", cardMonster.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", cardMonster.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", cardMonster.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", cardMonster.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", cardMonster.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", cardMonster.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", cardMonster.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", cardMonster.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", cardMonster.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", cardMonster.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", cardMonster.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardMonster.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", cardMonster.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardMonster.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", cardMonster.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardMonster.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardMonster.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardMonster.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardMonster.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardMonster.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", cardMonster.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", cardMonster.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", cardMonster.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", cardMonster.SkillResistanceRate);
                 updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
                 updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
                 updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);

@@ -10,7 +10,7 @@ public class FashionsGalleryRepository : IFashionsGalleryRepository
     public async Task<List<Fashions>> GetFashionsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Fashions> fashions = new List<Fashions>();
-        string user_id = User.CurrentUserId;
+        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -64,7 +64,7 @@ public class FashionsGalleryRepository : IFashionsGalleryRepository
                     {
                         selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     selectCommand.Parameters.AddWithValue("@limit", pageSize);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
 
@@ -223,9 +223,9 @@ public class FashionsGalleryRepository : IFashionsGalleryRepository
 
         return count;
     }
-    public async Task InsertFashionGalleryAsync(string Id, Fashions fashionFromDB)
+    public async Task InsertFashionGalleryAsync(string Id, Fashions fashion)
     {
-        int percent = QualityEvaluatorHelper.CheckQuality(fashionFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(fashion.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -308,56 +308,56 @@ public class FashionsGalleryRepository : IFashionsGalleryRepository
                     insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
                     // Thuộc tính
-                    insertCommand.Parameters.AddWithValue("@power", fashionFromDB.Power);
-                    insertCommand.Parameters.AddWithValue("@health", fashionFromDB.Health);
-                    insertCommand.Parameters.AddWithValue("@physical_attack", fashionFromDB.PhysicalAttack);
-                    insertCommand.Parameters.AddWithValue("@physical_defense", fashionFromDB.PhysicalDefense);
-                    insertCommand.Parameters.AddWithValue("@magical_attack", fashionFromDB.MagicalAttack);
-                    insertCommand.Parameters.AddWithValue("@magical_defense", fashionFromDB.MagicalDefense);
-                    insertCommand.Parameters.AddWithValue("@chemical_attack", fashionFromDB.ChemicalAttack);
-                    insertCommand.Parameters.AddWithValue("@chemical_defense", fashionFromDB.ChemicalDefense);
-                    insertCommand.Parameters.AddWithValue("@atomic_attack", fashionFromDB.AtomicAttack);
-                    insertCommand.Parameters.AddWithValue("@atomic_defense", fashionFromDB.AtomicDefense);
-                    insertCommand.Parameters.AddWithValue("@mental_attack", fashionFromDB.MentalAttack);
-                    insertCommand.Parameters.AddWithValue("@mental_defense", fashionFromDB.MentalDefense);
-                    insertCommand.Parameters.AddWithValue("@speed", fashionFromDB.Speed);
-                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", fashionFromDB.CriticalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@critical_rate", fashionFromDB.CriticalRate);
-                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", fashionFromDB.CriticalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", fashionFromDB.IgnoreCriticalRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_rate", fashionFromDB.PenetrationRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", fashionFromDB.PenetrationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@evasion_rate", fashionFromDB.EvasionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", fashionFromDB.DamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", fashionFromDB.IgnoreDamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", fashionFromDB.AbsorbedDamageRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", fashionFromDB.VitalityRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", fashionFromDB.VitalityRegenerationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@accuracy_rate", fashionFromDB.AccuracyRate);
-                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", fashionFromDB.LifestealRate);
-                    insertCommand.Parameters.AddWithValue("@shield_strength", fashionFromDB.ShieldStrength);
-                    insertCommand.Parameters.AddWithValue("@tenacity", fashionFromDB.Tenacity);
-                    insertCommand.Parameters.AddWithValue("@resistance_rate", fashionFromDB.ResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@combo_rate", fashionFromDB.ComboRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", fashionFromDB.IgnoreComboRate);
-                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", fashionFromDB.ComboDamageRate);
-                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", fashionFromDB.ComboResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@stun_rate", fashionFromDB.StunRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", fashionFromDB.IgnoreStunRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_rate", fashionFromDB.ReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", fashionFromDB.IgnoreReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", fashionFromDB.ReflectionDamageRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", fashionFromDB.ReflectionResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@mana", fashionFromDB.Mana);
-                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", fashionFromDB.ManaRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", fashionFromDB.DamageToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", fashionFromDB.ResistanceToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", fashionFromDB.DamageToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", fashionFromDB.ResistanceToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", fashionFromDB.NormalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", fashionFromDB.NormalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", fashionFromDB.SkillDamageRate);
-                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", fashionFromDB.SkillResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@power", fashion.Power);
+                    insertCommand.Parameters.AddWithValue("@health", fashion.Health);
+                    insertCommand.Parameters.AddWithValue("@physical_attack", fashion.PhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@physical_defense", fashion.PhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@magical_attack", fashion.MagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@magical_defense", fashion.MagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@chemical_attack", fashion.ChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@chemical_defense", fashion.ChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@atomic_attack", fashion.AtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@atomic_defense", fashion.AtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@mental_attack", fashion.MentalAttack);
+                    insertCommand.Parameters.AddWithValue("@mental_defense", fashion.MentalDefense);
+                    insertCommand.Parameters.AddWithValue("@speed", fashion.Speed);
+                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", fashion.CriticalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@critical_rate", fashion.CriticalRate);
+                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", fashion.CriticalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", fashion.IgnoreCriticalRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_rate", fashion.PenetrationRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", fashion.PenetrationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@evasion_rate", fashion.EvasionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", fashion.DamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", fashion.IgnoreDamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", fashion.AbsorbedDamageRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", fashion.VitalityRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", fashion.VitalityRegenerationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@accuracy_rate", fashion.AccuracyRate);
+                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", fashion.LifestealRate);
+                    insertCommand.Parameters.AddWithValue("@shield_strength", fashion.ShieldStrength);
+                    insertCommand.Parameters.AddWithValue("@tenacity", fashion.Tenacity);
+                    insertCommand.Parameters.AddWithValue("@resistance_rate", fashion.ResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@combo_rate", fashion.ComboRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", fashion.IgnoreComboRate);
+                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", fashion.ComboDamageRate);
+                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", fashion.ComboResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@stun_rate", fashion.StunRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", fashion.IgnoreStunRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_rate", fashion.ReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", fashion.IgnoreReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", fashion.ReflectionDamageRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", fashion.ReflectionResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@mana", fashion.Mana);
+                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", fashion.ManaRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", fashion.DamageToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", fashion.ResistanceToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", fashion.DamageToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", fashion.ResistanceToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", fashion.NormalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", fashion.NormalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", fashion.SkillDamageRate);
+                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", fashion.SkillResistanceRate);
 
                     // % buff theo quality
                     insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
@@ -470,7 +470,7 @@ public class FashionsGalleryRepository : IFashionsGalleryRepository
             }
         }
     }
-    public async Task UpdateFashionGalleryPowerAsync(string Id, Fashions fashionFromDB)
+    public async Task UpdateFashionGalleryPowerAsync(string Id, Fashions fashion)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -554,56 +554,56 @@ public class FashionsGalleryRepository : IFashionsGalleryRepository
                 updateCommand.Parameters.AddWithValue("@fashion_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
-                updateCommand.Parameters.AddWithValue("@power", fashionFromDB.Power);
-                updateCommand.Parameters.AddWithValue("@health", fashionFromDB.Health);
-                updateCommand.Parameters.AddWithValue("@physical_attack", fashionFromDB.PhysicalAttack);
-                updateCommand.Parameters.AddWithValue("@physical_defense", fashionFromDB.PhysicalDefense);
-                updateCommand.Parameters.AddWithValue("@magical_attack", fashionFromDB.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@magical_defense", fashionFromDB.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@chemical_attack", fashionFromDB.ChemicalAttack);
-                updateCommand.Parameters.AddWithValue("@chemical_defense", fashionFromDB.ChemicalDefense);
-                updateCommand.Parameters.AddWithValue("@atomic_attack", fashionFromDB.AtomicAttack);
-                updateCommand.Parameters.AddWithValue("@atomic_defense", fashionFromDB.AtomicDefense);
-                updateCommand.Parameters.AddWithValue("@mental_attack", fashionFromDB.MentalAttack);
-                updateCommand.Parameters.AddWithValue("@mental_defense", fashionFromDB.MentalDefense);
-                updateCommand.Parameters.AddWithValue("@speed", fashionFromDB.Speed);
-                updateCommand.Parameters.AddWithValue("@critical_damage_rate", fashionFromDB.CriticalDamageRate);
-                updateCommand.Parameters.AddWithValue("@critical_rate", fashionFromDB.CriticalRate);
-                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", fashionFromDB.CriticalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", fashionFromDB.IgnoreCriticalRate);
-                updateCommand.Parameters.AddWithValue("@penetration_rate", fashionFromDB.PenetrationRate);
-                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", fashionFromDB.PenetrationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@evasion_rate", fashionFromDB.EvasionRate);
-                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", fashionFromDB.DamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", fashionFromDB.IgnoreDamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", fashionFromDB.AbsorbedDamageRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", fashionFromDB.VitalityRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", fashionFromDB.VitalityRegenerationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@accuracy_rate", fashionFromDB.AccuracyRate);
-                updateCommand.Parameters.AddWithValue("@lifesteal_rate", fashionFromDB.LifestealRate);
-                updateCommand.Parameters.AddWithValue("@shield_strength", fashionFromDB.ShieldStrength);
-                updateCommand.Parameters.AddWithValue("@tenacity", fashionFromDB.Tenacity);
-                updateCommand.Parameters.AddWithValue("@resistance_rate", fashionFromDB.ResistanceRate);
-                updateCommand.Parameters.AddWithValue("@combo_rate", fashionFromDB.ComboRate);
-                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", fashionFromDB.IgnoreComboRate);
-                updateCommand.Parameters.AddWithValue("@combo_damage_rate", fashionFromDB.ComboDamageRate);
-                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", fashionFromDB.ComboResistanceRate);
-                updateCommand.Parameters.AddWithValue("@stun_rate", fashionFromDB.StunRate);
-                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", fashionFromDB.IgnoreStunRate);
-                updateCommand.Parameters.AddWithValue("@reflection_rate", fashionFromDB.ReflectionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", fashionFromDB.IgnoreReflectionRate);
-                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", fashionFromDB.ReflectionDamageRate);
-                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", fashionFromDB.ReflectionResistanceRate);
-                updateCommand.Parameters.AddWithValue("@mana", fashionFromDB.Mana);
-                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", fashionFromDB.ManaRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", fashionFromDB.DamageToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", fashionFromDB.ResistanceToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", fashionFromDB.DamageToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", fashionFromDB.ResistanceToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@normal_damage_rate", fashionFromDB.NormalDamageRate);
-                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", fashionFromDB.NormalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@skill_damage_rate", fashionFromDB.SkillDamageRate);
-                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", fashionFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", fashion.Power);
+                updateCommand.Parameters.AddWithValue("@health", fashion.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", fashion.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", fashion.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", fashion.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", fashion.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", fashion.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", fashion.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", fashion.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", fashion.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", fashion.MentalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", fashion.MentalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", fashion.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", fashion.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", fashion.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", fashion.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", fashion.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", fashion.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", fashion.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", fashion.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", fashion.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", fashion.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", fashion.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", fashion.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", fashion.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", fashion.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", fashion.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", fashion.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", fashion.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", fashion.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", fashion.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", fashion.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", fashion.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", fashion.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", fashion.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", fashion.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", fashion.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", fashion.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", fashion.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", fashion.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", fashion.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", fashion.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", fashion.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", fashion.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", fashion.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", fashion.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", fashion.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", fashion.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", fashion.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", fashion.SkillResistanceRate);
                 updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
                 updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
                 updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);

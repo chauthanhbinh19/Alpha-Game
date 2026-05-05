@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Linq;
 public class UserBooksRepository : IUserBooksRepository
 {
-    public async Task<List<Books>> GetUserBooksAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Books>> GetUserBooksAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Books> books = new List<Books>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -40,7 +40,7 @@ public class UserBooksRepository : IUserBooksRepository
                 selectSQL += " LIMIT @limit OFFSET @offset";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -409,7 +409,7 @@ public class UserBooksRepository : IUserBooksRepository
         }
         return result;
     }
-    public async Task<int> GetUserBooksCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserBooksCountAsync(string userId, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -442,7 +442,7 @@ public class UserBooksRepository : IUserBooksRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -1029,7 +1029,7 @@ public class UserBooksRepository : IUserBooksRepository
 
         return true;
     }
-    public async Task<bool> UpdateTeamBookAsync(string team_id, string position, string book_id)
+    public async Task<bool> UpdateTeamBookAsync(string teamId, string position, string bookId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1047,10 +1047,10 @@ public class UserBooksRepository : IUserBooksRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@team_id", team_id);
+                    updateCommand.Parameters.AddWithValue("@team_id", teamId);
                     updateCommand.Parameters.AddWithValue("@position", position);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@book_id", book_id);
+                    updateCommand.Parameters.AddWithValue("@book_id", bookId);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -1068,7 +1068,7 @@ public class UserBooksRepository : IUserBooksRepository
 
         return true;
     }
-    public async Task<Books> GetUserBookByIdAsync(string user_id, string Id)
+    public async Task<Books> GetUserBookByIdAsync(string userId, string Id)
     {
         Books book = new Books();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1088,7 +1088,7 @@ public class UserBooksRepository : IUserBooksRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -1221,7 +1221,7 @@ public class UserBooksRepository : IUserBooksRepository
 
         return book;
     }
-    public async Task<List<Books>> GetAllUserBooksInTeamAsync(string user_id)
+    public async Task<List<Books>> GetAllUserBooksInTeamAsync(string userId)
     {
         List<Books> books = new List<Books>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1239,7 +1239,7 @@ public class UserBooksRepository : IUserBooksRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

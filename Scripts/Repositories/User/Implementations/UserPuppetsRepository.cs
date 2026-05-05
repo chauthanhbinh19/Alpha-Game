@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserPuppetsRepository : IUserPuppetsRepository
 {
-    public async Task<List<Puppets>> GetUserPuppetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Puppets>> GetUserPuppetsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Puppets> puppets = new List<Puppets>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -45,7 +45,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -148,7 +148,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
         return puppets;
     }
-    public async Task<int> GetUserPuppetsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserPuppetsCountAsync(string userId, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -182,7 +182,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(type) && type != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@type", type);
@@ -755,7 +755,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
         return true;
     }
-    public async Task<Puppets> GetUserPuppetByIdAsync(string user_id, string Id)
+    public async Task<Puppets> GetUserPuppetByIdAsync(string userId, string Id)
     {
         Puppets puppet = null;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -772,7 +772,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

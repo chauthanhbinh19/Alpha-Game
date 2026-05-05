@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserEmojisRepository : IUserEmojisRepository
 {
-    public async Task<List<Emojis>> GetUserEmojisAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Emojis>> GetUserEmojisAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Emojis> emojis = new List<Emojis>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -41,7 +41,7 @@ public class UserEmojisRepository : IUserEmojisRepository
             ";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
                     selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -135,7 +135,7 @@ public class UserEmojisRepository : IUserEmojisRepository
 
         return emojis;
     }
-    public async Task<int> GetUserEmojisCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserEmojisCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -163,7 +163,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 }
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", user_id);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
                     selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -719,7 +719,7 @@ public class UserEmojisRepository : IUserEmojisRepository
 
         return true;
     }
-    public async Task<Emojis> GetUserEmojiByIdAsync(string user_id, string Id)
+    public async Task<Emojis> GetUserEmojiByIdAsync(string userId, string Id)
     {
         Emojis emoji = null;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -735,7 +735,7 @@ public class UserEmojisRepository : IUserEmojisRepository
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@id", Id);
-                selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
                 if (await reader.ReadAsync())

@@ -517,7 +517,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
         {
             var alchemyGalleryService = AlchemiesGalleryService.Create();
-            List<Alchemies> alchemies = await alchemyGalleryService.GetAlchemyCollectionAsync(search, type, PAGE_SIZE, offset, rare);
+            List<Alchemies> alchemies = await alchemyGalleryService.GetAlchemiesCollectionAsync(search, type, PAGE_SIZE, offset, rare);
             AlchemiesGalleryController.Instance.CreateAlchemiesGallery(alchemies, DictionaryContentPanel);
 
             totalRecord = await alchemyGalleryService.GetAlchemyCountAsync(search, type, rare);
@@ -573,7 +573,7 @@ public class CollectionManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
         {
             var achievementsGalleryService = AchievementsGalleryService.Create();
-            List<Achievements> achievements = await achievementsGalleryService.GetAchievementCollectionAsync(search, PAGE_SIZE, offset, rare);
+            List<Achievements> achievements = await achievementsGalleryService.GetAchievementsCollectionAsync(search, PAGE_SIZE, offset, rare);
             AchievementsGalleryController.Instance.CreateAchievementsGallery(achievements, DictionaryContentPanel);
 
             totalRecord = await achievementsGalleryService.GetAchievementsCountAsync(search, rare);

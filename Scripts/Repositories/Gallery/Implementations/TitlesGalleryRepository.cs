@@ -10,7 +10,7 @@ public class TitlesGalleryRepository : ITitlesGalleryRepository
     public async Task<List<Titles>> GetTitlesCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Titles> titles = new List<Titles>();
-        string user_id = User.CurrentUserId;
+        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -50,7 +50,7 @@ public class TitlesGalleryRepository : ITitlesGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -207,7 +207,7 @@ public class TitlesGalleryRepository : ITitlesGalleryRepository
 
         return count;
     }
-    public async Task InsertTitleGalleryAsync(string Id, Titles titleFromDB)
+    public async Task InsertTitleGalleryAsync(string Id, Titles title)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -281,64 +281,64 @@ public class TitlesGalleryRepository : ITitlesGalleryRepository
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
                             insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
-                            insertCommand.Parameters.AddWithValue("@power", titleFromDB.Power);
-                            insertCommand.Parameters.AddWithValue("@health", titleFromDB.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", titleFromDB.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", titleFromDB.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", titleFromDB.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", titleFromDB.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", titleFromDB.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", titleFromDB.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", titleFromDB.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", titleFromDB.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@power", title.Power);
+                            insertCommand.Parameters.AddWithValue("@health", title.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", title.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", title.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", title.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", title.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", title.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", title.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", title.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", title.AtomicDefense);
 
-                            insertCommand.Parameters.AddWithValue("@mental_attack", titleFromDB.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", titleFromDB.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", title.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", title.MentalDefense);
 
-                            insertCommand.Parameters.AddWithValue("@speed", titleFromDB.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", titleFromDB.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", titleFromDB.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", titleFromDB.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", titleFromDB.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", titleFromDB.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", titleFromDB.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", titleFromDB.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", titleFromDB.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", titleFromDB.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", titleFromDB.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@speed", title.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", title.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", title.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", title.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", title.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", title.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", title.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", title.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", title.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", title.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", title.AbsorbedDamageRate);
 
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", titleFromDB.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", titleFromDB.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", title.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", title.VitalityRegenerationResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", titleFromDB.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", titleFromDB.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", titleFromDB.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", titleFromDB.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", titleFromDB.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", titleFromDB.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", titleFromDB.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", titleFromDB.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", titleFromDB.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", title.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", title.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", title.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", title.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", title.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", title.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", title.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", title.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", title.ComboResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@stun_rate", titleFromDB.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", titleFromDB.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", titleFromDB.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", titleFromDB.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", titleFromDB.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", titleFromDB.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", title.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", title.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", title.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", title.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", title.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", title.ReflectionResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@mana", titleFromDB.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", titleFromDB.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@mana", title.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", title.ManaRegenerationRate);
 
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", titleFromDB.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", titleFromDB.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", titleFromDB.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", titleFromDB.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", title.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", title.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", title.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", title.ResistanceToSameFactionRate);
 
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", titleFromDB.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", titleFromDB.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", titleFromDB.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", titleFromDB.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", title.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", title.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", title.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", title.SkillResistanceRate);
 
                             insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
                             insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
@@ -462,7 +462,7 @@ public class TitlesGalleryRepository : ITitlesGalleryRepository
             }
         }
     }
-    public async Task UpdateTitleGalleryPowerAsync(string id, Titles titleFromDB)
+    public async Task UpdateTitleGalleryPowerAsync(string id, Titles title)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -552,56 +552,56 @@ public class TitlesGalleryRepository : ITitlesGalleryRepository
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
 
                 // Stats
-                updateCommand.Parameters.AddWithValue("@power", titleFromDB.Power);
-                updateCommand.Parameters.AddWithValue("@health", titleFromDB.Health);
-                updateCommand.Parameters.AddWithValue("@physical_attack", titleFromDB.PhysicalAttack);
-                updateCommand.Parameters.AddWithValue("@physical_defense", titleFromDB.PhysicalDefense);
-                updateCommand.Parameters.AddWithValue("@magical_attack", titleFromDB.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@magical_defense", titleFromDB.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@chemical_attack", titleFromDB.ChemicalAttack);
-                updateCommand.Parameters.AddWithValue("@chemical_defense", titleFromDB.ChemicalDefense);
-                updateCommand.Parameters.AddWithValue("@atomic_attack", titleFromDB.AtomicAttack);
-                updateCommand.Parameters.AddWithValue("@atomic_defense", titleFromDB.AtomicDefense);
-                updateCommand.Parameters.AddWithValue("@mental_attack", titleFromDB.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@mental_defense", titleFromDB.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@speed", titleFromDB.Speed);
-                updateCommand.Parameters.AddWithValue("@critical_damage_rate", titleFromDB.CriticalDamageRate);
-                updateCommand.Parameters.AddWithValue("@critical_rate", titleFromDB.CriticalRate);
-                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", titleFromDB.CriticalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", titleFromDB.IgnoreCriticalRate);
-                updateCommand.Parameters.AddWithValue("@penetration_rate", titleFromDB.PenetrationRate);
-                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", titleFromDB.PenetrationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@evasion_rate", titleFromDB.EvasionRate);
-                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", titleFromDB.DamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", titleFromDB.IgnoreDamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", titleFromDB.AbsorbedDamageRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", titleFromDB.VitalityRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", titleFromDB.VitalityRegenerationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@accuracy_rate", titleFromDB.AccuracyRate);
-                updateCommand.Parameters.AddWithValue("@lifesteal_rate", titleFromDB.LifestealRate);
-                updateCommand.Parameters.AddWithValue("@shield_strength", titleFromDB.ShieldStrength);
-                updateCommand.Parameters.AddWithValue("@tenacity", titleFromDB.Tenacity);
-                updateCommand.Parameters.AddWithValue("@resistance_rate", titleFromDB.ResistanceRate);
-                updateCommand.Parameters.AddWithValue("@combo_rate", titleFromDB.ComboRate);
-                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", titleFromDB.IgnoreComboRate);
-                updateCommand.Parameters.AddWithValue("@combo_damage_rate", titleFromDB.ComboDamageRate);
-                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", titleFromDB.ComboResistanceRate);
-                updateCommand.Parameters.AddWithValue("@stun_rate", titleFromDB.StunRate);
-                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", titleFromDB.IgnoreStunRate);
-                updateCommand.Parameters.AddWithValue("@reflection_rate", titleFromDB.ReflectionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", titleFromDB.IgnoreReflectionRate);
-                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", titleFromDB.ReflectionDamageRate);
-                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", titleFromDB.ReflectionResistanceRate);
-                updateCommand.Parameters.AddWithValue("@mana", titleFromDB.Mana);
-                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", titleFromDB.ManaRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", titleFromDB.DamageToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", titleFromDB.ResistanceToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", titleFromDB.DamageToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", titleFromDB.ResistanceToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@normal_damage_rate", titleFromDB.NormalDamageRate);
-                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", titleFromDB.NormalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@skill_damage_rate", titleFromDB.SkillDamageRate);
-                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", titleFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", title.Power);
+                updateCommand.Parameters.AddWithValue("@health", title.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", title.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", title.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", title.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", title.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", title.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", title.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", title.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", title.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", title.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", title.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", title.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", title.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", title.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", title.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", title.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", title.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", title.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", title.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", title.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", title.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", title.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", title.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", title.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", title.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", title.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", title.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", title.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", title.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", title.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", title.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", title.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", title.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", title.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", title.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", title.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", title.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", title.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", title.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", title.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", title.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", title.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", title.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", title.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", title.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", title.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", title.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", title.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", title.SkillResistanceRate);
 
                 // Percent bonuses (hard-coded)
                 updateCommand.Parameters.AddWithValue("@percent_all_health", 5);

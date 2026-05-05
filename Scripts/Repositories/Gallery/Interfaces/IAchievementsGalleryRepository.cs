@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public interface IAchievementsGalleryRepository
 {
-    Task<List<Achievements>> GetAchievementCollectionAsync(string search, int pageSize, int offset, string rare);
+    Task<List<Achievements>> GetAchievementsCollectionAsync(string search, int pageSize, int offset, string rare);
     Task<int> GetAchievementsCountAsync(string search, string rare);
     Task InsertAchievementsGalleryAsync(string Id, Achievements AchievementFromDB);
     Task UpdateStatusAchievementsGalleryAsync(string Id);

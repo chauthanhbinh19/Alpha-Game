@@ -10,7 +10,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
     public async Task<List<Avatars>> GetAvatarsCollectionAsync(string search, int pageSize, int offset, string rare)
     {
         List<Avatars> avatars = new List<Avatars>();
-        string user_id = User.CurrentUserId;
+        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -50,7 +50,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -207,7 +207,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
 
         return count;
     }
-    public async Task InsertAvatarGalleryAsync(string Id, Avatars avatarFromDB)
+    public async Task InsertAvatarGalleryAsync(string Id, Avatars avatar)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -281,64 +281,64 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
                             insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
-                            insertCommand.Parameters.AddWithValue("@power", avatarFromDB.Power);
-                            insertCommand.Parameters.AddWithValue("@health", avatarFromDB.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", avatarFromDB.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", avatarFromDB.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", avatarFromDB.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", avatarFromDB.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", avatarFromDB.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", avatarFromDB.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", avatarFromDB.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", avatarFromDB.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@power", avatar.Power);
+                            insertCommand.Parameters.AddWithValue("@health", avatar.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", avatar.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", avatar.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", avatar.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", avatar.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", avatar.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", avatar.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", avatar.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", avatar.AtomicDefense);
 
-                            insertCommand.Parameters.AddWithValue("@mental_attack", avatarFromDB.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", avatarFromDB.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", avatar.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", avatar.MentalDefense);
 
-                            insertCommand.Parameters.AddWithValue("@speed", avatarFromDB.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", avatarFromDB.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", avatarFromDB.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", avatarFromDB.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", avatarFromDB.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", avatarFromDB.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", avatarFromDB.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", avatarFromDB.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", avatarFromDB.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", avatarFromDB.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", avatarFromDB.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@speed", avatar.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", avatar.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", avatar.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", avatar.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", avatar.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", avatar.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", avatar.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", avatar.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", avatar.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", avatar.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", avatar.AbsorbedDamageRate);
 
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", avatarFromDB.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", avatarFromDB.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", avatar.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", avatar.VitalityRegenerationResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", avatarFromDB.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", avatarFromDB.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", avatarFromDB.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", avatarFromDB.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", avatarFromDB.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", avatarFromDB.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", avatarFromDB.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", avatarFromDB.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", avatarFromDB.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", avatar.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", avatar.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", avatar.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", avatar.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", avatar.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", avatar.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", avatar.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", avatar.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", avatar.ComboResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@stun_rate", avatarFromDB.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", avatarFromDB.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", avatarFromDB.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", avatarFromDB.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", avatarFromDB.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", avatarFromDB.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", avatar.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", avatar.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", avatar.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", avatar.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", avatar.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", avatar.ReflectionResistanceRate);
 
-                            insertCommand.Parameters.AddWithValue("@mana", avatarFromDB.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", avatarFromDB.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@mana", avatar.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", avatar.ManaRegenerationRate);
 
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", avatarFromDB.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", avatarFromDB.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", avatarFromDB.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", avatarFromDB.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", avatar.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", avatar.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", avatar.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", avatar.ResistanceToSameFactionRate);
 
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", avatarFromDB.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", avatarFromDB.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", avatarFromDB.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", avatarFromDB.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", avatar.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", avatar.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", avatar.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", avatar.SkillResistanceRate);
 
                             insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
                             insertCommand.Parameters.AddWithValue("@percent_all_physical_attack", percent);
@@ -462,7 +462,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
             }
         }
     }
-    public async Task UpdateAvatarGalleryPowerAsync(string id, Avatars avatarFromDB)
+    public async Task UpdateAvatarGalleryPowerAsync(string id, Avatars avatar)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -552,56 +552,56 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
 
                 // Stats
-                updateCommand.Parameters.AddWithValue("@power", avatarFromDB.Power);
-                updateCommand.Parameters.AddWithValue("@health", avatarFromDB.Health);
-                updateCommand.Parameters.AddWithValue("@physical_attack", avatarFromDB.PhysicalAttack);
-                updateCommand.Parameters.AddWithValue("@physical_defense", avatarFromDB.PhysicalDefense);
-                updateCommand.Parameters.AddWithValue("@magical_attack", avatarFromDB.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@magical_defense", avatarFromDB.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@chemical_attack", avatarFromDB.ChemicalAttack);
-                updateCommand.Parameters.AddWithValue("@chemical_defense", avatarFromDB.ChemicalDefense);
-                updateCommand.Parameters.AddWithValue("@atomic_attack", avatarFromDB.AtomicAttack);
-                updateCommand.Parameters.AddWithValue("@atomic_defense", avatarFromDB.AtomicDefense);
-                updateCommand.Parameters.AddWithValue("@mental_attack", avatarFromDB.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@mental_defense", avatarFromDB.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@speed", avatarFromDB.Speed);
-                updateCommand.Parameters.AddWithValue("@critical_damage_rate", avatarFromDB.CriticalDamageRate);
-                updateCommand.Parameters.AddWithValue("@critical_rate", avatarFromDB.CriticalRate);
-                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", avatarFromDB.CriticalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", avatarFromDB.IgnoreCriticalRate);
-                updateCommand.Parameters.AddWithValue("@penetration_rate", avatarFromDB.PenetrationRate);
-                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", avatarFromDB.PenetrationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@evasion_rate", avatarFromDB.EvasionRate);
-                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", avatarFromDB.DamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", avatarFromDB.IgnoreDamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", avatarFromDB.AbsorbedDamageRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", avatarFromDB.VitalityRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", avatarFromDB.VitalityRegenerationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@accuracy_rate", avatarFromDB.AccuracyRate);
-                updateCommand.Parameters.AddWithValue("@lifesteal_rate", avatarFromDB.LifestealRate);
-                updateCommand.Parameters.AddWithValue("@shield_strength", avatarFromDB.ShieldStrength);
-                updateCommand.Parameters.AddWithValue("@tenacity", avatarFromDB.Tenacity);
-                updateCommand.Parameters.AddWithValue("@resistance_rate", avatarFromDB.ResistanceRate);
-                updateCommand.Parameters.AddWithValue("@combo_rate", avatarFromDB.ComboRate);
-                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", avatarFromDB.IgnoreComboRate);
-                updateCommand.Parameters.AddWithValue("@combo_damage_rate", avatarFromDB.ComboDamageRate);
-                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", avatarFromDB.ComboResistanceRate);
-                updateCommand.Parameters.AddWithValue("@stun_rate", avatarFromDB.StunRate);
-                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", avatarFromDB.IgnoreStunRate);
-                updateCommand.Parameters.AddWithValue("@reflection_rate", avatarFromDB.ReflectionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", avatarFromDB.IgnoreReflectionRate);
-                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", avatarFromDB.ReflectionDamageRate);
-                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", avatarFromDB.ReflectionResistanceRate);
-                updateCommand.Parameters.AddWithValue("@mana", avatarFromDB.Mana);
-                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", avatarFromDB.ManaRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", avatarFromDB.DamageToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", avatarFromDB.ResistanceToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", avatarFromDB.DamageToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", avatarFromDB.ResistanceToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@normal_damage_rate", avatarFromDB.NormalDamageRate);
-                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", avatarFromDB.NormalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@skill_damage_rate", avatarFromDB.SkillDamageRate);
-                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", avatarFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", avatar.Power);
+                updateCommand.Parameters.AddWithValue("@health", avatar.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", avatar.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", avatar.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", avatar.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", avatar.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", avatar.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", avatar.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", avatar.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", avatar.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", avatar.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", avatar.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", avatar.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", avatar.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", avatar.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", avatar.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", avatar.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", avatar.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", avatar.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", avatar.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", avatar.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", avatar.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", avatar.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", avatar.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", avatar.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", avatar.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", avatar.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", avatar.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", avatar.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", avatar.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", avatar.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", avatar.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", avatar.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", avatar.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", avatar.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", avatar.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", avatar.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", avatar.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", avatar.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", avatar.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", avatar.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", avatar.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", avatar.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", avatar.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", avatar.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", avatar.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", avatar.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", avatar.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", avatar.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", avatar.SkillResistanceRate);
 
                 // Percent bonuses (hard-coded)
                 updateCommand.Parameters.AddWithValue("@percent_all_health", 5);

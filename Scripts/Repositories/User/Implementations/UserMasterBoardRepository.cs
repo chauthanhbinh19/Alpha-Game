@@ -6,7 +6,7 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserMasterBoardRepository : IUserMasterBoardRepository
 {
-    public async Task<List<MasterBoard>> GetUserMasterBoardAsync(string user_id, string name)
+    public async Task<List<MasterBoard>> GetUserMasterBoardAsync(string userId, string name)
     {
         List<MasterBoard> masterBoards = new List<MasterBoard>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -27,7 +27,7 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     selectCommand.Parameters.AddWithValue("@name", name);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -123,7 +123,7 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
 
         return masterBoards;
     }
-    public async Task InsertUserMasterBoardAsync(string user_id, MasterBoard masterBoard)
+    public async Task InsertUserMasterBoardAsync(string userId, MasterBoard masterBoard)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -183,7 +183,7 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
 
                 await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                 {
-                    insertCommand.Parameters.AddWithValue("@user_id", user_id);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@name", masterBoard.Name);
                     insertCommand.Parameters.AddWithValue("@node_id", masterBoard.Id);
                     insertCommand.Parameters.AddWithValue("@rank_level", masterBoard.RankLevel);
@@ -264,7 +264,7 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
             }
         }
     }
-    public async Task UpdateUserMasterBoardAsync(string user_id, MasterBoard masterBoard)
+    public async Task UpdateUserMasterBoardAsync(string userId, MasterBoard masterBoard)
     {
         int multiplier = QualityEvaluatorHelper.CheckQuality(masterBoard.RankLevel);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -319,7 +319,7 @@ public class UserMasterBoardRepository : IUserMasterBoardRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", user_id);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@name", masterBoard.Name);
                     updateCommand.Parameters.AddWithValue("@node_id", masterBoard.Id);
                     updateCommand.Parameters.AddWithValue("@rank_level", masterBoard.RankLevel);

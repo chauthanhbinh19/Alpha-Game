@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserPetsRepository : IUserPetsRepository
 {
-    public async Task<List<Pets>> GetUserPetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Pets>> GetUserPetsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Pets> pets = new List<Pets>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -43,7 +43,7 @@ public class UserPetsRepository : IUserPetsRepository
             selectSQL += " LIMIT @limit OFFSET @offset";
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@userId", user_id);
+            selectCommand.Parameters.AddWithValue("@userId", userId);
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
                 selectCommand.Parameters.AddWithValue("@type", type);
@@ -192,7 +192,7 @@ public class UserPetsRepository : IUserPetsRepository
 
         return pets;
     }
-    public async Task<List<Pets>> GetUserPetsTeamAsync(string user_id, string teamId)
+    public async Task<List<Pets>> GetUserPetsTeamAsync(string userId, string teamId)
     {
         List<Pets> petsList = new List<Pets>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -211,7 +211,7 @@ public class UserPetsRepository : IUserPetsRepository
         ";
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@userId", user_id);
+            selectCommand.Parameters.AddWithValue("@userId", userId);
             selectCommand.Parameters.AddWithValue("@team_id", teamId);
 
             await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
@@ -382,7 +382,7 @@ public class UserPetsRepository : IUserPetsRepository
 
         return result;
     }
-    public async Task<int> GetUserPetsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserPetsCountAsync(string userId, string search, string type, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -414,7 +414,7 @@ public class UserPetsRepository : IUserPetsRepository
             }
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@userId", user_id);
+            selectCommand.Parameters.AddWithValue("@userId", userId);
             if (!string.IsNullOrEmpty(type) && type != "All")
             {
                 selectCommand.Parameters.AddWithValue("@type", type);
@@ -955,7 +955,7 @@ public class UserPetsRepository : IUserPetsRepository
             return false;
         }
     }
-    public async Task<bool> UpdateTeamPetAsync(string team_id, string card_id)
+    public async Task<bool> UpdateTeamPetAsync(string teamId, string cardId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -972,9 +972,9 @@ public class UserPetsRepository : IUserPetsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@team_id", team_id);
+                    updateCommand.Parameters.AddWithValue("@team_id", teamId);
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@card_pet_id", card_id);
+                    updateCommand.Parameters.AddWithValue("@card_pet_id", cardId);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -988,7 +988,7 @@ public class UserPetsRepository : IUserPetsRepository
 
         return true;
     }
-    public async Task<Pets> GetUserPetByIdAsync(string user_id, string Id)
+    public async Task<Pets> GetUserPetByIdAsync(string userId, string Id)
     {
         Pets pet = new Pets();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1005,7 +1005,7 @@ public class UserPetsRepository : IUserPetsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -1135,7 +1135,7 @@ public class UserPetsRepository : IUserPetsRepository
 
         return pet;
     }
-    public async Task<List<Pets>> GetAllUserPetsInTeamAsync(string user_id)
+    public async Task<List<Pets>> GetAllUserPetsInTeamAsync(string userId)
     {
         List<Pets> pets = new List<Pets>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1154,7 +1154,7 @@ public class UserPetsRepository : IUserPetsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

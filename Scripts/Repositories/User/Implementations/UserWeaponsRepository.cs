@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserWeaponsRepository : IUserWeaponsRepository
 {
-    public async Task<List<Weapons>> GetUserWeaponsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Weapons>> GetUserWeaponsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Weapons> weapons = new List<Weapons>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -43,7 +43,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
@@ -143,7 +143,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
         return weapons;
     }
-    public async Task<int> GetUserWeaponsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserWeaponsCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -172,7 +172,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
@@ -727,7 +727,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
         }
         return true;
     }
-    public async Task<Weapons> GetUserWeaponByIdAsync(string user_id, string Id)
+    public async Task<Weapons> GetUserWeaponByIdAsync(string userId, string Id)
     {
         Weapons weapon = new Weapons();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -741,7 +741,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

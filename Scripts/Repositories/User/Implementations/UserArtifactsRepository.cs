@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserArtifactsRepository : IUserArtifactsRepository
 {
-    public async Task<List<Artifacts>> GetUserArtifactsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Artifacts>> GetUserArtifactsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Artifacts> artifacts = new List<Artifacts>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -44,7 +44,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -141,7 +141,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
 
         return artifacts;
     }
-    public async Task<int> GetUserArtifactsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserArtifactsCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -170,7 +170,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -723,7 +723,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
         }
         return true;
     }
-    public async Task<Artifacts> GetUserArtifactByIdAsync(string user_id, string Id)
+    public async Task<Artifacts> GetUserArtifactByIdAsync(string userId, string Id)
     {
         Artifacts artifact = new Artifacts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -737,7 +737,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

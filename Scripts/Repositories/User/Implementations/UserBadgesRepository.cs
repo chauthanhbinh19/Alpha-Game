@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserBadgesRepository : IUserBadgesRepository
 {
-    public async Task<List<Badges>> GetUserBadgesAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Badges>> GetUserBadgesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Badges> badges = new List<Badges>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -43,7 +43,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
@@ -143,7 +143,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
         return badges;
     }
-    public async Task<int> GetUserBadgesCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserBadgesCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -172,7 +172,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
 
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
@@ -738,7 +738,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
         return true;
     }
-    public async Task<Badges> GetUserBadgeByIdAsync(string user_id, string Id)
+    public async Task<Badges> GetUserBadgeByIdAsync(string userId, string Id)
     {
         Badges badge = null;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -755,7 +755,7 @@ public class UserBadgesRepository : IUserBadgesRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

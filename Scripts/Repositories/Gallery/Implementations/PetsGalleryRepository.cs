@@ -10,7 +10,7 @@ public class PetsGalleryRepository : IPetsGalleryRepository
     public async Task<List<Pets>> GetPetsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
     {
         List<Pets> pets = new List<Pets>();
-        string user_id = User.CurrentUserId;
+        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -64,7 +64,7 @@ public class PetsGalleryRepository : IPetsGalleryRepository
                     {
                         selectCommand.Parameters.AddWithValue("@search", search);
                     }
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     selectCommand.Parameters.AddWithValue("@limit", pageSize);
                     selectCommand.Parameters.AddWithValue("@offset", offset);
 
@@ -223,9 +223,9 @@ public class PetsGalleryRepository : IPetsGalleryRepository
 
         return count;
     }
-    public async Task InsertPetGalleryAsync(string Id, Pets petFromDB)
+    public async Task InsertPetGalleryAsync(string Id, Pets pet)
     {
-        int percent = QualityEvaluatorHelper.CheckQuality(petFromDB.Type);
+        int percent = QualityEvaluatorHelper.CheckQuality(pet.Type);
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -308,56 +308,56 @@ public class PetsGalleryRepository : IPetsGalleryRepository
                     insertCommand.Parameters.AddWithValue("@temp_star", 0);
 
                     // Thuộc tính
-                    insertCommand.Parameters.AddWithValue("@power", petFromDB.Power);
-                    insertCommand.Parameters.AddWithValue("@health", petFromDB.Health);
-                    insertCommand.Parameters.AddWithValue("@physical_attack", petFromDB.PhysicalAttack);
-                    insertCommand.Parameters.AddWithValue("@physical_defense", petFromDB.PhysicalDefense);
-                    insertCommand.Parameters.AddWithValue("@magical_attack", petFromDB.MagicalAttack);
-                    insertCommand.Parameters.AddWithValue("@magical_defense", petFromDB.MagicalDefense);
-                    insertCommand.Parameters.AddWithValue("@chemical_attack", petFromDB.ChemicalAttack);
-                    insertCommand.Parameters.AddWithValue("@chemical_defense", petFromDB.ChemicalDefense);
-                    insertCommand.Parameters.AddWithValue("@atomic_attack", petFromDB.AtomicAttack);
-                    insertCommand.Parameters.AddWithValue("@atomic_defense", petFromDB.AtomicDefense);
-                    insertCommand.Parameters.AddWithValue("@mental_attack", petFromDB.MentalAttack);
-                    insertCommand.Parameters.AddWithValue("@mental_defense", petFromDB.MentalDefense);
-                    insertCommand.Parameters.AddWithValue("@speed", petFromDB.Speed);
-                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", petFromDB.CriticalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@critical_rate", petFromDB.CriticalRate);
-                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", petFromDB.CriticalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", petFromDB.IgnoreCriticalRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_rate", petFromDB.PenetrationRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", petFromDB.PenetrationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@evasion_rate", petFromDB.EvasionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", petFromDB.DamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", petFromDB.IgnoreDamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", petFromDB.AbsorbedDamageRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", petFromDB.VitalityRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", petFromDB.VitalityRegenerationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@accuracy_rate", petFromDB.AccuracyRate);
-                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", petFromDB.LifestealRate);
-                    insertCommand.Parameters.AddWithValue("@shield_strength", petFromDB.ShieldStrength);
-                    insertCommand.Parameters.AddWithValue("@tenacity", petFromDB.Tenacity);
-                    insertCommand.Parameters.AddWithValue("@resistance_rate", petFromDB.ResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@combo_rate", petFromDB.ComboRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", petFromDB.IgnoreComboRate);
-                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", petFromDB.ComboDamageRate);
-                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", petFromDB.ComboResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@stun_rate", petFromDB.StunRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", petFromDB.IgnoreStunRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_rate", petFromDB.ReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", petFromDB.IgnoreReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", petFromDB.ReflectionDamageRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", petFromDB.ReflectionResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@mana", petFromDB.Mana);
-                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", petFromDB.ManaRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", petFromDB.DamageToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", petFromDB.ResistanceToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", petFromDB.DamageToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", petFromDB.ResistanceToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", petFromDB.NormalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", petFromDB.NormalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", petFromDB.SkillDamageRate);
-                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", petFromDB.SkillResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@power", pet.Power);
+                    insertCommand.Parameters.AddWithValue("@health", pet.Health);
+                    insertCommand.Parameters.AddWithValue("@physical_attack", pet.PhysicalAttack);
+                    insertCommand.Parameters.AddWithValue("@physical_defense", pet.PhysicalDefense);
+                    insertCommand.Parameters.AddWithValue("@magical_attack", pet.MagicalAttack);
+                    insertCommand.Parameters.AddWithValue("@magical_defense", pet.MagicalDefense);
+                    insertCommand.Parameters.AddWithValue("@chemical_attack", pet.ChemicalAttack);
+                    insertCommand.Parameters.AddWithValue("@chemical_defense", pet.ChemicalDefense);
+                    insertCommand.Parameters.AddWithValue("@atomic_attack", pet.AtomicAttack);
+                    insertCommand.Parameters.AddWithValue("@atomic_defense", pet.AtomicDefense);
+                    insertCommand.Parameters.AddWithValue("@mental_attack", pet.MentalAttack);
+                    insertCommand.Parameters.AddWithValue("@mental_defense", pet.MentalDefense);
+                    insertCommand.Parameters.AddWithValue("@speed", pet.Speed);
+                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", pet.CriticalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@critical_rate", pet.CriticalRate);
+                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", pet.CriticalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", pet.IgnoreCriticalRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_rate", pet.PenetrationRate);
+                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", pet.PenetrationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@evasion_rate", pet.EvasionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", pet.DamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", pet.IgnoreDamageAbsorptionRate);
+                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", pet.AbsorbedDamageRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", pet.VitalityRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", pet.VitalityRegenerationResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@accuracy_rate", pet.AccuracyRate);
+                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", pet.LifestealRate);
+                    insertCommand.Parameters.AddWithValue("@shield_strength", pet.ShieldStrength);
+                    insertCommand.Parameters.AddWithValue("@tenacity", pet.Tenacity);
+                    insertCommand.Parameters.AddWithValue("@resistance_rate", pet.ResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@combo_rate", pet.ComboRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", pet.IgnoreComboRate);
+                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", pet.ComboDamageRate);
+                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", pet.ComboResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@stun_rate", pet.StunRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", pet.IgnoreStunRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_rate", pet.ReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", pet.IgnoreReflectionRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", pet.ReflectionDamageRate);
+                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", pet.ReflectionResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@mana", pet.Mana);
+                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", pet.ManaRegenerationRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", pet.DamageToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", pet.ResistanceToDifferentFactionRate);
+                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", pet.DamageToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", pet.ResistanceToSameFactionRate);
+                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", pet.NormalDamageRate);
+                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", pet.NormalResistanceRate);
+                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", pet.SkillDamageRate);
+                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", pet.SkillResistanceRate);
 
                     // % buff theo quality
                     insertCommand.Parameters.AddWithValue("@percent_all_health", percent);
@@ -470,7 +470,7 @@ public class PetsGalleryRepository : IPetsGalleryRepository
             }
         }
     }
-    public async Task UpdatePetGalleryPowerAsync(string Id, Pets petFromDB)
+    public async Task UpdatePetGalleryPowerAsync(string Id, Pets pet)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -554,56 +554,56 @@ public class PetsGalleryRepository : IPetsGalleryRepository
                 updateCommand.Parameters.AddWithValue("@pet_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
-                updateCommand.Parameters.AddWithValue("@power", petFromDB.Power);
-                updateCommand.Parameters.AddWithValue("@health", petFromDB.Health);
-                updateCommand.Parameters.AddWithValue("@physical_attack", petFromDB.PhysicalAttack);
-                updateCommand.Parameters.AddWithValue("@physical_defense", petFromDB.PhysicalDefense);
-                updateCommand.Parameters.AddWithValue("@magical_attack", petFromDB.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@magical_defense", petFromDB.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@chemical_attack", petFromDB.ChemicalAttack);
-                updateCommand.Parameters.AddWithValue("@chemical_defense", petFromDB.ChemicalDefense);
-                updateCommand.Parameters.AddWithValue("@atomic_attack", petFromDB.AtomicAttack);
-                updateCommand.Parameters.AddWithValue("@atomic_defense", petFromDB.AtomicDefense);
-                updateCommand.Parameters.AddWithValue("@mental_attack", petFromDB.MentalAttack);
-                updateCommand.Parameters.AddWithValue("@mental_defense", petFromDB.MentalDefense);
-                updateCommand.Parameters.AddWithValue("@speed", petFromDB.Speed);
-                updateCommand.Parameters.AddWithValue("@critical_damage_rate", petFromDB.CriticalDamageRate);
-                updateCommand.Parameters.AddWithValue("@critical_rate", petFromDB.CriticalRate);
-                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", petFromDB.CriticalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", petFromDB.IgnoreCriticalRate);
-                updateCommand.Parameters.AddWithValue("@penetration_rate", petFromDB.PenetrationRate);
-                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", petFromDB.PenetrationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@evasion_rate", petFromDB.EvasionRate);
-                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", petFromDB.DamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", petFromDB.IgnoreDamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", petFromDB.AbsorbedDamageRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", petFromDB.VitalityRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", petFromDB.VitalityRegenerationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@accuracy_rate", petFromDB.AccuracyRate);
-                updateCommand.Parameters.AddWithValue("@lifesteal_rate", petFromDB.LifestealRate);
-                updateCommand.Parameters.AddWithValue("@shield_strength", petFromDB.ShieldStrength);
-                updateCommand.Parameters.AddWithValue("@tenacity", petFromDB.Tenacity);
-                updateCommand.Parameters.AddWithValue("@resistance_rate", petFromDB.ResistanceRate);
-                updateCommand.Parameters.AddWithValue("@combo_rate", petFromDB.ComboRate);
-                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", petFromDB.IgnoreComboRate);
-                updateCommand.Parameters.AddWithValue("@combo_damage_rate", petFromDB.ComboDamageRate);
-                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", petFromDB.ComboResistanceRate);
-                updateCommand.Parameters.AddWithValue("@stun_rate", petFromDB.StunRate);
-                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", petFromDB.IgnoreStunRate);
-                updateCommand.Parameters.AddWithValue("@reflection_rate", petFromDB.ReflectionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", petFromDB.IgnoreReflectionRate);
-                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", petFromDB.ReflectionDamageRate);
-                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", petFromDB.ReflectionResistanceRate);
-                updateCommand.Parameters.AddWithValue("@mana", petFromDB.Mana);
-                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", petFromDB.ManaRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", petFromDB.DamageToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", petFromDB.ResistanceToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", petFromDB.DamageToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", petFromDB.ResistanceToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@normal_damage_rate", petFromDB.NormalDamageRate);
-                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", petFromDB.NormalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@skill_damage_rate", petFromDB.SkillDamageRate);
-                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", petFromDB.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@power", pet.Power);
+                updateCommand.Parameters.AddWithValue("@health", pet.Health);
+                updateCommand.Parameters.AddWithValue("@physical_attack", pet.PhysicalAttack);
+                updateCommand.Parameters.AddWithValue("@physical_defense", pet.PhysicalDefense);
+                updateCommand.Parameters.AddWithValue("@magical_attack", pet.MagicalAttack);
+                updateCommand.Parameters.AddWithValue("@magical_defense", pet.MagicalDefense);
+                updateCommand.Parameters.AddWithValue("@chemical_attack", pet.ChemicalAttack);
+                updateCommand.Parameters.AddWithValue("@chemical_defense", pet.ChemicalDefense);
+                updateCommand.Parameters.AddWithValue("@atomic_attack", pet.AtomicAttack);
+                updateCommand.Parameters.AddWithValue("@atomic_defense", pet.AtomicDefense);
+                updateCommand.Parameters.AddWithValue("@mental_attack", pet.MentalAttack);
+                updateCommand.Parameters.AddWithValue("@mental_defense", pet.MentalDefense);
+                updateCommand.Parameters.AddWithValue("@speed", pet.Speed);
+                updateCommand.Parameters.AddWithValue("@critical_damage_rate", pet.CriticalDamageRate);
+                updateCommand.Parameters.AddWithValue("@critical_rate", pet.CriticalRate);
+                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", pet.CriticalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", pet.IgnoreCriticalRate);
+                updateCommand.Parameters.AddWithValue("@penetration_rate", pet.PenetrationRate);
+                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", pet.PenetrationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@evasion_rate", pet.EvasionRate);
+                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", pet.DamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", pet.IgnoreDamageAbsorptionRate);
+                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", pet.AbsorbedDamageRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", pet.VitalityRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", pet.VitalityRegenerationResistanceRate);
+                updateCommand.Parameters.AddWithValue("@accuracy_rate", pet.AccuracyRate);
+                updateCommand.Parameters.AddWithValue("@lifesteal_rate", pet.LifestealRate);
+                updateCommand.Parameters.AddWithValue("@shield_strength", pet.ShieldStrength);
+                updateCommand.Parameters.AddWithValue("@tenacity", pet.Tenacity);
+                updateCommand.Parameters.AddWithValue("@resistance_rate", pet.ResistanceRate);
+                updateCommand.Parameters.AddWithValue("@combo_rate", pet.ComboRate);
+                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", pet.IgnoreComboRate);
+                updateCommand.Parameters.AddWithValue("@combo_damage_rate", pet.ComboDamageRate);
+                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", pet.ComboResistanceRate);
+                updateCommand.Parameters.AddWithValue("@stun_rate", pet.StunRate);
+                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", pet.IgnoreStunRate);
+                updateCommand.Parameters.AddWithValue("@reflection_rate", pet.ReflectionRate);
+                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", pet.IgnoreReflectionRate);
+                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", pet.ReflectionDamageRate);
+                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", pet.ReflectionResistanceRate);
+                updateCommand.Parameters.AddWithValue("@mana", pet.Mana);
+                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", pet.ManaRegenerationRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", pet.DamageToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", pet.ResistanceToDifferentFactionRate);
+                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", pet.DamageToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", pet.ResistanceToSameFactionRate);
+                updateCommand.Parameters.AddWithValue("@normal_damage_rate", pet.NormalDamageRate);
+                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", pet.NormalResistanceRate);
+                updateCommand.Parameters.AddWithValue("@skill_damage_rate", pet.SkillDamageRate);
+                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", pet.SkillResistanceRate);
                 updateCommand.Parameters.AddWithValue("@percent_all_health", 5);
                 updateCommand.Parameters.AddWithValue("@percent_all_physical_attack", 5);
                 updateCommand.Parameters.AddWithValue("@percent_all_physical_defense", 5);

@@ -8,7 +8,7 @@ using System.Linq;
 
 public class UserBeveragesRepository : IUserBeveragesRepository
 {
-    public async Task<List<Beverages>> GetUserBeveragesAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Beverages>> GetUserBeveragesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Beverages> beverages = new List<Beverages>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -43,7 +43,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
@@ -143,7 +143,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
 
         return beverages;
     }
-    public async Task<int> GetUserBeveragesCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserBeveragesCountAsync(string userId, string search, string rare)
     {
         int count = 0;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -172,7 +172,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", user_id);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
@@ -727,7 +727,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
         }
         return true;
     }
-    public async Task<Beverages> GetUserBeverageByIdAsync(string user_id, string Id)
+    public async Task<Beverages> GetUserBeverageByIdAsync(string userId, string Id)
     {
         Beverages beverage = new Beverages();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -741,7 +741,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@id", Id);
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
