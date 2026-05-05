@@ -99,11 +99,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                 {
                     feature = kvp.Value;
                     UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-                    if (data is CardHeroes cardHeroes)
+                    if (data is CardHeroes cardHero)
                     {
                         // mainId = cardHeroes.id;
-                        await DetailMenuManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardHeroes);
-                        if (cardHeroes.Level >= value)
+                        await DetailMenuManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardHero);
+                        if (cardHero.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -112,11 +112,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                             CreateWarningLevelCondition(value);
                         }
                     }
-                    else if (data is Books books)
+                    else if (data is Books book)
                     {
                         // mainId = books.id;
-                        await DetailMenuManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, books);
-                        if (books.Level >= value)
+                        await DetailMenuManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, book);
+                        if (book.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -125,11 +125,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                             CreateWarningLevelCondition(value);
                         }
                     }
-                    else if (data is CardCaptains cardCaptains)
+                    else if (data is CardCaptains cardCaptain)
                     {
                         // mainId = cardCaptains.id;
-                        await DetailMenuManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardCaptains);
-                        if (cardCaptains.Level >= value)
+                        await DetailMenuManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardCaptain);
+                        if (cardCaptain.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -138,11 +138,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                             CreateWarningLevelCondition(value);
                         }
                     }
-                    else if (data is Pets pets)
+                    else if (data is Pets pet)
                     {
                         // mainId = pets.id;
-                        await DetailMenuManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, pets);
-                        if (pets.Level >= value)
+                        await DetailMenuManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, pet);
+                        if (pet.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -177,11 +177,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                             CreateWarningLevelCondition(value);
                         }
                     }
-                    else if (data is CardMonsters cardMonsters)
+                    else if (data is CardMonsters cardMonster)
                     {
                         // mainId = cardMonsters.id;
-                        await DetailMenuManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMonsters);
-                        if (cardMonsters.Level >= value)
+                        await DetailMenuManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMonster);
+                        if (cardMonster.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -190,11 +190,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                             CreateWarningLevelCondition(value);
                         }
                     }
-                    else if (data is CardColonels cardColonels)
+                    else if (data is CardColonels cardColonel)
                     {
                         // mainId = cardColonels.id;
-                        await DetailMenuManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardColonels);
-                        if (cardColonels.Level >= value)
+                        await DetailMenuManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardColonel);
+                        if (cardColonel.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -203,11 +203,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                             CreateWarningLevelCondition(value);
                         }
                     }
-                    else if (data is CardGenerals cardGenerals)
+                    else if (data is CardGenerals cardGeneral)
                     {
                         // mainId = cardGenerals.id;
-                        await DetailMenuManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardGenerals);
-                        if (cardGenerals.Level >= value)
+                        await DetailMenuManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardGeneral);
+                        if (cardGeneral.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -216,11 +216,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                             CreateWarningLevelCondition(value);
                         }
                     }
-                    else if (data is CardAdmirals cardAdmirals)
+                    else if (data is CardAdmirals cardAdmiral)
                     {
                         // mainId = cardAdmirals.id;
-                        await DetailMenuManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardAdmirals);
-                        if (cardAdmirals.Level >= value)
+                        await DetailMenuManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardAdmiral);
+                        if (cardAdmiral.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -229,11 +229,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                             CreateWarningLevelCondition(value);
                         }
                     }
-                    else if (data is Equipments equipments)
+                    else if (data is Equipments equipment)
                     {
                         // mainId = cardAdmirals.id;
-                        await DetailMenuManager.Instance.CreateEquipmentsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, equipments);
-                        if (equipments.Level >= value)
+                        await DetailMenuManager.Instance.CreateEquipmentsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, equipment);
+                        if (equipment.Level >= value)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -269,11 +269,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
         feature = subFeature;
         UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
 
-        if (data is CardHeroes cardHeroes)
+        if (data is CardHeroes cardHero)
         {
             // mainId = cardHeroes.id;
-            await DetailMenuManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardHeroes);
-            if (cardHeroes.Level >= value)
+            await DetailMenuManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardHero);
+            if (cardHero.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -282,11 +282,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                 CreateWarningLevelCondition(value);
             }
         }
-        else if (data is Books books)
+        else if (data is Books book)
         {
             // mainId = books.id;
-            await DetailMenuManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, books);
-            if (books.Level >= value)
+            await DetailMenuManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, book);
+            if (book.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -295,11 +295,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                 CreateWarningLevelCondition(value);
             }
         }
-        else if (data is CardCaptains cardCaptains)
+        else if (data is CardCaptains cardCaptain)
         {
             // mainId = cardCaptains.id;
-            await DetailMenuManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardCaptains);
-            if (cardCaptains.Level >= value)
+            await DetailMenuManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardCaptain);
+            if (cardCaptain.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -308,11 +308,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                 CreateWarningLevelCondition(value);
             }
         }
-        else if (data is Pets pets)
+        else if (data is Pets pet)
         {
             // mainId = pets.id;
-            await DetailMenuManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, pets);
-            if (pets.Level >= value)
+            await DetailMenuManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, pet);
+            if (pet.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -347,11 +347,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                 CreateWarningLevelCondition(value);
             }
         }
-        else if (data is CardMonsters cardMonsters)
+        else if (data is CardMonsters cardMonster)
         {
             // mainId = cardMonsters.id;
-            await DetailMenuManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMonsters);
-            if (cardMonsters.Level >= value)
+            await DetailMenuManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMonster);
+            if (cardMonster.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -360,11 +360,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                 CreateWarningLevelCondition(value);
             }
         }
-        else if (data is CardColonels cardColonels)
+        else if (data is CardColonels cardColonel)
         {
             // mainId = cardColonels.id;
-            await DetailMenuManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardColonels);
-            if (cardColonels.Level >= value)
+            await DetailMenuManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardColonel);
+            if (cardColonel.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -373,11 +373,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                 CreateWarningLevelCondition(value);
             }
         }
-        else if (data is CardGenerals cardGenerals)
+        else if (data is CardGenerals cardGeneral)
         {
             // mainId = cardGenerals.id;
-            await DetailMenuManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardGenerals);
-            if (cardGenerals.Level >= value)
+            await DetailMenuManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardGeneral);
+            if (cardGeneral.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -386,11 +386,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                 CreateWarningLevelCondition(value);
             }
         }
-        else if (data is CardAdmirals cardAdmirals)
+        else if (data is CardAdmirals cardAdmiral)
         {
             // mainId = cardAdmirals.id;
-            await DetailMenuManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardAdmirals);
-            if (cardAdmirals.Level >= value)
+            await DetailMenuManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardAdmiral);
+            if (cardAdmiral.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -399,11 +399,11 @@ public class MainMenuAntimatterManager : MonoBehaviour
                 CreateWarningLevelCondition(value);
             }
         }
-        else if (data is Equipments equipments)
+        else if (data is Equipments equipment)
         {
             // mainId = cardAdmirals.id;
-            await DetailMenuManager.Instance.CreateEquipmentsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, equipments);
-            if (equipments.Level >= value)
+            await DetailMenuManager.Instance.CreateEquipmentsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, equipment);
+            if (equipment.Level >= value)
             {
                 LevelCondition.gameObject.SetActive(false);
             }

@@ -82,7 +82,7 @@ public class MainMenuManager : MonoBehaviour
         // GetMainButtonEvent();
 
         Transform content = transform.Find("MainPanel/MainButtonGroup/SecondCircleImage");
-        Button homeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/HomeButton").GetComponent<Button>();
+        // Button homeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/HomeButton").GetComponent<Button>();
         Button inventoryButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/InventoryContent/InventoryButton").GetComponent<Button>();
         Button eventButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/EventButton").GetComponent<Button>();
         Button campaignButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/CampaignButton").GetComponent<Button>();
@@ -95,7 +95,7 @@ public class MainMenuManager : MonoBehaviour
         Button equipmentButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/EquipmentButton").GetComponent<Button>();
         Button featureButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/FeatureButton").GetComponent<Button>();
         Button arenaButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/ArenaButton").GetComponent<Button>();
-        Button profileButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton").GetComponent<Button>();
+        // Button profileButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton").GetComponent<Button>();
         Button missionButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/MissionContent/MissionButton").GetComponent<Button>();
         Button guildButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/SocialContent/GuildButton").GetComponent<Button>();
         Button researchButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ResearchButton").GetComponent<Button>();
@@ -103,14 +103,14 @@ public class MainMenuManager : MonoBehaviour
         Button universeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/UniverseButton").GetComponent<Button>();
         Button structureButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/StructureButton").GetComponent<Button>();
 
-        _ = HomeManager.Instance.CreateHomePanelAsync();
+        // _ = HomeManager.Instance.CreateHomePanelAsync();
 
-        homeButton.onClick.AddListener(async () =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
-        });
+        // homeButton.onClick.AddListener(async () =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     ButtonEvent.Instance.Close(MainPanel);
+        //     await HomeManager.Instance.CreateHomePanelAsync();
+        // });
 
         inventoryButton.onClick.AddListener(() =>
         {
@@ -285,12 +285,12 @@ public class MainMenuManager : MonoBehaviour
             FeatureManager.Instance.CreateFeature();
         });
 
-        profileButton.onClick.AddListener(async () =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ButtonEvent.Instance.Close(MainPanel);
-            await ProfileManager.Instance.CreateProfileAsync();
-        });
+        // profileButton.onClick.AddListener(async () =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        //     ButtonEvent.Instance.Close(MainPanel);
+        //     await ProfileManager.Instance.CreateProfileAsync();
+        // });
 
         arenaButton.onClick.AddListener(async () =>
         {
@@ -364,15 +364,15 @@ public class MainMenuManager : MonoBehaviour
         Texture borderTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         borderImage.texture = borderTexture;
 
-        RawImage userAvatarImage = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/AvatarImage").GetComponent<RawImage>();
-        fileNameWithoutExtension = ImageHelper.RemoveImageExtension(authResult.User.Image);
-        Texture TuserAvatarexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        userAvatarImage.texture = TuserAvatarexture;
+        // RawImage userAvatarImage = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/AvatarImage").GetComponent<RawImage>();
+        // fileNameWithoutExtension = ImageHelper.RemoveImageExtension(authResult.User.Image);
+        // Texture TuserAvatarexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+        // userAvatarImage.texture = TuserAvatarexture;
 
-        RawImage userBorderImage = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/BorderImage").GetComponent<RawImage>();
-        fileNameWithoutExtension = ImageHelper.RemoveImageExtension(authResult.User.Border);
-        Texture userBorderTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-        userBorderImage.texture = userBorderTexture;
+        // RawImage userBorderImage = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/BorderImage").GetComponent<RawImage>();
+        // fileNameWithoutExtension = ImageHelper.RemoveImageExtension(authResult.User.Border);
+        // Texture userBorderTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+        // userBorderImage.texture = userBorderTexture;
 
         // FindObjectOfType<CurrenciesManager>().GetMainCurrency(authResult.User.Currencies, currencyPanel);
 
@@ -382,8 +382,8 @@ public class MainMenuManager : MonoBehaviour
         //     await ProfileManager.Instance.CreateProfileAsync();
         // });
 
-        TextMeshProUGUI userNameText = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/NameText").GetComponent<TextMeshProUGUI>();
-        userNameText.text = authResult.User.Name;
+        // TextMeshProUGUI userNameText = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton/NameText").GetComponent<TextMeshProUGUI>();
+        // userNameText.text = authResult.User.Name;
 
         TextMeshProUGUI nameText = transform.Find("Header/NameText").GetComponent<TextMeshProUGUI>();
         nameText.text = authResult.User.Name;
