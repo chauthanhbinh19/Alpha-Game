@@ -525,7 +525,7 @@ public class UserBordersRepository : IUserBordersRepository
 
                 stringBuilder.Append(@"
                 INSERT INTO user_borders (
-                    user_id, border_id, rare, level, experiment, star, quality, block, quantity,
+                    user_id, border_id, rare, level, experiment, star, quality, block, quantity, is_used,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -548,7 +548,7 @@ public class UserBordersRepository : IUserBordersRepository
                     var c = batch[j];
 
                     stringBuilder.Append($@"
-                    (@user_id, @border_id_{j}, @rare_{j}, 0, 0, 0, @quality_{j}, 0, @quantity_{j},
+                    (@user_id, @border_id_{j}, @rare_{j}, 0, 0, 0, @quality_{j}, 0, @quantity_{j}, 0,
                     @power_{j}, @health_{j}, @physical_attack_{j}, @physical_defense_{j}, @magical_attack_{j}, @magical_defense_{j},
                     @chemical_attack_{j}, @chemical_defense_{j}, @atomic_attack_{j}, @atomic_defense_{j}, @mental_attack_{j}, @mental_defense_{j},
                     @speed_{j}, @critical_damage_rate_{j}, @critical_rate_{j}, @critical_resistance_rate_{j}, @ignore_critical_rate_{j},

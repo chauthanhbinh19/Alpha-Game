@@ -40,22 +40,22 @@ public class UserService : IUserService
 
             await PowerManagerService.Create().InsertUserStatsAsync(userId);
 
-            Items cardHeroesTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET);
-            await UserItemsService.Create().InsertUserItemAsync(cardHeroesTicket, 1000000);
-            Items cardCaptainsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAIN_TICKET);
-            await UserItemsService.Create().InsertUserItemAsync(cardCaptainsTicket, 1000000);
+            Items cardHeroTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardHeroTicket, 1000000);
+            Items cardCaptainTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAIN_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardCaptainTicket, 1000000);
             Items cardMilitaryTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MILITARY_TICKET);
             await UserItemsService.Create().InsertUserItemAsync(cardMilitaryTicket, 1000000);
             Items cardSpellTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_SPELL_TICKET);
             await UserItemsService.Create().InsertUserItemAsync(cardSpellTicket, 1000000);
-            Items cardMonstersTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTER_TICKET);
-            await UserItemsService.Create().InsertUserItemAsync(cardMonstersTicket, 1000000);
-            Items cardColonelsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONEL_TICKET);
-            await UserItemsService.Create().InsertUserItemAsync(cardColonelsTicket, 1000000);
-            Items cardGeneralsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERAL_TICKET);
-            await UserItemsService.Create().InsertUserItemAsync(cardGeneralsTicket, 1000000);
-            Items cardAdmiralsTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRAL_TICKET);
-            await UserItemsService.Create().InsertUserItemAsync(cardAdmiralsTicket, 1000000);
+            Items cardMonsterTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTER_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardMonsterTicket, 1000000);
+            Items cardColonelTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONEL_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardColonelTicket, 1000000);
+            Items cardGeneralTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERAL_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardGeneralTicket, 1000000);
+            Items cardAdmiralTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRAL_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardAdmiralTicket, 1000000);
 
             for (int i = 0; i < 50; i++)
             {
@@ -86,17 +86,18 @@ public class UserService : IUserService
 
             user = await _userRepository.SignInWithUsernameAndPasswordAsync(username, password);
             AuthManager.SaveUserId(user.Id);
-            Borders borders = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
-            string Border = borders.Image;
+
+            Borders border = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
+            string borderImagePath = border.Image;
 
             Avatars avatar = await UserAvatarsService.Create().GetAvatarByUsedAsync(user.Id);
-            string Image = avatar.Image;
+            string avatarImagePath = avatar.Image;
 
-            User.CurrentUserAvatar = Image;
-            User.CurrentUserBorder = Border;
+            User.CurrentUserAvatar = avatarImagePath;
+            User.CurrentUserBorder = borderImagePath;
 
-            user.Image = Image;
-            user.Border = Border;
+            user.Image = avatarImagePath;
+            user.Border = borderImagePath;
 
             DateTime now = DateTime.Now;
             int year = now.Year;
@@ -166,17 +167,17 @@ public class UserService : IUserService
 
         if (user != null)
         {
-            Borders borders = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
-            string Border = borders.Image;
+            Borders border = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
+            string borderImagePath = border.Image;
 
             Avatars avatar = await UserAvatarsService.Create().GetAvatarByUsedAsync(user.Id);
-            string Image = avatar.Image;
+            string avatarImagePath = avatar.Image;
 
-            User.CurrentUserAvatar = Image;
-            User.CurrentUserBorder = Border;
+            User.CurrentUserAvatar = avatarImagePath;
+            User.CurrentUserBorder = borderImagePath;
 
-            user.Image = Image;
-            user.Border = Border;
+            user.Image = avatarImagePath;
+            user.Border = borderImagePath;
 
             DateTime now = DateTime.Now;
             int year = now.Year;
@@ -228,17 +229,17 @@ public class UserService : IUserService
     {
         User user = await _userRepository.GetUserByIdAsync(Id);
 
-        Borders borders = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
-        string Border = borders.Image;
+        Borders border = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
+        string borderImagePath = border.Image;
 
         Avatars avatar = await UserAvatarsService.Create().GetAvatarByUsedAsync(user.Id);
-        string Image = avatar.Image;
+        string avatarImagePath = avatar.Image;
 
-        User.CurrentUserAvatar = Image;
-        User.CurrentUserBorder = Border;
+        User.CurrentUserAvatar = avatarImagePath;
+        User.CurrentUserBorder = borderImagePath;
 
-        user.Image = Image;
-        user.Border = Border;
+        user.Image = avatarImagePath;
+        user.Border = borderImagePath;
 
         return user;
     }
