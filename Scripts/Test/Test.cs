@@ -312,4 +312,38 @@ public class Test : MonoBehaviour
         Debug.Log("<color=cyan>Items initiate successfully</color>");
         Debug.Log("<color=yellow>End</color>");
     }
+    public async Task InitiateTeamAsync()
+    {
+        var userTeams = await TeamsService.Create().GetUserTeamsAsync(User.CurrentUserId);
+        foreach (Teams team in userTeams)
+        {
+            List<CardHeroes> cardHeroList = await UserCardHeroesService.Create().GetUserCardHeroesTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
+            List<CardCaptains> cardCaptainList = await UserCardCaptainsService.Create().GetUserCardCaptainsTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
+            List<CardColonels> cardColonelList = await UserCardColonelsService.Create().GetUserCardColonelsTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
+            List<CardGenerals> cardGeneralList = await UserCardGeneralsService.Create().GetUserCardGeneralsTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
+            List<CardAdmirals> cardAdmiralList = await UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
+            List<CardMonsters> cardMonsterList = await UserCardMonstersService.Create().GetUserCardMonstersTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
+            List<CardMilitaries> cardMilitaryList = await UserCardMilitariesService.Create().GetUserCardMilitariesTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
+            List<CardSpells> cardSpellList = await UserCardSpellsService.Create().GetUserCardSpellsTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
+            for(int i = 1; i <=10; i++)
+            {
+                int teamPositionIndex = i;
+                for(int j = 1; j<=10; j++)
+                {
+                    int teamSlotIndex = j;
+                    string tempPosition = teamPositionIndex.ToString() + "-" + teamSlotIndex.ToString();
+
+                    // await UserCardHeroesService.Create().UpdateTeamCardHeroAsync(team.TeamId, tempPosition, cardHero.Id);
+                    // await UserCardCaptainsService.Create().UpdateTeamCardCaptainAsync(team.TeamId, tempPosition, cardCaptain.Id);
+                    // await UserCardColonelsService.Create().UpdateTeamCardColonelAsync(team.TeamId, tempPosition, cardColonel.Id);
+                    // await UserCardGeneralsService.Create().UpdateTeamCardGeneralAsync(team.TeamId, tempPosition, cardGeneral.Id);
+                    // await UserCardAdmiralsService.Create().UpdateTeamCardAdmiralAsync(team.TeamId, tempPosition, cardAdmiral.Id);
+                    // await UserCardMonstersService.Create().UpdateTeamCardMonsterAsync(team.TeamId, tempPosition, cardMonster.Id);
+                    // await UserCardMilitariesService.Create().UpdateTeamCardMilitaryAsync(team.TeamId, tempPosition, cardMilitary.Id);
+                    // await UserCardSpellsService.Create().UpdateTeamCardSpellAsync(team.TeamId, tempPosition, cardSpell.Id);
+                }
+            }
+        }
+
+    }
 }
