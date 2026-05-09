@@ -79,7 +79,7 @@ public class ItemsRepository : IItemsRepository
 
                 string selectSQL = @"
                 SELECT * FROM items
-                ORDER BY id REGEXP '[0-9]+$', CAST(REGEXP_SUBSTR(id, '[0-9]+$') AS UNSIGNED), id";
+                ORDER BY id";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())

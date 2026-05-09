@@ -763,7 +763,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(List<(string equipmentId, Equipments data, double quantity)> list)
+    public async Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(List<(Equipments data, double quantity)> list)
     {
         if (list == null || list.Count == 0)
             return true;
@@ -830,7 +830,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                     parameters.AddRange(new[]
                     {
-                    new MySqlParameter($"@equipment_id_{j}", item.equipmentId),
+                    new MySqlParameter($"@equipment_id_{j}", e.Id),
                     new MySqlParameter($"@rare_{j}", e.Rare),
                     new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(e.Rare)),
                     new MySqlParameter($"@quantity_{j}", item.quantity),
@@ -903,7 +903,6 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 stringBuilder.Append(@"
                 ON DUPLICATE KEY UPDATE
-                    quantity = user_equipments.quantity + VALUES(quantity),
                     quality = user_equipments.quality + VALUES(quantity);
                 ");
 

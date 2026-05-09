@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Test : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class Test : MonoBehaviour
     public async Task InitiateAsync()
     {
         User.CurrentUserId = "639137605573406662";
+
         Debug.Log("<color=yellow>Start</color>");
         List<Achievements> achievements = await AchievementsService.Create()
             .GetAchievementsAsync(search, rare, PAGE_SIZE, offset);
@@ -161,8 +163,13 @@ public class Test : MonoBehaviour
             .InsertOrUpdateUserEmojisBatchAsync(emojis);
         Debug.Log("<color=cyan>Emojis initiate successfully</color>");
 
-        // // List<Equipments> equipments = await EquipmentsService.Create().GetEquipmentsAsync(search, type, rare, PAGE_SIZE, offset);
-        // // await UserEquipmentsService.Create().InsertOrUpdateUserEquipmentsBatchAsync(equipments);
+        List<Equipments> equipments = await EquipmentsService.Create()
+            .GetEquipmentsAsync(search, type, rare, 23000, offset);
+        var equipmentsWithQuantity = equipments
+            .Select(x => (data: x, quantity: 1000000d))
+            .ToList();
+        await UserEquipmentsService.Create().InsertOrUpdateUserEquipmentsBatchAsync(equipmentsWithQuantity);
+        Debug.Log("<color=cyan>Equipments initiate successfully</color>");
 
         List<Fashions> fashions = await FashionsService.Create()
             .GetFashionsAsync(search, type, rare, PAGE_SIZE, offset);
@@ -296,8 +303,13 @@ public class Test : MonoBehaviour
             .InsertOrUpdateUserWeaponsBatchAsync(weapons);
         Debug.Log("<color=cyan>Weapons initiate successfully</color>");
 
-        // List<Items> items = await ItemsService.Create().GetItemsAsync(search, rare, PAGE_SIZE, offset);
-        // await UserItemsService.Create().InsertOrUpdateUserItemsBatchAsync(items);
+        List<Items> items = await ItemsService.Create()
+            .GetItemsAsync();
+        var itemsWithQuantity = items
+            .Select(x => (data: x, quantity: 10000000000d))
+            .ToList();
+        await UserItemsService.Create().InsertOrUpdateUserItemsBatchAsync(itemsWithQuantity);
+        Debug.Log("<color=cyan>Items initiate successfully</color>");
         Debug.Log("<color=yellow>End</color>");
     }
 }

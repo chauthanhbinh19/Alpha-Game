@@ -9,7 +9,7 @@ public interface IUserEquipmentsService
     Task<int> GetUserEquipmentsCountAsync(string user_id, string search, string type, string rare);
     Task<Equipments> GetUserEquipmentsByIdAsync(string user_id, string Id);
     Task<bool> BuyEquipmentAsync(string Id, double quantity);
-    Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(List<(string equipmentId, Equipments data, double quantity)> list);
+    Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(List<(Equipments data, double quantity)> list);
     Task<bool> UpdateEquipmentsLevelAsync(Equipments equipment, int cardLevel);
     Task<bool> UpdateEquipmentsBreakthroughAsync(Equipments equipment, int star, double quantity);
     Task UpdateUserCurrencyAsync(string Id, double amount);
