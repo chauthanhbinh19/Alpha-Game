@@ -17,7 +17,7 @@ public class Test : MonoBehaviour
     [ContextMenu("Run Initiate Async")]
     public async Task InitiateAsync()
     {
-        User.CurrentUserId = "639137605573406662";
+        User.CurrentUserId = "639140276131250635";
 
         Debug.Log("<color=yellow>Start</color>");
         List<Achievements> achievements = await AchievementsService.Create()
@@ -315,23 +315,97 @@ public class Test : MonoBehaviour
     public async Task InitiateTeamAsync()
     {
         var userTeams = await TeamsService.Create().GetUserTeamsAsync(User.CurrentUserId);
+        List<CardHeroes> cardHeroList = await UserCardHeroesService.Create()
+            .GetUserCardHeroesAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare);
+
+        List<CardCaptains> cardCaptainList = await UserCardCaptainsService.Create()
+            .GetUserCardCaptainsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare);
+
+        List<CardColonels> cardColonelList = await UserCardColonelsService.Create()
+            .GetUserCardColonelsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare);
+
+        List<CardGenerals> cardGeneralList = await UserCardGeneralsService.Create()
+            .GetUserCardGeneralsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare);
+
+        List<CardAdmirals> cardAdmiralList = await UserCardAdmiralsService.Create()
+            .GetUserCardAdmiralsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare);
+
+        List<CardMonsters> cardMonsterList = await UserCardMonstersService.Create()
+            .GetUserCardMonstersAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare);
+
+        List<CardMilitaries> cardMilitaryList = await UserCardMilitariesService.Create()
+            .GetUserCardMilitariesAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare);
+
+        List<CardSpells> cardSpellList = await UserCardSpellsService.Create()
+            .GetUserCardSpellsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare);
+
+        int heroIndex = 0;
+        int captainIndex = 0;
+        int colonelIndex = 0;
+        int generalIndex = 0;
+        int admiralIndex = 0;
+        int monsterIndex = 0;
+        int militaryIndex = 0;
+        int spellIndex = 0;
+
         foreach (Teams team in userTeams)
         {
-            List<CardHeroes> cardHeroList = await UserCardHeroesService.Create().GetUserCardHeroesTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
-            List<CardCaptains> cardCaptainList = await UserCardCaptainsService.Create().GetUserCardCaptainsTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
-            List<CardColonels> cardColonelList = await UserCardColonelsService.Create().GetUserCardColonelsTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
-            List<CardGenerals> cardGeneralList = await UserCardGeneralsService.Create().GetUserCardGeneralsTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
-            List<CardAdmirals> cardAdmiralList = await UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
-            List<CardMonsters> cardMonsterList = await UserCardMonstersService.Create().GetUserCardMonstersTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
-            List<CardMilitaries> cardMilitaryList = await UserCardMilitariesService.Create().GetUserCardMilitariesTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
-            List<CardSpells> cardSpellList = await UserCardSpellsService.Create().GetUserCardSpellsTeamWithoutPositionAsync(User.CurrentUserId, team.TeamId);
-            for(int i = 1; i <=10; i++)
+            HashSet<string> usedPositions = new HashSet<string>();
+
+            // giữ lại card đã có vị trí đúng trong team này
+            foreach (var card in cardHeroList.Where(x => x.TeamId == team.TeamId))
             {
-                int teamPositionIndex = i;
-                for(int j = 1; j<=10; j++)
+                if (!string.IsNullOrEmpty(card.Position))
+                    usedPositions.Add(card.Position);
+            }
+
+            foreach (var card in cardCaptainList.Where(x => x.TeamId == team.TeamId))
+            {
+                if (!string.IsNullOrEmpty(card.Position))
+                    usedPositions.Add(card.Position);
+            }
+
+            foreach (var card in cardColonelList.Where(x => x.TeamId == team.TeamId))
+            {
+                if (!string.IsNullOrEmpty(card.Position))
+                    usedPositions.Add(card.Position);
+            }
+
+            foreach (var card in cardGeneralList.Where(x => x.TeamId == team.TeamId))
+            {
+                if (!string.IsNullOrEmpty(card.Position))
+                    usedPositions.Add(card.Position);
+            }
+
+            foreach (var card in cardAdmiralList.Where(x => x.TeamId == team.TeamId))
+            {
+                if (!string.IsNullOrEmpty(card.Position))
+                    usedPositions.Add(card.Position);
+            }
+
+            foreach (var card in cardMonsterList.Where(x => x.TeamId == team.TeamId))
+            {
+                if (!string.IsNullOrEmpty(card.Position))
+                    usedPositions.Add(card.Position);
+            }
+
+            foreach (var card in cardMilitaryList.Where(x => x.TeamId == team.TeamId))
+            {
+                if (!string.IsNullOrEmpty(card.Position))
+                    usedPositions.Add(card.Position);
+            }
+
+            foreach (var card in cardSpellList.Where(x => x.TeamId == team.TeamId))
+            {
+                if (!string.IsNullOrEmpty(card.Position))
+                    usedPositions.Add(card.Position);
+            }
+
+            for (int i = 1; i <= 10; i++)
+            {
+                for (int j = 1; j <= 10; j++)
                 {
-                    int teamSlotIndex = j;
-                    string tempPosition = teamPositionIndex.ToString() + "-" + teamSlotIndex.ToString();
+                    string position = $"{i}-{j}";
 
                     // await UserCardHeroesService.Create().UpdateTeamCardHeroAsync(team.TeamId, tempPosition, cardHero.Id);
                     // await UserCardCaptainsService.Create().UpdateTeamCardCaptainAsync(team.TeamId, tempPosition, cardCaptain.Id);
@@ -341,9 +415,124 @@ public class Test : MonoBehaviour
                     // await UserCardMonstersService.Create().UpdateTeamCardMonsterAsync(team.TeamId, tempPosition, cardMonster.Id);
                     // await UserCardMilitariesService.Create().UpdateTeamCardMilitaryAsync(team.TeamId, tempPosition, cardMilitary.Id);
                     // await UserCardSpellsService.Create().UpdateTeamCardSpellAsync(team.TeamId, tempPosition, cardSpell.Id);
+                    if (usedPositions.Contains(position))
+                        continue;
+
+                    // fill theo thứ tự ưu tiên
+                    if (heroIndex < cardHeroList.Count)
+                    {
+                        var card = cardHeroList[heroIndex];
+
+                        if (string.IsNullOrEmpty(card.TeamId))
+                        {
+                            await UserCardHeroesService.Create()
+                                .UpdateTeamCardHeroAsync(team.TeamId, position, card.Id);
+
+                            heroIndex++;
+                            continue;
+                        }
+                    }
+
+                    if (captainIndex < cardCaptainList.Count)
+                    {
+                        var card = cardCaptainList[captainIndex];
+
+                        if (string.IsNullOrEmpty(card.TeamId))
+                        {
+                            await UserCardCaptainsService.Create()
+                                .UpdateTeamCardCaptainAsync(team.TeamId, position, card.Id);
+
+                            captainIndex++;
+                            continue;
+                        }
+                    }
+
+                    if (colonelIndex < cardColonelList.Count)
+                    {
+                        var card = cardColonelList[colonelIndex];
+
+                        if (string.IsNullOrEmpty(card.TeamId))
+                        {
+                            await UserCardColonelsService.Create()
+                                .UpdateTeamCardColonelAsync(team.TeamId, position, card.Id);
+
+                            colonelIndex++;
+                            continue;
+                        }
+                    }
+
+                    if (generalIndex < cardGeneralList.Count)
+                    {
+                        var card = cardGeneralList[generalIndex];
+
+                        if (string.IsNullOrEmpty(card.TeamId))
+                        {
+                            await UserCardGeneralsService.Create()
+                                .UpdateTeamCardGeneralAsync(team.TeamId, position, card.Id);
+
+                            generalIndex++;
+                            continue;
+                        }
+                    }
+
+                    if (admiralIndex < cardAdmiralList.Count)
+                    {
+                        var card = cardAdmiralList[admiralIndex];
+
+                        if (string.IsNullOrEmpty(card.TeamId))
+                        {
+                            await UserCardAdmiralsService.Create()
+                                .UpdateTeamCardAdmiralAsync(team.TeamId, position, card.Id);
+
+                            admiralIndex++;
+                            continue;
+                        }
+                    }
+
+                    if (militaryIndex < cardMilitaryList.Count)
+                    {
+                        var card = cardMilitaryList[militaryIndex];
+
+                        if (string.IsNullOrEmpty(card.TeamId))
+                        {
+                            await UserCardMilitariesService.Create()
+                                .UpdateTeamCardMilitaryAsync(team.TeamId, position, card.Id);
+
+                            militaryIndex++;
+                            continue;
+                        }
+                    }
+
+                    if (monsterIndex < cardMonsterList.Count)
+                    {
+                        var card = cardMonsterList[monsterIndex];
+
+                        if (string.IsNullOrEmpty(card.TeamId))
+                        {
+                            await UserCardMonstersService.Create()
+                                .UpdateTeamCardMonsterAsync(team.TeamId, position, card.Id);
+
+                            monsterIndex++;
+                            continue;
+                        }
+                    }
+
+                    if (spellIndex < cardSpellList.Count)
+                    {
+                        var card = cardSpellList[spellIndex];
+
+                        if (string.IsNullOrEmpty(card.TeamId))
+                        {
+                            await UserCardSpellsService.Create()
+                                .UpdateTeamCardSpellAsync(team.TeamId, position, card.Id);
+
+                            spellIndex++;
+                            continue;
+                        }
+                    }
                 }
             }
+            Debug.Log($"<color=green>Team {team.TeamNumber} initialized successfully</color>");
         }
-
     }
 }

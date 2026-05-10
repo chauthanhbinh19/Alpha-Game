@@ -57,10 +57,10 @@ public class UserService : IUserService
             Items cardAdmiralTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRAL_TICKET);
             await UserItemsService.Create().InsertUserItemAsync(cardAdmiralTicket, 1000000);
 
-            for (int i = 0; i < 50; i++)
-            {
-                await TeamsService.Create().InsertUserTeamsAsync(userId, i + 1);
-            }
+            // for (int i = 0; i < 50; i++)
+            // {
+            //     await TeamsService.Create().InsertUserTeamsAsync(userId, i + 1);
+            // }
             await UserSettingsService.Create().CreateInitiateUserSettingsAsync(userId);
             await UserCurrenciesService.Create().InitiateUserCurrencyAsync(userId);
         }
