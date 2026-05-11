@@ -18,6 +18,7 @@ public interface IUserSkillsService
     Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string user_id, string cardId);
     Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, string cardId);
     Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, string cardId);
+    Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string user_id, string cardId);
     Task<bool> InsertUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> InsertUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> InsertUserCardColonelSkillsAsync(string userId, string cardId, string skillId, int position);
@@ -26,6 +27,7 @@ public interface IUserSkillsService
     Task<bool> InsertUserCardMilitarySkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> InsertUserCardMonsterSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> InsertUserCardSpellSkillsAsync(string userId, string cardId, string skillId, int position);
+    Task<bool> InsertUserCardSoldierSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> DeleteUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> DeleteUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> DeleteUserCardColonelSkillsAsync(string userId, string cardId, string skillId, int position);
@@ -34,4 +36,5 @@ public interface IUserSkillsService
     Task<bool> DeleteUserCardMonsterSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> DeleteUserCardMilitarySkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> DeleteUserCardSpellSkillsAsync(string userId, string cardId, string skillId, int position);
+    Task<bool> DeleteUserCardSoldierSkillsAsync(string userId, string cardId, string skillId, int position);
 }

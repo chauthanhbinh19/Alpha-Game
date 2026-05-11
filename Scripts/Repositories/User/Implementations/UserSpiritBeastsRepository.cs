@@ -1356,6 +1356,124 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeast;
     }
+    public async Task<SpiritBeasts> GetUserCardSoldierSpiritBeastAsync(string userId, CardSoldiers cardSoldier)
+    {
+        SpiritBeasts spiritBeast = new SpiritBeasts();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                select ue.*, e.*
+                from spirit_beasts e 
+                left join user_spirit_beasts ue 
+                    on e.id = ue.spirit_beast_id
+                left join card_soldiers_spirit_beast che 
+                    on che.user_spirit_beast_id = ue.spirit_beast_id 
+                    and che.user_id = ue.user_id
+                where ue.user_id = @userId 
+                    and che.user_card_soldier_id = @user_card_soldier_id;
+            ";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
+                    selectCommand.Parameters.AddWithValue("@user_card_soldier_id", cardSoldier.Id);
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            spiritBeast.Id = reader.GetStringSafe("spirit_beast_id");
+                            spiritBeast.Name = reader.GetStringSafe("name");
+                            spiritBeast.Image = reader.GetStringSafe("image");
+                            spiritBeast.Rare = reader.GetStringSafe("rare");
+                            spiritBeast.Quality = reader.GetDoubleSafe("quality");
+                            spiritBeast.Star = reader.GetIntSafe("star");
+                            spiritBeast.Level = reader.GetIntSafe("level");
+                            spiritBeast.Experiment = reader.GetDoubleSafe("experiment");
+                            spiritBeast.Quantity = reader.GetDoubleSafe("quantity");
+                            spiritBeast.Power = reader.GetDoubleSafe("power");
+                            spiritBeast.Health = reader.GetDoubleSafe("health");
+                            spiritBeast.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
+                            spiritBeast.PhysicalDefense = reader.GetDoubleSafe("physical_defense");
+                            spiritBeast.MagicalAttack = reader.GetDoubleSafe("magical_attack");
+                            spiritBeast.MagicalDefense = reader.GetDoubleSafe("magical_defense");
+                            spiritBeast.ChemicalAttack = reader.GetDoubleSafe("chemical_attack");
+                            spiritBeast.ChemicalDefense = reader.GetDoubleSafe("chemical_defense");
+                            spiritBeast.AtomicAttack = reader.GetDoubleSafe("atomic_attack");
+                            spiritBeast.AtomicDefense = reader.GetDoubleSafe("atomic_defense");
+                            spiritBeast.MentalAttack = reader.GetDoubleSafe("mental_attack");
+                            spiritBeast.MentalDefense = reader.GetDoubleSafe("mental_defense");
+                            spiritBeast.Speed = reader.GetDoubleSafe("speed");
+                            spiritBeast.CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate");
+                            spiritBeast.CriticalRate = reader.GetDoubleSafe("critical_rate");
+                            spiritBeast.CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate");
+                            spiritBeast.IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate");
+                            spiritBeast.PenetrationRate = reader.GetDoubleSafe("penetration_rate");
+                            spiritBeast.PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate");
+                            spiritBeast.EvasionRate = reader.GetDoubleSafe("evasion_rate");
+                            spiritBeast.DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate");
+                            spiritBeast.IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate");
+                            spiritBeast.AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate");
+                            spiritBeast.VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate");
+                            spiritBeast.VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate");
+                            spiritBeast.AccuracyRate = reader.GetDoubleSafe("accuracy_rate");
+                            spiritBeast.LifestealRate = reader.GetDoubleSafe("lifesteal_rate");
+                            spiritBeast.ShieldStrength = reader.GetDoubleSafe("shield_strength");
+                            spiritBeast.Tenacity = reader.GetDoubleSafe("tenacity");
+                            spiritBeast.ResistanceRate = reader.GetDoubleSafe("resistance_rate");
+                            spiritBeast.ComboRate = reader.GetDoubleSafe("combo_rate");
+                            spiritBeast.IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate");
+                            spiritBeast.ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate");
+                            spiritBeast.ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate");
+                            spiritBeast.StunRate = reader.GetDoubleSafe("stun_rate");
+                            spiritBeast.IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate");
+                            spiritBeast.ReflectionRate = reader.GetDoubleSafe("reflection_rate");
+                            spiritBeast.IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate");
+                            spiritBeast.ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate");
+                            spiritBeast.ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate");
+                            spiritBeast.Mana = reader.GetDoubleSafe("mana");
+                            spiritBeast.ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate");
+                            spiritBeast.DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate");
+                            spiritBeast.ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate");
+                            spiritBeast.DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate");
+                            spiritBeast.ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate");
+                            spiritBeast.NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate");
+                            spiritBeast.NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate");
+                            spiritBeast.SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate");
+                            spiritBeast.SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate");
+                            spiritBeast.PercentAllHealth = reader.GetDoubleSafe("percent_all_health");
+                            spiritBeast.PercentAllPhysicalAttack = reader.GetDoubleSafe("percent_all_physical_attack");
+                            spiritBeast.PercentAllPhysicalDefense = reader.GetDoubleSafe("percent_all_physical_defense");
+                            spiritBeast.PercentAllMagicalAttack = reader.GetDoubleSafe("percent_all_magical_attack");
+                            spiritBeast.PercentAllMagicalDefense = reader.GetDoubleSafe("percent_all_magical_defense");
+                            spiritBeast.PercentAllChemicalAttack = reader.GetDoubleSafe("percent_all_chemical_attack");
+                            spiritBeast.PercentAllChemicalDefense = reader.GetDoubleSafe("percent_all_chemical_defense");
+                            spiritBeast.PercentAllAtomicAttack = reader.GetDoubleSafe("percent_all_atomic_attack");
+                            spiritBeast.PercentAllAtomicDefense = reader.GetDoubleSafe("percent_all_atomic_defense");
+                            spiritBeast.PercentAllMentalAttack = reader.GetDoubleSafe("percent_all_mental_attack");
+                            spiritBeast.PercentAllMentalDefense = reader.GetDoubleSafe("percent_all_mental_defense");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return spiritBeast;
+    }
     public async Task<bool> InsertUserSpiritBeastAsync(SpiritBeasts SpiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2396,6 +2514,75 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
+    public async Task<bool> InsertOrUpdateUserCardSoldierSpiritBeastAsync(string userId, CardSoldiers cardSoldier, SpiritBeasts spiritBeast)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string checkSQL = @"
+                SELECT COUNT(*) FROM card_soldier_spirit_beast 
+                WHERE user_id = @user_id AND user_card_soldier_id = @user_card_soldier_id;";
+
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
+                {
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
+                    checkCommand.Parameters.AddWithValue("@user_card_soldier_id", cardSoldier.Id);
+
+                    int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+
+                    if (count == 0)
+                    {
+                        // INSERT
+                        string insertSQL = @"
+                        INSERT INTO card_soldier_spirit_beast (
+                            user_id, user_card_soldier_id, user_spirit_beast_id
+                        ) VALUES (
+                            @user_id, @user_card_soldier_id, @user_spirit_beast_id
+                        );";
+
+                        MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
+                        insertCommand.Parameters.AddWithValue("@user_card_soldier_id", cardSoldier.Id);
+                        insertCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
+
+                        await insertCommand.ExecuteNonQueryAsync();
+                    }
+                    else
+                    {
+                        // UPDATE
+                        string updateSQL = @"
+                        UPDATE card_soldier_spirit_beast
+                        SET user_spirit_beast_id = @user_spirit_beast_id
+                        WHERE user_id = @user_id AND user_card_soldier_id = @user_card_soldier_id;";
+
+                        MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+                        updateCommand.Parameters.AddWithValue("@user_id", userId);
+                        updateCommand.Parameters.AddWithValue("@user_card_soldier_id", cardSoldier.Id);
+                        updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
+
+                        await updateCommand.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
     public async Task<List<SpiritBeasts>> GetAllUserCardHeroesSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
@@ -3308,6 +3495,120 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeasts;
     }
+    public async Task<List<SpiritBeasts>> GetAllUserCardSoldiersSpiritBeastAsync(string userId, int pageSize, int offset, string status)
+    {
+        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
+        {
+            await connection.OpenAsync();
+
+            string selectSQL = @"
+            SELECT e.name, ue.*, e.image, e.rare, 
+                CASE WHEN che.user_spirit_beast_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS equip_status
+            from spirit_beasts e
+            LEFT JOIN user_spirit_beasts ue ON e.id = ue.spirit_beast_id
+            LEFT JOIN card_soldiers_spirit_beast che 
+                ON che.user_spirit_beast_id = ue.spirit_beast_id 
+                AND che.user_id = ue.user_id
+            WHERE ue.user_id = @user_id
+            AND (
+                @status = 'ALL'
+                OR (@status = 'EQUIP' AND che.user_spirit_beast_id IS NOT NULL)
+                OR (@status = 'NOT EQUIP' AND che.user_spirit_beast_id IS NULL)
+            )
+            LIMIT @limit OFFSET @offset;";
+
+            await using var selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
+            selectCommand.Parameters.AddWithValue("@limit", pageSize);
+            selectCommand.Parameters.AddWithValue("@offset", offset);
+            selectCommand.Parameters.AddWithValue("@status", status);
+
+            await using var reader = await selectCommand.ExecuteReaderAsync();
+            while (await reader.ReadAsync())
+            {
+                SpiritBeasts spiritBeast = new SpiritBeasts
+                {
+                    Id = reader.GetStringSafe("spirit_beast_id"),
+                    Name = reader.GetStringSafe("name"),
+                    Image = reader.GetStringSafe("image"),
+                    Rare = reader.GetStringSafe("rare"),
+                    Quality = reader.GetDoubleSafe("quality"),
+                    Star = reader.GetIntSafe("star"),
+                    Level = reader.GetIntSafe("level"),
+                    Experiment = reader.GetDoubleSafe("experiment"),
+                    Quantity = reader.GetDoubleSafe("quantity"),
+                    Power = reader.GetDoubleSafe("power"),
+                    Health = reader.GetDoubleSafe("health"),
+                    PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                    PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                    MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                    MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                    ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                    ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                    AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                    AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                    MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                    MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                    Speed = reader.GetDoubleSafe("speed"),
+                    CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                    CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                    CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                    IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                    PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                    PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                    EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                    DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                    IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                    AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                    VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                    VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                    AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                    LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                    ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                    Tenacity = reader.GetDoubleSafe("tenacity"),
+                    ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                    ComboRate = reader.GetDoubleSafe("combo_rate"),
+                    IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                    ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                    ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                    StunRate = reader.GetDoubleSafe("stun_rate"),
+                    IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                    ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                    IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                    ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                    ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                    Mana = reader.GetDoubleSafe("mana"),
+                    ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                    DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                    ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                    DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                    ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                    NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                    NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                    SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                    SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                    // EquipStatus = reader.GetStringSafe("equip_status")
+                };
+
+                spiritBeasts.Add(spiritBeast);
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
+        return spiritBeasts;
+    }
     public async Task<bool> DeleteUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHero, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3728,7 +4029,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> DeleteUserCardSpellSpiritBeastAsync(string userId, CardSpells cardSpells, SpiritBeasts spiritBeast)
+    public async Task<bool> DeleteUserCardSpellSpiritBeastAsync(string userId, CardSpells cardSpell, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -3750,7 +4051,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpells.Id);
+                    checkCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
                     checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -3767,7 +4068,67 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                         await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
                         {
                             deleteCommand.Parameters.AddWithValue("@user_id", userId);
-                            deleteCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpells.Id);
+                            deleteCommand.Parameters.AddWithValue("@user_card_spell_id", cardSpell.Id);
+                            deleteCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
+
+                            await deleteCommand.ExecuteNonQueryAsync();
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+    public async Task<bool> DeleteUserCardSoldierSpiritBeastAsync(string userId, CardSoldiers cardSoldier, SpiritBeasts spiritBeast)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Kiểm tra xem bản ghi đã tồn tại chưa
+                string checkSQL = @"
+                SELECT COUNT(*) 
+                FROM card_soldiers_spirit_beast 
+                WHERE user_id = @user_id 
+                  AND user_card_soldier_id = @user_card_soldier_id 
+                  AND user_spirit_beast_id = @user_spirit_beast_id;
+            ";
+
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
+                {
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
+                    checkCommand.Parameters.AddWithValue("@user_card_soldier_id", cardSoldier.Id);
+                    checkCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
+
+                    int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+
+                    if (count != 0)
+                    {
+                        string deleteSQL = @"
+                        DELETE FROM card_soldiers_spirit_beast
+                        WHERE user_id = @user_id 
+                          AND user_card_soldier_id = @user_card_soldier_id 
+                          AND user_spirit_beast_id = @user_spirit_beast_id;
+                    ";
+
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
+                        {
+                            deleteCommand.Parameters.AddWithValue("@user_id", userId);
+                            deleteCommand.Parameters.AddWithValue("@user_card_soldier_id", cardSoldier.Id);
                             deleteCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
                             await deleteCommand.ExecuteNonQueryAsync();

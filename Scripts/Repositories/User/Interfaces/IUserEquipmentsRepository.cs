@@ -22,6 +22,7 @@ public interface IUserEquipmentsRepository
     Task InsertCardSpellEquipmentsAsync(string Id, Equipments equipment, int position);
     Task InsertBookEquipmentsAsync(string Id, Equipments equipment, int position);
     Task InsertPetEquipmentsAsync(string Id, Equipments equipment, int position);
+    Task InsertCardSoldierEquipmentsAsync(string Id, Equipments equipment, int position);
     Task<List<Equipments>> GetCardHeroesEquipmentsAsync(string user_id, string card_id, string type);
     Task<List<Equipments>> GetCardCaptainsEquipmentsAsync(string user_id, string card_id, string type);
     Task<List<Equipments>> GetCardColonelsEquipmentsAsync(string user_id, string card_id, string type);
@@ -32,6 +33,7 @@ public interface IUserEquipmentsRepository
     Task<List<Equipments>> GetCardSpellsEquipmentsAsync(string user_id, string card_id, string type);
     Task<List<Equipments>> GetBooksEquipmentsAsync(string user_id, string card_id, string type);
     Task<List<Equipments>> GetPetsEquipmentsAsync(string user_id, string card_id, string type);
+    Task<List<Equipments>> GetCardSoldiersEquipmentsAsync(string user_id, string card_id, string type);
     Task<List<Equipments>> GetAllCardHeroesEquipmentsAsync(string user_id, string type, int limit, int offset, string status);
     Task<List<Equipments>> GetAllCardCaptainsEquipmentsAsync(string user_id, string type, int limit, int offset, string status);
     Task<List<Equipments>> GetAllCardColonelsEquipmentsAsync(string user_id, string type, int limit, int offset, string status);
@@ -42,6 +44,7 @@ public interface IUserEquipmentsRepository
     Task<List<Equipments>> GetAllCardSpellsEquipmentsAsync(string user_id, string type, int limit, int offset, string status);
     Task<List<Equipments>> GetAllBooksEquipmentsAsync(string user_id, string type, int limit, int offset, string status);
     Task<List<Equipments>> GetAllPetsEquipmentsAsync(string user_id, string type, int limit, int offset, string status);
+    Task<List<Equipments>> GetAllCardSoldiersEquipmentsAsync(string user_id, string type, int limit, int offset, string status);
     Task<Equipments> GetAllEquipmentsByCardHeroIdAsync(string user_id, string cardHeroId);
     Task<Equipments> GetAllEquipmentsByCardCaptainIdAsync(string user_id, string cardCaptainId);
     Task<Equipments> GetAllEquipmentsByCardColonelIdAsync(string user_id, string cardColonelId);
@@ -52,6 +55,7 @@ public interface IUserEquipmentsRepository
     Task<Equipments> GetAllEquipmentsByCardSpellIdAsync(string user_id, string cardSpellId);
     Task<Equipments> GetAllEquipmentsByBookIdAsync(string user_id, string bookId);
     Task<Equipments> GetAllEquipmentsByPetIdAsync(string user_id, string petId);
+    Task<Equipments> GetAllEquipmentsByCardSoldierIdAsync(string user_id, string cardSoldierId);
 
     Task<bool> EquipAllEquipmentsOfTypeToCardHeroAsync(string cardHeroId, string type, List<Equipments> availableEquipments);
     Task<bool> EquipAllEquipmentsToCardHeroAsync(string cardHeroId, List<Equipments> availableEquipments);
@@ -73,5 +77,6 @@ public interface IUserEquipmentsRepository
     Task<bool> EquipAllEquipmentsToBookAsync(string bookId, List<Equipments> availableEquipments);
     Task<bool> EquipAllEquipmentsOfTypeToPetAsync(string petId, string type, List<Equipments> availableEquipments);
     Task<bool> EquipAllEquipmentsToPetAsync(string petId, List<Equipments> availableEquipments);
-
+    Task<bool> EquipAllEquipmentsOfTypeToCardSoldierAsync(string cardSoldierId, string type, List<Equipments> availableEquipments);
+    Task<bool> EquipAllEquipmentsToCardSoldierAsync(string cardSoldierId, List<Equipments> availableEquipments);
 }

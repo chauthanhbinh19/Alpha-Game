@@ -93,6 +93,11 @@ public class UserSkillsService : IUserSkillsService
         return await _userSkillsRepository.GetUserCardSpellsSkillsAsync(user_id, cardId);
     }
 
+    public async Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string user_id, string cardId)
+    {
+        return await _userSkillsRepository.GetUserCardSoldiersSkillsAsync(user_id, cardId);
+    }
+
     public async Task<bool> InsertUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         return await _userSkillsRepository.InsertUserCardHeroSkillsAsync(userId, cardId, skillId, position);
@@ -133,6 +138,11 @@ public class UserSkillsService : IUserSkillsService
         return await _userSkillsRepository.InsertUserCardSpellSkillsAsync(userId, cardId, skillId, position);
     }
 
+    public async Task<bool> InsertUserCardSoldierSkillsAsync(string userId, string cardId, string skillId, int position)
+    {
+        return await _userSkillsRepository.InsertUserCardSoldierSkillsAsync(userId, cardId, skillId, position);
+    }
+
     public async Task<bool> DeleteUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         return await _userSkillsRepository.DeleteUserCardHeroSkillsAsync(userId, cardId, skillId, position);
@@ -171,6 +181,11 @@ public class UserSkillsService : IUserSkillsService
     public async Task<bool> DeleteUserCardSpellSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         return await _userSkillsRepository.DeleteUserCardSpellSkillsAsync(userId, cardId, skillId, position);
+    }
+
+    public async Task<bool> DeleteUserCardSoldierSkillsAsync(string userId, string cardId, string skillId, int position)
+    {
+        return await _userSkillsRepository.DeleteUserCardSoldierSkillsAsync(userId, cardId, skillId, position);
     }
 
     public async Task<bool> InsertOrUpdateUserSkillsBatchAsync(List<Skills> skills)

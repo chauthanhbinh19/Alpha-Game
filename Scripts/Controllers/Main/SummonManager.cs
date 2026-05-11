@@ -172,7 +172,7 @@ public class SummonManager : MonoBehaviour
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_BOOK))
             {
-                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_CARD_BOOKS_BACKGROUND_URL);
+                Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SUMMON_BOOKS_BACKGROUND_URL);
                 dictionaryBackground.texture = texture;
             }
             else if (mainType.Equals(AppConstants.MainType.SUMMON_CARD_CAPTAIN))

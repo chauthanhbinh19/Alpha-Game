@@ -70,6 +70,9 @@ public static class AppDisplayConstants
         public const string CARD_SPELL = "MainType.CardSpell";
         public const string CARD_SPELLS = "MainType.CardSpells";
 
+        public const string CARD_SOLDIER = "MainType.CardSoldier";
+        public const string CARD_SOLDIERS = "MainType.CardSoldiers";
+
         public const string COLLABORATION_EQUIPMENT = "MainType.CollaborationEquipment";
         public const string COLLABORATION_EQUIPMENTS = "MainType.CollaborationEquipments";
 
@@ -244,8 +247,8 @@ public static class AppDisplayConstants
         public const string PETS_GALLERY = "Gallery.Pets";
         public const string CARD_CAPTAINS_GALLERY = "Gallery.CardCaptains";
         public const string COLLABORATION_EQUIPMENTS_GALLERY = "Gallery.CollaborationEquipments";
-        public const string CARD_MILITARIES_GALLERY = "Gallery.CardMilitary";
-        public const string CARD_SPELL_GALLERY = "Gallery.CardSpell";
+        public const string CARD_MILITARIES_GALLERY = "Gallery.CardMilitaries";
+        public const string CARD_SPELL_GALLERY = "Gallery.CardSpells";
         public const string COLLABORATIONS_GALLERY = "Gallery.Collaborations";
         public const string CARD_MONSTERS_GALLERY = "Gallery.CardMonsters";
         public const string EQUIPMENTS_GALLERY = "Gallery.Equipments";
@@ -253,21 +256,22 @@ public static class AppDisplayConstants
         public const string SKILLS_GALLERY = "Gallery.Skills";
         public const string SYMBOLS_GALLERY = "Gallery.Symbols";
         public const string TITLES_GALLERY = "Gallery.Titles";
-        public const string MAGIC_FORMATION_CRICLES_GALLERY = "Gallery.MagicFormationCircle";
+        public const string MAGIC_FORMATION_CRICLES_GALLERY = "Gallery.MagicFormationCircles";
         public const string RELICS_GALLERY = "Gallery.Relics";
         public const string CARD_COLONELS_GALLERY = "Gallery.CardColonels";
         public const string CARD_GENERALS_GALLERY = "Gallery.CardGenerals";
         public const string CARD_ADMIRALS_GALLERY = "Gallery.CardAdmirals";
+        public const string CARD_SOLDIERS_GALLERY = "Gallery.CardSoldiers";
         public const string BORDERS_GALLERY = "Gallery.Borders";
-        public const string TALISMANS_GALLERY = "Gallery.Talisman";
-        public const string PUPPETS_GALLERY = "Gallery.Puppet";
-        public const string ALCHEMIES_GALLERY = "Gallery.Alchemy";
-        public const string FORGES_GALLERY = "Gallery.Forge";
-        public const string CARD_LIVES_GALLERY = "Gallery.Life";
-        public const string ARTWORKS_GALLERY = "Gallery.Artwork";
-        public const string SPIRIT_BEASTS_GALLERY = "Gallery.SpiritBeast";
+        public const string TALISMANS_GALLERY = "Gallery.Talismans";
+        public const string PUPPETS_GALLERY = "Gallery.Puppets";
+        public const string ALCHEMIES_GALLERY = "Gallery.Alchemies";
+        public const string FORGES_GALLERY = "Gallery.Forges";
+        public const string CARD_LIVES_GALLERY = "Gallery.Lives";
+        public const string ARTWORKS_GALLERY = "Gallery.Artworks";
+        public const string SPIRIT_BEASTS_GALLERY = "Gallery.SpiritBeasts";
         public const string AVATARS_GALLERY = "Gallery.Avatars";
-        public const string SPIRIT_CARDS_GALLERY = "Gallery.SpiritCard";
+        public const string SPIRIT_CARDS_GALLERY = "Gallery.SpiritCards";
         public const string ACHIEVEMENTS_GALLERY = "Gallery.Achievements";
         public const string ARTIFACTS_GALLERY = "Gallery.Artifacts";
         public const string ARCHITECTURES_GALLERY = "Gallery.Architectures";
@@ -294,8 +298,8 @@ public static class AppDisplayConstants
         public const string PETS_COLLECTION = "Collection.Pets";
         public const string CARD_CAPTAINS_COLLECTION = "Collection.CardCaptains";
         public const string COLLABORATION_EQUIPMENTS_COLLECTION = "Collection.CollaborationEquipments";
-        public const string CARD_MILITARIES_COLLECTION = "Collection.CardMilitary";
-        public const string CARD_SPELLS_COLLECTION = "Collection.CardSpell";
+        public const string CARD_MILITARIES_COLLECTION = "Collection.CardMilitaries";
+        public const string CARD_SPELLS_COLLECTION = "Collection.CardSpells";
         public const string COLLABORATIONS_COLLECTION = "Collection.Collaborations";
         public const string CARD_MONSTERS_COLLECTION = "Collection.CardMonsters";
         public const string EQUIPMENTS_COLLECTION = "Collection.Equipments";
@@ -303,21 +307,22 @@ public static class AppDisplayConstants
         public const string SKILLS_COLLECTION = "Collection.Skills";
         public const string SYMBOLS_COLLECTION = "Collection.Symbols";
         public const string TITLES_COLLECTION = "Collection.Titles";
-        public const string MAGIC_FORMATION_CIRCLES_COLLECTION = "Collection.MagicFormationCircle";
+        public const string MAGIC_FORMATION_CIRCLES_COLLECTION = "Collection.MagicFormationCircles";
         public const string RELICS_COLLECTION = "Collection.Relics";
         public const string CARD_COLONELS_COLLECTION = "Collection.CardColonels";
         public const string CARD_GENERALS_COLLECTION = "Collection.CardGenerals";
         public const string CARD_ADMIRALS_COLLECTION = "Collection.CardAdmirals";
+        public const string CARD_SOLDIERS_COLLECTION = "Collection.CardSoldiers";
         public const string BORDERS_COLLECTION = "Collection.Borders";
-        public const string TALISMANS_COLLECTION = "Collection.Talisman";
-        public const string PUPPETS_COLLECTION = "Collection.Puppet";
-        public const string ALCHEMIES_COLLECTION = "Collection.Alchemy";
-        public const string FORGES_COLLECTION = "Collection.Forge";
-        public const string CARD_LIVES_COLLECTION = "Collection.Life";
-        public const string ARTWORKS_COLLECTION = "Collection.Artwork";
-        public const string SPIRIT_BEASTS_COLLECTION = "Collection.SpiritBeast";
+        public const string TALISMANS_COLLECTION = "Collection.Talismans";
+        public const string PUPPETS_COLLECTION = "Collection.Puppets";
+        public const string ALCHEMIES_COLLECTION = "Collection.Alchemies";
+        public const string FORGES_COLLECTION = "Collection.Forges";
+        public const string CARD_LIVES_COLLECTION = "Collection.Lives";
+        public const string ARTWORKS_COLLECTION = "Collection.Artworks";
+        public const string SPIRIT_BEASTS_COLLECTION = "Collection.SpiritBeasts";
         public const string AVATARS_COLLECTION = "Collection.Avatars";
-        public const string SPIRIT_CARDS_COLLECTION = "Collection.SpiritCard";
+        public const string SPIRIT_CARDS_COLLECTION = "Collection.SpiritCards";
         public const string ACHIEVEMENTS_COLLECTION = "Collection.Achievements";
         public const string ARTIFACTS_COLLECTION = "Collection.Artifacts";
         public const string ARCHITECTURES_COLLECTION = "Collection.Architectures";
@@ -335,7 +340,59 @@ public static class AppDisplayConstants
         public const string BUILDINGS_COLLECTION = "Collection.Buildings";
         public const string PLANTS_COLLECTION = "Collection.Plants";
         public const string FASHIONS_COLLECTION = "Collection.Fashions";
-        public const string EMOJIS_COLLECTION = "Collection.Emojis";}
+        public const string EMOJIS_COLLECTION = "Collection.Emojis";
+    }
+    public static class Gacha
+    {
+        public const string CARD_HEROES_GACHA = "Gacha.CardHeroes";
+        public const string BOOKS_GACHA = "Gacha.Books";
+        public const string PETS_GACHA = "Gacha.Pets";
+        public const string CARD_CAPTAINS_GACHA = "Gacha.CardCaptains";
+        public const string COLLABORATION_EQUIPMENTS_GACHA = "Gacha.CollaborationEquipments";
+        public const string CARD_MILITARIES_GACHA = "Gacha.CardMilitaries";
+        public const string CARD_SPELLS_GACHA = "Gacha.CardSpells";
+        public const string COLLABORATIONS_GACHA = "Gacha.Collaborations";
+        public const string CARD_MONSTERS_GACHA = "Gacha.CardMonsters";
+        public const string EQUIPMENTS_GACHA = "Gacha.Equipments";
+        public const string MEDALS_GACHA = "Gacha.Medals";
+        public const string SKILLS_GACHA = "Gacha.Skills";
+        public const string SYMBOLS_GACHA = "Gacha.Symbols";
+        public const string TITLES_GACHA = "Gacha.Titles";
+        public const string MAGIC_FORMATION_CIRCLES_GACHA = "Gacha.MagicFormationCircles";
+        public const string RELICS_GACHA = "Gacha.Relics";
+        public const string CARD_COLONELS_GACHA = "Gacha.CardColonels";
+        public const string CARD_GENERALS_GACHA = "Gacha.CardGenerals";
+        public const string CARD_ADMIRALS_GACHA = "Gacha.CardAdmirals";
+        public const string CARD_SOLDIERS_GACHA = "Gacha.CardSoldiers";
+        public const string BORDERS_GACHA = "Gacha.Borders";
+        public const string TALISMANS_GACHA = "Gacha.Talismans";
+        public const string PUPPETS_GACHA = "Gacha.Puppets";
+        public const string ALCHEMIES_GACHA = "Gacha.Alchemies";
+        public const string FORGES_GACHA = "Gacha.Forges";
+        public const string CARD_LIVES_GACHA = "Gacha.Lives";
+        public const string ARTWORKS_GACHA = "Gacha.Artworks";
+        public const string SPIRIT_BEASTS_GACHA = "Gacha.SpiritBeasts";
+        public const string AVATARS_GACHA = "Gacha.Avatars";
+        public const string SPIRIT_CARDS_GACHA = "Gacha.SpiritCards";
+        public const string ACHIEVEMENTS_GACHA = "Gacha.Achievements";
+        public const string ARTIFACTS_GACHA = "Gacha.Artifacts";
+        public const string ARCHITECTURES_GACHA = "Gacha.Architectures";
+        public const string TECHNOLOGIES_GACHA = "Gacha.Technologies";
+        public const string VEHICLES_GACHA = "Gacha.Vehicles";
+        public const string CORES_GACHA = "Gacha.Cores";
+        public const string WEAPOMS_GACHA = "Gacha.Weapons";
+        public const string ROBOTS_GACHA = "Gacha.Robots";
+        public const string BADGES_GACHA = "Gacha.Badges";
+        public const string MECHA_BEASTS_GACHA = "Gacha.MechaBeasts";
+        public const string RUNES_GACHA = "Gacha.Runes";
+        public const string FURNITURES_GACHA = "Gacha.Furnitures";
+        public const string FOODS_GACHA = "Gacha.Foods";
+        public const string BEVERAGES_GACHA = "Gacha.Beverages";
+        public const string BUILDINGS_GACHA = "Gacha.Buildings";
+        public const string PLANTS_GACHA = "Gacha.Plants";
+        public const string FASHIONS_GACHA = "Gacha.Fashions";
+        public const string EMOJIS_GACHA = "Gacha.Emojis";
+    }
     public static class Anime
     {
         public const string ONE_PIECE = "Anime.OnePiece";
@@ -529,6 +586,7 @@ public static class AppDisplayConstants
         public const string ARCHIVE_XXIX = "Archive.ArchiveXXIX";
         public const string ARCHIVE_XXX = "Archive.ArchiveXXX";
         public const string ARCHIVE_XXXI = "Archive.ArchiveXXXI";
+        public const string ARCHIVE_XXXII = "Archive.ArchiveXXXII";
     }
     public static class Universe
     {

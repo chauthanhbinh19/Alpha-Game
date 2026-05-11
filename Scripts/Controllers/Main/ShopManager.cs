@@ -147,6 +147,7 @@ public class ShopManager : MonoBehaviour
         CreateButton(43, AppDisplayConstants.MainType.PLANTS, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PLANT_URL), tempContent);
         CreateButton(44, AppDisplayConstants.MainType.FASHIONS, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FASHION_URL), tempContent);
         CreateButton(45, AppDisplayConstants.MainType.EMOJIS, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.EMOJI_URL), tempContent);
+        CreateButton(45, AppDisplayConstants.MainType.CARD_SOLDIERS, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SOLDIER_URL), tempContent);
 
         AssignButtonEvent("Button_1", tempContent, () => GetType(AppConstants.MainType.CARD_HERO));
         AssignButtonEvent("Button_2", tempContent, () => GetType(AppConstants.MainType.BOOK));
@@ -193,6 +194,7 @@ public class ShopManager : MonoBehaviour
         AssignButtonEvent("Button_43", tempContent, () => GetType(AppConstants.MainType.PLANT));
         AssignButtonEvent("Button_44", tempContent, () => GetType(AppConstants.MainType.FASHION));
         AssignButtonEvent("Button_45", tempContent, () => GetType(AppConstants.MainType.EMOJI));
+        AssignButtonEvent("Button_46", tempContent, () => GetType(AppConstants.MainType.CARD_SOLDIER));
 
         tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -837,7 +839,17 @@ public class ShopManager : MonoBehaviour
 
             totalRecord = await AchievementsService.Create().GetAchievementsWithPriceCountAsync();
         }
+        else if (mainType.Equals(AppConstants.MainType.CARD_SOLDIER))
+        {
+            Texture firstDecorationTexture = TextureHelper.LoadTextureCached(ImageConstants.Artifact.ARTIFACT_31_URL);
+            Texture secondDecorationTexture = TextureHelper.LoadTextureCached(ImageConstants.Artifact.ARTIFACT_32_URL);
+            firstDecorationImage.texture = firstDecorationTexture;
+            secondDecorationImage.texture = secondDecorationTexture;
+            List<CardSoldiers> cardSoldiers = await CardSoldiersService.Create().GetCardSoldiersWithPriceAsync(type, PAGE_SIZE, offset);
+            await CardSoldiersController.Instance.CreateCardSoldiersTradeAsync(cardSoldiers, type, currentContent, currencyPanel, popupPanel);
 
+            totalRecord = await CardSoldiersService.Create().GetCardSoldiersWithPriceCountAsync(type);
+        }
         totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
         pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
     }

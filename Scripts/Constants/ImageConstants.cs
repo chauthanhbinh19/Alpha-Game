@@ -26,6 +26,7 @@ public static class ImageConstants
         public const string CARD_MILITARY_URL = "UI/Button/Main/CardMilitaries";
         public const string CARD_SPELL_URL = "UI/Button/Main/CardSpells";
         public const string CARD_MONSTER_URL = "UI/Button/Main/CardMonsters";
+        public const string CARD_SOLDIER_URL = "UI/Button/Main/CardSoldiers";
         public const string BAG_URL = "UI/UI/Bag";
         public const string TEAM_URL = "UI/UI/Teams";
         public const string MORE_URL = "UI/UI/Teams";
@@ -266,6 +267,7 @@ public static class ImageConstants
         public const string CARD_COLONEL_URL = "UI/Button/Gallery/CardColonelsGallery";
         public const string CARD_GENERAL_URL = "UI/Button/Gallery/CardGeneralsGallery";
         public const string CARD_ADMIRAL_URL = "UI/Button/Gallery/CardAdmiralsGallery";
+        public const string CARD_SOLDIER_URL = "UI/Button/Gallery/CardSoldiersGallery";
         public const string BORDER_URL = "UI/Button/Gallery/BordersGallery";
         public const string TALISMAN_URL = "UI/Button/Gallery/TalismanGallery";
         public const string PUPPET_URL = "UI/Button/Gallery/PuppetGallery";
@@ -316,6 +318,7 @@ public static class ImageConstants
         public const string CARD_COLONEL_URL = "UI/Button/Collection/CardColonelsCollection";
         public const string CARD_GENERAL_URL = "UI/Button/Collection/CardGeneralsCollection";
         public const string CARD_ADMIRAL_URL = "UI/Button/Collection/CardAdmiralsCollection";
+        public const string CARD_SOLDIER_URL = "UI/Button/Collection/CardSoldiersCollection";
         public const string BORDER_URL = "UI/Button/Collection/BordersCollection";
         public const string TALISMAN_URL = "UI/Button/Collection/TalismanCollection";
         public const string PUPPET_URL = "UI/Button/Collection/PuppetCollection";
@@ -539,6 +542,7 @@ public static class ImageConstants
         public const string ARCHIVE_XXIX_URL = "UI/Icon/roman_fourteen";
         public const string ARCHIVE_XXX_URL = "UI/Icon/roman_fourteen";
         public const string ARCHIVE_XXXI_URL = "UI/Icon/roman_fourteen";
+        public const string ARCHIVE_XXXII_URL = "UI/Icon/roman_fourteen";
     }
     public static class Universe
     {
@@ -800,6 +804,7 @@ public static class ImageConstants
         public const string CARD_MONSTER_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_9";
         public const string CARD_MILITARY_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_10";
         public const string CARD_SPELL_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_5";
+        public const string CARD_SOLDIER_GRADIENT_BACKGROUND_URL = "UI/Background2/Color/Gradient_Background_5";
 
         public const string SUMMON_CARD_HEROES_BACKGROUND_URL = "UI/Background1/Background_V1_200";
         public const string SUMMON_CARD_CAPTAINS_BACKGROUND_URL = "UI/Background1/Background_V1_201";
@@ -809,7 +814,8 @@ public static class ImageConstants
         public const string SUMMON_CARD_MONSTERS_BACKGROUND_URL = "UI/Background1/Background_V1_205";
         public const string SUMMON_CARD_MILITARIES_BACKGROUND_URL = "UI/Background1/Background_V1_206";
         public const string SUMMON_CARD_SPELLS_BACKGROUND_URL = "UI/Background1/Background_V1_207";
-        public const string SUMMON_CARD_BOOKS_BACKGROUND_URL = "UI/Background1/Background_V1_208";
+        public const string SUMMON_BOOKS_BACKGROUND_URL = "UI/Background1/Background_V1_208";
+        public const string SUMMON_CARD_SOLDIERS_BACKGROUND_URL = "UI/Background1/Background_V1_208";
 
         public const string CARD_HERO_BACKGROUND_URL = "UI/Background3/CardHero";
         public const string BOOK_BACKGROUND_URL = "UI/Background3/Book";
@@ -830,6 +836,7 @@ public static class ImageConstants
         public const string CARD_COLONEL_BACKGROUND_URL = "UI/Background3/CardColonel";
         public const string CARD_GENERAL_BACKGROUND_URL = "UI/Background3/CardGeneral";
         public const string CARD_ADMIRAL_BACKGROUND_URL = "UI/Background3/CardAdmiral";
+        public const string CARD_SOLDIER_BACKGROUND_URL = "UI/Background3/CardSoldier";
         public const string ACHIEVEMENT_BACKGROUND_URL = "UI/Background3/Achievement";
         public const string TALISMAN_BACKGROUND_URL = "UI/Background3/Talisman";
         public const string PUPPET_BACKGROUND_URL = "UI/Background3/Puppet";
@@ -876,6 +883,7 @@ public static class ImageConstants
         public const string CARD_COLONEL_BUTTON_BACKGROUND_URL = "UI/Background4/Button/CardColonels_Background";
         public const string CARD_GENERAL_BUTTON_BACKGROUND_URL = "UI/Background4/Button/CardGenerals_Background";
         public const string CARD_ADMIRAL_BUTTON_BACKGROUND_URL = "UI/Background4/Button/CardAdmirals_Background";
+        public const string CARD_SOLDIER_BUTTON_BACKGROUND_URL = "UI/Background4/Button/CardSoldiers_Background";
         public const string ACHIEVEMENT_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Achievements_Background";
         public const string TALISMAN_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Talismans_Background";
         public const string PUPPET_BUTTON_BACKGROUND_URL = "UI/Background4/Button/Puppets_Background";
@@ -1282,6 +1290,22 @@ public static class ImageConstants
         public const string CARD_SPELL_CONQUEROR_OF_GLORY_C_RANK_URL = "UI/Level/Card_Conqueror_Of_Glory_C_Rank";
         public const string CARD_SPELL_TOP_RANK_URL = "UI/Level/Card_Top_Rank";
         public const string CARD_SPELL_TOP_C_RANK_URL = "UI/Level/Card_Top_C_Rank";
+
+        public const string CARD_SOLDIER_BRONZE_RANK_URL = "UI/Level/Card_Bronze_Rank";
+        public const string CARD_SOLDIER_SILVER_RANK_URL = "UI/Level/Card_Silver_Rank";
+        public const string CARD_SOLDIER_GOLD_RANK_URL = "UI/Level/Card_Gold_Rank";
+        public const string CARD_SOLDIER_PLATINUM_RANK_URL = "UI/Level/Card_Platinum_Rank";
+        public const string CARD_SOLDIER_DIAMOND_RANK_URL = "UI/Level/Card_Diamond_Rank";
+        public const string CARD_SOLDIER_MASTER_RANK_URL = "UI/Level/Card_Master_Rank";
+        public const string CARD_SOLDIER_GRAND_MASTER_RANK_URL = "UI/Level/Card_Grand_Master_Rank";
+        public const string CARD_SOLDIER_PATH_OF_GLORY_RANK_URL = "UI/Level/Card_Path_Of_Glory_Rank";
+        public const string CARD_SOLDIER_PATH_OF_GLORY_C_RANK_URL = "UI/Level/Card_Path_Of_Glory_C_Rank";
+        public const string CARD_SOLDIER_SPIRIT_OF_GLORY_RANK_URL = "UI/Level/Card_Spirit_Of_Glory_Rank";
+        public const string CARD_SOLDIER_SPIRIT_OF_GLORY_C_RANK_URL = "UI/Level/Card_Spirit_Of_Glory_C_Rank";
+        public const string CARD_SOLDIER_CONQUEROR_OF_GLORY_RANK_URL = "UI/Level/Card_Conqueror_Of_Glory_Rank";
+        public const string CARD_SOLDIER_CONQUEROR_OF_GLORY_C_RANK_URL = "UI/Level/Card_Conqueror_Of_Glory_C_Rank";
+        public const string CARD_SOLDIER_TOP_RANK_URL = "UI/Level/Card_Top_Rank";
+        public const string CARD_SOLDIER_TOP_C_RANK_URL = "UI/Level/Card_Top_C_Rank";
 
         public const string BOOK_BRONZE_RANK_URL = "UI/Level/Card_Bronze_Rank";
         public const string BOOK_SILVER_RANK_URL = "UI/Level/Card_Silver_Rank";

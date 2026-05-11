@@ -228,6 +228,9 @@ public static class AppConstants
         public const string CARD_SPELL = "Card Spell";
         public const string CARD_SPELLS = "Card Spells";
 
+        public const string CARD_SOLDIER = "Card Soldier";
+        public const string CARD_SOLDIERS = "Card Soldiers";
+
         public const string COLLABORATION_EQUIPMENT = "Collaboration Equipment";
         public const string COLLABORATION_EQUIPMENTS = "Collaboration Equipments";
 
@@ -423,6 +426,7 @@ public static class AppConstants
         public const string CARD_COLONELS_GALLERY = "Card Colonels Gallery";
         public const string CARD_GENERALS_GALLERY = "Card Generals Gallery";
         public const string CARD_ADMIRALS_GALLERY = "Card Admirals Gallery";
+        public const string CARD_SOLDIERS_GALLERY = "Card Soldiers Gallery";
         public const string BORDERS_GALLERY = "Borders Gallery";
         public const string TALISMAN_GALLERY = "Talisman Gallery";
         public const string PUPPET_GALLERY = "Puppet Gallery";
@@ -471,6 +475,7 @@ public static class AppConstants
         public const string CARD_COLONELS_COLLECTION = "Card Colonels Collection";
         public const string CARD_GENERALS_COLLECTION = "Card Generals Collection";
         public const string CARD_ADMIRALS_COLLECTION = "Card Admirals Collection";
+        public const string CARD_SOLDIERS_COLLECTION = "Card Soldiers Collection";
         public const string BORDERS_COLLECTION = "Borders Collection";
         public const string TALISMAN_COLLECTION = "Talisman Collection";
         public const string PUPPET_COLLECTION = "Puppet Collection";
@@ -772,6 +777,7 @@ public static class AppConstants
         public const string ARCHIVE_XXIX = "Archive XXIX";
         public const string ARCHIVE_XXX = "Archive XXX";
         public const string ARCHIVE_XXXI = "Archive XXXI";
+        public const string ARCHIVE_XXXII = "Archive XXXII";
     }
     public static class Universe
     {

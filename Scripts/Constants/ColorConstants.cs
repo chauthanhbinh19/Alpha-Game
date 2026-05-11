@@ -58,10 +58,11 @@ public static class ColorConstants
         public const string CARD_CAPTAIN_COLOR = "#FF9406";
         public const string CARD_COLONEL_COLOR = "#E1FF06";
         public const string CARD_GENERAL_COLOR = "#4BFF06";
-        public const string CARD_ADMIRAL_COLOR = "#06FFC0";
+        public const string CARD_ADMIRAL_COLOR = "#06ffff";
         public const string CARD_MONSTER_COLOR = "#0681FF";
         public const string CARD_MILITARY_COLOR = "#6706FF";
         public const string CARD_SPELL_COLOR = "#FF06CB";
+        public const string CARD_SOLDIER_COLOR = "#06ffcd";
     }
 
     public static class Emblem

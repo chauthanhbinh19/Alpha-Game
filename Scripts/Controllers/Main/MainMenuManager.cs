@@ -460,6 +460,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_42", contentPanel, () => GetType(AppConstants.MainType.PLANT));
         ButtonEvent.Instance.AssignButtonEvent("Button_43", contentPanel, () => GetType(AppConstants.MainType.FASHION));
         ButtonEvent.Instance.AssignButtonEvent("Button_44", contentPanel, () => GetType(AppConstants.MainType.EMOJI));
+        ButtonEvent.Instance.AssignButtonEvent("Button_45", contentPanel, () => GetType(AppConstants.MainType.CARD_SOLDIER));
     }
     public void GetButtonEvent(GameObject popupButtonObject)
     {
@@ -1052,6 +1053,15 @@ public class MainMenuManager : MonoBehaviour
             listCount = emojis.Count;
 
             totalRecord = await UserEmojisService.Create().GetUserEmojisCountAsync(User.CurrentUserId, search, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.CARD_SOLDIER))
+        {
+            List<CardSoldiers> cardSoldiers = await UserCardSoldiersService.Create().GetUserCardSoldiersAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
+            UserCardSoldiersController.Instance.CreateUserCardSoldiers(cardSoldiers, DictionaryContentPanel);
+            listCount = cardSoldiers.Count;
+
+            totalRecord = await UserCardSoldiersService.Create().GetUserCardSoldiersCountAsync(User.CurrentUserId, search, type, rare);
         }
 
         if (listCount > 0)

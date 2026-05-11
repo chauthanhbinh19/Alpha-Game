@@ -3659,10 +3659,10 @@ public static class UnitLevelHelper
         );
         return weapon;
     }
-    public static async Task<Weapons> GetNewBreakthroughPowerAsync(Weapons c, double coefficient)
+    public static async Task<CardSoldiers> GetNewLevelPowerAsync(CardSoldiers c, double coefficient)
     {
-        Weapons orginCard = await WeaponsService.Create().GetWeaponByIdAsync(c.Id);
-        Weapons weapon = new Weapons
+        CardSoldiers orginCard = await CardSoldiersService.Create().GetCardSoldierByIdAsync(c.Id);
+        CardSoldiers cardSoldier = new CardSoldiers
         {
             Id = c.Id,
             Health = c.Health + orginCard.Health * coefficient,
@@ -3715,29 +3715,29 @@ public static class UnitLevelHelper
             SkillDamageRate = c.SkillDamageRate + orginCard.SkillDamageRate * coefficient,
             SkillResistanceRate = c.SkillResistanceRate + orginCard.SkillResistanceRate * coefficient
         };
-        weapon.Power = PowerHelper.CalculatePower(
-            weapon.Health,
-            weapon.PhysicalAttack, weapon.PhysicalDefense,
-            weapon.MagicalAttack, weapon.MagicalDefense,
-            weapon.ChemicalAttack, weapon.ChemicalDefense,
-            weapon.AtomicAttack, weapon.AtomicDefense,
-            weapon.MentalAttack, weapon.MentalDefense,
-            weapon.Speed,
-            weapon.CriticalDamageRate, weapon.CriticalRate, weapon.CriticalResistanceRate, weapon.IgnoreCriticalRate,
-            weapon.PenetrationRate, weapon.PenetrationResistanceRate, weapon.EvasionRate,
-            weapon.DamageAbsorptionRate, weapon.IgnoreDamageAbsorptionRate, weapon.AbsorbedDamageRate,
-            weapon.VitalityRegenerationRate, weapon.VitalityRegenerationResistanceRate,
-            weapon.AccuracyRate, weapon.LifestealRate,
-            weapon.ShieldStrength, weapon.Tenacity, weapon.ResistanceRate,
-            weapon.ComboRate, weapon.IgnoreComboRate, weapon.ComboDamageRate, weapon.ComboResistanceRate,
-            weapon.StunRate, weapon.IgnoreStunRate,
-            weapon.ReflectionRate, weapon.IgnoreReflectionRate, weapon.ReflectionDamageRate, weapon.ReflectionResistanceRate,
-            weapon.Mana, weapon.ManaRegenerationRate,
-            weapon.DamageToDifferentFactionRate, weapon.ResistanceToDifferentFactionRate,
-            weapon.DamageToSameFactionRate, weapon.ResistanceToSameFactionRate,
-            weapon.NormalDamageRate, weapon.NormalResistanceRate,
-            weapon.SkillDamageRate, weapon.SkillResistanceRate
+        cardSoldier.Power = PowerHelper.CalculatePower(
+            cardSoldier.Health,
+            cardSoldier.PhysicalAttack, cardSoldier.PhysicalDefense,
+            cardSoldier.MagicalAttack, cardSoldier.MagicalDefense,
+            cardSoldier.ChemicalAttack, cardSoldier.ChemicalDefense,
+            cardSoldier.AtomicAttack, cardSoldier.AtomicDefense,
+            cardSoldier.MentalAttack, cardSoldier.MentalDefense,
+            cardSoldier.Speed,
+            cardSoldier.CriticalDamageRate, cardSoldier.CriticalRate, cardSoldier.CriticalResistanceRate, cardSoldier.IgnoreCriticalRate,
+            cardSoldier.PenetrationRate, cardSoldier.PenetrationResistanceRate, cardSoldier.EvasionRate,
+            cardSoldier.DamageAbsorptionRate, cardSoldier.IgnoreDamageAbsorptionRate, cardSoldier.AbsorbedDamageRate,
+            cardSoldier.VitalityRegenerationRate, cardSoldier.VitalityRegenerationResistanceRate,
+            cardSoldier.AccuracyRate, cardSoldier.LifestealRate,
+            cardSoldier.ShieldStrength, cardSoldier.Tenacity, cardSoldier.ResistanceRate,
+            cardSoldier.ComboRate, cardSoldier.IgnoreComboRate, cardSoldier.ComboDamageRate, cardSoldier.ComboResistanceRate,
+            cardSoldier.StunRate, cardSoldier.IgnoreStunRate,
+            cardSoldier.ReflectionRate, cardSoldier.IgnoreReflectionRate, cardSoldier.ReflectionDamageRate, cardSoldier.ReflectionResistanceRate,
+            cardSoldier.Mana, cardSoldier.ManaRegenerationRate,
+            cardSoldier.DamageToDifferentFactionRate, cardSoldier.ResistanceToDifferentFactionRate,
+            cardSoldier.DamageToSameFactionRate, cardSoldier.ResistanceToSameFactionRate,
+            cardSoldier.NormalDamageRate, cardSoldier.NormalResistanceRate,
+            cardSoldier.SkillDamageRate, cardSoldier.SkillResistanceRate
         );
-        return weapon;
+        return cardSoldier;
     }
 }

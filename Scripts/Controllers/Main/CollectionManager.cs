@@ -103,6 +103,7 @@ public class CollectionManager : MonoBehaviour
         CreateCollectionButtonUI(45, AppDisplayConstants.Collection.PLANTS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.PLANT_URL), collectionMenuPanel);
         CreateCollectionButtonUI(46, AppDisplayConstants.Collection.FASHIONS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.FASHION_URL), collectionMenuPanel);
         CreateCollectionButtonUI(47, AppDisplayConstants.Collection.EMOJIS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.EMOJI_URL), collectionMenuPanel);
+        CreateCollectionButtonUI(48, AppDisplayConstants.Collection.CARD_SOLDIERS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_SOLDIER_URL), collectionMenuPanel);
 
         collectionMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -188,7 +189,7 @@ public class CollectionManager : MonoBehaviour
         AssignButtonEvent("Button_45", () => GetType(AppConstants.MainType.PLANT));
         AssignButtonEvent("Button_46", () => GetType(AppConstants.MainType.FASHION));
         AssignButtonEvent("Button_47", () => GetType(AppConstants.MainType.EMOJI));
-
+        AssignButtonEvent("Button_48", () => GetType(AppConstants.MainType.CARD_SOLDIER));
     }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)
     {
@@ -713,6 +714,14 @@ public class CollectionManager : MonoBehaviour
             EmojisGalleryController.Instance.CreateEmojisGallery(emojis, DictionaryContentPanel);
 
             totalRecord = await emojisRepository.GetEmojisCountAsync(search, rare);
+        }
+        else if (mainType.Equals(AppConstants.MainType.CARD_SOLDIER))
+        {
+            var cardSoldiersGalleryService = CardSoldiersGalleryService.Create();
+            List<CardSoldiers> cardSoldiers = await cardSoldiersGalleryService.GetCardSoldiersCollectionAsync(search, type, PAGE_SIZE, offset, rare);
+            CardSoldiersGalleryController.Instance.CreateCardSoldiersGallery(cardSoldiers, DictionaryContentPanel);
+
+            totalRecord = await cardSoldiersGalleryService.GetCardSoldiersCountAsync(search, type, rare);
         }
         totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

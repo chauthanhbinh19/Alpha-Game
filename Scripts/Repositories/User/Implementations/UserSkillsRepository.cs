@@ -1743,6 +1743,120 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return skills;
     }
+    public async Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string userId, string cardId)
+    {
+        List<Skills> skills = new List<Skills>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                       IFNULL(chs.position, 0) AS position
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_soldiers_skills chs 
+                    ON chs.skill_id = us.skill_id AND chs.card_soldier_id = @card_soldier_id
+                WHERE us.user_id = @userId
+                ORDER BY s.name REGEXP '[0-9]+$', 
+                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+                selectCommand.Parameters.AddWithValue("@card_soldier_id", cardId);
+
+                await using var reader = await selectCommand.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    Skills skill = new Skills
+                    {
+                        Id = reader.GetStringSafe("skill_id"),
+                        Name = reader.GetStringSafe("name"),
+                        Image = reader.GetStringSafe("image"),
+                        Rare = reader.GetStringSafe("rare"),
+                        Quality = reader.GetDoubleSafe("quality"),
+                        Type = reader.GetStringSafe("type"),
+                        Star = reader.GetIntSafe("star"),
+                        Level = reader.GetIntSafe("level"),
+                        Position = reader.GetIntSafe("position"),
+                        SkillType = reader.GetStringSafe("skill_type"),
+                        Experiment = reader.GetDoubleSafe("experiment"),
+                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Power = reader.GetDoubleSafe("power"),
+                        Health = reader.GetDoubleSafe("health"),
+                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                        Speed = reader.GetDoubleSafe("speed"),
+                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                        Tenacity = reader.GetDoubleSafe("tenacity"),
+                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                        ComboRate = reader.GetDoubleSafe("combo_rate"),
+                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                        StunRate = reader.GetDoubleSafe("stun_rate"),
+                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                        Mana = reader.GetDoubleSafe("mana"),
+                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                        Description = reader.GetStringSafe("description")
+                    };
+
+                    skills.Add(skill);
+                }
+
+                // Load Effects cho toàn bộ Skills đã lấy
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return skills;
+    }
     public async Task<List<Skills>> LoadSkillsWithEffectsAsync(string userId, List<Skills> skillsList, MySqlConnection connection)
     {
         // Kiểm tra danh sách Skills
@@ -2243,6 +2357,61 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return true;
     }
+    public async Task<bool> InsertUserCardSoldierSkillsAsync(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
+        {
+            await connection.OpenAsync();
+
+            // Kiểm tra xem bản ghi đã tồn tại chưa
+            string checkSQL = @"
+            SELECT COUNT(*) 
+            FROM card_soldiers_skills 
+            WHERE user_id = @user_id AND card_soldier_id = @card_soldier_id AND skill_id = @skill_id AND position = @position;";
+
+            await using var checkCommand = new MySqlCommand(checkSQL, connection);
+            checkCommand.Parameters.AddWithValue("@user_id", userId);
+            checkCommand.Parameters.AddWithValue("@card_soldier_id", cardId);
+            checkCommand.Parameters.AddWithValue("@skill_id", skillId);
+            checkCommand.Parameters.AddWithValue("@position", position);
+
+            int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+
+            if (count == 0)
+            {
+                string insertSQL = @"
+                INSERT INTO card_spells_skills (
+                    user_id, card_spell_id, skill_id, level, position
+                ) VALUES (
+                    @user_id, @card_spell_id, @skill_id, @level, @position
+                );";
+
+                await using var insertCommand = new MySqlCommand(insertSQL, connection);
+                insertCommand.Parameters.AddWithValue("@user_id", userId);
+                insertCommand.Parameters.AddWithValue("@card_spell_id", cardId);
+                insertCommand.Parameters.AddWithValue("@skill_id", skillId);
+                insertCommand.Parameters.AddWithValue("@level", 0);
+                insertCommand.Parameters.AddWithValue("@position", position);
+
+                await insertCommand.ExecuteNonQueryAsync();
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
+        return true;
+    }
     public async Task<bool> DeleteUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2498,6 +2667,40 @@ public class UserSkillsRepository : IUserSkillsRepository
             await using var deleteCommand = new MySqlCommand(deleteSQL, connection);
             deleteCommand.Parameters.AddWithValue("@user_id", userId);
             deleteCommand.Parameters.AddWithValue("@card_spell_id", cardId);
+            deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
+            deleteCommand.Parameters.AddWithValue("@position", position);
+
+            await deleteCommand.ExecuteNonQueryAsync();
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+            return false;
+        }
+        finally
+        {
+            await connection.CloseAsync();
+        }
+
+        return true;
+    }
+    public async Task<bool> DeleteUserCardSoldierSkillsAsync(string userId, string cardId, string skillId, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using var connection = new MySqlConnection(connectionString);
+
+        try
+        {
+            await connection.OpenAsync();
+
+            string deleteSQL = @"
+            DELETE FROM card_soldiers_skills 
+            WHERE user_id = @user_id AND card_soldier_id = @card_soldier_id AND skill_id = @skill_id AND position = @position;";
+
+            await using var deleteCommand = new MySqlCommand(deleteSQL, connection);
+            deleteCommand.Parameters.AddWithValue("@user_id", userId);
+            deleteCommand.Parameters.AddWithValue("@card_soldier_id", cardId);
             deleteCommand.Parameters.AddWithValue("@skill_id", skillId);
             deleteCommand.Parameters.AddWithValue("@position", position);
 

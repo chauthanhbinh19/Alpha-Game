@@ -1774,6 +1774,62 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
+    public async Task InsertCardSoldierEquipmentsAsync(string Id, Equipments equipment, int position)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Kiểm tra xem equipment_id   có tồn tại trong bảng không
+                string checkSQL = @"SELECT COUNT(*) FROM card_soldiers_equipment 
+                                  WHERE equipment_id = @equipment_id";
+                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
+                {
+                    checkCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+
+                    int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+
+                    // Nếu tồn tại, xóa các bản ghi cũ trước
+                    if (count > 0)
+                    {
+                        string deleteSQL = @"DELETE FROM card_soldiers_equipment 
+                                           WHERE equipment_id = @equipment_id";
+                        await using (MySqlCommand deleteCommand = new MySqlCommand(deleteSQL, connection))
+                        {
+                            deleteCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+                            await deleteCommand.ExecuteNonQueryAsync();
+                        }
+                    }
+
+                    // Chèn dữ liệu mới vào bảng
+                    string insertSQL = @"INSERT INTO card_soldiers_equipment 
+                                       (user_id, soldier_id, equipment_id, position)
+                                       VALUES (@user_id, @pet_id, @equipment_id, @position)";
+                    await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@soldier_id", Id);
+                        insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+                        insertCommand.Parameters.AddWithValue("@position", position);
+
+                        await insertCommand.ExecuteNonQueryAsync();
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
     public async Task<List<Equipments>> GetCardHeroesEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
@@ -2902,6 +2958,129 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@pet_id", cardId);
+                    selectCommand.Parameters.AddWithValue("@type", type);
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Equipments equipment = new Equipments
+                            {
+                                Id = reader.GetStringSafe("equipment_id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Type = reader.GetStringSafe("type"),
+                                Set = reader.GetStringSafe("equipmentSet"),
+                                Level = reader.GetIntSafe("level"),
+                                Star = reader.GetIntSafe("star"),
+                                Power = reader.GetDoubleSafe("power"),
+                                Health = reader.GetDoubleSafe("health"),
+                                PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                                PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                                MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                                MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                                ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                                ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                                AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                                AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                                MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                                MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                                Speed = reader.GetDoubleSafe("speed"),
+                                CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                                CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                                CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                                IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                                PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                                PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                                EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                                DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                                IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                                AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                                VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                                VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                                AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                                LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                                ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                                Tenacity = reader.GetDoubleSafe("tenacity"),
+                                ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                                ComboRate = reader.GetDoubleSafe("combo_rate"),
+                                IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                                ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                                ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                                StunRate = reader.GetDoubleSafe("stun_rate"),
+                                IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                                ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                                IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                                ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                                ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                                Mana = reader.GetDoubleSafe("mana"),
+                                ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                                DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                                ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                                DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                                ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                                NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                                NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                                SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                                SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                                SpecialHealth = reader.GetDoubleSafe("special_health"),
+                                SpecialPhysicalAttack = reader.GetDoubleSafe("special_physical_attack"),
+                                SpecialPhysicalDefense = reader.GetDoubleSafe("special_physical_defense"),
+                                SpecialMagicalAttack = reader.GetDoubleSafe("special_magical_attack"),
+                                SpecialMagicalDefense = reader.GetDoubleSafe("special_magical_defense"),
+                                SpecialChemicalAttack = reader.GetDoubleSafe("special_chemical_attack"),
+                                SpecialChemicalDefense = reader.GetDoubleSafe("special_chemical_defense"),
+                                SpecialAtomicAttack = reader.GetDoubleSafe("special_atomic_attack"),
+                                SpecialAtomicDefense = reader.GetDoubleSafe("special_atomic_defense"),
+                                SpecialMentalAttack = reader.GetDoubleSafe("special_mental_attack"),
+                                SpecialMentalDefense = reader.GetDoubleSafe("special_mental_defense"),
+                                SpecialSpeed = reader.GetDoubleSafe("special_speed"),
+                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position")
+                            };
+
+                            equipments.Add(equipment);
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return equipments;
+    }
+    public async Task<List<Equipments>> GetCardSoldiersEquipmentsAsync(string userId, string cardId, string type)
+    {
+        List<Equipments> equipments = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT 
+                    e.id, e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet
+                FROM Equipments e
+                JOIN user_equipments ue ON e.id = ue.equipment_id
+                JOIN card_soldiers_equipment che ON che.equipment_id = ue.equipment_id 
+                WHERE che.soldier_id = @soldier_id
+                AND ue.user_id = @user_id
+                AND e.type = @type;";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@soldier_id", cardId);
                     selectCommand.Parameters.AddWithValue("@type", type);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -4185,6 +4364,136 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 FROM equipments e
                 LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
                 LEFT JOIN pets_equipment che 
+                    ON che.equipment_id = ue.equipment_id 
+                   AND che.user_id = ue.user_id
+                WHERE ue.user_id = @user_id 
+                  AND e.type = @type 
+                  AND (@status = 'ALL' 
+                       OR (@status = 'EQUIP' AND che.equipment_id IS NOT NULL) 
+                       OR (@status = 'NOT EQUIP' AND che.equipment_id IS NULL))
+                LIMIT @limit OFFSET @offset";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    selectCommand.Parameters.AddWithValue("@limit", limit);
+                    selectCommand.Parameters.AddWithValue("@offset", offset);
+                    selectCommand.Parameters.AddWithValue("@status", status);
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Equipments equipment = new Equipments
+                            {
+                                Id = reader.GetStringSafe("equipment_id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Type = reader.GetStringSafe("type"),
+                                Set = reader.GetStringSafe("equipmentSet"),
+                                Level = reader.GetIntSafe("level"),
+                                Star = reader.GetIntSafe("star"),
+                                Power = reader.GetDoubleSafe("power"),
+                                Health = reader.GetDoubleSafe("health"),
+                                PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                                PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                                MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                                MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                                ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                                ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                                AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                                AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                                MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                                MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                                Speed = reader.GetDoubleSafe("speed"),
+                                CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                                CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                                CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                                IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                                PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                                PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                                EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                                DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                                IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                                AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                                VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                                VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                                AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                                LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                                ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                                Tenacity = reader.GetDoubleSafe("tenacity"),
+                                ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                                ComboRate = reader.GetDoubleSafe("combo_rate"),
+                                IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                                ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                                ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                                StunRate = reader.GetDoubleSafe("stun_rate"),
+                                IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                                ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                                IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                                ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                                ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                                Mana = reader.GetDoubleSafe("mana"),
+                                ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                                DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                                ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                                DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                                ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                                NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                                NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                                SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                                SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                                SpecialHealth = reader.GetDoubleSafe("special_health"),
+                                SpecialPhysicalAttack = reader.GetDoubleSafe("special_physical_attack"),
+                                SpecialPhysicalDefense = reader.GetDoubleSafe("special_physical_defense"),
+                                SpecialMagicalAttack = reader.GetDoubleSafe("special_magical_attack"),
+                                SpecialMagicalDefense = reader.GetDoubleSafe("special_magical_defense"),
+                                SpecialChemicalAttack = reader.GetDoubleSafe("special_chemical_attack"),
+                                SpecialChemicalDefense = reader.GetDoubleSafe("special_chemical_defense"),
+                                SpecialAtomicAttack = reader.GetDoubleSafe("special_atomic_attack"),
+                                SpecialAtomicDefense = reader.GetDoubleSafe("special_atomic_defense"),
+                                SpecialMentalAttack = reader.GetDoubleSafe("special_mental_attack"),
+                                SpecialMentalDefense = reader.GetDoubleSafe("special_mental_defense"),
+                                SpecialSpeed = reader.GetDoubleSafe("special_speed"),
+                                Position = reader.IsDBNull(reader.GetOrdinal("position")) ? 0 : reader.GetIntSafe("position"),
+                            };
+
+                            equipments.Add(equipment);
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return equipments;
+    }
+    public async Task<List<Equipments>> GetAllCardSoldiersEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    {
+        List<Equipments> equipments = new List<Equipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT e.name, ue.*, e.image, e.rare, e.type, che.position, e.equipmentSet, 
+                       CASE WHEN che.equipment_id IS NULL THEN 'NOT EQUIP' ELSE 'EQUIP' END AS STATUS
+                FROM equipments e
+                LEFT JOIN user_equipments ue ON e.id = ue.equipment_id
+                LEFT JOIN card_soldiers_equipment che 
                     ON che.equipment_id = ue.equipment_id 
                    AND che.user_id = ue.user_id
                 WHERE ue.user_id = @user_id 
@@ -6126,6 +6435,184 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
+    public async Task<Equipments> GetAllEquipmentsByCardSoldierIdAsync(string userId, string cardSoldierId)
+    {
+        Equipments equipment = new Equipments();
+        equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
+        List<Equipments> equipments = new List<Equipments>();
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT ue.*
+                FROM user_card_soldiers uc
+                JOIN card_soldiers c ON uc.card_soldier_id = c.id
+                JOIN card_soldiers_equipment che ON uc.card_soldier_id = che.card_soldier_id
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                WHERE uc.user_id = @user_id AND uc.card_soldier_id = @card_soldier_id";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+                    selectCommand.Parameters.AddWithValue("@card_soldier_id", cardSoldierId);
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Equipments tmpEquipments = new Equipments
+                            {
+                                Power = reader.IsDBNull(reader.GetOrdinal("power")) ? 0 : reader.GetDoubleSafe("power"),
+                                Health = reader.IsDBNull(reader.GetOrdinal("health")) ? 0 : reader.GetDoubleSafe("health"),
+                                PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("physical_attack")) ? 0 : reader.GetDoubleSafe("physical_attack"),
+                                PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("physical_defense")) ? 0 : reader.GetDoubleSafe("physical_defense"),
+                                MagicalAttack = reader.IsDBNull(reader.GetOrdinal("magical_attack")) ? 0 : reader.GetDoubleSafe("magical_attack"),
+                                MagicalDefense = reader.IsDBNull(reader.GetOrdinal("magical_defense")) ? 0 : reader.GetDoubleSafe("magical_defense"),
+                                ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("chemical_attack")) ? 0 : reader.GetDoubleSafe("chemical_attack"),
+                                ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("chemical_defense")) ? 0 : reader.GetDoubleSafe("chemical_defense"),
+                                AtomicAttack = reader.IsDBNull(reader.GetOrdinal("atomic_attack")) ? 0 : reader.GetDoubleSafe("atomic_attack"),
+                                AtomicDefense = reader.IsDBNull(reader.GetOrdinal("atomic_defense")) ? 0 : reader.GetDoubleSafe("atomic_defense"),
+                                MentalAttack = reader.IsDBNull(reader.GetOrdinal("mental_attack")) ? 0 : reader.GetDoubleSafe("mental_attack"),
+                                MentalDefense = reader.IsDBNull(reader.GetOrdinal("mental_defense")) ? 0 : reader.GetDoubleSafe("mental_defense"),
+                                Speed = reader.IsDBNull(reader.GetOrdinal("speed")) ? 0 : reader.GetDoubleSafe("speed"),
+                                CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("critical_damage_rate")) ? 0 : reader.GetDoubleSafe("critical_damage_rate"),
+                                CriticalRate = reader.IsDBNull(reader.GetOrdinal("critical_rate")) ? 0 : reader.GetDoubleSafe("critical_rate"),
+                                CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("critical_resistance_rate")) ? 0 : reader.GetDoubleSafe("critical_resistance_rate"),
+                                IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("ignore_critical_rate")) ? 0 : reader.GetDoubleSafe("ignore_critical_rate"),
+                                PenetrationRate = reader.IsDBNull(reader.GetOrdinal("penetration_rate")) ? 0 : reader.GetDoubleSafe("penetration_rate"),
+                                PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("penetration_resistance_rate")) ? 0 : reader.GetDoubleSafe("penetration_resistance_rate"),
+                                EvasionRate = reader.IsDBNull(reader.GetOrdinal("evasion_rate")) ? 0 : reader.GetDoubleSafe("evasion_rate"),
+                                DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("damage_absorption_rate"),
+                                IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("ignore_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                                AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("absorbed_damage_rate")) ? 0 : reader.GetDoubleSafe("absorbed_damage_rate"),
+                                VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_rate")) ? 0 : reader.GetDoubleSafe("vitality_regeneration_rate"),
+                                VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("vitality_regeneration_resistance_rate")) ? 0 : reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                                AccuracyRate = reader.IsDBNull(reader.GetOrdinal("accuracy_rate")) ? 0 : reader.GetDoubleSafe("accuracy_rate"),
+                                LifestealRate = reader.IsDBNull(reader.GetOrdinal("lifesteal_rate")) ? 0 : reader.GetDoubleSafe("lifesteal_rate"),
+                                ShieldStrength = reader.IsDBNull(reader.GetOrdinal("shield_strength")) ? 0 : reader.GetDoubleSafe("shield_strength"),
+                                Tenacity = reader.IsDBNull(reader.GetOrdinal("tenacity")) ? 0 : reader.GetDoubleSafe("tenacity"),
+                                ResistanceRate = reader.IsDBNull(reader.GetOrdinal("resistance_rate")) ? 0 : reader.GetDoubleSafe("resistance_rate"),
+                                ComboRate = reader.IsDBNull(reader.GetOrdinal("combo_rate")) ? 0 : reader.GetDoubleSafe("combo_rate"),
+                                IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("ignore_combo_rate")) ? 0 : reader.GetDoubleSafe("ignore_combo_rate"),
+                                ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("combo_damage_rate")) ? 0 : reader.GetDoubleSafe("combo_damage_rate"),
+                                ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("combo_resistance_rate")) ? 0 : reader.GetDoubleSafe("combo_resistance_rate"),
+                                StunRate = reader.IsDBNull(reader.GetOrdinal("stun_rate")) ? 0 : reader.GetDoubleSafe("stun_rate"),
+                                IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("ignore_stun_rate")) ? 0 : reader.GetDoubleSafe("ignore_stun_rate"),
+                                ReflectionRate = reader.IsDBNull(reader.GetOrdinal("reflection_rate")) ? 0 : reader.GetDoubleSafe("reflection_rate"),
+                                IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("ignore_reflection_rate")) ? 0 : reader.GetDoubleSafe("ignore_reflection_rate"),
+                                ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("reflection_damage_rate")) ? 0 : reader.GetDoubleSafe("reflection_damage_rate"),
+                                ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("reflection_resistance_rate")) ? 0 : reader.GetDoubleSafe("reflection_resistance_rate"),
+                                Mana = reader.IsDBNull(reader.GetOrdinal("mana")) ? 0 : reader.GetDoubleSafe("mana"),
+                                ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("mana_regeneration_rate")) ? 0 : reader.GetDoubleSafe("mana_regeneration_rate"),
+                                DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("damage_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                                ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("resistance_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                                DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("damage_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                                ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("resistance_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                                NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("normal_damage_rate")) ? 0 : reader.GetDoubleSafe("normal_damage_rate"),
+                                NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("normal_resistance_rate")) ? 0 : reader.GetDoubleSafe("normal_resistance_rate"),
+                                SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("skill_damage_rate")) ? 0 : reader.GetDoubleSafe("skill_damage_rate"),
+                                SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("skill_resistance_rate")) ? 0 : reader.GetDoubleSafe("skill_resistance_rate"),
+                                SpecialHealth = reader.IsDBNull(reader.GetOrdinal("special_health")) ? 0 : reader.GetDoubleSafe("special_health"),
+                                SpecialPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("special_physical_attack")) ? 0 : reader.GetDoubleSafe("special_physical_attack"),
+                                SpecialPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("special_physical_defense")) ? 0 : reader.GetDoubleSafe("special_physical_defense"),
+                                SpecialMagicalAttack = reader.IsDBNull(reader.GetOrdinal("special_magical_attack")) ? 0 : reader.GetDoubleSafe("special_magical_attack"),
+                                SpecialMagicalDefense = reader.IsDBNull(reader.GetOrdinal("special_magical_defense")) ? 0 : reader.GetDoubleSafe("special_magical_defense"),
+                                SpecialChemicalAttack = reader.IsDBNull(reader.GetOrdinal("special_chemical_attack")) ? 0 : reader.GetDoubleSafe("special_chemical_attack"),
+                                SpecialChemicalDefense = reader.IsDBNull(reader.GetOrdinal("special_chemical_defense")) ? 0 : reader.GetDoubleSafe("special_chemical_defense"),
+                                SpecialAtomicAttack = reader.IsDBNull(reader.GetOrdinal("special_atomic_attack")) ? 0 : reader.GetDoubleSafe("special_atomic_attack"),
+                                SpecialAtomicDefense = reader.IsDBNull(reader.GetOrdinal("special_atomic_defense")) ? 0 : reader.GetDoubleSafe("special_atomic_defense"),
+                                SpecialMentalAttack = reader.IsDBNull(reader.GetOrdinal("special_mental_attack")) ? 0 : reader.GetDoubleSafe("special_mental_attack"),
+                                SpecialMentalDefense = reader.IsDBNull(reader.GetOrdinal("special_mental_defense")) ? 0 : reader.GetDoubleSafe("special_mental_defense"),
+                                SpecialSpeed = reader.IsDBNull(reader.GetOrdinal("special_speed")) ? 0 : reader.GetDoubleSafe("special_speed")
+                            };
+
+                            equipments.Add(tmpEquipments);
+                        }
+                        foreach (Equipments e in equipments)
+                        {
+                            equipment.Power += e.Power;
+                            equipment.Health += e.Health;
+                            equipment.PhysicalAttack += e.PhysicalAttack;
+                            equipment.PhysicalDefense += e.PhysicalDefense;
+                            equipment.MagicalAttack += e.MagicalAttack;
+                            equipment.MagicalDefense += e.MagicalDefense;
+                            equipment.ChemicalAttack += e.ChemicalAttack;
+                            equipment.ChemicalDefense += e.ChemicalDefense;
+                            equipment.AtomicAttack += e.AtomicAttack;
+                            equipment.AtomicDefense += e.AtomicDefense;
+                            equipment.MentalAttack += e.MentalAttack;
+                            equipment.MentalDefense += e.MentalDefense;
+                            equipment.Speed += e.Speed;
+                            equipment.CriticalDamageRate += e.CriticalDamageRate;
+                            equipment.CriticalRate += e.CriticalRate;
+                            equipment.CriticalResistanceRate += e.CriticalResistanceRate;
+                            equipment.IgnoreCriticalRate += e.IgnoreCriticalRate;
+                            equipment.PenetrationRate += e.PenetrationRate;
+                            equipment.PenetrationResistanceRate += e.PenetrationResistanceRate;
+                            equipment.EvasionRate += e.EvasionRate;
+                            equipment.DamageAbsorptionRate += e.DamageAbsorptionRate;
+                            equipment.IgnoreDamageAbsorptionRate += e.IgnoreDamageAbsorptionRate;
+                            equipment.AbsorbedDamageRate += e.AbsorbedDamageRate;
+                            equipment.VitalityRegenerationRate += e.VitalityRegenerationRate;
+                            equipment.VitalityRegenerationResistanceRate += e.VitalityRegenerationResistanceRate;
+                            equipment.AccuracyRate += e.AccuracyRate;
+                            equipment.LifestealRate += e.LifestealRate;
+                            equipment.ShieldStrength += e.ShieldStrength;
+                            equipment.Tenacity += e.Tenacity;
+                            equipment.ResistanceRate += e.ResistanceRate;
+                            equipment.ComboRate += e.ComboRate;
+                            equipment.IgnoreComboRate += e.IgnoreComboRate;
+                            equipment.ComboDamageRate += e.ComboDamageRate;
+                            equipment.ComboResistanceRate += e.ComboResistanceRate;
+                            equipment.StunRate += e.StunRate;
+                            equipment.IgnoreStunRate += e.IgnoreStunRate;
+                            equipment.ReflectionRate += e.ReflectionRate;
+                            equipment.IgnoreReflectionRate += e.IgnoreReflectionRate;
+                            equipment.ReflectionDamageRate += e.ReflectionDamageRate;
+                            equipment.ReflectionResistanceRate += e.ReflectionResistanceRate;
+                            equipment.Mana += e.Mana;
+                            equipment.ManaRegenerationRate += e.ManaRegenerationRate;
+                            equipment.DamageToDifferentFactionRate += e.DamageToDifferentFactionRate;
+                            equipment.ResistanceToDifferentFactionRate += e.ResistanceToDifferentFactionRate;
+                            equipment.DamageToSameFactionRate += e.DamageToSameFactionRate;
+                            equipment.ResistanceToSameFactionRate += e.ResistanceToSameFactionRate;
+                            equipment.NormalDamageRate += e.NormalDamageRate;
+                            equipment.NormalResistanceRate += e.NormalResistanceRate;
+                            equipment.SkillDamageRate += e.SkillDamageRate;
+                            equipment.SkillResistanceRate += e.SkillResistanceRate;
+                            equipment.SpecialHealth += e.SpecialHealth;
+                            equipment.SpecialPhysicalAttack += e.SpecialPhysicalAttack;
+                            equipment.SpecialPhysicalDefense += e.SpecialPhysicalDefense;
+                            equipment.SpecialMagicalAttack += e.SpecialMagicalAttack;
+                            equipment.SpecialMagicalDefense += e.SpecialMagicalDefense;
+                            equipment.SpecialChemicalAttack += e.SpecialChemicalAttack;
+                            equipment.SpecialChemicalDefense += e.SpecialChemicalDefense;
+                            equipment.SpecialAtomicAttack += e.SpecialAtomicAttack;
+                            equipment.SpecialAtomicDefense += e.SpecialAtomicDefense;
+                            equipment.SpecialMentalAttack += e.SpecialMentalAttack;
+                            equipment.SpecialMentalDefense += e.SpecialMentalDefense;
+                            equipment.SpecialSpeed += e.Speed;
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+        return equipment;
+    }
 
     public async Task<bool> EquipAllEquipmentsOfTypeToCardHeroAsync(string cardHeroId, string type, List<Equipments> availableEquipments)
     {
@@ -7779,6 +8266,173 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     if (!success)
                     {
                         Debug.LogWarning($"Failed to equip type '{type}' for card hero '{petId}'.");
+                        // Tiếp tục với type khác
+                    }
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardSoldierAsync(string petId, string type, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Bước 1: Lấy max_positions cho type từ bảng equipment_type
+                string selectSQL = "SELECT max_positions FROM equipment_type WHERE type = @type";
+                int maxPositions = 0;
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@type", type);
+                    object result = await selectCommand.ExecuteScalarAsync();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        maxPositions = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        Debug.LogError($"Type '{type}' not found in equipment_type table.");
+                        return false;
+                    }
+                }
+
+                // Bước 2: Lấy danh sách position đã dùng cho card hero và type này
+                string getUsedPositionsQuery = @"
+                SELECT che.position
+                FROM card_soldiers_equipment che
+                JOIN user_equipments ue ON che.equipment_id = ue.equipment_id 
+                JOIN Equipments e ON e.id = ue.equipment_id
+                WHERE che.card_soldier_id = @card_soldier_id AND e.type = @type AND ue.user_id = @user_id";
+                HashSet<int> usedPositions = new HashSet<int>();
+                await using (MySqlCommand getUsedCmd = new MySqlCommand(getUsedPositionsQuery, connection))
+                {
+                    getUsedCmd.Parameters.AddWithValue("@card_soldier_id", petId);
+                    getUsedCmd.Parameters.AddWithValue("@type", type);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            usedPositions.Add(reader.GetIntSafe("position"));
+                        }
+                    }
+                }
+
+                // Bước 3: Filter availableEquipments để loại bỏ equipment đã equip cho card này và chỉ lấy type khớp
+                List<string> equippedEquipmentIds = new List<string>();
+                string getEquippedQuery = @"
+                SELECT equipment_id 
+                FROM card_soldiers_equipment 
+                WHERE card_soldier_id = @card_soldier_id";
+                await using (MySqlCommand getEquippedCmd = new MySqlCommand(getEquippedQuery, connection))
+                {
+                    getEquippedCmd.Parameters.AddWithValue("@card_soldier_id", petId);
+                    await using (MySqlDataReader reader = await getEquippedCmd.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            equippedEquipmentIds.Add(reader.GetStringSafe("equipment_id"));
+                        }
+                    }
+                }
+
+                List<Equipments> filteredEquipments = availableEquipments
+                    .Where(e => e.Type == type && !equippedEquipmentIds.Contains(e.Id))
+                    .OrderByDescending(e => e.Power) // Đảm bảo sort giảm dần (list đã sort, nhưng để an toàn)
+                    .ToList();
+
+                // Bước 4: Equip equipment vào vị trí trống
+                int equippedCount = 0;
+                foreach (var equipment in filteredEquipments)
+                {
+                    if (equippedCount >= maxPositions - usedPositions.Count) break; // Đủ slot
+
+                    int position = 1;
+                    while (usedPositions.Contains(position) && position <= maxPositions)
+                    {
+                        position++;
+                    }
+                    if (position > maxPositions) break; // Không còn slot trống
+
+                    // Insert vào card_heroes_equipment
+                    string insertSQL = @"
+                    INSERT INTO card_soldiers_equipment
+                        (user_id, card_soldier_id, equipment_id, position)
+                    VALUES
+                        (@user_id, @card_soldier_id, @equipment_id, @position)";
+                    await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
+                    {
+                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@card_soldier_id", petId);
+                        insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
+                        insertCommand.Parameters.AddWithValue("@position", position);
+                        await insertCommand.ExecuteNonQueryAsync();
+                    }
+
+                    usedPositions.Add(position);
+                    equippedCount++;
+                }
+
+                return true;
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error equipping all equipments of type: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+    }
+    public async Task<bool> EquipAllEquipmentsToCardSoldierAsync(string cardSoldierId, List<Equipments> availableEquipments)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // Lấy tất cả type từ equipment_type
+                string selectSQL = "SELECT type FROM equipment_type";
+                List<string> types = new List<string>();
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            types.Add(reader.GetStringSafe("type"));
+                        }
+                    }
+                }
+
+                // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardSoldierAsync với list đã filter
+                foreach (string type in types)
+                {
+                    bool success = await EquipAllEquipmentsOfTypeToCardSoldierAsync(cardSoldierId, type, availableEquipments);
+                    if (!success)
+                    {
+                        Debug.LogWarning($"Failed to equip type '{type}' for card soldier '{cardSoldierId}'.");
                         // Tiếp tục với type khác
                     }
                 }

@@ -57,6 +57,7 @@ public interface IUserCurrenciesRepository
     Task<Currencies> GetUserPlantPriceAsync(string Id);
     Task<Currencies> GetUserFashionPriceAsync(string Id);
     Task<Currencies> GetUserEmojiPriceAsync(string Id);
+    Task<Currencies> GetUserCardSoldierPriceAsync(string Id);
     Task<List<Currencies>> GetAchievementsCurrencyAsync();
     Task<List<Currencies>> GetBooksCurrencyAsync(string type);
     Task<List<Currencies>> GetCardHeroesCurrencyAsync(string type);
@@ -103,4 +104,5 @@ public interface IUserCurrenciesRepository
     Task<List<Currencies>> GetPlantsCurrencyAsync(string type);
     Task<List<Currencies>> GetFashionsCurrencyAsync(string type);
     Task<List<Currencies>> GetEmojisCurrencyAsync(string type);
+    Task<List<Currencies>> GetCardSoldiersCurrencyAsync(string type);
 }

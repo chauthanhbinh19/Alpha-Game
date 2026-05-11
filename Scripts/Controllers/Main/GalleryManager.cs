@@ -104,6 +104,7 @@ public class GalleryManager : MonoBehaviour
         CreateGalleryButtonUI(45, AppDisplayConstants.Gallery.PLANTS_GALLERY, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PLANT_URL), galleryMenuPanel);
         CreateGalleryButtonUI(46, AppDisplayConstants.Gallery.FASHIONS_GALLERY, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FASHION_URL), galleryMenuPanel);
         CreateGalleryButtonUI(47, AppDisplayConstants.Gallery.EMOJIS_GALLERY, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.EMOJI_URL), galleryMenuPanel);
+        CreateGalleryButtonUI(48, AppDisplayConstants.Gallery.CARD_SOLDIERS_GALLERY, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SOLDIER_URL), galleryMenuPanel);
 
         galleryMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
@@ -188,6 +189,7 @@ public class GalleryManager : MonoBehaviour
         AssignButtonEvent("Button_45", () => GetType(AppConstants.MainType.PLANT));
         AssignButtonEvent("Button_46", () => GetType(AppConstants.MainType.FASHION));
         AssignButtonEvent("Button_47", () => GetType(AppConstants.MainType.EMOJI));
+        AssignButtonEvent("Button_48", () => GetType(AppConstants.MainType.CARD_SOLDIER));
         // GetCardsType();
     }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)
@@ -665,7 +667,13 @@ public class GalleryManager : MonoBehaviour
 
             totalRecord = await EmojisService.Create().GetEmojisCountAsync(search, rare);
         }
+        else if (mainType.Equals(AppConstants.MainType.CARD_SOLDIER))
+        {
+            List<CardSoldiers> cardSoldiers = await CardSoldiersService.Create().GetCardSoldiersAsync(search, type, rare, PAGE_SIZE, offset);
+            CardSoldiersController.Instance.CreateCardSoldiersGallery(cardSoldiers, DictionaryContentPanel);
 
+            totalRecord = await CardSoldiersService.Create().GetCardSoldiersCountAsync(search, type, rare);
+        }
 
         totalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
         PageText.text = currentPage.ToString() + "/" + totalPage.ToString();

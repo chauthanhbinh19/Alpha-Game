@@ -182,6 +182,11 @@ public class UserEquipmentsService : IUserEquipmentsService
         await _userEquipmentsRepository.InsertPetEquipmentsAsync(Id, equipments, position);
     }
 
+    public async Task InsertCardSoldierEquipmentsAsync(string Id, Equipments equipments, int position)
+    {
+        await _userEquipmentsRepository.InsertCardSoldierEquipmentsAsync(Id, equipments, position);
+    }
+
     public async Task<List<Equipments>> GetCardHeroesEquipmentsAsync(string user_id, string card_id, string type)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetCardHeroesEquipmentsAsync(user_id, card_id, type);
@@ -248,6 +253,13 @@ public class UserEquipmentsService : IUserEquipmentsService
     public async Task<List<Equipments>> GetPetsEquipmentsAsync(string user_id, string card_id, string type)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetPetsEquipmentsAsync(user_id, card_id, type);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
+        return list;
+    }
+
+    public async Task<List<Equipments>> GetCardSoldiersEquipmentsAsync(string user_id, string card_id, string type)
+    {
+        List<Equipments> list = await _userEquipmentsRepository.GetCardSoldiersEquipmentsAsync(user_id, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -322,6 +334,13 @@ public class UserEquipmentsService : IUserEquipmentsService
         return list;
     }
 
+    public async Task<List<Equipments>> GetAllCardSoldiersEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    {
+        List<Equipments> list = await _userEquipmentsRepository.GetAllCardSoldiersEquipmentsAsync(user_id, type, limit, offset, status);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
+        return list;
+    }
+
     public async Task<Equipments> GetAllEquipmentsByCardHeorIdAsync(string user_id, string Id)
     {
         return await _userEquipmentsRepository.GetAllEquipmentsByCardHeroIdAsync(user_id, Id);
@@ -370,6 +389,11 @@ public class UserEquipmentsService : IUserEquipmentsService
     public async Task<Equipments> GetAllEquipmentsByPetIdAsync(string user_id, string Id)
     {
         return await _userEquipmentsRepository.GetAllEquipmentsByPetIdAsync(user_id, Id);
+    }
+
+    public async Task<Equipments> GetAllEquipmentsByCardSoldierIdAsync(string user_id, string Id)
+    {
+        return await _userEquipmentsRepository.GetAllEquipmentsByCardSoldierIdAsync(user_id, Id);
     }
 
     // Hàm cho CardHero
@@ -500,6 +524,19 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
         return await _userEquipmentsRepository.EquipAllEquipmentsToPetAsync(petId, allEquipments);
+    }
+
+    // Hàm cho Card Soldier
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardSoldierAsync(string cardSoldierId, string type)
+    {
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardSoldierAsync(cardSoldierId, type, allEquipments);
+    }
+
+    public async Task<bool> EquipAllEquipmentsToCardSoldierAsync(string cardSoldierId)
+    {
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsToCardSoldierAsync(cardSoldierId, allEquipments);
     }
 
     public async Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(List<(Equipments data, double quantity)> list)
