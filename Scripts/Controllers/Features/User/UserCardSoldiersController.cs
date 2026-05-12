@@ -73,46 +73,46 @@ public class UserCardSoldiersController : MonoBehaviour
         teamsService = TeamsService.Create();
         userItemsService = UserItemsService.Create();
     }
-    public void CreateUserCardSoldiers(List<CardSoldiers> cardAdmirals, Transform contentPanel)
+    public void CreateUserCardSoldiers(List<CardSoldiers> cardSoldiers, Transform contentPanel)
     {
         // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
         var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
         if (oldAnim != null) Destroy(oldAnim);
 
-        foreach (var cardAdmiral in cardAdmirals)
+        foreach (var cardSoldier in cardSoldiers)
         {
-            GameObject cardAdmiralObject = Instantiate(CardSoldierButtonPrefab, contentPanel);
-            Transform transform = cardAdmiralObject.transform;
+            GameObject cardSoldierObject = Instantiate(CardSoldierButtonPrefab, contentPanel);
+            Transform transform = cardSoldierObject.transform;
 
             TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            titleText.text = cardAdmiral.Name.Replace("_", " ");
+            titleText.text = cardSoldier.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmiral.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSoldier.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
             TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
-            levelText.text = cardAdmiral.Level.ToString().Replace("_", " ");
+            levelText.text = cardSoldier.Level.ToString().Replace("_", " ");
 
             TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
             cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
 
             TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
-            typePanel.text = cardAdmiral.Type.ToString().Replace("_", " ");
+            typePanel.text = cardSoldier.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardAdmiral.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rare));
 
             Transform teamPanel = transform.Find("Team");
-            if(cardAdmiral.Team.TeamNumber != 0)
+            if(cardSoldier.Team.TeamNumber != 0)
             {
                 teamPanel.gameObject.SetActive(true);
                 RawImage teamBackgroundImage = transform.Find("Team/Background").GetComponent<RawImage>();
                 TextMeshProUGUI teamTitleText = transform.Find("Team/TitleText").GetComponent<TextMeshProUGUI>();
                 Texture teamBackgroundTexture = TextureHelper.LoadTextureCached(ImageConstants.Team.TEAM_BACKGROUND_6);
                 teamBackgroundImage.texture = teamBackgroundTexture;
-                teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + cardAdmiral.Team.TeamNumber.ToString();
+                teamTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TEAM) + " " + cardSoldier.Team.TeamNumber.ToString();
             }
             else
             {
@@ -122,12 +122,12 @@ public class UserCardSoldiersController : MonoBehaviour
             Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
-                MainMenuDetailsManager.Instance.PopupDetails(cardAdmiral, MainPanel);
+                MainMenuDetailsManager.Instance.PopupDetails(cardSoldier, MainPanel);
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardAdmiral.Rare));
-            rareText.text = cardAdmiral.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rare));
+            rareText.text = cardSoldier.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -137,15 +137,15 @@ public class UserCardSoldiersController : MonoBehaviour
         }
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    public void CreateUserCardSoldiersForSummon(List<CardSoldiers> cardAdmirals, Transform PositionPanel)
+    public void CreateUserCardSoldiersForSummon(List<CardSoldiers> cardSoldiers, Transform PositionPanel)
     {
-        foreach (var cardAdmiral in cardAdmirals)
+        foreach (var cardSoldier in cardSoldiers)
         {
-            GameObject cardAdmiralObject = Instantiate(PositionPrefab, PositionPanel);
-            Transform transform = cardAdmiralObject.transform;
+            GameObject cardSoldierObject = Instantiate(PositionPrefab, PositionPanel);
+            Transform transform = cardSoldierObject.transform;
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmiral.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSoldier.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -158,7 +158,7 @@ public class UserCardSoldiersController : MonoBehaviour
             rectTransform.anchoredPosition = new Vector2(currentPosition.x, currentPosition.y + 50f);
         }
     }
-    public void ShowCardSoldierDetails(CardSoldiers cardAdmiral, GameObject currentObject, int buttonType = 1)
+    public void ShowCardSoldierDetails(CardSoldiers cardSoldier, GameObject currentObject, int buttonType = 1)
     {
         tempCurrentObject = currentObject;
         Transform RightButtonContent = currentObject.transform.Find("ScrollViewRightButton/Viewport/ButtonContent");
@@ -170,92 +170,92 @@ public class UserCardSoldiersController : MonoBehaviour
 
         ButtonEvent.Instance.AssignButtonEvent("Button_1", RightButtonContent, () =>
         {
-            GetDetails(cardAdmiral, currentObject);
+            GetDetails(cardSoldier, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_2", RightButtonContent, () =>
         {
-            _=GetLevelAsync(cardAdmiral, currentObject);
+            _=GetLevelAsync(cardSoldier, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_3", RightButtonContent, () =>
         {
-            _=GetSkillsAsync(cardAdmiral, currentObject);
+            _=GetSkillsAsync(cardSoldier, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_4", RightButtonContent, () =>
         {
-            _=GetUpgradeAsync(cardAdmiral, currentObject);
+            _=GetUpgradeAsync(cardSoldier, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
         });
         ButtonEvent.Instance.AssignButtonEvent("Button_5", RightButtonContent, () =>
         {
-            GetRank(cardAdmiral, currentObject);
+            GetRank(cardSoldier, currentObject);
             ButtonLoader.Instance.OnButtonClicked("Button_5", RightButtonContent);
         });
 
         switch (buttonType)
         {
             case 1:
-                GetDetails(cardAdmiral, currentObject);
+                GetDetails(cardSoldier, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
             case 2:
-                _=GetLevelAsync(cardAdmiral, currentObject);
+                _=GetLevelAsync(cardSoldier, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_2", RightButtonContent);
                 break;
             case 3:
-                _=GetSkillsAsync(cardAdmiral, currentObject);
+                _=GetSkillsAsync(cardSoldier, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_3", RightButtonContent);
                 break;
             case 4:
-                _=GetUpgradeAsync(cardAdmiral, currentObject);
+                _=GetUpgradeAsync(cardSoldier, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_4", RightButtonContent);
                 break;
             case 5:
-                GetRank(cardAdmiral, currentObject);
+                GetRank(cardSoldier, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_6", RightButtonContent);
                 break;
             default:
-                GetDetails(cardAdmiral, currentObject);
+                GetDetails(cardSoldier, currentObject);
                 ButtonLoader.Instance.OnButtonClicked("Button_1", RightButtonContent);
                 break;
         }
         RightButtonContent.gameObject.AddComponent<SlideRightToLeftAnimation>();
     }
-    public void CreateDetailsUI(CardSoldiers cardAdmiral, GameObject currentObject)
+    public void CreateDetailsUI(CardSoldiers cardSoldier, GameObject currentObject)
     {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmiral.Image); // Lấy giá trị của image từ đối tượng Card
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSoldier.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         image.texture = texture;
 
         TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
-        nameText.text = cardAdmiral.Name;
+        nameText.text = cardSoldier.Name;
 
         TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
-        powerText.text = NumberFormatterHelper.FormatNumber(cardAdmiral.Power, false);
+        powerText.text = NumberFormatterHelper.FormatNumber(cardSoldier.Power, false);
 
         // TextMeshProUGUI level = popupObject.transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // level.text = cardAdmirals.level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardAdmiral.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSoldier.Rare}");
         rareImage.texture = rareTexture;
     }
     public void GetDetails(object obj, GameObject currentObject)
     {
         MainMenuDetailsManager.Instance.HideNonDetailsPanels();
-        if (obj is CardSoldiers cardAdmiral)
+        if (obj is CardSoldiers cardSoldier)
         {
-            CreateDetailsUI(cardAdmiral, currentObject);
+            CreateDetailsUI(cardSoldier, currentObject);
             // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
             // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
 
             // Dùng Reflection để lấy tất cả thuộc tính và giá trị
-            PropertyInfo[] properties = cardAdmiral.GetType().GetProperties();
-            UIManager.Instance.CreatePropertyUI(1, properties, cardAdmiral, currentObject);
+            PropertyInfo[] properties = cardSoldier.GetType().GetProperties();
+            UIManager.Instance.CreatePropertyUI(1, properties, cardSoldier, currentObject);
         }
     }
     public async Task GetLevelAsync(object obj, GameObject currentObject)
@@ -346,9 +346,9 @@ public class UserCardSoldiersController : MonoBehaviour
         Transform transform = currentObject.transform;
         Transform skillContent = transform.Find("DictionaryCards/Content/SkillsPanel/Scroll View/Viewport/Content");
         Button setUpButton = transform.Find("DictionaryCards/Content/SkillsPanel/SetUpButton").GetComponent<Button>();
-        if (obj is CardSoldiers cardAdmiral)
+        if (obj is CardSoldiers cardSoldier)
         {
-            var skills = await UserSkillsService.Create().GetUserCardSoldiersSkillsAsync(User.CurrentUserId, cardAdmiral.Id);
+            var skills = await UserSkillsService.Create().GetUserCardSoldiersSkillsAsync(User.CurrentUserId, cardSoldier.Id);
             skills = skills.Where(x => x.Position != 0).ToList();
             foreach (var skill in skills)
             {
@@ -369,7 +369,7 @@ public class UserCardSoldiersController : MonoBehaviour
             setUpButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CreateSkillPanelAsync(cardAdmiral.Id);
+                await CreateSkillPanelAsync(cardSoldier.Id);
             });
         }
     }
@@ -585,13 +585,13 @@ public class UserCardSoldiersController : MonoBehaviour
         Button breakthroughButton = transform.Find("DictionaryCards/Content/UpgradePanel/BreakthroughButton").GetComponent<Button>();
         Transform UpgradeElementContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewElement/Viewport/Content");
         Transform UpgradeMaterialContent = transform.Find("DictionaryCards/Content/UpgradePanel/ScrollViewMaterial/Viewport/Content");
-        if (obj is CardSoldiers cardAdmiral)
+        if (obj is CardSoldiers cardSoldier)
         {
-            PropertyInfo[] properties = cardAdmiral.GetType().GetProperties();
+            PropertyInfo[] properties = cardSoldier.GetType().GetProperties();
             foreach (var property in properties)
             {
                 // Lấy giá trị của thuộc tính
-                object value = property.GetValue(cardAdmiral, null);
+                object value = property.GetValue(cardSoldier, null);
                 UIManager.Instance.CreatePropertyUpgradeUI(property, value, INCREASE_PER_UPGRADE, currentObject);
             }
             List<Items> items = new List<Items>();
@@ -608,49 +608,49 @@ public class UserCardSoldiersController : MonoBehaviour
                 eImage.texture = equipmentTexture;
 
                 TextMeshProUGUI eQuantity = itemTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-                eQuantity.text = item.Quantity.ToString() + "/" + (cardAdmiral.Star + 1).ToString();
+                eQuantity.text = item.Quantity.ToString() + "/" + (cardSoldier.Star + 1).ToString();
             }
-            GameObject cardAdmiralObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
-            Transform cardAdmiralTransform = cardAdmiralObject.transform;
+            GameObject cardSoldierObject = Instantiate(ElementDetails2Prefab, UpgradeMaterialContent);
+            Transform cardSoldierTransform = cardSoldierObject.transform;
 
-            RawImage cardAdmiralImage = cardAdmiralTransform.Find("MaterialImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmiral.Image);
+            RawImage cardSoldierImage = cardSoldierTransform.Find("MaterialImage").GetComponent<RawImage>();
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSoldier.Image);
             Texture cardAdmiralTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            cardAdmiralImage.texture = cardAdmiralTexture;
+            cardSoldierImage.texture = cardAdmiralTexture;
 
-            TextMeshProUGUI cardAdmiralQuantity = cardAdmiralTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
-            cardAdmiralQuantity.text = cardAdmiral.Quantity.ToString() + "/" + (cardAdmiral.Star + 1).ToString();
+            TextMeshProUGUI cardSoldierQuantity = cardSoldierTransform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
+            cardSoldierQuantity.text = cardSoldier.Quantity.ToString() + "/" + (cardSoldier.Star + 1).ToString();
 
-            UIManager.Instance.CreateStarUI(cardAdmiral.Star, currentObject);
+            UIManager.Instance.CreateStarUI(cardSoldier.Star, currentObject);
             breakthroughButton.onClick.RemoveAllListeners();
             breakthroughButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                double requiredQuantity = cardAdmiral.Star + 1;
+                double requiredQuantity = cardSoldier.Star + 1;
                 double totalItemQuantity = 0;
 
                 // Kiểm tra số lượng thẻ bài
-                bool hasEnoughCardSoldier = cardAdmiral.Quantity >= requiredQuantity;
+                bool hasEnoughCardSoldier = cardSoldier.Quantity >= requiredQuantity;
 
                 // Kiểm tra tổng số lượng vật phẩm
                 foreach (Items item in items)
                 {
                     totalItemQuantity += item.Quantity;
                 }
-                bool hasEnoughItem = totalItemQuantity + cardAdmiral.Quantity >= requiredQuantity;
+                bool hasEnoughItem = totalItemQuantity + cardSoldier.Quantity >= requiredQuantity;
 
                 if (hasEnoughCardSoldier || hasEnoughItem)
                 {
                     // Giảm số lượng thẻ bài trước
-                    if (cardAdmiral.Quantity >= requiredQuantity)
+                    if (cardSoldier.Quantity >= requiredQuantity)
                     {
-                        cardAdmiral.Quantity -= requiredQuantity;
+                        cardSoldier.Quantity -= requiredQuantity;
                     }
                     else
                     {
                         // Nếu thẻ bài không đủ, dùng cả thẻ bài + vật phẩm để bù vào
-                        double remainingRequired = requiredQuantity - cardAdmiral.Quantity;
-                        cardAdmiral.Quantity = 0; // Dùng hết thẻ bài
+                        double remainingRequired = requiredQuantity - cardSoldier.Quantity;
+                        cardSoldier.Quantity = 0; // Dùng hết thẻ bài
 
                         foreach (Items item in items)
                         {
@@ -676,20 +676,20 @@ public class UserCardSoldiersController : MonoBehaviour
                     // Cập nhật cấp sao (Star)
                     CardSoldiers newCardSoldier = new CardSoldiers();
 
-                    newCardSoldier = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(cardAdmiral, INCREASE_PER_UPGRADE);
-                    await UserCardSoldiersService.Create().UpdateCardSoldierBreakthroughAsync(newCardSoldier, cardAdmiral.Star + 1, cardAdmiral.Quantity);
+                    newCardSoldier = await UnitBreakthroughHelper.GetNewBreakthroughPowerAsync(cardSoldier, INCREASE_PER_UPGRADE);
+                    await UserCardSoldiersService.Create().UpdateCardSoldierBreakthroughAsync(newCardSoldier, cardSoldier.Star + 1, cardSoldier.Quantity);
                     double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
-                    await  CardSoldiersGalleryService.Create().UpdateStarCardSoldierGalleryAsync(cardAdmiral.Id, cardAdmiral.Star + 1);
+                    await  CardSoldiersGalleryService.Create().UpdateStarCardSoldierGalleryAsync(cardSoldier.Id, cardSoldier.Star + 1);
 
                     // Cập nhật giao diện
                     ButtonEvent.Instance.Close(UpgradeElementContent);
                     ButtonEvent.Instance.Close(UpgradeMaterialContent);
                     await GetUpgradeAsync(obj, currentObject);
-                    UIManager.Instance.CreateStarUI(cardAdmiral.Star, currentObject);
+                    UIManager.Instance.CreateStarUI(cardSoldier.Star, currentObject);
                 }
                 else
                 {

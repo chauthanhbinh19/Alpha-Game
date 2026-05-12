@@ -246,7 +246,7 @@ public class SummonManager : MonoBehaviour
 
 
 
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_HERO_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -262,7 +262,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_HERO_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -281,7 +281,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_HERO_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -297,7 +297,7 @@ public class SummonManager : MonoBehaviour
             List<Books> books = await BooksService.Create().GetBooksRandomAsync(type, 3);
             UserBooksController.Instance.CreateUserBooksForSummon(books, PositionPanel);
 
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_HERO_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -313,7 +313,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_HERO_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -331,7 +331,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_HERO_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_HERO_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -347,7 +347,7 @@ public class SummonManager : MonoBehaviour
             List<CardCaptains> cardCaptains = await CardCaptainsService.Create().GetCardCaptainsRandomAsync(type, 3);
             UserCardCaptainsController.Instance.CreateUserCardCaptainsForSummon(cardCaptains, PositionPanel);
 
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAIN_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_CAPTAIN_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -363,7 +363,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAIN_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_CAPTAIN_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -381,7 +381,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_CAPTAIN_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_CAPTAIN_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -397,7 +397,7 @@ public class SummonManager : MonoBehaviour
             List<CardMilitaries> cardMilitaries = await CardMilitariesService.Create().GetCardMilitariesRandomAsync(type, 3);
             UserCardMilitariesController.Instance.CreateUserCardMilitaryForSummon(cardMilitaries, PositionPanel);
 
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MILITARY_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MILITARY_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -413,7 +413,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MILITARY_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MILITARY_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -431,7 +431,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MILITARY_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MILITARY_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -447,7 +447,7 @@ public class SummonManager : MonoBehaviour
             List<CardSpells> cardSpells = await CardSpellsService.Create().GetCardSpellsRandomAsync(type, 3);
             UserCardSpellsController.Instance.CreateUserCardSpellForSummon(cardSpells, PositionPanel);
 
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_SPELL_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SPELL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -463,7 +463,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_SPELL_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SPELL_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -481,7 +481,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_SPELL_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SPELL_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -497,7 +497,7 @@ public class SummonManager : MonoBehaviour
             List<CardMonsters> cardMonsters = await CardMonstersService.Create().GetCardMonstersRandomAsync(type, 3);
             UserCardMonstersController.Instance.CreateUserCardMonstersForSummon(cardMonsters, PositionPanel);
 
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTER_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MONSTER_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -513,7 +513,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTER_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MONSTER_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -531,7 +531,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_MONSTER_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MONSTER_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -547,7 +547,7 @@ public class SummonManager : MonoBehaviour
             List<CardColonels> cardColonels = await CardColonelsService.Create().GetCardColonelsRandomAsync(type, 3);
             UserCardColonelsController.Instance.CreateUserCardColonelsForSummon(cardColonels, PositionPanel);
 
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONEL_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_COLONEL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -563,7 +563,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONEL_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_COLONEL_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -581,7 +581,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_COLONEL_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_COLONEL_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -597,7 +597,7 @@ public class SummonManager : MonoBehaviour
             List<CardGenerals> cardGenerals = await CardGeneralsService.Create().GetCardGeneralsRandomAsync(type, 3);
             UserCardGeneralsController.Instance.CreateUserCardGeneralsForSummon(cardGenerals, PositionPanel);
 
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERAL_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_GENERAL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -613,7 +613,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERAL_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_GENERAL_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -631,7 +631,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_GENERAL_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_GENERAL_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -647,7 +647,7 @@ public class SummonManager : MonoBehaviour
             List<CardAdmirals> cardAdmirals = await CardAdmiralsService.Create().GetCardAdmiralsRandomAsync(type, 3);
             UserCardAdmiralsController.Instance.CreateUserCardAdmiralsForSummon(cardAdmirals, PositionPanel);
 
-            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRAL_TICKET) };
+            List<Items> items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_ADMIRAL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 items,
                 CurrencyPanel
@@ -663,7 +663,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRAL_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_ADMIRAL_TICKET) },
                         CurrencyPanel
                         );
                     }
@@ -681,7 +681,7 @@ public class SummonManager : MonoBehaviour
                     if (success)
                     {
                         CurrenciesManager.Instance.GetTicketsCurrency(
-                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.CARD_ADMIRAL_TICKET) },
+                        new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_ADMIRAL_TICKET) },
                         CurrencyPanel
                         );
                     }

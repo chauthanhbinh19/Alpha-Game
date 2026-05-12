@@ -43,47 +43,47 @@ public class CardSoldiersController : MonoBehaviour
         receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
     }
-    public void CreateCardSoldiersGallery(List<CardSoldiers> cardAdmirals, Transform contentPanel)
+    public void CreateCardSoldiersGallery(List<CardSoldiers> cardSoldiers, Transform contentPanel)
     {
         // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
         var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
         if (oldAnim != null) Destroy(oldAnim);
 
-        foreach (var cardAdmiral in cardAdmirals)
+        foreach (var cardSoldier in cardSoldiers)
         {
-            GameObject cardAdmiralObject = Instantiate(CardSoldierButtonPrefab, contentPanel);
-            Transform transform = cardAdmiralObject.transform;
+            GameObject cardSoldierObject = Instantiate(CardSoldierButtonPrefab, contentPanel);
+            Transform transform = cardSoldierObject.transform;
 
             TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            titleText.text = cardAdmiral.Name.Replace("_", " ");
+            titleText.text = cardSoldier.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmiral.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSoldier.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
             TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
-            levelText.text = cardAdmiral.Level.ToString().Replace("_", " ");
+            levelText.text = cardSoldier.Level.ToString().Replace("_", " ");
 
             TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
             cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
 
             TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
-            typePanel.text = cardAdmiral.Type.ToString().Replace("_", " ");
+            typePanel.text = cardSoldier.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardAdmiral.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rare));
 
             Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(cardAdmiral, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardSoldier, MainPanel);
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardAdmiral.Rare));
-            rareText.text = cardAdmiral.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rare));
+            rareText.text = cardSoldier.Rare;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -99,16 +99,16 @@ public class CardSoldiersController : MonoBehaviour
         var oldAnim = currencyPanel.GetComponent<StaggeredSlideAnimation>();
         if (oldAnim != null) Destroy(oldAnim);
 
-        foreach (var cardAdmiral in cardAdmirals)
+        foreach (var cardSoldier in cardAdmirals)
         {
-            GameObject cardAdmiralObject = Instantiate(EquipmentShopPrefab, currentContent);
-            Transform transform = cardAdmiralObject.transform;
+            GameObject cardSoldierObject = Instantiate(EquipmentShopPrefab, currentContent);
+            Transform transform = cardSoldierObject.transform;
 
             TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-            titleText.text = cardAdmiral.Name.Replace("_", " ");
+            titleText.text = cardSoldier.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmiral.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSoldier.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
@@ -136,7 +136,7 @@ public class CardSoldiersController : MonoBehaviour
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(cardAdmiral, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardSoldier, MainPanel);
             });
 
             RawImage topImage = transform.Find("TopImage").GetComponent<RawImage>();
@@ -149,12 +149,12 @@ public class CardSoldiersController : MonoBehaviour
             bottomOutline.effectColor = ColorHelper.HexToColor(ColorConstants.GRAY_COLOR);
 
             RawImage currencyImage = transform.Find("CurrencyImage").GetComponent<RawImage>();
-            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmiral.Currency.Image);
+            fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSoldier.Currency.Image);
             Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             currencyImage.texture = currencyTexture;
 
             TextMeshProUGUI currencyText = transform.Find("CurrencyText").GetComponent<TextMeshProUGUI>();
-            currencyText.text = NumberFormatterHelper.FormatNumber(cardAdmiral.Currency.Quantity, false);
+            currencyText.text = NumberFormatterHelper.FormatNumber(cardSoldier.Currency.Quantity, false);
 
             Button buyButton = transform.Find("Buy").GetComponent<Button>();
             TextMeshProUGUI buttonText = buyButton.GetComponentInChildren<TextMeshProUGUI>();
@@ -164,7 +164,7 @@ public class CardSoldiersController : MonoBehaviour
             buyButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                GetQuantity(cardAdmiral.Currency.Quantity, cardAdmiral, subType, popupPanel, currencyPanel);
+                GetQuantity(cardSoldier.Currency.Quantity, cardSoldier, subType, popupPanel, currencyPanel);
             });
         }
 
@@ -314,11 +314,11 @@ public class CardSoldiersController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is CardSoldiers cardAdmirals)
+            if (obj is CardSoldiers cardSoldier)
             {
-                cardAdmirals.Quantity = cardAdmirals.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(cardAdmirals.Currency.Id, price);
-                bool success = await UserCardSoldiersService.Create().InsertUserCardSoldierAsync(cardAdmirals);
+                cardSoldier.Quantity = cardSoldier.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(cardSoldier.Currency.Id, price);
+                bool success = await UserCardSoldiersService.Create().InsertUserCardSoldierAsync(cardSoldier);
                 if (!success)
                 {
                     allSuccess = false;
@@ -331,9 +331,9 @@ public class CardSoldiersController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await CardSoldiersGalleryService.Create().InsertCardSoldierGalleryAsync(cardAdmirals.Id);
+                    await CardSoldiersGalleryService.Create().InsertCardSoldierGalleryAsync(cardSoldier.Id);
                     currencies = await UserCurrenciesService.Create().GetCardSoldiersCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmirals.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSoldier.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);

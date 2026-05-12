@@ -2,15 +2,56 @@ using UnityEngine;
 
 public static class ItemConstants
 {
-    public const string CARD_HERO_TICKET = "Card Heroes Ticket";
-    public const string BOOK_TICKET = "Books Ticket";
-    public const string CARD_CAPTAIN_TICKET = "Card Captains Ticket";
-    public const string CARD_MILITARY_TICKET = "Card Military Ticket";
-    public const string CARD_SPELL_TICKET = "Card Spell Ticket";
-    public const string CARD_MONSTER_TICKET = "Card Monsters Ticket";
-    public const string CARD_COLONEL_TICKET = "Card Colonels Ticket";
-    public const string CARD_GENERAL_TICKET = "Card Generals Ticket";
-    public const string CARD_ADMIRAL_TICKET = "Card Admirals Ticket";
+    public static class Ticket
+    {
+        public const string CARD_HERO_TICKET = "Card Heroes Ticket";
+        public const string BOOK_TICKET = "Books Ticket";
+        public const string CARD_CAPTAIN_TICKET = "Card Captains Ticket";
+        public const string CARD_MILITARY_TICKET = "Card Military Ticket";
+        public const string CARD_SPELL_TICKET = "Card Spell Ticket";
+        public const string CARD_MONSTER_TICKET = "Card Monsters Ticket";
+        public const string CARD_COLONEL_TICKET = "Card Colonels Ticket";
+        public const string CARD_GENERAL_TICKET = "Card Generals Ticket";
+        public const string CARD_ADMIRAL_TICKET = "Card Admirals Ticket";
+        public const string ALCHEMY_TICKET = "Alchemies Ticket";
+        public const string ARCHITECTURE_TICKET = "Architectures Ticket";
+        public const string ARTIFACT_TICKET = "Artifacts Ticket";
+        public const string ARTWORK_TICKET = "Artworks Ticket";
+        public const string AVATAR_TICKET = "Avatars Ticket";
+        public const string BADGE_TICKET = "Badges Ticket";
+        public const string BEVERAGE_TICKET = "Beverages Ticket";
+        public const string BORDER_TICKET = "Borders Ticket";
+        public const string BUILDING_TICKET = "Buildings Ticket";
+        public const string CARD_LIFE_TICKET = "Card Lives Ticket";
+        public const string CARD_SOLDIER_TICKET = "Card Soldiers Ticket";
+        public const string COLLABORATION_EQUIPMENT_TICKET = "Collaboration Equipments Ticket";
+        public const string COLLABORATION_TICKET = "Collaborations Ticket";
+        public const string CORE_TICKET = "Cores Ticket";
+        public const string EMOJI_TICKET = "Emojis Ticket";
+        public const string EQUIPMENT_TICKET = "Equipments Ticket";
+        public const string FASHION_TICKET = "Fashions Ticket";
+        public const string FOOD_TICKET = "Foods Ticket";
+        public const string FORGE_TICKET = "Forges Ticket";
+        public const string FURNITURE_TICKET = "Furnitures Ticket";
+        public const string MAGIC_FORMATION_CIRCLE_TICKET = "Magic Formation Circles Ticket";
+        public const string MECHA_BEAST_TICKET = "Mecha Beasts Ticket";
+        public const string MEDAL_TICKET = "Medals Ticket";
+        public const string PET_TICKET = "Pets Ticket";
+        public const string PLANT_TICKET = "Plants Ticket";
+        public const string PUPPET_TICKET = "Puppets Ticket";
+        public const string RELIC_TICKET = "Relics Ticket";
+        public const string ROBOT_TICKET = "Robots Ticket";
+        public const string RUNE_TICKET = "Runes Ticket";
+        public const string SKILL_TICKET = "Skills Ticket";
+        public const string SPIRIT_BEAST_TICKET = "Spirit Beasts Ticket";
+        public const string SPIRIT_CARD_TICKET = "Spirit Cards Ticket";
+        public const string SYMBOL_TICKET = "Symbols Ticket";
+        public const string TALISMAN_TICKET = "Talismans Ticket";
+        public const string TECHNOLOGY_TICKET = "Technology Ticket";
+        public const string TITLE_TICKET = "Titles Ticket";
+        public const string VEHICLE_TICKET = "Vehicles Ticket";
+        public const string WEAPON_TICKET = "Weapons Ticket";
+    }
     public static class Experiment
     {
         public const string EXP_BOTTOLE_LV1 = "Exp Bottle lv1";

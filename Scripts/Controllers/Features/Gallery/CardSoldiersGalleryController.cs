@@ -34,62 +34,62 @@ public class CardSoldiersGalleryController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         CardSoldierBlockButtonPrefab = UIManager.Instance.Get("CardSoldierBlockButtonPrefab");
     }
-    public void CreateCardSoldiersGallery(List<CardSoldiers> cardAdmirals, Transform contentPanel)
+    public void CreateCardSoldiersGallery(List<CardSoldiers> cardSoldiers, Transform contentPanel)
     {
         // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
         var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
         if (oldAnim != null) Destroy(oldAnim);
 
-        foreach (var cardAdmiral in cardAdmirals)
+        foreach (var cardSoldier in cardSoldiers)
         {
-            GameObject cardAdmiralObject = Instantiate(CardSoldierBlockButtonPrefab, contentPanel);
-            Transform transform = cardAdmiralObject.transform;
+            GameObject cardSoldierObject = Instantiate(CardSoldierBlockButtonPrefab, contentPanel);
+            Transform transform = cardSoldierObject.transform;
 
             TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            titleText.text = cardAdmiral.Name.Replace("_", " ");
+            titleText.text = cardSoldier.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmiral.Image);
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSoldier.Image);
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
             TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
-            levelText.text = cardAdmiral.Level.ToString().Replace("_", " ");
+            levelText.text = cardSoldier.Level.ToString().Replace("_", " ");
 
             TextMeshProUGUI cardText = transform.Find("TagGroup/CardPanel/TitleText").GetComponent<TextMeshProUGUI>();
             cardText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_ADMIRAL);
 
             TextMeshProUGUI typePanel = transform.Find("TagGroup/TypePanel/TitleText").GetComponent<TextMeshProUGUI>();
-            typePanel.text = cardAdmiral.Type.ToString().Replace("_", " ");
+            typePanel.text = cardSoldier.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardAdmiral.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rare));
 
             Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                PopupDetailsManager.Instance.PopupDetails(cardAdmiral, MainPanel);
+                PopupDetailsManager.Instance.PopupDetails(cardSoldier, MainPanel);
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardAdmiral.Rare));
-            rareText.text = cardAdmiral.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rare));
+            rareText.text = cardSoldier.Rare;
 
             RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
             Button unlockButton = transform.Find("UnlockButton").GetComponent<Button>();
-            if (cardAdmiral.Status.Equals(AppConstants.Status.AVAILABLE))
+            if (cardSoldier.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 blockImage.gameObject.SetActive(false);
                 unlockButton.gameObject.SetActive(false);
                 image.color = Color.white;
             }
-            else if (cardAdmiral.Status.Equals(AppConstants.Status.PENDING))
+            else if (cardSoldier.Status.Equals(AppConstants.Status.PENDING))
             {
                 blockImage.gameObject.SetActive(true);
                 unlockButton.gameObject.SetActive(true);
             }
-            else if (cardAdmiral.Status.Equals(AppConstants.Status.BLOCK))
+            else if (cardSoldier.Status.Equals(AppConstants.Status.BLOCK))
             {
                 blockImage.gameObject.SetActive(true);
                 unlockButton.gameObject.SetActive(false);
@@ -98,8 +98,8 @@ public class CardSoldiersGalleryController : MonoBehaviour
             unlockButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                var admiralGalleryService = CardSoldiersGalleryService.Create();
-                await admiralGalleryService.UpdateStatusCardSoldierGalleryAsync(cardAdmiral.Id);
+                var cardSoldierGalleryService = CardSoldiersGalleryService.Create();
+                await cardSoldierGalleryService.UpdateStatusCardSoldierGalleryAsync(cardSoldier.Id);
                 blockImage.gameObject.SetActive(false);
                 unlockButton.gameObject.SetActive(false);
                 image.color = Color.white;
@@ -115,7 +115,7 @@ public class CardSoldiersGalleryController : MonoBehaviour
             });
 
             Button upgradeButton = transform.Find("UpgradeButton").GetComponent<Button>();
-            if ((cardAdmiral.CurrentStar < cardAdmiral.TempStar) && cardAdmiral.Status.Equals(AppConstants.Status.AVAILABLE))
+            if ((cardSoldier.CurrentStar < cardSoldier.TempStar) && cardSoldier.Status.Equals(AppConstants.Status.AVAILABLE))
             {
                 upgradeButton.gameObject.SetActive(true);
             }
@@ -127,7 +127,7 @@ public class CardSoldiersGalleryController : MonoBehaviour
             upgradeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CardSoldiersGalleryService.Create().UpdateCardSoldierGalleryPowerAsync(cardAdmiral.Id);
+                await CardSoldiersGalleryService.Create().UpdateCardSoldierGalleryPowerAsync(cardSoldier.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
