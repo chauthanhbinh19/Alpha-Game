@@ -49,6 +49,7 @@ public static class TypeManager
         { AppConstants.MainType.FURNITURE, async () => await FurnituresService.Create().GetUniqueFurnituresTypesAsync() },
         { AppConstants.MainType.BUILDING, async () => await BuildingsService.Create().GetUniqueBuildingsTypesAsync() },
         { AppConstants.MainType.FASHION, async () => await FashionsService.Create().GetUniqueFashionsTypesAsync() },
+        { AppConstants.MainType.CARD_SOLDIER, async () => await CardSoldiersService.Create().GetUniqueCardSoldiersTypesAsync() },
     };
     public static async Task<List<string>> GetUniqueTypesAsync(string type)
     {

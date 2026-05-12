@@ -230,6 +230,19 @@ public class MasterOfMentalManager : MonoBehaviour
                             CreateWarningLevelCondition(requiredLevel);
                         }
                     }
+                    else if (data is CardSoldiers cardSoldier)
+                    {
+                        // mainId = cardAdmirals.id;
+                        await DetailMasterManager.Instance.CreateCardSoldiersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSoldier);
+                        if (cardSoldier.Level >= requiredLevel)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            CreateWarningLevelCondition(requiredLevel);
+                        }
+                    }
                     // else if (data is Equipments equipments)
                     // {
                     //     // mainId = cardAdmirals.id;
@@ -400,6 +413,19 @@ public class MasterOfMentalManager : MonoBehaviour
                 CreateWarningLevelCondition(requiredLevel);
             }
         }
+        else if (data is CardSoldiers cardSoldier)
+        {
+            // mainId = cardAdmirals.id;
+            await DetailMasterManager.Instance.CreateCardSoldiersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSoldier);
+            if (cardSoldier.Level >= requiredLevel)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                CreateWarningLevelCondition(requiredLevel);
+            }
+        }
         // else if (data is Equipments equipments)
         // {
         //     // mainId = cardAdmirals.id;
@@ -420,7 +446,7 @@ public class MasterOfMentalManager : MonoBehaviour
         TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
         warningText.font = EuroStyleNormalFont;
         warningText.fontSize = 50;
-        warningText.fontStyle = FontStyles.Bold; 
+        warningText.fontStyle = FontStyles.Bold;
         warningText.text = MessageConstants.WaringLevel(value);
     }
     public void LoadAnimation()

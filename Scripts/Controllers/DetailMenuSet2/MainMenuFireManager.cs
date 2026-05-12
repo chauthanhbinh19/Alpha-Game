@@ -79,7 +79,7 @@ public class MainMenuFireManager : MonoBehaviour
             {
                 // Tạo một nút mới từ prefab
                 string subtype = kvp.Key;
-                int value = kvp.Value.RequiredLevel;
+                int requiredLevel = kvp.Value.RequiredLevel;
                 GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
 
                 TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
@@ -89,7 +89,7 @@ public class MainMenuFireManager : MonoBehaviour
                 btn.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await OnButtonClickAsync(button, data, kvp.Value, value);
+                    await OnButtonClickAsync(button, data, kvp.Value, requiredLevel);
                 });
 
                 if (index == 0)
@@ -100,143 +100,156 @@ public class MainMenuFireManager : MonoBehaviour
                     {
                         // mainId = cardHeroes.id;
                         await DetailMenuManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardHeroes);
-                        if (cardHeroes.Level >= value)
+                        if (cardHeroes.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is Books books)
                     {
                         // mainId = books.id;
                         await DetailMenuManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, books);
-                        if (books.Level >= value)
+                        if (books.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardCaptains cardCaptains)
                     {
                         // mainId = cardCaptains.id;
                         await DetailMenuManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardCaptains);
-                        if (cardCaptains.Level >= value)
+                        if (cardCaptains.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is Pets pets)
                     {
                         // mainId = pets.id;
                         await DetailMenuManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, pets);
-                        if (pets.Level >= value)
+                        if (pets.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardMilitaries cardMilitary)
                     {
                         // mainId = cardMilitary.id;
                         await DetailMenuManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMilitary);
-                        if (cardMilitary.Level >= value)
+                        if (cardMilitary.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardSpells cardSpell)
                     {
                         // mainId = cardSpell.id;
                         await DetailMenuManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSpell);
-                        if (cardSpell.Level >= value)
+                        if (cardSpell.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardMonsters cardMonsters)
                     {
                         // mainId = cardMonsters.id;
                         await DetailMenuManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMonsters);
-                        if (cardMonsters.Level >= value)
+                        if (cardMonsters.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardColonels cardColonels)
                     {
                         // mainId = cardColonels.id;
                         await DetailMenuManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardColonels);
-                        if (cardColonels.Level >= value)
+                        if (cardColonels.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardGenerals cardGenerals)
                     {
                         // mainId = cardGenerals.id;
                         await DetailMenuManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardGenerals);
-                        if (cardGenerals.Level >= value)
+                        if (cardGenerals.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is CardAdmirals cardAdmirals)
                     {
                         // mainId = cardAdmirals.id;
                         await DetailMenuManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardAdmirals);
-                        if (cardAdmirals.Level >= value)
+                        if (cardAdmirals.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                     else if (data is Equipments equipments)
                     {
                         // mainId = cardAdmirals.id;
                         await DetailMenuManager.Instance.CreateEquipmentsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, equipments);
-                        if (equipments.Level >= value)
+                        if (equipments.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
                         else
                         {
-                            CreateWarningLevelCondition(value);
+                            CreateWarningLevelCondition(requiredLevel);
+                        }
+                    }
+                    else if (data is CardSoldiers cardSoldier)
+                    {
+                        // mainId = cardAdmirals.id;
+                        await DetailMenuManager.Instance.CreateCardSoldiersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSoldier);
+                        if (cardSoldier.Level >= requiredLevel)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            CreateWarningLevelCondition(requiredLevel);
                         }
                     }
                 }
@@ -244,13 +257,13 @@ public class MainMenuFireManager : MonoBehaviour
                 {
                     UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
                 }
-                ButtonEvent.Instance.CheckLockedButton(data, value, button);
+                ButtonEvent.Instance.CheckLockedButton(data, requiredLevel, button);
                 index = index + 1;
             }
             LoadAnimation();
         }
     }
-    async Task OnButtonClickAsync(GameObject clickedButton, object data, Features subFeature, int value)
+    async Task OnButtonClickAsync(GameObject clickedButton, object data, Features subFeature, int requiredLevel)
     {
         foreach (Transform child in TabButtonPanel)
         {
@@ -270,143 +283,156 @@ public class MainMenuFireManager : MonoBehaviour
         {
             // mainId = cardHeroes.id;
             await DetailMenuManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardHeroes);
-            if (cardHeroes.Level >= value)
+            if (cardHeroes.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is Books books)
         {
             // mainId = books.id;
             await DetailMenuManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, books);
-            if (books.Level >= value)
+            if (books.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardCaptains cardCaptains)
         {
             // mainId = cardCaptains.id;
             await DetailMenuManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardCaptains);
-            if (cardCaptains.Level >= value)
+            if (cardCaptains.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is Pets pets)
         {
             // mainId = pets.id;
             await DetailMenuManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, pets);
-            if (pets.Level >= value)
+            if (pets.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardMilitaries cardMilitary)
         {
             // mainId = cardMilitary.id;
             await DetailMenuManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMilitary);
-            if (cardMilitary.Level >= value)
+            if (cardMilitary.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardSpells cardSpell)
         {
             // mainId = cardSpell.id;
             await DetailMenuManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSpell);
-            if (cardSpell.Level >= value)
+            if (cardSpell.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardMonsters cardMonsters)
         {
             // mainId = cardMonsters.id;
             await DetailMenuManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMonsters);
-            if (cardMonsters.Level >= value)
+            if (cardMonsters.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardColonels cardColonels)
         {
             // mainId = cardColonels.id;
             await DetailMenuManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardColonels);
-            if (cardColonels.Level >= value)
+            if (cardColonels.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardGenerals cardGenerals)
         {
             // mainId = cardGenerals.id;
             await DetailMenuManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardGenerals);
-            if (cardGenerals.Level >= value)
+            if (cardGenerals.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is CardAdmirals cardAdmirals)
         {
             // mainId = cardAdmirals.id;
             await DetailMenuManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardAdmirals);
-            if (cardAdmirals.Level >= value)
+            if (cardAdmirals.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
         else if (data is Equipments equipments)
         {
             // mainId = cardAdmirals.id;
             await DetailMenuManager.Instance.CreateEquipmentsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, equipments);
-            if (equipments.Level >= value)
+            if (equipments.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
             else
             {
-                CreateWarningLevelCondition(value);
+                CreateWarningLevelCondition(requiredLevel);
+            }
+        }
+        else if (data is CardSoldiers cardSoldier)
+        {
+            // mainId = cardAdmirals.id;
+            await DetailMenuManager.Instance.CreateCardSoldiersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSoldier);
+            if (cardSoldier.Level >= requiredLevel)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                CreateWarningLevelCondition(requiredLevel);
             }
         }
     }
@@ -416,7 +442,7 @@ public class MainMenuFireManager : MonoBehaviour
         TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
         warningText.font = EuroStyleNormalFont;
         warningText.fontSize = 50;
-        warningText.fontStyle = FontStyles.Bold; 
+        warningText.fontStyle = FontStyles.Bold;
         warningText.text = MessageConstants.WaringLevel(value);
         LevelCondition.gameObject.AddComponent<SlideBottomToTopAnimation>();
     }

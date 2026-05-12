@@ -427,6 +427,38 @@ public class PopupDetailsManager : MonoBehaviour
         PropertyInfo[] properties = cardMonster.GetType().GetProperties();
         CreatePropertyUI(1, properties, cardMonster, popupObject);
     }
+    private void ShowCardSoldierDetails(CardSoldiers cardSoldier)
+    {
+        Transform transform = popupObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSoldier.Image); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+        image.texture = texture;
+
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = cardSoldier.Name;
+
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatterHelper.FormatNumber(cardSoldier.Power, false);
+
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = cardSoldier.Level.ToString();
+
+        RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSoldier.Rare}");
+        rareImage.texture = rareTexture;
+
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(popupObject);
+        });
+
+        // Dùng Reflection để lấy tất cả thuộc tính và giá trị
+        PropertyInfo[] properties = cardSoldier.GetType().GetProperties();
+        CreatePropertyUI(1, properties, cardSoldier, popupObject);
+    }
     private void ShowEquipmentDetails(Equipments equipment)
     {
         Transform transform = popupObject.transform;

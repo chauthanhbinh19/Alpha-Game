@@ -46,7 +46,7 @@ public class DetailMasterManager : MonoBehaviour
         Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
-        MasterService MasterService = new MasterService();
+        MasterService masterService = new MasterService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         SetUI(slotObject, feature.FeatureName, master.Level, type);
@@ -75,10 +75,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardHeroes, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardHeroes, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -98,10 +98,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardHeroes, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardHeroes, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -122,7 +122,7 @@ public class DetailMasterManager : MonoBehaviour
         Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
-        MasterService MasterService = new MasterService();
+        MasterService masterService = new MasterService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         SetUI(slotObject, feature.FeatureName, master.Level, type);
@@ -151,10 +151,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(books, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(books, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -174,10 +174,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(books, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(books, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -198,7 +198,7 @@ public class DetailMasterManager : MonoBehaviour
         Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
-        MasterService MasterService = new MasterService();
+        MasterService masterService = new MasterService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         SetUI(slotObject, feature.FeatureName, master.Level, type);
@@ -227,10 +227,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, 1);
+                newMaster = masterService.EnhanceMaster(master, 1);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardCaptains, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardCaptains, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -250,10 +250,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardCaptains, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardCaptains, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -274,7 +274,7 @@ public class DetailMasterManager : MonoBehaviour
         Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
-        MasterService MasterService = new MasterService();
+        MasterService masterService = new MasterService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         SetUI(slotObject, feature.FeatureName, master.Level, type);
@@ -303,10 +303,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, 1);
+                newMaster = masterService.EnhanceMaster(master, 1);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(pets, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(pets, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -326,10 +326,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(pets, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(pets, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -350,7 +350,7 @@ public class DetailMasterManager : MonoBehaviour
         Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
-        MasterService MasterService = new MasterService();
+        MasterService masterService = new MasterService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         SetUI(slotObject, feature.FeatureName, master.Level, type);
@@ -379,10 +379,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardMilitary, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardMilitary, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -402,10 +402,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardMilitary, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardMilitary, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -426,7 +426,7 @@ public class DetailMasterManager : MonoBehaviour
         Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
-        MasterService MasterService = new MasterService();
+        MasterService masterService = new MasterService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         SetUI(slotObject, feature.FeatureName, master.Level, type);
@@ -455,10 +455,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardSpell, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardSpell, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -478,10 +478,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardSpell, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardSpell, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -502,7 +502,7 @@ public class DetailMasterManager : MonoBehaviour
         Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
-        MasterService MasterService = new MasterService();
+        MasterService masterService = new MasterService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         SetUI(slotObject, feature.FeatureName, master.Level, type);
@@ -531,10 +531,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardMonsters, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardMonsters, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -554,10 +554,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardMonsters, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardMonsters, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -578,7 +578,7 @@ public class DetailMasterManager : MonoBehaviour
         Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
-        MasterService MasterService = new MasterService();
+        MasterService masterService = new MasterService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         SetUI(slotObject, feature.FeatureName, master.Level, type);
@@ -607,10 +607,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardColonels, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardColonels, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -630,10 +630,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardColonels, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardColonels, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -654,7 +654,7 @@ public class DetailMasterManager : MonoBehaviour
         Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
-        MasterService MasterService = new MasterService();
+        MasterService masterService = new MasterService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         SetUI(slotObject, feature.FeatureName, master.Level, type);
@@ -683,10 +683,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardGenerals, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardGenerals, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -706,10 +706,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardGenerals, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardGenerals, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -730,7 +730,7 @@ public class DetailMasterManager : MonoBehaviour
         Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
 
         Items item = new Items();
-        MasterService MasterService = new MasterService();
+        MasterService masterService = new MasterService();
 
         item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
         SetUI(slotObject, feature.FeatureName, master.Level, type);
@@ -759,10 +759,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardAdmirals, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardAdmirals, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -782,10 +782,10 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = MasterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
-                await MasterService.UpLevelAsync(cardAdmirals, newMaster, feature.FeatureName);
+                await masterService.UpLevelAsync(cardAdmirals, newMaster, feature.FeatureName);
                 double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
@@ -793,6 +793,82 @@ public class DetailMasterManager : MonoBehaviour
 
                 Destroy(slotObject);
                 await CreateCardAdmiralsEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardAdmirals);
+            }
+        });
+    }
+    public async Task CreateCardSoldiersEquipmentsAsync(GameObject prefab, Transform SlotPanel, GameObject currentObject,
+     Button upLevelButton, Button upMaxLevelButton, Features feature, string type, CardSoldiers cardSoldiers)
+    {
+        Master master = await UserCardSoldiersMasterService.Create().GetCardSoldierMasterAsync(feature.FeatureName, cardSoldiers.Id);
+        GameObject slotObject = Instantiate(prefab, SlotPanel);
+        master.Id = feature.Id;
+
+        Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
+
+        Items item = new Items();
+        MasterService masterService = new MasterService();
+
+        item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
+        SetUI(slotObject, feature.FeatureName, master.Level, type);
+        SetMaterialUI(currentObject, item.Image, item.Quantity, currency.Quantity, master.Level, MAX_LEVEL);
+
+        TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        upLevelButtonText.font = EuroStyleNormalFont;
+        upLevelButtonText.fontSize = FONT_SIZE;
+        upLevelButtonText.fontStyle = FontStyles.Bold;
+        upLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
+        TextMeshProUGUI upMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        upMaxLevelButtonText.font = EuroStyleNormalFont;
+        upMaxLevelButtonText.fontSize = FONT_SIZE;
+        upMaxLevelButtonText.fontStyle = FontStyles.Bold;
+        upMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
+
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, master.Level, false, MAX_LEVEL);
+
+            if (result.message.Equals(AppConstants.Status.SUCCESS))
+            {
+                item.Quantity = result.totalMaterialUsed;
+                await userItemsService.UpdateUserItemQuantityAsync(item);
+                Master newMaster = new Master();
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
+
+                await masterService.UpLevelAsync(cardSoldiers, newMaster, feature.FeatureName);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
+                Destroy(slotObject);
+                await CreateCardSoldiersEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardSoldiers);
+            }
+        });
+        upMaxLevelButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, master.Level, true, MAX_LEVEL);
+            if (result.message.Equals(AppConstants.Status.SUCCESS))
+            {
+                item.Quantity = result.totalMaterialUsed;
+                await userItemsService.UpdateUserItemQuantityAsync(item);
+                Master newMaster = new Master();
+                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
+
+                await masterService.UpLevelAsync(cardSoldiers, newMaster, feature.FeatureName);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
+                Destroy(slotObject);
+                await CreateCardSoldiersEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardSoldiers);
             }
         });
     }

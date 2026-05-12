@@ -206,5 +206,9 @@ public class MasterService : IMasterService
         {
             await UserCardAdmiralsMasterService.Create().InsertOrUpdateCardAdmiralMasterAsync(master, cardAdmiral.Id);
         }
+        else if (data is CardSoldiers cardSoldier)
+        {
+            await UserCardSoldiersMasterService.Create().InsertOrUpdateCardSoldierMasterAsync(master, cardSoldier.Id);
+        }
     }
 }

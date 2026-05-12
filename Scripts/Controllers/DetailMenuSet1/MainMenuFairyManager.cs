@@ -238,6 +238,19 @@ public class MainMenuFairyManager : MonoBehaviour
                             CreateWarningLevelCondition(requiredLevel);
                         }
                     }
+                    else if (data is CardSoldiers cardSoldier)
+                    {
+                        // mainId = cardAdmirals.id;
+                        await DetailMenuManager.Instance.CreateCardSoldiersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSoldier);
+                        if (cardSoldier.Level >= requiredLevel)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            CreateWarningLevelCondition(requiredLevel);
+                        }
+                    }
                 }
                 else
                 {
@@ -408,6 +421,19 @@ public class MainMenuFairyManager : MonoBehaviour
                 CreateWarningLevelCondition(requiredLevel);
             }
         }
+        else if (data is CardSoldiers cardSoldier)
+        {
+            // mainId = cardAdmirals.id;
+            await DetailMenuManager.Instance.CreateCardSoldiersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSoldier);
+            if (cardSoldier.Level >= requiredLevel)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                CreateWarningLevelCondition(requiredLevel);
+            }
+        }
     }
     public void CreateWarningLevelCondition(int value)
     {
@@ -415,7 +441,7 @@ public class MainMenuFairyManager : MonoBehaviour
         TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
         warningText.font = EuroStyleNormalFont;
         warningText.fontSize = 50;
-        warningText.fontStyle = FontStyles.Bold; 
+        warningText.fontStyle = FontStyles.Bold;
         warningText.text = MessageConstants.WaringLevel(value);
         LevelCondition.gameObject.AddComponent<SlideBottomToTopAnimation>();
     }

@@ -367,5 +367,9 @@ public class RankService : IRankService
         {
             await UserCardAdmiralsRankService.Create().InsertOrUpdateCardAdmiralRankAsync(rank, cardAdmiral.Id);
         }
+        else if (data is CardSoldiers cardSoldier)
+        {
+            await UserCardSoldiersRankService.Create().InsertOrUpdateCardSoldierRankAsync(rank, cardSoldier.Id);
+        }
     }
 }

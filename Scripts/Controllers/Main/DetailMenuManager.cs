@@ -868,6 +868,82 @@ public class DetailMenuManager : MonoBehaviour
             }
         });
     }
+    public async Task CreateCardSoldiersEquipmentsAsync(GameObject prefab, Transform SlotPanel, GameObject currentObject,
+     Button upLevelButton, Button upMaxLevelButton, Features feature, string type, CardSoldiers cardSoldier)
+    {
+        Rank rank = await UserCardHeroesRankService.Create().GetCardHeroRankAsync(feature.FeatureName, cardSoldier.Id);
+        GameObject slotObject = Instantiate(prefab, SlotPanel);
+        rank.Id = feature.Id;
+
+        Currencies currency = await UserCurrenciesService.Create().GetUserCurrencyByNameAsync(AppConstants.Currency.SILVER);
+
+        Items item = new Items();
+        RankService rankService = new RankService();
+
+        item = await userItemsService.GetUserItemByNameAsync(feature.FeatureName);
+        SetUI(slotObject, feature.FeatureName, rank.Level, type);
+        SetMaterialUI(currentObject, item.Image, item.Quantity, currency.Quantity, rank.Level, MAX_LEVEL);
+
+        TextMeshProUGUI upLevelButtonText = upLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        upLevelButtonText.font = EuroStyleNormalFont;
+        upLevelButtonText.fontSize = FONT_SIZE;
+        upLevelButtonText.fontStyle = FontStyles.Bold;
+        upLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
+        TextMeshProUGUI upMaxLevelButtonText = upMaxLevelButton.GetComponentInChildren<TextMeshProUGUI>();
+        upMaxLevelButtonText.font = EuroStyleNormalFont;
+        upMaxLevelButtonText.fontSize = FONT_SIZE;
+        upMaxLevelButtonText.fontStyle = FontStyles.Bold;
+        upMaxLevelButtonText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UP_ONE_LEVEL);
+
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, false, MAX_LEVEL);
+
+            if (result.message.Equals(AppConstants.Status.SUCCESS))
+            {
+                item.Quantity = result.totalMaterialUsed;
+                await userItemsService.UpdateUserItemQuantityAsync(item);
+                Rank newRank = new Rank();
+                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
+
+                await rankService.UpLevelAsync(cardSoldier, newRank, feature.FeatureName);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
+                Destroy(slotObject);
+                await CreateCardSoldiersEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardSoldier);
+            }
+        });
+        upMaxLevelButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            var result = ItemHelper.CalculateLevelUp(item.Quantity, currency.Quantity, MATERIAL_PER_LEVEL, CURRENCY_PER_LEVEL, rank.Level, true, MAX_LEVEL);
+
+            if (result.message.Equals(AppConstants.Status.SUCCESS))
+            {
+                item.Quantity = result.totalMaterialUsed;
+                await userItemsService.UpdateUserItemQuantityAsync(item);
+                Rank newRank = new Rank();
+                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
+
+                await rankService.UpLevelAsync(cardSoldier, newRank, feature.FeatureName);
+                double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                double currentPower = User.CurrentUserPower;
+                User.CurrentUserPower = newPower;
+                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
+                Destroy(slotObject);
+                await CreateCardSoldiersEquipmentsAsync(prefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, type, cardSoldier);
+            }
+        });
+    }
     public void SetUI(GameObject gameObject, string type, int level = 0, string mainType = "")
     {
         if (mainType.Equals(AppConstants.MainMenuSet1.AFFINITY) || mainType.Equals(AppConstants.MainMenuSet1.BLESSING))

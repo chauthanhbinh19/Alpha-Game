@@ -14,8 +14,8 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
     private GameObject SlotPrefab;
     private GameObject TypeButtonPrefab;
     private GameObject currentObject;
-    private Button UpLevelButton;
-    private Button UpMaxLevelButton;
+    private Button upLevelButton;
+    private Button upMaxLevelButton;
     private Transform LevelCondition;
     private Features feature;
     private string parentType;
@@ -42,8 +42,8 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet3.SHUB_NIGGURATH);
         parentType = AppConstants.MainMenuSet3.SHUB_NIGGURATH;
-        UpLevelButton = transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
-        UpMaxLevelButton = transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
+        upLevelButton = transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
+        upMaxLevelButton = transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(() =>
@@ -100,7 +100,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
                     if (data is CardHeroes cardHeroes)
                     {
                         // mainId = cardHeroes.id;
-                        await DetailMenuManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardHeroes);
+                        await DetailMenuManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardHeroes);
                         if (cardHeroes.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -113,7 +113,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
                     else if (data is Books books)
                     {
                         // mainId = books.id;
-                        await DetailMenuManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, books);
+                        await DetailMenuManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, books);
                         if (books.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -126,7 +126,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
                     else if (data is CardCaptains cardCaptains)
                     {
                         // mainId = cardCaptains.id;
-                        await DetailMenuManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardCaptains);
+                        await DetailMenuManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardCaptains);
                         if (cardCaptains.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -139,7 +139,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
                     else if (data is Pets pets)
                     {
                         // mainId = pets.id;
-                        await DetailMenuManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, pets);
+                        await DetailMenuManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, pets);
                         if (pets.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -152,7 +152,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
                     else if (data is CardMilitaries cardMilitary)
                     {
                         // mainId = cardMilitary.id;
-                        await DetailMenuManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardMilitary);
+                        await DetailMenuManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMilitary);
                         if (cardMilitary.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -165,7 +165,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
                     else if (data is CardSpells cardSpell)
                     {
                         // mainId = cardSpell.id;
-                        await DetailMenuManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardSpell);
+                        await DetailMenuManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSpell);
                         if (cardSpell.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -178,7 +178,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
                     else if (data is CardMonsters cardMonsters)
                     {
                         // mainId = cardMonsters.id;
-                        await DetailMenuManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardMonsters);
+                        await DetailMenuManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMonsters);
                         if (cardMonsters.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -191,7 +191,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
                     else if (data is CardColonels cardColonels)
                     {
                         // mainId = cardColonels.id;
-                        await DetailMenuManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardColonels);
+                        await DetailMenuManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardColonels);
                         if (cardColonels.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -204,7 +204,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
                     else if (data is CardGenerals cardGenerals)
                     {
                         // mainId = cardGenerals.id;
-                        await DetailMenuManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardGenerals);
+                        await DetailMenuManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardGenerals);
                         if (cardGenerals.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -217,7 +217,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
                     else if (data is CardAdmirals cardAdmirals)
                     {
                         // mainId = cardAdmirals.id;
-                        await DetailMenuManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardAdmirals);
+                        await DetailMenuManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardAdmirals);
                         if (cardAdmirals.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
@@ -230,8 +230,21 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
                     else if (data is Equipments equipments)
                     {
                         // mainId = cardAdmirals.id;
-                        await DetailMenuManager.Instance.CreateEquipmentsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, equipments);
+                        await DetailMenuManager.Instance.CreateEquipmentsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, equipments);
                         if (equipments.Level >= requiredLevel)
+                        {
+                            LevelCondition.gameObject.SetActive(false);
+                        }
+                        else
+                        {
+                            CreateWarningLevelCondition(requiredLevel);
+                        }
+                    }
+                    else if (data is CardSoldiers cardSoldier)
+                    {
+                        // mainId = cardAdmirals.id;
+                        await DetailMenuManager.Instance.CreateCardSoldiersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSoldier);
+                        if (cardSoldier.Level >= requiredLevel)
                         {
                             LevelCondition.gameObject.SetActive(false);
                         }
@@ -270,7 +283,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         if (data is CardHeroes cardHeroes)
         {
             // mainId = cardHeroes.id;
-            await DetailMenuManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardHeroes);
+            await DetailMenuManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardHeroes);
             if (cardHeroes.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -283,7 +296,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         else if (data is Books books)
         {
             // mainId = books.id;
-            await DetailMenuManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, books);
+            await DetailMenuManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, books);
             if (books.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -296,7 +309,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         else if (data is CardCaptains cardCaptains)
         {
             // mainId = cardCaptains.id;
-            await DetailMenuManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardCaptains);
+            await DetailMenuManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardCaptains);
             if (cardCaptains.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -309,7 +322,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         else if (data is Pets pets)
         {
             // mainId = pets.id;
-            await DetailMenuManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, pets);
+            await DetailMenuManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, pets);
             if (pets.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -322,7 +335,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         else if (data is CardMilitaries cardMilitary)
         {
             // mainId = cardMilitary.id;
-            await DetailMenuManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardMilitary);
+            await DetailMenuManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMilitary);
             if (cardMilitary.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -335,7 +348,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         else if (data is CardSpells cardSpell)
         {
             // mainId = cardSpell.id;
-            await DetailMenuManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardSpell);
+            await DetailMenuManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSpell);
             if (cardSpell.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -348,7 +361,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         else if (data is CardMonsters cardMonsters)
         {
             // mainId = cardMonsters.id;
-            await DetailMenuManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardMonsters);
+            await DetailMenuManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMonsters);
             if (cardMonsters.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -361,7 +374,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         else if (data is CardColonels cardColonels)
         {
             // mainId = cardColonels.id;
-            await DetailMenuManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardColonels);
+            await DetailMenuManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardColonels);
             if (cardColonels.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -374,7 +387,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         else if (data is CardGenerals cardGenerals)
         {
             // mainId = cardGenerals.id;
-            await DetailMenuManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardGenerals);
+            await DetailMenuManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardGenerals);
             if (cardGenerals.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -387,7 +400,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         else if (data is CardAdmirals cardAdmirals)
         {
             // mainId = cardAdmirals.id;
-            await DetailMenuManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, cardAdmirals);
+            await DetailMenuManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardAdmirals);
             if (cardAdmirals.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
@@ -400,8 +413,21 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         else if (data is Equipments equipments)
         {
             // mainId = cardAdmirals.id;
-            await DetailMenuManager.Instance.CreateEquipmentsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, UpLevelButton, UpMaxLevelButton, feature, parentType, equipments);
+            await DetailMenuManager.Instance.CreateEquipmentsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, equipments);
             if (equipments.Level >= requiredLevel)
+            {
+                LevelCondition.gameObject.SetActive(false);
+            }
+            else
+            {
+                CreateWarningLevelCondition(requiredLevel);
+            }
+        }
+        else if (data is CardSoldiers cardSoldier)
+        {
+            // mainId = cardAdmirals.id;
+            await DetailMenuManager.Instance.CreateCardSoldiersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSoldier);
+            if (cardSoldier.Level >= requiredLevel)
             {
                 LevelCondition.gameObject.SetActive(false);
             }
@@ -417,7 +443,7 @@ public class MainMenuShubNiggurathManager : MonoBehaviour
         TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
         warningText.font = EuroStyleNormalFont;
         warningText.fontSize = 50;
-        warningText.fontStyle = FontStyles.Bold; 
+        warningText.fontStyle = FontStyles.Bold;
         warningText.text = MessageConstants.WaringLevel(value);
         LevelCondition.gameObject.AddComponent<SlideBottomToTopAnimation>();
     }
