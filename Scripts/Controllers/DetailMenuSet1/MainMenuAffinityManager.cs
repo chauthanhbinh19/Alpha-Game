@@ -121,6 +121,11 @@ public class MainMenuAffinityManager : MonoBehaviour
             // mainId = cardAdmirals.id;
             _=CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
         }
+        else if (data is CardSoldiers cardSoldier)
+        {
+            // mainId = cardAdmirals.id;
+            _=CreateCardSoldiersEquipmentsAsync(cardSoldier);
+        }
     }
     public void Close(Transform content)
     {
@@ -1820,6 +1825,175 @@ public class MainMenuAffinityManager : MonoBehaviour
             await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
         });
     }
+    public async Task CreateCardSoldiersEquipmentsAsync(CardSoldiers cardSoldier)
+    {
+        Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardSoldier.Image)}");
+        mainImage.texture = texture;
+        Rank rank = await UserCardAdmiralsRankService.Create().GetCardAdmiralRankAsync(mainType, cardSoldier.Id);
+        mainLevelText.text = rank.Level.ToString();
+        await CreateMaterialUIAsync();
+        upLevelButton.onClick.RemoveAllListeners();
+        upMaxLevelButton.onClick.RemoveAllListeners();
+        upLevelButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
+            if (rank.Level >= 100000)
+                return; // Nếu đã đạt giới hạn, không nâng cấp nữa
+
+            int tempLevel = rank.Level; // Biến tạm giữ cấp hiện tại
+            int expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Exp cần để lên 1 cấp
+            double totalExp = 0;
+            List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
+
+            // Tính tổng exp từ vật phẩm dựa vào quantity
+            foreach (var item in itemsList)
+            {
+                double itemExp = ItemHelper.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
+                int usedQuantity = 0;
+
+                // Nếu exp của vật phẩm quá lớn, chỉ lấy số lượng cần thiết
+                while (availableQuantity > 0 && totalExp < expNeeded)
+                {
+                    totalExp += itemExp;
+                    availableQuantity--;
+                    usedQuantity++;
+
+                    // Nếu đã đủ exp để lên cấp, dừng lại
+                    if (totalExp >= expNeeded)
+                        break;
+                }
+
+                // Nếu có vật phẩm được dùng, thêm vào danh sách
+                if (usedQuantity > 0)
+                {
+                    usedItems.Add((item, usedQuantity));
+                }
+
+                // Nếu đã đủ exp để nâng cấp, dừng lại
+                if (totalExp >= expNeeded)
+                    break;
+            }
+
+            // Kiểm tra nếu không đủ exp thì không làm gì
+            if (totalExp < expNeeded)
+                return;
+
+            // Tính số cấp có thể nâng, nhưng không tiêu thụ toàn bộ exp ngay lập tức
+            int levelsUp = 0;
+            while (totalExp >= expNeeded && tempLevel < 100000)
+            {
+                expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Tính lại exp cần cho cấp hiện tại
+                if (totalExp < expNeeded)
+                    break;
+
+                totalExp -= expNeeded;
+                tempLevel++; // Chỉ tăng cấp trên biến tạm
+                levelsUp++;
+            }
+
+            // Cập nhật số lượng vật phẩm đã sử dụng
+            foreach (var (usedItem, usedQuantity) in usedItems)
+            {
+                usedItem.Quantity -= usedQuantity;
+                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+            }
+
+            // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
+            Rank newRank = EnhanceRank(rank, levelsUp);
+            rank.Level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
+
+            // Cập nhật sức mạnh đội hình
+            
+            await UpLevelAsync(cardSoldier, newRank, mainType);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double currentPower = User.CurrentUserPower;
+            User.CurrentUserPower = newPower;
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+
+            await CreateCardSoldiersEquipmentsAsync(cardSoldier);
+        });
+        upMaxLevelButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            Dictionary<string, Features> feature = new Dictionary<string, Features>();
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
+            rank.Id = feature[mainType].Id;
+
+            if (rank.Level >= 100000)
+                return; // Nếu đã đạt giới hạn, không nâng cấp nữa
+
+            int tempLevel = rank.Level; // Biến tạm để giữ cấp hiện tại
+            double totalExp = 0;
+            List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
+
+            // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
+            foreach (var item in itemsList)
+            {
+                double itemExp = ItemHelper.GetItemExp(item.Name);
+                double availableQuantity = item.Quantity;
+                int usedQuantity = 0;
+
+                while (availableQuantity > 0)
+                {
+                    int expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Exp cần để lên cấp hiện tại
+
+                    // Nếu đã đạt level 100000 thì dừng
+                    if (tempLevel >= 100000)
+                        break;
+
+                    // Nếu vật phẩm này có thể giúp lên cấp tiếp theo, thì sử dụng
+                    totalExp += itemExp;
+                    availableQuantity--;
+                    usedQuantity++;
+
+                    // Khi đủ exp để lên cấp, tăng cấp ngay
+                    while (totalExp >= expNeeded && tempLevel < 100000)
+                    {
+                        totalExp -= expNeeded;
+                        tempLevel++;
+                        expNeeded = (tempLevel == 0 ? 1 : tempLevel) * 100; // Cập nhật exp cần thiết cho cấp tiếp theo
+                    }
+                }
+
+                if (usedQuantity > 0)
+                {
+                    usedItems.Add((item, usedQuantity));
+                }
+
+                // Nếu đã đạt level 100000 thì dừng hoàn toàn
+                if (tempLevel >= 100000)
+                    break;
+            }
+
+            // Cập nhật số lượng vật phẩm đã sử dụng
+            foreach (var (usedItem, usedQuantity) in usedItems)
+            {
+                usedItem.Quantity -= usedQuantity;
+                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+            }
+
+            // Cập nhật rank sau khi tính toán xong
+            Rank newRank = EnhanceRank(rank, tempLevel - rank.Level);
+            rank.Level = tempLevel; // Cập nhật cấp cuối cùng
+
+            // Cập nhật sức mạnh đội hình
+
+            await UpLevelAsync(cardSoldier, newRank, mainType);
+            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double currentPower = User.CurrentUserPower;
+            User.CurrentUserPower = newPower;
+            FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+
+            await CreateCardSoldiersEquipmentsAsync(cardSoldier);
+        });
+    }
     public async Task CreateMaterialUIAsync()
     {
         Close(MateriralPanel);
@@ -2025,6 +2199,10 @@ public class MainMenuAffinityManager : MonoBehaviour
         else if (data is CardAdmirals cardAdmiral)
         {
             await UserCardAdmiralsRankService.Create().InsertOrUpdateCardAdmiralRankAsync(rank, cardAdmiral.Id);
+        }
+        else if (data is CardSoldiers cardSoldier)
+        {
+            await UserCardSoldiersRankService.Create().InsertOrUpdateCardSoldierRankAsync(rank, cardSoldier.Id);
         }
     }
 }

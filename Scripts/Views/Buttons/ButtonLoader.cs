@@ -288,7 +288,7 @@ public class ButtonLoader : MonoBehaviour
         data is CardColonels cardColonel || data is CardGenerals cardGeneral ||
         data is CardAdmirals cardAdmiral || data is CardMonsters cardMonster ||
         data is CardMilitaries cardMilitary || data is CardSpells cardSpell ||
-        data is Books book || data is Pets pet || data is Equipments equipment
+        data is Books book || data is Pets pet || data is Equipments equipment || data is CardSoldiers cardSoldier
         )
         {
             int setButtonNumber = 8;
@@ -438,6 +438,10 @@ public class ButtonLoader : MonoBehaviour
         {
             CreateButtonGroupDetails(data, content);
         }
+        else if (data is CardSoldiers cardSoldier)
+        {
+            CreateButtonGroupDetails(data, content);
+        }
         else if (data is Books book)
         {
             CreateButtonGroupDetails(data, content);
@@ -491,7 +495,7 @@ public class ButtonLoader : MonoBehaviour
         data is CardColonels cardColonel || data is CardGenerals cardGeneral ||
         data is CardAdmirals cardAdmiral || data is CardMonsters cardMonster ||
         data is CardMilitaries cardMilitary || data is CardSpells cardSpell ||
-        data is Books book || data is Pets pet
+        data is Books book || data is Pets pet || data is CardSoldiers cardSoldier
         )
         {
             if (set == 1)
