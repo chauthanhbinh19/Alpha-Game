@@ -58,4 +58,9 @@ public class RunesService : IRunesService
     {
         return await _runesRepository.GetUniqueRunesIdAsync();
     }
+
+    public async Task<List<Runes>> GetRunesWithoutLimitAsync()
+    {
+        return await _runesRepository.GetRunesWithoutLimitAsync();
+    }
 }

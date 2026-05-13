@@ -68,4 +68,9 @@ public class CardMonstersService : ICardMonstersService
     {
         return await _cardMonstersRepository.GetUniqueCardMonstersIdAsync();
     }
+
+    public async Task<List<CardMonsters>> GetCardMonstersWithoutLimitAsync()
+    {
+        return await _cardMonstersRepository.GetCardMonstersWithoutLimitAsync();
+    }
 }

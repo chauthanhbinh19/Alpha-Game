@@ -163,6 +163,51 @@ public class BadgesRepository : IBadgesRepository
 
         return badges;
     }
+    public async Task<List<Badges>> GetBadgesWithoutLimitAsync()
+    {
+        List<Badges> badges = new List<Badges>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM badges";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Badges badge = new Badges
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            badges.Add(badge);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return badges;
+    }
     public async Task<int> GetBadgesCountAsync(string search, string rare)
     {
         int count = 0;

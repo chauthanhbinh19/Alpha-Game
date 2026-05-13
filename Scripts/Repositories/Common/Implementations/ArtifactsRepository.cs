@@ -149,6 +149,51 @@ public class ArtifactsRepository : IArtifactsRepository
 
         return artifacts;
     }
+    public async Task<List<Artifacts>> GetArtifactsWithoutLimitAsync()
+    {
+        List<Artifacts> artifacts = new List<Artifacts>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM artifacts";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Artifacts artifact = new Artifacts
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            artifacts.Add(artifact);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return artifacts;
+    }
     public async Task<int> GetArtifactsCountAsync(string search, string rare)
     {
         int count = 0;

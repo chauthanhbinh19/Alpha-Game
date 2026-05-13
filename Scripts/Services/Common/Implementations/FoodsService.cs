@@ -58,4 +58,9 @@ public class FoodsService : IFoodsService
     {
         return await _foodsRepository.GetUniqueFoodsIdAsync();
     }
+
+    public async Task<List<Foods>> GetFoodsWithoutLimitAsync()
+    {
+        return await _foodsRepository.GetFoodsWithoutLimitAsync();
+    }
 }

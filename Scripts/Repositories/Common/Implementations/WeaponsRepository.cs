@@ -171,6 +171,51 @@ public class WeaponsRepository : IWeaponsRepository
 
         return weapons;
     }
+    public async Task<List<Weapons>> GetWeaponsWithoutLimitAsync()
+    {
+        List<Weapons> weapons = new List<Weapons>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM weapons";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Weapons weapon = new Weapons
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            weapons.Add(weapon);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return weapons;
+    }
     public async Task<int> GetWeaponsCountAsync(string search, string rare)
     {
         int count = 0;

@@ -207,6 +207,51 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
 
         return magicFormationCircles;
     }
+    public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesWithoutLimitAsync()
+    {
+        List<MagicFormationCircles> magicFormationCircles = new List<MagicFormationCircles>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM magic_formation_circles";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            MagicFormationCircles magicFormationCircle = new MagicFormationCircles
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            magicFormationCircles.Add(magicFormationCircle);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return magicFormationCircles;
+    }
     public async Task<int> GetMagicFormationCirclesCountAsync(string search, string type, string rare)
     {
         int count = 0;

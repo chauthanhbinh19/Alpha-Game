@@ -75,7 +75,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardHeroes, newMaster, feature.FeatureName);
@@ -98,7 +98,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardHeroes, newMaster, feature.FeatureName);
@@ -151,7 +151,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(books, newMaster, feature.FeatureName);
@@ -174,7 +174,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(books, newMaster, feature.FeatureName);
@@ -227,7 +227,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, 1);
+                newMaster = EnhanceHelper.EnhanceMaster(master, 1);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardCaptains, newMaster, feature.FeatureName);
@@ -250,7 +250,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardCaptains, newMaster, feature.FeatureName);
@@ -303,7 +303,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, 1);
+                newMaster = EnhanceHelper.EnhanceMaster(master, 1);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(pets, newMaster, feature.FeatureName);
@@ -326,7 +326,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(pets, newMaster, feature.FeatureName);
@@ -379,7 +379,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardMilitary, newMaster, feature.FeatureName);
@@ -402,7 +402,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardMilitary, newMaster, feature.FeatureName);
@@ -455,7 +455,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardSpell, newMaster, feature.FeatureName);
@@ -478,7 +478,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardSpell, newMaster, feature.FeatureName);
@@ -531,7 +531,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardMonsters, newMaster, feature.FeatureName);
@@ -554,7 +554,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardMonsters, newMaster, feature.FeatureName);
@@ -607,7 +607,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardColonels, newMaster, feature.FeatureName);
@@ -630,7 +630,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardColonels, newMaster, feature.FeatureName);
@@ -683,7 +683,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardGenerals, newMaster, feature.FeatureName);
@@ -706,7 +706,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardGenerals, newMaster, feature.FeatureName);
@@ -759,7 +759,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardAdmirals, newMaster, feature.FeatureName);
@@ -782,7 +782,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardAdmirals, newMaster, feature.FeatureName);
@@ -835,7 +835,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardSoldiers, newMaster, feature.FeatureName);
@@ -858,7 +858,7 @@ public class DetailMasterManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Master newMaster = new Master();
-                newMaster = masterService.EnhanceMaster(master, result.levelsGained);
+                newMaster = EnhanceHelper.EnhanceMaster(master, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await masterService.UpLevelAsync(cardSoldiers, newMaster, feature.FeatureName);

@@ -58,4 +58,9 @@ public class MechaBeastsService : IMechaBeastsService
     {
         return await _mechaBeastsRepository.GetUniqueMechaBeastsIdAsync();
     }
+
+    public async Task<List<MechaBeasts>> GetMechaBeastsWithoutLimitAsync()
+    {
+        return await _mechaBeastsRepository.GetMechaBeastsWithoutLimitAsync();
+    }
 }

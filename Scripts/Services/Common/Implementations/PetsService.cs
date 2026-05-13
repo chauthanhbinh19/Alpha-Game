@@ -58,4 +58,9 @@ public class PetsService : IPetsService
     {
         return await _petsRepository.GetUniquePetsIdAsync();
     }
+
+    public async Task<List<Pets>> GetPetsWithoutLimitAsync()
+    {
+        return await _petsRepository.GetPetsWithoutLimitAsync();
+    }
 }

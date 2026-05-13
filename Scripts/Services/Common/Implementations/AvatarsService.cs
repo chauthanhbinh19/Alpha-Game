@@ -58,4 +58,9 @@ public class AvatarsService : IAvatarsService
     {
         return await _avatarsRepository.GetUniqueAvatarsIdAsync();
     }
+
+    public async Task<List<Avatars>> GetAvatarsWithoutLimitAsync()
+    {
+        return await _avatarsRepository.GetAvatarsWithoutLimitAsync();
+    }
 }

@@ -163,6 +163,51 @@ public class CollaborationsRepository : ICollaborationsRepository
 
         return collaborations;
     }
+    public async Task<List<Collaborations>> GetCollaborationsWithoutLimitAsync()
+    {
+        List<Collaborations> collaborations = new List<Collaborations>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM collaborations";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Collaborations collaboration = new Collaborations
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            collaborations.Add(collaboration);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return collaborations;
+    }
     public async Task<int> GetCollaborationsCountAsync(string search, string rare)
     {
         int count = 0;

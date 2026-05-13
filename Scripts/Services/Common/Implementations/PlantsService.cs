@@ -58,4 +58,9 @@ public class PlantsService : IPlantsService
     {
         return await _plantsRepository.GetUniquePlantsIdAsync();
     }
+
+    public async Task<List<Plants>> GetPlantsWithoutLimitAsync()
+    {
+        return await _plantsRepository.GetPlantsWithoutLimitAsync();
+    }
 }

@@ -58,4 +58,9 @@ public class BordersService : IBordersService
     {
         return await _bordersRepository.GetUniqueBordersIdAsync();
     }
+
+    public async Task<List<Borders>> GetBordersWithoutLimitAsync()
+    {
+        return await _bordersRepository.GetBordersWithoutLimitAsync();
+    }
 }

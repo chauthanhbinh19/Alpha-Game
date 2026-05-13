@@ -260,7 +260,7 @@ public class HealthManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = ResearchsService.Create().EnhanceResearchs(research, result.UpgradedLevels, 100);
+                research = EnhanceHelper.EnhanceResearchs(research, result.UpgradedLevels, 100);
                 await ResearchsService.Create().InsertOrUpdateResearchsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
                 
@@ -282,7 +282,7 @@ public class HealthManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = ResearchsService.Create().EnhanceResearchs(research, result.UpgradedLevels, 100);
+                research = EnhanceHelper.EnhanceResearchs(research, result.UpgradedLevels, 100);
                 await ResearchsService.Create().InsertOrUpdateResearchsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
                 

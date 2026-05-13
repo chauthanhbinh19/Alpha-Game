@@ -63,4 +63,9 @@ public class SymbolsService : ISymbolsService
     {
         return await _symbolsRepository.GetUniqueSymbolsIdAsync();
     }
+
+    public async Task<List<Symbols>> GetSymbolsWithoutLimitAsync()
+    {
+        return await _symbolsRepository.GetSymbolsWithoutLimitAsync();
+    }
 }

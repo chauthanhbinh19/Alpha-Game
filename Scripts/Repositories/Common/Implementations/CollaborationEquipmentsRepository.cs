@@ -186,6 +186,51 @@ public class CollaborationEquipmentsRepository : ICollaborationEquipmentsReposit
 
         return collaborationEquipments;
     }
+    public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsWithoutLimitAsync()
+    {
+        List<CollaborationEquipments> collaborationEquipments = new List<CollaborationEquipments>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM collaboration_equipments";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CollaborationEquipments collaborationEquipment = new CollaborationEquipments
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            collaborationEquipments.Add(collaborationEquipment);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return collaborationEquipments;
+    }
     public async Task<int> GetCollaborationEquipmentsCountAsync(string search, string type, string rare)
     {
         int count = 0;

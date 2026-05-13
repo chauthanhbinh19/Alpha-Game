@@ -258,7 +258,7 @@ public class HIDCVIIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = HIDCsService.Create().EnhanceHIDCs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceHIDCs(research, result.UpgradedLevels, 1000);
                 await HIDCsService.Create().InsertOrUpdateHIDCsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
@@ -280,7 +280,7 @@ public class HIDCVIIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = HIDCsService.Create().EnhanceHIDCs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceHIDCs(research, result.UpgradedLevels, 1000);
                 await HIDCsService.Create().InsertOrUpdateHIDCsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 

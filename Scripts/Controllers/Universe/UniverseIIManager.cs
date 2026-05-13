@@ -252,7 +252,7 @@ public class UniverseIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = UniversesService.Create().EnhanceUniverses(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceUniverses(research, result.UpgradedLevels, 1000);
                 await UniversesService.Create().InsertOrUpdateUniversesAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
@@ -274,7 +274,7 @@ public class UniverseIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = UniversesService.Create().EnhanceUniverses(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceUniverses(research, result.UpgradedLevels, 1000);
                 await UniversesService.Create().InsertOrUpdateUniversesAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 

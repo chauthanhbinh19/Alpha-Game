@@ -68,4 +68,9 @@ public class CardSpellsService : ICardSpellsService
     {
         return await _cardSpellsRepository.GetUniqueCardSpellsIdAsync();
     }
+
+    public async Task<List<CardSpells>> GetCardSpellsWithoutLimitAsync()
+    {
+        return await _cardSpellsRepository.GetCardSpellsWithoutLimitAsync();
+    }
 }

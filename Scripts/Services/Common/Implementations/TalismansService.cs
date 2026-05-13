@@ -63,4 +63,9 @@ public class TalismansService : ITalismansService
     {
         return await _talismansRepository.GetUniqueTalismansIdAsync();
     }
+
+    public async Task<List<Talismans>> GetTalismansWithoutLimitAsync()
+    {
+        return await _talismansRepository.GetTalismansWithoutLimitAsync();
+    }
 }

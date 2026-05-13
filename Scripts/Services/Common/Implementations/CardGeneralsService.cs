@@ -68,4 +68,9 @@ public class CardGeneralsService : ICardGeneralsService
     {
         return await _cardGeneralsRepository.GetUniqueCardGeneralsIdAsync();
     }
+
+    public async Task<List<CardGenerals>> GetCardGeneralsWithoutLimitAsync()
+    {
+        return await _cardGeneralsRepository.GetCardGeneralsWithoutLimitAsync();
+    }
 }

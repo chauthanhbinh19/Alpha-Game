@@ -191,6 +191,51 @@ public class SpiritCardsRepository : ISpiritCardsRepository
 
         return spiritCards;
     }
+    public async Task<List<SpiritCards>> GetSpiritCardsWithoutLimitAsync()
+    {
+        List<SpiritCards> spiritCards = new List<SpiritCards>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM spirit_cards";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            SpiritCards spiritCard = new SpiritCards
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            spiritCards.Add(spiritCard);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return spiritCards;
+    }
     public async Task<int> GetSpiritCardsCountAsync(string search, string type, string rare)
     {
         int count = 0;

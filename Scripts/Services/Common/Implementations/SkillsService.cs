@@ -58,4 +58,9 @@ public class SkillsService : ISkillsService
     {
         return await _skillsRepository.GetUniqueSkillsIdAsync();
     }
+
+    public async Task<List<Skills>> GetSkillsWithoutLimitAsync()
+    {
+        return await _skillsRepository.GetSkillsWithoutLimitAsync();
+    }
 }

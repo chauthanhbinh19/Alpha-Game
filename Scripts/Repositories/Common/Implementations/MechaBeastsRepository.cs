@@ -163,6 +163,51 @@ public class MechaBeastsRepository : IMechaBeastsRepository
 
         return mechaBeasts;
     }
+    public async Task<List<MechaBeasts>> GetMechaBeastsWithoutLimitAsync()
+    {
+        List<MechaBeasts> mechaBeasts = new List<MechaBeasts>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM mecha_beasts";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            MechaBeasts mechaBeast = new MechaBeasts
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            mechaBeasts.Add(mechaBeast);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return mechaBeasts;
+    }
     public async Task<int> GetMechaBeastsCountAsync(string search, string rare)
     {
         int count = 0;

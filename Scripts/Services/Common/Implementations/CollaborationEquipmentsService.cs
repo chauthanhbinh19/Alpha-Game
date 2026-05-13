@@ -59,4 +59,9 @@ public class CollaborationEquipmentsService : ICollaborationEquipmentsService
     {
         return await _collaborationEquipmentsRepository.GetUniqueCollaborationEquipmentsIdAsync();
     }
+
+    public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsWithoutLimitAsync()
+    {
+        return await _collaborationEquipmentsRepository.GetCollaborationEquipmentsWithoutLimitAsync();
+    }
 }

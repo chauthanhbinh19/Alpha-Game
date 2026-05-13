@@ -184,7 +184,7 @@ public class ReactorNumber20Manager : MonoBehaviour
                     await userItemsService.UpdateUserItemQuantityAsync(i);
                 }
 
-                ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, 1, 10);
+                ScienceFiction newScienceFiction = EnhanceHelper.EnhanceScienceFiction(scienceFiction, 1, 10);
 
                 // rankService.UpLevel(cardHeroes, newRank, mainType);
                 await ScienceFictionService.Create().InsertOrUpdateScienceFictionAsync(User.CurrentUserId, newScienceFiction, feature.Id);
@@ -239,7 +239,7 @@ public class ReactorNumber20Manager : MonoBehaviour
             }
 
             // Nâng cấp scienceFiction
-            ScienceFiction newScienceFiction = rankService.EnhanceScienceFiction(scienceFiction, upgradeAmount, 10);
+            ScienceFiction newScienceFiction = EnhanceHelper.EnhanceScienceFiction(scienceFiction, upgradeAmount, 10);
 
             await ScienceFictionService.Create().InsertOrUpdateScienceFictionAsync(User.CurrentUserId, newScienceFiction, feature.Id);
             double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);

@@ -58,4 +58,9 @@ public class TechnologiesService : ITechnologiesService
     {
         return await _technologiesRepository.GetUniqueTechnologiesIdAsync();
     }
+
+    public async Task<List<Technologies>> GetTechnologiesWithoutLimitAsync()
+    {
+        return await _technologiesRepository.GetTechnologiesWithoutLimitAsync();
+    }
 }

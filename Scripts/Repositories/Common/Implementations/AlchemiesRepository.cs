@@ -210,6 +210,51 @@ public class AlchemiesRepository : IAlchemiesRepository
 
         return alchemies;
     }
+    public async Task<List<Alchemies>> GetAlchemiesWithoutLimitAsync()
+    {
+        List<Alchemies> alchemies = new List<Alchemies>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM alchemies";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Alchemies alchemy = new Alchemies
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            alchemies.Add(alchemy);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return alchemies;
+    }
     public async Task<int> GetAlchemiesCountAsync(string search, string type, string rare)
     {
         int count = 0;

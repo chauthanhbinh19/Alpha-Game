@@ -5,6 +5,7 @@ public interface IMedalsRepository
 {
     Task<List<string>> GetUniqueMedalsIdAsync();
     Task<List<Medals>> GetMedalsAsync(string search, string rare, int pageSize, int offset);
+    Task<List<Medals>> GetMedalsWithoutLimitAsync();
     Task<int> GetMedalsCountAsync(string search, string rare);
     Task<List<Medals>> GetMedalsWithPriceAsync(int pageSize, int offset);
     Task<int> GetMedalsWithPriceCountAsync();

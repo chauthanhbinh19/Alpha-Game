@@ -54,5 +54,9 @@ public class AchievementsService : IAchievementsService
     {
         return await _achievementsRepository.SumPowerAchievementsPercentAsync();
     }
-    
+
+    public async Task<List<Achievements>> GetAchievementsWithoutLimitAsync()
+    {
+        return await _achievementsRepository.GetAchievementsWithoutLimitAsync();
+    }
 }

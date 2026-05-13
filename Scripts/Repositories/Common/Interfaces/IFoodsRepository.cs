@@ -5,6 +5,7 @@ public interface IFoodsRepository
 {
     Task<List<string>> GetUniqueFoodsIdAsync();
     Task<List<Foods>> GetFoodsAsync(string search, string rare, int pageSize, int offset);
+    Task<List<Foods>> GetFoodsWithoutLimitAsync();
     Task<int> GetFoodsCountAsync(string search, string rare);
     Task<List<Foods>> GetFoodsWithPriceAsync(int pageSize, int offset);
     Task<int> GetFoodsWithPriceCountAsync();

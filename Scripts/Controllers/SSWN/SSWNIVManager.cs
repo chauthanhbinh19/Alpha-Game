@@ -258,7 +258,7 @@ public class SSWNIVManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = SSWNsService.Create().EnhanceSSWNs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceSSWNs(research, result.UpgradedLevels, 1000);
                 await SSWNsService.Create().InsertOrUpdateSSWNsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
@@ -280,7 +280,7 @@ public class SSWNIVManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = SSWNsService.Create().EnhanceSSWNs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceSSWNs(research, result.UpgradedLevels, 1000);
                 await SSWNsService.Create().InsertOrUpdateSSWNsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 

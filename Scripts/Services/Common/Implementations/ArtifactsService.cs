@@ -58,4 +58,9 @@ public class ArtifactsService : IArtifactsService
     {
         return await _cardsRepository.GetUniqueArtifactsIdAsync();
     }
+
+    public async Task<List<Artifacts>> GetArtifactsWithoutLimitAsync()
+    {
+        return await _cardsRepository.GetArtifactsWithoutLimitAsync();
+    }
 }

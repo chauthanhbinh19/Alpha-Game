@@ -73,4 +73,9 @@ public class CardHeroesService : ICardHeroesService
     {
         return await _cardHeroesRepository.GetUniqueCardHeroesIdAsync();
     }
+
+    public async Task<List<CardHeroes>> GetCardHeroesWithoutLimitAsync()
+    {
+        return await _cardHeroesRepository.GetCardHeroesWithoutLimitAsync();
+    }
 }

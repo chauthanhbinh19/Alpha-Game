@@ -58,4 +58,9 @@ public class CoresService : ICoresService
     {
         return await _coresRepository.GetUniqueCoresIdAsync();
     }
+
+    public async Task<List<Cores>> GetCoresWithoutLimitAsync()
+    {
+        return await _coresRepository.GetCoresWithoutLimitAsync();
+    }
 }

@@ -234,6 +234,51 @@ public class CardMilitariesRepository : ICardMilitariesRepository
 
         return cardMilitaries;
     }
+    public async Task<List<CardMilitaries>> GetCardMilitariesWithoutLimitAsync()
+    {
+        List<CardMilitaries> cardMilitaries = new List<CardMilitaries>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM Card_militaries";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CardMilitaries cardMilitary = new CardMilitaries
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            cardMilitaries.Add(cardMilitary);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return cardMilitaries;
+    }
     public async Task<int> GetCardMilitariesCountAsync(string search, string type, string rare)
     {
         int count = 0;

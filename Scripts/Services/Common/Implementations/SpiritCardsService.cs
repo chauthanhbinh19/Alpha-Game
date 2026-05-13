@@ -63,4 +63,9 @@ public class SpiritCardsService : ISpiritCardsService
     {
         return await _spiritCardsRepository.GetUniqueSpiritCardsIdAsync();
     }
+
+    public async Task<List<SpiritCards>> GetSpiritCardsWithoutLimitAsync()
+    {
+        return await _spiritCardsRepository.GetSpiritCardsWithoutLimitAsync();
+    }
 }

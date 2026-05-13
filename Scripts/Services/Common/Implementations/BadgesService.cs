@@ -58,4 +58,9 @@ public class BadgesService : IBadgesService
     {
         return await _badgesRepository.GetUniqueBadgesIdAsync();
     }
+
+    public async Task<List<Badges>> GetBadgesWithoutLimitAsync()
+    {
+        return await _badgesRepository.GetBadgesWithoutLimitAsync();
+    }
 }

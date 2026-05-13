@@ -58,4 +58,9 @@ public class MedalsService : IMedalsService
     {
         return await _medalsRepository.GetUniqueMedalsIdAsync();
     }
+
+    public async Task<List<Medals>> GetMedalsWithoutLimitAsync()
+    {
+        return await _medalsRepository.GetMedalsWithoutLimitAsync();
+    }
 }

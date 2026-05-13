@@ -63,4 +63,9 @@ public class ArtworksService : IArtworksService
     {
         return await _artworkRepository.GetUniqueArtworksIdAsync();
     }
+
+    public async Task<List<Artworks>> GetArtworksWithoutLimitAsync()
+    {
+        return await _artworkRepository.GetArtworksWithoutLimitAsync();
+    }
 }

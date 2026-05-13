@@ -298,6 +298,51 @@ public class CardSoldiersRepository : ICardSoldiersRepository
 
         return cardAdmirals;
     }
+    public async Task<List<CardSoldiers>> GetCardSoldiersWithoutLimitAsync()
+    {
+        List<CardSoldiers> cardSoldiers = new List<CardSoldiers>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM card_soldiers";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CardSoldiers cardSoldier = new CardSoldiers
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            cardSoldiers.Add(cardSoldier);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return cardSoldiers;
+    }
     public async Task<List<CardSoldiers>> GetCardSoldiersRandomAsync(string type, int pageSize)
     {
         List<CardSoldiers> cardAdmirals = new List<CardSoldiers>();

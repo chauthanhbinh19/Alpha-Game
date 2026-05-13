@@ -63,4 +63,9 @@ public class FurnituresService : IFurnituresService
     {
         return await _furnituresRepository.GetUniqueFurnituresIdAsync();
     }
+
+    public async Task<List<Furnitures>> GetFurnituresWithoutLimitAsync()
+    {
+        return await _furnituresRepository.GetFurnituresWithoutLimitAsync();
+    }
 }

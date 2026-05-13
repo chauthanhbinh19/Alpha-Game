@@ -479,13 +479,13 @@ public class MainMenuManager : MonoBehaviour
     public void GetType(string type)
     {
         mainType = type; // Gán giá trị cho mainType
-        _ = GetButtonTypeAsync(); // Gọi hàm xử lý
+        _ = CreateMainMenuManagerAsync(); // Gọi hàm xử lý
         if (titleText != null)
         {
             titleText.text = LocalizationManager.Get(type);
         }
     }
-    public async Task GetButtonTypeAsync()
+    public async Task CreateMainMenuManagerAsync()
     {
         // MainMenuPanel.SetActive(true);
         if (mainType.Equals(AppConstants.MainType.ANIME))

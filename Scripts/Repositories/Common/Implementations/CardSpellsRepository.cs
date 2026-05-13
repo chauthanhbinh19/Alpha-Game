@@ -234,6 +234,51 @@ public class CardSpellsRepository : ICardSpellsRepository
 
         return cardSpells;
     }
+    public async Task<List<CardSpells>> GetCardSpellsWithoutLimitAsync()
+    {
+        List<CardSpells> cardSpells = new List<CardSpells>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM card_spells";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CardSpells cardSpell = new CardSpells
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            cardSpells.Add(cardSpell);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return cardSpells;
+    }
     public async Task<int> GetCardSpellsCountAsync(string search, string type, string rare)
     {
         int count = 0;

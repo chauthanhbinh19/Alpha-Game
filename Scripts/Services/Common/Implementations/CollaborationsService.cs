@@ -58,4 +58,9 @@ public class CollaborationsService : ICollaborationsService
     {
         return await _collaborationsRepository.GetUniqueCollaborationsIdAsync();
     }
+
+    public async Task<List<Collaborations>> GetCollaborationsWithoutLimitAsync()
+    {
+        return await _collaborationsRepository.GetCollaborationsWithoutLimitAsync();
+    }
 }

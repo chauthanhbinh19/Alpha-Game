@@ -258,7 +258,7 @@ public class HIRNIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = HIRNsService.Create().EnhanceHIRNs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceHIRNs(research, result.UpgradedLevels, 1000);
                 await HIRNsService.Create().InsertOrUpdateHIRNsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
@@ -280,7 +280,7 @@ public class HIRNIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = HIRNsService.Create().EnhanceHIRNs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceHIRNs(research, result.UpgradedLevels, 1000);
                 await HIRNsService.Create().InsertOrUpdateHIRNsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 

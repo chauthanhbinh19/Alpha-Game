@@ -63,4 +63,9 @@ public class CardLivesService : ICardLivesService
     {
         return await _cardLivesRepository.GetUniqueCardLivesIdAsync();
     }
+
+    public async Task<List<CardLives>> GetCardLivesWithoutLimitAsync()
+    {
+        return await _cardLivesRepository.GetCardLivesWithoutLimitAsync();
+    }
 }

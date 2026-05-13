@@ -58,4 +58,9 @@ public class BeveragesService : IBeveragesService
     {
         return await _beveragesRepository.GetUniqueBeveragesIdAsync();
     }
+
+    public async Task<List<Beverages>> GetBeveragesWithoutLimitAsync()
+    {
+        return await _beveragesRepository.GetBeveragesWithoutLimitAsync();
+    }
 }

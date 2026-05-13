@@ -258,7 +258,7 @@ public class HIENIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = HIENsService.Create().EnhanceHIENs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceHIENs(research, result.UpgradedLevels, 1000);
                 await HIENsService.Create().InsertOrUpdateHIENsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
@@ -280,7 +280,7 @@ public class HIENIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = HIENsService.Create().EnhanceHIENs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceHIENs(research, result.UpgradedLevels, 1000);
                 await HIENsService.Create().InsertOrUpdateHIENsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 

@@ -75,7 +75,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardHero, newRank, feature.FeatureName);
@@ -98,7 +98,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardHero, newRank, feature.FeatureName);
@@ -151,7 +151,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(book, newRank, feature.FeatureName);
@@ -174,7 +174,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(book, newRank, feature.FeatureName);
@@ -227,7 +227,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardCaptain, newRank, feature.FeatureName);
@@ -250,7 +250,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardCaptain, newRank, feature.FeatureName);
@@ -303,7 +303,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(pet, newRank, feature.FeatureName);
@@ -326,7 +326,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(pet, newRank, feature.FeatureName);
@@ -379,7 +379,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardMilitary, newRank, feature.FeatureName);
@@ -402,7 +402,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 double currentPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -453,7 +453,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardSpell, newRank, feature.FeatureName);
@@ -476,7 +476,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 double currentPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
@@ -527,7 +527,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardMonster, newRank, feature.FeatureName);
@@ -550,7 +550,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardMonster, newRank, feature.FeatureName);
@@ -603,7 +603,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardColonel, newRank, feature.FeatureName);
@@ -626,7 +626,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardColonel, newRank, feature.FeatureName);
@@ -679,7 +679,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardGeneral, newRank, feature.FeatureName);
@@ -702,7 +702,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardGeneral, newRank, feature.FeatureName);
@@ -755,7 +755,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardAdmiral, newRank, feature.FeatureName);
@@ -778,7 +778,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardAdmiral, newRank, feature.FeatureName);
@@ -831,7 +831,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(equipment, newRank, feature.FeatureName);
@@ -854,7 +854,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(equipment, newRank, feature.FeatureName);
@@ -907,7 +907,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardSoldier, newRank, feature.FeatureName);
@@ -930,7 +930,7 @@ public class DetailMenuManager : MonoBehaviour
                 item.Quantity = result.totalMaterialUsed;
                 await userItemsService.UpdateUserItemQuantityAsync(item);
                 Rank newRank = new Rank();
-                newRank = rankService.EnhanceRank(rank, result.levelsGained);
+                newRank = EnhanceHelper.EnhanceRank(rank, result.levelsGained);
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, result.currencyLeft);
 
                 await rankService.UpLevelAsync(cardSoldier, newRank, feature.FeatureName);

@@ -63,4 +63,9 @@ public class AlchemiesService : IAlchemiesService
     {
         return await _alchemyRepository.GetUniqueAlchemiesIdAsync();
     }
+
+    public async Task<List<Alchemies>> GetAlchemiesWithoutLimitAsync()
+    {
+        return await _alchemyRepository.GetAlchemiesWithoutLimitAsync();
+    }
 }

@@ -58,4 +58,9 @@ public class SpiritBeastsService : ISpiritBeastsService
     {
         return await _spiritBeastsRepository.GetUniqueSpiritBeastsIdAsync();
     }
+
+    public async Task<List<SpiritBeasts>> GetSpiritBeastsWithoutLimitAsync()
+    {
+        return await _spiritBeastsRepository.GetSpiritBeastsWithoutLimitAsync();
+    }
 }

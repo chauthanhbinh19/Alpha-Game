@@ -68,4 +68,9 @@ public class CardAdmiralsService : ICardAdmiralsService
     {
         return await _cardAdmiralsRepository.GetUniqueCardAdmiralsIdAsync();
     }
+
+    public async Task<List<CardAdmirals>> GetCardAdmiralsWithoutLimitAsync()
+    {
+        return await _cardAdmiralsRepository.GetCardAdmiralsWithoutLimitAsync();
+    }
 }

@@ -63,4 +63,9 @@ public class MagicFormationCirclesService : IMagicFormationCirclesService
     {
         return await _magicFormationCirclesRepository.GetUniqueMagicFormationCirclesIdAsync();
     }
+
+    public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesWithoutLimitAsync()
+    {
+        return await _magicFormationCirclesRepository.GetMagicFormationCirclesWithoutLimitAsync();
+    }
 }

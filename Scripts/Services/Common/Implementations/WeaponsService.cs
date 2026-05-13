@@ -58,4 +58,9 @@ public class WeaponsService : IWeaponsService
     {
         return await _weaponsRepository.GetUniqueWeaponsIdAsync();
     }
+
+    public async Task<List<Weapons>> GetWeaponsWithoutLimitAsync()
+    {
+        return await _weaponsRepository.GetWeaponsWithoutLimitAsync();
+    }
 }

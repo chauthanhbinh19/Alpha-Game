@@ -58,4 +58,9 @@ public class ArchitecturesService : IArchitecturesService
     {
         return await _architecturesRepository.GetUniqueArchitecturesIdAsync();
     }
+
+    public async Task<List<Architectures>> GetArchitecturesWithoutLimitAsync()
+    {
+        return await _architecturesRepository.GetArchitecturesWithoutLimitAsync();
+    }
 }

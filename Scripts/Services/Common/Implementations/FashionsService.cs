@@ -63,4 +63,9 @@ public class FashionsService : IFashionsService
     {
         return await _fashionsRepository.GetUniqueFashionsIdAsync();
     }
+
+    public async Task<List<Fashions>> GetFashionsWithoutLimitAsync()
+    {
+        return await _fashionsRepository.GetFashionsWithoutLimitAsync();
+    }
 }

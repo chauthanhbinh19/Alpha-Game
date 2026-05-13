@@ -62,4 +62,9 @@ public class RelicsService : IRelicsService
     {
         return await _relicsRepository.GetUniqueRelicsIdAsync();
     }
+
+    public async Task<List<Relics>> GetRelicsWithoutLimitAsync()
+    {
+        return await _relicsRepository.GetRelicsWithoutLimitAsync();
+    }
 }

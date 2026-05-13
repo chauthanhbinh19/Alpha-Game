@@ -63,4 +63,9 @@ public class BuildingsService : IBuildingsService
     {
         return await _buildingsRepository.GetUniqueBuildingsIdAsync();
     }
+
+    public async Task<List<Buildings>> GetBuildingsWithoutLimitAsync()
+    {
+        return await _buildingsRepository.GetBuildingsWithoutLimitAsync();
+    }
 }

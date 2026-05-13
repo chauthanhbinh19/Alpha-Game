@@ -5,5 +5,4 @@ public interface IHIENsService
     Task<HIENs> GetHIENsAsync(string id);
     Task InsertOrUpdateHIENsAsync(string user_id, HIENs HIENs, string id);
     Task<HIENs> GetSumHIENsAsync(string user_id);
-    HIENs EnhanceHIENs(HIENs research, int level, int multiplier = 1);
 }

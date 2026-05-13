@@ -68,4 +68,9 @@ public class BooksService : IBooksService
     {
         return await _booksRepository.GetUniqueBooksIdAsync();
     }
+
+    public async Task<List<Books>> GetBooksWithoutLimitAsync()
+    {
+        return await _booksRepository.GetBooksWithoutLimitAsync();
+    }
 }

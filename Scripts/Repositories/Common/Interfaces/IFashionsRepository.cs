@@ -6,6 +6,7 @@ public interface IFashionsRepository
     Task<List<string>> GetUniqueFashionsTypesAsync();
     Task<List<string>> GetUniqueFashionsIdAsync();
     Task<List<Fashions>> GetFashionsAsync(string search, string type, string rare, int pageSize, int offset);
+    Task<List<Fashions>> GetFashionsWithoutLimitAsync();
     Task<int> GetFashionsCountAsync(string search, string type, string rare);
     Task<List<Fashions>> GetFashionsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetFashionsWithPriceCountAsync(string type);

@@ -68,4 +68,9 @@ public class CardCaptainsService : ICardCaptainsService
     {
         return await _cardCaptainsRepository.GetUniqueCardCaptainsIdAsync();
     }
+
+    public async Task<List<CardCaptains>> GetCardCaptainsWithoutLimitAsync()
+    {
+        return await _cardCaptainsRepository.GetCardCaptainsWithoutLimitAsync();
+    }
 }

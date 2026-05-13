@@ -58,4 +58,9 @@ public class EmojisService : IEmojisService
     {
         return await _coresRepository.GetUniqueEmojisIdAsync();
     }
+
+    public async Task<List<Emojis>> GetEmojisWithoutLimitAsync()
+    {
+        return await _coresRepository.GetEmojisWithoutLimitAsync();
+    }
 }

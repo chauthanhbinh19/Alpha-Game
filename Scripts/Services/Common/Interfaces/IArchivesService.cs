@@ -5,5 +5,4 @@ public interface IArchivesService
     Task<Archives> GetArchivesAsync(string id);
     Task InsertOrUpdateArchivesAsync(string user_id, Archives Archives, string id);
     Task<Archives> GetSumArchivesAsync(string user_id);
-    Archives EnhanceArchives(Archives research, int level, int multiplier = 1);
 }

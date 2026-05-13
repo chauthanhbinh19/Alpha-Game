@@ -235,6 +235,51 @@ public class CardCaptainsRepository : ICardCaptainsRepository
 
         return CardCaptainsList;
     }
+    public async Task<List<CardCaptains>> GetCardCaptainsWithoutLimitAsync()
+    {
+        List<CardCaptains> cardCaptains = new List<CardCaptains>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM achievements";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CardCaptains cardCaptain = new CardCaptains
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            cardCaptains.Add(cardCaptain);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return cardCaptains;
+    }
     public async Task<int> GetCardCaptainsCountAsync(string search, string type, string rare)
     {
         int count = 0;

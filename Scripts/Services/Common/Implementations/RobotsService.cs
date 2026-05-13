@@ -58,4 +58,9 @@ public class RobotsService : IRobotsService
     {
         return await _robotsRepository.GetUniqueRobotsIdAsync();
     }
+
+    public async Task<List<Robots>> GetRobotsWithoutLimitAsync()
+    {
+        return await _robotsRepository.GetRobotsWithoutLimitAsync();
+    }
 }

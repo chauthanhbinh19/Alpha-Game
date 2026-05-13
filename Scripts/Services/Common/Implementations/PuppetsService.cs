@@ -63,4 +63,9 @@ public class PuppetsService : IPuppetsService
     {
         return await _puppetsRepository.GetUniquePuppetsIdAsync();
     }
+
+    public async Task<List<Puppets>> GetPuppetsWithoutLimitAsync()
+    {
+        return await _puppetsRepository.GetPuppetsWithoutLimitAsync();
+    }
 }

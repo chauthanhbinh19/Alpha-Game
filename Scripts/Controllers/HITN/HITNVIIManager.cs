@@ -258,7 +258,7 @@ public class HITNVIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = HITNsService.Create().EnhanceHITNs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceHITNs(research, result.UpgradedLevels, 1000);
                 await HITNsService.Create().InsertOrUpdateHITNsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
@@ -280,7 +280,7 @@ public class HITNVIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = HITNsService.Create().EnhanceHITNs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceHITNs(research, result.UpgradedLevels, 1000);
                 await HITNsService.Create().InsertOrUpdateHITNsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 

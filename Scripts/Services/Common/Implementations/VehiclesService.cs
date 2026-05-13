@@ -63,4 +63,9 @@ public class VehiclesService : IVehiclesService
     {
         return await _vehiclesRepository.GetUniqueVehiclesIdAsync();
     }
+
+    public async Task<List<Vehicles>> GetVehiclesWithoutLimitAsync()
+    {
+        return await _vehiclesRepository.GetVehiclesWithoutLimitAsync();
+    }
 }

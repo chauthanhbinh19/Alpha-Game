@@ -258,7 +258,7 @@ public class HICAIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = HICAsService.Create().EnhanceHICAs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceHICAs(research, result.UpgradedLevels, 1000);
                 await HICAsService.Create().InsertOrUpdateHICAsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
@@ -280,7 +280,7 @@ public class HICAIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = HICAsService.Create().EnhanceHICAs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceHICAs(research, result.UpgradedLevels, 1000);
                 await HICAsService.Create().InsertOrUpdateHICAsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 

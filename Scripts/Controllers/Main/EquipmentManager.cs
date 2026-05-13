@@ -64,7 +64,7 @@ public class EquipmentManager : MonoBehaviour
     {
         ItemButtonPrefab = UIManager.Instance.Get("ItemButtonPrefab");
     }
-    public async Task CreateEquipmentsButtonAsync(Transform equipmentMenuPanel)
+    public async Task CreateEquipmentsButtonAsync(Transform tempEquipmentMenuPanel)
     {
         Texture2D itemBackground = TextureHelper.LoadTexture2DCached(ImageConstants.Badge.BADGE_EQUIPMENT_URL);
         //Equipment menu
@@ -75,11 +75,11 @@ public class EquipmentManager : MonoBehaviour
             for (int i = 0; i < uniqueTypes.Count; i++)
             {
                 string subtype = uniqueTypes[i];
-                CreateEquipmentButtonUI(subtype, itemBackground, TextureHelper.LoadTexture2DCached($"UI/Button/Equipments/{subtype}"), equipmentMenuPanel);
+                CreateEquipmentButtonUI(subtype, itemBackground, TextureHelper.LoadTexture2DCached($"UI/Button/Equipments/{subtype}"), tempEquipmentMenuPanel);
             }
         }
-        FindAnyObjectByType<EquipmentManager>().CreateEquipments(equipmentMenuPanel);
-        equipmentMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+        FindAnyObjectByType<EquipmentManager>().CreateEquipments(tempEquipmentMenuPanel);
+        tempEquipmentMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     private void CreateEquipmentButtonUI(string itemName, Texture2D itemBackground, Texture2D itemImage, Transform panel)
     {
@@ -108,10 +108,10 @@ public class EquipmentManager : MonoBehaviour
             nameText.text = LocalizationManager.Get(itemName.Replace("_", ""));
         }
     }
-    public void CreateEquipments(Transform EquipmentMenuPanel)
+    public void CreateEquipments(Transform tempEquipmentMenuPanel)
     {
         // type = AppConstants.Type.ALL;
-        equipmentMenuPanel = EquipmentMenuPanel.gameObject;
+        equipmentMenuPanel = tempEquipmentMenuPanel.gameObject;
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         ItemsPrefab = UIManager.Instance.Get("ItemPrefab");
         MainMenuPanelPrefab = UIManager.Instance.Get("MainMenuPanelPrefab");

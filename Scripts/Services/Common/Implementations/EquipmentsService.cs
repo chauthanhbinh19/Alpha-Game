@@ -56,4 +56,9 @@ public class EquipmentsService : IEquipmentsService
     {
         return await _equipmentsRepository.GetUniqueEquipmentsIdAsync();
     }
+
+    public async Task<List<Equipments>> GetEquipmentsWithoutLimitAsync()
+    {
+        return await _equipmentsRepository.GetEquipmentsWithoutLimitAsync();
+    }
 }

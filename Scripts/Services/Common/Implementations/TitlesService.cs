@@ -58,4 +58,9 @@ public class TitlesService : ITitlesService
     {
         return await _titlesRepository.GetUniqueTitlesIdAsync();
     }
+
+    public async Task<List<Titles>> GetTitlesWithoutLimitAsync()
+    {
+        return await _titlesRepository.GetTitlesWithoutLimitAsync();
+    }
 }

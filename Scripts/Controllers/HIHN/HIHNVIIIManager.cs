@@ -258,7 +258,7 @@ public class HIHNVIIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = HIHNsService.Create().EnhanceHIHNs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceHIHNs(research, result.UpgradedLevels, 1000);
                 await HIHNsService.Create().InsertOrUpdateHIHNsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 
@@ -280,7 +280,7 @@ public class HIHNVIIIManager : MonoBehaviour
             UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, MAX_LEVEL, User.CurrentUserId);
             if (result.Success)
             {
-                research = HIHNsService.Create().EnhanceHIHNs(research, result.UpgradedLevels, 1000);
+                research = EnhanceHelper.EnhanceHIHNs(research, result.UpgradedLevels, 1000);
                 await HIHNsService.Create().InsertOrUpdateHIHNsAsync(User.CurrentUserId, research, featureId);
                 Destroy(currentObject);
 

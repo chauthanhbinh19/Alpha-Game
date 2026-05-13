@@ -63,4 +63,9 @@ public class ForgesService : IForgesService
     {
         return await _forgesRepository.GetUniqueForgesIdAsync();
     }
+
+    public async Task<List<Forges>> GetForgesWithoutLimitAsync()
+    {
+        return await _forgesRepository.GetForgesWithoutLimitAsync();
+    }
 }

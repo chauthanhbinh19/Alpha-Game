@@ -68,4 +68,9 @@ public class CardColonelsService : ICardColonelsService
     {
         return await _cardColonelsRepository.GetUniqueCardColonelsIdAsync();
     }
+
+    public async Task<List<CardColonels>> GetCardColonelsWithoutLimitAsync()
+    {
+        return await _cardColonelsRepository.GetCardColonelsWithoutLimitAsync();
+    }
 }

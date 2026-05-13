@@ -295,6 +295,51 @@ public class CardColonelsRepository : ICardColonelsRepository
 
         return cardColonels;
     }
+    public async Task<List<CardColonels>> GetCardColonelsWithoutLimitAsync()
+    {
+        List<CardColonels> cardColonels = new List<CardColonels>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT * FROM card_colonels";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            CardColonels cardColonel = new CardColonels
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Rare = reader.GetStringSafe("rare"),
+                                Quality = reader.GetDoubleSafe("quality"),
+                            };
+
+                            cardColonels.Add(cardColonel);
+                        }
+                    }
+                }
+            }
+            catch (MySqlConnector.MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return cardColonels;
+    }
     public async Task<List<CardColonels>> GetCardColonelsRandomAsync(string type, int pageSize)
     {
         List<CardColonels> cardColonels = new List<CardColonels>();
