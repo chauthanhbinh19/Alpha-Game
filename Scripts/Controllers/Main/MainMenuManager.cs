@@ -109,7 +109,7 @@ public class MainMenuManager : MonoBehaviour
         // {
         //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         //     ButtonEvent.Instance.Close(MainPanel);
-        //     await HomeManager.Instance.CreateHomePanelAsync();
+        //     
         // });
 
         inventoryButton.onClick.AddListener(() =>
@@ -124,11 +124,10 @@ public class MainMenuManager : MonoBehaviour
                 Destroy(popupButtonPanel);
             });
             this.homeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
-            this.homeButton.onClick.AddListener(async () =>
+            this.homeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Close(MainPanel);
-                await HomeManager.Instance.CreateHomePanelAsync();
+                ButtonEvent.Instance.Close(MainPanel);
             });
             TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.INVENTORY);
@@ -148,11 +147,10 @@ public class MainMenuManager : MonoBehaviour
                 Destroy(popupButtonPanel);
             });
             this.homeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
-            this.homeButton.onClick.AddListener(async () =>
+            this.homeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Close(MainPanel);
-                await HomeManager.Instance.CreateHomePanelAsync();
+                ButtonEvent.Instance.Close(MainPanel);
             });
             TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.EVENT);
@@ -188,11 +186,10 @@ public class MainMenuManager : MonoBehaviour
                 Destroy(popupObject);
             });
             this.homeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            this.homeButton.onClick.AddListener(async () =>
+            this.homeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Close(MainPanel);
-                await HomeManager.Instance.CreateHomePanelAsync();
+                ButtonEvent.Instance.Close(MainPanel);
             });
             // FindObjectOfType<ButtonLoader>().CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
             await MasterBoardController.Instance.CreateMasterBoardAsync(popupObject);
@@ -211,11 +208,10 @@ public class MainMenuManager : MonoBehaviour
                 Destroy(popupObject);
             });
             this.homeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            this.homeButton.onClick.AddListener(async () =>
+            this.homeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Close(MainPanel);
-                await HomeManager.Instance.CreateHomePanelAsync();
+                ButtonEvent.Instance.Close(MainPanel);
             });
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SCIENCE_FICTION);
             ScienceFictionManager.Instance.CreateScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
@@ -224,40 +220,44 @@ public class MainMenuManager : MonoBehaviour
 
         galleryButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ButtonEvent.Instance.Close(MainPanel);
-            GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
-            TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            TitleText.text = LocalizationManager.Get(AppConstants.MainType.GALLERY);
-            closeButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
+            GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, MainPanel);
+            closeButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
             closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Destroy(popupObject);
+                Destroy(popupButtonPanel);
             });
-            GalleryManager.Instance.CreateGalleryButton(popupObject.transform.Find("Content"));
-            GalleryManager.Instance.CreateGallery(popupObject.transform.Find("Content"));
-            Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
-            scrollViewPanel.gameObject.SetActive(false);
+            this.homeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            this.homeButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+            });
+            TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.GALLERY);
+            GalleryManager.Instance.CreateGalleryButton(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
+            GalleryManager.Instance.CreateGallery(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
         });
 
         collectionButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ButtonEvent.Instance.Close(MainPanel);
-            GameObject popupObject = Instantiate(PopupMenuPanelPrefab, MainPanel);
-            TextMeshProUGUI TitleText = popupObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            TitleText.text = LocalizationManager.Get(AppConstants.MainType.COLLECTION);
-            closeButton = popupObject.transform.Find("CloseButton").GetComponent<Button>();
+            GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, MainPanel);
+            closeButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
             closeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Destroy(popupObject);
+                Destroy(popupButtonPanel);
             });
-            CollectionManager.Instance.CreateCollectionButton(popupObject.transform.Find("Content"));
-            CollectionManager.Instance.CreateCollection(popupObject.transform.Find("Content"));
-            Transform scrollViewPanel = popupObject.transform.Find("Scroll View");
-            scrollViewPanel.gameObject.SetActive(false);
+            this.homeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            this.homeButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+            });
+            TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLECTION);
+            CollectionManager.Instance.CreateCollectionButton(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
+            CollectionManager.Instance.CreateCollection(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
         });
 
         equipmentButton.onClick.AddListener(async () =>
@@ -305,11 +305,10 @@ public class MainMenuManager : MonoBehaviour
                 Destroy(popupObject);
             });
             this.homeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            this.homeButton.onClick.AddListener(async () =>
+            this.homeButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Close(MainPanel);
-                await HomeManager.Instance.CreateHomePanelAsync();
+                ButtonEvent.Instance.Close(MainPanel);
             });
             await ArenaManager.Instance.CreateArenaButtonAsync(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
         });
@@ -575,7 +574,7 @@ public class MainMenuManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
-                await HomeManager.Instance.CreateHomePanelAsync();
+                
             });
             nextButton.onClick.AddListener(() =>
             {

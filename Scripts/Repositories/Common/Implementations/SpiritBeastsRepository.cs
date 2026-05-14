@@ -176,7 +176,7 @@ public class SpiritBeastsRepository : ISpiritBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM spirit_beasts";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM spirit_beasts";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

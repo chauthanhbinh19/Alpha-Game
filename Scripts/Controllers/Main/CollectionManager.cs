@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class CollectionManager : MonoBehaviour
 {
-    private GameObject ItemButtonPrefab;
+    private GameObject MainButtonPrefab;
     private Transform collectionMenuPanel;
     private GameObject DictionaryPanelPrefab;
     private Transform DictionaryContentPanel;
@@ -50,67 +50,211 @@ public class CollectionManager : MonoBehaviour
     }
     public void Initialize()
     {
-        ItemButtonPrefab = UIManager.Instance.Get("ItemButtonPrefab");
+        MainButtonPrefab = UIManager.Instance.Get("MainButtonPrefab");
     }
     public void CreateCollectionButton(Transform tempCollectionMenuPanel)
     {
         Texture2D itemBackground = TextureHelper.LoadTexture2DCached(ImageConstants.Badge.BADGE_COLLECTION_URL);
         //Collection menu
-        CreateCollectionButtonUI(1, AppDisplayConstants.Collection.CARD_HEROES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_HERO_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(2, AppDisplayConstants.Collection.BOOKS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.BOOK_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(3, AppDisplayConstants.Collection.PETS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.PET_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(4, AppDisplayConstants.Collection.CARD_CAPTAINS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_CAPTAIN_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(5, AppDisplayConstants.Collection.COLLABORATION_EQUIPMENTS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.COLLABORATION_EQUIPMENT_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(6, AppDisplayConstants.Collection.CARD_MILITARIES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_MILITARY_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(7, AppDisplayConstants.Collection.CARD_SPELLS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_SPELL_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(8, AppDisplayConstants.Collection.COLLABORATIONS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.COLLABORATION_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(9, AppDisplayConstants.Collection.CARD_MONSTERS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_MONSTER_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(10, AppDisplayConstants.Collection.EQUIPMENTS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.EQUIPMENT_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(11, AppDisplayConstants.Collection.MEDALS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.MEDAL_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(12, AppDisplayConstants.Collection.SKILLS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.SKILL_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(13, AppDisplayConstants.Collection.SYMBOLS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.SYMBOL_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(14, AppDisplayConstants.Collection.TITLES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.TITLE_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(15, AppDisplayConstants.Collection.MAGIC_FORMATION_CIRCLES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.MAGIC_FORMATION_CIRCLE_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(16, AppDisplayConstants.Collection.RELICS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.RELIC_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(17, AppDisplayConstants.Collection.CARD_COLONELS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_COLONEL_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(18, AppDisplayConstants.Collection.CARD_GENERALS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_GENERAL_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(19, AppDisplayConstants.Collection.CARD_ADMIRALS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_ADMIRAL_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(20, AppDisplayConstants.Collection.BORDERS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.BORDER_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(21, AppDisplayConstants.Collection.TALISMANS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.TALISMAN_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(22, AppDisplayConstants.Collection.PUPPETS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.PUPPET_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(23, AppDisplayConstants.Collection.ALCHEMIES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.ALCHEMY_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(24, AppDisplayConstants.Collection.FORGES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.FORGE_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(25, AppDisplayConstants.Collection.CARD_LIVES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.LIFE_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(26, AppDisplayConstants.Collection.ARTWORKS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.ARTWORK_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(27, AppDisplayConstants.Collection.SPIRIT_BEASTS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.SPIRIT_BEAST_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(28, AppDisplayConstants.Collection.AVATARS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.AVATAR_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(29, AppDisplayConstants.Collection.SPIRIT_CARDS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.SPIRIT_CARD_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(30, AppDisplayConstants.Collection.ACHIEVEMENTS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.ACHIEVEMENT_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(31, AppDisplayConstants.Collection.ARTIFACTS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.ARTIFACT_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(32, AppDisplayConstants.Collection.ARCHITECTURES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.ARCHITECTURE_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(33, AppDisplayConstants.Collection.TECHNOLOGIES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.TECHNOLOGY_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(34, AppDisplayConstants.Collection.VEHICLES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.VEHICLE_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(35, AppDisplayConstants.Collection.CORES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CORE_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(36, AppDisplayConstants.Collection.WEAPOMS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.WEAPON_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(37, AppDisplayConstants.Collection.ROBOTS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.ROBOT_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(38, AppDisplayConstants.Collection.BADGES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.BADGE_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(39, AppDisplayConstants.Collection.MECHA_BEASTS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.MECHA_BEAST_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(40, AppDisplayConstants.Collection.RUNES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.RUNE_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(41, AppDisplayConstants.Collection.FURNITURES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.FURNITURE_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(42, AppDisplayConstants.Collection.FOODS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.FOOD_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(43, AppDisplayConstants.Collection.BEVERAGES_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.BEVERAGE_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(44, AppDisplayConstants.Collection.BUILDINGS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.BUILDING_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(45, AppDisplayConstants.Collection.PLANTS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.PLANT_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(46, AppDisplayConstants.Collection.FASHIONS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.FASHION_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(47, AppDisplayConstants.Collection.EMOJIS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.EMOJI_URL), tempCollectionMenuPanel);
-        CreateCollectionButtonUI(48, AppDisplayConstants.Collection.CARD_SOLDIERS_COLLECTION, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_SOLDIER_URL), tempCollectionMenuPanel);
+        CreateCollectionButtonUI(1, AppDisplayConstants.Collection.CARD_HEROES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_HERO_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(2, AppDisplayConstants.Collection.BOOKS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.BOOK_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BOOK_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(3, AppDisplayConstants.Collection.PETS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.PET_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PET_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(4, AppDisplayConstants.Collection.CARD_CAPTAINS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_CAPTAIN_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_CAPTAIN_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(5, AppDisplayConstants.Collection.COLLABORATION_EQUIPMENTS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.COLLABORATION_EQUIPMENT_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_EQUIPMENT_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(6, AppDisplayConstants.Collection.CARD_MILITARIES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_MILITARY_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MILITARY_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(7, AppDisplayConstants.Collection.CARD_SPELLS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_SPELL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SPELL_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(8, AppDisplayConstants.Collection.COLLABORATIONS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.COLLABORATION_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(9, AppDisplayConstants.Collection.CARD_MONSTERS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_MONSTER_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MONSTER_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(10, AppDisplayConstants.Collection.EQUIPMENTS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.EQUIPMENT_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.EQUIPMENT_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(11, AppDisplayConstants.Collection.MEDALS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.MEDAL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.MEDAL_URL),
+             tempCollectionMenuPanel);
+        CreateCollectionButtonUI(12, AppDisplayConstants.Collection.SKILLS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.SKILL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SKILL_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(13, AppDisplayConstants.Collection.SYMBOLS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.SYMBOL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SYMBOL_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(14, AppDisplayConstants.Collection.TITLES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.TITLE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TITLE_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(15, AppDisplayConstants.Collection.MAGIC_FORMATION_CIRCLES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.MAGIC_FORMATION_CIRCLE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.MAGIC_FORMATION_CIRCLE_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(16, AppDisplayConstants.Collection.RELICS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.RELIC_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.RELIC_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(17, AppDisplayConstants.Collection.CARD_COLONELS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_COLONEL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_COLONEL_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(18, AppDisplayConstants.Collection.CARD_GENERALS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_GENERAL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_GENERAL_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(19, AppDisplayConstants.Collection.CARD_ADMIRALS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_ADMIRAL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_ADMIRAL_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(20, AppDisplayConstants.Collection.BORDERS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.BORDER_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BORDER_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(21, AppDisplayConstants.Collection.TALISMANS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.TALISMAN_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TALISMAN_URL),  
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(22, AppDisplayConstants.Collection.PUPPETS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.PUPPET_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PUPPET_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(23, AppDisplayConstants.Collection.ALCHEMIES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.ALCHEMY_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ALCHEMY_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(24, AppDisplayConstants.Collection.FORGES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.FORGE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FORGE_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(25, AppDisplayConstants.Collection.CARD_LIVES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.LIFE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_LIFE_URL),
+             tempCollectionMenuPanel);
+        CreateCollectionButtonUI(26, AppDisplayConstants.Collection.ARTWORKS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.ARTWORK_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTWORK_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(27, AppDisplayConstants.Collection.SPIRIT_BEASTS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.SPIRIT_BEAST_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_BEAST_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(28, AppDisplayConstants.Collection.AVATARS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.AVATAR_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.AVATAR_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(29, AppDisplayConstants.Collection.SPIRIT_CARDS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.SPIRIT_CARD_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_CARD_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(30, AppDisplayConstants.Collection.ACHIEVEMENTS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.ACHIEVEMENT_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ACHIEVEMENT_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(31, AppDisplayConstants.Collection.ARTIFACTS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.ARTIFACT_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTIFACT_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(32, AppDisplayConstants.Collection.ARCHITECTURES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.ARCHITECTURE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARCHITECTURE_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(33, AppDisplayConstants.Collection.TECHNOLOGIES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.TECHNOLOGY_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TECHNOLOGY_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(34, AppDisplayConstants.Collection.VEHICLES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.VEHICLE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.VEHICLE_URL),
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(35, AppDisplayConstants.Collection.CORES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CORE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CORE_URL),
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(36, AppDisplayConstants.Collection.WEAPONS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.WEAPON_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.WEAPON_URL),  
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(37, AppDisplayConstants.Collection.ROBOTS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.ROBOT_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ROBOT_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(38, AppDisplayConstants.Collection.BADGES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.BADGE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BADGE_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(39, AppDisplayConstants.Collection.MECHA_BEASTS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.MECHA_BEAST_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.MECHA_BEAST_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(40, AppDisplayConstants.Collection.RUNES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.RUNE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.RUNE_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(41, AppDisplayConstants.Collection.FURNITURES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.FURNITURE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FURNITURE_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(42, AppDisplayConstants.Collection.FOODS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.FOOD_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FOOD_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(43, AppDisplayConstants.Collection.BEVERAGES_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.BEVERAGE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BEVERAGE_URL),
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(44, AppDisplayConstants.Collection.BUILDINGS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.BUILDING_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BUILDING_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(45, AppDisplayConstants.Collection.PLANTS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.PLANT_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PLANT_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(46, AppDisplayConstants.Collection.FASHIONS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.FASHION_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FASHION_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(47, AppDisplayConstants.Collection.EMOJIS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.EMOJI_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.EMOJI_URL), 
+            tempCollectionMenuPanel);
+        CreateCollectionButtonUI(48, AppDisplayConstants.Collection.CARD_SOLDIERS_COLLECTION, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Collection.CARD_SOLDIER_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SOLDIER_URL), 
+            tempCollectionMenuPanel);
 
         tempCollectionMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    private void CreateCollectionButtonUI(int index, string itemName, Texture2D _itemBackground, Texture2D _itemImage, Transform panel)
+    private void CreateCollectionButtonUI(int index, string itemName, Texture2D _itemBackground, Texture2D _itemImage, Texture2D _borderImage, Transform panel)
     {
         // Tạo button từ prefab
-        GameObject newButton = Instantiate(ItemButtonPrefab, panel);
+        GameObject newButton = Instantiate(MainButtonPrefab, panel);
         Transform transform = newButton.transform;
         newButton.name = "Button_" + index;
 
@@ -133,6 +277,13 @@ public class CollectionManager : MonoBehaviour
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemName);
+        }
+
+        // Gán hình ảnh cho itemBorder
+        RawImage borderImage = newButton.transform.Find("BorderImage").GetComponent<RawImage>();
+        if (borderImage != null && _borderImage != null)
+        {
+            borderImage.texture = _borderImage;
         }
     }
     public void CreateCollection(Transform tempCollectionMenuPanel)

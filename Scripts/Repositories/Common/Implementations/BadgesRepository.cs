@@ -174,7 +174,7 @@ public class BadgesRepository : IBadgesRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM badges";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM badges";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

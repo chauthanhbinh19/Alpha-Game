@@ -173,7 +173,7 @@ public class AvatarsRepository : IAvatarsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM achievements";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM achievements";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

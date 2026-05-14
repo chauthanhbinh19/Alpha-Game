@@ -207,7 +207,7 @@ public class PetsRepository : IPetsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM pets";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM pets";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

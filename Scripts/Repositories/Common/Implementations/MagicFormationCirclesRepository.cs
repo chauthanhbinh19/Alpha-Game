@@ -218,7 +218,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM magic_formation_circles";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM magic_formation_circles";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

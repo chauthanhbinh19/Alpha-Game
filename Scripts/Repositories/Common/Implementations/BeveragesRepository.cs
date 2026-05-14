@@ -184,7 +184,7 @@ public class BeveragesRepository : IBeveragesRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM beverages";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM beverages";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

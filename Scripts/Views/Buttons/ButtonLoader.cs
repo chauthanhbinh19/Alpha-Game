@@ -54,52 +54,187 @@ public class ButtonLoader : MonoBehaviour
         Transform contentPanel = popupButtonObject.transform.Find("Scroll View/Viewport/Content");
         // CreateButton(1, AppConstants.MainType.CAMPAIGNS, TextureHelper.LoadTexture2DCached($"UI/Background4/Background_V4_110"), TextureHelper.LoadTexture2DCached($"UI/UI/Campaign"), mainMenuCampaignPanel);
         //Main menu
-        CreateButton(1, AppConstants.MainType.CARD_HEROES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_HERO_URL), contentPanel);
-        CreateButton(2, AppConstants.MainType.BOOKS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.BOOK_URL), contentPanel);
-        CreateButton(3, AppConstants.MainType.PETS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.PET_URL), contentPanel);
-        CreateButton(4, AppConstants.MainType.CARD_CAPTAINS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_CAPTAIN_URL), contentPanel);
-        CreateButton(5, AppConstants.MainType.CARD_COLONELS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_COLONEL_URL), contentPanel);
-        CreateButton(6, AppConstants.MainType.CARD_GENERALS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_GENERAL_URL), contentPanel);
-        CreateButton(7, AppConstants.MainType.CARD_ADMIRALS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_ADMIRAL_URL), contentPanel);
-        CreateButton(8, AppConstants.MainType.CARD_MILITARIES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_MILITARY_URL), contentPanel);
-        CreateButton(9, AppConstants.MainType.CARD_SPELLS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_SPELL_URL), contentPanel);
-        CreateButton(10, AppConstants.MainType.CARD_MONSTERS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_MONSTER_URL), contentPanel);
+        CreateButtonUI(1, AppConstants.MainType.CARD_HEROES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_HERO_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(2, AppConstants.MainType.BOOKS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.BOOK_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BOOK_URL),
+            contentPanel);
+        CreateButtonUI(3, AppConstants.MainType.PETS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.PET_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PET_URL),
+            contentPanel);
+        CreateButtonUI(4, AppConstants.MainType.CARD_CAPTAINS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_CAPTAIN_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_CAPTAIN_URL),
+            contentPanel);
+        CreateButtonUI(5, AppConstants.MainType.CARD_COLONELS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_COLONEL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_COLONEL_URL),
+            contentPanel);
+        CreateButtonUI(6, AppConstants.MainType.CARD_GENERALS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_GENERAL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_GENERAL_URL),
+            contentPanel);
+        CreateButtonUI(7, AppConstants.MainType.CARD_ADMIRALS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_ADMIRAL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_ADMIRAL_URL),
+            contentPanel);
+        CreateButtonUI(8, AppConstants.MainType.CARD_MILITARIES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_MILITARY_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MILITARY_URL), 
+            contentPanel);
+        CreateButtonUI(9, AppConstants.MainType.CARD_SPELLS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_SPELL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SPELL_URL),
+            contentPanel);
+        CreateButtonUI(10, AppConstants.MainType.CARD_MONSTERS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_MONSTER_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MONSTER_URL),
+            contentPanel);
         // CreateButton(13, "equipments",backgroundImage,TextureHelper.LoadTexture2DCached($"UI/UI/equipments"), mainMenuButtonPanel);
-        CreateButton(11, AppConstants.MainType.BAG, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.BAG_URL), contentPanel);
-        CreateButton(12, AppConstants.MainType.COLLABORATION_EQUIPMENTS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.COLLABORATION_EQUIPMENT_URL), contentPanel);
-        CreateButton(13, AppConstants.MainType.COLLABORATIONS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.COLLABORATION_URL), contentPanel);
-        CreateButton(14, AppConstants.MainType.MEDALS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.MEDAL_URL), contentPanel);
-        CreateButton(15, AppConstants.MainType.SKILLS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.SKILL_URL), contentPanel);
-        CreateButton(16, AppConstants.MainType.SYMBOLS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.SYMBOL_URL), contentPanel);
-        CreateButton(17, AppConstants.MainType.TITLES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.TITLE_URL), contentPanel);
-        CreateButton(18, AppConstants.MainType.MAGIC_FORMATION_CIRCLES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.MAGIC_FORMATION_CIRCLE_URL), contentPanel);
-        CreateButton(19, AppConstants.MainType.RELICS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.RELIC_URL), contentPanel);
-        CreateButton(20, AppConstants.MainType.TALISMANS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.TALISMAN_URL), contentPanel);
-        CreateButton(21, AppConstants.MainType.PUPPETS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.PUPPET_URL), contentPanel);
-        CreateButton(22, AppConstants.MainType.ALCHEMIES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.ALCHEMY_URL), contentPanel);
-        CreateButton(23, AppConstants.MainType.FORGES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.FORGE_URL), contentPanel);
-        CreateButton(24, AppConstants.MainType.CARD_LIVES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_LIFE_URL), contentPanel);
-        CreateButton(25, AppConstants.MainType.ARTWORK, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.ARTWORK_URL), contentPanel);
-        CreateButton(26, AppConstants.MainType.SPIRIT_BEAST, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.SPIRIT_BEAST_URL), contentPanel);
-        CreateButton(27, AppConstants.MainType.SPIRIT_CARD, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.SPIRIT_CARD_URL), contentPanel);
-        CreateButton(28, AppConstants.MainType.ARTIFACTS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.ARTIFACT_URL), contentPanel);
-        CreateButton(29, AppConstants.MainType.ARCHITECTURES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.ARCHITECTURE_URL), contentPanel);
-        CreateButton(30, AppConstants.MainType.TECHONOLOGIES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.TECHNOLOGY_URL), contentPanel);
-        CreateButton(31, AppConstants.MainType.VEHICLES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.VEHICLE_URL), contentPanel);
-        CreateButton(32, AppConstants.MainType.CORES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CORE_URL), contentPanel);
-        CreateButton(33, AppConstants.MainType.WEAPONS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.WEAPON_URL), contentPanel);
-        CreateButton(34, AppConstants.MainType.ROBOTS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.ROBOT_URL), contentPanel);
-        CreateButton(35, AppConstants.MainType.BADGES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.BADGE_URL), contentPanel);
-        CreateButton(36, AppConstants.MainType.MECHA_BEASTS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.MECHA_BEAST_URL), contentPanel);
-        CreateButton(37, AppConstants.MainType.RUNES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.RUNE_URL), contentPanel);
-        CreateButton(38, AppConstants.MainType.FURNITURES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.FURNITURE_URL), contentPanel);
-        CreateButton(39, AppConstants.MainType.FOODS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.FOOD_URL), contentPanel);
-        CreateButton(40, AppConstants.MainType.BEVERAGES, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.BEVERAGE_URL), contentPanel);
-        CreateButton(41, AppConstants.MainType.BUILDINGS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.BUILDING_URL), contentPanel);
-        CreateButton(42, AppConstants.MainType.PLANTS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.PLANT_URL), contentPanel);
-        CreateButton(43, AppConstants.MainType.FASHIONS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.FASHION_URL), contentPanel);
-        CreateButton(44, AppConstants.MainType.EMOJIS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.EMOJI_URL), contentPanel);
-        CreateButton(45, AppConstants.MainType.CARD_SOLDIERS, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_SOLDIER_URL), contentPanel);
+        CreateButtonUI(11, AppConstants.MainType.BAG, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.BAG_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BAG_URL),
+            contentPanel);
+        CreateButtonUI(12, AppConstants.MainType.COLLABORATION_EQUIPMENTS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.COLLABORATION_EQUIPMENT_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_EQUIPMENT_URL),
+            contentPanel);
+        CreateButtonUI(13, AppConstants.MainType.COLLABORATIONS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.COLLABORATION_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_URL),
+            contentPanel);
+        CreateButtonUI(14, AppConstants.MainType.MEDALS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.MEDAL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.MEDAL_URL),
+            contentPanel);
+        CreateButtonUI(15, AppConstants.MainType.SKILLS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.SKILL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SKILL_URL),
+            contentPanel);
+        CreateButtonUI(16, AppConstants.MainType.SYMBOLS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.SYMBOL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SYMBOL_URL),
+            contentPanel);
+        CreateButtonUI(17, AppConstants.MainType.TITLES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.TITLE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TITLE_URL),
+            contentPanel);
+        CreateButtonUI(18, AppConstants.MainType.MAGIC_FORMATION_CIRCLES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.MAGIC_FORMATION_CIRCLE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.MAGIC_FORMATION_CIRCLE_URL),
+            contentPanel);
+        CreateButtonUI(19, AppConstants.MainType.RELICS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.RELIC_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.RELIC_URL),
+            contentPanel);
+        CreateButtonUI(20, AppConstants.MainType.TALISMANS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.TALISMAN_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TALISMAN_URL),
+            contentPanel);
+        CreateButtonUI(21, AppConstants.MainType.PUPPETS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.PUPPET_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PUPPET_URL),
+            contentPanel);
+        CreateButtonUI(22, AppConstants.MainType.ALCHEMIES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.ALCHEMY_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ALCHEMY_URL),
+            contentPanel);
+        CreateButtonUI(23, AppConstants.MainType.FORGES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.FORGE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FORGE_URL),
+            contentPanel);
+        CreateButtonUI(24, AppConstants.MainType.CARD_LIVES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_LIFE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_LIFE_URL),
+            contentPanel);
+        CreateButtonUI(25, AppConstants.MainType.ARTWORK, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.ARTWORK_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTWORK_URL),
+            contentPanel);
+        CreateButtonUI(26, AppConstants.MainType.SPIRIT_BEAST, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.SPIRIT_BEAST_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_BEAST_URL),
+            contentPanel);
+        CreateButtonUI(27, AppConstants.MainType.SPIRIT_CARD, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.SPIRIT_CARD_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_CARD_URL),
+            contentPanel);
+        CreateButtonUI(28, AppConstants.MainType.ARTIFACTS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.ARTIFACT_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTIFACT_URL),
+            contentPanel);
+        CreateButtonUI(29, AppConstants.MainType.ARCHITECTURES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.ARCHITECTURE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARCHITECTURE_URL),
+            contentPanel);
+        CreateButtonUI(30, AppConstants.MainType.TECHONOLOGIES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.TECHNOLOGY_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TECHNOLOGY_URL), 
+            contentPanel);
+        CreateButtonUI(31, AppConstants.MainType.VEHICLES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.VEHICLE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.VEHICLE_URL),
+            contentPanel);
+        CreateButtonUI(32, AppConstants.MainType.CORES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.CORE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CORE_URL), 
+            contentPanel);
+        CreateButtonUI(33, AppConstants.MainType.WEAPONS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.WEAPON_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.WEAPON_URL),
+            contentPanel);
+        CreateButtonUI(34, AppConstants.MainType.ROBOTS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.ROBOT_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ROBOT_URL),
+            contentPanel);
+        CreateButtonUI(35, AppConstants.MainType.BADGES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.BADGE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BADGE_URL),
+            contentPanel);
+        CreateButtonUI(36, AppConstants.MainType.MECHA_BEASTS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.MECHA_BEAST_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.MECHA_BEAST_URL),
+            contentPanel);
+        CreateButtonUI(37, AppConstants.MainType.RUNES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.RUNE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.RUNE_URL),
+            contentPanel);
+        CreateButtonUI(38, AppConstants.MainType.FURNITURES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.FURNITURE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FURNITURE_URL),
+            contentPanel);
+        CreateButtonUI(39, AppConstants.MainType.FOODS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.FOOD_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FOOD_URL),
+            contentPanel);
+        CreateButtonUI(40, AppConstants.MainType.BEVERAGES, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.BEVERAGE_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BEVERAGE_URL),
+            contentPanel);
+        CreateButtonUI(41, AppConstants.MainType.BUILDINGS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.BUILDING_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BUILDING_URL),
+            contentPanel);
+        CreateButtonUI(42, AppConstants.MainType.PLANTS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.PLANT_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PLANT_URL),
+            contentPanel);
+        CreateButtonUI(43, AppConstants.MainType.FASHIONS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.FASHION_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FASHION_URL),
+            contentPanel);
+        CreateButtonUI(44, AppConstants.MainType.EMOJIS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.EMOJI_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.EMOJI_URL),
+            contentPanel);
+        CreateButtonUI(45, AppConstants.MainType.CARD_SOLDIERS, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_SOLDIER_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SOLDIER_URL),
+            contentPanel);
         // CreateButton(1, AppConstants.MainType.EMAIL, backgroundImage, TextureHelper.LoadTexture2DCached(ImageConstants.Main.EMAIL_URL), mainMenuSubButtonGroupPanel);
     }
     public void CreateEventButton(GameObject popupButtonObject)
@@ -108,26 +243,80 @@ public class ButtonLoader : MonoBehaviour
         subBackground = TextureHelper.LoadTexture2DCached(ImageConstants.Flag.FLAG_INVENTORY_URL);
         Transform contentPanel = popupButtonObject.transform.Find("Scroll View/Viewport/Content");
 
-        CreateButton(1, AppConstants.MainType.SUMMON_CARD_HERO, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_HERO_URL), contentPanel);
-        CreateButton(2, AppConstants.MainType.SUMMON_BOOK, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_BOOK_URL), contentPanel);
-        CreateButton(3, AppConstants.MainType.SUMMON_CARD_CAPTAIN, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_CAPTAIN_URL), contentPanel);
-        CreateButton(4, AppConstants.MainType.SUMMON_CARD_MONSTER, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_MONSTER_URL), contentPanel);
-        CreateButton(5, AppConstants.MainType.SUMMON_CARD_MILITARY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CARD_MILITARY_URL), contentPanel);
-        CreateButton(6, AppConstants.MainType.SUMMON_CARD_SPELL, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_SPELL_URL), contentPanel);
-        CreateButton(7, AppConstants.MainType.SUMMON_CARD_COLONEL, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_COLONEL_URL), contentPanel);
-        CreateButton(8, AppConstants.MainType.SUMMON_CARD_GENERAL, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_GENERAL_URL), contentPanel);
-        CreateButton(9, AppConstants.MainType.SUMMON_CARD_ADMIRAL, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_ADMIRAL_URL), contentPanel);
-        CreateButton(10, AppConstants.MainType.ANIME, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.ANIME_URL), contentPanel);
-        CreateButton(11, AppConstants.MainType.TOWER, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.TOWER_URL), contentPanel);
-        CreateButton(12, AppConstants.MainType.EVENT, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.EVENT_URL), contentPanel);
-        CreateButton(13, AppConstants.MainType.DAILY_CHECKIN, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.DAILY_CHECKIN_URL), contentPanel);
-        CreateButton(14, AppConstants.Market.RARE_MARKET, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Market.RARE_MARKET_URL), contentPanel);
-        CreateButton(15, AppConstants.Market.ULTRA_RARE_MARKET, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Market.ULTRA_RARE_MARKET_URL), contentPanel);
-        CreateButton(16, AppConstants.Market.LEGENDARY_MARKET, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Market.LEGENDARY_MARKET_URL), contentPanel);
-        CreateButton(17, AppConstants.Market.MYSTIC_MARKET, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Market.MYSTIC_MARKET_URL), contentPanel);
-        CreateButton(18, AppConstants.MainType.CHIP, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Main.CHIP_URL), contentPanel);
+        CreateButtonUI(1, AppConstants.MainType.SUMMON_CARD_HERO, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_HERO_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL), 
+            contentPanel);
+        CreateButtonUI(2, AppConstants.MainType.SUMMON_BOOK, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_BOOK_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(3, AppConstants.MainType.SUMMON_CARD_CAPTAIN, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_CAPTAIN_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(4, AppConstants.MainType.SUMMON_CARD_MONSTER, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_MONSTER_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(5, AppConstants.MainType.SUMMON_CARD_MILITARY, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_MILITARY_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(6, AppConstants.MainType.SUMMON_CARD_SPELL, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_SPELL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(7, AppConstants.MainType.SUMMON_CARD_COLONEL, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_COLONEL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(8, AppConstants.MainType.SUMMON_CARD_GENERAL, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_GENERAL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(9, AppConstants.MainType.SUMMON_CARD_ADMIRAL, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_ADMIRAL_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(10, AppConstants.MainType.ANIME, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.ANIME_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(11, AppConstants.MainType.TOWER, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.TOWER_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(12, AppConstants.MainType.EVENT, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.EVENT_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(13, AppConstants.MainType.DAILY_CHECKIN, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.DAILY_CHECKIN_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(14, AppConstants.Market.RARE_MARKET, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Market.RARE_MARKET_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(15, AppConstants.Market.ULTRA_RARE_MARKET, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Market.ULTRA_RARE_MARKET_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL), 
+            contentPanel);
+        CreateButtonUI(16, AppConstants.Market.LEGENDARY_MARKET, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Market.LEGENDARY_MARKET_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(17, AppConstants.Market.MYSTIC_MARKET, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Market.MYSTIC_MARKET_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
+        CreateButtonUI(18, AppConstants.MainType.CHIP, subBackground, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Main.CHIP_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            contentPanel);
     }
-    private void CreateButton(int index, string itemName, Texture2D _itemBackground, Texture2D _subBackground, Texture2D itemImage, Transform panel)
+    private void CreateButtonUI(int index, string itemName, Texture2D _itemBackground, Texture2D _subBackground, Texture2D _itemImage, Texture2D _borderImage, Transform panel)
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(MainButtonPrefab, panel);
@@ -149,9 +338,9 @@ public class ButtonLoader : MonoBehaviour
 
         // Gán hình ảnh cho itemImage
         RawImage image = transform.Find("ItemImage").GetComponent<RawImage>();
-        if (image != null && itemImage != null)
+        if (image != null && _itemImage != null)
         {
-            image.texture = itemImage;
+            image.texture = _itemImage;
         }
 
         // Gán tên cho itemName
@@ -159,6 +348,13 @@ public class ButtonLoader : MonoBehaviour
         if (nameText != null)
         {
             nameText.text = LocalizationManager.Get(itemName);
+        }
+
+        // Gán hình ảnh cho itemBorder
+        RawImage borderImage = newButton.transform.Find("BorderImage").GetComponent<RawImage>();
+        if (borderImage != null && _borderImage != null)
+        {
+            borderImage.texture = _borderImage;
         }
     }
     public async Task<List<string>> GetUniqueTypesAsync()

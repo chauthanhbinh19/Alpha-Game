@@ -179,6 +179,1166 @@ public static class AppConstants
     public static class Type
     {
         public const string ALL = "All";
+        public static class CardHeroes
+        {
+            public const string ADAMAS = "Adamas";
+            public const string AVIAN = "Avian";
+            public const string BARBARIAN = "Barbarian";
+            public const string CYLLORAN = "Cylloran";
+            public const string DREIZEN = "Dreizen";
+            public const string ETRIGON = "Etrigon";
+            public const string FIRIMIR = "Firimir";
+            public const string GENNESIS = "Gennesis";
+            public const string HECARUS = "Hecarus";
+            public const string ILLONIMA = "Illonima";
+            public const string JAGUAR = "Jaguar";
+            public const string KRYPTONIAN = "Kryptonian";
+            public const string LAMANIA = "Lamania";
+            public const string MARVERICK = "Marverick";
+            public const string NEMESIS = "Nemesis";
+            public const string ONYX = "Onyx";
+            public const string PALLADIAN = "Palladian";
+            public const string QUASAR = "Quasar";
+            public const string RIVERVEN = "Riverven";
+            public const string STARROIAN = "Starroian";
+            public const string TERAC = "Terac";
+            public const string URIUS = "Urius";
+            public const string VRIL = "Vril";
+            public const string WYVERN = "Wyvern";
+            public const string XANTHERA = "Xanthera";
+            public const string YORNATH = "Yornath";
+            public const string ZERATH = "Zerath";
+        }
+        public static readonly List<string> AllCardHeroTypes = new()
+        {
+            CardHeroes.ADAMAS,
+            CardHeroes.AVIAN,
+            CardHeroes.BARBARIAN,
+            CardHeroes.CYLLORAN,
+            CardHeroes.DREIZEN,
+            CardHeroes.ETRIGON,
+            CardHeroes.FIRIMIR,
+            CardHeroes.GENNESIS,
+            CardHeroes.HECARUS,
+            CardHeroes.ILLONIMA,
+            CardHeroes.JAGUAR,
+            CardHeroes.KRYPTONIAN,
+            CardHeroes.LAMANIA,
+            CardHeroes.MARVERICK,
+            CardHeroes.NEMESIS,
+            CardHeroes.ONYX,
+            CardHeroes.PALLADIAN,
+            CardHeroes.QUASAR,
+            CardHeroes.RIVERVEN,
+            CardHeroes.STARROIAN,
+            CardHeroes.TERAC,
+            CardHeroes.URIUS,
+            CardHeroes.VRIL,
+            CardHeroes.WYVERN,
+            CardHeroes.XANTHERA,
+            CardHeroes.YORNATH,
+            CardHeroes.ZERATH
+        };
+        public static class CardCaptains
+        {
+            public const string ADAMAS = "Adamas";
+            public const string AVIAN = "Avian";
+            public const string BARBARIAN = "Barbarian";
+            public const string CYLLORAN = "Cylloran";
+            public const string DREIZEN = "Dreizen";
+            public const string ETRIGON = "Etrigon";
+            public const string FIRIMIR = "Firimir";
+            public const string GENNESIS = "Gennesis";
+            public const string HECARUS = "Hecarus";
+            public const string ILLONIMA = "Illonima";
+            public const string JAGUAR = "Jaguar";
+            public const string KRYPTONIAN = "Kryptonian";
+            public const string LAMANIA = "Lamania";
+            public const string MARVERICK = "Marverick";
+            public const string NEMESIS = "Nemesis";
+            public const string ONYX = "Onyx";
+            public const string PALLADIAN = "Palladian";
+            public const string QUASAR = "Quasar";
+            public const string RIVERVEN = "Riverven";
+            public const string STARROIAN = "Starroian";
+            public const string TERAC = "Terac";
+            public const string URIUS = "Urius";
+            public const string VRIL = "Vril";
+            public const string WYVERN = "Wyvern";
+            public const string XANTHERA = "Xanthera";
+            public const string YORNATH = "Yornath";
+            public const string ZERATH = "Zerath";
+        }
+        public static readonly List<string> AllCardCaptainTypes = new()
+        {
+            CardCaptains.ADAMAS,
+            CardCaptains.AVIAN,
+            CardCaptains.BARBARIAN,
+            CardCaptains.CYLLORAN,
+            CardCaptains.DREIZEN,
+            CardCaptains.ETRIGON,
+            CardCaptains.FIRIMIR,
+            CardCaptains.GENNESIS,
+            CardCaptains.HECARUS,
+            CardCaptains.ILLONIMA,
+            CardCaptains.JAGUAR,
+            CardCaptains.KRYPTONIAN,
+            CardCaptains.LAMANIA,
+            CardCaptains.MARVERICK,
+            CardCaptains.NEMESIS,
+            CardCaptains.ONYX,
+            CardCaptains.PALLADIAN,
+            CardCaptains.QUASAR,
+            CardCaptains.RIVERVEN,
+            CardCaptains.STARROIAN,
+            CardCaptains.TERAC,
+            CardCaptains.URIUS,
+            CardCaptains.VRIL,
+            CardCaptains.WYVERN,
+            CardCaptains.XANTHERA,
+            CardCaptains.YORNATH,
+            CardCaptains.ZERATH
+        };
+        public static class CardColonels
+        {
+            public const string ADAMAS = "Adamas";
+            public const string AVIAN = "Avian";
+            public const string BARBARIAN = "Barbarian";
+            public const string CYLLORAN = "Cylloran";
+            public const string DREIZEN = "Dreizen";
+            public const string ETRIGON = "Etrigon";
+            public const string FIRIMIR = "Firimir";
+            public const string GENNESIS = "Gennesis";
+            public const string HECARUS = "Hecarus";
+            public const string ILLONIMA = "Illonima";
+            public const string JAGUAR = "Jaguar";
+            public const string KRYPTONIAN = "Kryptonian";
+            public const string LAMANIA = "Lamania";
+            public const string MARVERICK = "Marverick";
+            public const string NEMESIS = "Nemesis";
+            public const string ONYX = "Onyx";
+            public const string PALLADIAN = "Palladian";
+            public const string QUASAR = "Quasar";
+            public const string RIVERVEN = "Riverven";
+            public const string STARROIAN = "Starroian";
+            public const string TERAC = "Terac";
+            public const string URIUS = "Urius";
+            public const string VRIL = "Vril";
+            public const string WYVERN = "Wyvern";
+            public const string XANTHERA = "Xanthera";
+            public const string YORNATH = "Yornath";
+            public const string ZERATH = "Zerath";
+        }
+        public static readonly List<string> AllCardColonelTypes = new()
+        {
+            CardColonels.ADAMAS,
+            CardColonels.AVIAN,
+            CardColonels.BARBARIAN,
+            CardColonels.CYLLORAN,
+            CardColonels.DREIZEN,
+            CardColonels.ETRIGON,
+            CardColonels.FIRIMIR,
+            CardColonels.GENNESIS,
+            CardColonels.HECARUS,
+            CardColonels.ILLONIMA,
+            CardColonels.JAGUAR,
+            CardColonels.KRYPTONIAN,
+            CardColonels.LAMANIA,
+            CardColonels.MARVERICK,
+            CardColonels.NEMESIS,
+            CardColonels.ONYX,
+            CardColonels.PALLADIAN,
+            CardColonels.QUASAR,
+            CardColonels.RIVERVEN,
+            CardColonels.STARROIAN,
+            CardColonels.TERAC,
+            CardColonels.URIUS,
+            CardColonels.VRIL,
+            CardColonels.WYVERN,
+            CardColonels.XANTHERA,
+            CardColonels.YORNATH,
+            CardColonels.ZERATH
+        };
+        public static class CardGenerals
+        {
+            public const string ADAMAS = "Adamas";
+            public const string AVIAN = "Avian";
+            public const string BARBARIAN = "Barbarian";
+            public const string CYLLORAN = "Cylloran";
+            public const string DREIZEN = "Dreizen";
+            public const string ETRIGON = "Etrigon";
+            public const string FIRIMIR = "Firimir";
+            public const string GENNESIS = "Gennesis";
+            public const string HECARUS = "Hecarus";
+            public const string ILLONIMA = "Illonima";
+            public const string JAGUAR = "Jaguar";
+            public const string KRYPTONIAN = "Kryptonian";
+            public const string LAMANIA = "Lamania";
+            public const string MARVERICK = "Marverick";
+            public const string NEMESIS = "Nemesis";
+            public const string ONYX = "Onyx";
+            public const string PALLADIAN = "Palladian";
+            public const string QUASAR = "Quasar";
+            public const string RIVERVEN = "Riverven";
+            public const string STARROIAN = "Starroian";
+            public const string TERAC = "Terac";
+            public const string URIUS = "Urius";
+            public const string VRIL = "Vril";
+            public const string WYVERN = "Wyvern";
+            public const string XANTHERA = "Xanthera";
+            public const string YORNATH = "Yornath";
+            public const string ZERATH = "Zerath";
+        }
+        public static readonly List<string> AllCardGeneralTypes = new()
+        {
+            CardGenerals.ADAMAS,
+            CardGenerals.AVIAN,
+            CardGenerals.BARBARIAN,
+            CardGenerals.CYLLORAN,
+            CardGenerals.DREIZEN,
+            CardGenerals.ETRIGON,
+            CardGenerals.FIRIMIR,
+            CardGenerals.GENNESIS,
+            CardGenerals.HECARUS,
+            CardGenerals.ILLONIMA,
+            CardGenerals.JAGUAR,
+            CardGenerals.KRYPTONIAN,
+            CardGenerals.LAMANIA,
+            CardGenerals.MARVERICK,
+            CardGenerals.NEMESIS,
+            CardGenerals.ONYX,
+            CardGenerals.PALLADIAN,
+            CardGenerals.QUASAR,
+            CardGenerals.RIVERVEN,
+            CardGenerals.STARROIAN,
+            CardGenerals.TERAC,
+            CardGenerals.URIUS,
+            CardGenerals.VRIL,
+            CardGenerals.WYVERN,
+            CardGenerals.XANTHERA,
+            CardGenerals.YORNATH,
+            CardGenerals.ZERATH
+        };
+        public static class CardAdmirals
+        {
+            public const string ADAMAS = "Adamas";
+            public const string AVIAN = "Avian";
+            public const string BARBARIAN = "Barbarian";
+            public const string CYLLORAN = "Cylloran";
+            public const string DREIZEN = "Dreizen";
+            public const string ETRIGON = "Etrigon";
+            public const string FIRIMIR = "Firimir";
+            public const string GENNESIS = "Gennesis";
+            public const string HECARUS = "Hecarus";
+            public const string ILLONIMA = "Illonima";
+            public const string JAGUAR = "Jaguar";
+            public const string KRYPTONIAN = "Kryptonian";
+            public const string LAMANIA = "Lamania";
+            public const string MARVERICK = "Marverick";
+            public const string NEMESIS = "Nemesis";
+            public const string ONYX = "Onyx";
+            public const string PALLADIAN = "Palladian";
+            public const string QUASAR = "Quasar";
+            public const string RIVERVEN = "Riverven";
+            public const string STARROIAN = "Starroian";
+            public const string TERAC = "Terac";
+            public const string URIUS = "Urius";
+            public const string VRIL = "Vril";
+            public const string WYVERN = "Wyvern";
+            public const string XANTHERA = "Xanthera";
+            public const string YORNATH = "Yornath";
+            public const string ZERATH = "Zerath";
+        }
+        public static readonly List<string> AllCardAdmiralTypes = new()
+        {
+            CardAdmirals.ADAMAS,
+            CardAdmirals.AVIAN,
+            CardAdmirals.BARBARIAN,
+            CardAdmirals.CYLLORAN,
+            CardAdmirals.DREIZEN,
+            CardAdmirals.ETRIGON,
+            CardAdmirals.FIRIMIR,
+            CardAdmirals.GENNESIS,
+            CardAdmirals.HECARUS,
+            CardAdmirals.ILLONIMA,
+            CardAdmirals.JAGUAR,
+            CardAdmirals.KRYPTONIAN,
+            CardAdmirals.LAMANIA,
+            CardAdmirals.MARVERICK,
+            CardAdmirals.NEMESIS,
+            CardAdmirals.ONYX,
+            CardAdmirals.PALLADIAN,
+            CardAdmirals.QUASAR,
+            CardAdmirals.RIVERVEN,
+            CardAdmirals.STARROIAN,
+            CardAdmirals.TERAC,
+            CardAdmirals.URIUS,
+            CardAdmirals.VRIL,
+            CardAdmirals.WYVERN,
+            CardAdmirals.XANTHERA,
+            CardAdmirals.YORNATH,
+            CardAdmirals.ZERATH
+        };
+        public static class CardMilitaries
+        {
+            public const string ADAMAS = "Adamas";
+            public const string AVIAN = "Avian";
+            public const string BARBARIAN = "Barbarian";
+            public const string CYLLORAN = "Cylloran";
+            public const string DREIZEN = "Dreizen";
+            public const string ETRIGON = "Etrigon";
+            public const string FIRIMIR = "Firimir";
+            public const string GENNESIS = "Gennesis";
+            public const string HECARUS = "Hecarus";
+            public const string ILLONIMA = "Illonima";
+            public const string JAGUAR = "Jaguar";
+            public const string KRYPTONIAN = "Kryptonian";
+            public const string LAMANIA = "Lamania";
+            public const string MARVERICK = "Marverick";
+            public const string NEMESIS = "Nemesis";
+            public const string ONYX = "Onyx";
+            public const string PALLADIAN = "Palladian";
+            public const string QUASAR = "Quasar";
+            public const string RIVERVEN = "Riverven";
+            public const string STARROIAN = "Starroian";
+            public const string TERAC = "Terac";
+            public const string URIUS = "Urius";
+            public const string VRIL = "Vril";
+            public const string WYVERN = "Wyvern";
+            public const string XANTHERA = "Xanthera";
+            public const string YORNATH = "Yornath";
+            public const string ZERATH = "Zerath";
+        }
+        public static readonly List<string> AllCardMilitaryTypes = new()
+        {
+            CardMilitaries.ADAMAS,
+            CardMilitaries.AVIAN,
+            CardMilitaries.BARBARIAN,
+            CardMilitaries.CYLLORAN,
+            CardMilitaries.DREIZEN,
+            CardMilitaries.ETRIGON,
+            CardMilitaries.FIRIMIR,
+            CardMilitaries.GENNESIS,
+            CardMilitaries.HECARUS,
+            CardMilitaries.ILLONIMA,
+            CardMilitaries.JAGUAR,
+            CardMilitaries.KRYPTONIAN,
+            CardMilitaries.LAMANIA,
+            CardMilitaries.MARVERICK,
+            CardMilitaries.NEMESIS,
+            CardMilitaries.ONYX,
+            CardMilitaries.PALLADIAN,
+            CardMilitaries.QUASAR,
+            CardMilitaries.RIVERVEN,
+            CardMilitaries.STARROIAN,
+            CardMilitaries.TERAC,
+            CardMilitaries.URIUS,
+            CardMilitaries.VRIL,
+            CardMilitaries.WYVERN,
+            CardMilitaries.XANTHERA,
+            CardMilitaries.YORNATH,
+            CardMilitaries.ZERATH
+        };
+        public static class CardMonsters
+        {
+            public const string ADAMAS = "Adamas";
+            public const string AVIAN = "Avian";
+            public const string BARBARIAN = "Barbarian";
+            public const string CYLLORAN = "Cylloran";
+            public const string DREIZEN = "Dreizen";
+            public const string ETRIGON = "Etrigon";
+            public const string FIRIMIR = "Firimir";
+            public const string GENNESIS = "Gennesis";
+            public const string HECARUS = "Hecarus";
+            public const string ILLONIMA = "Illonima";
+            public const string JAGUAR = "Jaguar";
+            public const string KRYPTONIAN = "Kryptonian";
+            public const string LAMANIA = "Lamania";
+            public const string MARVERICK = "Marverick";
+            public const string NEMESIS = "Nemesis";
+            public const string ONYX = "Onyx";
+            public const string PALLADIAN = "Palladian";
+            public const string QUASAR = "Quasar";
+            public const string RIVERVEN = "Riverven";
+            public const string STARROIAN = "Starroian";
+            public const string TERAC = "Terac";
+            public const string URIUS = "Urius";
+            public const string VRIL = "Vril";
+            public const string WYVERN = "Wyvern";
+            public const string XANTHERA = "Xanthera";
+            public const string YORNATH = "Yornath";
+            public const string ZERATH = "Zerath";
+        }
+        public static readonly List<string> AllCardMonsterTypes = new()
+        {
+            CardMonsters.ADAMAS,
+            CardMonsters.AVIAN,
+            CardMonsters.BARBARIAN,
+            CardMonsters.CYLLORAN,
+            CardMonsters.DREIZEN,
+            CardMonsters.ETRIGON,
+            CardMonsters.FIRIMIR,
+            CardMonsters.GENNESIS,
+            CardMonsters.HECARUS,
+            CardMonsters.ILLONIMA,
+            CardMonsters.JAGUAR,
+            CardMonsters.KRYPTONIAN,
+            CardMonsters.LAMANIA,
+            CardMonsters.MARVERICK,
+            CardMonsters.NEMESIS,
+            CardMonsters.ONYX,
+            CardMonsters.PALLADIAN,
+            CardMonsters.QUASAR,
+            CardMonsters.RIVERVEN,
+            CardMonsters.STARROIAN,
+            CardMonsters.TERAC,
+            CardMonsters.URIUS,
+            CardMonsters.VRIL,
+            CardMonsters.WYVERN,
+            CardMonsters.XANTHERA,
+            CardMonsters.YORNATH,
+            CardMonsters.ZERATH
+        };
+        public static class CardSpells
+        {
+            public const string ATTACK = "Attack";
+            public const string COMBAT = "Combat";
+            public const string DECREASE = "Decrease";
+            public const string DEFENCE = "Defence";
+            public const string ENVIRONMENT = "Environment";
+            public const string EQUIPMENT = "Equipment";
+            public const string FUSION = "Fusion";
+            public const string INCREASE = "Increase";
+            public const string REBORN = "Reborn";
+            public const string SUMMON = "Summon";
+            public const string TEAM = "Team";
+            public const string ULTIMATE_DECREASE = "Ultimate_Decrease";
+            public const string ULTIMATE_ENVIRONMENT = "Ultimate_Environment";
+            public const string ULTIMATE_INCREASE = "Ultimate_Increase";
+        }
+        public static readonly List<string> AllCardSpellTypes = new()
+        {
+            CardHeroes.ADAMAS,
+            CardHeroes.AVIAN,
+            CardHeroes.BARBARIAN,
+            CardHeroes.CYLLORAN,
+            CardHeroes.DREIZEN,
+            CardHeroes.ETRIGON,
+            CardHeroes.FIRIMIR,
+            CardHeroes.GENNESIS,
+            CardHeroes.HECARUS,
+            CardHeroes.ILLONIMA,
+            CardHeroes.JAGUAR,
+            CardHeroes.KRYPTONIAN,
+            CardHeroes.LAMANIA,
+            CardHeroes.MARVERICK,
+            CardHeroes.NEMESIS,
+            CardHeroes.ONYX,
+            CardHeroes.PALLADIAN,
+            CardHeroes.QUASAR,
+            CardHeroes.RIVERVEN,
+            CardHeroes.STARROIAN,
+            CardHeroes.TERAC,
+            CardHeroes.URIUS,
+            CardHeroes.VRIL,
+            CardHeroes.WYVERN,
+            CardHeroes.XANTHERA,
+            CardHeroes.YORNATH,
+            CardHeroes.ZERATH
+        };
+        public static class CardSoldiers
+        {
+            public const string ADAMAS = "Adamas";
+            public const string AVIAN = "Avian";
+            public const string BARBARIAN = "Barbarian";
+            public const string CYLLORAN = "Cylloran";
+            public const string DREIZEN = "Dreizen";
+            public const string ETRIGON = "Etrigon";
+            public const string FIRIMIR = "Firimir";
+            public const string GENNESIS = "Gennesis";
+            public const string HECARUS = "Hecarus";
+            public const string ILLONIMA = "Illonima";
+            public const string JAGUAR = "Jaguar";
+            public const string KRYPTONIAN = "Kryptonian";
+            public const string LAMANIA = "Lamania";
+            public const string MARVERICK = "Marverick";
+            public const string NEMESIS = "Nemesis";
+            public const string ONYX = "Onyx";
+            public const string PALLADIAN = "Palladian";
+            public const string QUASAR = "Quasar";
+            public const string RIVERVEN = "Riverven";
+            public const string STARROIAN = "Starroian";
+            public const string TERAC = "Terac";
+            public const string URIUS = "Urius";
+            public const string VRIL = "Vril";
+            public const string WYVERN = "Wyvern";
+            public const string XANTHERA = "Xanthera";
+            public const string YORNATH = "Yornath";
+            public const string ZERATH = "Zerath";
+        }
+        public static readonly List<string> AllCardSoldierTypes = new()
+        {
+            CardSoldiers.ADAMAS,
+            CardSoldiers.AVIAN,
+            CardSoldiers.BARBARIAN,
+            CardSoldiers.CYLLORAN,
+            CardSoldiers.DREIZEN,
+            CardSoldiers.ETRIGON,
+            CardSoldiers.FIRIMIR,
+            CardSoldiers.GENNESIS,
+            CardSoldiers.HECARUS,
+            CardSoldiers.ILLONIMA,
+            CardSoldiers.JAGUAR,
+            CardSoldiers.KRYPTONIAN,
+            CardSoldiers.LAMANIA,
+            CardSoldiers.MARVERICK,
+            CardSoldiers.NEMESIS,
+            CardSoldiers.ONYX,
+            CardSoldiers.PALLADIAN,
+            CardSoldiers.QUASAR,
+            CardSoldiers.RIVERVEN,
+            CardSoldiers.STARROIAN,
+            CardSoldiers.TERAC,
+            CardSoldiers.URIUS,
+            CardSoldiers.VRIL,
+            CardSoldiers.WYVERN,
+            CardSoldiers.XANTHERA,
+            CardSoldiers.YORNATH,
+            CardSoldiers.ZERATH
+        };
+        public static class Books
+        {
+            public const string ADAMAS = "Adamas";
+            public const string AVIAN = "Avian";
+            public const string BARBARIAN = "Barbarian";
+            public const string CYLLORAN = "Cylloran";
+            public const string DREIZEN = "Dreizen";
+            public const string ETRIGON = "Etrigon";
+            public const string FIRIMIR = "Firimir";
+            public const string GENNESIS = "Gennesis";
+            public const string HECARUS = "Hecarus";
+            public const string ILLONIMA = "Illonima";
+            public const string JAGUAR = "Jaguar";
+            public const string KRYPTONIAN = "Kryptonian";
+            public const string LAMANIA = "Lamania";
+            public const string MARVERICK = "Marverick";
+            public const string NEMESIS = "Nemesis";
+            public const string ONYX = "Onyx";
+            public const string PALLADIAN = "Palladian";
+            public const string QUASAR = "Quasar";
+            public const string RIVERVEN = "Riverven";
+            public const string STARROIAN = "Starroian";
+            public const string TERAC = "Terac";
+            public const string URIUS = "Urius";
+            public const string VRIL = "Vril";
+            public const string WYVERN = "Wyvern";
+            public const string XANTHERA = "Xanthera";
+            public const string YORNATH = "Yornath";
+            public const string ZERATH = "Zerath";
+        }
+        public static readonly List<string> AllBookTypes = new()
+        {
+            Books.ADAMAS,
+            Books.AVIAN,
+            Books.BARBARIAN,
+            Books.CYLLORAN,
+            Books.DREIZEN,
+            Books.ETRIGON,
+            Books.FIRIMIR,
+            Books.GENNESIS,
+            Books.HECARUS,
+            Books.ILLONIMA,
+            Books.JAGUAR,
+            Books.KRYPTONIAN,
+            Books.LAMANIA,
+            Books.MARVERICK,
+            Books.NEMESIS,
+            Books.ONYX,
+            Books.PALLADIAN,
+            Books.QUASAR,
+            Books.RIVERVEN,
+            Books.STARROIAN,
+            Books.TERAC,
+            Books.URIUS,
+            Books.VRIL,
+            Books.WYVERN,
+            Books.XANTHERA,
+            Books.YORNATH,
+            Books.ZERATH
+        };
+        public static class CollaborationEquipments
+        {
+            public const string ADAMAS = "Adamas";
+            public const string AVIAN = "Avian";
+            public const string BARBARIAN = "Barbarian";
+            public const string CYLLORAN = "Cylloran";
+            public const string DREIZEN = "Dreizen";
+            public const string ETRIGON = "Etrigon";
+            public const string FIRIMIR = "Firimir";
+            public const string GENNESIS = "Gennesis";
+            public const string HECARUS = "Hecarus";
+            public const string ILLONIMA = "Illonima";
+            public const string JAGUAR = "Jaguar";
+            public const string KRYPTONIAN = "Kryptonian";
+            public const string LAMANIA = "Lamania";
+            public const string MARVERICK = "Marverick";
+            public const string NEMESIS = "Nemesis";
+            public const string ONYX = "Onyx";
+            public const string PALLADIAN = "Palladian";
+            public const string QUASAR = "Quasar";
+            public const string RIVERVEN = "Riverven";
+            public const string STARROIAN = "Starroian";
+            public const string TERAC = "Terac";
+            public const string URIUS = "Urius";
+            public const string VRIL = "Vril";
+            public const string WYVERN = "Wyvern";
+            public const string XANTHERA = "Xanthera";
+            public const string YORNATH = "Yornath";
+            public const string ZERATH = "Zerath";
+        }
+        public static readonly List<string> AllCollaborationEquipmentTypes = new()
+        {
+            CollaborationEquipments.ADAMAS,
+            CollaborationEquipments.AVIAN,
+            CollaborationEquipments.BARBARIAN,
+            CollaborationEquipments.CYLLORAN,
+            CollaborationEquipments.DREIZEN,
+            CollaborationEquipments.ETRIGON,
+            CollaborationEquipments.FIRIMIR,
+            CollaborationEquipments.GENNESIS,
+            CollaborationEquipments.HECARUS,
+            CollaborationEquipments.ILLONIMA,
+            CollaborationEquipments.JAGUAR,
+            CollaborationEquipments.KRYPTONIAN,
+            CollaborationEquipments.LAMANIA,
+            CollaborationEquipments.MARVERICK,
+            CollaborationEquipments.NEMESIS,
+            CollaborationEquipments.ONYX,
+            CollaborationEquipments.PALLADIAN,
+            CollaborationEquipments.QUASAR,
+            CollaborationEquipments.RIVERVEN,
+            CollaborationEquipments.STARROIAN,
+            CollaborationEquipments.TERAC,
+            CollaborationEquipments.URIUS,
+            CollaborationEquipments.VRIL,
+            // CollaborationEquipments.WYVERN,
+            // CollaborationEquipments.XANTHERA,
+            // CollaborationEquipments.YORNATH,
+            // CollaborationEquipments.ZERATH
+        };
+        public static class Equipments
+        {
+            public const string AMNITUS = "Amnitus_Equipment";
+            public const string ANGELIS = "Angelis_Equipment";
+            public const string BELLION = "Bellion_Equipment";
+            public const string BENZAMIN = "Benzamin_Equipment";
+            public const string CELESTIAL = "Celestial_Equipment";
+            public const string CEVERUS = "Ceverus_Equipment";
+            public const string DELIUS = "Delius_Equipment";
+            public const string DOMITIUS = "Domitius_Equipment";
+            public const string EVERLYN = "Everlyn_Equipment";
+            public const string EXTRA = "Extra_Equipment";
+            public const string FAILTUS = "Faltus_Equipment";
+            public const string FEALAN = "Fealan_Equipment";
+            public const string GAMMA = "Gamma_Equipment";
+            public const string GEM = "Gem_Equipment";
+            public const string HAGORO = "Hagoro_Equipment";
+            public const string HAKALITE = "Hakalite_Equipment";
+            public const string IGNIS = "Ignis_Equipment";
+            public const string IVITUS = "Ivitus_Equipment";
+            public const string JORVAN = "Jorvan_Equipment";
+            public const string JULLIAN = "Jullian_Equipment";
+            public const string KARIS = "Karis_Equipment";
+            public const string KARMUS = "Karmus_Equipment";
+            public const string LOTUS = "Lotus_Equipment";
+            public const string LUMINIUS = "Luminius_Equipment";
+            public const string MACUS = "Macus_Equipment";
+            public const string MORGANIS = "Morganis_Equipment";
+            public const string NIMIGAZIN = "Nimigazin_Equipment";
+            public const string NOVA = "Nova_Equipment";
+            public const string OMONITUS = "Omonitus_Equipment";
+            public const string OMEGA = "Omega_Equipment";
+            public const string PARIUS = "Parius_Equipment";
+            public const string PYROS = "Pyros_Equipment";
+            public const string QIYANTUS = "Qiyantus_Equipment";
+            public const string QUASAR = "Quasar_Equipment";
+            public const string RAINBOW = "Rainbow_Equipment";
+            public const string REDVENGER = "Redvenger_Equipment";
+            public const string SOULS = "Souls_Equipment";
+            public const string SYNCROHARON = "Syncroharon_Equipment";
+            public const string TARIAN = "Tarian_Equipment";
+            public const string TEYRIC = "Teyric_Equipment";
+            public const string UNI = "Uni_Equipment";
+            public const string ULTRION = "Ultrion_Equipment";
+            public const string VARETHION = "Varethion_Equipment";
+            public const string VELMIRA = "Velmira_Equipment";
+            public const string WENLITHAR = "Wenlithar_Equipment";
+            public const string WYRMORA = "Wyrmora_Equipment";
+            public const string XALTHEON = "Xaltheon_Equipment";
+            public const string XYRALIS = "Xyralis_Equipment";
+            public const string YLORAN = "Yloran_Equipment";
+            public const string YVARION = "Yvarion_Equipment";
+            public const string ZODIAC = "Zodiac_Equipment";
+            public const string ZEROX = "Zerox_Equipment";
+        }
+        public static readonly List<string> AllEquipmentTypes = new()
+        {
+            Equipments.AMNITUS,
+            Equipments.ANGELIS,
+            Equipments.BELLION,
+            Equipments.BENZAMIN,
+            Equipments.CELESTIAL,
+            Equipments.CEVERUS,
+            Equipments.DELIUS,
+            Equipments.DOMITIUS,
+            Equipments.EVERLYN,
+            Equipments.EXTRA,
+            Equipments.FAILTUS,
+            Equipments.FEALAN,
+            Equipments.GAMMA,
+            Equipments.GEM,
+            Equipments.HAGORO,
+            Equipments.HAKALITE,
+            Equipments.IGNIS,
+            Equipments.IVITUS,
+            Equipments.JORVAN,
+            Equipments.JULLIAN,
+            Equipments.KARIS,
+            Equipments.KARMUS,
+            Equipments.LOTUS,
+            Equipments.LUMINIUS,
+            Equipments.MACUS,
+            Equipments.MORGANIS,
+            Equipments.NIMIGAZIN,
+            Equipments.NOVA,
+            Equipments.OMONITUS,
+            Equipments.OMEGA,
+            Equipments.PARIUS,
+            Equipments.PYROS,
+            Equipments.QIYANTUS,
+            Equipments.QUASAR,
+            Equipments.RAINBOW,
+            Equipments.REDVENGER,
+            Equipments.SOULS,
+            Equipments.SYNCROHARON,
+            Equipments.TARIAN,
+            Equipments.TEYRIC,
+            Equipments.UNI,
+            Equipments.ULTRION,
+            Equipments.VARETHION,
+            Equipments.VELMIRA,
+            Equipments.WENLITHAR,
+            Equipments.WYRMORA,
+            Equipments.XALTHEON,
+            Equipments.XYRALIS,
+            Equipments.YLORAN,
+            Equipments.YVARION,
+            Equipments.ZODIAC,
+            Equipments.ZEROX
+        };
+        public static class Pets
+        {
+            public const string EPIC_PET = "Epic_Pet";
+            public const string LEGENDARY_DRAGON = "Legendary_Dragon";
+            public const string MECHA_ROBOT = "Mecha_Robot";
+            public const string NARUTO_BIJUU = "Naruto_Bijuu";
+            public const string NARUTO_SUSANOO = "Naruto_Susanoo";
+            public const string ONE_PIECE_SHIP = "One_Piece_Ship";
+            public const string PRIME_MONSTER = "Prime_Monster";
+        }
+        public static readonly List<string> AllPetTypes = new()
+        {
+            Pets.EPIC_PET,
+            Pets.LEGENDARY_DRAGON,
+            Pets.MECHA_ROBOT,
+            Pets.NARUTO_BIJUU,
+            Pets.NARUTO_SUSANOO,
+            Pets.ONE_PIECE_SHIP,
+            Pets.PRIME_MONSTER
+        };
+        public static class Skills
+        {
+            public const string ALTERNATIVE = "Alternative";
+            public const string CELESTIAL = "Celestial";
+            public const string DIVINE = "Divine";
+            public const string FORCES = "Forces";
+            public const string MAIN = "Main";
+            public const string NORMAL = "Normal";
+            public const string TEAMWORK = "Teamwork";
+            public const string TRANSCENDENCE = "Transcendence";
+        }
+        public static readonly List<string> AllSkillTypes = new()
+        {
+            Skills.ALTERNATIVE,
+            Skills.CELESTIAL,
+            Skills.DIVINE,
+            Skills.FORCES,
+            Skills.MAIN,
+            Skills.NORMAL,
+            Skills.TEAMWORK,
+            Skills.TRANSCENDENCE
+        };
+        public static class Symbols
+        {
+            public const string ANCIENT = "Ancient";
+            public const string CYBER = "Cyber";
+            public const string ELEMENTAL = "Elemental";
+            public const string FUTURISTIC = "Futuristic";
+            public const string LEGENDARY = "Legendary";
+            public const string MIRACLE = "Miracle";
+            public const string MYTHIC = "Mythic";
+            public const string PRIME = "Prime";
+            public const string ULTIMATE = "Ultimate";
+            public const string WORLD = "World";
+        }
+        public static readonly List<string> AllSymbolTypes = new()
+        {
+            Symbols.ANCIENT,
+            Symbols.CYBER,
+            Symbols.ELEMENTAL,
+            Symbols.FUTURISTIC,
+            Symbols.LEGENDARY,
+            Symbols.MIRACLE,
+            Symbols.MYTHIC,
+            Symbols.PRIME,
+            Symbols.ULTIMATE,
+            Symbols.WORLD
+        };
+        public static class MagicFormationCircles
+        {
+            public const string ATTACK = "Attack";
+            public const string DEFENSE = "Defence";
+            public const string SUPPORT = "Support";
+        }
+        public static readonly List<string> AllMagicFormationCircleTypes = new()
+        {
+            MagicFormationCircles.ATTACK,
+            MagicFormationCircles.DEFENSE,
+            MagicFormationCircles.SUPPORT
+        };
+        public static class Relics
+        {
+            public const string ARM = "Arm";
+            public const string BLOOD = "Blood";
+            public const string BONE = "Bone";
+            public const string BRAIN = "Brain";
+            public const string EYES = "Eyes";
+            public const string HEART = "Heart";
+            public const string LEG = "Leg";
+            public const string LUNG = "Lung";
+            public const string NAIL = "Nail";
+            public const string STOMACH = "Stomach";
+            public const string TORSO = "Torso";
+        }
+        public static readonly List<string> AllRelicTypes = new()
+        {
+            Relics.ARM,
+            Relics.BLOOD,
+            Relics.BONE,
+            Relics.BRAIN,
+            Relics.EYES,
+            Relics.HEART,
+            Relics.LEG,
+            Relics.LUNG,
+            Relics.NAIL,
+            Relics.STOMACH,
+            Relics.TORSO
+        };
+        public static class Talismans
+        {
+            public const string ATTACK = "Attack";
+            public const string DEFENSE = "Defence";
+            public const string SUPPORT = "Support";
+        }
+        public static readonly List<string> AllTalismanTypes = new()
+        {
+            Talismans.ATTACK,
+            Talismans.DEFENSE,
+            Talismans.SUPPORT
+        };
+        public static class Puppets
+        {
+            public const string ATTACK = "Attack";
+            public const string DEFENSE = "Defence";
+            public const string SUPPORT = "Support";
+        }
+        public static readonly List<string> AllPuppetTypes = new()
+        {
+            Puppets.ATTACK,
+            Puppets.DEFENSE,
+            Puppets.SUPPORT
+        };
+        public static class Alchemies
+        {
+            public const string ATTACK = "Attack";
+            public const string DEFENSE = "Defence";
+            public const string SUPPORT = "Support";
+        }
+        public static readonly List<string> AllAlchemyTypes = new()
+        {
+            Alchemies.ATTACK,
+            Alchemies.DEFENSE,
+            Alchemies.SUPPORT
+        };
+        public static class Forges
+        {
+            public const string ATTACK = "Attack";
+            public const string DEFENSE = "Defence";
+            public const string SUPPORT = "Support";
+        }
+        public static readonly List<string> AllForgeTypes = new()
+        {
+            Forges.ATTACK,
+            Forges.DEFENSE,
+            Forges.SUPPORT
+        };
+        public static class CardLives
+        {
+            public const string DRINK = "Drink";
+            public const string EQUIPMENTS = "Equipments";
+            public const string FOOD = "Food";
+            public const string SCENERY = "Scenery";
+        }
+        public static readonly List<string> AllCardLifeTypes = new()
+        {
+            CardLives.DRINK,
+            CardLives.EQUIPMENTS,
+            CardLives.FOOD,
+            CardLives.SCENERY
+        };
+        public static class Artworks
+        {
+            public const string ADAMAS = "Adamas";
+            public const string AVIAN = "Avian";
+            public const string BARBARIAN = "Barbarian";
+            public const string CYLLORAN = "Cylloran";
+            public const string DREIZEN = "Dreizen";
+            public const string ETRIGON = "Etrigon";
+            public const string FIRIMIR = "Firimir";
+            public const string GENNESIS = "Gennesis";
+            public const string HECARUS = "Hecarus";
+            public const string ILLONIMA = "Illonima";
+            public const string JAGUAR = "Jaguar";
+            public const string KRYPTONIAN = "Kryptonian";
+            public const string LAMANIA = "Lamania";
+            public const string MARVERICK = "Marverick";
+            public const string NEMESIS = "Nemesis";
+            public const string ONYX = "Onyx";
+            public const string PALLADIAN = "Palladian";
+            public const string QUASAR = "Quasar";
+            public const string RIVERVEN = "Riverven";
+            public const string STARROIAN = "Starroian";
+            public const string TERAC = "Terac";
+            public const string URIUS = "Urius";
+            public const string VRIL = "Vril";
+            public const string WYVERN = "Wyvern";
+            public const string XANTHERA = "Xanthera";
+            public const string YORNATH = "Yornath";
+            public const string ZERATH = "Zerath";
+        }
+        public static readonly List<string> AllArtworkTypes = new()
+        {
+            Artworks.ADAMAS,
+            Artworks.AVIAN,
+            Artworks.BARBARIAN,
+            Artworks.CYLLORAN,
+            Artworks.DREIZEN,
+            Artworks.ETRIGON,
+            Artworks.FIRIMIR,
+            Artworks.GENNESIS,
+            Artworks.HECARUS,
+            Artworks.ILLONIMA,
+            Artworks.JAGUAR,
+            Artworks.KRYPTONIAN,
+            Artworks.LAMANIA,
+            Artworks.MARVERICK,
+            Artworks.NEMESIS,
+            Artworks.ONYX,
+            Artworks.PALLADIAN,
+            Artworks.QUASAR,
+            Artworks.RIVERVEN,
+            Artworks.STARROIAN,
+            Artworks.TERAC,
+            Artworks.URIUS,
+            Artworks.VRIL,
+            Artworks.WYVERN,
+            Artworks.XANTHERA,
+            Artworks.YORNATH,
+            Artworks.ZERATH
+        };
+        public static class SpiritCards
+        {
+            public const string ANCIENT = "Ancient";
+            public const string ARCANUM = "Arcanum";
+            public const string DESTINY = "Destiny";
+            public const string HERATIC = "Heratic";
+            public const string LEGENDARY = "Legendary";
+            public const string MYSTIC = "Mystic";
+            public const string TRANSCENDENCE = "Transcendence";
+        }
+        public static readonly List<string> AllSpiritCardTypes = new()
+        {
+            SpiritCards.ANCIENT,
+            SpiritCards.ARCANUM,
+            SpiritCards.DESTINY,
+            SpiritCards.HERATIC,
+            SpiritCards.LEGENDARY,
+            SpiritCards.MYSTIC,
+            SpiritCards.TRANSCENDENCE
+        };
+        public static class Vehicles
+        {
+            public const string GENERATION_1 = "Generation 1";
+            public const string GENERATION_2 = "Generation 2";
+            public const string GENERATION_3 = "Generation 3";
+            public const string GENERATION_4 = "Generation 4";
+            public const string GENERATION_5 = "Generation 5";
+            public const string GENERATION_6 = "Generation 6";
+            public const string GENERATION_7 = "Generation 7";
+            public const string GENERATION_8 = "Generation 8";
+        }
+        public static readonly List<string> AllVehicleTypes = new()
+        {
+            Vehicles.GENERATION_1,
+            Vehicles.GENERATION_2,
+            Vehicles.GENERATION_3,
+            Vehicles.GENERATION_4,
+            Vehicles.GENERATION_5,
+            Vehicles.GENERATION_6,
+            Vehicles.GENERATION_7,
+            Vehicles.GENERATION_8
+        };
+        // public static class SpiritCards
+        // {
+        //     public const string ANCIENT = "Ancient";
+        //     public const string ARCANUM = "Arcanum";
+        //     public const string DESTINY = "Destiny";
+        //     public const string HERATIC = "Heratic";
+        //     public const string LEGENDARY = "Legendary";
+        //     public const string MYSTIC = "Mystic";
+        //     public const string TRANSCENDENCE = "Transcendence";
+        // }
+        // public static readonly List<string> AllSpiritCardTypes = new()
+        // {
+        //     SpiritCards.ANCIENT,
+        //     SpiritCards.ARCANUM,
+        //     SpiritCards.DESTINY,
+        //     SpiritCards.HERATIC,
+        //     SpiritCards.LEGENDARY,
+        //     SpiritCards.MYSTIC,
+        //     SpiritCards.TRANSCENDENCE
+        // };
+        // public static class Buildings
+        // {
+        //     public const string ANCIENT = "Assembly";
+        //     public const string ARCANUM = "Combat & Support";
+        //     public const string DESTINY = "Cultural_Buildings";
+        //     public const string HERATIC = "Goods_Buildings";
+        //     public const string LEGENDARY = "Great_Buildings";
+        //     public const string MYSTIC = "Logistics";
+        //     public const string TRANSCENDENCE = "Military_Buildings";
+        //     public const string TRANSCENDENCE = "Miscellaneous";
+        //     public const string TRANSCENDENCE = "Planting";
+        //     public const string TRANSCENDENCE = "Power";
+        //     public const string TRANSCENDENCE = "Transcendence";
+        //     public const string TRANSCENDENCE = "Transcendence";
+        //     public const string TRANSCENDENCE = "Transcendence";
+        //     public const string TRANSCENDENCE = "Transcendence";
+        // }
+        // public static readonly List<string> AllSpiritCardTypes = new()
+        // {
+        //     SpiritCards.ANCIENT,
+        //     SpiritCards.ARCANUM,
+        //     SpiritCards.DESTINY,
+        //     SpiritCards.HERATIC,
+        //     SpiritCards.LEGENDARY,
+        //     SpiritCards.MYSTIC,
+        //     SpiritCards.TRANSCENDENCE
+        // };
+        // public static class SpiritCards
+        // {
+        //     public const string ANCIENT = "Ancient";
+        //     public const string ARCANUM = "Arcanum";
+        //     public const string DESTINY = "Destiny";
+        //     public const string HERATIC = "Heratic";
+        //     public const string LEGENDARY = "Legendary";
+        //     public const string MYSTIC = "Mystic";
+        //     public const string TRANSCENDENCE = "Transcendence";
+        // }
+        // public static readonly List<string> AllSpiritCardTypes = new()
+        // {
+        //     SpiritCards.ANCIENT,
+        //     SpiritCards.ARCANUM,
+        //     SpiritCards.DESTINY,
+        //     SpiritCards.HERATIC,
+        //     SpiritCards.LEGENDARY,
+        //     SpiritCards.MYSTIC,
+        //     SpiritCards.TRANSCENDENCE
+        // };
+        public static class Items
+        {
+            public const string ARCHIVE = "Archive";
+            public const string CARD = "Card";
+            public const string CHEST = "Chest";
+            public const string COUPON = "Coupon";
+            public const string DISC = "Disc";
+            public const string EVENT = "Event";
+            public const string EXCHANGE = "Exchange";
+            public const string FISH = "Fish";
+            public const string HICA = "HICA";
+            public const string HICB = "HICB";
+            public const string HIDC = "HIDC";
+            public const string HIEN = "HIEN";
+            public const string HIHN = "HIHN";
+            public const string HIIN = "HIIN";
+            public const string HIRN = "HIRN";
+            public const string HISN = "HISN";
+            public const string HITN = "HITN";
+            public const string IMBUEMENT = "Imbuement";
+            public const string INGREDIENTS = "Ingredients";
+            public const string MATERIAL_LG = "Material-LG";
+            public const string MATERIAL_MR = "Material-MR";
+            public const string MATERIAL_R = "Material-R";
+            public const string MATERIAL_SR = "Material-SR";
+            public const string MATERIAL_SSR = "Material-SSR";
+            public const string MATERIAL_UR = "Material-UR";
+            public const string MINERAL = "Mineral";
+            public const string PAINTING = "Painting";
+            public const string PRODUCT = "Product";
+            public const string SEED = "Seed";
+            public const string SHARD = "Shard";
+            public const string SSWN = "SSWN";
+            public const string TICKET = "Ticket";
+            public const string TOKEN = "Token";
+            public const string UNIVERSE = "Universe";
+            public const string VOUCHER = "Voucher";
+        }
+        public static readonly List<string> GachaItemTypes = new()
+        {
+            Items.ARCHIVE,
+            Items.HICA,
+            Items.HICB,
+            Items.HIDC,
+            Items.HIEN,
+            Items.HIHN,
+            Items.HIIN,
+            Items.HIRN,
+            Items.HISN,
+            Items.HITN,
+            Items.SSWN,
+            Items.UNIVERSE,
+            Items.CARD,
+            Items.MATERIAL_R,
+            Items.MATERIAL_SR,
+            Items.MATERIAL_SSR,
+            Items.MATERIAL_UR,
+            Items.MATERIAL_LG,
+            Items.MATERIAL_MR,
+            Items.DISC,
+            Items.SHARD,
+            Items.PAINTING,
+            Items.IMBUEMENT
+        };
     }
     public static class MainType
     {

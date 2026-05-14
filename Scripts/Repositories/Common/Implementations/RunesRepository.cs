@@ -175,7 +175,7 @@ public class RunesRepository : IRunesRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM runes";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM runes";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

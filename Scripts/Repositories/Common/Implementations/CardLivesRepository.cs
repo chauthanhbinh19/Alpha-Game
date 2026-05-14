@@ -191,7 +191,7 @@ public class CardLivesRepository : ICardLivesRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM card_lives";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM card_lives";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

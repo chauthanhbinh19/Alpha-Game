@@ -248,7 +248,7 @@ public static class AppDisplayConstants
         public const string CARD_CAPTAINS_GALLERY = "Gallery.CardCaptains";
         public const string COLLABORATION_EQUIPMENTS_GALLERY = "Gallery.CollaborationEquipments";
         public const string CARD_MILITARIES_GALLERY = "Gallery.CardMilitaries";
-        public const string CARD_SPELL_GALLERY = "Gallery.CardSpells";
+        public const string CARD_SPELLS_GALLERY = "Gallery.CardSpells";
         public const string COLLABORATIONS_GALLERY = "Gallery.Collaborations";
         public const string CARD_MONSTERS_GALLERY = "Gallery.CardMonsters";
         public const string EQUIPMENTS_GALLERY = "Gallery.Equipments";
@@ -256,7 +256,7 @@ public static class AppDisplayConstants
         public const string SKILLS_GALLERY = "Gallery.Skills";
         public const string SYMBOLS_GALLERY = "Gallery.Symbols";
         public const string TITLES_GALLERY = "Gallery.Titles";
-        public const string MAGIC_FORMATION_CRICLES_GALLERY = "Gallery.MagicFormationCircles";
+        public const string MAGIC_FORMATION_CIRCLES_GALLERY = "Gallery.MagicFormationCircles";
         public const string RELICS_GALLERY = "Gallery.Relics";
         public const string CARD_COLONELS_GALLERY = "Gallery.CardColonels";
         public const string CARD_GENERALS_GALLERY = "Gallery.CardGenerals";
@@ -329,7 +329,7 @@ public static class AppDisplayConstants
         public const string TECHNOLOGIES_COLLECTION = "Collection.Technologies";
         public const string VEHICLES_COLLECTION = "Collection.Vehicles";
         public const string CORES_COLLECTION = "Collection.Cores";
-        public const string WEAPOMS_COLLECTION = "Collection.Weapons";
+        public const string WEAPONS_COLLECTION = "Collection.Weapons";
         public const string ROBOTS_COLLECTION = "Collection.Robots";
         public const string BADGES_COLLECTION = "Collection.Badges";
         public const string MECHA_BEASTS_COLLECTION = "Collection.MechaBeasts";

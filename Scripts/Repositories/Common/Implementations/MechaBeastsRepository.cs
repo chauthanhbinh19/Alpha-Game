@@ -174,7 +174,7 @@ public class MechaBeastsRepository : IMechaBeastsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM mecha_beasts";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM mecha_beasts";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

@@ -166,7 +166,7 @@ public class BordersRepository : IBordersRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM borders";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM borders";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

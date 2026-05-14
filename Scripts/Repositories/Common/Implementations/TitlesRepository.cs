@@ -182,7 +182,7 @@ public class TitlesRepository : ITitlesRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM titles";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM titles";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

@@ -221,7 +221,7 @@ public class AlchemiesRepository : IAlchemiesRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM alchemies";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM alchemies";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

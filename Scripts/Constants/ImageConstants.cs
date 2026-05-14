@@ -348,6 +348,58 @@ public static class ImageConstants
         public const string FASHION_URL = "UI/Button/Collection/FashionsCollection";
         public const string EMOJI_URL = "UI/Button/Collection/EmojisCollection";
     }
+    public static class Border
+    {
+        public const string CARD_HERO_URL = "UI/Button/Border/CardHeroesBorder";
+        public const string BOOK_URL = "UI/Button/Border/BooksBorder";
+        public const string PET_URL = "UI/Button/Border/PetsBorder";
+        public const string CARD_CAPTAIN_URL = "UI/Button/Border/CardCaptainsBorder";
+        public const string COLLABORATION_EQUIPMENT_URL = "UI/Button/Border/CollaborationEquipmentsBorder";
+        public const string CARD_MILITARY_URL = "UI/Button/Border/CardMilitariesBorder";
+        public const string CARD_SPELL_URL = "UI/Button/Border/CardSpellsBorder";
+        public const string COLLABORATION_URL = "UI/Button/Border/CollaborationsBorder";
+        public const string CARD_MONSTER_URL = "UI/Button/Border/CardMonstersBorder";
+        public const string EQUIPMENT_URL = "UI/Button/Border/EquipmentsBorder";
+        public const string MEDAL_URL = "UI/Button/Border/MedalsBorder";
+        public const string SKILL_URL = "UI/Button/Border/SkillsBorder";
+        public const string SYMBOL_URL = "UI/Button/Border/SymbolsBorder";
+        public const string TITLE_URL = "UI/Button/Border/TitlesBorder";
+        public const string MAGIC_FORMATION_CIRCLE_URL = "UI/Button/Border/MagicFormationCircleBorder";
+        public const string RELIC_URL = "UI/Button/Border/RelicsBorder";
+        public const string CARD_COLONEL_URL = "UI/Button/Border/CardColonelsBorder";
+        public const string CARD_GENERAL_URL = "UI/Button/Border/CardGeneralsBorder";
+        public const string CARD_ADMIRAL_URL = "UI/Button/Border/CardAdmiralsBorder";
+        public const string CARD_SOLDIER_URL = "UI/Button/Border/CardSoldiersBorder";
+        public const string BORDER_URL = "UI/Button/Border/BordersBorder";
+        public const string TALISMAN_URL = "UI/Button/Border/TalismanBorder";
+        public const string PUPPET_URL = "UI/Button/Border/PuppetBorder";
+        public const string ALCHEMY_URL = "UI/Button/Border/AlchemyBorder";
+        public const string FORGE_URL = "UI/Button/Border/ForgeBorder";
+        public const string CARD_LIFE_URL = "UI/Button/Border/CardLifeBorder";
+        public const string ARTWORK_URL = "UI/Button/Border/ArtworksBorder";
+        public const string SPIRIT_BEAST_URL = "UI/Button/Border/SpiritBeastsBorder";
+        public const string AVATAR_URL = "UI/Button/Border/AvatarsBorder";
+        public const string SPIRIT_CARD_URL = "UI/Button/Border/SpiritCardsBorder";
+        public const string ACHIEVEMENT_URL = "UI/Button/Border/AchievementsBorder";
+        public const string ARTIFACT_URL = "UI/Button/Border/ArtifactsBorder";
+        public const string ARCHITECTURE_URL = "UI/Button/Border/ArchitecturesBorder";
+        public const string TECHNOLOGY_URL = "UI/Button/Border/TechnologiesBorder";
+        public const string VEHICLE_URL = "UI/Button/Border/VehiclesBorder";
+        public const string CORE_URL = "UI/Button/Border/CoresBorder";
+        public const string WEAPON_URL = "UI/Button/Border/WeaponsBorder";
+        public const string ROBOT_URL = "UI/Button/Border/RobotsBorder";
+        public const string BADGE_URL = "UI/Button/Border/BadgesBorder";
+        public const string MECHA_BEAST_URL = "UI/Button/Border/MechaBeastsBorder";
+        public const string RUNE_URL = "UI/Button/Border/RunesBorder";
+        public const string FURNITURE_URL = "UI/Button/Border/FurnituresBorder";
+        public const string FOOD_URL = "UI/Button/Border/FoodsBorder";
+        public const string BEVERAGE_URL = "UI/Button/Border/BeveragesBorder";
+        public const string BUILDING_URL = "UI/Button/Border/BuildingsBorder";
+        public const string PLANT_URL = "UI/Button/Border/PlantsBorder";
+        public const string FASHION_URL = "UI/Button/Border/FashionsBorder";
+        public const string EMOJI_URL = "UI/Button/Border/EmojisBorder";
+        public const string BAG_URL = "UI/Button/Border/BagBorder";
+    }
     public static class Rune
     {
         public const string Atomic1Url = "UI/Rune/Atomic_1";

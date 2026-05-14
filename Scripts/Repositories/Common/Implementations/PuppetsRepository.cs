@@ -202,7 +202,7 @@ public class PuppetsRepository : IPuppetsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM puppets";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM puppets";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

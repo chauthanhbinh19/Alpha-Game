@@ -181,7 +181,7 @@ public class CoresRepository : ICoresRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM cores";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM cores";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

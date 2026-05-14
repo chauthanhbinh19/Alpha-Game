@@ -181,7 +181,7 @@ public class EmojisRepository : IEmojisRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM emojis";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM emojis";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

@@ -174,7 +174,7 @@ public class CollaborationsRepository : ICollaborationsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM collaborations";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM collaborations";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

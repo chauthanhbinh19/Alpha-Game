@@ -202,7 +202,7 @@ public class RelicsRepository : IRelicsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM relics";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM relics";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

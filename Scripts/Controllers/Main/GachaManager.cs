@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using UnityEngine.Video;
-using System;
 using System.Threading.Tasks;
 using TMPro;
 
@@ -20,7 +17,7 @@ public class GachaManager : MonoBehaviour
     Texture2D subBackground;
     private string mainType;
     private TextMeshProUGUI titleText;
-    List<Items> items;
+    List<Items> tickets;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -56,7 +53,7 @@ public class GachaManager : MonoBehaviour
         CreateGachaButtonUI(4, AppDisplayConstants.Gallery.CARD_CAPTAINS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_CAPTAIN_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(5, AppDisplayConstants.Gallery.COLLABORATION_EQUIPMENTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.COLLABORATION_EQUIPMENT_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(6, AppDisplayConstants.Gallery.CARD_MILITARIES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_MILITARY_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(7, AppDisplayConstants.Gallery.CARD_SPELL_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SPELL_URL), tempGachaMenuPanel);
+        CreateGachaButtonUI(7, AppDisplayConstants.Gallery.CARD_SPELLS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SPELL_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(8, AppDisplayConstants.Gallery.COLLABORATIONS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.COLLABORATION_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(9, AppDisplayConstants.Gallery.CARD_MONSTERS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_MONSTER_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(10, AppDisplayConstants.Gallery.EQUIPMENTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.EQUIPMENT_URL), tempGachaMenuPanel);
@@ -64,7 +61,7 @@ public class GachaManager : MonoBehaviour
         CreateGachaButtonUI(12, AppDisplayConstants.Gallery.SKILLS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SKILL_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(13, AppDisplayConstants.Gallery.SYMBOLS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SYMBOL_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(14, AppDisplayConstants.Gallery.TITLES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TITLE_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(15, AppDisplayConstants.Gallery.MAGIC_FORMATION_CRICLES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MAGIC_FORMATION_CIRCLE_URL), tempGachaMenuPanel);
+        CreateGachaButtonUI(15, AppDisplayConstants.Gallery.MAGIC_FORMATION_CIRCLES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MAGIC_FORMATION_CIRCLE_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(16, AppDisplayConstants.Gallery.RELICS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.RELIC_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(17, AppDisplayConstants.Gallery.CARD_COLONELS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_COLONEL_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(18, AppDisplayConstants.Gallery.CARD_GENERALS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_GENERAL_URL), tempGachaMenuPanel);
@@ -79,7 +76,7 @@ public class GachaManager : MonoBehaviour
         CreateGachaButtonUI(27, AppDisplayConstants.Gallery.SPIRIT_BEASTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SPIRIT_BEAST_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(28, AppDisplayConstants.Gallery.AVATARS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.AVATAR_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(29, AppDisplayConstants.Gallery.SPIRIT_CARDS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SPIRIT_CARD_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(30, AppDisplayConstants.Gallery.ACHIEVEMENTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ACHIEVEMENT_URL), tempGachaMenuPanel);
+        // CreateGachaButtonUI(30, AppDisplayConstants.Gallery.ACHIEVEMENTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ACHIEVEMENT_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(31, AppDisplayConstants.Gallery.ARTIFACTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARTIFACT_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(32, AppDisplayConstants.Gallery.ARCHITECTURES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARCHITECTURE_URL), tempGachaMenuPanel);
         CreateGachaButtonUI(33, AppDisplayConstants.Gallery.TECHNOLOGIES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TECHNOLOGY_URL), tempGachaMenuPanel);
@@ -171,7 +168,7 @@ public class GachaManager : MonoBehaviour
         AssignButtonEvent("Button_27", () => GetType(AppConstants.MainType.SPIRIT_BEAST));
         AssignButtonEvent("Button_28", () => GetType(AppConstants.MainType.AVATAR));
         AssignButtonEvent("Button_29", () => GetType(AppConstants.MainType.SPIRIT_CARD));
-        AssignButtonEvent("Button_30", () => GetType(AppConstants.MainType.ACHIEVEMENT));
+        // AssignButtonEvent("Button_30", () => GetType(AppConstants.MainType.ACHIEVEMENT));
         AssignButtonEvent("Button_31", () => GetType(AppConstants.MainType.ARTIFACT));
         AssignButtonEvent("Button_32", () => GetType(AppConstants.MainType.ARCHITECTURE));
         AssignButtonEvent("Button_33", () => GetType(AppConstants.MainType.TECHNOLOGY));
@@ -221,309 +218,323 @@ public class GachaManager : MonoBehaviour
     {
         GameObject gachaObject = Instantiate(GachaPanelPrefab, MainPanel);
         Transform transform = gachaObject.transform;
-        Button summonOneButton = transform.Find("SummonOneButton").GetComponent<Button>();
-        Button summonTenButton = transform.Find("SummonTenButton").GetComponent<Button>();
+        titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        Button summonOneButton = transform.Find("DictionaryCards/SummonOneButton").GetComponent<Button>();
+        Button summonTenButton = transform.Find("DictionaryCards/SummonTenButton").GetComponent<Button>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(gachaObject);
+        });
+        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
 
         summonOneButton.onClick.AddListener(() =>
         {
-            
+
         });
         summonTenButton.onClick.AddListener(() =>
         {
-            
+
         });
     }
-    public async Task LoadCurrencyAsync(Transform transform)
+    public async Task LoadTicketAsync(Transform transform)
     {
+        tickets.Clear();
         if (mainType.Equals(AppConstants.MainType.CARD_HERO))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_HERO_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_HERO_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.BOOK))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BOOK_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BOOK_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_CAPTAIN_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_CAPTAIN_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MONSTER_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MONSTER_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_COLONEL_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_COLONEL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_GENERAL_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_GENERAL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_ADMIRAL_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_ADMIRAL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MILITARY_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MILITARY_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SPELL_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SPELL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.COLLABORATION_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.COLLABORATION_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.COLLABORATION_EQUIPMENT_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.COLLABORATION_EQUIPMENT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.EQUIPMENT_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.EQUIPMENT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.PET))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PET_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PET_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.SKILL))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SKILL_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SKILL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.SYMBOL))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SYMBOL_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SYMBOL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.MEDAL))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MEDAL_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MEDAL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.TITLE))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TITLE_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TITLE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.BORDER))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BORDER_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BORDER_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MAGIC_FORMATION_CIRCLE_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MAGIC_FORMATION_CIRCLE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.RELIC))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.RELIC_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.RELIC_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.TALISMAN))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TALISMAN_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TALISMAN_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.PUPPET))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PUPPET_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PUPPET_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ALCHEMY_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ALCHEMY_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.FORGE))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FORGE_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FORGE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_LIFE_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_LIFE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.ARTWORK))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARTWORK_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARTWORK_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SPIRIT_BEAST_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SPIRIT_BEAST_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.AVATAR))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.AVATAR_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.AVATAR_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.SPIRIT_CARD))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SPIRIT_CARD_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SPIRIT_CARD_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         // else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
         // {
@@ -537,190 +548,190 @@ public class GachaManager : MonoBehaviour
         // }
         else if (mainType.Equals(AppConstants.MainType.ARTIFACT))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARTIFACT_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARTIFACT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARCHITECTURE_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARCHITECTURE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TECHNOLOGY_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TECHNOLOGY_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.VEHICLE))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.VEHICLE_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.VEHICLE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.CORE))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CORE_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CORE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.WEAPON))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.WEAPON_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.WEAPON_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.ROBOT))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ROBOT_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ROBOT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.BADGE))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BADGE_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BADGE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MECHA_BEAST_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MECHA_BEAST_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.RUNE))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.RUNE_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.RUNE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.FURNITURE))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FURNITURE_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FURNITURE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.FOOD))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FOOD_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FOOD_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.BEVERAGE))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BEVERAGE_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BEVERAGE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.BUILDING))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BUILDING_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BUILDING_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.PLANT))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PLANT_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PLANT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.FASHION))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FASHION_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FASHION_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.EMOJI))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.EMOJI_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.EMOJI_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_SOLDIER))
         {
-            items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SOLDIER_TICKET) };
+            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SOLDIER_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                items,
+                tickets,
                 transform
             );
 
-            CreateTicketUI(items, transform);
+            CreateTicketUI(tickets, transform);
         }
     }
-    public void LoadGachaEvent()
+    public async Task LoadGachaEventAsync(int requiredItemQuantity)
     {
         if (mainType.Equals(AppConstants.MainType.CARD_HERO))
         {
-
+            await GachaCardHeroesAsync(requiredItemQuantity);
         }
         else if (mainType.Equals(AppConstants.MainType.BOOK))
         {
@@ -780,7 +791,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.MEDAL))
         {
-            
+
         }
         else if (mainType.Equals(AppConstants.MainType.TITLE))
         {
@@ -888,7 +899,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (mainType.Equals(AppConstants.MainType.BEVERAGE))
         {
-            
+
         }
         else if (mainType.Equals(AppConstants.MainType.BUILDING))
         {
@@ -926,6 +937,247 @@ public class GachaManager : MonoBehaviour
             tenTicketImage.texture = texture;
             oneTicketText.text = "1";
             tenTicketText.text = "10";
+        }
+    }
+    public async Task GachaCardHeroesAsync(int rollNumber)
+    {
+        // Load data 1 lần
+        var allCardHeroes = await CardHeroesService.Create()
+            .GetCardHeroesWithoutLimitAsync();
+
+        var allItems = await ItemsService.Create()
+            .GetItemsAsync();
+
+        // Load rates từ config mới
+        var mainRates = await GachaRatesConfig
+            .GetMainRatesAsync(AppConstants.MainType.CARD_HERO);
+
+        var cardTypeRates = await GachaRatesConfig
+            .GetCardTypeRatesAsync(AppConstants.MainType.CARD_HERO);
+
+        var itemTypeRates = await GachaRatesConfig
+            .GetItemTypeRatesAsync();
+
+        // Trừ ticket
+        foreach (Items item in tickets)
+        {
+            await UserCurrenciesService.Create()
+                .UpdateUserCurrencyAsync(item.Id, rollNumber);
+        }
+
+        // Group theo type
+        var cardByType = allCardHeroes
+            .GroupBy(x => x.Type)
+            .ToDictionary(x => x.Key, x => x.ToList());
+
+        var itemByType = allItems
+            .GroupBy(x => x.Type)
+            .ToDictionary(x => x.Key, x => x.ToList());
+
+        List<CardHeroes> rewardedCards = new();
+
+        Dictionary<string, (Items item, double quantity)>
+            rewardedItems = new();
+
+        for (int i = 0; i < rollNumber; i++)
+        {
+            // Tier 1
+            string mainReward = RollHelper.RollByRate(
+                mainRates
+            );
+
+            if (mainReward == AppConstants.MainType.CARD_HERO)
+            {
+                // Tier 2
+                string cardType = RollHelper.RollByRate(
+                    cardTypeRates
+                );
+
+                if (cardByType.TryGetValue(
+                    cardType,
+                    out var filteredCards
+                ) && filteredCards.Any())
+                {
+                    var selectedCard = filteredCards[
+                        UnityEngine.Random.Range(
+                            0,
+                            filteredCards.Count
+                        )
+                    ];
+
+                    rewardedCards.Add(selectedCard);
+                }
+            }
+            else if (mainReward == AppConstants.MainType.ITEM)
+            {
+                string itemType = RollHelper.RollByRate(
+                    itemTypeRates
+                );
+
+                if (itemByType.TryGetValue(
+                    itemType,
+                    out var filteredItems
+                ) && filteredItems.Any())
+                {
+                    var selectedItem = filteredItems[
+                        UnityEngine.Random.Range(
+                            0,
+                            filteredItems.Count
+                        )
+                    ];
+
+                    if (rewardedItems.ContainsKey(
+                        selectedItem.Id
+                    ))
+                    {
+                        var current =
+                            rewardedItems[selectedItem.Id];
+
+                        rewardedItems[selectedItem.Id] = (
+                            current.item,
+                            current.quantity + 1
+                        );
+                    }
+                    else
+                    {
+                        rewardedItems[selectedItem.Id] = (
+                            selectedItem,
+                            1
+                        );
+                    }
+                }
+            }
+        }
+
+        // giữ nguyên insert card
+        if (rewardedCards.Any())
+        {
+            await UserCardHeroesService.Create()
+                .InsertOrUpdateUserCardHeroesBatchAsync(
+                    rewardedCards
+                );
+        }
+
+        if (rewardedItems.Any())
+        {
+            await UserItemsService.Create()
+                .InsertOrUpdateUserItemsBatchAsync(
+                    rewardedItems.Values.ToList()
+                );
+        }
+    }
+    public async Task GachaRunesAsync(int rollNumber)
+    {
+        // Load data 1 lần
+        var allRunes = await RunesService.Create()
+            .GetRunesWithoutLimitAsync();
+
+        var allItems = await ItemsService.Create()
+            .GetItemsAsync();
+
+        // Load rates
+        var mainRates = await GachaRatesConfig
+            .GetMainRatesAsync(AppConstants.MainType.RUNE);
+
+        var itemTypeRates = await GachaRatesConfig
+            .GetItemTypeRatesAsync();
+
+        // Trừ ticket
+        foreach (Items item in tickets)
+        {
+            await UserCurrenciesService.Create()
+                .UpdateUserCurrencyAsync(item.Id, rollNumber);
+        }
+
+        // Item group theo type
+        var itemByType = allItems
+            .GroupBy(x => x.Type)
+            .ToDictionary(x => x.Key, x => x.ToList());
+
+        List<Runes> rewardedRunes = new();
+
+        Dictionary<string, (Items item, double quantity)>
+            rewardedItems = new();
+
+        for (int i = 0; i < rollNumber; i++)
+        {
+            // Tier 1
+            string mainReward = RollHelper.RollByRate(
+                mainRates
+            );
+
+            if (mainReward == AppConstants.MainType.RUNE)
+            {
+                // random trực tiếp rune
+                if (allRunes.Any())
+                {
+                    var selectedRune = allRunes[
+                        UnityEngine.Random.Range(
+                            0,
+                            allRunes.Count
+                        )
+                    ];
+
+                    rewardedRunes.Add(selectedRune);
+                }
+            }
+            else if (mainReward == AppConstants.MainType.ITEM)
+            {
+                string itemType = RollHelper.RollByRate(
+                    itemTypeRates
+                );
+
+                if (itemByType.TryGetValue(
+                    itemType,
+                    out var filteredItems
+                ) && filteredItems.Any())
+                {
+                    var selectedItem = filteredItems[
+                        UnityEngine.Random.Range(
+                            0,
+                            filteredItems.Count
+                        )
+                    ];
+
+                    if (rewardedItems.ContainsKey(
+                        selectedItem.Id
+                    ))
+                    {
+                        var current =
+                            rewardedItems[selectedItem.Id];
+
+                        rewardedItems[selectedItem.Id] = (
+                            current.item,
+                            current.quantity + 1
+                        );
+                    }
+                    else
+                    {
+                        rewardedItems[selectedItem.Id] = (
+                            selectedItem,
+                            1
+                        );
+                    }
+                }
+            }
+        }
+
+        // Insert rune
+        if (rewardedRunes.Any())
+        {
+            await UserRunesService.Create()
+                .InsertOrUpdateUserRunesBatchAsync(
+                    rewardedRunes
+                );
+        }
+
+        // Insert item
+        if (rewardedItems.Any())
+        {
+            await UserItemsService.Create()
+                .InsertOrUpdateUserItemsBatchAsync(
+                    rewardedItems.Values.ToList()
+                );
         }
     }
 }

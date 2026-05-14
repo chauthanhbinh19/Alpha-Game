@@ -203,7 +203,7 @@ public class EquipmentsRepository : IEquipmentsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM equipments";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM equipments";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

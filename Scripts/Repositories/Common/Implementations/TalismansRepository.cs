@@ -201,7 +201,7 @@ public class TalismansRepository : ITalismansRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM talismans";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM talismans";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

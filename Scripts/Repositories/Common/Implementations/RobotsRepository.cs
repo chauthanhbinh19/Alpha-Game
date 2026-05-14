@@ -174,7 +174,7 @@ public class RobotsRepository : IRobotsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM robots";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM robots";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

@@ -182,7 +182,7 @@ public class WeaponsRepository : IWeaponsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM weapons";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM weapons";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

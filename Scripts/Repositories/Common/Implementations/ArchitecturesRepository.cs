@@ -175,7 +175,7 @@ public class ArchitecturesRepository : IArchitecturesRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM architectures";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM architectures";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

@@ -160,7 +160,7 @@ public class ArtifactsRepository : IArtifactsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM artifacts";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM artifacts";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

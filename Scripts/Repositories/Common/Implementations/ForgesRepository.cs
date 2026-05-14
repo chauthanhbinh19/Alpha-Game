@@ -204,7 +204,7 @@ public class ForgesRepository : IForgesRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM forges";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM forges";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

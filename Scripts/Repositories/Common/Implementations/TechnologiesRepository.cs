@@ -182,7 +182,7 @@ public class TechnologiesRepository : ITechnologiesRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM technologies";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM technologies";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

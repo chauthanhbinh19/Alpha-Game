@@ -201,7 +201,7 @@ public class SymbolsRepository : ISymbolsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM symbols";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM symbols";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

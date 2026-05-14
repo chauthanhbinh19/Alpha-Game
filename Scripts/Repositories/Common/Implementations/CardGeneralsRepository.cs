@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class CardGeneralsRepository : ICardGeneralsRepository
 {
-
     public async Task<List<string>> GetUniqueCardGeneralsTypesAsync()
     {
         List<string> typeList = new List<string>();
@@ -247,7 +246,7 @@ public class CardGeneralsRepository : ICardGeneralsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM card_generals";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM card_generals";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

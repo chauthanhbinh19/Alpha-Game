@@ -309,7 +309,7 @@ public class CardSoldiersRepository : ICardSoldiersRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = @"SELECT * FROM card_soldiers";
+                string selectSQL = @"SELECT id, name, image, rare, quality FROM card_soldiers";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
