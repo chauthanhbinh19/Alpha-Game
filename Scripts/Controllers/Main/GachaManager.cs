@@ -234,13 +234,13 @@ public class GachaManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
 
-        summonOneButton.onClick.AddListener(() =>
+        summonOneButton.onClick.AddListener(async () =>
         {
-
+            await LoadGachaEventAsync(1);
         });
-        summonTenButton.onClick.AddListener(() =>
+        summonTenButton.onClick.AddListener(async () =>
         {
-
+            await LoadGachaEventAsync(10);
         });
     }
     public async Task LoadTicketAsync(Transform transform)
@@ -727,11 +727,11 @@ public class GachaManager : MonoBehaviour
             CreateTicketUI(tickets, transform);
         }
     }
-    public async Task LoadGachaEventAsync(int requiredItemQuantity)
+    public async Task LoadGachaEventAsync(int rollNumber)
     {
         if (mainType.Equals(AppConstants.MainType.CARD_HERO))
         {
-            await GachaCardHeroesAsync(requiredItemQuantity);
+            await GachaCardHeroesAsync(rollNumber);
         }
         else if (mainType.Equals(AppConstants.MainType.BOOK))
         {
