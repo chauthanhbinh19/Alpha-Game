@@ -191,7 +191,7 @@ public class ProfileManager : MonoBehaviour
         });
 
         var currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
-        CurrenciesManager.Instance.createCurrency(currencies, currencyPanel);
+        CurrenciesManager.Instance.CreateCurrency(currencies, currencyPanel);
     }
     public void CreateLogoutPanel()
     {

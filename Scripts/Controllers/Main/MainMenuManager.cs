@@ -96,6 +96,7 @@ public class MainMenuManager : MonoBehaviour
         Button featureButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/FeatureButton").GetComponent<Button>();
         Button arenaButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/ArenaButton").GetComponent<Button>();
         // Button profileButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton").GetComponent<Button>();
+        Button gachaButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/GachaButton").GetComponent<Button>();
         Button missionButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/MissionContent/MissionButton").GetComponent<Button>();
         Button guildButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/SocialContent/GuildButton").GetComponent<Button>();
         Button researchButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ResearchButton").GetComponent<Button>();
@@ -220,6 +221,7 @@ public class MainMenuManager : MonoBehaviour
 
         galleryButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, MainPanel);
             closeButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
             closeButton.onClick.AddListener(() =>
@@ -241,6 +243,7 @@ public class MainMenuManager : MonoBehaviour
 
         collectionButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, MainPanel);
             closeButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
             closeButton.onClick.AddListener(() =>
@@ -258,6 +261,28 @@ public class MainMenuManager : MonoBehaviour
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLECTION);
             CollectionManager.Instance.CreateCollectionButton(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
             CollectionManager.Instance.CreateCollection(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
+        });
+
+        gachaButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            GameObject popupButtonPanel = Instantiate(PopupButtonPanelPrefab, MainPanel);
+            closeButton = popupButtonPanel.transform.Find("CloseButton").GetComponent<Button>();
+            closeButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Destroy(popupButtonPanel);
+            });
+            this.homeButton = popupButtonPanel.transform.Find("HomeButton").GetComponent<Button>();
+            this.homeButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ButtonEvent.Instance.Close(MainPanel);
+            });
+            TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.GACHA);
+            GachaManager.Instance.CreateGachaButton(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
+            GachaManager.Instance.CreateGacha(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
         });
 
         equipmentButton.onClick.AddListener(async () =>

@@ -9,7 +9,8 @@ using System.Threading.Tasks;
 public class CurrenciesManager : MonoBehaviour
 {
     public static CurrenciesManager Instance { get; private set; }
-    private GameObject currencyPrefab;
+    public GameObject CurrencyPrefab;
+    public GameObject TicketPrefab;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -30,14 +31,15 @@ public class CurrenciesManager : MonoBehaviour
     }
     public void Initialize()
     {
-        currencyPrefab = UIManager.Instance.Get("CurrencyPrefab");
+        CurrencyPrefab = UIManager.Instance.Get("CurrencyPrefab");
+        TicketPrefab = UIManager.Instance.Get("TicketPrefab");
     }
-    public void createCurrency(List<Currencies> currencies, Transform CurrencyPanel)
+    public void CreateCurrency(List<Currencies> currencies, Transform CurrencyPanel)
     {
         ButtonEvent.Instance.Close(CurrencyPanel);
         foreach (var currency in currencies)
         {
-            GameObject currencyObject = Instantiate(currencyPrefab, CurrencyPanel);
+            GameObject currencyObject = Instantiate(CurrencyPrefab, CurrencyPanel);
 
             TextMeshProUGUI titleText = currencyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             titleText.text = currency.Quantity.ToString();
@@ -54,20 +56,21 @@ public class CurrenciesManager : MonoBehaviour
             gridLayout.cellSize = new Vector2(180, 100);
         }
     }
-    public void createTicketsCurrency(List<Items> items, Transform itemPanel)
+    public void CreateTicket(List<Items> items, Transform itemPanel)
     {
         ButtonEvent.Instance.Close(itemPanel);
         foreach (var item in items)
         {
-            GameObject currencyObject = Instantiate(currencyPrefab, itemPanel);
+            GameObject currencyObject = Instantiate(TicketPrefab, itemPanel);
 
             TextMeshProUGUI titleText = currencyObject.transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
             titleText.text = NumberFormatterHelper.FormatNumber(item.Quantity, false);
 
             RawImage image = currencyObject.transform.Find("Image").GetComponent<RawImage>();
             string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
-            Texture texutre = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            image.texture = texutre;
+            Texture2D texture = TextureHelper.LoadTexture2DCached($"{fileNameWithoutExtension}");
+            image.texture = texture;
+            ImageManager.Instance.ChangeSizeImageByTextureScale(image, texture);
         }
         GridLayoutGroup gridLayout = itemPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -80,17 +83,17 @@ public class CurrenciesManager : MonoBehaviour
         IUserCurrenciesRepository userCurrencyRepository = new UserCurrenciesRepository();
         UserCurrenciesService userCurrencyService = new UserCurrenciesService(userCurrencyRepository);
         List<Currencies> currencies = await userCurrencyService.GetEquipmentsCurrencyAsync(type);
-        createCurrency(currencies, panel);
+        CreateCurrency(currencies, panel);
     }
     public void GetMainCurrency(List<Currencies> currencies, Transform panel)
     {
         List<Currencies> filteredCurrencies = currencies
             .Where(c => c.Name == AppConstants.Currency.DIAMOND || c.Name == AppConstants.Currency.GOLD || c.Name == AppConstants.Currency.SILVER)
             .ToList();
-        createCurrency(filteredCurrencies, panel);
+        CreateCurrency(filteredCurrencies, panel);
     }
     public void GetTicketsCurrency(List<Items> items, Transform itemPanel)
     {
-        createTicketsCurrency(items, itemPanel);
+        CreateTicket(items, itemPanel);
     }
 }

@@ -165,6 +165,7 @@ public static class AppConstants
     }
     public static class Rare
     {
+        public const string NONE = "None";
         public const string ALL = "All";
         public const string SR = "SR";
         public const string SSR = "SSR";

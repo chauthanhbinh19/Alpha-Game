@@ -181,7 +181,7 @@ public class ArchitecturesController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = await UserCurrenciesService.Create().GetArchitecturesCurrencyAsync(subType);
-        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, CurrencyPanel);
+        FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, CurrencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform CurrencyPanel)
@@ -347,7 +347,7 @@ public class ArchitecturesController : MonoBehaviour
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(architecture.Image);
 
                     ButtonEvent.Instance.Close(CurrencyPanel);
-                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, CurrencyPanel);
+                    FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, CurrencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);

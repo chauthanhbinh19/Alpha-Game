@@ -198,6 +198,7 @@ public static class AppDisplayConstants
         public const string GUILD = "MainType.Guild";
         public const string TOWER = "MainType.Tower";
         public const string EVENT = "MainType.Event";
+        public const string GACHA = "MainType.Gacha";
         public const string MASTER_BOARD = "MainType.MasterBoard";
         public const string DAILY_CHECKIN = "MainType.DailyCheckin";
         public const string EMAIL = "MainType.Email";
@@ -380,7 +381,7 @@ public static class AppDisplayConstants
         public const string TECHNOLOGIES_GACHA = "Gacha.Technologies";
         public const string VEHICLES_GACHA = "Gacha.Vehicles";
         public const string CORES_GACHA = "Gacha.Cores";
-        public const string WEAPOMS_GACHA = "Gacha.Weapons";
+        public const string WEAPONS_GACHA = "Gacha.Weapons";
         public const string ROBOTS_GACHA = "Gacha.Robots";
         public const string BADGES_GACHA = "Gacha.Badges";
         public const string MECHA_BEASTS_GACHA = "Gacha.MechaBeasts";

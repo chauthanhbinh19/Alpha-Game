@@ -164,7 +164,7 @@ public class AchievementsController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = await UserCurrenciesService.Create().GetAchievementsCurrencyAsync();
-        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, Transform popupPanel, Transform currencyPanel)
@@ -330,7 +330,7 @@ public class AchievementsController : MonoBehaviour
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(achievement.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);

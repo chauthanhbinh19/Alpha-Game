@@ -12135,6 +12135,7 @@ GameObject:
   - component: {fileID: 1455261741}
   - component: {fileID: 1455261742}
   - component: {fileID: 1455261743}
+  - component: {fileID: 1455261744}
   m_Layer: 5
   m_Name: MainManager
   m_TagString: Untagged
@@ -12402,6 +12403,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b807204819e58824d8a582b2a1a90e70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1455261744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1455261722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 860d7a5786d40da4cafb2c3db7452119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GachaPanelPrefab: {fileID: 0}
+  gachaMenuPanel: {fileID: 0}
+  backgroundImage: {fileID: 0}
+  GachaButtonPrefab: {fileID: 0}
+  currentObject: {fileID: 0}
+  itemBackground: {fileID: 0}
+  subBackground: {fileID: 0}
 --- !u!1 &1465600500
 GameObject:
   m_ObjectHideFlags: 0

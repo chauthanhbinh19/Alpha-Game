@@ -53,6 +53,7 @@
   { "key": "MainType.Guild", "value": "Guild" },
   { "key": "MainType.Tower", "value": "Tower" },
   { "key": "MainType.Event", "value": "Event" },
+  { "key": "MainType.Gacha", "value": "Gacha" },
   { "key": "MainType.CollaborationEquipment", "value": "Collaboration Equipment" },
   { "key": "MainType.CollaborationEquipments", "value": "Collaboration Equipments" },
   { "key": "MainType.Collaboration", "value": "Collaboration" },

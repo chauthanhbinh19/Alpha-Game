@@ -33,4 +33,32 @@ public class ImageManager : MonoBehaviour
         // Cập nhật kích thước ảnh
         Image.rectTransform.sizeDelta = new Vector2(newWidth, newHeight);
     }
+    public void ChangeSizeImageByTextureScale(RawImage image, Texture texture)
+    {
+        RectTransform rect = image.rectTransform;
+
+        float containerWidth = rect.sizeDelta.x;
+        float containerHeight = rect.sizeDelta.y;
+
+        float textureRatio = (float)texture.width / texture.height;
+        float containerRatio = containerWidth / containerHeight;
+
+        float newWidth;
+        float newHeight;
+
+        if (textureRatio > containerRatio)
+        {
+            // Ảnh rộng hơn khung -> fit theo width
+            newWidth = containerWidth;
+            newHeight = containerWidth / textureRatio;
+        }
+        else
+        {
+            // Ảnh cao hơn khung -> fit theo height
+            newHeight = containerHeight;
+            newWidth = containerHeight * textureRatio;
+        }
+
+        rect.sizeDelta = new Vector2(newWidth, newHeight);
+    }
 }

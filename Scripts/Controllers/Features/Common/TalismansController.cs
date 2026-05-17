@@ -167,7 +167,7 @@ public class TalismansController : MonoBehaviour
 
         List<Currencies> currencies = new List<Currencies>();
         currencies = await UserCurrenciesService.Create().GetTalismansCurrencyAsync(subType);
-        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
         currentContent.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
@@ -333,7 +333,7 @@ public class TalismansController : MonoBehaviour
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(talisman.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);

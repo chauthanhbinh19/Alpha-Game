@@ -48,7 +48,7 @@ public class ItemsController : MonoBehaviour
         List<Currencies> currencies = new List<Currencies>();
         var tempCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(currency.Id);
         currencies.Add(tempCurrency);
-        FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
+        FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
 
         foreach (var item in items)
         {
@@ -232,7 +232,7 @@ public class ItemsController : MonoBehaviour
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
-                    FindObjectOfType<CurrenciesManager>().createCurrency(currencies, currencyPanel);
+                    FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                     GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);

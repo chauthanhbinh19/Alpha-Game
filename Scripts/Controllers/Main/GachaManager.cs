@@ -34,6 +34,10 @@ public class GachaManager : MonoBehaviour
             Destroy(gameObject); // Destroy duplicate instances
         }
     }
+    void Start()
+    {
+        Initialize();
+    }
     public void Initialize()
     {
         MainButtonPrefab = UIManager.Instance.Get("MainButtonPrefab");
@@ -50,58 +54,202 @@ public class GachaManager : MonoBehaviour
         subBackground = TextureHelper.LoadTexture2DCached(ImageConstants.Flag.FLAG_INVENTORY_URL);
         itemBackground = TextureHelper.LoadTexture2DCached(ImageConstants.Badge.BADGE_GALLERY_URL);
         //Gallery menu
-        CreateGachaButtonUI(1, AppDisplayConstants.Gallery.CARD_HEROES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_HERO_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(2, AppDisplayConstants.Gallery.BOOKS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BOOK_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(3, AppDisplayConstants.Gallery.PETS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PET_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(4, AppDisplayConstants.Gallery.CARD_CAPTAINS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_CAPTAIN_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(5, AppDisplayConstants.Gallery.COLLABORATION_EQUIPMENTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.COLLABORATION_EQUIPMENT_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(6, AppDisplayConstants.Gallery.CARD_MILITARIES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_MILITARY_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(7, AppDisplayConstants.Gallery.CARD_SPELLS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SPELL_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(8, AppDisplayConstants.Gallery.COLLABORATIONS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.COLLABORATION_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(9, AppDisplayConstants.Gallery.CARD_MONSTERS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_MONSTER_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(10, AppDisplayConstants.Gallery.EQUIPMENTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.EQUIPMENT_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(11, AppDisplayConstants.Gallery.MEDALS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MEDAL_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(12, AppDisplayConstants.Gallery.SKILLS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SKILL_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(13, AppDisplayConstants.Gallery.SYMBOLS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SYMBOL_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(14, AppDisplayConstants.Gallery.TITLES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TITLE_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(15, AppDisplayConstants.Gallery.MAGIC_FORMATION_CIRCLES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MAGIC_FORMATION_CIRCLE_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(16, AppDisplayConstants.Gallery.RELICS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.RELIC_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(17, AppDisplayConstants.Gallery.CARD_COLONELS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_COLONEL_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(18, AppDisplayConstants.Gallery.CARD_GENERALS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_GENERAL_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(19, AppDisplayConstants.Gallery.CARD_ADMIRALS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_ADMIRAL_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(20, AppDisplayConstants.Gallery.BORDERS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BORDER_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(21, AppDisplayConstants.Gallery.TALISMANS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TALISMAN_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(22, AppDisplayConstants.Gallery.PUPPETS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PUPPET_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(23, AppDisplayConstants.Gallery.ALCHEMIES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ALCHEMY_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(24, AppDisplayConstants.Gallery.FORGES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FORGE_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(25, AppDisplayConstants.Gallery.CARD_LIVES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.LIFE_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(26, AppDisplayConstants.Gallery.ARTWORKS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARTWORK_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(27, AppDisplayConstants.Gallery.SPIRIT_BEASTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SPIRIT_BEAST_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(28, AppDisplayConstants.Gallery.AVATARS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.AVATAR_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(29, AppDisplayConstants.Gallery.SPIRIT_CARDS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SPIRIT_CARD_URL), tempGachaMenuPanel);
-        // CreateGachaButtonUI(30, AppDisplayConstants.Gallery.ACHIEVEMENTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ACHIEVEMENT_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(31, AppDisplayConstants.Gallery.ARTIFACTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARTIFACT_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(32, AppDisplayConstants.Gallery.ARCHITECTURES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARCHITECTURE_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(33, AppDisplayConstants.Gallery.TECHNOLOGIES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TECHNOLOGY_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(34, AppDisplayConstants.Gallery.VEHICLES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.VEHICLE_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(35, AppDisplayConstants.Gallery.CORES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CORE_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(36, AppDisplayConstants.Gallery.WEAPONS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.WEAPON_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(37, AppDisplayConstants.Gallery.ROBOTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ROBOT_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(38, AppDisplayConstants.Gallery.BADGES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BADGE_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(39, AppDisplayConstants.Gallery.MECHA_BEASTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MECHA_BEAST_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(40, AppDisplayConstants.Gallery.RUNES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.RUNE_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(41, AppDisplayConstants.Gallery.FURNITURES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BADGE_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(42, AppDisplayConstants.Gallery.FOODS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MECHA_BEAST_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(43, AppDisplayConstants.Gallery.BEVERAGES_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.RUNE_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(44, AppDisplayConstants.Gallery.BUILDINGS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BUILDING_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(45, AppDisplayConstants.Gallery.PLANTS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PLANT_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(46, AppDisplayConstants.Gallery.FASHIONS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FASHION_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(47, AppDisplayConstants.Gallery.EMOJIS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.EMOJI_URL), tempGachaMenuPanel);
-        CreateGachaButtonUI(48, AppDisplayConstants.Gallery.CARD_SOLDIERS_GALLERY, subBackground, itemBackground, TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SOLDIER_URL), tempGachaMenuPanel);
+        CreateGachaButtonUI(1, AppDisplayConstants.Gallery.CARD_HEROES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_HERO_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(2, AppDisplayConstants.Gallery.BOOKS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BOOK_URL), 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BOOK_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(3, AppDisplayConstants.Gallery.PETS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PET_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PET_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(4, AppDisplayConstants.Gallery.CARD_CAPTAINS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_CAPTAIN_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_CAPTAIN_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(5, AppDisplayConstants.Gallery.COLLABORATION_EQUIPMENTS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.COLLABORATION_EQUIPMENT_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_EQUIPMENT_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(6, AppDisplayConstants.Gallery.CARD_MILITARIES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_MILITARY_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MILITARY_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(7, AppDisplayConstants.Gallery.CARD_SPELLS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SPELL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SPELL_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(8, AppDisplayConstants.Gallery.COLLABORATIONS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.COLLABORATION_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(9, AppDisplayConstants.Gallery.CARD_MONSTERS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_MONSTER_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MONSTER_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(10, AppDisplayConstants.Gallery.EQUIPMENTS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.EQUIPMENT_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.EQUIPMENT_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(11, AppDisplayConstants.Gallery.MEDALS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MEDAL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.MEDAL_URL),
+             tempGachaMenuPanel);
+        CreateGachaButtonUI(12, AppDisplayConstants.Gallery.SKILLS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SKILL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SKILL_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(13, AppDisplayConstants.Gallery.SYMBOLS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SYMBOL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SYMBOL_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(14, AppDisplayConstants.Gallery.TITLES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TITLE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TITLE_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(15, AppDisplayConstants.Gallery.MAGIC_FORMATION_CIRCLES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MAGIC_FORMATION_CIRCLE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.MAGIC_FORMATION_CIRCLE_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(16, AppDisplayConstants.Gallery.RELICS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.RELIC_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.RELIC_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(17, AppDisplayConstants.Gallery.CARD_COLONELS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_COLONEL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_COLONEL_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(18, AppDisplayConstants.Gallery.CARD_GENERALS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_GENERAL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_GENERAL_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(19, AppDisplayConstants.Gallery.CARD_ADMIRALS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_ADMIRAL_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_ADMIRAL_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(20, AppDisplayConstants.Gallery.BORDERS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BORDER_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BORDER_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(21, AppDisplayConstants.Gallery.TALISMANS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TALISMAN_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TALISMAN_URL),  
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(22, AppDisplayConstants.Gallery.PUPPETS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PUPPET_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PUPPET_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(23, AppDisplayConstants.Gallery.ALCHEMIES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ALCHEMY_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ALCHEMY_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(24, AppDisplayConstants.Gallery.FORGES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FORGE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FORGE_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(25, AppDisplayConstants.Gallery.CARD_LIVES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.LIFE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_LIFE_URL),
+             tempGachaMenuPanel);
+        CreateGachaButtonUI(26, AppDisplayConstants.Gallery.ARTWORKS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARTWORK_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTWORK_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(27, AppDisplayConstants.Gallery.SPIRIT_BEASTS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SPIRIT_BEAST_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_BEAST_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(28, AppDisplayConstants.Gallery.AVATARS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.AVATAR_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.AVATAR_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(29, AppDisplayConstants.Gallery.SPIRIT_CARDS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SPIRIT_CARD_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_CARD_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(30, AppDisplayConstants.Gallery.ACHIEVEMENTS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ACHIEVEMENT_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ACHIEVEMENT_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(31, AppDisplayConstants.Gallery.ARTIFACTS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARTIFACT_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTIFACT_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(32, AppDisplayConstants.Gallery.ARCHITECTURES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARCHITECTURE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARCHITECTURE_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(33, AppDisplayConstants.Gallery.TECHNOLOGIES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TECHNOLOGY_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.TECHNOLOGY_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(34, AppDisplayConstants.Gallery.VEHICLES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.VEHICLE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.VEHICLE_URL),
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(35, AppDisplayConstants.Gallery.CORES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CORE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CORE_URL),
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(36, AppDisplayConstants.Gallery.WEAPONS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.WEAPON_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.WEAPON_URL),  
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(37, AppDisplayConstants.Gallery.ROBOTS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ROBOT_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.ROBOT_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(38, AppDisplayConstants.Gallery.BADGES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BADGE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BADGE_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(39, AppDisplayConstants.Gallery.MECHA_BEASTS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MECHA_BEAST_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.MECHA_BEAST_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(40, AppDisplayConstants.Gallery.RUNES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.RUNE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.RUNE_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(41, AppDisplayConstants.Gallery.FURNITURES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FURNITURE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FURNITURE_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(42, AppDisplayConstants.Gallery.FOODS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FOOD_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FOOD_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(43, AppDisplayConstants.Gallery.BEVERAGES_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BEVERAGE_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BEVERAGE_URL),
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(44, AppDisplayConstants.Gallery.BUILDINGS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BUILDING_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.BUILDING_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(45, AppDisplayConstants.Gallery.PLANTS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PLANT_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.PLANT_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(46, AppDisplayConstants.Gallery.FASHIONS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FASHION_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.FASHION_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(47, AppDisplayConstants.Gallery.EMOJIS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.EMOJI_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.EMOJI_URL), 
+            tempGachaMenuPanel);
+        CreateGachaButtonUI(48, AppDisplayConstants.Gallery.CARD_SOLDIERS_GALLERY, itemBackground, 
+            TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SOLDIER_URL),
+            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SOLDIER_URL), 
+            tempGachaMenuPanel);
 
         tempGachaMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
-    private void CreateGachaButtonUI(int index, string itemName, Texture2D _itemBackground, Texture2D _subBackground, Texture2D itemImage, Transform panel)
+    private void CreateGachaButtonUI(int index, string itemName, Texture2D _itemBackground, Texture2D _itemImage, Texture2D _borderImage, Transform panel)
     {
         // Tạo button từ prefab
         GameObject newButton = Instantiate(MainButtonPrefab, panel);
@@ -115,17 +263,17 @@ public class GachaManager : MonoBehaviour
             itemBackground.texture = _itemBackground;
         }
 
-        RawImage subBackground = transform.Find("SubBackground").GetComponent<RawImage>();
-        if (subBackground != null && _subBackground != null)
-        {
-            subBackground.texture = _subBackground;
-        }
+        // RawImage subBackground = transform.Find("SubBackground").GetComponent<RawImage>();
+        // if (subBackground != null && _subBackground != null)
+        // {
+        //     subBackground.texture = _subBackground;
+        // }
 
         // Gán hình ảnh cho itemImage
         RawImage image = transform.Find("ItemImage").GetComponent<RawImage>();
-        if (image != null && itemImage != null)
+        if (image != null && _itemImage != null)
         {
-            image.texture = itemImage;
+            image.texture = _itemImage;
         }
 
         // Gán tên cho itemName
@@ -134,61 +282,68 @@ public class GachaManager : MonoBehaviour
         {
             nameText.text = LocalizationManager.Get(itemName);
         }
+
+        // Gán hình ảnh cho itemBorder
+        RawImage borderImage = newButton.transform.Find("BorderImage").GetComponent<RawImage>();
+        if (borderImage != null && _borderImage != null)
+        {
+            borderImage.texture = _borderImage;
+        }
     }
-    public void CreateGallery(Transform tempGachaMenuPanel)
+    public void CreateGacha(Transform tempGachaMenuPanel)
     {
         gachaMenuPanel = tempGachaMenuPanel;
         // DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
         // UI_Blue_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Blue_Gradient_Radius_Mat_MaskPercent_70");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
 
-        AssignButtonEvent("Button_1", () => GetType(AppConstants.MainType.CARD_HERO));
-        AssignButtonEvent("Button_2", () => GetType(AppConstants.MainType.BOOK));
-        AssignButtonEvent("Button_3", () => GetType(AppConstants.MainType.PET));
-        AssignButtonEvent("Button_4", () => GetType(AppConstants.MainType.CARD_CAPTAIN));
-        AssignButtonEvent("Button_5", () => GetType(AppConstants.MainType.COLLABORATION_EQUIPMENT));
-        AssignButtonEvent("Button_6", () => GetType(AppConstants.MainType.CARD_MILITARY));
-        AssignButtonEvent("Button_7", () => GetType(AppConstants.MainType.CARD_SPELL));
-        AssignButtonEvent("Button_8", () => GetType(AppConstants.MainType.COLLABORATION));
-        AssignButtonEvent("Button_9", () => GetType(AppConstants.MainType.CARD_MONSTER));
-        AssignButtonEvent("Button_10", () => GetType(AppConstants.MainType.EQUIPMENT));
-        AssignButtonEvent("Button_11", () => GetType(AppConstants.MainType.MEDAL));
-        AssignButtonEvent("Button_12", () => GetType(AppConstants.MainType.SKILL));
-        AssignButtonEvent("Button_13", () => GetType(AppConstants.MainType.SYMBOL));
-        AssignButtonEvent("Button_14", () => GetType(AppConstants.MainType.TITLE));
-        AssignButtonEvent("Button_15", () => GetType(AppConstants.MainType.MAGIC_FORMATION_CIRCLE));
-        AssignButtonEvent("Button_16", () => GetType(AppConstants.MainType.RELIC));
-        AssignButtonEvent("Button_17", () => GetType(AppConstants.MainType.CARD_COLONEL));
-        AssignButtonEvent("Button_18", () => GetType(AppConstants.MainType.CARD_GENERAL));
-        AssignButtonEvent("Button_19", () => GetType(AppConstants.MainType.CARD_ADMIRAL));
-        AssignButtonEvent("Button_20", () => GetType(AppConstants.MainType.BORDER));
-        AssignButtonEvent("Button_21", () => GetType(AppConstants.MainType.TALISMAN));
-        AssignButtonEvent("Button_22", () => GetType(AppConstants.MainType.PUPPET));
-        AssignButtonEvent("Button_23", () => GetType(AppConstants.MainType.ALCHEMY));
-        AssignButtonEvent("Button_24", () => GetType(AppConstants.MainType.FORGE));
-        AssignButtonEvent("Button_25", () => GetType(AppConstants.MainType.CARD_LIFE));
-        AssignButtonEvent("Button_26", () => GetType(AppConstants.MainType.ARTWORK));
-        AssignButtonEvent("Button_27", () => GetType(AppConstants.MainType.SPIRIT_BEAST));
-        AssignButtonEvent("Button_28", () => GetType(AppConstants.MainType.AVATAR));
-        AssignButtonEvent("Button_29", () => GetType(AppConstants.MainType.SPIRIT_CARD));
+        AssignButtonEvent("Button_1", () => GetType(AppConstants.MainType.CARD_HERO, AppDisplayConstants.Gacha.CARD_HEROES_GACHA));
+        AssignButtonEvent("Button_2", () => GetType(AppConstants.MainType.BOOK, AppDisplayConstants.Gacha.BOOKS_GACHA));
+        AssignButtonEvent("Button_3", () => GetType(AppConstants.MainType.PET, AppDisplayConstants.Gacha.PETS_GACHA));
+        AssignButtonEvent("Button_4", () => GetType(AppConstants.MainType.CARD_CAPTAIN, AppDisplayConstants.Gacha.CARD_CAPTAINS_GACHA));
+        AssignButtonEvent("Button_5", () => GetType(AppConstants.MainType.COLLABORATION_EQUIPMENT, AppDisplayConstants.Gacha.COLLABORATIONS_GACHA));
+        AssignButtonEvent("Button_6", () => GetType(AppConstants.MainType.CARD_MILITARY, AppDisplayConstants.Gacha.CARD_MILITARIES_GACHA));
+        AssignButtonEvent("Button_7", () => GetType(AppConstants.MainType.CARD_SPELL, AppDisplayConstants.Gacha.CARD_SPELLS_GACHA));
+        AssignButtonEvent("Button_8", () => GetType(AppConstants.MainType.COLLABORATION, AppDisplayConstants.Gacha.COLLABORATIONS_GACHA));
+        AssignButtonEvent("Button_9", () => GetType(AppConstants.MainType.CARD_MONSTER, AppDisplayConstants.Gacha.CARD_MONSTERS_GACHA));
+        AssignButtonEvent("Button_10", () => GetType(AppConstants.MainType.EQUIPMENT, AppDisplayConstants.Gacha.EQUIPMENTS_GACHA));
+        AssignButtonEvent("Button_11", () => GetType(AppConstants.MainType.MEDAL, AppDisplayConstants.Gacha.MEDALS_GACHA));
+        AssignButtonEvent("Button_12", () => GetType(AppConstants.MainType.SKILL, AppDisplayConstants.Gacha.SKILLS_GACHA));
+        AssignButtonEvent("Button_13", () => GetType(AppConstants.MainType.SYMBOL, AppDisplayConstants.Gacha.SYMBOLS_GACHA));
+        AssignButtonEvent("Button_14", () => GetType(AppConstants.MainType.TITLE, AppDisplayConstants.Gacha.TITLES_GACHA));
+        AssignButtonEvent("Button_15", () => GetType(AppConstants.MainType.MAGIC_FORMATION_CIRCLE, AppDisplayConstants.Gacha.MAGIC_FORMATION_CIRCLES_GACHA));
+        AssignButtonEvent("Button_16", () => GetType(AppConstants.MainType.RELIC, AppDisplayConstants.Gacha.RELICS_GACHA));
+        AssignButtonEvent("Button_17", () => GetType(AppConstants.MainType.CARD_COLONEL, AppDisplayConstants.Gacha.CARD_COLONELS_GACHA));
+        AssignButtonEvent("Button_18", () => GetType(AppConstants.MainType.CARD_GENERAL, AppDisplayConstants.Gacha.CARD_GENERALS_GACHA));
+        AssignButtonEvent("Button_19", () => GetType(AppConstants.MainType.CARD_ADMIRAL, AppDisplayConstants.Gacha.CARD_ADMIRALS_GACHA));
+        AssignButtonEvent("Button_20", () => GetType(AppConstants.MainType.BORDER, AppDisplayConstants.Gacha.BORDERS_GACHA));
+        AssignButtonEvent("Button_21", () => GetType(AppConstants.MainType.TALISMAN, AppDisplayConstants.Gacha.TALISMANS_GACHA));
+        AssignButtonEvent("Button_22", () => GetType(AppConstants.MainType.PUPPET, AppDisplayConstants.Gacha.PUPPETS_GACHA));
+        AssignButtonEvent("Button_23", () => GetType(AppConstants.MainType.ALCHEMY, AppDisplayConstants.Gacha.ALCHEMIES_GACHA));
+        AssignButtonEvent("Button_24", () => GetType(AppConstants.MainType.FORGE, AppDisplayConstants.Gacha.FORGES_GACHA));
+        AssignButtonEvent("Button_25", () => GetType(AppConstants.MainType.CARD_LIFE, AppDisplayConstants.Gacha.CARD_LIVES_GACHA));
+        AssignButtonEvent("Button_26", () => GetType(AppConstants.MainType.ARTWORK, AppDisplayConstants.Gacha.ARTWORKS_GACHA));
+        AssignButtonEvent("Button_27", () => GetType(AppConstants.MainType.SPIRIT_BEAST, AppDisplayConstants.Gacha.SPIRIT_BEASTS_GACHA));
+        AssignButtonEvent("Button_28", () => GetType(AppConstants.MainType.AVATAR, AppDisplayConstants.Gacha.AVATARS_GACHA));
+        AssignButtonEvent("Button_29", () => GetType(AppConstants.MainType.SPIRIT_CARD, AppDisplayConstants.Gacha.SPIRIT_CARDS_GACHA));
         // AssignButtonEvent("Button_30", () => GetType(AppConstants.MainType.ACHIEVEMENT));
-        AssignButtonEvent("Button_31", () => GetType(AppConstants.MainType.ARTIFACT));
-        AssignButtonEvent("Button_32", () => GetType(AppConstants.MainType.ARCHITECTURE));
-        AssignButtonEvent("Button_33", () => GetType(AppConstants.MainType.TECHNOLOGY));
-        AssignButtonEvent("Button_34", () => GetType(AppConstants.MainType.VEHICLE));
-        AssignButtonEvent("Button_35", () => GetType(AppConstants.MainType.CORE));
-        AssignButtonEvent("Button_36", () => GetType(AppConstants.MainType.WEAPON));
-        AssignButtonEvent("Button_37", () => GetType(AppConstants.MainType.ROBOT));
-        AssignButtonEvent("Button_38", () => GetType(AppConstants.MainType.BADGE));
-        AssignButtonEvent("Button_39", () => GetType(AppConstants.MainType.MECHA_BEAST));
-        AssignButtonEvent("Button_40", () => GetType(AppConstants.MainType.RUNE));
-        AssignButtonEvent("Button_41", () => GetType(AppConstants.MainType.FURNITURE));
-        AssignButtonEvent("Button_42", () => GetType(AppConstants.MainType.FOOD));
-        AssignButtonEvent("Button_43", () => GetType(AppConstants.MainType.BEVERAGE));
-        AssignButtonEvent("Button_44", () => GetType(AppConstants.MainType.BUILDING));
-        AssignButtonEvent("Button_45", () => GetType(AppConstants.MainType.PLANT));
-        AssignButtonEvent("Button_46", () => GetType(AppConstants.MainType.FASHION));
-        AssignButtonEvent("Button_47", () => GetType(AppConstants.MainType.EMOJI));
+        AssignButtonEvent("Button_31", () => GetType(AppConstants.MainType.ARTIFACT, AppDisplayConstants.Gacha.ARTIFACTS_GACHA));
+        AssignButtonEvent("Button_32", () => GetType(AppConstants.MainType.ARCHITECTURE, AppDisplayConstants.Gacha.ARCHITECTURES_GACHA));
+        AssignButtonEvent("Button_33", () => GetType(AppConstants.MainType.TECHNOLOGY, AppDisplayConstants.Gacha.TECHNOLOGIES_GACHA));
+        AssignButtonEvent("Button_34", () => GetType(AppConstants.MainType.VEHICLE, AppDisplayConstants.Gacha.VEHICLES_GACHA));
+        AssignButtonEvent("Button_35", () => GetType(AppConstants.MainType.CORE, AppDisplayConstants.Gacha.CORES_GACHA));
+        AssignButtonEvent("Button_36", () => GetType(AppConstants.MainType.WEAPON, AppDisplayConstants.Gacha.WEAPONS_GACHA));
+        AssignButtonEvent("Button_37", () => GetType(AppConstants.MainType.ROBOT, AppDisplayConstants.Gacha.ROBOTS_GACHA));
+        AssignButtonEvent("Button_38", () => GetType(AppConstants.MainType.BADGE, AppDisplayConstants.Gacha.BADGES_GACHA));
+        AssignButtonEvent("Button_39", () => GetType(AppConstants.MainType.MECHA_BEAST, AppDisplayConstants.Gacha.MECHA_BEASTS_GACHA));
+        AssignButtonEvent("Button_40", () => GetType(AppConstants.MainType.RUNE, AppDisplayConstants.Gacha.RUNES_GACHA));
+        AssignButtonEvent("Button_41", () => GetType(AppConstants.MainType.FURNITURE, AppDisplayConstants.Gacha.FURNITURES_GACHA));
+        AssignButtonEvent("Button_42", () => GetType(AppConstants.MainType.FOOD, AppDisplayConstants.Gacha.FOODS_GACHA));
+        AssignButtonEvent("Button_43", () => GetType(AppConstants.MainType.BEVERAGE, AppDisplayConstants.Gacha.BEVERAGES_GACHA));
+        AssignButtonEvent("Button_44", () => GetType(AppConstants.MainType.BUILDING, AppDisplayConstants.Gacha.BUILDINGS_GACHA));
+        AssignButtonEvent("Button_45", () => GetType(AppConstants.MainType.PLANT, AppDisplayConstants.Gacha.PLANTS_GACHA));
+        AssignButtonEvent("Button_46", () => GetType(AppConstants.MainType.FASHION, AppDisplayConstants.Gacha.FASHIONS_GACHA));
+        AssignButtonEvent("Button_47", () => GetType(AppConstants.MainType.EMOJI, AppDisplayConstants.Gacha.EMOJIS_GACHA));
         // GetCardsType();
     }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)
@@ -211,18 +366,19 @@ public class GachaManager : MonoBehaviour
             Debug.LogWarning($"Button {buttonName} not found!");
         }
     }
-    public void GetType(string type)
+    public void GetType(string type, string typeText)
     {
         mainType = type;
-        // _ = GetButtonTypeAsync();
-        titleText.text = LocalizationManager.Get(type);
+        _ = CreateGachaManagerAsync();
+        titleText.text = LocalizationManager.Get(typeText);
     }
-    public void CreateGachaManager()
+    public async Task CreateGachaManagerAsync()
     {
         currentObject = Instantiate(GachaPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
         backgroundImage = transform.Find("DictionaryBackground").GetComponent<RawImage>();
         titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        Transform currencyTransform = transform.Find("DictionaryCards/Currency");
         Button summonOneButton = transform.Find("DictionaryCards/SummonOneButton").GetComponent<Button>();
         Button summonTenButton = transform.Find("DictionaryCards/SummonTenButton").GetComponent<Button>();
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -246,10 +402,11 @@ public class GachaManager : MonoBehaviour
         {
             await LoadGachaEventAsync(10);
         });
+        await LoadTicketAsync(currencyTransform);
     }
     public async Task LoadTicketAsync(Transform transform)
     {
-        tickets.Clear();
+        // tickets.Clear();
         if (mainType.Equals(AppConstants.MainType.CARD_HERO))
         {
             tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_HERO_TICKET) };
@@ -730,6 +887,10 @@ public class GachaManager : MonoBehaviour
 
             CreateTicketUI(tickets, transform);
         }
+        else
+        {
+            Debug.Log("Error");
+        }
     }
     public async Task LoadGachaEventAsync(int rollNumber)
     {
@@ -946,6 +1107,7 @@ public class GachaManager : MonoBehaviour
     }
     public async Task GachaCardHeroesAsync(int rollNumber)
     {
+        var results = new List<GachaRewardResultDTO>();
         // Load data 1 lần
         var allCardHeroes = await CardHeroesService.Create()
             .GetCardHeroesWithoutLimitAsync();
@@ -1011,6 +1173,15 @@ public class GachaManager : MonoBehaviour
                     ];
 
                     rewardedCards.Add(selectedCard);
+
+                    results.Add(new GachaRewardResultDTO
+                    {
+                        MainType = AppConstants.MainType.RUNE,
+                        RewardId = selectedCard.Id,
+                        Name = selectedCard.Name,
+                        Image = selectedCard.Image,
+                        Rare = selectedCard.Rare,
+                    });
                 }
             }
             else if (mainReward == AppConstants.MainType.ITEM)
@@ -1050,6 +1221,15 @@ public class GachaManager : MonoBehaviour
                             1
                         );
                     }
+
+                    results.Add(new GachaRewardResultDTO
+                    {
+                        MainType = AppConstants.MainType.ITEM,
+                        RewardId = selectedItem.Id,
+                        Name = selectedItem.Name,
+                        Image = selectedItem.Image,
+                        Rare = AppConstants.Rare.NONE,
+                    });
                 }
             }
         }
@@ -1132,7 +1312,8 @@ public class GachaManager : MonoBehaviour
                         MainType = AppConstants.MainType.RUNE,
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
-                        Image = selectedRune.Image
+                        Image = selectedRune.Image,
+                        Rare = selectedRune.Rare,
                     });
                 }
             }
@@ -1179,7 +1360,8 @@ public class GachaManager : MonoBehaviour
                         MainType = AppConstants.MainType.ITEM,
                         RewardId = selectedItem.Id,
                         Name = selectedItem.Name,
-                        Image = selectedItem.Image
+                        Image = selectedItem.Image,
+                        Rare = AppConstants.Rare.NONE,
                     });
                 }
             }
@@ -1220,6 +1402,11 @@ public class GachaManager : MonoBehaviour
             GameObject rewardObject = Instantiate(GachaButtonPrefab, gridLayout);
 
             RawImage image = rewardObject.transform.Find("Image").GetComponent<RawImage>();
+            Image background1Image = rewardObject.transform.Find("Background1").GetComponent<Image>();
+            Image background2Image = rewardObject.transform.Find("Background2").GetComponent<Image>();
+
+            background1Image.material = MaterialHelper.GetMaterial(reward.Rare);
+            background2Image.material = MaterialHelper.GetMaterial(reward.Rare);
 
             Texture2D rewardTexture = TextureHelper.LoadTexture2DCached(reward.Image);
 

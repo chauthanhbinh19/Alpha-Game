@@ -4306,7 +4306,6 @@ public static class QualityEvaluatorHelper
         }
         return list;
     }
-
     public static List<Emojis> GetQualityPower(List<Emojis> list)
     {
         foreach (var c in list)
@@ -4389,7 +4388,6 @@ public static class QualityEvaluatorHelper
         }
         return list;
     }
-
     public static List<CardSoldiers> GetQualityPower(List<CardSoldiers> list)
     {
         foreach (var c in list)
