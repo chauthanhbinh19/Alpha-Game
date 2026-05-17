@@ -170,11 +170,13 @@ public static class AppConstants
         public const string SSR = "SSR";
         public const string UR = "UR";
         public const string LG = "LG";
-        public const string LGPlus = "LG+";
+        public const string LGPlus = "LGPlus";
         public const string MR = "MR";
+        public const string MRPlus = "MRPlus";
         public const string SLG = "SLG";
-        public const string SLGPlus = "SLG+";
+        public const string SLGPlus = "SLGPlus";
         public const string SP = "SP";
+        public const string SPPlus = "SPPlus";
     }
     public static class Type
     {

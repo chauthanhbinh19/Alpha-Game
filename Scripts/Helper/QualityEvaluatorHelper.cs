@@ -17,12 +17,16 @@ public static class QualityEvaluatorHelper
                 return 20;
             case AppConstants.Rare.MR:
                 return 25;
-            case AppConstants.Rare.SLG:
+            case AppConstants.Rare.MRPlus:
                 return 30;
-            case AppConstants.Rare.SLGPlus:
+            case AppConstants.Rare.SLG:
                 return 35;
-            case AppConstants.Rare.SP:
+            case AppConstants.Rare.SLGPlus:
                 return 40;
+            case AppConstants.Rare.SP:
+                return 45;
+            case AppConstants.Rare.SPPlus:
+                return 50;
             default:
                 return 0;
         }
@@ -43,12 +47,16 @@ public static class QualityEvaluatorHelper
                 return ColorConstants.Rare.LGPlus_COLOR;
             case AppConstants.Rare.MR:
                 return ColorConstants.Rare.MR_COLOR;
+            case AppConstants.Rare.MRPlus:
+                return ColorConstants.Rare.MRPlus_COLOR;
             case AppConstants.Rare.SLG:
                 return ColorConstants.Rare.SLG_COLOR;
             case AppConstants.Rare.SLGPlus:
                 return ColorConstants.Rare.SLGPlus_COLOR;
             case AppConstants.Rare.SP:
                 return ColorConstants.Rare.SP_COLOR;
+            case AppConstants.Rare.SPPlus:
+                return ColorConstants.Rare.SPPlus_COLOR;
             default:
                 return ColorConstants.Rare.SR_COLOR;
         }
@@ -61,9 +69,11 @@ public static class QualityEvaluatorHelper
         { AppConstants.Rare.LG, 15 },
         { AppConstants.Rare.LGPlus, 20 },
         { AppConstants.Rare.MR, 25 },
-        { AppConstants.Rare.SLG, 30 },
-        { AppConstants.Rare.SLGPlus, 35 },
-        { AppConstants.Rare.SP, 40 },
+        { AppConstants.Rare.MRPlus, 30 },
+        { AppConstants.Rare.SLG, 35 },
+        { AppConstants.Rare.SLGPlus, 40 },
+        { AppConstants.Rare.SP, 45 },
+        { AppConstants.Rare.SPPlus, 50 },
     };
     public static int GetQualityValue(string rare)
     {
@@ -83,9 +93,11 @@ public static class QualityEvaluatorHelper
         AppConstants.Rare.LG,
         AppConstants.Rare.LGPlus,
         AppConstants.Rare.MR,
+        AppConstants.Rare.MRPlus,
         AppConstants.Rare.SLG,
         AppConstants.Rare.SLGPlus,
-        AppConstants.Rare.SP
+        AppConstants.Rare.SP,
+        AppConstants.Rare.SPPlus
     };
     public static List<string> rarities = new List<string>
     {
@@ -96,9 +108,11 @@ public static class QualityEvaluatorHelper
         AppConstants.Rare.LG,
         AppConstants.Rare.LGPlus,
         AppConstants.Rare.MR,
+        AppConstants.Rare.MRPlus,
         AppConstants.Rare.SLG,
         AppConstants.Rare.SLGPlus,
-        AppConstants.Rare.SP
+        AppConstants.Rare.SP,
+        AppConstants.Rare.SPPlus
     };
     public static string GetNextQuality(string currentRare)
     {

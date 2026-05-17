@@ -53,6 +53,7 @@ public class MaterialManager : MonoBehaviour
         materials.AddRange(Resources.LoadAll<Material>("Main Feature/Materials/Gradient/Yellow/Basic"));
         materials.AddRange(Resources.LoadAll<Material>("Main Feature/Materials/Gradient/Yellow/Radius"));
         materials.AddRange(Resources.LoadAll<Material>("Main Feature/Materials/Platform"));
+        materials.AddRange(Resources.LoadAll<Material>("Main Feature/Materials/Gacha"));
 
         foreach (var material in materials)
         {

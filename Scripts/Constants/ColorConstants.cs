@@ -47,9 +47,11 @@ public static class ColorConstants
         public const string LG_COLOR = "#FF423C";
         public const string LGPlus_COLOR = "#FF3C55";
         public const string MR_COLOR = "#BDFF3C";
+        public const string MRPlus_COLOR = "#daf99d";
         public const string SLG_COLOR = "#82FF3C";
         public const string SLGPlus_COLOR = "#3CFF98";
-        public const string SP_COLOR = "#3CE9FF";
+        public const string SP_COLOR = "#8beffc";
+        public const string SPPlus_COLOR = "#00e1ff";
     }
 
     public static class Card

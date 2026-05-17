@@ -13,8 +13,11 @@ public class GachaManager : MonoBehaviour
     public GameObject GachaPanelPrefab;
     private GameObject MainButtonPrefab;
     public Transform gachaMenuPanel;
-    Texture2D itemBackground;
-    Texture2D subBackground;
+    public RawImage backgroundImage;
+    public GameObject GachaButtonPrefab;
+    public GameObject currentObject;
+    public Texture2D itemBackground;
+    public Texture2D subBackground;
     private string mainType;
     private TextMeshProUGUI titleText;
     List<Items> tickets;
@@ -35,7 +38,7 @@ public class GachaManager : MonoBehaviour
     {
         MainButtonPrefab = UIManager.Instance.Get("MainButtonPrefab");
         GachaPanelPrefab = UIManager.Instance.Get("GachaPanelPrefab");
-        // TabButtonPrefab = UIManager.Instance.Get("TabButtonPrefab");
+        GachaButtonPrefab = UIManager.Instance.Get("GachaButtonPrefab");
         // AdvancedButtonPrefab = UIManager.Instance.Get("AdvancedButtonPrefab");
         // AdvancedSubButtonPrefab = UIManager.Instance.Get("AdvancedSubButtonPrefab");
         // PopupMenuPanelPrefab = UIManager.Instance.Get("PopupMenuPanelPrefab");
@@ -216,8 +219,9 @@ public class GachaManager : MonoBehaviour
     }
     public void CreateGachaManager()
     {
-        GameObject gachaObject = Instantiate(GachaPanelPrefab, MainPanel);
-        Transform transform = gachaObject.transform;
+        currentObject = Instantiate(GachaPanelPrefab, MainPanel);
+        Transform transform = currentObject.transform;
+        backgroundImage = transform.Find("DictionaryBackground").GetComponent<RawImage>();
         titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         Button summonOneButton = transform.Find("DictionaryCards/SummonOneButton").GetComponent<Button>();
         Button summonTenButton = transform.Find("DictionaryCards/SummonTenButton").GetComponent<Button>();
@@ -225,7 +229,7 @@ public class GachaManager : MonoBehaviour
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(gachaObject);
+            Destroy(currentObject);
         });
         Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(async () =>
@@ -731,195 +735,196 @@ public class GachaManager : MonoBehaviour
     {
         if (mainType.Equals(AppConstants.MainType.CARD_HERO))
         {
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_HERO_URL);
             await GachaCardHeroesAsync(rollNumber);
         }
         else if (mainType.Equals(AppConstants.MainType.BOOK))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BOOK_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_CAPTAIN_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_MONSTER_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_COLONEL_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_GENERAL_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_ADMIRAL_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_MILITARY_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_SPELL_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.COLLABORATION_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.COLLABORATION_EQUIPMENT_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.EQUIPMENT_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.PET))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.PET_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.SKILL))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.SKILL_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.SYMBOL))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.SYMBOL_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.MEDAL))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.MEDAL_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.TITLE))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.TITLE_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.BORDER))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BORDER_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.MAGIC_FORMATION_CIRCLE_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.RELIC))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.RELIC_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.TALISMAN))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.TALISMAN_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.PUPPET))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.PUPPET_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ALCHEMY_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.FORGE))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.FORGE_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_LIFE_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.ARTWORK))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ARTWORK_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.SPIRIT_BEAST_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.AVATAR))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.AVATAR_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.SPIRIT_CARD))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.SPIRIT_CARD_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ACHIEVEMENT_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.ARTIFACT))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ARTIFACT_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ARCHITECTURE_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.TECHNOLOGY_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.VEHICLE))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.VEHICLE_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.CORE))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CORE_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.WEAPON))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.WEAPON_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.ROBOT))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ROBOT_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.BADGE))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BADGE_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.MECHA_BEAST_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.RUNE))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.RUNE_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.FURNITURE))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.FURNITURE_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.FOOD))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.FOOD_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.BEVERAGE))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BEVERAGE_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.BUILDING))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BUILDING_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.PLANT))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.PLANT_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.FASHION))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.FASHION_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.EMOJI))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.EMOJI_URL);
         }
         else if (mainType.Equals(AppConstants.MainType.CARD_SOLDIER))
         {
-
+            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_SOLDIER_URL);
         }
     }
     public void CreateTicketUI(List<Items> items, Transform transform)
@@ -1068,6 +1073,8 @@ public class GachaManager : MonoBehaviour
     }
     public async Task GachaRunesAsync(int rollNumber)
     {
+        var results = new List<GachaRewardResultDTO>();
+
         // Load data 1 lần
         var allRunes = await RunesService.Create()
             .GetRunesWithoutLimitAsync();
@@ -1119,6 +1126,14 @@ public class GachaManager : MonoBehaviour
                     ];
 
                     rewardedRunes.Add(selectedRune);
+
+                    results.Add(new GachaRewardResultDTO
+                    {
+                        MainType = AppConstants.MainType.RUNE,
+                        RewardId = selectedRune.Id,
+                        Name = selectedRune.Name,
+                        Image = selectedRune.Image
+                    });
                 }
             }
             else if (mainReward == AppConstants.MainType.ITEM)
@@ -1158,6 +1173,14 @@ public class GachaManager : MonoBehaviour
                             1
                         );
                     }
+
+                    results.Add(new GachaRewardResultDTO
+                    {
+                        MainType = AppConstants.MainType.ITEM,
+                        RewardId = selectedItem.Id,
+                        Name = selectedItem.Name,
+                        Image = selectedItem.Image
+                    });
                 }
             }
         }
@@ -1178,6 +1201,32 @@ public class GachaManager : MonoBehaviour
                 .InsertOrUpdateUserItemsBatchAsync(
                     rewardedItems.Values.ToList()
                 );
+        }
+    }
+    public void CreateSummonArea(List<GachaRewardResultDTO> rewards)
+    {
+        Transform summonArea = currentObject.transform.Find("SummonArea");
+        Transform gridLayout = summonArea.Find("GridLayout");
+        summonArea.gameObject.SetActive(true);
+
+        // clear old UI
+        foreach (Transform child in gridLayout)
+        {
+            Destroy(child.gameObject);
+        }
+
+        foreach (var reward in rewards)
+        {
+            GameObject rewardObject = Instantiate(GachaButtonPrefab, gridLayout);
+
+            RawImage image = rewardObject.transform.Find("Image").GetComponent<RawImage>();
+
+            Texture2D rewardTexture = TextureHelper.LoadTexture2DCached(reward.Image);
+
+            if (rewardTexture != null)
+            {
+                image.texture = rewardTexture;
+            }
         }
     }
 }

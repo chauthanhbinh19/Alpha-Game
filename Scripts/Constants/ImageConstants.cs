@@ -400,6 +400,57 @@ public static class ImageConstants
         public const string EMOJI_URL = "UI/Button/Border/EmojisBorder";
         public const string BAG_URL = "UI/Button/Border/BagBorder";
     }
+    public static class Gacha
+    {
+        public const string CARD_HERO_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string BOOK_URL = "UI/Background1/Gacha_Background_Number_2";
+        public const string PET_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string CARD_CAPTAIN_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string COLLABORATION_EQUIPMENT_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string CARD_MILITARY_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string CARD_SPELL_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string COLLABORATION_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string CARD_MONSTER_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string EQUIPMENT_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string MEDAL_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string SKILL_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string SYMBOL_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string TITLE_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string MAGIC_FORMATION_CIRCLE_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string RELIC_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string CARD_COLONEL_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string CARD_GENERAL_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string CARD_ADMIRAL_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string CARD_SOLDIER_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string BORDER_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string TALISMAN_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string PUPPET_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string ALCHEMY_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string FORGE_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string CARD_LIFE_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string ARTWORK_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string SPIRIT_BEAST_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string AVATAR_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string SPIRIT_CARD_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string ACHIEVEMENT_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string ARTIFACT_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string ARCHITECTURE_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string TECHNOLOGY_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string VEHICLE_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string CORE_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string WEAPON_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string ROBOT_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string BADGE_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string MECHA_BEAST_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string RUNE_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string FURNITURE_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string FOOD_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string BEVERAGE_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string BUILDING_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string PLANT_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string FASHION_URL = "UI/Background1/Gacha_Background_Number_1";
+        public const string EMOJI_URL = "UI/Background1/Gacha_Background_Number_1";
+    }
     public static class Rune
     {
         public const string Atomic1Url = "UI/Rune/Atomic_1";
