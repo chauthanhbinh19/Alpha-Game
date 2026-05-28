@@ -1,0 +1,382 @@
+drop database furnitureDB;
+create database furnitureDB;
+use furnitureDB;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    
+    email VARCHAR(100) NOT NULL UNIQUE,
+
+    full_name VARCHAR(100) NOT NULL,
+    date_of_birth DATE,
+    gender ENUM('male', 'female', 'other'),
+    phone_number VARCHAR(20),
+
+    role ENUM('customer', 'admin','employee') DEFAULT 'customer',
+    image VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('active','unactive') default 'active'
+);
+
+
+CREATE TABLE products (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    slug VARCHAR(150) UNIQUE,  
+    description TEXT,
+    price DECIMAL(10, 2) NOT NULL,
+    stock INT DEFAULT 0,
+    warranty_period INT,    
+    warranty_unit ENUM('day', 'month', 'year'),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('active','unactive') default 'active'
+);
+
+CREATE TABLE product_attributes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT,
+    name VARCHAR(100),    -- ví dụ: color, size
+    value VARCHAR(100),   -- ví dụ: red, XL
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE product_images (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    product_id INT,
+    image_url VARCHAR(255) NOT NULL,
+    is_thumbnail BOOLEAN DEFAULT FALSE, -- ảnh đại diện chính
+    sort_order INT DEFAULT 0,           -- để sắp xếp ảnh theo thứ tự
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('active','unactive') default 'active'
+);
+
+CREATE TABLE sub_categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    category_id INT NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('active','unactive') DEFAULT 'active',
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
+);
+
+CREATE TABLE product_categories (
+    product_id INT,
+    category_id INT,
+    PRIMARY KEY (product_id, category_id),
+    FOREIGN KEY (product_id) REFERENCES products(id),
+    FOREIGN KEY (category_id) REFERENCES categories(id)
+);
+
+CREATE TABLE product_sub_categories (
+    product_id INT,
+    sub_category_id INT,
+    PRIMARY KEY (product_id, sub_category_id),
+    FOREIGN KEY (product_id) REFERENCES products(id),
+    FOREIGN KEY (sub_category_id) REFERENCES sub_categories(id)
+);
+
+CREATE TABLE tags (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE,
+    description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('active','unactive') default 'active'
+);
+
+CREATE TABLE product_tags (
+    product_id INT,
+    tag_id INT,
+    PRIMARY KEY (product_id, tag_id),
+    FOREIGN KEY (product_id) REFERENCES products(id),
+    FOREIGN KEY (tag_id) REFERENCES tags(id)
+);
+
+CREATE TABLE orders (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    total_amount DECIMAL(10, 2) NOT NULL,                -- Tổng giá trị đơn hàng
+    status ENUM('pending', 'processing', 'completed', 'cancelled') DEFAULT 'pending',  -- Trạng thái đơn hàng
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,      -- Thời gian tạo đơn hàng
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,   -- Thời gian cập nhật đơn hàng
+    FOREIGN KEY (user_id) REFERENCES users(id)           -- Khóa ngoại liên kết với bảng users
+);
+
+CREATE TABLE order_items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    product_id INT,
+    quantity INT,
+    price DECIMAL(10, 2),
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE promotions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    description TEXT,
+    start_date DATETIME,
+    end_date DATETIME,
+    active BOOLEAN DEFAULT TRUE
+);
+
+CREATE TABLE discounts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    promotion_id INT,
+    discount_percent DECIMAL(5,2),     -- Ví dụ: 10.00 tương đương 10%
+    discount_amount DECIMAL(10,2),     -- Giảm cố định số tiền
+    min_order_value DECIMAL(10,2),     -- Áp dụng khi đơn đạt tối thiểu
+    max_discount_amount DECIMAL(10,2), -- Giới hạn giảm tối đa
+    FOREIGN KEY (promotion_id) REFERENCES promotions(id)
+);
+
+CREATE TABLE vouchers (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    code VARCHAR(50) NOT NULL UNIQUE,
+    description TEXT,
+    discount_id INT,
+    max_uses INT,               -- Tổng lượt sử dụng tối đa
+    uses INT DEFAULT 0,         -- Đã dùng bao nhiêu lần
+    start_date DATETIME,
+    end_date DATETIME,
+    active BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (discount_id) REFERENCES discounts(id)
+);
+
+CREATE TABLE user_vouchers (
+    user_id INT,
+    voucher_id INT,
+    used BOOLEAN DEFAULT FALSE,
+    PRIMARY KEY (user_id, voucher_id),
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (voucher_id) REFERENCES vouchers(id)
+);
+
+CREATE TABLE discount_products (
+    discount_id INT,
+    product_id INT,
+    PRIMARY KEY (discount_id, product_id),
+    FOREIGN KEY (discount_id) REFERENCES discounts(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE order_vouchers (
+    order_id INT,
+    voucher_id INT,
+    PRIMARY KEY (order_id, voucher_id),
+    FOREIGN KEY (order_id) REFERENCES orders(id),
+    FOREIGN KEY (voucher_id) REFERENCES vouchers(id)
+);
+
+CREATE TABLE user_addresses (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    full_name VARCHAR(100),
+    phone_number VARCHAR(20),
+    address_line VARCHAR(255),
+    city VARCHAR(100),
+    postal_code VARCHAR(20),
+    country VARCHAR(100),
+    is_default BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+CREATE TABLE reviews (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    product_id INT,
+    rating INT CHECK (rating BETWEEN 1 AND 5),
+    comment TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+);
+
+CREATE TABLE posts (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(200) NOT NULL,
+    slug VARCHAR(200) UNIQUE,                     -- url thân thiện
+    content TEXT NOT NULL, 
+    author_id INT,                                -- liên kết với users
+    thumbnail_url VARCHAR(255),                   -- ảnh đại diện bài viết
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    published BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (author_id) REFERENCES users(id)
+);
+
+CREATE TABLE post_categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL UNIQUE
+);
+
+CREATE TABLE post_category_links (
+    post_id INT,
+    category_id INT,
+    PRIMARY KEY (post_id, category_id),
+    FOREIGN KEY (post_id) REFERENCES posts(id),
+    FOREIGN KEY (category_id) REFERENCES post_categories(id)
+);
+use furnitureDB;
+INSERT INTO users (username, password, email, full_name, date_of_birth, gender, phone_number, role) VALUES
+('john_doe', '123456', 'john@example.com', 'John Doe', '1990-06-15', 'male', '0123456789', 'customer'),
+('jane_smith', '123456', 'jane@example.com', 'Jane Smith', '1985-11-20', 'female', '0123456790', 'admin'),
+('alice_jones', '123456', 'alice@example.com', 'Alice Jones', '1992-07-12', 'female', '0123456791', 'employee'),
+('bob_martin', '123456', 'bob@example.com', 'Bob Martin', '1987-03-30', 'male', '0123456792', 'customer'),
+('charlie_brown', '123456', 'charlie@example.com', 'Charlie Brown', '1995-05-05', 'male', '0123456793', 'customer'),
+('david_white', '123456', 'david@example.com', 'David White', '1983-10-22', 'male', '0123456794', 'admin'),
+('eva_ross', '123456', 'eva@example.com', 'Eva Ross', '1991-01-18', 'female', '0123456795', 'employee'),
+('frank_clark', '123456', 'frank@example.com', 'Frank Clark', '1980-02-25', 'male', '0123456796', 'customer'),
+('grace_lewis', '123456', 'grace@example.com', 'Grace Lewis', '1994-09-14', 'female', '0123456797', 'customer'),
+('henry_wilson', '123456', 'henry@example.com', 'Henry Wilson', '1988-04-08', 'male', '0123456798', 'employee'),
+('isabella_moore', '123456', 'isabella@example.com', 'Isabella Moore', '1993-08-02', 'female', '0123456799', 'customer'),
+('jack_smith', '123456', 'jack@example.com', 'Jack Smith', '1980-06-28', 'male', '0123456800', 'admin'),
+('kelly_king', '123456', 'kelly@example.com', 'Kelly King', '1997-03-17', 'female', '0123456801', 'customer'),
+('lucas_adams', '123456', 'lucas@example.com', 'Lucas Adams', '1990-12-13', 'male', '0123456802', 'employee'),
+('maria_harris', '123456', 'maria@example.com', 'Maria Harris', '1986-11-06', 'female', '0123456803', 'admin'),
+('nathan_evans', '123456', 'nathan@example.com', 'Nathan Evans', '1992-09-24', 'male', '0123456804', 'employee'),
+('olivia_james', '123456', 'olivia@example.com', 'Olivia James', '1989-02-03', 'female', '0123456805', 'customer'),
+('peter_davis', '123456', 'peter@example.com', 'Peter Davis', '1982-07-19', 'male', '0123456806', 'customer');
+INSERT INTO users (username, password, email, full_name, date_of_birth, gender, phone_number, role) VALUES
+('john_doe123', '123456', 'john_doe123@example.com', 'John Doe', '1990-01-01', 'male', '0123456826', 'admin'),
+('jane_smith234', '123456', 'jane_smith234@example.com', 'Jane Smith', '1992-05-12', 'female', '0123456827', 'employee'),
+('michael_jones345', '123456', 'michael_jones345@example.com', 'Michael Jones', '1987-02-15', 'male', '0123456828', 'customer'),
+('emily_davis456', '123456', 'emily_davis456@example.com', 'Emily Davis', '1994-08-25', 'female', '0123456829', 'customer'),
+('robert_miller567', '123456', 'robert_miller567@example.com', 'Robert Miller', '1985-07-30', 'male', '0123456830', 'admin'),
+('linda_wilson678', '123456', 'linda_wilson678@example.com', 'Linda Wilson', '1993-09-22', 'female', '0123456831', 'employee'),
+('charles_brown789', '123456', 'charles_brown789@example.com', 'Charles Brown', '1989-11-18', 'male', '0123456832', 'customer'),
+('susan_johnson890', '123456', 'susan_johnson890@example.com', 'Susan Johnson', '1995-12-03', 'female', '0123456833', 'customer'),
+('david_martin901', '123456', 'david_martin901@example.com', 'David Martin', '1991-10-10', 'male', '0123456834', 'admin'),
+('laura_clark012', '123456', 'laura_clark012@example.com', 'Laura Clark', '1992-06-17', 'female', '0123456835', 'employee'),
+('olivia_thomas023', '123456', 'olivia_thomas023@example.com', 'Olivia Thomas', '1993-07-19', 'female', '0123456836', 'customer'),
+('henry_williams034', '123456', 'henry_williams034@example.com', 'Henry Williams', '1990-03-23', 'male', '0123456837', 'admin'),
+('grace_jackson045', '123456', 'grace_jackson045@example.com', 'Grace Jackson', '1994-11-09', 'female', '0123456838', 'employee'),
+('george_white056', '123456', 'george_white056@example.com', 'George White', '1991-02-17', 'male', '0123456839', 'customer'),
+('chloe_harris067', '123456', 'chloe_harris067@example.com', 'Chloe Harris', '1995-04-28', 'female', '0123456840', 'customer'),
+('daniel_moore078', '123456', 'daniel_moore078@example.com', 'Daniel Moore', '1988-12-10', 'male', '0123456841', 'admin'),
+('victoria_evans089', '123456', 'victoria_evans089@example.com', 'Victoria Evans', '1992-02-14', 'female', '0123456842', 'employee'),
+('benjamin_lopez090', '123456', 'benjamin_lopez090@example.com', 'Benjamin Lopez', '1993-05-21', 'male', '0123456843', 'customer'),
+('maria_garcia101', '123456', 'maria_garcia101@example.com', 'Maria Garcia', '1994-09-30', 'female', '0123456844', 'customer'),
+('jacob_rodriguez112', '123456', 'jacob_rodriguez112@example.com', 'Jacob Rodriguez', '1990-06-10', 'male', '0123456845', 'admin'),
+('sofia_martinez123', '123456', 'sofia_martinez123@example.com', 'Sofia Martinez', '1992-01-15', 'female', '0123456846', 'employee'),
+('liam_perez134', '123456', 'liam_perez134@example.com', 'Liam Perez', '1995-11-05', 'male', '0123456847', 'customer'),
+('ava_sanchez145', '123456', 'ava_sanchez145@example.com', 'Ava Sanchez', '1993-03-11', 'female', '0123456848', 'customer'),
+('william_roberts156', '123456', 'william_roberts156@example.com', 'William Roberts', '1990-08-14', 'male', '0123456849', 'admin'),
+('ella_gonzalez167', '123456', 'ella_gonzalez167@example.com', 'Ella Gonzalez', '1994-10-22', 'female', '0123456850', 'employee'),
+('samuel_mitchell178', '123456', 'samuel_mitchell178@example.com', 'Samuel Mitchell', '1992-04-02', 'male', '0123456851', 'customer'),
+('lily_lee189', '123456', 'lily_lee189@example.com', 'Lily Lee', '1995-12-08', 'female', '0123456852', 'customer'),
+('jacob_hall200', '123456', 'jacob_hall200@example.com', 'Jacob Hall', '1989-10-03', 'male', '0123456853', 'admin'),
+('zoe_smith211', '123456', 'zoe_smith211@example.com', 'Zoe Smith', '1991-05-13', 'female', '0123456854', 'employee');
+
+INSERT INTO categories (name, description) VALUES
+('Living Room', 'Furniture for living and entertainment areas'),
+('Dining Room', 'Furniture for dining areas'),
+('Bedroom', 'Furniture for sleeping and storage'),
+('Home Office', 'Work and study furniture'),
+('Storage & Decor', 'Furniture for organization and decoration'),
+('Outdoor', 'Furniture for gardens and outdoor spaces');
+
+-- Phòng khách: category_id = 1
+INSERT INTO sub_categories (category_id, name, description) VALUES
+(1, 'Sofa', 'Comfortable sofas in various styles and sizes'),
+(1, 'Coffee Table', 'Tables for placing drinks, magazines, and decor in living rooms'),
+(1, 'TV Stand', 'Stands and cabinets for TVs and media devices'),
+(1, 'Recliner', 'Comfortable reclining chairs for relaxation'),
+(1, 'Sectional', 'Modular seating for large living rooms');
+
+-- Phòng ăn: category_id = 2
+INSERT INTO sub_categories (category_id, name, description) VALUES
+(2, 'Dining Table', 'Tables for eating meals, available in many sizes'),
+(2, 'Dining Chair', 'Chairs that accompany dining tables'),
+(2, 'Bar Stool', 'Tall stools for kitchen islands and bars'),
+(2, 'Sideboard', 'Storage cabinets for dining rooms'),
+(2, 'Dining Bench', 'Benches used instead of dining chairs');
+
+-- Phòng ngủ: category_id = 3
+INSERT INTO sub_categories (category_id, name, description) VALUES
+(3, 'Bed', 'Beds of all sizes: single, queen, king'),
+(3, 'Nightstand', 'Small bedside tables'),
+(3, 'Wardrobe', 'Standing closets for storing clothes'),
+(3, 'Dresser', 'Drawers for storing clothing'),
+(3, 'Vanity Table', 'Tables for applying makeup and grooming');
+
+-- Phòng làm việc: category_id = 4
+INSERT INTO sub_categories (category_id, name, description) VALUES
+(4, 'Desk', 'Desks for work or study'),
+(4, 'Office Chair', 'Ergonomic chairs for desks'),
+(4, 'Bookshelf', 'Shelves for books and decor'),
+(4, 'Filing Cabinet', 'Storage for files and documents'),
+(4, 'Computer Desk', 'Desks designed for computer use');
+
+-- Lưu trữ & trang trí: category_id = 5
+INSERT INTO sub_categories (category_id, name, description) VALUES
+(5, 'Cabinet', 'General-purpose storage cabinets'),
+(5, 'Shelf Unit', 'Open shelving for various storage needs'),
+(5, 'Shoe Rack', 'Storage for footwear'),
+(5, 'Room Divider', 'Partitions to divide spaces decoratively'),
+(5, 'Hall Tree', 'Entryway furniture with hooks and storage');
+
+-- Ngoài trời: category_id = 6
+INSERT INTO sub_categories (category_id, name, description) VALUES
+(6, 'Outdoor Chair', 'Chairs designed for outdoor use'),
+(6, 'Patio Table', 'Tables for patios and gardens'),
+(6, 'Sun Lounger', 'Reclining outdoor furniture for sunbathing'),
+(6, 'Outdoor Sofa', 'Weather-resistant sofas for outdoor use'),
+(6, 'Garden Bench', 'Benches for gardens and parks');
+
+INSERT INTO tags (name, description) VALUES
+('Modern', 'Contemporary, clean-lined furniture'),
+('Minimalist', 'Simple, clutter-free furniture style'),
+('Scandinavian', 'Nordic-inspired design'),
+('Industrial', 'Raw, metal and wood-inspired design'),
+('Vintage', 'Retro or antique-style furniture'),
+('Rustic', 'Natural and rugged design'),
+('Classic', 'Timeless, traditional furniture style'),
+('Bohemian', 'Free-spirited, artistic furniture style'),
+('Contemporary', 'Current and up-to-date furniture design'),
+('Mid-Century', 'Design inspired by mid-20th century');
+
+INSERT INTO tags (name, description) VALUES
+('Wood', 'Furniture made primarily from wood'),
+('Metal', 'Furniture made of iron, steel, or aluminum'),
+('Glass', 'Glass-surfaced furniture'),
+('Leather', 'Leather-covered furniture'),
+('Fabric', 'Fabric-covered furniture'),
+('Rattan', 'Woven rattan furniture'),
+('Marble', 'Marble-topped furniture'),
+('MDF', 'Medium-density fiberboard material'),
+('Velvet', 'Velvet-fabric furniture'),
+('Plastic', 'Lightweight plastic-based furniture');
+
+INSERT INTO tags (name, description) VALUES
+('White', 'Furniture with white finish'),
+('Black', 'Furniture with black finish'),
+('Brown', 'Furniture with brown finish'),
+('Beige', 'Furniture with beige tone'),
+('Grey', 'Furniture with grey finish'),
+('Navy', 'Dark blue furniture tone'),
+('Green', 'Furniture with green tone'),
+('Natural Wood', 'Natural wood grain finish'),
+('Dark Oak', 'Dark oak wood finish'),
+('Walnut', 'Walnut wood finish');
+
+INSERT INTO tags (name, description) VALUES
+('Foldable', 'Furniture that can be folded'),
+('Modular', 'Customizable modular furniture'),
+('Space-saving', 'Compact design for small spaces'),
+('Adjustable', 'Adjustable height or angle'),
+('Storage', 'Furniture with built-in storage'),
+('Eco-friendly', 'Made with sustainable materials'),
+('Handmade', 'Crafted by hand'),
+('Luxury', 'High-end luxury furniture'),
+('Budget-friendly', 'Affordable and economical');
