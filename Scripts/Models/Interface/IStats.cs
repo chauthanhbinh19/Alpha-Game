@@ -1,0 +1,62 @@
+using System;
+
+public interface IStats
+{
+    public string CodeName { get; set; }
+    public string AvailabilityType { get; set; }
+    public double Quality { get; set; }
+    public double Power { get; set; }
+    public double Health { get; set; }
+    public double PhysicalAttack { get; set; }
+    public double PhysicalDefense { get; set; }
+    public double MagicalAttack { get; set; }
+    public double MagicalDefense { get; set; }
+    public double ChemicalAttack { get; set; }
+    public double ChemicalDefense { get; set; }
+    public double AtomicAttack { get; set; }
+    public double AtomicDefense { get; set; }
+    public double MentalAttack { get; set; }
+    public double MentalDefense { get; set; }
+    public double Speed { get; set; }
+    public double CriticalDamageRate { get; set; }
+    public double CriticalRate { get; set; }
+    public double CriticalResistanceRate { get; set; }
+    public double IgnoreCriticalRate { get; set; }
+    public double PenetrationRate { get; set; }
+    public double PenetrationResistanceRate { get; set; }
+    public double EvasionRate { get; set; }
+    public double DamageAbsorptionRate { get; set; }
+    public double IgnoreDamageAbsorptionRate { get; set; }
+    public double AbsorbedDamageRate { get; set; }
+    public double VitalityRegenerationRate { get; set; }
+    public double VitalityRegenerationResistanceRate { get; set; }
+    public double AccuracyRate { get; set; }
+    public double LifestealRate { get; set; }
+    public double Mana { get; set; }
+    public double ManaRegenerationRate { get; set; }
+    public double ShieldStrength { get; set; }
+    public double Tenacity { get; set; }
+    public double ResistanceRate { get; set; }
+    public double ComboRate { get; set; }
+    public double IgnoreComboRate { get; set; }
+    public double ComboDamageRate { get; set; }
+    public double ComboResistanceRate { get; set; }
+    public double StunRate { get; set; }
+    public double IgnoreStunRate { get; set; }
+    public double ReflectionRate { get; set; }
+    public double IgnoreReflectionRate { get; set; }
+    public double ReflectionDamageRate { get; set; }
+    public double ReflectionResistanceRate { get; set; }
+    public double DamageToDifferentFactionRate { get; set; }
+    public double ResistanceToDifferentFactionRate { get; set; }
+    public double DamageToSameFactionRate { get; set; }
+    public double ResistanceToSameFactionRate { get; set; }
+    public double NormalDamageRate { get; set; }
+    public double NormalResistanceRate { get; set; }
+    public double SkillDamageRate { get; set; }
+    public double SkillResistanceRate { get; set; }
+
+    public DateTime CreatedAt { get; set; }
+    public DateTime UpdatedAt { get; set; }
+    public bool IsDeleted { get; set; }
+}

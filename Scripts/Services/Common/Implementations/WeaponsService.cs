@@ -1,0 +1,71 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+public class WeaponsService : IWeaponsService
+{
+    private static WeaponsService _instance;
+    private readonly IWeaponsRepository _weaponsRepository;
+
+    public WeaponsService(IWeaponsRepository weaponsRepository)
+    {
+        _weaponsRepository = weaponsRepository;
+    }
+
+    public static WeaponsService Create()
+    {
+        if (_instance == null)
+        {
+            _instance = new WeaponsService(new WeaponsRepository());
+        }
+        return _instance;
+    }
+
+    public async Task<List<string>> GetUniqueWeaponsTypesAsync()
+    {
+        return await _weaponsRepository.GetUniqueWeaponsTypesAsync();
+    }
+
+    public async Task<List<Weapons>> GetWeaponsAsync(string search, string type, string rare, int pageSize, int offset)
+    {
+        List<Weapons> list = await _weaponsRepository.GetWeaponsAsync(search, type, rare, pageSize, offset);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
+        return list;
+    }
+
+    public async Task<int> GetWeaponsCountAsync(string search, string type, string rare)
+    {
+        return await _weaponsRepository.GetWeaponsCountAsync(search, type, rare);
+    }
+
+    public async Task<List<Weapons>> GetWeaponsWithPriceAsync(string type, int pageSize, int offset)
+    {
+        List<Weapons> list = await _weaponsRepository.GetWeaponsWithPriceAsync(type, pageSize, offset);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
+        return list;
+    }
+
+    public async Task<int> GetWeaponsWithPriceCountAsync(string type)
+    {
+        return await _weaponsRepository.GetWeaponsWithPriceCountAsync(type);
+    }
+
+    public async Task<Weapons> GetWeaponByIdAsync(string Id)
+    {
+        return await _weaponsRepository.GetWeaponByIdAsync(Id);
+    }
+
+    public async Task<Weapons> SumPowerWeaponsPercentAsync()
+    {
+        return await _weaponsRepository.SumPowerWeaponsPercentAsync();
+    }
+
+    public async Task<List<string>> GetUniqueWeaponsIdAsync()
+    {
+        return await _weaponsRepository.GetUniqueWeaponsIdAsync();
+    }
+
+    public async Task<List<Weapons>> GetWeaponsWithoutLimitAsync()
+    {
+        return await _weaponsRepository.GetWeaponsWithoutLimitAsync();
+    }
+}

@@ -1,0 +1,267 @@
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UnityEngine;
+
+public class UserService : IUserService
+{
+     private static UserService _instance;
+    private readonly IUserRepository _userRepository;
+
+    public UserService(IUserRepository userRepository)
+    {
+        _userRepository = userRepository;
+    }
+
+    public static UserService Create()
+    {
+        if (_instance == null)
+        {
+            _instance = new UserService(new UserRepository());
+        }
+        return _instance;
+    }
+
+    public async Task<string> RegisterUserAsync(string username, string password)
+    {
+        string userId = await _userRepository.RegisterUserAsync(username, password);
+        if (!String.IsNullOrEmpty(userId))
+        {
+            await CreateUserCurrencyAsync(userId);
+            User.CurrentUserId = userId;
+
+            await UserBordersService.Create().InsertUserBorderByIdAsync("BD359", userId);
+            await BordersGalleryService.Create().InsertBorderGalleryAsync("BD359");
+            await UserBordersService.Create().UpdateIsUsedBorderAsync("BD359", userId, true);
+
+            await UserAvatarsService.Create().InsertUserAvatarByIdAsync("AT1", userId);
+            await AvatarsGalleryService.Create().InsertAvatarGalleryAsync("AT1");
+            await UserAvatarsService.Create().UpdateIsUsedAvatarAsync("AT1", userId, true);
+
+            await PowerManagerService.Create().InsertUserStatsAsync(userId);
+
+            Items cardHeroTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_HERO_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardHeroTicket, 1000000);
+            Items cardCaptainTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_CAPTAIN_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardCaptainTicket, 1000000);
+            Items cardMilitaryTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MILITARY_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardMilitaryTicket, 1000000);
+            Items cardSpellTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SPELL_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardSpellTicket, 1000000);
+            Items cardMonsterTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MONSTER_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardMonsterTicket, 1000000);
+            Items cardColonelTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_COLONEL_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardColonelTicket, 1000000);
+            Items cardGeneralTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_GENERAL_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardGeneralTicket, 1000000);
+            Items cardAdmiralTicket = await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_ADMIRAL_TICKET);
+            await UserItemsService.Create().InsertUserItemAsync(cardAdmiralTicket, 1000000);
+
+            // for (int i = 0; i < 50; i++)
+            // {
+            //     await TeamsService.Create().InsertUserTeamsAsync(userId, i + 1);
+            // }
+            await UserSettingsService.Create().CreateInitiateUserSettingsAsync(userId);
+            await UserCurrenciesService.Create().InitiateUserCurrencyAsync(userId);
+        }
+        return userId;
+    }
+
+    public async Task<AuthResult> SignInWithUsernameAndPasswordAsync(string username, string password)
+    {
+        User user = await _userRepository.GetUserByUsernameAsync(username);
+
+        if (user != null)
+        {
+            if (!user.Password.Equals(password))
+            {
+                return new AuthResult
+                {
+                    Success = false,
+                    ErrorField = AppConstants.MainType.PASSWORD,
+                    ErrorMessage = MessageConstants.INCORRECT_PASSWORD,
+                    User = null
+                };
+            }
+
+            user = await _userRepository.SignInWithUsernameAndPasswordAsync(username, password);
+            AuthManager.SaveUserId(user.Id);
+
+            Borders border = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
+            string borderImagePath = border.Image;
+
+            Avatars avatar = await UserAvatarsService.Create().GetAvatarByUsedAsync(user.Id);
+            string avatarImagePath = avatar.Image;
+
+            User.CurrentUserAvatar = avatarImagePath;
+            User.CurrentUserBorder = borderImagePath;
+
+            user.Image = avatarImagePath;
+            user.Border = borderImagePath;
+
+            DateTime now = DateTime.Now;
+            int year = now.Year;
+            int month = now.Month;
+            if (!await UserDailyCheckinService.Create().CheckUserDailyCheckinStatusAsync(User.CurrentUserId, month, year))
+            {
+                int daysInMonth = DateTime.DaysInMonth(year, month);
+                for (int day = 1; day <= daysInMonth; day++)
+                {
+                    DateTime currentDate = new DateTime(year, month, day);
+                    await UserDailyCheckinService.Create().DeleteUserDailyCheckinAsync(User.CurrentUserId, day.ToString());
+                    UserDailyCheckin userDailyCheckin = new UserDailyCheckin
+                    {
+                        UserId = User.CurrentUserId,
+                        DailyCheckinId = day.ToString(),
+                        Status = false,
+                        Day = currentDate,
+                        Month = month,
+                        Year = year
+                    };
+                    await UserDailyCheckinService.Create().InsertUserDailyCheckinAsync(User.CurrentUserId, userDailyCheckin);
+                }
+            }
+
+            var settingList = await UserSettingsService.Create().GetUserSettingsAsync(User.CurrentUserId);
+            UserSettingsManager.Instance.LoadUserSettings(settingList);
+
+            return new AuthResult
+            {
+                Success = true,
+                ErrorField = "",
+                ErrorMessage = "",
+                User = user
+            };
+        }
+        else
+        {
+            return new AuthResult
+            {
+                Success = false,
+                ErrorField = AppConstants.MainType.USERNAME,
+                ErrorMessage = MessageConstants.USERNAME_DOES_NOT_EXIST,
+                User = null
+            };
+        }
+        // Items cardHeroesTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardHeroesTicket);
+        // UserItemsService.Create().InsertUserItems(cardHeroesTicket, 1000000);
+        // Items cardCaptainsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardCaptainsTicket);
+        // UserItemsService.Create().InsertUserItems(cardCaptainsTicket, 1000000);
+        // Items cardMilitaryTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardMilitaryTicket);
+        // UserItemsService.Create().InsertUserItems(cardMilitaryTicket, 1000000);
+        // Items cardSpellTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardSpellTicket);
+        // UserItemsService.Create().InsertUserItems(cardSpellTicket, 1000000);
+        // Items cardMonstersTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardMonstersTicket);
+        // UserItemsService.Create().InsertUserItems(cardMonstersTicket, 1000000);
+        // Items cardColonelsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardColonelsTicket);
+        // UserItemsService.Create().InsertUserItems(cardColonelsTicket, 1000000);
+        // Items cardGeneralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardGeneralsTicket);
+        // UserItemsService.Create().InsertUserItems(cardGeneralsTicket, 1000000);
+        // Items cardAdmiralsTicket = UserItemsService.Create().GetUserItemByName(ItemConstants.CardAdmiralsTicket);
+        // UserItemsService.Create().InsertUserItems(cardAdmiralsTicket, 1000000);
+    }
+
+    public async Task<AuthResult> SignInWithoutUsernameAndPasswordAsync(string userId)
+    {
+        User user = await _userRepository.SignInWithoutUsernameAndPasswordAsync(userId);
+
+        if (user != null)
+        {
+            Borders border = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
+            string borderImagePath = border.Image;
+
+            Avatars avatar = await UserAvatarsService.Create().GetAvatarByUsedAsync(user.Id);
+            string avatarImagePath = avatar.Image;
+
+            User.CurrentUserAvatar = avatarImagePath;
+            User.CurrentUserBorder = borderImagePath;
+
+            user.Image = avatarImagePath;
+            user.Border = borderImagePath;
+
+            DateTime now = DateTime.Now;
+            int year = now.Year;
+            int month = now.Month;
+            if (!await UserDailyCheckinService.Create().CheckUserDailyCheckinStatusAsync(User.CurrentUserId, month, year))
+            {
+                int daysInMonth = DateTime.DaysInMonth(year, month);
+                for (int day = 1; day <= daysInMonth; day++)
+                {
+                    DateTime currentDate = new DateTime(year, month, day);
+                    await UserDailyCheckinService.Create().DeleteUserDailyCheckinAsync(User.CurrentUserId, day.ToString());
+                    UserDailyCheckin userDailyCheckin = new UserDailyCheckin
+                    {
+                        UserId = User.CurrentUserId,
+                        DailyCheckinId = day.ToString(),
+                        Status = false,
+                        Day = currentDate,
+                        Month = month,
+                        Year = year
+                    };
+                    await UserDailyCheckinService.Create().InsertUserDailyCheckinAsync(User.CurrentUserId, userDailyCheckin);
+                }
+            }
+
+            var settingList = await UserSettingsService.Create().GetUserSettingsAsync(User.CurrentUserId);
+            UserSettingsManager.Instance.LoadUserSettings(settingList);
+
+            return new AuthResult
+            {
+                Success = true,
+                ErrorField = "",
+                ErrorMessage = "",
+                User = user
+            };
+        }
+        else
+        {
+            return new AuthResult
+            {
+                Success = false,
+                ErrorField = AppConstants.MainType.USERNAME,
+                ErrorMessage = MessageConstants.USERNAME_DOES_NOT_EXIST,
+                User = null
+            };
+        }
+    }
+
+    public async Task<User> GetUserByIdAsync(string Id)
+    {
+        User user = await _userRepository.GetUserByIdAsync(Id);
+
+        Borders border = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
+        string borderImagePath = border.Image;
+
+        Avatars avatar = await UserAvatarsService.Create().GetAvatarByUsedAsync(user.Id);
+        string avatarImagePath = avatar.Image;
+
+        User.CurrentUserAvatar = avatarImagePath;
+        User.CurrentUserBorder = borderImagePath;
+
+        user.Image = avatarImagePath;
+        user.Border = borderImagePath;
+
+        return user;
+    }
+
+    public async Task UpdateUserNameAsync(string user_id, string new_name)
+    {
+        await _userRepository.UpdateUserNameAsync(user_id, new_name);
+        User.CurrentUserName = new_name;
+    }
+
+    public async Task UpdateUserPowerAsync(string user_id, double power)
+    {
+        await _userRepository.UpdateUserPowerAsync(user_id, power);
+    }
+
+    public async Task CreateUserCurrencyAsync(string Id)
+    {
+        await _userRepository.CreateUserCurrencyAsync(Id);
+    }
+
+    public async Task<bool> CheckNameExistsAsync(string name)
+    {
+        return await _userRepository.CheckNameExistsAsync(name);
+    }
+}

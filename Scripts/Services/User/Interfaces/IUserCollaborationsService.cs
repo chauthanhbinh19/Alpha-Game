@@ -1,0 +1,14 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+public interface IUserCollaborationsService
+{
+    Task<List<Collaborations>> GetUserCollaborationsAsync(string user_id, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserCollaborationsCountAsync(string user_id, string search, string rare);
+    Task<bool> InsertUserCollaborationAsync(Collaborations collaboration, string userId);
+    Task<bool> InsertOrUpdateUserCollaborationsBatchAsync(List<Collaborations> collaborations);
+    Task<bool> UpdateCollaborationLevelAsync(Collaborations collaboration, int level);
+    Task<bool> UpdateCollaborationBreakthroughAsync(Collaborations collaboration, int star, double quantity);
+    Task<Collaborations> GetUserCollaborationByIdAsync(string user_id, string Id);
+    Task<Collaborations> SumPowerUserCollaborationsAsync();
+}

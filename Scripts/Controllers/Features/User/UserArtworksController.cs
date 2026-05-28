@@ -1,0 +1,186 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Threading.Tasks;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+public class UserArtworksController : MonoBehaviour
+{
+    public static UserArtworksController Instance { get; private set; }
+    private Transform MainPanel;
+    private GameObject ArtworkButtonPrefab;
+    private GameObject MainMenuDetailPanel2Prefab;
+    private void Awake()
+    {
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
+        Initialize();
+    }
+
+    public void Initialize()
+    {
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        ArtworkButtonPrefab = UIManager.Instance.Get("ArtworkButtonPrefab");
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+    }
+    public void CreateUserArtworks(List<Artworks> artworks, Transform contentPanel)
+    {
+        // Xóa bớt animation cũ nếu có để tránh lỗi chồng đè
+        var oldAnim = contentPanel.GetComponent<StaggeredSlideAnimation>();
+        if (oldAnim != null) Destroy(oldAnim);
+
+        // Cache texture background dùng chung một lần duy nhất ngoài vòng lặp
+        Texture bgTexture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARTWORK_BUTTON_BACKGROUND_URL);
+
+        foreach (var artwork in artworks)
+        {
+            GameObject artworkObject = Instantiate(ArtworkButtonPrefab, contentPanel);
+            Transform transform = artworkObject.transform;
+
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            titleText.text = artwork.Name.Replace("_", " ");
+
+            RawImage image = transform.Find("Image").GetComponent<RawImage>();
+            string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(artwork.Image);
+            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+            image.texture = texture;
+
+            // Set size 200x130
+            RectTransform rect = image.GetComponent<RectTransform>();
+            rect.sizeDelta = new Vector2(200, 130);
+
+            RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
+            backgroundImage.texture = bgTexture;
+
+            Button button = transform.GetComponent<Button>();
+            button.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                ShowArtworkDetails(artwork);
+            });
+
+            RawImage frameImage = transform.Find("FrameImage").GetComponent<RawImage>();
+            frameImage.gameObject.SetActive(true);
+
+            TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(artwork.Rare));
+            rareText.text = artwork.Rare;
+
+        }
+        GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
+        if (gridLayout != null)
+        {
+            gridLayout.cellSize = new Vector2(200, 240);
+        }
+        contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
+    }
+    public void ShowArtworkDetails(Artworks artwork, int buttonType = 1)
+    {
+        GameObject currentObject = Instantiate(MainMenuDetailPanel2Prefab, MainPanel);
+        Transform transform = currentObject.transform;
+        TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        Transform setButtonGroupPanel = transform.Find("DictionaryCards/SetButtonGroup/Viewport/Content");
+        RawImage cardBackground = transform.Find("DictionaryCards/Background").GetComponent<RawImage>();
+        RawImage backgroundCircle1Image = transform.Find("DictionaryCards/CircleImage1").GetComponent<RawImage>();
+        ButtonLoader.Instance.CreateSetButtonGroup(artwork, setButtonGroupPanel);
+        backgroundCircle1Image.gameObject.AddComponent<RotateAnimation>();
+
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARTWORK);
+        Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARTWORK_BACKGROUND_URL);
+        cardBackground.texture = texture;
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+            MainMenuManager.Instance.GetType(AppConstants.MainType.ARTWORK);
+        });
+        CreateDetailsUI(artwork, currentObject);
+    }
+    public void CreateDetailsUI(Artworks artwork, GameObject currentObject)
+    {
+        Transform transform = currentObject.transform;
+        RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(artwork.Image); // Lấy giá trị của image từ đối tượng Card
+        Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
+        image.texture = texture;
+        ImageManager.Instance.ChangeSizeImage(image, texture);
+
+        TextMeshProUGUI nameText = transform.Find("DictionaryCards/Name/NameText").GetComponent<TextMeshProUGUI>();
+        nameText.text = artwork.Name;
+
+        TextMeshProUGUI powerText = transform.Find("DictionaryCards/Power/PowerText").GetComponent<TextMeshProUGUI>();
+        powerText.text = NumberFormatterHelper.FormatNumber(artwork.Power, false);
+
+        TextMeshProUGUI levelText = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/LevelText").GetComponent<TextMeshProUGUI>();
+        levelText.text = artwork.Level.ToString();
+
+        RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artwork.Rare}");
+        rareImage.texture = rareTexture;
+
+        Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");
+        TextureHelper.SetupStars(starGridLayout, artwork.Star);
+
+        // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+
+        SetupStat(transform, "Power", AppConstants.StatFields.POWER, AppDisplayConstants.StatFieldsShort.POWER, artwork.Power);
+        SetupStat(transform, "Health", AppConstants.StatFields.HEALTH, AppDisplayConstants.StatFieldsShort.HEALTH, artwork.Health);
+        SetupStat(transform, "PhysicalAttack", AppConstants.StatFields.PHYSICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PHYSICAL_ATTACK, artwork.PhysicalAttack);
+        SetupStat(transform, "PhysicalDefense", AppConstants.StatFields.PHYSICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PHYSICAL_DEFENSE, artwork.PhysicalDefense);
+        SetupStat(transform, "MagicalAttack", AppConstants.StatFields.MAGICAL_ATTACK, AppDisplayConstants.StatFieldsShort.MAGICAL_ATTACK, artwork.MagicalAttack);
+        SetupStat(transform, "MagicalDefense", AppConstants.StatFields.MAGICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.MAGICAL_DEFENSE, artwork.MagicalDefense);
+        SetupStat(transform, "ChemicalAttack", AppConstants.StatFields.CHEMICAL_ATTACK, AppDisplayConstants.StatFieldsShort.CHEMICAL_ATTACK, artwork.ChemicalAttack);
+        SetupStat(transform, "ChemicalDefense", AppConstants.StatFields.CHEMICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.CHEMICAL_DEFENSE, artwork.ChemicalDefense);
+        SetupStat(transform, "AtomicAttack", AppConstants.StatFields.ATOMIC_ATTACK, AppDisplayConstants.StatFieldsShort.ATOMIC_ATTACK, artwork.AtomicAttack);
+        SetupStat(transform, "AtomicDefense", AppConstants.StatFields.ATOMIC_DEFENSE, AppDisplayConstants.StatFieldsShort.ATOMIC_DEFENSE, artwork.AtomicDefense);
+        SetupStat(transform, "MentalAttack", AppConstants.StatFields.MENTAL_ATTACK, AppDisplayConstants.StatFieldsShort.MENTAL_ATTACK, artwork.MentalAttack);
+        SetupStat(transform, "MentalDefense", AppConstants.StatFields.MENTAL_DEFENSE, AppDisplayConstants.StatFieldsShort.MENTAL_DEFENSE, artwork.MentalDefense);
+        SetupStat(transform, "Speed", AppConstants.StatFields.SPEED, AppDisplayConstants.StatFieldsShort.SPEED, artwork.Speed);
+
+        Button detailButton = transform.Find("DictionaryCards/DetailsPanel/Group4/Stats/DetailButton").GetComponent<Button>();
+        detailButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            StatsManager.Instance.CreateStatsManager(artwork);
+        });
+    }
+    private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
+    {
+        Transform statTransform = root.Find($"DictionaryCards/DetailsPanel/Group4/Stats/GridLayout/{statObjectName}");
+
+        RawImage iconImage = statTransform.Find("IconImage").GetComponent<RawImage>();
+        TextMeshProUGUI titleText = statTransform.Find("StatTitleText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI valueText = statTransform.Find("StatText").GetComponent<TextMeshProUGUI>();
+
+        TextureHelper.CreatePropertyRuneUI(statField, iconImage);
+
+        titleText.text = LocalizationManager.Get(statDisplayName);
+        titleText.enableWordWrapping = false;
+
+        if (isPercent)
+        {
+            valueText.text = NumberFormatterHelper.FormatNumberExtended(value, true) + " %";
+        }
+        else
+        {
+            valueText.text = NumberFormatterHelper.FormatNumberExtended(value, true);
+        }
+    }
+}

@@ -1,0 +1,198 @@
+using System;
+using UnityEngine;
+public class CardSpell : CardBase
+{
+    public override void Initialize(object data)
+    {
+        var cardSpell = data as CardSpells;
+
+        if (cardSpell == null)
+        {
+            Debug.LogError("Sai type CardSpells");
+            return;
+        }
+        // copy thuộc tính từ CardBase
+        this.Id = cardSpell.Id;
+        this.Name = cardSpell.Name;
+        this.Image = cardSpell.Image;
+        this.Type = cardSpell.Type;
+        this.Rare = cardSpell.Rare;
+        this.Power = cardSpell.Power;
+        this.Health = cardSpell.Health;
+        this.PhysicalAttack = cardSpell.PhysicalAttack;
+        this.PhysicalDefense = cardSpell.PhysicalDefense;
+        this.MagicalAttack = cardSpell.MagicalAttack;
+        this.MagicalDefense = cardSpell.MagicalDefense;
+        this.ChemicalAttack = cardSpell.ChemicalAttack;
+        this.ChemicalDefense = cardSpell.ChemicalDefense;
+        this.AtomicAttack = cardSpell.AtomicAttack;
+        this.AtomicDefense = cardSpell.AtomicDefense;
+        this.MentalAttack = cardSpell.MentalAttack;
+        this.MentalDefense = cardSpell.MentalDefense;
+        this.Speed = cardSpell.Speed;
+        this.CriticalDamageRate = cardSpell.CriticalDamageRate;
+        this.CriticalRate = cardSpell.CriticalRate;
+        this.CriticalResistanceRate = cardSpell.CriticalResistanceRate;
+        this.IgnoreCriticalRate = cardSpell.IgnoreCriticalRate;
+        this.PenetrationRate = cardSpell.PenetrationRate;
+        this.PenetrationResistanceRate = cardSpell.PenetrationResistanceRate;
+        this.EvasionRate = cardSpell.EvasionRate;
+        this.DamageAbsorptionRate = cardSpell.DamageAbsorptionRate;
+        this.AbsorbedDamageRate = cardSpell.AbsorbedDamageRate;
+        this.IgnoreDamageAbsorptionRate = cardSpell.IgnoreDamageAbsorptionRate;
+        this.VitalityRegenerationRate = cardSpell.VitalityRegenerationRate;
+        this.VitalityRegenerationResistanceRate = cardSpell.VitalityRegenerationResistanceRate;
+        this.AccuracyRate = cardSpell.AccuracyRate;
+        this.LifestealRate = cardSpell.LifestealRate;
+        this.Mana = cardSpell.Mana;
+        this.ManaRegenerationRate = cardSpell.ManaRegenerationRate;
+        this.ShieldStrength = cardSpell.ShieldStrength;
+        this.Tenacity = cardSpell.Tenacity;
+        this.ResistanceRate = cardSpell.ResistanceRate;
+        this.ComboRate = cardSpell.ComboRate;
+        this.IgnoreComboRate = cardSpell.IgnoreComboRate;
+        this.ComboDamageRate = cardSpell.ComboDamageRate;
+        this.ComboResistanceRate = cardSpell.ComboResistanceRate;
+        this.StunRate = cardSpell.StunRate;
+        this.IgnoreStunRate = cardSpell.IgnoreStunRate;
+        this.ReflectionRate = cardSpell.ReflectionRate;
+        this.IgnoreReflectionRate = cardSpell.IgnoreReflectionRate;
+        this.ReflectionDamageRate = cardSpell.ReflectionDamageRate;
+        this.ReflectionResistanceRate = cardSpell.ReflectionResistanceRate;
+        this.DamageToDifferentFactionRate = cardSpell.DamageToDifferentFactionRate;
+        this.ResistanceToDifferentFactionRate = cardSpell.ResistanceToDifferentFactionRate;
+        this.DamageToSameFactionRate = cardSpell.DamageToSameFactionRate;
+        this.ResistanceToSameFactionRate = cardSpell.ResistanceToSameFactionRate;
+        this.NormalDamageRate = cardSpell.NormalDamageRate;
+        this.NormalResistanceRate = cardSpell.NormalResistanceRate;
+        this.SkillDamageRate = cardSpell.SkillDamageRate;
+        this.SkillResistanceRate = cardSpell.SkillResistanceRate;
+        this.Position = cardSpell.Position;
+        this.IsAlive = true;
+        this.Skills = cardSpell.Skills;
+        this.CardType = CardType.CardSpell;
+
+        this.CurrentHealth = cardSpell.Health;
+        this.CurrentPhysicalAttack = cardSpell.PhysicalAttack;
+        this.CurrentPhysicalDefense = cardSpell.PhysicalDefense;
+        this.CurrentMagicalAttack = cardSpell.MagicalAttack;
+        this.CurrentMagicalDefense = cardSpell.MagicalDefense;
+        this.CurrentChemicalAttack = cardSpell.ChemicalAttack;
+        this.CurrentChemicalDefense = cardSpell.ChemicalDefense;
+        this.CurrentAtomicAttack = cardSpell.AtomicAttack;
+        this.CurrentAtomicDefense = cardSpell.AtomicDefense;
+        this.CurrentMentalAttack = cardSpell.MentalAttack;
+        this.CurrentMentalDefense = cardSpell.MentalDefense;
+        this.CurrentSpeed = cardSpell.Speed;
+        this.CurrentCriticalDamageRate = cardSpell.CriticalDamageRate;
+        this.CurrentCriticalRate = cardSpell.CriticalRate;
+        this.CurrentCriticalResistanceRate = cardSpell.CriticalResistanceRate;
+        this.CurrentIgnoreCriticalRate = cardSpell.IgnoreCriticalRate;
+        this.CurrentPenetrationRate = cardSpell.PenetrationRate;
+        this.CurrentPenetrationResistanceRate = cardSpell.PenetrationResistanceRate;
+        this.CurrentEvasionRate = cardSpell.EvasionRate;
+        this.CurrentDamageAbsorptionRate = cardSpell.DamageAbsorptionRate;
+        this.CurrentAbsorbedDamageRate = cardSpell.AbsorbedDamageRate;
+        this.CurrentIgnoreDamageAbsorptionRate = cardSpell.IgnoreDamageAbsorptionRate;
+        this.CurrentVitalityRegenerationRate = cardSpell.VitalityRegenerationRate;
+        this.CurrentVitalityRegenerationResistanceRate = cardSpell.VitalityRegenerationResistanceRate;
+        this.CurrentAccuracyRate = cardSpell.AccuracyRate;
+        this.CurrentLifestealRate = cardSpell.LifestealRate;
+        this.CurrentMana = cardSpell.Mana;
+        this.CurrentManaRegenerationRate = cardSpell.ManaRegenerationRate;
+        this.CurrentShieldStrength = cardSpell.ShieldStrength;
+        this.CurrentTenacity = cardSpell.Tenacity;
+        this.CurrentResistanceRate = cardSpell.ResistanceRate;
+        this.CurrentComboRate = cardSpell.ComboRate;
+        this.CurrentIgnoreComboRate = cardSpell.IgnoreComboRate;
+        this.CurrentComboDamageRate = cardSpell.ComboDamageRate;
+        this.CurrentComboResistanceRate = cardSpell.ComboResistanceRate;
+        this.CurrentStunRate = cardSpell.StunRate;
+        this.CurrentIgnoreStunRate = cardSpell.IgnoreStunRate;
+        this.CurrentReflectionRate = cardSpell.ReflectionRate;
+        this.CurrentIgnoreReflectionRate = cardSpell.IgnoreReflectionRate;
+        this.CurrentReflectionDamageRate = cardSpell.ReflectionDamageRate;
+        this.CurrentReflectionResistanceRate = cardSpell.ReflectionResistanceRate;
+        this.CurrentDamageToDifferentFactionRate = cardSpell.DamageToDifferentFactionRate;
+        this.CurrentResistanceToDifferentFactionRate = cardSpell.ResistanceToDifferentFactionRate;
+        this.CurrentDamageToSameFactionRate = cardSpell.DamageToSameFactionRate;
+        this.CurrentResistanceToSameFactionRate = cardSpell.ResistanceToSameFactionRate;
+        this.CurrentNormalDamageRate = cardSpell.NormalDamageRate;
+        this.CurrentNormalResistanceRate = cardSpell.NormalResistanceRate;
+        this.CurrentSkillDamageRate = cardSpell.SkillDamageRate;
+        this.CurrentSkillResistanceRate = cardSpell.SkillResistanceRate;
+
+        // Parse position code "x-y"
+        string[] parts = cardSpell.Position.Split('-');
+        if (parts.Length == 2)
+        {
+            this.MainPosition = int.Parse(parts[0]);
+            this.SubIndex = int.Parse(parts[1]);
+        }
+    }
+    public void ApplyPenalty(float penaltyPercent)
+    {
+        // Hệ số nhân giảm giá trị. Ví dụ: 10% penalty -> multiplier = 1 - (10 / 100) = 0.9
+        float multiplier = 1f - (penaltyPercent / 100f);
+
+        // Đảm bảo multiplier không âm (trừ khi bạn cho phép chỉ số tăng khi bị phạt)
+        if (multiplier < 0) multiplier = 0; 
+
+        this.CurrentHealth = Math.Max(0, this.CurrentHealth * multiplier);
+        this.CurrentMana *= multiplier;
+        
+        // Chỉ số Tấn công và Phòng thủ
+        this.CurrentPhysicalAttack *= multiplier;
+        this.CurrentPhysicalDefense *= multiplier;
+        this.CurrentMagicalAttack *= multiplier;
+        this.CurrentMagicalDefense *= multiplier;
+        this.CurrentChemicalAttack *= multiplier;
+        this.CurrentChemicalDefense *= multiplier;
+        this.CurrentAtomicAttack *= multiplier;
+        this.CurrentAtomicDefense *= multiplier;
+        this.CurrentMentalAttack *= multiplier;
+        this.CurrentMentalDefense *= multiplier;
+        
+        // Chỉ số Tỷ lệ (Rates) và các chỉ số khác
+        this.CurrentSpeed *= multiplier;
+        this.CurrentCriticalDamageRate *= multiplier;
+        this.CurrentCriticalRate *= multiplier;
+        this.CurrentCriticalResistanceRate *= multiplier;
+        this.CurrentIgnoreCriticalRate *= multiplier;
+        this.CurrentPenetrationRate *= multiplier;
+        this.CurrentPenetrationResistanceRate *= multiplier;
+        this.CurrentEvasionRate *= multiplier;
+        this.CurrentDamageAbsorptionRate *= multiplier;
+        this.CurrentAbsorbedDamageRate *= multiplier;
+        this.CurrentIgnoreDamageAbsorptionRate *= multiplier;
+        this.CurrentVitalityRegenerationRate *= multiplier;
+        this.CurrentVitalityRegenerationResistanceRate *= multiplier;
+        this.CurrentAccuracyRate *= multiplier;
+        this.CurrentLifestealRate *= multiplier;
+        this.CurrentManaRegenerationRate *= multiplier;
+        this.CurrentShieldStrength *= multiplier;
+        this.CurrentTenacity *= multiplier;
+        this.CurrentResistanceRate *= multiplier;
+        this.CurrentComboRate *= multiplier;
+        this.CurrentIgnoreComboRate *= multiplier;
+        this.CurrentComboDamageRate *= multiplier;
+        this.CurrentComboResistanceRate *= multiplier;
+        this.CurrentStunRate *= multiplier;
+        this.CurrentIgnoreStunRate *= multiplier;
+        this.CurrentReflectionRate *= multiplier;
+        this.CurrentIgnoreReflectionRate *= multiplier;
+        this.CurrentReflectionDamageRate *= multiplier;
+        this.CurrentReflectionResistanceRate *= multiplier;
+        this.CurrentDamageToDifferentFactionRate *= multiplier;
+        this.CurrentResistanceToDifferentFactionRate *= multiplier;
+        this.CurrentDamageToSameFactionRate *= multiplier;
+        this.CurrentResistanceToSameFactionRate *= multiplier;
+        this.CurrentNormalDamageRate *= multiplier;
+        this.CurrentNormalResistanceRate *= multiplier;
+        this.CurrentSkillDamageRate *= multiplier;
+        this.CurrentSkillResistanceRate *= multiplier;
+        
+        // Tùy chọn: Gọi hàm tính lại chỉ số Power nếu cần
+        // RecalculatePower();
+    }
+}

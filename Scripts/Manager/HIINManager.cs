@@ -1,0 +1,87 @@
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+public class HIINManager : MonoBehaviour
+{
+    public static HIINManager Instance { get; private set; }
+    private Transform MainPanel;
+    private GameObject HIINPanelPrefab;
+    private GameObject HIINButtonPrefab;
+    private void Awake()
+    {
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
+    void Start()
+    {
+        Initialize();
+    }
+    public void Initialize()
+    {
+        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        HIINPanelPrefab = UIManager.Instance.Get("HIINPanelPrefab");
+        HIINButtonPrefab = UIManager.Instance.Get("HIINButtonPrefab");
+    }
+    public void CreateHIIN()
+    {
+        GameObject currentObject = Instantiate(HIINPanelPrefab, MainPanel);
+        Transform transform = currentObject.transform;
+        Transform contentPanel = transform.Find("HIINContent/Content");
+
+        CreateHIINButtonUI(1, AppDisplayConstants.HIIN.HIIN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_I_URL), contentPanel);
+        CreateHIINButtonUI(2, AppDisplayConstants.HIIN.HIIN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_II_URL), contentPanel);
+        CreateHIINButtonUI(3, AppDisplayConstants.HIIN.HIIN_III, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_III_URL), contentPanel);
+        CreateHIINButtonUI(4, AppDisplayConstants.HIIN.HIIN_IV, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_IV_URL), contentPanel);
+        CreateHIINButtonUI(5, AppDisplayConstants.HIIN.HIIN_V, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_V_URL), contentPanel);
+        CreateHIINButtonUI(6, AppDisplayConstants.HIIN.HIIN_VI, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_VI_URL), contentPanel);
+        CreateHIINButtonUI(7, AppDisplayConstants.HIIN.HIIN_VII, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_VII_URL), contentPanel);
+        CreateHIINButtonUI(8, AppDisplayConstants.HIIN.HIIN_VIII, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_VIII_URL), contentPanel);
+        CreateHIINButtonUI(9, AppDisplayConstants.HIIN.HIIN_IX, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_IX_URL), contentPanel);
+        CreateHIINButtonUI(10, AppDisplayConstants.HIIN.HIIN_X, TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_X_URL), contentPanel);
+
+        CreateHIINButtonEvent(contentPanel);
+    }
+    private void CreateHIINButtonUI(int index, string itemName, Texture2D _itemImage, Transform panel)
+    {
+        // Tạo button từ prefab
+        GameObject newButton = Instantiate(HIINButtonPrefab, panel);
+        Transform transform = newButton.transform;
+        newButton.name = "Button_" + index;
+
+        // Gán hình ảnh cho itemImage
+        RawImage image = transform.Find("Image").GetComponent<RawImage>();
+        if (image != null && _itemImage != null)
+        {
+            image.texture = _itemImage;
+        }
+
+        // Gán tên cho itemName
+        TextMeshProUGUI nameText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        if (nameText != null)
+        {
+            nameText.text = LocalizationManager.Get(itemName);
+        }
+    }
+    public void CreateHIINButtonEvent(Transform panel)
+    {
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await HIINIManager.Instance.CreateHIINIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await HIINIIManager.Instance.CreateHIINIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await HIINIIIManager.Instance.CreateHIINIIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await HIINIVManager.Instance.CreateHIINIVManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await HIINVManager.Instance.CreateHIINVManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await HIINVIManager.Instance.CreateHIINVIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await HIINVIIManager.Instance.CreateHIINVIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await HIINVIIIManager.Instance.CreateHIINVIIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await HIINIXManager.Instance.CreateHIINIXManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await HIINXManager.Instance.CreateHIINXManagerAsync());
+    }
+}
