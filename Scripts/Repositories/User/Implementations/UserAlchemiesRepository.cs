@@ -76,7 +76,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                                 Type = reader.GetStringSafe("type"),
                                 Star = reader.GetIntSafe("star"),
                                 Level = reader.GetIntSafe("level"),
-                                Experiment = reader.GetDoubleSafe("experiment"),
+                                Experience = reader.GetDoubleSafe("experience"),
                                 Quantity = reader.GetDoubleSafe("quantity"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
@@ -242,7 +242,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                     {
                         string insertSQL = @"
                         INSERT INTO user_alchemies (
-                            user_id, alchemy_id, rare, level, experiment, star, quality, block, quantity,
+                            user_id, alchemy_id, rare, level, experience, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -259,7 +259,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @alchemy_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @alchemy_id, @rare, @level, @experience, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -284,7 +284,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                             insertCommand.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
                             insertCommand.Parameters.AddWithValue("@rare", alchemy.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
-                            insertCommand.Parameters.AddWithValue("@experiment", 0);
+                            insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
                             insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(alchemy.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
@@ -402,7 +402,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
                 stringBuilder.Append(@"
                 INSERT INTO user_alchemies (
-                    user_id, alchemy_id, rare, level, experiment, star, quality, block, quantity,
+                    user_id, alchemy_id, rare, level, experience, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -783,7 +783,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                                 Id = reader.GetStringSafe("alchemy_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
-                                Experiment = reader.GetDoubleSafe("experiment"),
+                                Experience = reader.GetDoubleSafe("experience"),
                                 Star = reader.GetIntSafe("star"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),

@@ -109,7 +109,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                     Type = reader.GetStringSafe("type"),
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
-                    Experiment = reader.GetDoubleSafe("experiment"),
+                    Experience = reader.GetDoubleSafe("experience"),
                     Quantity = reader.GetDoubleSafe("quantity"),
                     Block = reader.GetBoolean("block"),
                     TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetStringSafe("team_id"),
@@ -340,7 +340,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                     Type = reader.GetStringSafe("type"),
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
-                    Experiment = reader.GetDoubleSafe("experiment"),
+                    Experience = reader.GetDoubleSafe("experience"),
                     Quantity = reader.GetDoubleSafe("quantity"),
                     Block = reader.GetBoolean("block"),
                     TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetStringSafe("team_id"),
@@ -565,7 +565,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                     Type = reader.GetStringSafe("type"),
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
-                    Experiment = reader.GetDoubleSafe("experiment"),
+                    Experience = reader.GetDoubleSafe("experience"),
                     Quantity = reader.GetDoubleSafe("quantity"),
                     Block = reader.GetBoolean("block"),
                     TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetStringSafe("team_id"),
@@ -945,7 +945,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
             {
                 string insertSQL = @"
                 INSERT INTO user_card_heroes (
-                    user_id, card_hero_id, rare, level, experiment, star, quality, block, quantity,
+                    user_id, card_hero_id, rare, level, experience, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -962,7 +962,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                     normal_damage_rate, normal_resistance_rate,
                     skill_damage_rate, skill_resistance_rate
                 ) VALUES (
-                    @user_id, @card_hero_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                    @user_id, @card_hero_id, @rare, @level, @experience, @star, @quality, @block, @quantity,
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -987,7 +987,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                 insertCommand.Parameters.AddWithValue("@card_hero_id", cardHero.Id);
                 insertCommand.Parameters.AddWithValue("@rare", cardHero.Rare);
                 insertCommand.Parameters.AddWithValue("@level", 0);
-                insertCommand.Parameters.AddWithValue("@experiment", 0);
+                insertCommand.Parameters.AddWithValue("@experience", 0);
                 insertCommand.Parameters.AddWithValue("@star", 0);
                 insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(cardHero.Rare));
                 insertCommand.Parameters.AddWithValue("@block", false);
@@ -1096,7 +1096,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
 
                 stringBuilder.Append(@"
                 INSERT INTO user_card_heroes (
-                    user_id, card_hero_id, rare, level, experiment, star, quality, block, quantity,
+                    user_id, card_hero_id, rare, level, experience, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -1234,31 +1234,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
             string updateSQL = @"
             UPDATE user_card_heroes
             SET 
-                level = @level, power = @power, health = @health, 
-                physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
+                level = @level, experience = @experience
             WHERE user_id = @user_id AND card_hero_id = @card_hero_id;
         ";
 
@@ -1266,57 +1242,8 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
 
             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
             updateCommand.Parameters.AddWithValue("@card_hero_id", cardHero.Id);
-            updateCommand.Parameters.AddWithValue("@level", level);
-            updateCommand.Parameters.AddWithValue("@power", cardHero.Power);
-            updateCommand.Parameters.AddWithValue("@health", cardHero.Health);
-            updateCommand.Parameters.AddWithValue("@physical_attack", cardHero.PhysicalAttack);
-            updateCommand.Parameters.AddWithValue("@physical_defense", cardHero.PhysicalDefense);
-            updateCommand.Parameters.AddWithValue("@magical_attack", cardHero.MagicalAttack);
-            updateCommand.Parameters.AddWithValue("@magical_defense", cardHero.MagicalDefense);
-            updateCommand.Parameters.AddWithValue("@chemical_attack", cardHero.ChemicalAttack);
-            updateCommand.Parameters.AddWithValue("@chemical_defense", cardHero.ChemicalDefense);
-            updateCommand.Parameters.AddWithValue("@atomic_attack", cardHero.AtomicAttack);
-            updateCommand.Parameters.AddWithValue("@atomic_defense", cardHero.AtomicDefense);
-            updateCommand.Parameters.AddWithValue("@mental_attack", cardHero.MentalAttack);
-            updateCommand.Parameters.AddWithValue("@mental_defense", cardHero.MentalDefense);
-            updateCommand.Parameters.AddWithValue("@speed", cardHero.Speed);
-            updateCommand.Parameters.AddWithValue("@critical_damage_rate", cardHero.CriticalDamageRate);
-            updateCommand.Parameters.AddWithValue("@critical_rate", cardHero.CriticalRate);
-            updateCommand.Parameters.AddWithValue("@critical_resistance_rate", cardHero.CriticalResistanceRate);
-            updateCommand.Parameters.AddWithValue("@ignore_critical_rate", cardHero.IgnoreCriticalRate);
-            updateCommand.Parameters.AddWithValue("@penetration_rate", cardHero.PenetrationRate);
-            updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardHero.PenetrationResistanceRate);
-            updateCommand.Parameters.AddWithValue("@evasion_rate", cardHero.EvasionRate);
-            updateCommand.Parameters.AddWithValue("@damage_absorption_rate", cardHero.DamageAbsorptionRate);
-            updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardHero.IgnoreDamageAbsorptionRate);
-            updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardHero.AbsorbedDamageRate);
-            updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardHero.VitalityRegenerationRate);
-            updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardHero.VitalityRegenerationResistanceRate);
-            updateCommand.Parameters.AddWithValue("@accuracy_rate", cardHero.AccuracyRate);
-            updateCommand.Parameters.AddWithValue("@lifesteal_rate", cardHero.LifestealRate);
-            updateCommand.Parameters.AddWithValue("@shield_strength", cardHero.ShieldStrength);
-            updateCommand.Parameters.AddWithValue("@tenacity", cardHero.Tenacity);
-            updateCommand.Parameters.AddWithValue("@resistance_rate", cardHero.ResistanceRate);
-            updateCommand.Parameters.AddWithValue("@combo_rate", cardHero.ComboRate);
-            updateCommand.Parameters.AddWithValue("@ignore_combo_rate", cardHero.IgnoreComboRate);
-            updateCommand.Parameters.AddWithValue("@combo_damage_rate", cardHero.ComboDamageRate);
-            updateCommand.Parameters.AddWithValue("@combo_resistance_rate", cardHero.ComboResistanceRate);
-            updateCommand.Parameters.AddWithValue("@stun_rate", cardHero.StunRate);
-            updateCommand.Parameters.AddWithValue("@ignore_stun_rate", cardHero.IgnoreStunRate);
-            updateCommand.Parameters.AddWithValue("@reflection_rate", cardHero.ReflectionRate);
-            updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardHero.IgnoreReflectionRate);
-            updateCommand.Parameters.AddWithValue("@reflection_damage_rate", cardHero.ReflectionDamageRate);
-            updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardHero.ReflectionResistanceRate);
-            updateCommand.Parameters.AddWithValue("@mana", cardHero.Mana);
-            updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardHero.ManaRegenerationRate);
-            updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardHero.DamageToDifferentFactionRate);
-            updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardHero.ResistanceToDifferentFactionRate);
-            updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardHero.DamageToSameFactionRate);
-            updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardHero.ResistanceToSameFactionRate);
-            updateCommand.Parameters.AddWithValue("@normal_damage_rate", cardHero.NormalDamageRate);
-            updateCommand.Parameters.AddWithValue("@normal_resistance_rate", cardHero.NormalResistanceRate);
-            updateCommand.Parameters.AddWithValue("@skill_damage_rate", cardHero.SkillDamageRate);
-            updateCommand.Parameters.AddWithValue("@skill_resistance_rate", cardHero.SkillResistanceRate);
+            updateCommand.Parameters.AddWithValue("@level", cardHero.Level);
+            updateCommand.Parameters.AddWithValue("@experience", cardHero.Experience);
 
             await updateCommand.ExecuteNonQueryAsync();
         }
@@ -1466,7 +1393,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                     Image = reader.GetStringSafe("image"),
                     Level = reader.GetIntSafe("level"),
                     Quality = reader.GetDoubleSafe("quality"),
-                    Experiment = reader.GetDoubleSafe("experiment"),
+                    Experience = reader.GetDoubleSafe("experience"),
                     Star = reader.GetIntSafe("star"),
                     Power = reader.GetDoubleSafe("power"),
                     Health = reader.GetDoubleSafe("health"),
@@ -1647,7 +1574,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                     Type = reader.GetStringSafe("type"),
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
-                    Experiment = reader.GetIntSafe("experiment"),
+                    Experience = reader.GetIntSafe("experience"),
                     Quantity = reader.GetIntSafe("quantity"),
                     Block = reader.GetBoolean("block"),
                     TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetStringSafe("team_id"),

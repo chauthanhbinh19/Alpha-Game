@@ -35,7 +35,7 @@ public class UserRepository : IUserRepository
                                 Password = reader.GetStringSafe("password"),
                                 Name = reader["name"].ToString(),
                                 Level = reader.GetIntSafe("level"),
-                                Experiment = reader.GetDoubleSafe("experiment"),
+                                Experiment = reader.GetDoubleSafe("experience"),
                                 Vip = reader.GetIntSafe("vip"),
                                 Power = reader.GetDoubleSafe("power")
                             };
@@ -81,8 +81,8 @@ public class UserRepository : IUserRepository
             // --- Tạo user mới ---
             string userId = DateTime.Now.Ticks.ToString();
             string selectSQL = @"
-            INSERT INTO users (id, username, password, name, level, experiment, vip, power) 
-            VALUES (@id, @username, @password, @name, @level, @experiment, @vip, @power)";
+            INSERT INTO users (id, username, password, name, level, experience, vip, power) 
+            VALUES (@id, @username, @password, @name, @level, @experience, @vip, @power)";
 
             using (var selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -91,7 +91,7 @@ public class UserRepository : IUserRepository
                 selectCommand.Parameters.AddWithValue("@password", password);
                 selectCommand.Parameters.AddWithValue("@name", "");
                 selectCommand.Parameters.AddWithValue("@level", 1);
-                selectCommand.Parameters.AddWithValue("@experiment", 0);
+                selectCommand.Parameters.AddWithValue("@experience", 0);
                 selectCommand.Parameters.AddWithValue("@vip", 0);
                 selectCommand.Parameters.AddWithValue("@power", 0);
 
@@ -139,7 +139,7 @@ public class UserRepository : IUserRepository
                     int level = reader.GetIntSafe("level");
                     int vip = reader.GetIntSafe("vip");
                     double power = reader.GetDoubleSafe("power");
-                    double experiment = reader.GetDoubleSafe("experiment");
+                    double experience = reader.GetDoubleSafe("experience");
 
                     // Cập nhật các biến static của User
                     User.CurrentUserId = userId;
@@ -185,7 +185,7 @@ public class UserRepository : IUserRepository
                                 Password = password,
                                 Level = level,
                                 Vip = vip,
-                                Experiment = experiment,
+                                Experiment = experience,
                                 Power = power,
                                 Image = "",
                                 Border = "",
@@ -225,7 +225,7 @@ public class UserRepository : IUserRepository
                     int level = reader.GetIntSafe("level");
                     int vip = reader.GetIntSafe("vip");
                     double power = reader["power"] != DBNull.Value ? Convert.ToDouble(reader["power"]) : 0;
-                    double experiment = reader["experiment"] != DBNull.Value ? Convert.ToDouble(reader["experiment"]) : 0;
+                    double experience = reader["experience"] != DBNull.Value ? Convert.ToDouble(reader["experience"]) : 0;
 
                     // Cập nhật các biến static của User
                     User.CurrentUserId = userId;
@@ -271,7 +271,7 @@ public class UserRepository : IUserRepository
                                 Password = password,
                                 Level = level,
                                 Vip = vip,
-                                Experiment = experiment,
+                                Experiment = experience,
                                 Power = power,
                                 Image = "",
                                 Border = "",
@@ -310,7 +310,7 @@ public class UserRepository : IUserRepository
                     string password = reader.GetStringSafe("password");
                     int Level = reader.GetIntSafe("level");
                     int Vip = reader.GetIntSafe("vip");
-                    double Experiment = reader.GetDoubleSafe("experiment");
+                    double Experiment = reader.GetDoubleSafe("experience");
 
                     double Power = await TeamsService.Create().GetTeamsPowerAsync(Id);
 

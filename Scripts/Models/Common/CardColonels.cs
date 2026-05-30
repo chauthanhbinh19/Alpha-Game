@@ -12,8 +12,6 @@ public class CardColonels : BaseEntity, IPowerSortable, ICard, IStats
     public int CurrentStar { get; set; }
     public int TempStar { get; set; }
     public int Star { get; set; }
-    public int Level { get; set; }
-    public double Experiment { get; set; }
     public double Quantity { get; set; }
     public bool Block { get; set; }
     public string Position { get; set; }

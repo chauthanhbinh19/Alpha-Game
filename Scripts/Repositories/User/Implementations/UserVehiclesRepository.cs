@@ -79,7 +79,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                                 Type = reader.GetStringSafe("type"),
                                 Star = reader.GetIntSafe("star"),
                                 Level = reader.GetIntSafe("level"),
-                                Experiment = reader.GetDoubleSafe("experiment"),
+                                Experience = reader.GetDoubleSafe("experience"),
                                 Quantity = reader.GetDoubleSafe("quantity"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
@@ -246,7 +246,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                     {
                         string insertSQL = @"
                         INSERT INTO user_vehicles (
-                            user_id, vehicle_id, rare, level, experiment, star, quality, block, quantity,
+                            user_id, vehicle_id, rare, level, experience, star, quality, block, quantity,
                             power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                             chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                             speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -263,7 +263,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                             normal_damage_rate, normal_resistance_rate,
                             skill_damage_rate, skill_resistance_rate
                         ) VALUES (
-                            @user_id, @vehicle_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                            @user_id, @vehicle_id, @rare, @level, @experience, @star, @quality, @block, @quantity,
                             @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                             @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                             @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -288,7 +288,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                             insertCommand.Parameters.AddWithValue("@vehicle_id", vehicle.Id);
                             insertCommand.Parameters.AddWithValue("@rare", vehicle.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
-                            insertCommand.Parameters.AddWithValue("@experiment", 0);
+                            insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
                             insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(vehicle.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
@@ -406,7 +406,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
                 stringBuilder.Append(@"
                 INSERT INTO user_vehicles (
-                    user_id, vehicle_id, rare, level, experiment, star, quality, block, quantity,
+                    user_id, vehicle_id, rare, level, experience, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -787,7 +787,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                                 Id = reader.GetStringSafe("vehicle_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
-                                Experiment = reader.GetDoubleSafe("experiment"),
+                                Experience = reader.GetDoubleSafe("experience"),
                                 Star = reader.GetIntSafe("star"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),

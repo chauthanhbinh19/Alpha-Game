@@ -34,6 +34,16 @@ public class UserItemsService : IUserItemsService
         return await _userItemsRepository.GetUserItemByNameAsync(itemName);
     }
 
+    public async Task<Items> GetUserItemByCodeNameAsync(string codeName)
+    {
+        return await _userItemsRepository.GetUserItemByCodeNameAsync(codeName);
+    }
+
+    public async Task<ItemExperienceDTO> GetUserItemExperienceByCodeNameAsync(string codeName)
+    {
+        return await _userItemsRepository.GetUserItemExperienceByCodeNameAsync(codeName);
+    }
+
     public async Task<bool> InsertUserItemAsync(Items item, double quantity)
     {
         return await _userItemsRepository.InsertUserItemAsync(item, quantity);
@@ -50,183 +60,183 @@ public class UserItemsService : IUserItemsService
     public async Task<List<Items>> GetItemForLevelAsync(string type)
     {
         List<Items> items = new List<Items>();
-        switch (type)
-        {
-            case AppConstants.MainType.CARD_HERO:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
-                break;
-            case AppConstants.MainType.BOOK:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOOKS));
-                break;
-            case AppConstants.MainType.AVATAR:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_AVATARS));
-                break;
-            case AppConstants.MainType.BORDER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BORDERS));
-                break;
-            case AppConstants.MainType.CARD_CAPTAIN:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
-                break;
-            case AppConstants.MainType.PET:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_PETS));
-                break;
-            case AppConstants.MainType.COLLABORATION_EQUIPMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_COLLABORATION_EQUIPMENTS));
-                break;
-            case AppConstants.MainType.CARD_MILITARY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_MILITARY));
-                break;
-            case AppConstants.MainType.CARD_SPELL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_SPELLS));
-                break;
-            case AppConstants.MainType.COLLABORATION:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_COLLABORATIONS));
-                break;
-            case AppConstants.MainType.CARD_MONSTER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_MONSTERS));
-                break;
-            case AppConstants.MainType.EQUIPMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_EQUIPMENTS));
-                break;
-            case AppConstants.MainType.MEDAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_MEDALS));
-                break;
-            case AppConstants.MainType.SKILL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SKILLS));
-                break;
-            case AppConstants.MainType.SYMBOL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SYMBOLS));
-                break;
-            case AppConstants.MainType.TITLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_TITLES));
-                break;
-            case AppConstants.MainType.MAGIC_FORMATION_CIRCLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_MAGIC_FORMATION_CIRCLES));
-                break;
-            case AppConstants.MainType.RELIC:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_RELICS));
-                break;
-            case AppConstants.MainType.CARD_COLONEL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
-                break;
-            case AppConstants.MainType.CARD_GENERAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
-                break;
-            case AppConstants.MainType.CARD_ADMIRAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
-                break;
-            case AppConstants.MainType.CARD_LIFE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_LIVES));
-                break;
-            case AppConstants.MainType.SPIRIT_BEAST:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SPIRIT_BEASTS));
-                break;
-            case AppConstants.MainType.ACHIEVEMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ACHIEVEMENTS));
-                break;
-            case AppConstants.MainType.ALCHEMY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ALCHEMIES));
-                break;
-            case AppConstants.MainType.PUPPET:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_PUPPETS));
-                break;
-            case AppConstants.MainType.TALISMAN:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_TALISMANS));
-                break;
-            case AppConstants.MainType.FORGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_FORGES));
-                break;
-            case AppConstants.MainType.ARCHITECTURE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ARCHITECTURES));
-                break;
-            case AppConstants.MainType.ARTWORK:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ARTWORKS));
-                break;
-            case AppConstants.MainType.BADGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BADGES));
-                break;
-            case AppConstants.MainType.FOOD:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_FOODS));
-                break;
-            case AppConstants.MainType.BEVERAGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BEVERAGES));
-                break;
-            case AppConstants.MainType.BUILDING:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BUILDINGS));
-                break;
-            case AppConstants.MainType.ARTIFACT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ARTIFACTS));
-                break;
-            case AppConstants.MainType.CORE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CORES));
-                break;
-            case AppConstants.MainType.FURNITURE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_FURNITURES));
-                break;
-            case AppConstants.MainType.MECHA_BEAST:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_MECHA_BEASTS));
-                break;
-            case AppConstants.MainType.PLANT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_PLANTS));
-                break;
-            case AppConstants.MainType.ROBOT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ROBOTS));
-                break;
-            case AppConstants.MainType.RUNE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_RUNES));
-                break;
-            case AppConstants.MainType.SPIRIT_CARD:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SPIRIT_CARDS));
-                break;
-            case AppConstants.MainType.TECHNOLOGY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_TECHNOLOGIES));
-                break;
-            case AppConstants.MainType.VEHICLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_VEHICLES));
-                break;
-            case AppConstants.MainType.WEAPON:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_WEAPONS));
-                break;
-            case AppConstants.MainType.EMOJI:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_EMOJIS));
-                break;
-            case AppConstants.MainType.CARD_SOLDIER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_SOLDIERS));
-                break;
-            default:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
-                break;
-        }
+        // switch (type)
+        // {
+        //     case AppConstants.MainType.CARD_HERO:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
+        //         break;
+        //     case AppConstants.MainType.BOOK:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOOKS));
+        //         break;
+        //     case AppConstants.MainType.AVATAR:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_AVATARS));
+        //         break;
+        //     case AppConstants.MainType.BORDER:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BORDERS));
+        //         break;
+        //     case AppConstants.MainType.CARD_CAPTAIN:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
+        //         break;
+        //     case AppConstants.MainType.PET:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_PETS));
+        //         break;
+        //     case AppConstants.MainType.COLLABORATION_EQUIPMENT:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_COLLABORATION_EQUIPMENTS));
+        //         break;
+        //     case AppConstants.MainType.CARD_MILITARY:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_MILITARY));
+        //         break;
+        //     case AppConstants.MainType.CARD_SPELL:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_SPELLS));
+        //         break;
+        //     case AppConstants.MainType.COLLABORATION:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_COLLABORATIONS));
+        //         break;
+        //     case AppConstants.MainType.CARD_MONSTER:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_MONSTERS));
+        //         break;
+        //     case AppConstants.MainType.EQUIPMENT:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_EQUIPMENTS));
+        //         break;
+        //     case AppConstants.MainType.MEDAL:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_MEDALS));
+        //         break;
+        //     case AppConstants.MainType.SKILL:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SKILLS));
+        //         break;
+        //     case AppConstants.MainType.SYMBOL:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SYMBOLS));
+        //         break;
+        //     case AppConstants.MainType.TITLE:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_TITLES));
+        //         break;
+        //     case AppConstants.MainType.MAGIC_FORMATION_CIRCLE:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_MAGIC_FORMATION_CIRCLES));
+        //         break;
+        //     case AppConstants.MainType.RELIC:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_RELICS));
+        //         break;
+        //     case AppConstants.MainType.CARD_COLONEL:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
+        //         break;
+        //     case AppConstants.MainType.CARD_GENERAL:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
+        //         break;
+        //     case AppConstants.MainType.CARD_ADMIRAL:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
+        //         break;
+        //     case AppConstants.MainType.CARD_LIFE:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_LIVES));
+        //         break;
+        //     case AppConstants.MainType.SPIRIT_BEAST:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SPIRIT_BEASTS));
+        //         break;
+        //     case AppConstants.MainType.ACHIEVEMENT:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ACHIEVEMENTS));
+        //         break;
+        //     case AppConstants.MainType.ALCHEMY:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ALCHEMIES));
+        //         break;
+        //     case AppConstants.MainType.PUPPET:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_PUPPETS));
+        //         break;
+        //     case AppConstants.MainType.TALISMAN:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_TALISMANS));
+        //         break;
+        //     case AppConstants.MainType.FORGE:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_FORGES));
+        //         break;
+        //     case AppConstants.MainType.ARCHITECTURE:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ARCHITECTURES));
+        //         break;
+        //     case AppConstants.MainType.ARTWORK:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ARTWORKS));
+        //         break;
+        //     case AppConstants.MainType.BADGE:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BADGES));
+        //         break;
+        //     case AppConstants.MainType.FOOD:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_FOODS));
+        //         break;
+        //     case AppConstants.MainType.BEVERAGE:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BEVERAGES));
+        //         break;
+        //     case AppConstants.MainType.BUILDING:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BUILDINGS));
+        //         break;
+        //     case AppConstants.MainType.ARTIFACT:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ARTIFACTS));
+        //         break;
+        //     case AppConstants.MainType.CORE:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CORES));
+        //         break;
+        //     case AppConstants.MainType.FURNITURE:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_FURNITURES));
+        //         break;
+        //     case AppConstants.MainType.MECHA_BEAST:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_MECHA_BEASTS));
+        //         break;
+        //     case AppConstants.MainType.PLANT:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_PLANTS));
+        //         break;
+        //     case AppConstants.MainType.ROBOT:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ROBOTS));
+        //         break;
+        //     case AppConstants.MainType.RUNE:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_RUNES));
+        //         break;
+        //     case AppConstants.MainType.SPIRIT_CARD:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SPIRIT_CARDS));
+        //         break;
+        //     case AppConstants.MainType.TECHNOLOGY:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_TECHNOLOGIES));
+        //         break;
+        //     case AppConstants.MainType.VEHICLE:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_VEHICLES));
+        //         break;
+        //     case AppConstants.MainType.WEAPON:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_WEAPONS));
+        //         break;
+        //     case AppConstants.MainType.EMOJI:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_EMOJIS));
+        //         break;
+        //     case AppConstants.MainType.CARD_SOLDIER:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_SOLDIERS));
+        //         break;
+        //     default:
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
+        //         break;
+        // }
         return items;
     }
     public async Task<List<Items>> GetItemForBreakthourghAsync(string type)

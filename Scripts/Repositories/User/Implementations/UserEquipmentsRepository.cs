@@ -475,7 +475,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                 Id = reader.GetStringSafe("equipment_id"),
                                 Level = reader.GetIntSafe("level"),
                                 Quality = reader.GetDoubleSafe("quality"),
-                                Experiment = reader.GetDoubleSafe("experiment"),
+                                Experience = reader.GetDoubleSafe("experience"),
                                 Star = reader.GetIntSafe("star"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
@@ -640,7 +640,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 string insertSQL = @"
                 INSERT INTO user_equipments (
-                    user_id, equipment_id, rare, level, experiment, star, quality, block, quantity,
+                    user_id, equipment_id, rare, level, experience, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -656,7 +656,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     special_magical_defense, special_chemical_attack, special_chemical_defense, special_atomic_attack,
                     special_atomic_defense, special_mental_attack, special_mental_defense, special_speed
                 ) VALUES (
-                    @user_id, @equipment_id, @rare, @level, @experiment, @star, @quality, @block, @quantity,
+                    @user_id, @equipment_id, @rare, @level, @experience, @star, @quality, @block, @quantity,
                     @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -679,7 +679,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                     insertCommand.Parameters.AddWithValue("@equipment_id", Id);
                     insertCommand.Parameters.AddWithValue("@rare", equipment.Rare);
                     insertCommand.Parameters.AddWithValue("@level", 0);
-                    insertCommand.Parameters.AddWithValue("@experiment", 0);
+                    insertCommand.Parameters.AddWithValue("@experience", 0);
                     insertCommand.Parameters.AddWithValue("@star", 0);
                     insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(equipment.Rare));
                     insertCommand.Parameters.AddWithValue("@block", false);
@@ -788,7 +788,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 stringBuilder.Append(@"
                 INSERT INTO user_equipments (
-                    user_id, equipment_id, rare, level, experiment, star, quality, block, quantity,
+                    user_id, equipment_id, rare, level, experience, star, quality, block, quantity,
                     power, health, physical_attack, physical_defense, magical_attack, magical_defense,
                     chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
                     speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,

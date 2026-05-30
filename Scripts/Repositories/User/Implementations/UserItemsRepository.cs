@@ -185,6 +185,116 @@ public class UserItemsRepository : IUserItemsRepository
 
         return items;
     }
+    public async Task<Items> GetUserItemByCodeNameAsync(string codeName)
+    {
+        Items items = new Items();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT i.id AS itemId, i.name AS itemName, i.code_name AS itemCodeName, i.image AS itemImage,
+                       IFNULL(ui.quantity, 0) AS quantity
+                FROM items i
+                LEFT JOIN user_items ui ON ui.item_id = i.id AND ui.user_id = @userId
+                WHERE i.code_name = @code_name";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@code_name", codeName);
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync()) // Nếu có dữ liệu
+                        {
+                            items.Id = reader.GetStringSafe("itemId");
+                            items.Name = reader["itemName"]?.ToString() ?? string.Empty;
+                            items.CodeName = reader["itemCodeName"]?.ToString() ?? string.Empty;
+                            items.Image = reader["itemImage"]?.ToString() ?? string.Empty;
+                            items.Quantity = reader["quantity"] != DBNull.Value
+                                             ? Convert.ToDouble(reader["quantity"])
+                                             : 0;
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return items;
+    }
+    public async Task<ItemExperienceDTO> GetUserItemExperienceByCodeNameAsync(string codeName)
+    {
+        ItemExperienceDTO item = null;
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT
+                    i.id AS itemId,
+                    i.name AS itemName,
+                    i.code_name AS itemCodeName,
+                    i.image AS itemImage,
+                    IFNULL(ui.quantity, 0) AS quantity,
+                    IFNULL(iec.experience_value, 0) AS experience_value
+                FROM items i
+                LEFT JOIN user_items ui
+                    ON ui.item_id = i.id
+                    AND ui.user_id = @userId
+                LEFT JOIN item_experience_configs iec
+                    ON iec.item_id = i.id
+                WHERE i.code_name = @code_name";
+
+                await using (MySqlCommand command =
+                    new MySqlCommand(selectSQL, connection))
+                {
+                    command.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@code_name", codeName);
+
+                    await using (MySqlDataReader reader =
+                        await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            item = new ItemExperienceDTO
+                            {
+                                Id = reader.GetStringSafe("itemId"),
+                                Name = reader["itemName"]?.ToString() ?? "",
+                                CodeName = reader["itemCodeName"]?.ToString() ?? "",
+                                Image = reader["itemImage"]?.ToString() ?? "",
+                                Quantity = Convert.ToDouble(reader["quantity"]),
+                                ExperienceValue = Convert.ToDouble(reader["experience_value"])
+                            };
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError(ex.Message);
+            }
+        }
+
+        return item;
+    }
     public async Task<bool> InsertUserItemAsync(Items item, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
