@@ -41,9 +41,14 @@ public class UserRelicsService : IUserRelicsService
         return await _userRelicsRepository.InsertUserRelicAsync(relic, userId);
     }
 
-    public async Task<bool> UpdateRelicLevelAsync(Relics relic, int level)
+    public async Task<bool> UpdateRelicLevelAsync(Relics relic)
     {
-        return await _userRelicsRepository.UpdateRelicLevelAsync(relic, level);
+        return await _userRelicsRepository.UpdateRelicLevelAsync(relic);
+    }
+
+    public async Task<bool> UpdateRelicStarAsync(Relics relic)
+    {
+        return await _userRelicsRepository.UpdateRelicStarAsync(relic);
     }
 
     public async Task<bool> UpdateRelicBreakthroughAsync(Relics relic, int star, double quantity)

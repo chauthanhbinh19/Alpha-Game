@@ -7,7 +7,8 @@ public interface IUserSymbolsRepository
     Task<int> GetUserSymbolsCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserSymbolAsync(Symbols symbol, string userId);
     Task<bool> InsertOrUpdateUserSymbolsBatchAsync(List<Symbols> symbols);
-    Task<bool> UpdateSymbolLevelAsync(Symbols symbol, int level);
+    Task<bool> UpdateSymbolLevelAsync(Symbols symbol);
+    Task<bool> UpdateSymbolStarAsync(Symbols symbol);
     Task<bool> UpdateSymbolBreakthroughAsync(Symbols symbol, int star, double quantity);
     Task<Symbols> GetUserSymbolByIdAsync(string user_id, string Id);
     Task<Symbols> SumPowerUserSymbolsAsync();

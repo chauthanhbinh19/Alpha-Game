@@ -38,9 +38,14 @@ public class UserSkillsService : IUserSkillsService
         return await _userSkillsRepository.InsertUserSkillAsync(skill);
     }
 
-    public async Task<bool> UpdateSkillsLevelAsync(Skills skill, int level)
+    public async Task<bool> UpdateSkillsLevelAsync(Skills skill)
     {
-        return await _userSkillsRepository.UpdateSkillLevelAsync(skill, level);
+        return await _userSkillsRepository.UpdateSkillLevelAsync(skill);
+    }
+
+    public async Task<bool> UpdateSkillsStarAsync(Skills skill)
+    {
+        return await _userSkillsRepository.UpdateSkillStarAsync(skill);
     }
 
     public async Task<bool> UpdateSkillsBreakthroughAsync(Skills skill, int star, double quantity)

@@ -13,7 +13,8 @@ public interface IUserCardGeneralsRepository
     Task<int> GetUserCardGeneralsTeamsCountAsync(string user_id, string team_id);
     Task<bool> InsertUserCardGeneralAsync(CardGenerals cardGeneral);
     Task<bool> InsertOrUpdateUserCardGeneralsBatchAsync(List<CardGenerals> cardGenerals);
-    Task<bool> UpdateCardGeneralLevelAsync(CardGenerals cardGeneral, int level);
+    Task<bool> UpdateCardGeneralLevelAsync(CardGenerals cardGeneral);
+    Task<bool> UpdateCardGeneralStarAsync(CardGenerals cardGeneral);
     Task<bool> UpdateCardGeneralBreakthroughAsync(CardGenerals cardGeneral, int star, double quantity);
     Task<CardGenerals> GetUserCardGeneralByIdAsync(string user_id, string Id);
     Task<List<CardGenerals>> GetAllUserCardGeneralsInTeamAsync(string user_id);

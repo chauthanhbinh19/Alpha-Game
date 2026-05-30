@@ -606,9 +606,14 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         return await _userCardSoldiersRepository.InsertUserCardSoldierAsync(cardAdmiral);
     }
 
-    public async Task<bool> UpdateCardSoldierLevelAsync(CardSoldiers cardAdmiral, int level)
+    public async Task<bool> UpdateCardSoldierLevelAsync(CardSoldiers cardAdmiral)
     {
-        return await _userCardSoldiersRepository.UpdateCardSoldierLevelAsync(cardAdmiral, level);
+        return await _userCardSoldiersRepository.UpdateCardSoldierLevelAsync(cardAdmiral);
+    }
+
+    public async Task<bool> UpdateCardSoldierStarAsync(CardSoldiers cardAdmiral)
+    {
+        return await _userCardSoldiersRepository.UpdateCardSoldierStarAsync(cardAdmiral);
     }
 
     public async Task<bool> UpdateCardSoldierBreakthroughAsync(CardSoldiers cardAdmiral, int star, double quantity)

@@ -527,7 +527,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
         return true;
     }
-    public async Task<bool> UpdateAlchemyLevelAsync(Alchemies alchemy, int level)
+    public async Task<bool> UpdateAlchemyLevelAsync(Alchemies alchemy)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -540,32 +540,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 string updateSQL = @"
                 UPDATE user_alchemies
                 SET 
-                    level = @level, power = @power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, 
-                    ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
+                    level = @level, experience = @experience
                 WHERE user_id = @user_id AND alchemy_id = @alchemy_id;
             ";
 
@@ -573,57 +548,47 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
-                    updateCommand.Parameters.AddWithValue("@level", level);
-                    updateCommand.Parameters.AddWithValue("@power", alchemy.Power);
-                    updateCommand.Parameters.AddWithValue("@health", alchemy.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", alchemy.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", alchemy.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", alchemy.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", alchemy.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", alchemy.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", alchemy.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", alchemy.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", alchemy.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", alchemy.MentalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", alchemy.MentalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", alchemy.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", alchemy.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", alchemy.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", alchemy.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", alchemy.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", alchemy.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", alchemy.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", alchemy.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", alchemy.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", alchemy.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", alchemy.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", alchemy.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", alchemy.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", alchemy.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", alchemy.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", alchemy.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", alchemy.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", alchemy.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", alchemy.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", alchemy.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", alchemy.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", alchemy.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", alchemy.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", alchemy.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", alchemy.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", alchemy.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", alchemy.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", alchemy.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", alchemy.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", alchemy.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", alchemy.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", alchemy.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", alchemy.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", alchemy.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", alchemy.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", alchemy.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", alchemy.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", alchemy.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@level", alchemy.Level);
+                    updateCommand.Parameters.AddWithValue("@experience", alchemy.Experience);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+    public async Task<bool> UpdateAlchemyStarAsync(Alchemies alchemy)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_alchemies
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND alchemy_id = @alchemy_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
+                    updateCommand.Parameters.AddWithValue("@star", alchemy.Star);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

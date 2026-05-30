@@ -13,7 +13,8 @@ public interface IUserCardCaptainsRepository
     Task<int> GetUserCardCaptainsTeamsCountAsync(string user_id, string team_id);
     Task<bool> InsertUserCardCaptainAsync(CardCaptains cardCaptain);
     Task<bool> InsertOrUpdateUserCardCaptainsBatchAsync(List<CardCaptains> cardCaptains);
-    Task<bool> UpdateCardCaptainLevelAsync(CardCaptains cardCaptain, int cardLevel);
+    Task<bool> UpdateCardCaptainLevelAsync(CardCaptains cardCaptain);
+    Task<bool> UpdateCardCaptainStarAsync(CardCaptains cardCaptain);
     Task<bool> UpdateCardCaptainBreakthroughAsync(CardCaptains cardCaptain, int star, double quantity);
     Task<CardCaptains> GetUserCardCaptainByIdAsync(string user_id, string Id);
     Task<List<CardCaptains>> GetAllUserCardCaptainsInTeamAsync(string user_id);

@@ -38,9 +38,14 @@ public class UserEmojisService : IUserEmojisService
         return await _userEmojisRepository.InsertUserEmojiAsync(emoji, userId);
     }
 
-    public async Task<bool> UpdateEmojiLevelAsync(Emojis emoji, int level)
+    public async Task<bool> UpdateEmojiLevelAsync(Emojis emoji)
     {
-        return await _userEmojisRepository.UpdateEmojiLevelAsync(emoji, level);
+        return await _userEmojisRepository.UpdateEmojiLevelAsync(emoji);
+    }
+
+    public async Task<bool> UpdateEmojiStarAsync(Emojis emoji)
+    {
+        return await _userEmojisRepository.UpdateEmojiStarAsync(emoji);
     }
 
     public async Task<bool> UpdateEmojiBreakthroughAsync(Emojis emoji, int star, double quantity)

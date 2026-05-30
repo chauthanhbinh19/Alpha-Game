@@ -663,6 +663,85 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
         return true;
     }
+    public async Task<bool> UpdateAvatarLevelAsync(Avatars avatar)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_avatars
+                SET 
+                    level = @level, experience = @experience
+                WHERE user_id = @user_id AND avatar_id = @avatar_id;
+            ";
+
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@avatar_id", avatar.Id);
+                updateCommand.Parameters.AddWithValue("@level", avatar.Level);
+                updateCommand.Parameters.AddWithValue("@experience", avatar.Experience);
+
+                await updateCommand.ExecuteNonQueryAsync();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+    public async Task<bool> UpdateAvatarStarAsync(Avatars avatar)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_avatars
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND avatar_id = @avatar_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@avatar_id", avatar.Id);
+                    updateCommand.Parameters.AddWithValue("@star", avatar.Star);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+
     public async Task<Avatars> GetAvatarByUsedAsync(string userId)
     {
         Avatars avatar = new Avatars();

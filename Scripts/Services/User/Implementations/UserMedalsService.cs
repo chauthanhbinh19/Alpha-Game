@@ -38,9 +38,14 @@ public class UserMedalsService : IUserMedalsService
         return await _userMedalsRepository.InsertUserMedalAsync(medal, userId);
     }
 
-    public async Task<bool> UpdateMedalLevelAsync(Medals medal, int level)
+    public async Task<bool> UpdateMedalLevelAsync(Medals medal)
     {
-        return await _userMedalsRepository.UpdateMedalLevelAsync(medal, level);
+        return await _userMedalsRepository.UpdateMedalLevelAsync(medal);
+    }
+
+    public async Task<bool> UpdateMedalStarAsync(Medals medal)
+    {
+        return await _userMedalsRepository.UpdateMedalStarAsync(medal);
     }
 
     public async Task<bool> UpdateMedalBreakthroughAsync(Medals medal, int star, double quantity)

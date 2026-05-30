@@ -39,9 +39,14 @@ public class UserArtworksService : IUserArtworksService
         return await _userArtworksRepository.InsertUserArtworkAsync(artwork, userId);
     }
 
-    public async Task<bool> UpdateArtworkLevelAsync(Artworks artwork, int level)
+    public async Task<bool> UpdateArtworkLevelAsync(Artworks artwork)
     {
-        return await _userArtworksRepository.UpdateArtworkLevelAsync(artwork, level);
+        return await _userArtworksRepository.UpdateArtworkLevelAsync(artwork);
+    }
+
+    public async Task<bool> UpdateArtworkStarAsync(Artworks artwork)
+    {
+        return await _userArtworksRepository.UpdateArtworkStarAsync(artwork);
     }
 
     public async Task<bool> UpdateArtworkBreakthroughAsync(Artworks artwork, int star, double quantity)

@@ -606,9 +606,14 @@ public class UserCardSpellsService : IUserCardSpellsService
         return await _userCardSpellsRepository.InsertUserCardSpellAsync(cardSpell);
     }
 
-    public async Task<bool> UpdateCardSpellLevelAsync(CardSpells cardSpell, int level)
+    public async Task<bool> UpdateCardSpellLevelAsync(CardSpells cardSpell)
     {
-        return await _userCardSpellsRepository.UpdateCardSpellLevelAsync(cardSpell, level);
+        return await _userCardSpellsRepository.UpdateCardSpellLevelAsync(cardSpell);
+    }
+
+    public async Task<bool> UpdateCardSpellStarAsync(CardSpells cardSpell)
+    {
+        return await _userCardSpellsRepository.UpdateCardSpellStarAsync(cardSpell);
     }
 
     public async Task<bool> UpdateCardSpellBreakthroughAsync(CardSpells cardSpell, int star, double quantity)

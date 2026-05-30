@@ -506,7 +506,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
         return true;
     }
-    public async Task<bool> UpdateAchievementLevelAsync(Achievements achievement, int level)
+    public async Task<bool> UpdateAchievementLevelAsync(Achievements achievement)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -519,31 +519,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 string updateSQL = @"
                 UPDATE user_achievements
                 SET 
-                    level = @level, power = @power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
+                    level = @level, experience = @experience
                 WHERE user_id = @user_id AND achievement_id = @achievement_id;
             ";
 
@@ -551,57 +527,46 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
                 updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 updateCommand.Parameters.AddWithValue("@achievement_id", achievement.Id);
-                updateCommand.Parameters.AddWithValue("@level", level);
-                updateCommand.Parameters.AddWithValue("@power", achievement.Power);
-                updateCommand.Parameters.AddWithValue("@health", achievement.Health);
-                updateCommand.Parameters.AddWithValue("@physical_attack", achievement.PhysicalAttack);
-                updateCommand.Parameters.AddWithValue("@physical_defense", achievement.PhysicalDefense);
-                updateCommand.Parameters.AddWithValue("@magical_attack", achievement.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@magical_defense", achievement.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@chemical_attack", achievement.ChemicalAttack);
-                updateCommand.Parameters.AddWithValue("@chemical_defense", achievement.ChemicalDefense);
-                updateCommand.Parameters.AddWithValue("@atomic_attack", achievement.AtomicAttack);
-                updateCommand.Parameters.AddWithValue("@atomic_defense", achievement.AtomicDefense);
-                updateCommand.Parameters.AddWithValue("@mental_attack", achievement.MentalAttack);
-                updateCommand.Parameters.AddWithValue("@mental_defense", achievement.MentalDefense);
-                updateCommand.Parameters.AddWithValue("@speed", achievement.Speed);
-                updateCommand.Parameters.AddWithValue("@critical_damage_rate", achievement.CriticalDamageRate);
-                updateCommand.Parameters.AddWithValue("@critical_rate", achievement.CriticalRate);
-                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", achievement.CriticalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", achievement.IgnoreCriticalRate);
-                updateCommand.Parameters.AddWithValue("@penetration_rate", achievement.PenetrationRate);
-                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", achievement.PenetrationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@evasion_rate", achievement.EvasionRate);
-                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", achievement.DamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", achievement.IgnoreDamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", achievement.AbsorbedDamageRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", achievement.VitalityRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", achievement.VitalityRegenerationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@accuracy_rate", achievement.AccuracyRate);
-                updateCommand.Parameters.AddWithValue("@lifesteal_rate", achievement.LifestealRate);
-                updateCommand.Parameters.AddWithValue("@shield_strength", achievement.ShieldStrength);
-                updateCommand.Parameters.AddWithValue("@tenacity", achievement.Tenacity);
-                updateCommand.Parameters.AddWithValue("@resistance_rate", achievement.ResistanceRate);
-                updateCommand.Parameters.AddWithValue("@combo_rate", achievement.ComboRate);
-                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", achievement.IgnoreComboRate);
-                updateCommand.Parameters.AddWithValue("@combo_damage_rate", achievement.ComboDamageRate);
-                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", achievement.ComboResistanceRate);
-                updateCommand.Parameters.AddWithValue("@stun_rate", achievement.StunRate);
-                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", achievement.IgnoreStunRate);
-                updateCommand.Parameters.AddWithValue("@reflection_rate", achievement.ReflectionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", achievement.IgnoreReflectionRate);
-                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", achievement.ReflectionDamageRate);
-                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", achievement.ReflectionResistanceRate);
-                updateCommand.Parameters.AddWithValue("@mana", achievement.Mana);
-                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", achievement.ManaRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", achievement.DamageToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", achievement.ResistanceToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", achievement.DamageToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", achievement.ResistanceToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@normal_damage_rate", achievement.NormalDamageRate);
-                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", achievement.NormalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@skill_damage_rate", achievement.SkillDamageRate);
-                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", achievement.SkillResistanceRate);
+                updateCommand.Parameters.AddWithValue("@level", achievement.Level);
+                updateCommand.Parameters.AddWithValue("@experience", achievement.Experience);
+
+                await updateCommand.ExecuteNonQueryAsync();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+    public async Task<bool> UpdateAchievementStarAsync(Achievements achievement)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_achievements
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND achievement_id = @achievement_id;
+            ";
+
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@achievement_id", achievement.Id);
+                updateCommand.Parameters.AddWithValue("@star", achievement.Star);
 
                 await updateCommand.ExecuteNonQueryAsync();
             }

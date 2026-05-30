@@ -41,9 +41,14 @@ public class UserAchievementsService : IUserAchievementsService
         return await _userAchievementsRepository.InsertUserAchievementsAsync(achievement, userId);
     }
 
-    public async Task<bool> UpdateAchievementLevelAsync(Achievements achievement, int level)
+    public async Task<bool> UpdateAchievementLevelAsync(Achievements achievement)
     {
-        return await _userAchievementsRepository.UpdateAchievementLevelAsync(achievement, level);
+        return await _userAchievementsRepository.UpdateAchievementLevelAsync(achievement);
+    }
+
+    public async Task<bool> UpdateAchievementStarAsync(Achievements achievement)
+    {
+        return await _userAchievementsRepository.UpdateAchievementStarAsync(achievement);
     }
 
     public async Task<bool> UpdateAchievementBreakthroughAsync(Achievements achievement, int star, double quantity)

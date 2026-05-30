@@ -606,9 +606,14 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         return await _userCardMilitariesRepository.InsertUserCardMilitaryAsync(cardMilitary);
     }
 
-    public async Task<bool> UpdateCardMilitaryLevelAsync(CardMilitaries cardMilitary, int level)
+    public async Task<bool> UpdateCardMilitaryLevelAsync(CardMilitaries cardMilitary)
     {
-        return await _userCardMilitariesRepository.UpdateCardMilitaryLevelAsync(cardMilitary, level);
+        return await _userCardMilitariesRepository.UpdateCardMilitaryLevelAsync(cardMilitary);
+    }
+
+    public async Task<bool> UpdateCardMilitaryStarAsync(CardMilitaries cardMilitary)
+    {
+        return await _userCardMilitariesRepository.UpdateCardMilitaryStarAsync(cardMilitary);
     }
 
     public async Task<bool> UpdateCardMilitaryBreakthroughAsync(CardMilitaries cardMilitary, int star, double quantity)

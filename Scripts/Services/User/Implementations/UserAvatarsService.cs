@@ -45,6 +45,16 @@ public class UserAvatarsService : IUserAvatarsService
         return await _userAvatarsRepository.InsertUserAvatarByIdAsync(await _service.GetAvatarByIdAsync(avatarId), userId);
     }
 
+    public async Task<bool> UpdateAvatarLevelAsync(Avatars avatar)
+    {
+        return await _userAvatarsRepository.UpdateAvatarLevelAsync(avatar);
+    }
+
+    public async Task<bool> UpdateAvatarStarAsync(Avatars avatar)
+    {
+        return await _userAvatarsRepository.UpdateAvatarStarAsync(avatar);
+    }
+
     public async Task<Avatars> GetAvatarByUsedAsync(string user_id)
     {
         return await _userAvatarsRepository.GetAvatarByUsedAsync(user_id);

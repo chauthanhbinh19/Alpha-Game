@@ -9,6 +9,8 @@ public interface IUserAvatarsRepository
     Task<bool> InsertUserAvatarByIdAsync(Avatars avatar, string userId);
     Task<bool> InsertOrUpdateUserAvatarsBatchAsync(List<Avatars> avatars);
     Task<Avatars> GetAvatarByUsedAsync(string user_id);
+    Task<bool> UpdateAvatarLevelAsync(Avatars avatar);
+    Task<bool> UpdateAvatarStarAsync(Avatars avatar);
     Task UpdateIsUsedAvatarAsync(string avatarId, string userId, bool is_used);
     Task<Avatars> SumPowerUserAvatarsAsync();
 }

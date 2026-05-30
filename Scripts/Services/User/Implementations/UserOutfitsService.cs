@@ -38,9 +38,14 @@ public class UserOutfitsService : IUserOutfitsService
         return await _userOutfitsRepository.InsertUserOutfitAsync(outfit, userId);
     }
 
-    public async Task<bool> UpdateOutfitLevelAsync(Outfits outfit, int level)
+    public async Task<bool> UpdateOutfitLevelAsync(Outfits outfit)
     {
-        return await _userOutfitsRepository.UpdateOutfitLevelAsync(outfit, level);
+        return await _userOutfitsRepository.UpdateOutfitLevelAsync(outfit);
+    }
+
+    public async Task<bool> UpdateOutfitStarAsync(Outfits outfit)
+    {
+        return await _userOutfitsRepository.UpdateOutfitStarAsync(outfit);
     }
 
     public async Task<bool> UpdateOutfitBreakthroughAsync(Outfits outfit, int star, double quantity)

@@ -601,9 +601,14 @@ public class UserCardMonstersService : IUserCardMonstersService
         return await _userCardMonstersRepository.InsertUserCardMonsterAsync(cardMonster);
     }
 
-    public async Task<bool> UpdateCardMonsterLevelAsync(CardMonsters cardMonster, int level)
+    public async Task<bool> UpdateCardMonsterLevelAsync(CardMonsters cardMonster)
     {
-        return await _userCardMonstersRepository.UpdateCardMonsterLevelAsync(cardMonster, level);
+        return await _userCardMonstersRepository.UpdateCardMonsterLevelAsync(cardMonster);
+    }
+
+    public async Task<bool> UpdateCardMonsterStarAsync(CardMonsters cardMonster)
+    {
+        return await _userCardMonstersRepository.UpdateCardMonsterStarAsync(cardMonster);
     }
 
     public async Task<bool> UpdateCardMonsterBreakthroughAsync(CardMonsters cardMonster, int star, double quantity)

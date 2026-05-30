@@ -38,9 +38,14 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
         return await _userCollaborationEquipmentsRepository.InsertUserCollaborationEquipmentAsync(collaborationEquipment, userId);
     }
 
-    public async Task<bool> UpdateCollaborationEquipmentLevelAsync(CollaborationEquipments collaborationEquipment, int level)
+    public async Task<bool> UpdateCollaborationEquipmentLevelAsync(CollaborationEquipments collaborationEquipment)
     {
-        return await _userCollaborationEquipmentsRepository.UpdateCollaborationEquipmentLevelAsync(collaborationEquipment, level);
+        return await _userCollaborationEquipmentsRepository.UpdateCollaborationEquipmentLevelAsync(collaborationEquipment);
+    }
+
+    public async Task<bool> UpdateCollaborationEquipmentStarAsync(CollaborationEquipments collaborationEquipment)
+    {
+        return await _userCollaborationEquipmentsRepository.UpdateCollaborationEquipmentStarAsync(collaborationEquipment);
     }
 
     public async Task<bool> UpdateCollaborationEquipmentBreakthroughAsync(CollaborationEquipments collaborationEquipment, int star, double quantity)

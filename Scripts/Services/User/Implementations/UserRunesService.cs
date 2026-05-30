@@ -38,9 +38,14 @@ public class UserRunesService : IUserRunesService
         return await _userRunesRepository.InsertUserRuneAsync(rune, userId);
     }
 
-    public async Task<bool> UpdateRuneLevelAsync(Runes rune, int level)
+    public async Task<bool> UpdateRuneLevelAsync(Runes rune)
     {
-        return await _userRunesRepository.UpdateRuneLevelAsync(rune, level);
+        return await _userRunesRepository.UpdateRuneLevelAsync(rune);
+    }
+
+    public async Task<bool> UpdateRuneStarAsync(Runes rune)
+    {
+        return await _userRunesRepository.UpdateRuneStarAsync(rune);
     }
 
     public async Task<bool> UpdateRuneBreakthroughAsync(Runes rune, int star, double quantity)

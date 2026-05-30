@@ -7,7 +7,8 @@ public interface IUserMagicFormationCirclesService
     Task<int> GetUserMagicFormationCirclesCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserMagicFormationCircleAsync(MagicFormationCircles magicFormationCircle, string userId);
     Task<bool> InsertOrUpdateUserMagicFormationCirclesBatchAsync(List<MagicFormationCircles> magicFormationCircles);
-    Task<bool> UpdateMagicFormationCircleLevelAsync(MagicFormationCircles magicFormationCircle, int level);
+    Task<bool> UpdateMagicFormationCircleLevelAsync(MagicFormationCircles magicFormationCircle);
+    Task<bool> UpdateMagicFormationCircleStarAsync(MagicFormationCircles magicFormationCircle);
     Task<bool> UpdateMagicFormationCircleBreakthroughAsync(MagicFormationCircles magicFormationCircle, int star, double quantity);
     Task<MagicFormationCircles> GetUserMagicFormationCircleByIdAsync(string user_id, string Id);
     Task<MagicFormationCircles> SumPowerUserMagicFormationCirclesAsync();

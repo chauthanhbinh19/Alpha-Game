@@ -7,7 +7,8 @@ public interface IUserSkillsService
     Task<int> GetUserSkillsCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserSkillsAsync(Skills skill);
     Task<bool> InsertOrUpdateUserSkillsBatchAsync(List<Skills> skills);
-    Task<bool> UpdateSkillsLevelAsync(Skills skill, int level);
+    Task<bool> UpdateSkillsLevelAsync(Skills skill);
+    Task<bool> UpdateSkillsStarAsync(Skills skill);
     Task<bool> UpdateSkillsBreakthroughAsync(Skills skill, int star, double quantity);
     Task<Skills> GetUserSkillsByIdAsync(string user_id, string Id);
     Task<List<Skills>> GetUserCardHeroesSkillsAsync(string user_id, string cardId);

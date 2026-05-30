@@ -9,7 +9,8 @@ public interface IUserSpiritBeastsService
     Task<int> GetUserSpiritBeastsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserSpiritBeastAsync(SpiritBeasts spiritBeast);
     Task<bool> InsertOrUpdateUserSpiritBeastsBatchAsync(List<SpiritBeasts> spiritBeasts);
-    Task<bool> UpdateSpiritBeastLevelAsync(SpiritBeasts spiritBeast, int level);
+    Task<bool> UpdateSpiritBeastLevelAsync(SpiritBeasts spiritBeast);
+    Task<bool> UpdateSpiritBeastStarAsync(SpiritBeasts spiritBeast);
     Task<bool> UpdateSpiritBeastBreakthroughAsync(SpiritBeasts spiritBeast, int star, double quantity);
     Task<SpiritBeasts> GetUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHeroes);
     Task<SpiritBeasts> GetUserCardCaptainSpiritBeastAsync(string userId, CardCaptains cardCaptains);

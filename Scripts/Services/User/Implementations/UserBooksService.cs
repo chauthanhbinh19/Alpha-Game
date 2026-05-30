@@ -421,9 +421,14 @@ public class UserBooksService : IUserBooksService
         return await _userBooksRepository.InsertUserBookAsync(book);
     }
 
-    public async Task<bool> UpdateBookLevelAsync(Books book, int level)
+    public async Task<bool> UpdateBookLevelAsync(Books book)
     {
-        return await _userBooksRepository.UpdateBookLevelAsync(book, level);
+        return await _userBooksRepository.UpdateBookLevelAsync(book);
+    }
+
+    public async Task<bool> UpdateBookStarAsync(Books book)
+    {
+        return await _userBooksRepository.UpdateBookStarAsync(book);
     }
 
     public async Task<bool> UpdateBookBreakthroughAsync(Books book, int star, double quantity)

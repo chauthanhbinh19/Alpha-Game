@@ -7,7 +7,8 @@ public interface IUserPlantsService
     Task<int> GetUserPlantsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserPlantAsync(Plants plant, string userId);
     Task<bool> InsertOrUpdateUserPlantsBatchAsync(List<Plants> plants);
-    Task<bool> UpdatePlantLevelAsync(Plants plant, int level);
+    Task<bool> UpdatePlantLevelAsync(Plants plant);
+    Task<bool> UpdatePlantStarAsync(Plants plant);
     Task<bool> UpdatePlantBreakthroughAsync(Plants plant, int star, double quantity);
     Task<Plants> GetUserPlantByIdAsync(string user_id, string Id);
     Task<Plants> SumPowerUserPlantsAsync();

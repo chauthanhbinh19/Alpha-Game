@@ -39,9 +39,14 @@ public class UserAlchemiesService : IUserAlchemiesService
         return await _userAlchemiesRepository.InsertUserAlchemyAsync(alchemy, userId);
     }
 
-    public async Task<bool> UpdateAlchemyLevelAsync(Alchemies alchemy, int level)
+    public async Task<bool> UpdateAlchemyLevelAsync(Alchemies alchemy)
     {
-        return await _userAlchemiesRepository.UpdateAlchemyLevelAsync(alchemy, level);
+        return await _userAlchemiesRepository.UpdateAlchemyLevelAsync(alchemy);
+    }
+
+    public async Task<bool> UpdateAlchemyStarAsync(Alchemies alchemy)
+    {
+        return await _userAlchemiesRepository.UpdateAlchemyStarAsync(alchemy);
     }
 
     public async Task<bool> UpdateAlchemyBreakthroughAsync(Alchemies alchemy, int star, double quantity)

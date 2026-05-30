@@ -7,7 +7,8 @@ public interface IUserVehiclesRepository
     Task<int> GetUserVehiclesCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserVehicleAsync(Vehicles vehicle, string userId);
     Task<bool> InsertOrUpdateUserVehiclesBatchAsync(List<Vehicles> vehicles);
-    Task<bool> UpdateVehicleLevelAsync(Vehicles vehicle, int level);
+    Task<bool> UpdateVehicleLevelAsync(Vehicles vehicle);
+    Task<bool> UpdateVehicleStarAsync(Vehicles vehicle);
     Task<bool> UpdateVehicleBreakthroughAsync(Vehicles vehicle, int star, double quantity);
     Task<Vehicles> GetUserVehicleByIdAsync(string user_id, string Id);
     Task<Vehicles> SumPowerUserVehiclesAsync();

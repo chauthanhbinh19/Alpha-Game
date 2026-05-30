@@ -10,7 +10,8 @@ public interface IUserArtworksService
     Task<int> GetUserArtworksCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserArtworkAsync(Artworks artwork, string userId);
     Task<bool> InsertOrUpdateUserArtworksBatchAsync(List<Artworks> artworks);
-    Task<bool> UpdateArtworkLevelAsync(Artworks artwork, int cardLevel);
+    Task<bool> UpdateArtworkLevelAsync(Artworks artwork);
+    Task<bool> UpdateArtworkStarAsync(Artworks artwork);
     Task<bool> UpdateArtworkBreakthroughAsync(Artworks artwork, int star, double quantity);
     Task<Artworks> GetUserArtworkByIdAsync(string user_id, string Id);
     Task<Artworks> SumPowerUserArtworksAsync();

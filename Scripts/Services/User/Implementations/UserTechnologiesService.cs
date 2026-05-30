@@ -38,9 +38,14 @@ public class UserTechnologiesService : IUserTechnologiesService
         return await _userTechnologiesRepository.InsertUserTechnologyAsync(technology, userId);
     }
 
-    public async Task<bool> UpdateTechnologyLevelAsync(Technologies technology, int level)
+    public async Task<bool> UpdateTechnologyLevelAsync(Technologies technology)
     {
-        return await _userTechnologiesRepository.UpdateTechnologyLevelAsync(technology, level);
+        return await _userTechnologiesRepository.UpdateTechnologyLevelAsync(technology);
+    }
+
+    public async Task<bool> UpdateTechnologyStarAsync(Technologies technology)
+    {
+        return await _userTechnologiesRepository.UpdateTechnologyStarAsync(technology);
     }
 
     public async Task<bool> UpdateTechnologyBreakthroughAsync(Technologies technology, int star, double quantity)

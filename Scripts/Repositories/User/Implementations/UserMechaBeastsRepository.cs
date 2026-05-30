@@ -504,99 +504,29 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
         return true;
     }
-    public async Task<bool> UpdateMechaBeastLevelAsync(MechaBeasts mechaBeast, int level)
+    public async Task<bool> UpdateMechaBeastLevelAsync(MechaBeasts mechaBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
+
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 await connection.OpenAsync();
+
                 string updateSQL = @"
                 UPDATE user_mecha_beasts
                 SET 
-                    level = @level, power = @power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND mecha_beast_id = @mecha_beast_id;";
+                    level = @level, experience = @experience
+                WHERE user_id = @user_id AND mecha_beast_id = @mecha_beast_id;
+            ";
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@mecha_beast_id", mechaBeast.Id);
-                    updateCommand.Parameters.AddWithValue("@level", level);
-                    updateCommand.Parameters.AddWithValue("@power", mechaBeast.Power);
-                    updateCommand.Parameters.AddWithValue("@health", mechaBeast.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", mechaBeast.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", mechaBeast.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", mechaBeast.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", mechaBeast.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", mechaBeast.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", mechaBeast.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", mechaBeast.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", mechaBeast.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", mechaBeast.MentalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", mechaBeast.MentalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", mechaBeast.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", mechaBeast.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", mechaBeast.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", mechaBeast.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", mechaBeast.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", mechaBeast.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", mechaBeast.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", mechaBeast.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", mechaBeast.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", mechaBeast.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", mechaBeast.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", mechaBeast.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", mechaBeast.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", mechaBeast.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", mechaBeast.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", mechaBeast.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", mechaBeast.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", mechaBeast.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", mechaBeast.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", mechaBeast.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", mechaBeast.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", mechaBeast.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", mechaBeast.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", mechaBeast.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", mechaBeast.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", mechaBeast.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", mechaBeast.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", mechaBeast.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", mechaBeast.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", mechaBeast.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", mechaBeast.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", mechaBeast.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", mechaBeast.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", mechaBeast.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", mechaBeast.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", mechaBeast.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", mechaBeast.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", mechaBeast.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@level", mechaBeast.Level);
+                    updateCommand.Parameters.AddWithValue("@experience", mechaBeast.Experience);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -611,8 +541,49 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                 await connection.CloseAsync();
             }
         }
+
         return true;
     }
+    public async Task<bool> UpdateMechaBeastStarAsync(MechaBeasts mechaBeast)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_mecha_beasts
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND mecha_beast_id = @mecha_beast_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@mecha_beast_id", mechaBeast.Id);
+                    updateCommand.Parameters.AddWithValue("@star", mechaBeast.Star);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+
     public async Task<bool> UpdateMechaBeastBreakthroughAsync(MechaBeasts mechaBeast, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;

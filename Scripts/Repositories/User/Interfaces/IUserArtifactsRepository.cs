@@ -7,7 +7,8 @@ public interface IUserArtifactsRepository
     Task<int> GetUserArtifactsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserArtifactAsync(Artifacts artifact, string userId);
     Task<bool> InsertOrUpdateUserArtifactsBatchAsync(List<Artifacts> artifacts);
-    Task<bool> UpdateArtifactLevelAsync(Artifacts artifact, int cardLevel);
+    Task<bool> UpdateArtifactLevelAsync(Artifacts artifact);
+    Task<bool> UpdateArtifactStarAsync(Artifacts artifact);
     Task<bool> UpdateArtifactBreakthroughAsync(Artifacts artifact, int star, double quantity);
     Task<Artifacts> GetUserArtifactByIdAsync(string user_id, string Id);
     Task<Artifacts> SumPowerUserArtifactsAsync();

@@ -13,7 +13,8 @@ public interface IUserCardMonstersRepository
     Task<int> GetUserCardMonstersTeamsCountAsync(string user_id, string team_id);
     Task<bool> InsertUserCardMonsterAsync(CardMonsters cardMonster);
     Task<bool> InsertOrUpdateUserCardMonstersBatchAsync(List<CardMonsters> cardMonsters);
-    Task<bool> UpdateCardMonsterLevelAsync(CardMonsters cardMonster, int level);
+    Task<bool> UpdateCardMonsterLevelAsync(CardMonsters cardMonster);
+    Task<bool> UpdateCardMonsterStarAsync(CardMonsters cardMonster);
     Task<bool> UpdateCardMonsterBreakthroughAsync(CardMonsters cardMonster, int star, double quantity);
     Task<CardMonsters> GetUserCardMonsterByIdAsync(string user_id, string Id);
     Task<List<CardMonsters>> GetAllUserCardMonstersInTeamAsync(string user_id);

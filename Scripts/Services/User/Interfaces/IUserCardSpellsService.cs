@@ -18,7 +18,8 @@ public interface IUserCardSpellsService
     Task<int> GetUserCardSpellsTeamsCountAsync(string user_id, string team_id);
     Task<bool> InsertUserCardSpellAsync(CardSpells cardSpell);
     Task<bool> InsertOrUpdateUserCardSpellsBatchAsync(List<CardSpells> cardSpells);
-    Task<bool> UpdateCardSpellLevelAsync(CardSpells cardSpell, int level);
+    Task<bool> UpdateCardSpellLevelAsync(CardSpells cardSpell);
+    Task<bool> UpdateCardSpellStarAsync(CardSpells cardSpell);
     Task<bool> UpdateCardSpellBreakthroughAsync(CardSpells cardSpell, int star, double quantity);
     Task<CardSpells> GetUserCardSpellByIdAsync(string user_id, string Id);
     Task<List<CardSpells>> GetAllUserCardSpellsInTeamAsync(string user_id);

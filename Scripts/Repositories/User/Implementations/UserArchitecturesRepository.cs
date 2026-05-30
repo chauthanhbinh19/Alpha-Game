@@ -502,7 +502,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
         return true;
     }
-    public async Task<bool> UpdateArchitectureLevelAsync(Architectures architecture, int level)
+    public async Task<bool> UpdateArchitectureLevelAsync(Architectures architecture)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -515,88 +515,15 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                 string updateSQL = @"
                 UPDATE user_architectures
                 SET 
-                    level = @level, power = @power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
+                    level = @level, experience = @experience
                 WHERE user_id = @user_id AND architecture_id = @architecture_id;";
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@architecture_id", architecture.Id);
-                    updateCommand.Parameters.AddWithValue("@level", level);
-                    updateCommand.Parameters.AddWithValue("@power", architecture.Power);
-                    updateCommand.Parameters.AddWithValue("@health", architecture.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", architecture.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", architecture.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", architecture.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", architecture.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", architecture.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", architecture.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", architecture.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", architecture.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", architecture.MentalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", architecture.MentalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", architecture.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", architecture.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", architecture.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", architecture.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", architecture.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", architecture.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", architecture.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", architecture.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", architecture.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", architecture.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", architecture.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", architecture.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", architecture.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", architecture.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", architecture.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", architecture.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", architecture.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", architecture.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", architecture.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", architecture.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", architecture.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", architecture.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", architecture.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", architecture.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", architecture.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", architecture.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", architecture.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", architecture.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", architecture.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", architecture.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", architecture.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", architecture.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", architecture.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", architecture.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", architecture.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", architecture.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", architecture.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", architecture.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@level", architecture.Level);
+                    updateCommand.Parameters.AddWithValue("@experience", architecture.Experience);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -614,6 +541,46 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
         return true;
     }
+    public async Task<bool> UpdateArchitectureStarAsync(Architectures architecture)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_architectures
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND architecture_id = @architecture_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@architecture_id", architecture.Id);
+                    updateCommand.Parameters.AddWithValue("@star", architecture.Star);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+
     public async Task<bool> UpdateArchitectureBreakthroughAsync(Architectures architecture, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;

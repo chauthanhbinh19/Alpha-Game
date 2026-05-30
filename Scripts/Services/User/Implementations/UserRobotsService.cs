@@ -38,9 +38,14 @@ public class UserRobotsService : IUserRobotsService
         return await _userRobotsRepository.InsertUserRobotAsync(robot, userId);
     }
 
-    public async Task<bool> UpdateRobotLevelAsync(Robots robot, int level)
+    public async Task<bool> UpdateRobotLevelAsync(Robots robot)
     {
-        return await _userRobotsRepository.UpdateRobotLevelAsync(robot, level);
+        return await _userRobotsRepository.UpdateRobotLevelAsync(robot);
+    }
+
+    public async Task<bool> UpdateRobotStarAsync(Robots robot)
+    {
+        return await _userRobotsRepository.UpdateRobotStarAsync(robot);
     }
 
     public async Task<bool> UpdateRobotBreakthroughAsync(Robots robot, int star, double quantity)

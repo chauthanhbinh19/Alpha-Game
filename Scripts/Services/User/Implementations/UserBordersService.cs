@@ -45,6 +45,16 @@ public class UserBordersService : IUserBordersService
         return await _userBordersRepository.InsertUserBorderByIdAsync(await _service.GetBorderByIdAsync(borderId), userId);
     }
 
+    public async Task<bool> UpdateBorderLevelAsync(Borders border)
+    {
+        return await _userBordersRepository.UpdateBorderLevelAsync(border);
+    }
+
+    public async Task<bool> UpdateBorderStarAsync(Borders border)
+    {
+        return await _userBordersRepository.UpdateBorderStarAsync(border);
+    }
+
     public async Task<Borders> GetBorderByUsedAsync(string user_id)
     {
         return await _userBordersRepository.GetBorderByUsedAsync(user_id);

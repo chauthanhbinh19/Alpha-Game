@@ -7,7 +7,8 @@ public interface IUserWeaponsRepository
     Task<int> GetUserWeaponsCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserWeaponAsync(Weapons weapon, string userId);
     Task<bool> InsertOrUpdateUserWeaponsBatchAsync(List<Weapons> weapons);
-    Task<bool> UpdateWeaponLevelAsync(Weapons weapon, int level);
+    Task<bool> UpdateWeaponLevelAsync(Weapons weapon);
+    Task<bool> UpdateWeaponStarAsync(Weapons weapon);
     Task<bool> UpdateWeaponBreakthroughAsync(Weapons weapon, int star, double quantity);
     Task<Weapons> GetUserWeaponByIdAsync(string user_id, string Id);
     Task<Weapons> SumPowerUserWeaponsAsync();

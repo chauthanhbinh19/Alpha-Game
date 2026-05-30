@@ -41,9 +41,14 @@ public class UserCardLivesService : IUserCardLivesService
         return await _userCardLivesRepository.InsertUserCardLifeAsync(cardLife, userId);
     }
 
-    public async Task<bool> UpdateCardLifeLevelAsync(CardLives cardLife, int level)
+    public async Task<bool> UpdateCardLifeLevelAsync(CardLives cardLife)
     {
-        return await _userCardLivesRepository.UpdateCardLifeLevelAsync(cardLife, level);
+        return await _userCardLivesRepository.UpdateCardLifeLevelAsync(cardLife);
+    }
+
+    public async Task<bool> UpdateCardLifeStarAsync(CardLives cardLife)
+    {
+        return await _userCardLivesRepository.UpdateCardLifeStarAsync(cardLife);
     }
 
     public async Task<bool> UpdateCardLifeBreakthroughAsync(CardLives cardLife, int star, double quantity)

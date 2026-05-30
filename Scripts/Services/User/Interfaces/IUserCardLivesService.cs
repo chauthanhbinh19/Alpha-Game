@@ -7,7 +7,8 @@ public interface IUserCardLivesService
     Task<int> GetUserCardLivesCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserCardLifeAsync(CardLives cardLife, string userId);
     Task<bool> InsertOrUpdateUserCardLivesBatchAsync(List<CardLives> cardLives);
-    Task<bool> UpdateCardLifeLevelAsync(CardLives cardLife, int level);
+    Task<bool> UpdateCardLifeLevelAsync(CardLives cardLife);
+    Task<bool> UpdateCardLifeStarAsync(CardLives cardLife);
     Task<bool> UpdateCardLifeBreakthroughAsync(CardLives cardLife, int star, double quantity);
     Task<CardLives> GetUserCardLifeByIdAsync(string user_id, string Id);
     Task<CardLives> SumPowerUserCardLivesAsync();

@@ -117,9 +117,14 @@ public class UserEquipmentsService : IUserEquipmentsService
         return await _userEquipmentsRepository.BuyEquipmentAsync(Id, await _service.GetEquipmentByIdAsync(Id), quantity);
     }
 
-    public async Task<bool> UpdateEquipmentsLevelAsync(Equipments equipments, int cardLevel)
+    public async Task<bool> UpdateEquipmentsLevelAsync(Equipments equipments)
     {
-        return await _userEquipmentsRepository.UpdateEquipmentsLevelAsync(equipments, cardLevel);
+        return await _userEquipmentsRepository.UpdateEquipmentsLevelAsync(equipments);
+    }
+
+    public async Task<bool> UpdateEquipmentsStarAsync(Equipments equipments)
+    {
+        return await _userEquipmentsRepository.UpdateEquipmentsStarAsync(equipments);
     }
 
     public async Task<bool> UpdateEquipmentsBreakthroughAsync(Equipments equipments, int star, double quantity)

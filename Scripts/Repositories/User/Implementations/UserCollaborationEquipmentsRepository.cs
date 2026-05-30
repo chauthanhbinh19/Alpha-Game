@@ -527,7 +527,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
 
         return true;
     }
-    public async Task<bool> UpdateCollaborationEquipmentLevelAsync(CollaborationEquipments collaborationEquipment, int level)
+    public async Task<bool> UpdateCollaborationEquipmentLevelAsync(CollaborationEquipments collaborationEquipment)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -540,32 +540,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 string updateSQL = @"
                 UPDATE user_collaboration_equipments
                 SET 
-                    level = @level, power = @power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, 
-                    ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
+                    level = @level, experience = @experience
                 WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
             ";
 
@@ -573,57 +548,8 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
-                    updateCommand.Parameters.AddWithValue("@level", level);
-                    updateCommand.Parameters.AddWithValue("@power", collaborationEquipment.Power);
-                    updateCommand.Parameters.AddWithValue("@health", collaborationEquipment.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", collaborationEquipment.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", collaborationEquipment.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", collaborationEquipment.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", collaborationEquipment.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", collaborationEquipment.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", collaborationEquipment.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", collaborationEquipment.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", collaborationEquipment.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", collaborationEquipment.MentalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", collaborationEquipment.MentalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", collaborationEquipment.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", collaborationEquipment.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", collaborationEquipment.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", collaborationEquipment.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", collaborationEquipment.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", collaborationEquipment.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", collaborationEquipment.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", collaborationEquipment.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", collaborationEquipment.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", collaborationEquipment.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", collaborationEquipment.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", collaborationEquipment.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", collaborationEquipment.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", collaborationEquipment.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", collaborationEquipment.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", collaborationEquipment.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", collaborationEquipment.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", collaborationEquipment.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", collaborationEquipment.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", collaborationEquipment.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", collaborationEquipment.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", collaborationEquipment.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", collaborationEquipment.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", collaborationEquipment.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", collaborationEquipment.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", collaborationEquipment.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", collaborationEquipment.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", collaborationEquipment.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", collaborationEquipment.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", collaborationEquipment.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", collaborationEquipment.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaborationEquipment.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", collaborationEquipment.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaborationEquipment.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", collaborationEquipment.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", collaborationEquipment.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", collaborationEquipment.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", collaborationEquipment.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@level", collaborationEquipment.Level);
+                    updateCommand.Parameters.AddWithValue("@experience", collaborationEquipment.Experience);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -641,6 +567,46 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
 
         return true;
     }
+    public async Task<bool> UpdateCollaborationEquipmentStarAsync(CollaborationEquipments collaborationEquipment)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_collaboration_equipments
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
+                    updateCommand.Parameters.AddWithValue("@star", collaborationEquipment.Star);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+
     public async Task<bool> UpdateCollaborationEquipmentBreakthroughAsync(CollaborationEquipments collaborationEquipment, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;

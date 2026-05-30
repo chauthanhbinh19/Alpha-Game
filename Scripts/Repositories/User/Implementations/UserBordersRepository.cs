@@ -646,6 +646,85 @@ public class UserBordersRepository : IUserBordersRepository
 
         return true;
     }
+    public async Task<bool> UpdateBorderLevelAsync(Borders border)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_borders
+                SET 
+                    level = @level, experience = @experience
+                WHERE user_id = @user_id AND border_id = @border_id;
+            ";
+
+                MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+
+                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@border_id", border.Id);
+                updateCommand.Parameters.AddWithValue("@level", border.Level);
+                updateCommand.Parameters.AddWithValue("@experience", border.Experience);
+
+                await updateCommand.ExecuteNonQueryAsync();
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+    public async Task<bool> UpdateBorderStarAsync(Borders border)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_borders
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND border_id = @border_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@border_id", border.Id);
+                    updateCommand.Parameters.AddWithValue("@star", border.Star);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+
     public async Task UpdateIsUsedBorderAsync(string borderId, string userId, bool is_used)
     {
         string connectionString = DatabaseConfig.ConnectionString;

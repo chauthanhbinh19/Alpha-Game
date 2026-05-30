@@ -500,7 +500,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
 
         return true;
     }
-    public async Task<bool> UpdateArtifactLevelAsync(Artifacts artifact, int level)
+    public async Task<bool> UpdateArtifactLevelAsync(Artifacts artifact)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -511,88 +511,15 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                 string updateSQL = @"
                 UPDATE user_artifacts
                 SET 
-                    level = @level, power = @power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
+                    level = @level, experience = @experience
                 WHERE user_id = @user_id AND artifact_id = @artifact_id;";
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@artifact_id", artifact.Id);
-                    updateCommand.Parameters.AddWithValue("@level", level);
-                    updateCommand.Parameters.AddWithValue("@power", artifact.Power);
-                    updateCommand.Parameters.AddWithValue("@health", artifact.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", artifact.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", artifact.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", artifact.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", artifact.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", artifact.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", artifact.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", artifact.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", artifact.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", artifact.MentalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", artifact.MentalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", artifact.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", artifact.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", artifact.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", artifact.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", artifact.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", artifact.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", artifact.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", artifact.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", artifact.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", artifact.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", artifact.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", artifact.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", artifact.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", artifact.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", artifact.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", artifact.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", artifact.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", artifact.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", artifact.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", artifact.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", artifact.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", artifact.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", artifact.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", artifact.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", artifact.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", artifact.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", artifact.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", artifact.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", artifact.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", artifact.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", artifact.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", artifact.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", artifact.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", artifact.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", artifact.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", artifact.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", artifact.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", artifact.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@level", artifact.Level);
+                    updateCommand.Parameters.AddWithValue("@experience", artifact.Experience);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -609,6 +536,46 @@ public class UserArtifactsRepository : IUserArtifactsRepository
         }
         return true;
     }
+    public async Task<bool> UpdateArtifactStarAsync(Artifacts artifact)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_artifacts
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND artifact_id = @artifact_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@artifact_id", artifact.Id);
+                    updateCommand.Parameters.AddWithValue("@star", artifact.Star);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+
     public async Task<bool> UpdateArtifactBreakthroughAsync(Artifacts artifact, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;

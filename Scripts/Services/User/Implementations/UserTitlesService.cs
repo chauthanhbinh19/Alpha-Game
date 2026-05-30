@@ -38,9 +38,14 @@ public class UserTitlesService : IUserTitlesService
         return await _userTitlesRepository.InsertUserTitleAsync(title, userId);
     }
 
-    public async Task<bool> UpdateTitleLevelAsync(Titles title, int level)
+    public async Task<bool> UpdateTitleLevelAsync(Titles title)
     {
-        return await _userTitlesRepository.UpdateTitleLevelAsync(title, level);
+        return await _userTitlesRepository.UpdateTitleLevelAsync(title);
+    }
+
+    public async Task<bool> UpdateTitleStarAsync(Titles title)
+    {
+        return await _userTitlesRepository.UpdateTitleStarAsync(title);
     }
 
     public async Task<bool> UpdateTitleBreakthroughAsync(Titles title, int star, double quantity)

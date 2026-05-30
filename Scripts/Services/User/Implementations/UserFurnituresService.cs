@@ -38,9 +38,14 @@ public class UserFurnituresService : IUserFurnituresService
         return await _userFurnituresRepository.InsertUserFurnitureAsync(furniture, userId);
     }
 
-    public async Task<bool> UpdateFurnitureLevelAsync(Furnitures furniture, int level)
+    public async Task<bool> UpdateFurnitureLevelAsync(Furnitures furniture)
     {
-        return await _userFurnituresRepository.UpdateFurnitureLevelAsync(furniture, level);
+        return await _userFurnituresRepository.UpdateFurnitureLevelAsync(furniture);
+    }
+
+    public async Task<bool> UpdateFurnitureStarAsync(Furnitures furniture)
+    {
+        return await _userFurnituresRepository.UpdateFurnitureStarAsync(furniture);
     }
 
     public async Task<bool> UpdateFurnitureBreakthroughAsync(Furnitures furniture, int star, double quantity)

@@ -38,9 +38,14 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         return await _userSpiritCardsRepository.InsertUserSpiritCardAsync(spiritCard);
     }
 
-    public async Task<bool> UpdateSpiritCardLevelAsync(SpiritCards spiritCard, int level)
+    public async Task<bool> UpdateSpiritCardLevelAsync(SpiritCards spiritCard)
     {
-        return await _userSpiritCardsRepository.UpdateSpiritCardLevelAsync(spiritCard, level);
+        return await _userSpiritCardsRepository.UpdateSpiritCardLevelAsync(spiritCard);
+    }
+
+    public async Task<bool> UpdateSpiritCardStarAsync(SpiritCards spiritCard)
+    {
+        return await _userSpiritCardsRepository.UpdateSpiritCardStarAsync(spiritCard);
     }
 
     public async Task<bool> UpdateSpiritCardBreakthroughAsync(SpiritCards spiritCard, int star, double quantity)

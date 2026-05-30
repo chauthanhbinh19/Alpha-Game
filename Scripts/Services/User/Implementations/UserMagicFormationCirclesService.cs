@@ -38,9 +38,14 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
         return await _userMagicFormationCirclesRepository.InsertUserMagicFormationCircleAsync(magicFormationCircle, userId);
     }
 
-    public async Task<bool> UpdateMagicFormationCircleLevelAsync(MagicFormationCircles magicFormationCircle, int level)
+    public async Task<bool> UpdateMagicFormationCircleLevelAsync(MagicFormationCircles magicFormationCircle)
     {
-        return await _userMagicFormationCirclesRepository.UpdateMagicFormationCircleLevelAsync(magicFormationCircle, level);
+        return await _userMagicFormationCirclesRepository.UpdateMagicFormationCircleLevelAsync(magicFormationCircle);
+    }
+
+    public async Task<bool> UpdateMagicFormationCircleStarAsync(MagicFormationCircles magicFormationCircle)
+    {
+        return await _userMagicFormationCirclesRepository.UpdateMagicFormationCircleStarAsync(magicFormationCircle);
     }
 
     public async Task<bool> UpdateMagicFormationCircleBreakthroughAsync(MagicFormationCircles magicFormationCircle, int star, double quantity)

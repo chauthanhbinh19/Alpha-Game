@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserCoresService : IUserCoresService
 {
-     private static UserCoresService _instance;
+    private static UserCoresService _instance;
     private readonly IUserCoresRepository _userCoresRepository;
 
     public UserCoresService(IUserCoresRepository userCoresRepository)
@@ -38,9 +38,14 @@ public class UserCoresService : IUserCoresService
         return await _userCoresRepository.InsertUserCoreAsync(core, userId);
     }
 
-    public async Task<bool> UpdateCoreLevelAsync(Cores core, int level)
+    public async Task<bool> UpdateCoreLevelAsync(Cores core)
     {
-        return await _userCoresRepository.UpdateCoreLevelAsync(core, level);
+        return await _userCoresRepository.UpdateCoreLevelAsync(core);
+    }
+
+    public async Task<bool> UpdateCoreStarAsync(Cores core)
+    {
+        return await _userCoresRepository.UpdateCoreStarAsync(core);
     }
 
     public async Task<bool> UpdateCoreBreakthroughAsync(Cores core, int star, double quantity)

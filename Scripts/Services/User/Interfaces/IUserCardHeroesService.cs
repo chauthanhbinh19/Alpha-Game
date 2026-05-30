@@ -18,7 +18,8 @@ public interface IUserCardHeroesService
     Task<int> GetUserCardHeroesTeamsCountAsync(string user_id, string team_id);
     Task<bool> InsertUserCardHeroAsync(CardHeroes cardHero);
     Task<bool> InsertOrUpdateUserCardHeroesBatchAsync(List<CardHeroes> cardHeroes);
-    Task<bool> UpdateCardHeroLevelAsync(CardHeroes cardHero, int level);
+    Task<bool> UpdateCardHeroLevelAsync(CardHeroes cardHero);
+    Task<bool> UpdateCardHeroStarAsync(CardHeroes cardHero);
     Task<bool> UpdateCardHeroBreakthroughAsync(CardHeroes cardHero, int star, double quantity);
     Task<CardHeroes> GetUserCardHeroByIdAsync(string user_id, string Id);
     Task<List<CardHeroes>> GetAllUserCardHeroesInTeamAsync(string user_id);

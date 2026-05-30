@@ -620,9 +620,14 @@ public class UserCardHeroesService : IUserCardHeroesService
         return await _userCardHeroesRepository.InsertUserCardHeroAsync(cardHero);
     }
 
-    public async Task<bool> UpdateCardHeroLevelAsync(CardHeroes cardHero, int level)
+    public async Task<bool> UpdateCardHeroLevelAsync(CardHeroes cardHero)
     {
-        return await _userCardHeroesRepository.UpdateCardHeroLevelAsync(cardHero, level);
+        return await _userCardHeroesRepository.UpdateCardHeroLevelAsync(cardHero);
+    }
+
+    public async Task<bool> UpdateCardHeroStarAsync(CardHeroes cardHero)
+    {
+        return await _userCardHeroesRepository.UpdateCardHeroStarAsync(cardHero);
     }
 
     public async Task<bool> UpdateCardHeroBreakthroughAsync(CardHeroes cardHero, int star, double quantity)

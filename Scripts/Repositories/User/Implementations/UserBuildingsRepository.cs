@@ -527,7 +527,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
 
         return true;
     }
-    public async Task<bool> UpdateBuildingLevelAsync(Buildings building, int level)
+    public async Task<bool> UpdateBuildingLevelAsync(Buildings building)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -540,32 +540,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                 string updateSQL = @"
                 UPDATE user_buildings
                 SET 
-                    level = @level, power = @power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, 
-                    ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
+                    level = @level, experience = @experience
                 WHERE user_id = @user_id AND building_id = @building_id;
             ";
 
@@ -573,57 +548,8 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@building_id", building.Id);
-                    updateCommand.Parameters.AddWithValue("@level", level);
-                    updateCommand.Parameters.AddWithValue("@power", building.Power);
-                    updateCommand.Parameters.AddWithValue("@health", building.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", building.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", building.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", building.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", building.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", building.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", building.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", building.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", building.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", building.MentalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", building.MentalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", building.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", building.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", building.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", building.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", building.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", building.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", building.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", building.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", building.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", building.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", building.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", building.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", building.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", building.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", building.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", building.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", building.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", building.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", building.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", building.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", building.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", building.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", building.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", building.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", building.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", building.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", building.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", building.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", building.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", building.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", building.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", building.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", building.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", building.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", building.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", building.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", building.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", building.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@level", building.Level);
+                    updateCommand.Parameters.AddWithValue("@experience", building.Experience);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -641,6 +567,46 @@ public class UserBuildingsRepository : IUserBuildingsRepository
 
         return true;
     }
+    public async Task<bool> UpdateBuildingStarAsync(Buildings building)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_buildings
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND building_id = @building_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@building_id", building.Id);
+                    updateCommand.Parameters.AddWithValue("@star", building.Star);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+
     public async Task<bool> UpdateBuildingBreakthroughAsync(Buildings building, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;

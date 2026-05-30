@@ -504,99 +504,29 @@ public class UserRunesRepository : IUserRunesRepository
 
         return true;
     }
-    public async Task<bool> UpdateRuneLevelAsync(Runes rune, int level)
+    public async Task<bool> UpdateRuneLevelAsync(Runes rune)
     {
         string connectionString = DatabaseConfig.ConnectionString;
+
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 await connection.OpenAsync();
+
                 string updateSQL = @"
                 UPDATE user_runes
                 SET 
-                    level = @level, power = @power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND rune_id = @rune_id;";
+                    level = @level, experience = @experience
+                WHERE user_id = @user_id AND rune_id = @rune_id;
+            ";
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@rune_id", rune.Id);
-                    updateCommand.Parameters.AddWithValue("@level", level);
-                    updateCommand.Parameters.AddWithValue("@power", rune.Power);
-                    updateCommand.Parameters.AddWithValue("@health", rune.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", rune.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", rune.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", rune.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", rune.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", rune.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", rune.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", rune.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", rune.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", rune.MentalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", rune.MentalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", rune.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", rune.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", rune.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", rune.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", rune.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", rune.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", rune.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", rune.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", rune.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", rune.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", rune.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", rune.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", rune.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", rune.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", rune.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", rune.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", rune.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", rune.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", rune.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", rune.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", rune.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", rune.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", rune.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", rune.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", rune.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", rune.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", rune.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", rune.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", rune.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", rune.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", rune.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", rune.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", rune.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", rune.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", rune.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", rune.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", rune.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", rune.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@level", rune.Level);
+                    updateCommand.Parameters.AddWithValue("@experience", rune.Experience);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -611,8 +541,49 @@ public class UserRunesRepository : IUserRunesRepository
                 await connection.CloseAsync();
             }
         }
+
         return true;
     }
+    public async Task<bool> UpdateRuneStarAsync(Runes rune)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_runes
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND rune_id = @rune_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@rune_id", rune.Id);
+                    updateCommand.Parameters.AddWithValue("@star", rune.Star);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+
     public async Task<bool> UpdateRuneBreakthroughAsync(Runes rune, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;

@@ -38,9 +38,14 @@ public class UserWeaponsService : IUserWeaponsService
         return await _userWeaponsRepository.InsertUserWeaponAsync(weapon, userId);
     }
 
-    public async Task<bool> UpdateWeaponLevelAsync(Weapons weapon, int level)
+    public async Task<bool> UpdateWeaponLevelAsync(Weapons weapon)
     {
-        return await _userWeaponsRepository.UpdateWeaponLevelAsync(weapon, level);
+        return await _userWeaponsRepository.UpdateWeaponLevelAsync(weapon);
+    }
+
+    public async Task<bool> UpdateWeaponStarAsync(Weapons weapon)
+    {
+        return await _userWeaponsRepository.UpdateWeaponStarAsync(weapon);
     }
 
     public async Task<bool> UpdateWeaponBreakthroughAsync(Weapons weapon, int star, double quantity)

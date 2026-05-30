@@ -38,9 +38,14 @@ public class UserTalismansService : IUserTalismansService
         return await _userTalismansRepository.InsertUserTalismanAsync(talisman, userId);
     }
 
-    public async Task<bool> UpdateTalismanLevelAsync(Talismans talisman, int level)
+    public async Task<bool> UpdateTalismanLevelAsync(Talismans talisman)
     {
-        return await _userTalismansRepository.UpdateTalismanLevelAsync(talisman, level);
+        return await _userTalismansRepository.UpdateTalismanLevelAsync(talisman);
+    }
+
+    public async Task<bool> UpdateTalismanStarAsync(Talismans talisman)
+    {
+        return await _userTalismansRepository.UpdateTalismanStarAsync(talisman);
     }
 
     public async Task<bool> UpdateTalismanBreakthroughAsync(Talismans talisman, int star, double quantity)

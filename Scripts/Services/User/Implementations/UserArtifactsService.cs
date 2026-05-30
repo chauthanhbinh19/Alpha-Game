@@ -38,9 +38,14 @@ public class UserArtifactsService : IUserArtifactsService
         return await _userArtifactsRepository.InsertUserArtifactAsync(artifact, userId);
     }
 
-    public async Task<bool> UpdateArtifactLevelAsync(Artifacts artifact, int level)
+    public async Task<bool> UpdateArtifactLevelAsync(Artifacts artifact)
     {
-        return await _userArtifactsRepository.UpdateArtifactLevelAsync(artifact, level);
+        return await _userArtifactsRepository.UpdateArtifactLevelAsync(artifact);
+    }
+
+    public async Task<bool> UpdateArtifactStarAsync(Artifacts artifact)
+    {
+        return await _userArtifactsRepository.UpdateArtifactStarAsync(artifact);
     }
 
     public async Task<bool> UpdateArtifactBreakthroughAsync(Artifacts artifact, int star, double quantity)

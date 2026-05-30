@@ -1221,7 +1221,7 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
 
         return true;
     }
-    public async Task<bool> UpdateCardCaptainLevelAsync(CardCaptains cardCaptain, int level)
+    public async Task<bool> UpdateCardCaptainLevelAsync(CardCaptains cardCaptain)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1234,31 +1234,7 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
             string updateSQL = @"
             UPDATE user_card_captains
             SET 
-                level = @level, power = @power, health = @health, 
-                physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
+                level = @level, experience = @experience
             WHERE user_id = @user_id AND card_captain_id = @card_captain_id;
         ";
 
@@ -1266,57 +1242,8 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
 
             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
             updateCommand.Parameters.AddWithValue("@card_captain_id", cardCaptain.Id);
-            updateCommand.Parameters.AddWithValue("@level", level);
-            updateCommand.Parameters.AddWithValue("@power", cardCaptain.Power);
-            updateCommand.Parameters.AddWithValue("@health", cardCaptain.Health);
-            updateCommand.Parameters.AddWithValue("@physical_attack", cardCaptain.PhysicalAttack);
-            updateCommand.Parameters.AddWithValue("@physical_defense", cardCaptain.PhysicalDefense);
-            updateCommand.Parameters.AddWithValue("@magical_attack", cardCaptain.MagicalAttack);
-            updateCommand.Parameters.AddWithValue("@magical_defense", cardCaptain.MagicalDefense);
-            updateCommand.Parameters.AddWithValue("@chemical_attack", cardCaptain.ChemicalAttack);
-            updateCommand.Parameters.AddWithValue("@chemical_defense", cardCaptain.ChemicalDefense);
-            updateCommand.Parameters.AddWithValue("@atomic_attack", cardCaptain.AtomicAttack);
-            updateCommand.Parameters.AddWithValue("@atomic_defense", cardCaptain.AtomicDefense);
-            updateCommand.Parameters.AddWithValue("@mental_attack", cardCaptain.MentalAttack);
-            updateCommand.Parameters.AddWithValue("@mental_defense", cardCaptain.MentalDefense);
-            updateCommand.Parameters.AddWithValue("@speed", cardCaptain.Speed);
-            updateCommand.Parameters.AddWithValue("@critical_damage_rate", cardCaptain.CriticalDamageRate);
-            updateCommand.Parameters.AddWithValue("@critical_rate", cardCaptain.CriticalRate);
-            updateCommand.Parameters.AddWithValue("@critical_resistance_rate", cardCaptain.CriticalResistanceRate);
-            updateCommand.Parameters.AddWithValue("@ignore_critical_rate", cardCaptain.IgnoreCriticalRate);
-            updateCommand.Parameters.AddWithValue("@penetration_rate", cardCaptain.PenetrationRate);
-            updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardCaptain.PenetrationResistanceRate);
-            updateCommand.Parameters.AddWithValue("@evasion_rate", cardCaptain.EvasionRate);
-            updateCommand.Parameters.AddWithValue("@damage_absorption_rate", cardCaptain.DamageAbsorptionRate);
-            updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardCaptain.IgnoreDamageAbsorptionRate);
-            updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardCaptain.AbsorbedDamageRate);
-            updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardCaptain.VitalityRegenerationRate);
-            updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardCaptain.VitalityRegenerationResistanceRate);
-            updateCommand.Parameters.AddWithValue("@accuracy_rate", cardCaptain.AccuracyRate);
-            updateCommand.Parameters.AddWithValue("@lifesteal_rate", cardCaptain.LifestealRate);
-            updateCommand.Parameters.AddWithValue("@shield_strength", cardCaptain.ShieldStrength);
-            updateCommand.Parameters.AddWithValue("@tenacity", cardCaptain.Tenacity);
-            updateCommand.Parameters.AddWithValue("@resistance_rate", cardCaptain.ResistanceRate);
-            updateCommand.Parameters.AddWithValue("@combo_rate", cardCaptain.ComboRate);
-            updateCommand.Parameters.AddWithValue("@ignore_combo_rate", cardCaptain.IgnoreComboRate);
-            updateCommand.Parameters.AddWithValue("@combo_damage_rate", cardCaptain.ComboDamageRate);
-            updateCommand.Parameters.AddWithValue("@combo_resistance_rate", cardCaptain.ComboResistanceRate);
-            updateCommand.Parameters.AddWithValue("@stun_rate", cardCaptain.StunRate);
-            updateCommand.Parameters.AddWithValue("@ignore_stun_rate", cardCaptain.IgnoreStunRate);
-            updateCommand.Parameters.AddWithValue("@reflection_rate", cardCaptain.ReflectionRate);
-            updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardCaptain.IgnoreReflectionRate);
-            updateCommand.Parameters.AddWithValue("@reflection_damage_rate", cardCaptain.ReflectionDamageRate);
-            updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardCaptain.ReflectionResistanceRate);
-            updateCommand.Parameters.AddWithValue("@mana", cardCaptain.Mana);
-            updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardCaptain.ManaRegenerationRate);
-            updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardCaptain.DamageToDifferentFactionRate);
-            updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardCaptain.ResistanceToDifferentFactionRate);
-            updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardCaptain.DamageToSameFactionRate);
-            updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardCaptain.ResistanceToSameFactionRate);
-            updateCommand.Parameters.AddWithValue("@normal_damage_rate", cardCaptain.NormalDamageRate);
-            updateCommand.Parameters.AddWithValue("@normal_resistance_rate", cardCaptain.NormalResistanceRate);
-            updateCommand.Parameters.AddWithValue("@skill_damage_rate", cardCaptain.SkillDamageRate);
-            updateCommand.Parameters.AddWithValue("@skill_resistance_rate", cardCaptain.SkillResistanceRate);
+            updateCommand.Parameters.AddWithValue("@level", cardCaptain.Level);
+            updateCommand.Parameters.AddWithValue("@experience", cardCaptain.Experience);
 
             await updateCommand.ExecuteNonQueryAsync();
         }
@@ -1328,6 +1255,46 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
 
         return true;
     }
+    public async Task<bool> UpdateCardCaptainStarAsync(CardCaptains cardCaptain)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_card_captains
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND card_captain_id = @card_captain_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@card_captain_id", cardCaptain.Id);
+                    updateCommand.Parameters.AddWithValue("@star", cardCaptain.Star);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+
     public async Task<bool> UpdateCardCaptainBreakthroughAsync(CardCaptains cardCaptain, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;

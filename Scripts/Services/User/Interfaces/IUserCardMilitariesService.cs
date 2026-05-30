@@ -18,7 +18,8 @@ public interface IUserCardMilitariesService
     Task<int> GetUserCardMilitariesTeamsCountAsync(string user_id, string team_id);
     Task<bool> InsertUserCardMilitaryAsync(CardMilitaries cardMilitary);
     Task<bool> InsertOrUpdateUserCardMilitariesBatchAsync(List<CardMilitaries> cardMilitaries);
-    Task<bool> UpdateCardMilitaryLevelAsync(CardMilitaries cardMilitary, int level);
+    Task<bool> UpdateCardMilitaryLevelAsync(CardMilitaries cardMilitary);
+    Task<bool> UpdateCardMilitaryStarAsync(CardMilitaries cardMilitary);
     Task<bool> UpdateCardMilitaryBreakthroughAsync(CardMilitaries cardMilitary, int star, double quantity);
     Task<CardMilitaries> GetUserCardMilitaryByIdAsync(string user_id, string Id);
     Task<List<CardMilitaries>> GetAllUserCardMilitariesInTeamAsync(string user_id);

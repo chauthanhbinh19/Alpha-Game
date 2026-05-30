@@ -38,9 +38,14 @@ public class UserFoodsService : IUserFoodsService
         return await _userFoodsRepository.InsertUserFoodAsync(food, userId);
     }
 
-    public async Task<bool> UpdateFoodLevelAsync(Foods food, int level)
+    public async Task<bool> UpdateFoodLevelAsync(Foods food)
     {
-        return await _userFoodsRepository.UpdateFoodLevelAsync(food, level);
+        return await _userFoodsRepository.UpdateFoodLevelAsync(food);
+    }
+
+    public async Task<bool> UpdateFoodStarAsync(Foods food)
+    {
+        return await _userFoodsRepository.UpdateFoodStarAsync(food);
     }
 
     public async Task<bool> UpdateFoodBreakthroughAsync(Foods food, int star, double quantity)

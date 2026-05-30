@@ -38,9 +38,14 @@ public class UserArchitecturesService : IUserArchitecturesService
         return await _userArchitecturesRepository.InsertUserArchitectureAsync(architecture, userId);
     }
 
-    public async Task<bool> UpdateArchitectureLevelAsync(Architectures architecture, int level)
+    public async Task<bool> UpdateArchitectureLevelAsync(Architectures architecture)
     {
-        return await _userArchitecturesRepository.UpdateArchitectureLevelAsync(architecture, level);
+        return await _userArchitecturesRepository.UpdateArchitectureLevelAsync(architecture);
+    }
+
+    public async Task<bool> UpdateArchitectureStarAsync(Architectures architecture)
+    {
+        return await _userArchitecturesRepository.UpdateArchitectureStarAsync(architecture);
     }
 
     public async Task<bool> UpdateArchitectureBreakthroughAsync(Architectures architecture, int star, double quantity)

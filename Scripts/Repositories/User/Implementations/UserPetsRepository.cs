@@ -744,111 +744,86 @@ public class UserPetsRepository : IUserPetsRepository
 
         return true;
     }
-    public async Task<bool> UpdatePetLevelAsync(Pets pet, int level)
+    public async Task<bool> UpdatePetLevelAsync(Pets pet)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using MySqlConnection connection = new MySqlConnection(connectionString);
-        try
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
-            await connection.OpenAsync();
+            try
+            {
+                await connection.OpenAsync();
 
-            string updateSQL = @"
-            UPDATE user_pets
-            SET 
-                level = @level, power = @power, health = @health, 
-                physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-            WHERE user_id = @user_id AND pet_id = @pet_id;
-        ";
+                string updateSQL = @"
+                UPDATE user_pets
+                SET 
+                    level = @level, experience = @experience
+                WHERE user_id = @user_id AND pet_id = @pet_id;
+            ";
 
-            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-            updateCommand.Parameters.AddWithValue("@pet_id", pet.Id);
-            updateCommand.Parameters.AddWithValue("@level", level);
-            updateCommand.Parameters.AddWithValue("@power", pet.Power);
-            updateCommand.Parameters.AddWithValue("@health", pet.Health);
-            updateCommand.Parameters.AddWithValue("@physical_attack", pet.PhysicalAttack);
-            updateCommand.Parameters.AddWithValue("@physical_defense", pet.PhysicalDefense);
-            updateCommand.Parameters.AddWithValue("@magical_attack", pet.MagicalAttack);
-            updateCommand.Parameters.AddWithValue("@magical_defense", pet.MagicalDefense);
-            updateCommand.Parameters.AddWithValue("@chemical_attack", pet.ChemicalAttack);
-            updateCommand.Parameters.AddWithValue("@chemical_defense", pet.ChemicalDefense);
-            updateCommand.Parameters.AddWithValue("@atomic_attack", pet.AtomicAttack);
-            updateCommand.Parameters.AddWithValue("@atomic_defense", pet.AtomicDefense);
-            updateCommand.Parameters.AddWithValue("@mental_attack", pet.MentalAttack);
-            updateCommand.Parameters.AddWithValue("@mental_defense", pet.MentalDefense);
-            updateCommand.Parameters.AddWithValue("@speed", pet.Speed);
-            updateCommand.Parameters.AddWithValue("@critical_damage_rate", pet.CriticalDamageRate);
-            updateCommand.Parameters.AddWithValue("@critical_rate", pet.CriticalRate);
-            updateCommand.Parameters.AddWithValue("@critical_resistance_rate", pet.CriticalResistanceRate);
-            updateCommand.Parameters.AddWithValue("@ignore_critical_rate", pet.IgnoreCriticalRate);
-            updateCommand.Parameters.AddWithValue("@penetration_rate", pet.PenetrationRate);
-            updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", pet.PenetrationResistanceRate);
-            updateCommand.Parameters.AddWithValue("@evasion_rate", pet.EvasionRate);
-            updateCommand.Parameters.AddWithValue("@damage_absorption_rate", pet.DamageAbsorptionRate);
-            updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", pet.IgnoreDamageAbsorptionRate);
-            updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", pet.AbsorbedDamageRate);
-            updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", pet.VitalityRegenerationRate);
-            updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", pet.VitalityRegenerationResistanceRate);
-            updateCommand.Parameters.AddWithValue("@accuracy_rate", pet.AccuracyRate);
-            updateCommand.Parameters.AddWithValue("@lifesteal_rate", pet.LifestealRate);
-            updateCommand.Parameters.AddWithValue("@shield_strength", pet.ShieldStrength);
-            updateCommand.Parameters.AddWithValue("@tenacity", pet.Tenacity);
-            updateCommand.Parameters.AddWithValue("@resistance_rate", pet.ResistanceRate);
-            updateCommand.Parameters.AddWithValue("@combo_rate", pet.ComboRate);
-            updateCommand.Parameters.AddWithValue("@ignore_combo_rate", pet.IgnoreComboRate);
-            updateCommand.Parameters.AddWithValue("@combo_damage_rate", pet.ComboDamageRate);
-            updateCommand.Parameters.AddWithValue("@combo_resistance_rate", pet.ComboResistanceRate);
-            updateCommand.Parameters.AddWithValue("@stun_rate", pet.StunRate);
-            updateCommand.Parameters.AddWithValue("@ignore_stun_rate", pet.IgnoreStunRate);
-            updateCommand.Parameters.AddWithValue("@reflection_rate", pet.ReflectionRate);
-            updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", pet.IgnoreReflectionRate);
-            updateCommand.Parameters.AddWithValue("@reflection_damage_rate", pet.ReflectionDamageRate);
-            updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", pet.ReflectionResistanceRate);
-            updateCommand.Parameters.AddWithValue("@mana", pet.Mana);
-            updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", pet.ManaRegenerationRate);
-            updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", pet.DamageToDifferentFactionRate);
-            updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", pet.ResistanceToDifferentFactionRate);
-            updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", pet.DamageToSameFactionRate);
-            updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", pet.ResistanceToSameFactionRate);
-            updateCommand.Parameters.AddWithValue("@normal_damage_rate", pet.NormalDamageRate);
-            updateCommand.Parameters.AddWithValue("@normal_resistance_rate", pet.NormalResistanceRate);
-            updateCommand.Parameters.AddWithValue("@skill_damage_rate", pet.SkillDamageRate);
-            updateCommand.Parameters.AddWithValue("@skill_resistance_rate", pet.SkillResistanceRate);
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@pet_id", pet.Id);
+                    updateCommand.Parameters.AddWithValue("@level", pet.Level);
+                    updateCommand.Parameters.AddWithValue("@experience", pet.Experience);
 
-            await updateCommand.ExecuteNonQueryAsync();
-
-            return true;
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
         }
-        catch (MySqlException ex)
-        {
-            Debug.LogError("Error: " + ex.Message);
-            return false;
-        }
+
+        return true;
     }
+    public async Task<bool> UpdatePetStarAsync(Pets pet)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_pets
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND pet_id = @pet_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@pet_id", pet.Id);
+                    updateCommand.Parameters.AddWithValue("@star", pet.Star);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+
     public async Task<bool> UpdatePetBreakthroughAsync(Pets pet, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;

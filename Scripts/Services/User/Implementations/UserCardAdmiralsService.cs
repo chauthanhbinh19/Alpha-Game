@@ -690,9 +690,14 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         return await _userCardAdmiralsRepository.InsertUserCardAdmiralAsync(cardAdmiral);
     }
 
-    public async Task<bool> UpdateCardAdmiralLevelAsync(CardAdmirals cardAdmiral, int level)
+    public async Task<bool> UpdateCardAdmiralLevelAsync(CardAdmirals cardAdmiral)
     {
-        return await _userCardAdmiralsRepository.UpdateCardAdmiralLevelAsync(cardAdmiral, level);
+        return await _userCardAdmiralsRepository.UpdateCardAdmiralLevelAsync(cardAdmiral);
+    }
+
+    public async Task<bool> UpdateCardAdmiralStarAsync(CardAdmirals cardAdmiral)
+    {
+        return await _userCardAdmiralsRepository.UpdateCardAdmiralStarAsync(cardAdmiral);
     }
 
     public async Task<bool> UpdateCardAdmiralBreakthroughAsync(CardAdmirals cardAdmiral, int star, double quantity)

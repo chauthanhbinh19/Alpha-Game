@@ -423,9 +423,14 @@ public class UserPetsService : IUserPetsService
         return await _userPetsRepository.InsertUserPetAsync(pet, userId);
     }
 
-    public async Task<bool> UpdatePetLevelAsync(Pets pet, int level)
+    public async Task<bool> UpdatePetLevelAsync(Pets pet)
     {
-        return await _userPetsRepository.UpdatePetLevelAsync(pet, level);
+        return await _userPetsRepository.UpdatePetLevelAsync(pet);
+    }
+
+    public async Task<bool> UpdatePetStarAsync(Pets pet)
+    {
+        return await _userPetsRepository.UpdatePetStarAsync(pet);
     }
 
     public async Task<bool> UpdatePetBreakthroughAsync(Pets pet, int star, double quantity)

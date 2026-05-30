@@ -8,6 +8,8 @@ public interface IUserBordersRepository
     Task<bool> InsertUserBorderAsync(Borders border, string userId);
     Task<bool> InsertUserBorderByIdAsync(Borders border, string userId);
     Task<bool> InsertOrUpdateUserBordersBatchAsync(List<Borders> borders);
+    Task<bool> UpdateBorderLevelAsync(Borders border);
+    Task<bool> UpdateBorderStarAsync(Borders border);
     Task<Borders> GetBorderByUsedAsync(string user_id);
     Task UpdateIsUsedBorderAsync(string borderId, string userId, bool is_used);
     Task<Borders> SumPowerUserBordersAsync();

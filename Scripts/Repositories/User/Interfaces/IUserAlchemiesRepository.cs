@@ -8,7 +8,8 @@ public interface IUserAlchemiesRepository
     Task<int> GetUserAlchemiesCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserAlchemyAsync(Alchemies alchemy, string userId);
     Task<bool> InsertOrUpdateUserAlchemiesBatchAsync(List<Alchemies> alchemies);
-    Task<bool> UpdateAlchemyLevelAsync(Alchemies alchemy, int cardLevel);
+    Task<bool> UpdateAlchemyLevelAsync(Alchemies alchemy);
+    Task<bool> UpdateAlchemyStarAsync(Alchemies alchemy);
     Task<bool> UpdateAlchemyBreakthroughAsync(Alchemies alchemy, int star, double quantity);
     Task<Alchemies> GetUserAlchemyByIdAsync(string user_id, string Id);
     Task<Alchemies> SumPowerUserAlchemiesAsync();

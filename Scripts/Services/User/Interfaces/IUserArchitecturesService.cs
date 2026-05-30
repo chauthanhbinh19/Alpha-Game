@@ -7,7 +7,8 @@ public interface IUserArchitecturesService
     Task<int> GetUserArchitecturesCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserArchitectureAsync(Architectures architecture, string userId);
     Task<bool> InsertOrUpdateUserArchitecturesBatchAsync(List<Architectures> architectures);
-    Task<bool> UpdateArchitectureLevelAsync(Architectures architecture, int level);
+    Task<bool> UpdateArchitectureLevelAsync(Architectures architecture);
+    Task<bool> UpdateArchitectureStarAsync(Architectures architecture);
     Task<bool> UpdateArchitectureBreakthroughAsync(Architectures architecture, int star, double quantity);
     Task<Architectures> GetUserArchitectureByIdAsync(string user_id, string Id);
     Task<Architectures> SumPowerUserArchitecturesAsync();

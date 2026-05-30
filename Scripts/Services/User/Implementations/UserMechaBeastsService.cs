@@ -38,9 +38,14 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         return await _userMechaBeastsRepository.InsertUserMechaBeastAsync(mechaBeast, userId);
     }
 
-    public async Task<bool> UpdateMechaBeastLevelAsync(MechaBeasts mechaBeast, int level)
+    public async Task<bool> UpdateMechaBeastLevelAsync(MechaBeasts mechaBeast)
     {
-        return await _userMechaBeastsRepository.UpdateMechaBeastLevelAsync(mechaBeast, level);
+        return await _userMechaBeastsRepository.UpdateMechaBeastLevelAsync(mechaBeast);
+    }
+
+    public async Task<bool> UpdateMechaBeastStarAsync(MechaBeasts mechaBeast)
+    {
+        return await _userMechaBeastsRepository.UpdateMechaBeastStarAsync(mechaBeast);
     }
 
     public async Task<bool> UpdateMechaBeastBreakthroughAsync(MechaBeasts mechaBeast, int star, double quantity)

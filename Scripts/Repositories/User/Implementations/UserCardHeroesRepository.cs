@@ -1221,7 +1221,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
 
         return true;
     }
-    public async Task<bool> UpdateCardHeroLevelAsync(CardHeroes cardHero, int level)
+    public async Task<bool> UpdateCardHeroLevelAsync(CardHeroes cardHero)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1232,11 +1232,11 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
             await connection.OpenAsync();
 
             string updateSQL = @"
-            UPDATE user_card_heroes
-            SET 
-                level = @level, experience = @experience
-            WHERE user_id = @user_id AND card_hero_id = @card_hero_id;
-        ";
+                UPDATE user_card_heroes
+                SET 
+                    level = @level, experience = @experience
+                WHERE user_id = @user_id AND card_hero_id = @card_hero_id;
+            ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
@@ -1255,6 +1255,46 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
 
         return true;
     }
+    public async Task<bool> UpdateCardHeroStarAsync(CardHeroes cardHero)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_card_heroes
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND card_hero_id = @card_hero_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@card_hero_id", cardHero.Id);
+                    updateCommand.Parameters.AddWithValue("@star", cardHero.Star);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+
     public async Task<bool> UpdateCardHeroBreakthroughAsync(CardHeroes cardHero, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;

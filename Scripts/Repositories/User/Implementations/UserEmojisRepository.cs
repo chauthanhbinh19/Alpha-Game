@@ -495,7 +495,7 @@ public class UserEmojisRepository : IUserEmojisRepository
 
         return true;
     }
-    public async Task<bool> UpdateEmojiLevelAsync(Emojis emoji, int level)
+    public async Task<bool> UpdateEmojiLevelAsync(Emojis emoji)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -508,90 +508,19 @@ public class UserEmojisRepository : IUserEmojisRepository
                 string updateSQL = @"
                 UPDATE user_emojis
                 SET 
-                    level = @level, power = @power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, 
-                    ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND emoji_id = @emoji_id;";
+                    level = @level, experience = @experience
+                WHERE user_id = @user_id AND emoji_id = @emoji_id;
+            ";
 
-                await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                updateCommand.Parameters.AddWithValue("@emoji_id", emoji.Id);
-                updateCommand.Parameters.AddWithValue("@level", level);
-                updateCommand.Parameters.AddWithValue("@power", emoji.Power);
-                updateCommand.Parameters.AddWithValue("@health", emoji.Health);
-                updateCommand.Parameters.AddWithValue("@physical_attack", emoji.PhysicalAttack);
-                updateCommand.Parameters.AddWithValue("@physical_defense", emoji.PhysicalDefense);
-                updateCommand.Parameters.AddWithValue("@magical_attack", emoji.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@magical_defense", emoji.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@chemical_attack", emoji.ChemicalAttack);
-                updateCommand.Parameters.AddWithValue("@chemical_defense", emoji.ChemicalDefense);
-                updateCommand.Parameters.AddWithValue("@atomic_attack", emoji.AtomicAttack);
-                updateCommand.Parameters.AddWithValue("@atomic_defense", emoji.AtomicDefense);
-                updateCommand.Parameters.AddWithValue("@mental_attack", emoji.MentalAttack);
-                updateCommand.Parameters.AddWithValue("@mental_defense", emoji.MentalDefense);
-                updateCommand.Parameters.AddWithValue("@speed", emoji.Speed);
-                updateCommand.Parameters.AddWithValue("@critical_damage_rate", emoji.CriticalDamageRate);
-                updateCommand.Parameters.AddWithValue("@critical_rate", emoji.CriticalRate);
-                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", emoji.CriticalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", emoji.IgnoreCriticalRate);
-                updateCommand.Parameters.AddWithValue("@penetration_rate", emoji.PenetrationRate);
-                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", emoji.PenetrationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@evasion_rate", emoji.EvasionRate);
-                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", emoji.DamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", emoji.IgnoreDamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", emoji.AbsorbedDamageRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", emoji.VitalityRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", emoji.VitalityRegenerationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@accuracy_rate", emoji.AccuracyRate);
-                updateCommand.Parameters.AddWithValue("@lifesteal_rate", emoji.LifestealRate);
-                updateCommand.Parameters.AddWithValue("@shield_strength", emoji.ShieldStrength);
-                updateCommand.Parameters.AddWithValue("@tenacity", emoji.Tenacity);
-                updateCommand.Parameters.AddWithValue("@resistance_rate", emoji.ResistanceRate);
-                updateCommand.Parameters.AddWithValue("@combo_rate", emoji.ComboRate);
-                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", emoji.IgnoreComboRate);
-                updateCommand.Parameters.AddWithValue("@combo_damage_rate", emoji.ComboDamageRate);
-                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", emoji.ComboResistanceRate);
-                updateCommand.Parameters.AddWithValue("@stun_rate", emoji.StunRate);
-                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", emoji.IgnoreStunRate);
-                updateCommand.Parameters.AddWithValue("@reflection_rate", emoji.ReflectionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", emoji.IgnoreReflectionRate);
-                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", emoji.ReflectionDamageRate);
-                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", emoji.ReflectionResistanceRate);
-                updateCommand.Parameters.AddWithValue("@mana", emoji.Mana);
-                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", emoji.ManaRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", emoji.DamageToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", emoji.ResistanceToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", emoji.DamageToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", emoji.ResistanceToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@normal_damage_rate", emoji.NormalDamageRate);
-                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", emoji.NormalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@skill_damage_rate", emoji.SkillDamageRate);
-                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", emoji.SkillResistanceRate);
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@emoji_id", emoji.Id);
+                    updateCommand.Parameters.AddWithValue("@level", emoji.Level);
+                    updateCommand.Parameters.AddWithValue("@experience", emoji.Experience);
 
-                await updateCommand.ExecuteNonQueryAsync();
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
             }
             catch (MySqlException ex)
             {
@@ -606,6 +535,46 @@ public class UserEmojisRepository : IUserEmojisRepository
 
         return true;
     }
+    public async Task<bool> UpdateEmojiStarAsync(Emojis emoji)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_emojis
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND emoji_id = @emoji_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@emoji_id", emoji.Id);
+                    updateCommand.Parameters.AddWithValue("@star", emoji.Star);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+
     public async Task<bool> UpdateEmojiBreakthroughAsync(Emojis emoji, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;

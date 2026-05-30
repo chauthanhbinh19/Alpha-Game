@@ -601,9 +601,14 @@ public class UserCardColonelsService : IUseCardColonelsService
         return await _userCardColonelsRepository.InsertUserCardColonelAsync(cardColonel);
     }
 
-    public async Task<bool> UpdateCardColonelLevelAsync(CardColonels cardColonel, int level)
+    public async Task<bool> UpdateCardColonelLevelAsync(CardColonels cardColonel)
     {
-        return await _userCardColonelsRepository.UpdateCardColonelLevelAsync(cardColonel, level);
+        return await _userCardColonelsRepository.UpdateCardColonelLevelAsync(cardColonel);
+    }
+
+    public async Task<bool> UpdateCardColonelStarAsync(CardColonels cardColonel)
+    {
+        return await _userCardColonelsRepository.UpdateCardColonelStarAsync(cardColonel);
     }
 
     public async Task<bool> UpdateCardColonelBreakthroughAsync(CardColonels cardColonel, int star, double quantity)

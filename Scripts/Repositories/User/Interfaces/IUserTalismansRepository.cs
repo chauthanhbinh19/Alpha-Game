@@ -7,7 +7,8 @@ public interface IUserTalismansRepository
     Task<int> GetUserTalismansCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserTalismanAsync(Talismans talisman, string userId);
     Task<bool> InsertOrUpdateUserTalismansBatchAsync(List<Talismans> talismans);
-    Task<bool> UpdateTalismanLevelAsync(Talismans talisman, int level);
+    Task<bool> UpdateTalismanLevelAsync(Talismans talisman);
+    Task<bool> UpdateTalismanStarAsync(Talismans talisman);
     Task<bool> UpdateTalismanBreakthroughAsync(Talismans talisman, int star, double quantity);
     Task<Talismans> GetUserTalismanByIdAsync(string user_id, string Id);
     Task<Talismans> SumPowerUserTalismansAsync();

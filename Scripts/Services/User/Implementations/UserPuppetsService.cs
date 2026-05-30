@@ -41,9 +41,14 @@ public class UserPuppetsService : IUserPuppetsService
         return await _userPuppetsRepository.InsertUserPuppetAsync(puppet, userId);
     }
 
-    public async Task<bool> UpdatePuppetLevelAsync(Puppets puppet, int level)
+    public async Task<bool> UpdatePuppetLevelAsync(Puppets puppet)
     {
-        return await _userPuppetsRepository.UpdatePuppetLevelAsync(puppet, level);
+        return await _userPuppetsRepository.UpdatePuppetLevelAsync(puppet);
+    }
+
+    public async Task<bool> UpdatePuppetStarAsync(Puppets puppet)
+    {
+        return await _userPuppetsRepository.UpdatePuppetStarAsync(puppet);
     }
 
     public async Task<bool> UpdatePuppetBreakthroughAsync(Puppets puppet, int star, double quantity)

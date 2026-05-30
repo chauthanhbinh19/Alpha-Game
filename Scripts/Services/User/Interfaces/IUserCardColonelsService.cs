@@ -18,7 +18,8 @@ public interface IUseCardColonelsService
     Task<int> GetUserCardColonelsTeamsCountAsync(string user_id, string team_id);
     Task<bool> InsertUserCardColonelAsync(CardColonels cardColonel);
     Task<bool> InsertOrUpdateUserCardColonelsBatchAsync(List<CardColonels> cardColonels);
-    Task<bool> UpdateCardColonelLevelAsync(CardColonels cardColonel, int level);
+    Task<bool> UpdateCardColonelLevelAsync(CardColonels cardColonel);
+    Task<bool> UpdateCardColonelStarAsync(CardColonels cardColonel);
     Task<bool> UpdateCardColonelBreakthroughAsync(CardColonels cardColonel, int star, double quantity);
     Task<CardColonels> GetUserCardColonelByIdAsync(string user_id, string Id);
     Task<List<CardColonels>> GetAllUserCardColonelsInTeamAsync(string user_id);

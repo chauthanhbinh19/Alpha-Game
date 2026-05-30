@@ -504,99 +504,29 @@ public class UserRobotsRepository : IUserRobotsRepository
 
         return true;
     }
-    public async Task<bool> UpdateRobotLevelAsync(Robots robot, int level)
+    public async Task<bool> UpdateRobotLevelAsync(Robots robot)
     {
         string connectionString = DatabaseConfig.ConnectionString;
+
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             try
             {
                 await connection.OpenAsync();
+
                 string updateSQL = @"
                 UPDATE user_robots
                 SET 
-                    level = @level, power = @power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @comboRate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND robot_id = @robot_id;";
+                    level = @level, experience = @experience
+                WHERE user_id = @user_id AND robot_id = @robot_id;
+            ";
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@robot_id", robot.Id);
-                    updateCommand.Parameters.AddWithValue("@level", level);
-                    updateCommand.Parameters.AddWithValue("@power", robot.Power);
-                    updateCommand.Parameters.AddWithValue("@health", robot.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", robot.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", robot.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", robot.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", robot.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", robot.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", robot.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", robot.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", robot.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", robot.MentalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", robot.MentalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", robot.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", robot.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", robot.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", robot.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", robot.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", robot.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", robot.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", robot.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", robot.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", robot.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", robot.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", robot.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", robot.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", robot.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", robot.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", robot.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", robot.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", robot.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", robot.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", robot.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", robot.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", robot.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", robot.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", robot.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", robot.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", robot.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", robot.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", robot.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", robot.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", robot.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", robot.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", robot.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", robot.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", robot.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", robot.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", robot.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", robot.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", robot.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@level", robot.Level);
+                    updateCommand.Parameters.AddWithValue("@experience", robot.Experience);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -611,8 +541,49 @@ public class UserRobotsRepository : IUserRobotsRepository
                 await connection.CloseAsync();
             }
         }
+
         return true;
     }
+    public async Task<bool> UpdateRobotStarAsync(Robots robot)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string updateSQL = @"
+                UPDATE user_robots
+                SET 
+                    star = @star
+                WHERE user_id = @user_id AND robot_id = @robot_id;
+            ";
+
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                {
+                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@robot_id", robot.Id);
+                    updateCommand.Parameters.AddWithValue("@star", robot.Star);
+
+                    await updateCommand.ExecuteNonQueryAsync();
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+                return false;
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return true;
+    }
+
     public async Task<bool> UpdateRobotBreakthroughAsync(Robots robot, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;

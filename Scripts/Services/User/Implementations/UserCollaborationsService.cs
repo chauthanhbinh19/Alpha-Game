@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserCollaborationsService : IUserCollaborationsService
 {
-     private static UserCollaborationsService _instance;
+    private static UserCollaborationsService _instance;
     private readonly IUserCollaborationsRepository _userCollaborationsRepository;
 
     public UserCollaborationsService(IUserCollaborationsRepository userCollaborationsRepository)
@@ -38,9 +38,14 @@ public class UserCollaborationsService : IUserCollaborationsService
         return await _userCollaborationsRepository.InsertUserCollaborationAsync(collaboration, userId);
     }
 
-    public async Task<bool> UpdateCollaborationLevelAsync(Collaborations collaboration, int level)
+    public async Task<bool> UpdateCollaborationLevelAsync(Collaborations collaboration)
     {
-        return await _userCollaborationsRepository.UpdateCollaborationLevelAsync(collaboration, level);
+        return await _userCollaborationsRepository.UpdateCollaborationLevelAsync(collaboration);
+    }
+
+    public async Task<bool> UpdateCollaborationStarAsync(Collaborations collaboration)
+    {
+        return await _userCollaborationsRepository.UpdateCollaborationStarAsync(collaboration);
     }
 
     public async Task<bool> UpdateCollaborationBreakthroughAsync(Collaborations collaboration, int star, double quantity)

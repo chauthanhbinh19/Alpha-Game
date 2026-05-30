@@ -7,7 +7,8 @@ public interface IUserFoodsService
     Task<int> GetUserFoodsCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserFoodAsync(Foods food, string userId);
     Task<bool> InsertOrUpdateUserFoodsBatchAsync(List<Foods> foods);
-    Task<bool> UpdateFoodLevelAsync(Foods food, int level);
+    Task<bool> UpdateFoodLevelAsync(Foods food);
+    Task<bool> UpdateFoodStarAsync(Foods food);
     Task<bool> UpdateFoodBreakthroughAsync(Foods food, int star, double quantity);
     Task<Foods> GetUserFoodByIdAsync(string user_id, string Id);
     Task<Foods> SumPowerUserFoodsAsync();

@@ -7,7 +7,8 @@ public interface IUserBadgesService
     Task<int> GetUserBadgesCountAsync(string user_id, string search, string rare);
     Task<bool> InsertUserBadgeAsync(Badges badge, string userId);
     Task<bool> InsertOrUpdateUserBadgesBatchAsync(List<Badges> badges);
-    Task<bool> UpdateBadgeLevelAsync(Badges badge, int level);
+    Task<bool> UpdateBadgeLevelAsync(Badges badge);
+    Task<bool> UpdateBadgeStarAsync(Badges badge);
     Task<bool> UpdateBadgeBreakthroughAsync(Badges badge, int star, double quantity);
     Task<Badges> GetUserBadgeByIdAsync(string user_id, string Id);
     Task<Badges> SumPowerUserBadgesAsync();

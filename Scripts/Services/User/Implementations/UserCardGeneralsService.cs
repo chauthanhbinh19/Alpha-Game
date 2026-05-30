@@ -606,9 +606,14 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         return await _userCardGeneralsRepository.InsertUserCardGeneralAsync(cardGeneral);
     }
 
-    public async Task<bool> UpdateCardGeneralLevelAsync(CardGenerals cardGeneral, int level)
+    public async Task<bool> UpdateCardGeneralLevelAsync(CardGenerals cardGeneral)
     {
-        return await _userCardGeneralsRepository.UpdateCardGeneralLevelAsync(cardGeneral, level);
+        return await _userCardGeneralsRepository.UpdateCardGeneralLevelAsync(cardGeneral);
+    }
+
+    public async Task<bool> UpdateCardGeneralStarAsync(CardGenerals cardGeneral)
+    {
+        return await _userCardGeneralsRepository.UpdateCardGeneralStarAsync(cardGeneral);
     }
 
     public async Task<bool> UpdateCardGeneralBreakthroughAsync(CardGenerals cardGeneral, int star, double quantity)

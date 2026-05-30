@@ -38,9 +38,14 @@ public class UserSymbolsService : IUserSymbolsService
         return await _userSymbolsRepository.InsertUserSymbolAsync(symbol, userId);
     }
 
-    public async Task<bool> UpdateSymbolLevelAsync(Symbols symbol, int level)
+    public async Task<bool> UpdateSymbolLevelAsync(Symbols symbol)
     {
-        return await _userSymbolsRepository.UpdateSymbolLevelAsync(symbol, level);
+        return await _userSymbolsRepository.UpdateSymbolLevelAsync(symbol);
+    }
+
+    public async Task<bool> UpdateSymbolStarAsync(Symbols symbol)
+    {
+        return await _userSymbolsRepository.UpdateSymbolStarAsync(symbol);
     }
 
     public async Task<bool> UpdateSymbolBreakthroughAsync(Symbols symbol, int star, double quantity)

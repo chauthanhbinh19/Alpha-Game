@@ -13,7 +13,8 @@ public interface IUserCardAdmiralsRepository
     Task<int> GetUserCardAdmiralsTeamsCountAsync(string user_id, string team_id);
     Task<bool> InsertUserCardAdmiralAsync(CardAdmirals cardAdmiral);
     Task<bool> InsertOrUpdateUserCardAdmiralsBatchAsync(List<CardAdmirals> cardAdmirals);
-    Task<bool> UpdateCardAdmiralLevelAsync(CardAdmirals cardAdmiral, int cardLevel);
+    Task<bool> UpdateCardAdmiralLevelAsync(CardAdmirals cardAdmiral);
+    Task<bool> UpdateCardAdmiralStarAsync(CardAdmirals cardAdmiral);
     Task<bool> UpdateCardAdmiralBreakthroughAsync(CardAdmirals cardAdmiral, int star, double quantity);
     Task<CardAdmirals> GetUserCardAdmiralByIdAsync(string user_id, string Id);
     Task<List<CardAdmirals>> GetAllUserCardAdmiralsInTeamAsync(string user_id);

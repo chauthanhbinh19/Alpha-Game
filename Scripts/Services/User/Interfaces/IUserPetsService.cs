@@ -12,7 +12,8 @@ public interface IUserPetsService
     Task<int> GetUserPetsCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserPetAsync(Pets pet, string userId);
     Task<bool> InsertOrUpdateUserPetsBatchAsync(List<Pets> pets);
-    Task<bool> UpdatePetLevelAsync(Pets pet, int level);
+    Task<bool> UpdatePetLevelAsync(Pets pet);
+    Task<bool> UpdatePetStarAsync(Pets pet);
     Task<bool> UpdatePetBreakthroughAsync(Pets pet, int star, double quantity);
     Task<bool> UpdateTeamPetAsync(string team_id, string card_id);
     Task<Pets> GetUserPetByIdAsync(string user_id, string Id);

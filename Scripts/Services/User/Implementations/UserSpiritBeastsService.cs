@@ -54,9 +54,14 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         return await _userSpiritBeastsRepository.InsertUserSpiritBeastAsync(spiritBeast);
     }
 
-    public async Task<bool> UpdateSpiritBeastLevelAsync(SpiritBeasts spiritBeast, int level)
+    public async Task<bool> UpdateSpiritBeastLevelAsync(SpiritBeasts spiritBeast)
     {
-        return await _userSpiritBeastsRepository.UpdateSpiritBeastLevelAsync(spiritBeast, level);
+        return await _userSpiritBeastsRepository.UpdateSpiritBeastLevelAsync(spiritBeast);
+    }
+
+    public async Task<bool> UpdateSpiritBeastStarAsync(SpiritBeasts spiritBeast)
+    {
+        return await _userSpiritBeastsRepository.UpdateSpiritBeastStarAsync(spiritBeast);
     }
 
     public async Task<bool> UpdateSpiritBeastBreakthroughAsync(SpiritBeasts spiritBeast, int star, double quantity)
