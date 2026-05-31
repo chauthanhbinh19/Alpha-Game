@@ -7,8 +7,8 @@ public abstract class BaseEntity
 {
     public string CodeName { get; set; } = "";
     public string AvailabilityType { get; set; } = "";
-    public int Star { get; set; }
-    public int Level { get; set; }
+    public int Star { get; set; } = 0;
+    public int Level { get; set; } = 0;
     public double Experience { get; set; }
     public double Power { get; set; } = 0;
     public double Health { get; set; } = 0;

@@ -88,9 +88,6 @@ public class UserRelicsController : MonoBehaviour
                 ShowRelicDetails(relic);
             });
 
-            RawImage frameImage = transform.Find("FrameImage").GetComponent<RawImage>();
-            frameImage.gameObject.SetActive(true);
-
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(relic.Rare));
             rareText.text = relic.Rare;

@@ -20,7 +20,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
                 FROM Symbols m
                 JOIN user_symbols um ON m.id = um.symbol_id
                 WHERE um.user_id = @userId 

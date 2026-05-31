@@ -19,7 +19,7 @@ public class UserPetsRepository : IUserPetsRepository
             await connection.OpenAsync();
 
             string selectSQL = @"
-            SELECT up.*, p.image, p.rare, p.type, p.description
+            SELECT up.*, p.name, p.image, p.rare, p.type, p.description
             FROM user_pets up
             LEFT JOIN Pets p ON p.id = up.pet_id
             WHERE up.user_id = @userId 
@@ -65,7 +65,7 @@ public class UserPetsRepository : IUserPetsRepository
             {
                 Pets pet = new Pets
                 {
-                    Id = reader.GetStringSafe("id"),
+                    Id = reader.GetStringSafe("pet_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
                     Rare = reader.GetStringSafe("rare"),

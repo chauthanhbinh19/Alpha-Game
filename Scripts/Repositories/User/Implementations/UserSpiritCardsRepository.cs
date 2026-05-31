@@ -20,7 +20,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                Select ut.*, t.id, t.name, t.image, t.rare, t.description 
+                Select ut.*, t.id, t.name, t.image, t.rare, t.type, t.description 
                 from spirit_cards t, user_spirit_cards ut 
                 where t.id = ut.spirit_card_id 
                     and ut.user_id = @userId ";

@@ -88,9 +88,6 @@ public class UserMagicFormationCirclesController : MonoBehaviour
                 ShowMagicFormationCircleDetails(magicFormationCircle);
             });
 
-            RawImage frameImage = transform.Find("FrameImage").GetComponent<RawImage>();
-            frameImage.gameObject.SetActive(true);
-
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(magicFormationCircle.Rare));
             rareText.text = magicFormationCircle.Rare;

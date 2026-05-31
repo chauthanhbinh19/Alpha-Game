@@ -88,9 +88,6 @@ public class UserFashionsController : MonoBehaviour
                 ShowFashionDetails(fashion);
             });
 
-            RawImage frameImage = transform.Find("FrameImage").GetComponent<RawImage>();
-            frameImage.gameObject.SetActive(true);
-
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(fashion.Rare));
             rareText.text = fashion.Rare;

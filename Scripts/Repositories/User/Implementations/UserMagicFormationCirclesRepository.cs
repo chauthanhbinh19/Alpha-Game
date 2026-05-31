@@ -20,7 +20,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
                 FROM magic_formation_circles m
                 JOIN user_magic_formation_circles um ON m.id = um.mfc_id
                 WHERE um.user_id = @userId 

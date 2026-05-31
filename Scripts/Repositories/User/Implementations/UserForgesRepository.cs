@@ -20,7 +20,7 @@ public class UserForgesRepository : IUserForgesRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
                 FROM Forges m
                 JOIN user_forges um ON m.id = um.forge_id
                 WHERE um.user_id = @userId 

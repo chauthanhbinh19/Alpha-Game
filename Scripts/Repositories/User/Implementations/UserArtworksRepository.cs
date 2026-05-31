@@ -20,7 +20,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
                 FROM artworks m
                 INNER JOIN user_artworks um ON m.id = um.artwork_id
                 WHERE um.user_id = @userId 

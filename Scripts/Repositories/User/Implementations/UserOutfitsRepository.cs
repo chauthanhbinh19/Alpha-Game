@@ -20,7 +20,7 @@ public class UserOutfitsRepository : IUserOutfitsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
+                SELECT ut.*, t.id, t.name, t.image, t.rare, t.type, t.description
                 FROM Outfits t
                 INNER JOIN user_outfits ut ON t.id = ut.outfit_id
                 WHERE ut.user_id = @userId";

@@ -20,7 +20,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
                 FROM puppets m
                 JOIN user_puppets um ON m.id = um.puppet_id
                 WHERE um.user_id = @userId 

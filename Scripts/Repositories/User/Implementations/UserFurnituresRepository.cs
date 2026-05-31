@@ -20,7 +20,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
                 FROM Furnitures m
                 JOIN user_furnitures um ON m.id = um.furniture_id
                 WHERE um.user_id = @userId 

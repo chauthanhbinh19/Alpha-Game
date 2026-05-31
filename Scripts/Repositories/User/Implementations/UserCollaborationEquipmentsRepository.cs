@@ -20,7 +20,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
                 FROM collaboration_equipments m
                 JOIN user_collaboration_equipments um ON m.id = um.collaboration_equipment_id
                 WHERE um.user_id = @userId 

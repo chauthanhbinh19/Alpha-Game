@@ -20,7 +20,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
                 FROM Talismans m
                 JOIN user_talismans um ON m.id = um.talisman_id
                 WHERE um.user_id = @userId";
@@ -62,8 +62,6 @@ public class UserTalismansRepository : IUserTalismansRepository
                         selectCommand.Parameters.AddWithValue("@search", search);
                     }
 
-                    selectCommand.Parameters.AddWithValue("@limit", pageSize);
-                    selectCommand.Parameters.AddWithValue("@offset", offset);
                     selectCommand.Parameters.AddWithValue("@search", search);
                     selectCommand.Parameters.AddWithValue("@type", type);
                     selectCommand.Parameters.AddWithValue("@rare", rare);

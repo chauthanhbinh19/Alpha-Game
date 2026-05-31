@@ -20,7 +20,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ut.*, t.id, t.name, t.image, t.rare, t.description
+                SELECT ut.*, t.id, t.name, t.image, t.rare, t.type, t.description
                 FROM Weapons t
                 INNER JOIN user_weapons ut ON t.id = ut.weapon_id
                 WHERE ut.user_id = @userId";

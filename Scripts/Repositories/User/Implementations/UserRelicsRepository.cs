@@ -20,7 +20,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
                 FROM relics m
                 JOIN user_relics um ON m.id = um.relic_id
                 WHERE um.user_id = @userId 

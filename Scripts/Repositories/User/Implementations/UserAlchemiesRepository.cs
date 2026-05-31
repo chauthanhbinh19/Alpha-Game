@@ -20,7 +20,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                    SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                    SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
                     FROM alchemies m
                     JOIN user_alchemies um ON m.id = um.alchemy_id
                     WHERE um.user_id = @userId 

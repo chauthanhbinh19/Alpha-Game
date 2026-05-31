@@ -88,9 +88,6 @@ public class UserTalismansController : MonoBehaviour
                 ShowTalismanDetails(talisman);
             });
 
-            RawImage frameImage = transform.Find("FrameImage").GetComponent<RawImage>();
-            frameImage.gameObject.SetActive(true);
-
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(talisman.Rare));
             rareText.text = talisman.Rare;

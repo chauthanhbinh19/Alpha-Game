@@ -20,7 +20,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
                 FROM card_lives m
                 JOIN user_card_lives um ON m.id = um.card_life_id
                 WHERE um.user_id = @userId 

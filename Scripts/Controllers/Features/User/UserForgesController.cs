@@ -88,9 +88,6 @@ public class UserForgesController : MonoBehaviour
                 ShowForgeDetails(forge);
             });
 
-            RawImage frameImage = transform.Find("FrameImage").GetComponent<RawImage>();
-            frameImage.gameObject.SetActive(true);
-
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(forge.Rare));
             rareText.text = forge.Rare;

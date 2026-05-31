@@ -20,7 +20,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
                 FROM vehicles m
                 JOIN user_vehicles um ON m.id = um.vehicle_id
                 WHERE um.user_id = @userId";

@@ -88,9 +88,6 @@ public class UserFurnituresController : MonoBehaviour
                 ShowFurnitureDetails(furniture);
             });
 
-            RawImage frameImage = transform.Find("FrameImage").GetComponent<RawImage>();
-            frameImage.gameObject.SetActive(true);
-
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(furniture.Rare));
             rareText.text = furniture.Rare;

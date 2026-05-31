@@ -20,7 +20,7 @@ public class UserItemsRepository : IUserItemsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT ui.*, i.id, i.name, i.image
+                SELECT ui.*, i.id, i.name, i.type, i.image
                 FROM items i
                 JOIN user_items ui ON i.id = ui.item_id
                 WHERE ui.user_id = @userId ";
