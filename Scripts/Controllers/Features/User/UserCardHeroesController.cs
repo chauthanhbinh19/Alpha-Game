@@ -246,7 +246,7 @@ public class UserCardHeroesController : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ItemExperienceDTO itemExperienceDTO = await UserItemsService.Create().GetUserItemExperienceByCodeNameAsync(ItemConstants.Experiment.EXP_CARD_HEROES);
-            LevelController.Instance.CreateLevelPanel(cardHero, itemExperienceDTO, MAX_LEVEL, level => level * 500d);
+            LevelController.Instance.CreateLevelPanel(cardHero, itemExperienceDTO, MAX_LEVEL, level => Math.Max(level, 1) * 500d);
         });
 
         Button moduleButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Module").GetComponent<Button>();

@@ -26,6 +26,20 @@ public static class MessageConstants
     public const string PASSWORDS_DO_NOT_MATCH = "Passwords do not match!";
     public const string ERROR_UNSUPPORTED_DATA_TYPE = "Unsupported data type!";
     public const string CARD_ALREADY_USED_IN_ANOTHER_POSITION = "Message.MessageNumber1";
+
+    #region Hệ Thống Thông Báo Nâng Cấp (Upgrade System Keys)
+    // Các Key dùng để tra cứu trong file ngôn ngữ (JSON/Database)
+    public const string NotEnoughMaterials = "Notification.NotEnoughMaterials";
+    public const string PleaseSelectQuantity = "Notification.PleaseSelectQuantity";
+    public const string ReadyToUpgrade = "Notification.ReadyToUpgrade";
+    public const string MaxLevelReached = "Notification.MaxLevelReached";
+    public const string ProcessingUpgrade = "Notification.ProcessingUpgrade";
+    public const string UpgradeSuccess = "Notification.UpgradeSuccess";
+    public const string UpgradeFailed = "Notification.UpgradeFailed";
+    public const string ServerError = "Notification.ServerError";
+    public const string InvalidFilter = "Notification.InvalidFilter";
+    #endregion
+    
     public static string WaringLevel(int value)
     {
         return $"Your level is too low. Required level: {value}. Please level up and try again.";

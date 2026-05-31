@@ -1004,5 +1004,12 @@
 
   { "key": "Message.MessageNumber1", "value": "This card is already used in another position." },
   
-  { "key": "Notification.MessageNumber1", "value": "Purchase Failed." }
+  { "key": "Notification.MessageNumber1", "value": "Purchase Failed." },
+
+  { "key": "Notification.NotEnoughMaterials", "value": "Not enough items to perform the upgrade!" },
+  { "key": "Notification.PleaseSelectQuantity", "value": "Please select the quantity of upgrade items." },
+  { "key": "Notification.ReadyToUpgrade", "value": "Ready to upgrade to Level {0}." },
+  { "key": "Notification.MaxLevelReached", "value": "Enough items to upgrade to MAX level ({0})!" },
+  { "key": "Notification.ProcessingUpgrade", "value": "Processing upgrade from Server..." },
+  { "key": "Notification.UpgradeSuccess", "value": "Upgrade successful!" }
 ]
