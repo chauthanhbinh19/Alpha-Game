@@ -65,7 +65,7 @@ public class UpgradeAscensionManager : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener(async () =>
+        homeButton.onClick.AddListener( () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
@@ -155,7 +155,7 @@ public class UpgradeAscensionManager : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener(async () =>
+        homeButton.onClick.AddListener( () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);

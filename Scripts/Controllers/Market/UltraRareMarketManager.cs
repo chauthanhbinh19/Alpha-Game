@@ -74,11 +74,10 @@ public class UltraRareMarketManager : MonoBehaviour
             Destroy(ultraRareMarketManagerObject);
         });
         homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener(async () =>
+        homeButton.onClick.AddListener( () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(ContentPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
         });
 
         titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.ULTRA_RARE_MARKET);

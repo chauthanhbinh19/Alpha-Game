@@ -98,7 +98,7 @@ public class FeaturesRepository : IFeaturesRepository
                 f.required_level,
                 COALESCE(ur.archive_level, 0) AS archive_level
             FROM features f
-            LEFT JOIN archives r on f.id = r.archive_id
+            LEFT JOIN archives r on f.id = r.id
             LEFT JOIN user_archives ur on r.id = ur.archive_id
             WHERE type = @type";
 

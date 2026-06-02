@@ -60,11 +60,10 @@ public class MasterOfChemicalManager : MonoBehaviour
         upMaxLevelButton = transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener(async () =>
+        homeButton.onClick.AddListener( () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
         });
         closeButton.onClick.AddListener(() =>
         {

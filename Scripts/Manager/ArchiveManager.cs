@@ -35,7 +35,7 @@ public class ArchiveManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(ArchivePanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        Transform contentPanel = transform.Find("ArchiveContent/Content");
+        Transform contentPanel = transform.Find("ArchiveContent/Scroll View/Viewport/Content");
 
         CreateArchiveButtonUI(1, AppDisplayConstants.Archive.ARCHIVE_I, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_I_URL), contentPanel);
         CreateArchiveButtonUI(2, AppDisplayConstants.Archive.ARCHIVE_II, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_II_URL), contentPanel);

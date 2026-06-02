@@ -397,11 +397,10 @@ public class CollectionManager : MonoBehaviour
             Destroy(mainMenuObject);
         });
         homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener(async () =>
+        homeButton.onClick.AddListener( () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
         });
         nextButton.onClick.AddListener(() =>
         {
