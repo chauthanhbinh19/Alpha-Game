@@ -252,6 +252,36 @@ public class HIHNIXManager : MonoBehaviour
         int currentLevel = userHIHN?.Level ?? 0;
         levelText.text = currentLevel.ToString();
 
+        async Task RefreshPanelAsync()
+        {
+            userHIHN = await UserHIHNsService.Create().GetUserHIHNsAsync(featureId);
+            currentLevel = userHIHN?.Level ?? 0;
+            levelText.text = currentLevel.ToString();
+
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            if (refreshedRecipeItems == null)
+                return;
+
+            foreach (Transform child in leftSideContent)
+                Destroy(child.gameObject);
+            foreach (Transform child in rightSideContent)
+                Destroy(child.gameObject);
+
+            int refreshedTotal = refreshedRecipeItems.Count;
+            int refreshedLeftCount = Mathf.CeilToInt(refreshedTotal / 2f);
+
+            for (int i = 0; i < refreshedTotal; i++)
+            {
+                Transform parent = (i < refreshedLeftCount)
+                    ? leftSideContent
+                    : rightSideContent;
+
+                GameObject itemGO = Instantiate(HIHNItemPrefab, parent);
+                SetupHIHNItemUI(itemGO, refreshedRecipeItems[i]);
+            }
+        }
+
+
         upgradeOneLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
@@ -260,14 +290,12 @@ public class HIHNIXManager : MonoBehaviour
             {
                 userHIHN = EnhanceHelper.EnhanceHIHNs(userHIHN, result.UpgradedLevels, hihn.BaseMultiplier);
                 await UserHIHNsService.Create().InsertOrUpdateUserHIHNsAsync(User.CurrentUserId, userHIHN, featureId);
-                Destroy(currentObject);
-
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
 
-                await CreateMainHIHNPanelAsync(featureId, featureName);
+                await RefreshPanelAsync();
             }
             else
             {
@@ -282,14 +310,12 @@ public class HIHNIXManager : MonoBehaviour
             {
                 userHIHN = EnhanceHelper.EnhanceHIHNs(userHIHN, result.UpgradedLevels, hihn.BaseMultiplier);
                 await UserHIHNsService.Create().InsertOrUpdateUserHIHNsAsync(User.CurrentUserId, userHIHN, featureId);
-                Destroy(currentObject);
-
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 
-                await CreateMainHIHNPanelAsync(featureId, featureName);
+                await RefreshPanelAsync();
             }
             else
             {

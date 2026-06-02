@@ -36,6 +36,22 @@ public class HIENManager : MonoBehaviour
         GameObject currentObject = Instantiate(HIENPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
         Transform contentPanel = transform.Find("HIENContent/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+        TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.HIEN);
+        TextMeshProUGUI titleText2 = transform.Find("HIENContent/TitleText").GetComponent<TextMeshProUGUI>();
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.HIEN);
 
         CreateHIENButtonUI(1, AppDisplayConstants.HIEN.HIEN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_I_URL), contentPanel);
         CreateHIENButtonUI(2, AppDisplayConstants.HIEN.HIEN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_II_URL), contentPanel);

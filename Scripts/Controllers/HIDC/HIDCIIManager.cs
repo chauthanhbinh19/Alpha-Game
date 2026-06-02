@@ -252,6 +252,36 @@ public class HIDCIIManager : MonoBehaviour
         int currentLevel = userHIDC?.Level ?? 0;
         levelText.text = currentLevel.ToString();
 
+        async Task RefreshPanelAsync()
+        {
+            userHIDC = await UserHIDCsService.Create().GetUserHIDCsAsync(featureId);
+            currentLevel = userHIDC?.Level ?? 0;
+            levelText.text = currentLevel.ToString();
+
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            if (refreshedRecipeItems == null)
+                return;
+
+            foreach (Transform child in leftSideContent)
+                Destroy(child.gameObject);
+            foreach (Transform child in rightSideContent)
+                Destroy(child.gameObject);
+
+            int refreshedTotal = refreshedRecipeItems.Count;
+            int refreshedLeftCount = Mathf.CeilToInt(refreshedTotal / 2f);
+
+            for (int i = 0; i < refreshedTotal; i++)
+            {
+                Transform parent = (i < refreshedLeftCount)
+                    ? leftSideContent
+                    : rightSideContent;
+
+                GameObject itemGO = Instantiate(HIDCItemPrefab, parent);
+                SetupHIDCItemUI(itemGO, refreshedRecipeItems[i]);
+            }
+        }
+
+
         upgradeOneLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
@@ -260,14 +290,12 @@ public class HIDCIIManager : MonoBehaviour
             {
                 userHIDC = EnhanceHelper.EnhanceHIDCs(userHIDC, result.UpgradedLevels, hidc.BaseMultiplier);
                 await UserHIDCsService.Create().InsertOrUpdateUserHIDCsAsync(User.CurrentUserId, userHIDC, featureId);
-                Destroy(currentObject);
-
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
 
-                await CreateMainHIDCPanelAsync(featureId, featureName);
+                await RefreshPanelAsync();
             }
             else
             {
@@ -282,14 +310,12 @@ public class HIDCIIManager : MonoBehaviour
             {
                 userHIDC = EnhanceHelper.EnhanceHIDCs(userHIDC, result.UpgradedLevels, hidc.BaseMultiplier);
                 await UserHIDCsService.Create().InsertOrUpdateUserHIDCsAsync(User.CurrentUserId, userHIDC, featureId);
-                Destroy(currentObject);
-
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 
-                await CreateMainHIDCPanelAsync(featureId, featureName);
+                await RefreshPanelAsync();
             }
             else
             {

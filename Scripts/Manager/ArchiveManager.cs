@@ -36,6 +36,22 @@ public class ArchiveManager : MonoBehaviour
         GameObject currentObject = Instantiate(ArchivePanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
         Transform contentPanel = transform.Find("ArchiveContent/Scroll View/Viewport/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+        TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARCHIVE);
+        TextMeshProUGUI titleText2 = transform.Find("ArchiveContent/TitleText").GetComponent<TextMeshProUGUI>();
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARCHIVE);
 
         CreateArchiveButtonUI(1, AppDisplayConstants.Archive.ARCHIVE_I, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_I_URL), contentPanel);
         CreateArchiveButtonUI(2, AppDisplayConstants.Archive.ARCHIVE_II, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_II_URL), contentPanel);

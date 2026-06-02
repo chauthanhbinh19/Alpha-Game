@@ -45,6 +45,22 @@ public class ResearchManager : MonoBehaviour
         Transform research8Panel = transform.Find("Scroll View/Viewport/Content/Research8/Content");
         Transform research9Panel = transform.Find("Scroll View/Viewport/Content/Research9/Content");
         Transform research10Panel = transform.Find("Scroll View/Viewport/Content/Research10/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+        TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RESEARCH);
+        TextMeshProUGUI titleText2 = transform.Find("ResearchContent/TitleText").GetComponent<TextMeshProUGUI>();
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RESEARCH);
 
         CreateResearchButtonUI(1, AppDisplayConstants.Research.HOUSING, TextureHelper.LoadTexture2DCached(ImageConstants.Research.HOUSING_URL), research1Panel);
         CreateResearchButtonUI(2, AppDisplayConstants.Research.INFRASTRUCTURE, TextureHelper.LoadTexture2DCached(ImageConstants.Research.INFRASTRUCTURE_URL), research1Panel);

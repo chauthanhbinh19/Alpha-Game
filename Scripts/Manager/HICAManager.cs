@@ -36,6 +36,22 @@ public class HICAManager : MonoBehaviour
         GameObject currentObject = Instantiate(HICAPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
         Transform contentPanel = transform.Find("HICAContent/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+        TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.HICA);
+        TextMeshProUGUI titleText2 = transform.Find("HICAContent/TitleText").GetComponent<TextMeshProUGUI>();
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.HICA);
 
         CreateHICAButtonUI(1, AppDisplayConstants.HICA.HICA_I, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_I_URL), contentPanel);
         CreateHICAButtonUI(2, AppDisplayConstants.HICA.HICA_II, TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_II_URL), contentPanel);

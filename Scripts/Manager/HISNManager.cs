@@ -36,6 +36,22 @@ public class HISNManager : MonoBehaviour
         GameObject currentObject = Instantiate(HISNPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
         Transform contentPanel = transform.Find("HISNContent/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+        TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.HISN);
+        TextMeshProUGUI titleText2 = transform.Find("HISNContent/TitleText").GetComponent<TextMeshProUGUI>();
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.HISN);
 
         CreateHISNButtonUI(1, AppDisplayConstants.HISN.HISN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HISN.HISN_I_URL), contentPanel);
         CreateHISNButtonUI(2, AppDisplayConstants.HISN.HISN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HISN.HISN_II_URL), contentPanel);

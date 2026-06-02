@@ -4203,7 +4203,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1114079988031611525}
   m_Layer: 5
-  m_Name: PopupModulePanelPrefab
+  m_Name: PopupArchiveQuantityPanelPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

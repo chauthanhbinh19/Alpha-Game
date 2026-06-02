@@ -12,7 +12,7 @@ public class UpgradeAscensionManager : MonoBehaviour
     private Transform MainPanel;
     private GameObject MainUpgradePanelPrefab;
     private GameObject UniverseButtonPrefab;
-    private GameObject PopupUpgradePanelPrefab;
+    private GameObject PopupUpgradeQuantityPanelPrefab;
     private GameObject PopupUniverseButtonPrefab;
     private GameObject MainUniversePanelPrefab;
     private GameObject UniverseItemPrefab;
@@ -45,7 +45,7 @@ public class UpgradeAscensionManager : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         MainUpgradePanelPrefab = UIManager.Instance.Get("MainUpgradePanelPrefab");
         UniverseButtonPrefab = UIManager.Instance.Get("UniverseButtonPrefab");
-        PopupUpgradePanelPrefab = UIManager.Instance.Get("PopupUniversePanelPrefab");
+        PopupUpgradeQuantityPanelPrefab = UIManager.Instance.Get("PopupUpgradeQuantityPanelPrefab");
         PopupUniverseButtonPrefab = UIManager.Instance.Get("PopupUniverseButtonPrefab");
         MainUniversePanelPrefab = UIManager.Instance.Get("MainUniversePanelPrefab");
         UniverseItemPrefab = UIManager.Instance.Get("UniverseItemPrefab");
@@ -65,13 +65,13 @@ public class UpgradeAscensionManager : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
+
         });
-        
+
         feature = (await FeaturesService.Create().GetUpgradeFeaturesByTypeAsync(AppConstants.Upgrade.UPGRADE_ASCENSION, stat))
                 .Values
                 .FirstOrDefault();
@@ -114,9 +114,12 @@ public class UpgradeAscensionManager : MonoBehaviour
     }
     public void CreatePopupUpgradePanelAsync()
     {
-        GameObject gameObject = Instantiate(PopupUpgradePanelPrefab, MainPanel);
+        GameObject gameObject =
+            Instantiate(PopupUpgradeQuantityPanelPrefab, MainPanel);
+
         Transform panelTransform = gameObject.transform;
-        // --- Khởi tạo và tìm UI Components ---
+
+        // --- UI ---
         TextMeshProUGUI currentLevelText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
         Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
@@ -124,10 +127,7 @@ public class UpgradeAscensionManager : MonoBehaviour
         TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText").GetComponent<TextMeshProUGUI>();
         RawImage userItemImage = panelTransform.Find("UserItemImage").GetComponent<RawImage>();
         RawImage itemUsedImage = panelTransform.Find("ItemUsedImage").GetComponent<RawImage>();
-
-        // TÌM COMPONENT THÔNG BÁO TRÊN UI
         TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
-
         Button increaseOneButton = panelTransform.Find("IncreaseOneButton").GetComponent<Button>();
         Button increaseTenButton = panelTransform.Find("IncreaseTenButton").GetComponent<Button>();
         Button increaseMaxButton = panelTransform.Find("IncreaseMaxButton").GetComponent<Button>();
@@ -137,6 +137,158 @@ public class UpgradeAscensionManager : MonoBehaviour
         Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
         Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
 
+        int currentLevel = User.CurrentUserLevel;
+        int maxLevel = feature != null ? feature.MaxLevel : currentLevel;
+        int maxPossible = Mathf.Max(0, maxLevel - currentLevel);
+
+        currentLevelText.text = currentLevel.ToString();
+        nextLevelText.text = (currentLevel + 1).ToString();
+
+        quantitySlider.minValue = 1;
+        quantitySlider.maxValue = Mathf.Max(1, maxPossible);
+        quantitySlider.wholeNumbers = true;
+        quantitySlider.value = 1;
+
+        // Helper to update preview UI
+        async void UpdatePreview()
+        {
+            int requested = (int)quantitySlider.value;
+
+            if (maxPossible <= 0)
+            {
+                notificationText.text = MessageConstants.MAX_LEVEL_REACHED;
+                confirmButton.interactable = false;
+                itemUsedQuantityText.text = "0";
+                userItemQuantityText.text = "0";
+                return;
+            }
+
+            var preview = await UpgradeFunctionHelper.PreviewUpgradeAsync(
+                feature.FeatureName,
+                currentLevel,
+                maxLevel,
+                requested,
+                User.CurrentUserId);
+
+            if (!preview.Success)
+            {
+                notificationText.text = preview.Message;
+                confirmButton.interactable = false;
+                nextLevelText.text = preview.TargetLevel.ToString();
+                itemUsedQuantityText.text = "0";
+                userItemQuantityText.text = "0";
+                return;
+            }
+
+            notificationText.text = string.Empty;
+            nextLevelText.text = preview.TargetLevel.ToString();
+            confirmButton.interactable = preview.UpgradedLevels > 0;
+
+            // Show summed required quantity and owned quantity for the first required item if available
+            if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)
+            {
+                var first = preview.RequiredItems.First();
+                string firstItemId = first.Key;
+                double requiredQty = first.Value;
+
+                // Try to get user's current quantity for that item from recipe level +1
+                var recipeLevelItems = await RecipeService.Create()
+                    .GetRecipeItemsAsync(feature.FeatureName, currentLevel + 1, User.CurrentUserId);
+
+                double owned = 0;
+                string imagePath = null;
+                if (recipeLevelItems != null)
+                {
+                    var match = recipeLevelItems.FirstOrDefault(x => x.ItemId == firstItemId);
+                    if (match != null)
+                    {
+                        owned = match.UserQuantity;
+                        imagePath = match.ItemImage;
+                    }
+                }
+
+                itemUsedQuantityText.text = requiredQty.ToString();
+                userItemQuantityText.text = owned.ToString();
+
+                Texture tex = null;
+                if (!string.IsNullOrEmpty(imagePath))
+                    tex = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(imagePath));
+
+                if (tex != null)
+                {
+                    itemUsedImage.texture = tex;
+                    userItemImage.texture = tex;
+                }
+            }
+            else
+            {
+                itemUsedQuantityText.text = "0";
+                userItemQuantityText.text = "0";
+            }
+        }
+
+        // Wire slider and buttons
+        quantitySlider.onValueChanged.AddListener(_ => UpdatePreview());
+
+        increaseOneButton.onClick.AddListener(() =>
+        {
+            quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 1);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        });
+        increaseTenButton.onClick.AddListener(() =>
+        {
+            quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 10);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        });
+        increaseMaxButton.onClick.AddListener(() =>
+        {
+            quantitySlider.value = quantitySlider.maxValue;
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        });
+
+        decreaseOneButton.onClick.AddListener(() =>
+        {
+            quantitySlider.value = Mathf.Max(quantitySlider.minValue, quantitySlider.value - 1);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        });
+        decreaseTenButton.onClick.AddListener(() =>
+        {
+            quantitySlider.value = Mathf.Max(quantitySlider.minValue, quantitySlider.value - 10);
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        });
+        decreaseMaxButton.onClick.AddListener(() =>
+        {
+            quantitySlider.value = quantitySlider.minValue;
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        });
+
+        // Initial preview
+        UpdatePreview();
+
+        confirmButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            int requested = (int)quantitySlider.value;
+            var result = await UpgradeFunctionHelper.UpgradeLevelAsync(
+                feature.FeatureName,
+                currentLevel,
+                maxLevel,
+                requested,
+                User.CurrentUserId);
+
+            if (result.Success)
+            {
+                Destroy(gameObject);
+                // Optionally refresh parent UI elsewhere
+            }
+            else
+            {
+                notificationText.text = result.Message;
+            }
+        });
+
+        closeButton.onClick.AddListener(() => Destroy(gameObject));
     }
 
     public async Task CreateMainUniversePanelAsync(string featureId, string featureName)
@@ -155,11 +307,11 @@ public class UpgradeAscensionManager : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
+
         });
 
         Universes universe = await UniversesService.Create().GetUniverseByIdAsync(featureId);

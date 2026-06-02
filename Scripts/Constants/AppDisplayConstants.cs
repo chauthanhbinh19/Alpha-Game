@@ -342,6 +342,9 @@ public static class AppDisplayConstants
         public const string SCIENCE_FICTION = "MainType.ScienceFiction";
         public const string STATS = "MainType.Stats";
 
+        public const string ARCHIVE = "MainType.Archive";
+        public const string UNIVERSE = "MainType.Universe";
+        public const string RESEARCH = "MainType.Research";
         public const string HIIN = "MainType.HIIN";
         public const string SSWN = "MainType.SSWN";
         public const string HITN = "MainType.HITN";

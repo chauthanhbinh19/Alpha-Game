@@ -252,6 +252,36 @@ public class HIRNVManager : MonoBehaviour
         int currentLevel = userHIRN?.Level ?? 0;
         levelText.text = currentLevel.ToString();
 
+        async Task RefreshPanelAsync()
+        {
+            userHIRN = await UserHIRNsService.Create().GetUserHIRNsAsync(featureId);
+            currentLevel = userHIRN?.Level ?? 0;
+            levelText.text = currentLevel.ToString();
+
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            if (refreshedRecipeItems == null)
+                return;
+
+            foreach (Transform child in leftSideContent)
+                Destroy(child.gameObject);
+            foreach (Transform child in rightSideContent)
+                Destroy(child.gameObject);
+
+            int refreshedTotal = refreshedRecipeItems.Count;
+            int refreshedLeftCount = Mathf.CeilToInt(refreshedTotal / 2f);
+
+            for (int i = 0; i < refreshedTotal; i++)
+            {
+                Transform parent = (i < refreshedLeftCount)
+                    ? leftSideContent
+                    : rightSideContent;
+
+                GameObject itemGO = Instantiate(HIRNItemPrefab, parent);
+                SetupHIRNItemUI(itemGO, refreshedRecipeItems[i]);
+            }
+        }
+
+
         upgradeOneLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
@@ -260,14 +290,12 @@ public class HIRNVManager : MonoBehaviour
             {
                 userHIRN = EnhanceHelper.EnhanceHIRNs(userHIRN, result.UpgradedLevels, hirn.BaseMultiplier);
                 await UserHIRNsService.Create().InsertOrUpdateUserHIRNsAsync(User.CurrentUserId, userHIRN, featureId);
-                Destroy(currentObject);
-
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
 
-                await CreateMainHIRNPanelAsync(featureId, featureName);
+                await RefreshPanelAsync();
             }
             else
             {
@@ -282,14 +310,12 @@ public class HIRNVManager : MonoBehaviour
             {
                 userHIRN = EnhanceHelper.EnhanceHIRNs(userHIRN, result.UpgradedLevels, hirn.BaseMultiplier);
                 await UserHIRNsService.Create().InsertOrUpdateUserHIRNsAsync(User.CurrentUserId, userHIRN, featureId);
-                Destroy(currentObject);
-
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 
-                await CreateMainHIRNPanelAsync(featureId, featureName);
+                await RefreshPanelAsync();
             }
             else
             {

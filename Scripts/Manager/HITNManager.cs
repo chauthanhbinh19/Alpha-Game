@@ -36,6 +36,22 @@ public class HITNManager : MonoBehaviour
         GameObject currentObject = Instantiate(HITNPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
         Transform contentPanel = transform.Find("HITNContent/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+        TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.HITN);
+        TextMeshProUGUI titleText2 = transform.Find("HITNContent/TitleText").GetComponent<TextMeshProUGUI>();
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.HITN);
 
         CreateHITNButtonUI(1, AppDisplayConstants.HITN.HITN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_I_URL), contentPanel);
         CreateHITNButtonUI(2, AppDisplayConstants.HITN.HITN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_II_URL), contentPanel);

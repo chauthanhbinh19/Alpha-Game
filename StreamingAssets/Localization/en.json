@@ -605,6 +605,10 @@
   { "key": "Universe.UniverseIX", "value": "Universe IX" },
   { "key": "Universe.UniverseX", "value": "Universe X" },
 
+  { "key": "MainType.Archive", "value": "Archive" },
+  { "key": "MainType.Universe", "value": "Universe" },
+  { "key": "MainType.Research", "value": "Research" },
+
   { "key": "MainType.HIIN", "value": "HIIN" },
   { "key": "MainType.SSWN", "value": "SSWN" },
   { "key": "MainType.HITN", "value": "HITN" },
@@ -614,6 +618,7 @@
   { "key": "MainType.HIRN", "value": "HIRN" },
   { "key": "MainType.HIDC", "value": "HIDC" },
   { "key": "MainType.HICB", "value": "HICB" },
+  { "key": "MainType.HISN", "value": "HISN" },
 
   { "key": "MainType.HIIN_FULLNAME", "value": "Hyper-Integrated Industrial Nexus" },
   { "key": "MainType.SSWN_FULLNAME", "value": "Supreme Strategic War Nexus" },

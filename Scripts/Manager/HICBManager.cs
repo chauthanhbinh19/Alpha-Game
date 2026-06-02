@@ -36,6 +36,22 @@ public class HICBManager : MonoBehaviour
         GameObject currentObject = Instantiate(HICBPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
         Transform contentPanel = transform.Find("HICBContent/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+        TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.HICB);
+        TextMeshProUGUI titleText2 = transform.Find("HICBContent/TitleText").GetComponent<TextMeshProUGUI>();
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.HICB);
 
         CreateHICBButtonUI(1, AppDisplayConstants.HICB.HICB_I, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_I_URL), contentPanel);
         CreateHICBButtonUI(2, AppDisplayConstants.HICB.HICB_II, TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_II_URL), contentPanel);

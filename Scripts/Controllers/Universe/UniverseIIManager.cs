@@ -245,6 +245,35 @@ public class UniverseIIManager : MonoBehaviour
 
         int currentLevel = userUniverse?.Level ?? 0;
         levelText.text = currentLevel.ToString();
+        async Task RefreshPanelAsync()
+        {
+            userUniverse = await UserUniversesService.Create().GetUserUniversesAsync(featureId);
+            currentLevel = userUniverse?.Level ?? 0;
+            levelText.text = currentLevel.ToString();
+
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            if (refreshedRecipeItems == null)
+                return;
+
+            foreach (Transform child in leftSideContent)
+                Destroy(child.gameObject);
+            foreach (Transform child in rightSideContent)
+                Destroy(child.gameObject);
+
+            int refreshedTotal = refreshedRecipeItems.Count;
+            int refreshedLeftCount = Mathf.CeilToInt(refreshedTotal / 2f);
+
+            for (int i = 0; i < refreshedTotal; i++)
+            {
+                Transform parent = (i < refreshedLeftCount)
+                    ? leftSideContent
+                    : rightSideContent;
+
+                GameObject itemGO = Instantiate(UniverseItemPrefab, parent);
+                SetupUniverseItemUI(itemGO, refreshedRecipeItems[i]);
+            }
+        }
+
 
         upgradeOneLevelButton.onClick.AddListener(async () =>
         {
@@ -254,14 +283,12 @@ public class UniverseIIManager : MonoBehaviour
             {
                 userUniverse = EnhanceHelper.EnhanceUniverses(userUniverse, result.UpgradedLevels, universe.BaseMultiplier);
                 await UserUniversesService.Create().InsertOrUpdateUserUniversesAsync(User.CurrentUserId, userUniverse, featureId);
-                Destroy(currentObject);
-
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
 
-                await CreateMainUniversePanelAsync(featureId, featureName);
+                await RefreshPanelAsync();
             }
             else
             {
@@ -276,14 +303,12 @@ public class UniverseIIManager : MonoBehaviour
             {
                 userUniverse = EnhanceHelper.EnhanceUniverses(userUniverse, result.UpgradedLevels, universe.BaseMultiplier);
                 await UserUniversesService.Create().InsertOrUpdateUserUniversesAsync(User.CurrentUserId, userUniverse, featureId);
-                Destroy(currentObject);
-
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
-                
-                await CreateMainUniversePanelAsync(featureId, featureName);
+
+                await RefreshPanelAsync();
             }
             else
             {

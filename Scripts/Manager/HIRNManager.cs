@@ -36,6 +36,22 @@ public class HIRNManager : MonoBehaviour
         GameObject currentObject = Instantiate(HIRNPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
         Transform contentPanel = transform.Find("HIRNContent/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+        TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.HIRN);
+        TextMeshProUGUI titleText2 = transform.Find("HIRNContent/TitleText").GetComponent<TextMeshProUGUI>();
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.HIRN);
 
         CreateHIRNButtonUI(1, AppDisplayConstants.HIRN.HIRN_I, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_I_URL), contentPanel);
         CreateHIRNButtonUI(2, AppDisplayConstants.HIRN.HIRN_II, TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_II_URL), contentPanel);

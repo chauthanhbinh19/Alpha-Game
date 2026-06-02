@@ -253,6 +253,36 @@ public class HISNVIManager : MonoBehaviour
         int currentLevel = userHISN?.Level ?? 0;
         levelText.text = currentLevel.ToString();
 
+        async Task RefreshPanelAsync()
+        {
+            userHISN = await UserHISNsService.Create().GetUserHISNsAsync(featureId);
+            currentLevel = userHISN?.Level ?? 0;
+            levelText.text = currentLevel.ToString();
+
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            if (refreshedRecipeItems == null)
+                return;
+
+            foreach (Transform child in leftSideContent)
+                Destroy(child.gameObject);
+            foreach (Transform child in rightSideContent)
+                Destroy(child.gameObject);
+
+            int refreshedTotal = refreshedRecipeItems.Count;
+            int refreshedLeftCount = Mathf.CeilToInt(refreshedTotal / 2f);
+
+            for (int i = 0; i < refreshedTotal; i++)
+            {
+                Transform parent = (i < refreshedLeftCount)
+                    ? leftSideContent
+                    : rightSideContent;
+
+                GameObject itemGO = Instantiate(HISNItemPrefab, parent);
+                SetupHISNItemUI(itemGO, refreshedRecipeItems[i]);
+            }
+        }
+
+
         upgradeOneLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
@@ -261,14 +291,12 @@ public class HISNVIManager : MonoBehaviour
             {
                 userHISN = EnhanceHelper.EnhanceHISNs(userHISN, result.UpgradedLevels, hisn.BaseMultiplier);
                 await UserHISNsService.Create().InsertOrUpdateUserHISNsAsync(User.CurrentUserId, userHISN, featureId);
-                Destroy(currentObject);
-
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 
-                await CreateMainHISNPanelAsync(featureId, featureName);
+                await RefreshPanelAsync();
             }
             else
             {
@@ -283,14 +311,12 @@ public class HISNVIManager : MonoBehaviour
             {
                 userHISN = EnhanceHelper.EnhanceHISNs(userHISN, result.UpgradedLevels, hisn.BaseMultiplier);
                 await UserHISNsService.Create().InsertOrUpdateUserHISNsAsync(User.CurrentUserId, userHISN, featureId);
-                Destroy(currentObject);
-
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
 
-                await CreateMainHISNPanelAsync(featureId, featureName);
+                await RefreshPanelAsync();
             }
             else
             {

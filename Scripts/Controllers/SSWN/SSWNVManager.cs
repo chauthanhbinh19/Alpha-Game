@@ -252,6 +252,36 @@ public class SSWNVManager : MonoBehaviour
         int currentLevel = userSSWN?.Level ?? 0;
         levelText.text = currentLevel.ToString();
 
+        async Task RefreshPanelAsync()
+        {
+            userSSWN = await UserSSWNsService.Create().GetUserSSWNsAsync(featureId);
+            currentLevel = userSSWN?.Level ?? 0;
+            levelText.text = currentLevel.ToString();
+
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            if (refreshedRecipeItems == null)
+                return;
+
+            foreach (Transform child in leftSideContent)
+                Destroy(child.gameObject);
+            foreach (Transform child in rightSideContent)
+                Destroy(child.gameObject);
+
+            int refreshedTotal = refreshedRecipeItems.Count;
+            int refreshedLeftCount = Mathf.CeilToInt(refreshedTotal / 2f);
+
+            for (int i = 0; i < refreshedTotal; i++)
+            {
+                Transform parent = (i < refreshedLeftCount)
+                    ? leftSideContent
+                    : rightSideContent;
+
+                GameObject itemGO = Instantiate(SSWNItemPrefab, parent);
+                SetupSSWNItemUI(itemGO, refreshedRecipeItems[i]);
+            }
+        }
+
+
         upgradeOneLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
@@ -260,14 +290,12 @@ public class SSWNVManager : MonoBehaviour
             {
                 userSSWN = EnhanceHelper.EnhanceSSWNs(userSSWN, result.UpgradedLevels, sswn.BaseMultiplier);
                 await UserSSWNsService.Create().InsertOrUpdateUserSSWNsAsync(User.CurrentUserId, userSSWN, featureId);
-                Destroy(currentObject);
-
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 
-                await CreateMainSSWNPanelAsync(featureId, featureName);
+                await RefreshPanelAsync();
             }
             else
             {
@@ -282,14 +310,12 @@ public class SSWNVManager : MonoBehaviour
             {
                 userSSWN = EnhanceHelper.EnhanceSSWNs(userSSWN, result.UpgradedLevels, sswn.BaseMultiplier);
                 await UserSSWNsService.Create().InsertOrUpdateUserSSWNsAsync(User.CurrentUserId, userSSWN, featureId);
-                Destroy(currentObject);
-
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
 
-                await CreateMainSSWNPanelAsync(featureId, featureName);
+                await RefreshPanelAsync();
             }
             else
             {

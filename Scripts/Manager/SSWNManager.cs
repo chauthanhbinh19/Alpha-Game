@@ -36,6 +36,22 @@ public class SSWNManager : MonoBehaviour
         GameObject currentObject = Instantiate(SSWNPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
         Transform contentPanel = transform.Find("SSWNContent/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
+        TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SSWN);
+        TextMeshProUGUI titleText2 = transform.Find("SSWNContent/TitleText").GetComponent<TextMeshProUGUI>();
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.SSWN);
 
         CreateSSWNButtonUI(1, AppDisplayConstants.SSWN.SSWN_I, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_I_URL), contentPanel);
         CreateSSWNButtonUI(2, AppDisplayConstants.SSWN.SSWN_II, TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_II_URL), contentPanel);

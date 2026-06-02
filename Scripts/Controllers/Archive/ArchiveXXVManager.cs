@@ -252,22 +252,51 @@ public class ArchiveXXVManager : MonoBehaviour
         int currentLevel = userArchive?.Level ?? 0;
         levelText.text = currentLevel.ToString();
 
+        async Task RefreshPanelAsync()
+        {
+            userArchive = await UserArchivesService.Create().GetUserArchivesAsync(featureId);
+            currentLevel = userArchive?.Level ?? 0;
+            levelText.text = currentLevel.ToString();
+
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            if (refreshedRecipeItems == null)
+                return;
+
+            foreach (Transform child in leftSideContent)
+                Destroy(child.gameObject);
+            foreach (Transform child in rightSideContent)
+                Destroy(child.gameObject);
+
+            int refreshedTotal = refreshedRecipeItems.Count;
+            int refreshedLeftCount = Mathf.CeilToInt(refreshedTotal / 2f);
+
+            for (int i = 0; i < refreshedTotal; i++)
+            {
+                Transform parent = (i < refreshedLeftCount)
+                    ? leftSideContent
+                    : rightSideContent;
+
+                GameObject itemGO = Instantiate(ArchiveItemPrefab, parent);
+                SetupArchiveItemUI(itemGO, refreshedRecipeItems[i]);
+            }
+        }
+
         upgradeOneLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, archive.MaxLevel, User.CurrentUserId);
+            int levelToUpgrade = userArchive?.Level ?? 0;
+            UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, levelToUpgrade, archive.MaxLevel, User.CurrentUserId);
             if (result.Success)
             {
                 userArchive = EnhanceHelper.EnhanceArchives(userArchive, result.UpgradedLevels, archive.BaseMultiplier);
                 await UserArchivesService.Create().InsertOrUpdateUserArchivesAsync(User.CurrentUserId, userArchive, featureId);
-                Destroy(currentObject);
 
                 double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
 
-                await CreateMainArchivePanelAsync(featureId, featureName);
+                await RefreshPanelAsync();
             }
             else
             {
@@ -277,19 +306,19 @@ public class ArchiveXXVManager : MonoBehaviour
         upgradeMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, archive.MaxLevel, User.CurrentUserId);
+            int levelToUpgrade = userArchive?.Level ?? 0;
+            UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, levelToUpgrade, archive.MaxLevel, User.CurrentUserId);
             if (result.Success)
             {
                 userArchive = EnhanceHelper.EnhanceArchives(userArchive, result.UpgradedLevels, archive.BaseMultiplier);
                 await UserArchivesService.Create().InsertOrUpdateUserArchivesAsync(User.CurrentUserId, userArchive, featureId);
-                Destroy(currentObject);
 
                 double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                 double currentPower = User.CurrentUserPower;
                 User.CurrentUserPower = newPower;
                 PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
-                
-                await CreateMainArchivePanelAsync(featureId, featureName);
+
+                await RefreshPanelAsync();
             }
             else
             {
