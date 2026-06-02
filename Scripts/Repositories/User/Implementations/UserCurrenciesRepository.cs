@@ -19,10 +19,15 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT c.image, c.name, uc.currency_id, uc.quantity
-                FROM user_currencies uc
-                JOIN currencies c ON uc.currency_id = c.id
-                WHERE uc.user_id = @userId";
+                SELECT
+                    c.image,
+                    c.name,
+                    c.id AS currency_id,
+                    COALESCE(uc.quantity, 0) AS quantity
+                FROM currencies c
+                LEFT JOIN user_currencies uc
+                    ON c.id = uc.currency_id
+                    AND uc.user_id = @userId;";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

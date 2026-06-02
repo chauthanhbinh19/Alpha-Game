@@ -66,7 +66,7 @@ public class HIRNIIIManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         Dictionary<string, FeatureHIRNDTO> uniqueTypes = new Dictionary<string, FeatureHIRNDTO>();
         uniqueTypes = await FeaturesService.Create().GetHIRNFeaturesByTypeAsync(AppConstants.HIRN.HIRN_III);
@@ -212,7 +212,7 @@ public class HIRNIIIManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
         Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_18");

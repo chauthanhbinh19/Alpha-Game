@@ -66,7 +66,7 @@ public class HIHNXManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         Dictionary<string, FeatureHIHNDTO> uniqueTypes = new Dictionary<string, FeatureHIHNDTO>();
         uniqueTypes = await FeaturesService.Create().GetHIHNFeaturesByTypeAsync(AppConstants.HIHN.HIHN_X);
@@ -212,7 +212,7 @@ public class HIHNXManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
         Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_15");

@@ -31,11 +31,23 @@ public class ModuleManager : MonoBehaviour
         ModulePanelPrefab = UIManager.Instance.Get("ModulePanelPrefab");
         ModuleButtonPrefab = UIManager.Instance.Get("ModuleButtonPrefab");
     }
-    public void CreateModule()
+    public void CreateModule(IStats stat)
     {
         GameObject currentObject = Instantiate(ModulePanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
         Transform contentPanel = transform.Find("ModuleContent");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
 
         CreateModuleButtonUI(1, AppDisplayConstants.Module.MODULE_BREAKTHROUGH, TextureHelper.LoadTexture2DCached(ImageConstants.Module.MODULE_BREAKTHROUGH_URL), contentPanel);
         CreateModuleButtonUI(2, AppDisplayConstants.Module.MODULE_AWAKENING, TextureHelper.LoadTexture2DCached(ImageConstants.Module.MODULE_AWAKENING_URL), contentPanel);

@@ -66,7 +66,7 @@ public class HICAVIManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         Dictionary<string, FeatureHICADTO> uniqueTypes = new Dictionary<string, FeatureHICADTO>();
         uniqueTypes = await FeaturesService.Create().GetHICAFeaturesByTypeAsync(AppConstants.HICA.HICA_VI);
@@ -212,7 +212,7 @@ public class HICAVIManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
         Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_16");

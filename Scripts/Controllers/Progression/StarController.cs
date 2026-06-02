@@ -44,7 +44,9 @@ public class StarController : MonoBehaviour
 
         Transform currentStarTransform = panelTransform.Find("CurrentStarGridLayout");
         Transform nextStarTransform = panelTransform.Find("NextStarGridLayout");
+        Slider progressionSlider = panelTransform.Find("ProgressionSlider").GetComponent<Slider>();
         Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
+        TextMeshProUGUI experienceText = panelTransform.Find("ExperienceText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI userQuantityText = panelTransform.Find("UserItemQuantityText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI usedQuantityText = panelTransform.Find("ItemUsedQuantityText").GetComponent<TextMeshProUGUI>();
         RawImage userItemImage = panelTransform.Find("UserItemImage").GetComponent<RawImage>();
@@ -130,12 +132,33 @@ public class StarController : MonoBehaviour
 
         void RefreshUI()
         {
-            TextureHelper.SetupStars(currentStarTransform,currentStar);
-            TextureHelper.SetupStars(nextStarTransform,targetStar);
+            TextureHelper.SetupStars(currentStarTransform, currentStar);
+            TextureHelper.SetupStars(nextStarTransform, targetStar);
             userQuantityText.text = NumberFormatterHelper.FormatNumber(stat.Quantity, true);
-            usedQuantityText.text =NumberFormatterHelper.FormatNumber(currentMaterialCount, true);
+            usedQuantityText.text = NumberFormatterHelper.FormatNumber(currentMaterialCount, true);
             quantitySlider.SetValueWithoutNotify(
                 currentMaterialCount);
+
+            if (currentStar >= maxStar)
+            {
+                progressionSlider.minValue = 0;
+                progressionSlider.maxValue = 1;
+                progressionSlider.SetValueWithoutNotify(1);
+
+                experienceText.text = "MAX";
+                return;
+            }
+
+            double required = starRule(currentStar);
+
+            double progress = Math.Min(currentMaterialCount, required);
+
+            progressionSlider.minValue = 0;
+            progressionSlider.maxValue = (float)required;
+            progressionSlider.SetValueWithoutNotify((float)progress);
+
+            experienceText.text =
+                $"{NumberFormatterHelper.FormatNumber(progress, true)} / {NumberFormatterHelper.FormatNumber(required, true)}";
 
             if (currentMaterialCount <= 0)
             {
@@ -520,7 +543,7 @@ public class StarController : MonoBehaviour
             try
             {
                 stat.Star = targetStar;
-                stat.Quantity =Math.Max(0, stat.Quantity - currentMaterialCount);
+                stat.Quantity = Math.Max(0, stat.Quantity - currentMaterialCount);
 
                 await ExecuteServiceInsertAsync();
 

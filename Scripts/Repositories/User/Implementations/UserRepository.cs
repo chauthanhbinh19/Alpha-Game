@@ -151,50 +151,22 @@ public class UserRepository : IUserRepository
 
                     reader.Close(); // đóng reader trước khi truy vấn khác
 
-                    // --- Lấy thông tin user_currencies ---
-                    string currencyQuery = @"
-                    SELECT c.image, c.name, uc.currency_id, uc.quantity 
-                    FROM user_currencies uc
-                    JOIN currencies c ON uc.currency_id = c.id
-                    WHERE uc.user_id = @userId";
-
-                    using (var currencyCommand = new MySqlCommand(currencyQuery, connection))
+                    // --- Tạo object user ---
+                    var user = new User
                     {
-                        currencyCommand.Parameters.AddWithValue("@userId", userId);
+                        Id = userId,
+                        Name = name,
+                        Username = username,
+                        Password = password,
+                        Level = level,
+                        Vip = vip,
+                        Experiment = experience,
+                        Power = power,
+                        Image = "",
+                        Border = ""
+                    };
 
-                        using (var currencyReader = await currencyCommand.ExecuteReaderAsync())
-                        {
-                            var currencies = new List<Currencies>();
-                            while (await currencyReader.ReadAsync())
-                            {
-                                currencies.Add(new Currencies
-                                {
-                                    Id = currencyReader.GetStringSafe("currency_id"),
-                                    Name = currencyReader.GetStringSafe("name"),
-                                    Image = currencyReader.GetStringSafe("image"),
-                                    Quantity = currencyReader.GetDoubleSafe("quantity")
-                                });
-                            }
-
-                            // --- Tạo object user ---
-                            var user = new User
-                            {
-                                Id = userId,
-                                Name = name,
-                                Username = username,
-                                Password = password,
-                                Level = level,
-                                Vip = vip,
-                                Experiment = experience,
-                                Power = power,
-                                Image = "",
-                                Border = "",
-                                Currencies = currencies
-                            };
-
-                            return user;
-                        }
-                    }
+                    return user;
                 }
             }
         }
@@ -237,50 +209,22 @@ public class UserRepository : IUserRepository
 
                     reader.Close(); // đóng reader trước khi thực hiện truy vấn khác
 
-                    // --- Lấy thông tin user_currencies ---
-                    string currencyQuery = @"
-                    SELECT c.image, c.name, uc.currency_id, uc.quantity 
-                    FROM user_currencies uc
-                    JOIN currencies c ON uc.currency_id = c.id
-                    WHERE uc.user_id = @userId";
-
-                    using (var currencyCommand = new MySqlCommand(currencyQuery, connection))
+                    // --- Tạo object user ---
+                    var user = new User
                     {
-                        currencyCommand.Parameters.AddWithValue("@userId", userId);
+                        Id = userId,
+                        Name = name,
+                        Username = username,
+                        Password = password,
+                        Level = level,
+                        Vip = vip,
+                        Experiment = experience,
+                        Power = power,
+                        Image = "",
+                        Border = ""
+                    };
 
-                        using (var currencyReader = await currencyCommand.ExecuteReaderAsync())
-                        {
-                            var currencies = new List<Currencies>();
-                            while (await currencyReader.ReadAsync())
-                            {
-                                currencies.Add(new Currencies
-                                {
-                                    Id = currencyReader.GetStringSafe("currency_id"),
-                                    Name = currencyReader.GetStringSafe("name"),
-                                    Image = currencyReader.GetStringSafe("image"),
-                                    Quantity = currencyReader.GetDoubleSafe("quantity")
-                                });
-                            }
-
-                            // --- Tạo object user ---
-                            var user = new User
-                            {
-                                Id = userId,
-                                Name = name,
-                                Username = username,
-                                Password = password,
-                                Level = level,
-                                Vip = vip,
-                                Experiment = experience,
-                                Power = power,
-                                Image = "",
-                                Border = "",
-                                Currencies = currencies
-                            };
-
-                            return user;
-                        }
-                    }
+                    return user;
                 }
             }
         }
@@ -421,7 +365,7 @@ public class UserRepository : IUserRepository
             }
         }
     }
-    public async Task CreateUserCurrencyAsync(string Id)
+    public async Task CreateUserCurrencyAsync(string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -431,17 +375,22 @@ public class UserRepository : IUserRepository
             {
                 await connection.OpenAsync(); // mở connection async
 
-                for (int currencyId = 1; currencyId <= 70; currencyId++)
+                string insertSQL = @"
+                INSERT INTO user_currencies (
+                    user_id,
+                    currency_id,
+                    quantity
+                )
+                SELECT
+                    @userId,
+                    c.id,
+                    0
+                FROM currencies c;";
+                await using (var insertCommand = new MySqlCommand(insertSQL, connection))
                 {
-                    string insertSQL = "INSERT INTO user_currencies (user_id, currency_id, quantity) VALUES (@id, @currency_id, @quantity)";
-                    await using (var insertCommand = new MySqlCommand(insertSQL, connection))
-                    {
-                        insertCommand.Parameters.AddWithValue("@id", Id);
-                        insertCommand.Parameters.AddWithValue("@currency_id", currencyId);
-                        insertCommand.Parameters.AddWithValue("@quantity", 1000000000);
+                    insertCommand.Parameters.AddWithValue("@userId", userId);
 
-                        await insertCommand.ExecuteNonQueryAsync(); // insert async
-                    }
+                    await insertCommand.ExecuteNonQueryAsync(); // insert async
                 }
             }
             catch (Exception ex)

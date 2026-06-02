@@ -126,6 +126,9 @@ public class UserArtifactsController : MonoBehaviour
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         image.texture = texture;
 
+        TextMeshProUGUI idText = transform.Find("DictionaryCards/Name/IdText").GetComponent<TextMeshProUGUI>();
+        idText.text = "ID: " + artifact.Id;
+
         TextMeshProUGUI nameText = transform.Find("DictionaryCards/Name/NameText").GetComponent<TextMeshProUGUI>();
         nameText.text = artifact.Name;
 
@@ -183,16 +186,25 @@ public class UserArtifactsController : MonoBehaviour
             LevelController.Instance.CreateLevelPanel(artifact, itemExperienceDTO, MAX_LEVEL, level => Math.Max(level, 1) * 500d);
         });
 
+        Button upgradeStarButton = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/UpgradeStarButton").GetComponent<Button>();
+        upgradeStarButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            StarController.Instance.CreateStarPanel(artifact, MAX_LEVEL, level => Math.Max(level, 1) * 2d);
+        });
+
         Button moduleButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Module").GetComponent<Button>();
         moduleButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ModuleManager.Instance.CreateModule(artifact);
         });
 
         Button upgradeButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Upgrade").GetComponent<Button>();
         upgradeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            UpgradeManager.Instance.CreateUpgrade(artifact);
         });
     }
     public void RefreshCurrentDetailsUI(Artifacts artifact)

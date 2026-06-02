@@ -69,8 +69,9 @@ public class UpgradeAscensionManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
+        
         feature = (await FeaturesService.Create().GetUpgradeFeaturesByTypeAsync(AppConstants.Upgrade.UPGRADE_ASCENSION, stat))
                 .Values
                 .FirstOrDefault();
@@ -102,232 +103,41 @@ public class UpgradeAscensionManager : MonoBehaviour
 
             SetupUniverseItemUI(itemGO, recipeItems[i]);
         }
+
+        Button upgradeLevelButton = transform.Find("UpgradeLevelButton").GetComponent<Button>();
+        upgradeLevelButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            CreatePopupUpgradePanelAsync();
+        });
     }
-    // public async Task CreatePopupUpgradePanelAsync()
-    // {
-    //     GameObject gameObject = Instantiate(PopupUpgradePanelPrefab, MainPanel);
-    //     Transform panelTransform = gameObject.transform;
-    //     // --- Khởi tạo và tìm UI Components ---
-    //     TextMeshProUGUI currentLevelText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
-    //     TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
-    //     Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
-    //     TextMeshProUGUI userItemQuantityText = panelTransform.Find("UserItemQuantityText").GetComponent<TextMeshProUGUI>();
-    //     TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText").GetComponent<TextMeshProUGUI>();
-    //     RawImage userItemImage = panelTransform.Find("UserItemImage").GetComponent<RawImage>();
-    //     RawImage itemUsedImage = panelTransform.Find("ItemUsedImage").GetComponent<RawImage>();
+    public void CreatePopupUpgradePanelAsync()
+    {
+        GameObject gameObject = Instantiate(PopupUpgradePanelPrefab, MainPanel);
+        Transform panelTransform = gameObject.transform;
+        // --- Khởi tạo và tìm UI Components ---
+        TextMeshProUGUI currentLevelText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
+        Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
+        TextMeshProUGUI userItemQuantityText = panelTransform.Find("UserItemQuantityText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText").GetComponent<TextMeshProUGUI>();
+        RawImage userItemImage = panelTransform.Find("UserItemImage").GetComponent<RawImage>();
+        RawImage itemUsedImage = panelTransform.Find("ItemUsedImage").GetComponent<RawImage>();
 
-    //     // TÌM COMPONENT THÔNG BÁO TRÊN UI
-    //     TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
+        // TÌM COMPONENT THÔNG BÁO TRÊN UI
+        TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
 
-    //     Button increaseOneButton = panelTransform.Find("IncreaseOneButton").GetComponent<Button>();
-    //     Button increaseTenButton = panelTransform.Find("IncreaseTenButton").GetComponent<Button>();
-    //     Button increaseMaxButton = panelTransform.Find("IncreaseMaxButton").GetComponent<Button>();
-    //     Button decreaseOneButton = panelTransform.Find("DecreaseOneButton").GetComponent<Button>();
-    //     Button decreaseTenButton = panelTransform.Find("DecreaseTenButton").GetComponent<Button>();
-    //     Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
-    //     Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
-    //     Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+        Button increaseOneButton = panelTransform.Find("IncreaseOneButton").GetComponent<Button>();
+        Button increaseTenButton = panelTransform.Find("IncreaseTenButton").GetComponent<Button>();
+        Button increaseMaxButton = panelTransform.Find("IncreaseMaxButton").GetComponent<Button>();
+        Button decreaseOneButton = panelTransform.Find("DecreaseOneButton").GetComponent<Button>();
+        Button decreaseTenButton = panelTransform.Find("DecreaseTenButton").GetComponent<Button>();
+        Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
+        Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
+        Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
 
-    //     // ==========================
-    //     // DATA
-    //     // ==========================
-
-    //     string featureName = feature.FeatureName;
-    //     string userId = User.CurrentUserId;
-
-    //     int currentLevel = feature.CurrentLevel;
-    //     int maxLevel = feature.MaxLevel;
-
-    //     int selectedLevel = currentLevel;
-
-    //     quantitySlider.minValue = currentLevel;
-    //     quantitySlider.maxValue = maxLevel;
-    //     // ==========================
-    //     // REFRESH UI
-    //     // ==========================
-
-    //     async Task RefreshUI()
-    //     {
-    //         currentLevelText.text = currentLevel.ToString();
-    //         nextLevelText.text = selectedLevel.ToString();
-
-    //         quantitySlider.value = selectedLevel;
-
-    //         int upgradeCount =
-    //             selectedLevel - currentLevel;
-
-    //         confirmButton.interactable =
-    //             upgradeCount > 0;
-
-    //         if (upgradeCount <= 0)
-    //         {
-    //             itemUsedQuantityText.text = "0";
-    //             notificationText.text = "";
-
-    //             return;
-    //         }
-
-    //         var costInfo =
-    //             await UpgradeService.CalculateCostAsync(
-    //                 featureName,
-    //                 currentLevel,
-    //                 selectedLevel,
-    //                 userId);
-
-    //         userItemQuantityText.text =
-    //             NumberFormatterHelper.FormatNumber(costInfo.UserQuantity);
-
-    //         itemUsedQuantityText.text =
-    //             NumberFormatterHelper.FormatNumber(costInfo.RequiredQuantity);
-
-    //         bool enoughMaterial =
-    //             costInfo.UserQuantity >=
-    //             costInfo.RequiredQuantity;
-
-    //         notificationText.text =
-    //             enoughMaterial
-    //                 ? ""
-    //                 : "Không đủ nguyên liệu";
-
-    //         confirmButton.interactable =
-    //             enoughMaterial;
-    //     }
-
-    //     // ==========================
-    //     // +1
-    //     // ==========================
-
-    //     increaseOneButton.onClick.AddListener(async () =>
-    //     {
-    //         int maxAllowedLevel =
-    //             await UpgradeService.GetMaxUpgradeableLevelAsync(
-    //                 featureName,
-    //                 currentLevel,
-    //                 maxLevel,
-    //                 userId);
-
-    //         selectedLevel =
-    //             Mathf.Min(
-    //                 selectedLevel + 1,
-    //                 maxAllowedLevel);
-
-    //         await RefreshUI();
-    //     });
-
-    //     // ==========================
-    //     // +10
-    //     // ==========================
-
-    //     increaseTenButton.onClick.AddListener(async () =>
-    //     {
-    //         int maxAllowedLevel =
-    //             await UpgradeService.GetMaxUpgradeableLevelAsync(
-    //                 featureName,
-    //                 currentLevel,
-    //                 maxLevel,
-    //                 userId);
-
-    //         selectedLevel =
-    //             Mathf.Min(
-    //                 selectedLevel + 10,
-    //                 maxAllowedLevel);
-
-    //         await RefreshUI();
-    //     });
-
-    //     // ==========================
-    //     // MAX
-    //     // ==========================
-
-    //     increaseMaxButton.onClick.AddListener(async () =>
-    //     {
-    //         selectedLevel =
-    //             await UpgradeService.GetMaxUpgradeableLevelAsync(
-    //                 featureName,
-    //                 currentLevel,
-    //                 maxLevel,
-    //                 userId);
-
-    //         await RefreshUI();
-    //     });
-
-    //     // ==========================
-    //     // -1
-    //     // ==========================
-
-    //     decreaseOneButton.onClick.AddListener(async () =>
-    //     {
-    //         selectedLevel =
-    //             Mathf.Max(
-    //                 currentLevel,
-    //                 selectedLevel - 1);
-
-    //         await RefreshUI();
-    //     });
-
-    //     // ==========================
-    //     // -10
-    //     // ==========================
-
-    //     decreaseTenButton.onClick.AddListener(async () =>
-    //     {
-    //         selectedLevel =
-    //             Mathf.Max(
-    //                 currentLevel,
-    //                 selectedLevel - 10);
-
-    //         await RefreshUI();
-    //     });
-
-    //     // ==========================
-    //     // MIN
-    //     // ==========================
-
-    //     decreaseMaxButton.onClick.AddListener(async () =>
-    //     {
-    //         selectedLevel = currentLevel;
-
-    //         await RefreshUI();
-    //     });
-
-    //     // ==========================
-    //     // CONFIRM
-    //     // ==========================
-
-    //     confirmButton.onClick.AddListener(async () =>
-    //     {
-    //         if (selectedLevel <= currentLevel)
-    //             return;
-
-    //         var result =
-    //             await UpgradeService.UpgradeLevelsAsync(
-    //                 featureName,
-    //                 currentLevel,
-    //                 selectedLevel,
-    //                 userId);
-
-    //         notificationText.text =
-    //             result.Message;
-
-    //         if (result.Success)
-    //         {
-    //             Destroy(gameObject);
-
-    //             // await ReloadData();
-    //         }
-    //     });
-
-    //     // ==========================
-    //     // CLOSE
-    //     // ==========================
-
-    //     closeButton.onClick.AddListener(() =>
-    //     {
-    //         Destroy(gameObject);
-    //     });
-
-    //     await RefreshUI();
-    // }
+    }
 
     public async Task CreateMainUniversePanelAsync(string featureId, string featureName)
     {
@@ -349,7 +159,7 @@ public class UpgradeAscensionManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
 
         Universes universe = await UniversesService.Create().GetUniverseByIdAsync(featureId);

@@ -16,6 +16,7 @@ public static class MessageConstants
     public const string ITEM_ALREADY_EXISTS = "Item already exists!";
     public const string ITEM_ADDED = "Item added successfully!";
     public const string ITEM_REMOVED = "Item removed successfully!";
+    public const string UPGRADE_PREVIEW_SUCCESS = "Upgrade preview success";
     public const string IMAGE_IS_NULL = "Your image not found in Resources!";
     public const string PREFAB_IS_NULL = "Your prefab is null! Check if the prefab is correctly loaded.";
     public const string USERNAME_NOT_EXIST = "Your account does not exist";

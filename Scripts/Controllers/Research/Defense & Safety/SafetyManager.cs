@@ -68,7 +68,7 @@ public class SafetyManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         Dictionary<string, FeatureResearchDTO> uniqueTypes = new Dictionary<string, FeatureResearchDTO>();
         uniqueTypes = await FeaturesService.Create().GetResearchFeaturesByTypeAsync(AppConstants.Research.SAFETY);
@@ -214,7 +214,7 @@ public class SafetyManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
         Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_3");

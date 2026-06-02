@@ -66,7 +66,7 @@ public class SSWNIXManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         Dictionary<string, FeatureSSWNDTO> uniqueTypes = new Dictionary<string, FeatureSSWNDTO>();
         uniqueTypes = await FeaturesService.Create().GetSSWNFeaturesByTypeAsync(AppConstants.SSWN.SSWN_IX);
@@ -212,7 +212,7 @@ public class SSWNIXManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
         Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_14");

@@ -141,6 +141,9 @@ public class UserVehiclesController : MonoBehaviour
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         image.texture = texture;
 
+        TextMeshProUGUI idText = transform.Find("DictionaryCards/Name/IdText").GetComponent<TextMeshProUGUI>();
+        idText.text = "ID: " + vehicle.Id;
+
         TextMeshProUGUI nameText = transform.Find("DictionaryCards/Name/NameText").GetComponent<TextMeshProUGUI>();
         nameText.text = vehicle.Name;
 
@@ -198,16 +201,25 @@ public class UserVehiclesController : MonoBehaviour
             LevelController.Instance.CreateLevelPanel(vehicle, itemExperienceDTO, MAX_LEVEL, level => Math.Max(level, 1) * 500d);
         });
 
+        Button upgradeStarButton = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/UpgradeStarButton").GetComponent<Button>();
+        upgradeStarButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            StarController.Instance.CreateStarPanel(vehicle, MAX_LEVEL, level => Math.Max(level, 1) * 2d);
+        });
+
         Button moduleButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Module").GetComponent<Button>();
         moduleButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ModuleManager.Instance.CreateModule(vehicle);
         });
 
         Button upgradeButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Upgrade").GetComponent<Button>();
         upgradeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            UpgradeManager.Instance.CreateUpgrade(vehicle);
         });
     }
     public void RefreshCurrentDetailsUI(Vehicles vehicle)

@@ -66,7 +66,7 @@ public class ArchiveXIManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         Dictionary<string, FeatureArchiveDTO> uniqueTypes = new Dictionary<string, FeatureArchiveDTO>();
         uniqueTypes = await FeaturesService.Create().GetArchiveFeaturesByTypeAsync(AppConstants.Archive.ARCHIVE_XI);
@@ -212,7 +212,7 @@ public class ArchiveXIManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
         Texture mapTexture = Resources.Load<Texture2D>("UI/Background2/Chapter_16");

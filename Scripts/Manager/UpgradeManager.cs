@@ -31,11 +31,23 @@ public class UpgradeManager : MonoBehaviour
         UpgradePanelPrefab = UIManager.Instance.Get("UpgradePanelPrefab");
         UpgradeButtonPrefab = UIManager.Instance.Get("UpgradeButtonPrefab");
     }
-    public void CreateUpgrade()
+    public void CreateUpgrade(IStats stat)
     {
         GameObject currentObject = Instantiate(UpgradePanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
         Transform contentPanel = transform.Find("UpgradeContent");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+        });
 
         CreateUpgradeButtonUI(1, AppDisplayConstants.Upgrade.UPGRADE_BREAKTHROUGH, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.UPGRADE_BREAKTHROUGH_URL), contentPanel);
         CreateUpgradeButtonUI(2, AppDisplayConstants.Upgrade.UPGRADE_AWAKENING, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.UPGRADE_AWAKENING_URL), contentPanel);

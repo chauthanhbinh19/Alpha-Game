@@ -55,7 +55,7 @@ public class ReactorNumber7Manager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         closeButton.onClick.AddListener(() =>
         {

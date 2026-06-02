@@ -66,7 +66,7 @@ public class UniverseIManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         Dictionary<string, FeatureUniverseDTO> uniqueTypes = new Dictionary<string, FeatureUniverseDTO>();
         uniqueTypes = await FeaturesService.Create().GetUniverseFeaturesByTypeAsync(AppConstants.Universe.UNIVERSE_I);
@@ -212,7 +212,7 @@ public class UniverseIManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            await HomeManager.Instance.CreateHomePanelAsync();
+            
         });
         
         Universes universe = await UniversesService.Create().GetUniverseByIdAsync(featureId);

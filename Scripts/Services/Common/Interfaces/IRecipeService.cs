@@ -4,4 +4,5 @@ using System.Threading.Tasks;
 public interface IRecipeService
 {
     Task<List<RecipeItemDto>> GetRecipeItemsAsync(string featureName,int level,string userId);
+    Task DeductItemsAsync(string userId, List<RecipeItemDto> items);
 }

@@ -99,6 +99,9 @@ public class UserService : IUserService
             user.Image = avatarImagePath;
             user.Border = borderImagePath;
 
+            List<Currencies> currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(user.Id);
+            user.Currencies = currencies;
+
             DateTime now = DateTime.Now;
             int year = now.Year;
             int month = now.Month;
@@ -179,6 +182,9 @@ public class UserService : IUserService
             user.Image = avatarImagePath;
             user.Border = borderImagePath;
 
+            List<Currencies> currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(user.Id);
+            user.Currencies = currencies;
+
             DateTime now = DateTime.Now;
             int year = now.Year;
             int month = now.Month;
@@ -255,9 +261,9 @@ public class UserService : IUserService
         await _userRepository.UpdateUserPowerAsync(user_id, power);
     }
 
-    public async Task CreateUserCurrencyAsync(string Id)
+    public async Task CreateUserCurrencyAsync(string userId)
     {
-        await _userRepository.CreateUserCurrencyAsync(Id);
+        await _userRepository.CreateUserCurrencyAsync(userId);
     }
 
     public async Task<bool> CheckNameExistsAsync(string name)
