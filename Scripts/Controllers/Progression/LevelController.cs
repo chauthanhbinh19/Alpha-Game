@@ -55,14 +55,14 @@ public class LevelController : MonoBehaviour
         // TÌM COMPONENT THÔNG BÁO TRÊN UI
         TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
 
-        Button increaseOne = panelTransform.Find("IncreaseOneButton").GetComponent<Button>();
-        Button increaseTen = panelTransform.Find("IncreaseTenButton").GetComponent<Button>();
-        Button increaseMax = panelTransform.Find("IncreaseMaxButton").GetComponent<Button>();
-        Button decreaseOne = panelTransform.Find("DecreaseOneButton").GetComponent<Button>();
-        Button decreaseTen = panelTransform.Find("DecreaseTenButton").GetComponent<Button>();
-        Button decreaseMax = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
-        Button confirm = panelTransform.Find("ConfirmButton").GetComponent<Button>();
-        Button close = panelTransform.Find("CloseButton").GetComponent<Button>();
+        Button increaseOneButton = panelTransform.Find("IncreaseOneButton").GetComponent<Button>();
+        Button increaseTenButton = panelTransform.Find("IncreaseTenButton").GetComponent<Button>();
+        Button increaseMaxButton = panelTransform.Find("IncreaseMaxButton").GetComponent<Button>();
+        Button decreaseOneButton = panelTransform.Find("DecreaseOneButton").GetComponent<Button>();
+        Button decreaseTenButton = panelTransform.Find("DecreaseTenButton").GetComponent<Button>();
+        Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
+        Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
+        Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
 
         int currentLevel = stat.Level;
         double currentExp = stat.Experience;
@@ -170,27 +170,11 @@ public class LevelController : MonoBehaviour
 
         void RefreshUI()
         {
-            currentLevelText.text =
-                currentLevel.ToString();
-
-            nextLevelText.text =
-                targetLevel >= maxLevel
-                    ? "MAX"
-                    : targetLevel.ToString();
-
-            userItemQuantityText.text =
-                NumberFormatterHelper.FormatNumber(
-                    itemExp.Quantity,
-                    true);
-
-            itemUsedQuantityText.text =
-                NumberFormatterHelper.FormatNumber(
-                    currentMaterialCount,
-                    true);
-
-            quantitySlider.SetValueWithoutNotify(
-                currentMaterialCount);
-
+            currentLevelText.text = currentLevel.ToString();
+            nextLevelText.text = targetLevel >= maxLevel ? "MAX" : targetLevel.ToString();
+            userItemQuantityText.text = NumberFormatterHelper.FormatNumber(itemExp.Quantity, true);
+            itemUsedQuantityText.text = NumberFormatterHelper.FormatNumber(currentMaterialCount, true);
+            quantitySlider.SetValueWithoutNotify(currentMaterialCount);
             if (targetLevel >= maxLevel)
             {
                 progressionSlider.value = 1f;
@@ -261,17 +245,9 @@ public class LevelController : MonoBehaviour
 
         void SetMaxMaterialCount()
         {
-            long maxNeed =
-                CalculateMaxMaterialsNeeded();
-
-            currentMaterialCount =
-                Math.Min(
-                    maxNeed,
-                    (long)itemExp.Quantity);
-
-            CalculateLevelFromItems(
-                currentMaterialCount);
-
+            long maxNeed = CalculateMaxMaterialsNeeded();
+            currentMaterialCount = Math.Min(maxNeed, (long)itemExp.Quantity);
+            CalculateLevelFromItems(currentMaterialCount);
             RefreshUI();
         }
 
@@ -296,55 +272,251 @@ public class LevelController : MonoBehaviour
         {
             try
             {
-                if (stat is Achievements achievement) await UserAchievementsService.Create().UpdateAchievementLevelAsync(achievement);
-                else if (stat is Alchemies alchemy) await UserAlchemiesService.Create().UpdateAlchemyLevelAsync(alchemy);
-                else if (stat is Architectures architecture) await UserArchitecturesService.Create().UpdateArchitectureLevelAsync(architecture);
-                else if (stat is Artifacts artifact) await UserArtifactsService.Create().UpdateArtifactLevelAsync(artifact);
-                else if (stat is Artworks artwork) await UserArtworksService.Create().UpdateArtworkLevelAsync(artwork);
-                else if (stat is Avatars avatar) await UserAvatarsService.Create().UpdateAvatarLevelAsync(avatar);
-                else if (stat is Badges badge) await UserBadgesService.Create().UpdateBadgeLevelAsync(badge);
-                else if (stat is Beverages beverage) await UserBeveragesService.Create().UpdateBeverageLevelAsync(beverage);
-                else if (stat is Books book) await UserBooksService.Create().UpdateBookLevelAsync(book);
-                else if (stat is Borders border) await UserBordersService.Create().UpdateBorderLevelAsync(border);
-                else if (stat is Buildings building) await UserBuildingsService.Create().UpdateBuildingLevelAsync(building);
-                else if (stat is CardAdmirals admiral) await UserCardAdmiralsService.Create().UpdateCardAdmiralLevelAsync(admiral);
-                else if (stat is CardCaptains captain) await UserCardCaptainsService.Create().UpdateCardCaptainLevelAsync(captain);
-                else if (stat is CardColonels colonel) await UserCardColonelsService.Create().UpdateCardColonelLevelAsync(colonel);
-                else if (stat is CardGenerals general) await UserCardGeneralsService.Create().UpdateCardGeneralLevelAsync(general);
-                else if (stat is CardHeroes hero) await UserCardHeroesService.Create().UpdateCardHeroLevelAsync(hero);
-                else if (stat is CardLives cardLife) await UserCardLivesService.Create().UpdateCardLifeLevelAsync(cardLife);
-                else if (stat is CardMilitaries military) await UserCardMilitariesService.Create().UpdateCardMilitaryLevelAsync(military);
-                else if (stat is CardMonsters monster) await UserCardMonstersService.Create().UpdateCardMonsterLevelAsync(monster);
-                else if (stat is CardSoldiers soldier) await UserCardSoldiersService.Create().UpdateCardSoldierLevelAsync(soldier);
-                else if (stat is CardSpells spell) await UserCardSpellsService.Create().UpdateCardSpellLevelAsync(spell);
-                else if (stat is CollaborationEquipments collabEquip) await UserCollaborationEquipmentsService.Create().UpdateCollaborationEquipmentLevelAsync(collabEquip);
-                else if (stat is Collaborations collab) await UserCollaborationsService.Create().UpdateCollaborationLevelAsync(collab);
-                else if (stat is Cores core) await UserCoresService.Create().UpdateCoreLevelAsync(core);
-                else if (stat is Emojis emoji) await UserEmojisService.Create().UpdateEmojiLevelAsync(emoji);
-                else if (stat is Equipments equipment) await UserEquipmentsService.Create().UpdateEquipmentsLevelAsync(equipment);
-                else if (stat is Fashions fashion) await UserFashionsService.Create().UpdateFashionLevelAsync(fashion);
-                else if (stat is Foods food) await UserFoodsService.Create().UpdateFoodLevelAsync(food);
-                else if (stat is Forges forge) await UserForgesService.Create().UpdateForgeLevelAsync(forge);
-                else if (stat is Furnitures furniture) await UserFurnituresService.Create().UpdateFurnitureLevelAsync(furniture);
-                else if (stat is MagicFormationCircles circle) await UserMagicFormationCirclesService.Create().UpdateMagicFormationCircleLevelAsync(circle);
-                else if (stat is MechaBeasts mechaBeast) await UserMechaBeastsService.Create().UpdateMechaBeastLevelAsync(mechaBeast);
-                else if (stat is Medals medal) await UserMedalsService.Create().UpdateMedalLevelAsync(medal);
-                else if (stat is Pets pet) await UserPetsService.Create().UpdatePetLevelAsync(pet);
-                else if (stat is Plants plant) await UserPlantsService.Create().UpdatePlantLevelAsync(plant);
-                else if (stat is Puppets puppet) await UserPuppetsService.Create().UpdatePuppetLevelAsync(puppet);
-                else if (stat is Relics relic) await UserRelicsService.Create().UpdateRelicLevelAsync(relic);
-                else if (stat is Robots robot) await UserRobotsService.Create().UpdateRobotLevelAsync(robot);
-                else if (stat is Runes rune) await UserRunesService.Create().UpdateRuneLevelAsync(rune);
-                else if (stat is Skills skill) await UserSkillsService.Create().UpdateSkillsLevelAsync(skill);
-                else if (stat is SpiritBeasts spiritBeast) await UserSpiritBeastsService.Create().UpdateSpiritBeastLevelAsync(spiritBeast);
-                else if (stat is SpiritCards spiritCard) await UserSpiritCardsService.Create().UpdateSpiritCardLevelAsync(spiritCard);
-                else if (stat is Symbols symbol) await UserSymbolsService.Create().UpdateSymbolLevelAsync(symbol);
-                else if (stat is Talismans talisman) await UserTalismansService.Create().UpdateTalismanLevelAsync(talisman);
-                else if (stat is Technologies technology) await UserTechnologiesService.Create().UpdateTechnologyLevelAsync(technology);
-                else if (stat is Titles title) await UserTitlesService.Create().UpdateTitleLevelAsync(title);
-                else if (stat is Vehicles vehicle) await UserVehiclesService.Create().UpdateVehicleLevelAsync(vehicle);
-                else if (stat is Weapons weapon) await UserWeaponsService.Create().UpdateWeaponLevelAsync(weapon);
-                else if (stat is Outfits outfit) await UserOutfitsService.Create().UpdateOutfitLevelAsync(outfit);
+                if (stat is Achievements achievement)
+                {
+                    await UserAchievementsService.Create().UpdateAchievementLevelAsync(achievement);
+                    UserAchievementsController.Instance.RefreshCurrentDetailsUI(achievement);
+                }
+                else if (stat is Alchemies alchemy)
+                {
+                    await UserAlchemiesService.Create().UpdateAlchemyLevelAsync(alchemy);
+                    UserAlchemiesController.Instance.RefreshCurrentDetailsUI(alchemy);
+                }
+                else if (stat is Architectures architecture)
+                {
+                    await UserArchitecturesService.Create().UpdateArchitectureLevelAsync(architecture);
+                    UserArchitecturesController.Instance.RefreshCurrentDetailsUI(architecture);
+                }
+                else if (stat is Artifacts artifact)
+                {
+                    await UserArtifactsService.Create().UpdateArtifactLevelAsync(artifact);
+                    UserArtifactsController.Instance.RefreshCurrentDetailsUI(artifact);
+                }
+                else if (stat is Artworks artwork)
+                {
+                    await UserArtworksService.Create().UpdateArtworkLevelAsync(artwork);
+                    UserArtworksController.Instance.RefreshCurrentDetailsUI(artwork);
+                }
+                else if (stat is Avatars avatar)
+                {
+                    await UserAvatarsService.Create().UpdateAvatarLevelAsync(avatar);
+                    UserAvatarsController.Instance.RefreshCurrentDetailsUI(avatar);
+                }
+                else if (stat is Badges badge)
+                {
+                    await UserBadgesService.Create().UpdateBadgeLevelAsync(badge);
+                    UserBadgesController.Instance.RefreshCurrentDetailsUI(badge);
+                }
+                else if (stat is Beverages beverage)
+                {
+                    await UserBeveragesService.Create().UpdateBeverageLevelAsync(beverage);
+                    UserBeveragesController.Instance.RefreshCurrentDetailsUI(beverage);
+                }
+                else if (stat is Books book)
+                {
+                    await UserBooksService.Create().UpdateBookLevelAsync(book);
+                    UserBooksController.Instance.RefreshCurrentDetailsUI(book);
+                }
+                else if (stat is Borders border)
+                {
+                    await UserBordersService.Create().UpdateBorderLevelAsync(border);
+                    UserBordersController.Instance.RefreshCurrentDetailsUI(border);
+                }
+                else if (stat is Buildings building)
+                {
+                    await UserBuildingsService.Create().UpdateBuildingLevelAsync(building);
+                    UserBuildingsController.Instance.RefreshCurrentDetailsUI(building);
+                }
+                else if (stat is CardAdmirals admiral)
+                {
+                    await UserCardAdmiralsService.Create().UpdateCardAdmiralLevelAsync(admiral);
+                    UserCardAdmiralsController.Instance.RefreshCurrentDetailsUI(admiral);
+                }
+                else if (stat is CardCaptains captain)
+                {
+                    await UserCardCaptainsService.Create().UpdateCardCaptainLevelAsync(captain);
+                    UserCardCaptainsController.Instance.RefreshCurrentDetailsUI(captain);
+                }
+                else if (stat is CardColonels colonel)
+                {
+                    await UserCardColonelsService.Create().UpdateCardColonelLevelAsync(colonel);
+                    UserCardColonelsController.Instance.RefreshCurrentDetailsUI(colonel);
+                }
+                else if (stat is CardGenerals general)
+                {
+                    await UserCardGeneralsService.Create().UpdateCardGeneralLevelAsync(general);
+                    UserCardGeneralsController.Instance.RefreshCurrentDetailsUI(general);
+                }
+                else if (stat is CardHeroes hero)
+                {
+                    await UserCardHeroesService.Create().UpdateCardHeroLevelAsync(hero);
+                    UserCardHeroesController.Instance.RefreshCurrentDetailsUI(hero);
+                }
+                else if (stat is CardLives cardLife)
+                {
+                    await UserCardLivesService.Create().UpdateCardLifeLevelAsync(cardLife);
+                    UserCardLivesController.Instance.RefreshCurrentDetailsUI(cardLife);
+                }
+                else if (stat is CardMilitaries military)
+                {
+                    await UserCardMilitariesService.Create().UpdateCardMilitaryLevelAsync(military);
+                    UserCardMilitariesController.Instance.RefreshCurrentDetailsUI(military);
+                }
+                else if (stat is CardMonsters monster)
+                {
+                    await UserCardMonstersService.Create().UpdateCardMonsterLevelAsync(monster);
+                    UserCardMonstersController.Instance.RefreshCurrentDetailsUI(monster);
+                }
+                else if (stat is CardSoldiers soldier)
+                {
+                    await UserCardSoldiersService.Create().UpdateCardSoldierLevelAsync(soldier);
+                    UserCardSoldiersController.Instance.RefreshCurrentDetailsUI(soldier);
+                }
+                else if (stat is CardSpells spell)
+                {
+                    await UserCardSpellsService.Create().UpdateCardSpellLevelAsync(spell);
+                    UserCardSpellsController.Instance.RefreshCurrentDetailsUI(spell);
+                }
+                else if (stat is CollaborationEquipments collabEquip)
+                {
+                    await UserCollaborationEquipmentsService.Create().UpdateCollaborationEquipmentLevelAsync(collabEquip);
+                    UserCollaborationEquipmentsController.Instance.RefreshCurrentDetailsUI(collabEquip);
+                }
+                else if (stat is Collaborations collab)
+                {
+                    await UserCollaborationsService.Create().UpdateCollaborationLevelAsync(collab);
+                    UserCollaborationsController.Instance.RefreshCurrentDetailsUI(collab);
+                }
+                else if (stat is Cores core)
+                {
+                    await UserCoresService.Create().UpdateCoreLevelAsync(core);
+                    UserCoresController.Instance.RefreshCurrentDetailsUI(core);
+                }
+                else if (stat is Emojis emoji)
+                {
+                    await UserEmojisService.Create().UpdateEmojiLevelAsync(emoji);
+                    UserEmojisController.Instance.RefreshCurrentDetailsUI(emoji);
+                }
+                else if (stat is Equipments equipment)
+                {
+                    await UserEquipmentsService.Create().UpdateEquipmentLevelAsync(equipment);
+                    UserEquipmentsController.Instance.RefreshCurrentDetailsUI(equipment);
+                }
+                else if (stat is Fashions fashion)
+                {
+                    await UserFashionsService.Create().UpdateFashionLevelAsync(fashion);
+                    UserFashionsController.Instance.RefreshCurrentDetailsUI(fashion);
+                }
+                else if (stat is Foods food)
+                {
+                    await UserFoodsService.Create().UpdateFoodLevelAsync(food);
+                    UserFoodsController.Instance.RefreshCurrentDetailsUI(food);
+                }
+                else if (stat is Forges forge)
+                {
+                    await UserForgesService.Create().UpdateForgeLevelAsync(forge);
+                    UserForgesController.Instance.RefreshCurrentDetailsUI(forge);
+                }
+                else if (stat is Furnitures furniture)
+                {
+                    await UserFurnituresService.Create().UpdateFurnitureLevelAsync(furniture);
+                    UserFurnituresController.Instance.RefreshCurrentDetailsUI(furniture);
+                }
+                else if (stat is MagicFormationCircles circle)
+                {
+                    await UserMagicFormationCirclesService.Create().UpdateMagicFormationCircleLevelAsync(circle);
+                    UserMagicFormationCirclesController.Instance.RefreshCurrentDetailsUI(circle);
+                }
+                else if (stat is MechaBeasts mechaBeast)
+                {
+                    await UserMechaBeastsService.Create().UpdateMechaBeastLevelAsync(mechaBeast);
+                    UserMechaBeastsController.Instance.RefreshCurrentDetailsUI(mechaBeast);
+                }
+                else if (stat is Medals medal)
+                {
+                    await UserMedalsService.Create().UpdateMedalLevelAsync(medal);
+                    UserMedalsController.Instance.RefreshCurrentDetailsUI(medal);
+                }
+                else if (stat is Pets pet)
+                {
+                    await UserPetsService.Create().UpdatePetLevelAsync(pet);
+                    UserPetsController.Instance.RefreshCurrentDetailsUI(pet);
+                }
+                else if (stat is Plants plant)
+                {
+                    await UserPlantsService.Create().UpdatePlantLevelAsync(plant);
+                    UserPlantsController.Instance.RefreshCurrentDetailsUI(plant);
+                }
+                else if (stat is Puppets puppet)
+                {
+                    await UserPuppetsService.Create().UpdatePuppetLevelAsync(puppet);
+                    UserPuppetsController.Instance.RefreshCurrentDetailsUI(puppet);
+                }
+                else if (stat is Relics relic)
+                {
+                    await UserRelicsService.Create().UpdateRelicLevelAsync(relic);
+                    UserRelicsController.Instance.RefreshCurrentDetailsUI(relic);
+                }
+                else if (stat is Robots robot)
+                {
+                    await UserRobotsService.Create().UpdateRobotLevelAsync(robot);
+                    UserRobotsController.Instance.RefreshCurrentDetailsUI(robot);
+                }
+                else if (stat is Runes rune)
+                {
+                    await UserRunesService.Create().UpdateRuneLevelAsync(rune);
+                    UserRunesController.Instance.RefreshCurrentDetailsUI(rune);
+                }
+                else if (stat is Skills skill)
+                {
+                    await UserSkillsService.Create().UpdateSkillLevelAsync(skill);
+                    UserSkillsController.Instance.RefreshCurrentDetailsUI(skill);
+                }
+                else if (stat is SpiritBeasts spiritBeast)
+                {
+                    await UserSpiritBeastsService.Create().UpdateSpiritBeastLevelAsync(spiritBeast);
+                    UserSpiritBeastsController.Instance.RefreshCurrentDetailsUI(spiritBeast);
+                }
+                else if (stat is SpiritCards spiritCard)
+                {
+                    await UserSpiritCardsService.Create().UpdateSpiritCardLevelAsync(spiritCard);
+                    UserSpiritCardsController.Instance.RefreshCurrentDetailsUI(spiritCard);
+                }
+                else if (stat is Symbols symbol)
+                {
+                    await UserSymbolsService.Create().UpdateSymbolLevelAsync(symbol);
+                    UserSymbolsController.Instance.RefreshCurrentDetailsUI(symbol);
+                }
+                else if (stat is Talismans talisman)
+                {
+                    await UserTalismansService.Create().UpdateTalismanLevelAsync(talisman);
+                    UserTalismansController.Instance.RefreshCurrentDetailsUI(talisman);
+                }
+                else if (stat is Technologies technology)
+                {
+                    await UserTechnologiesService.Create().UpdateTechnologyLevelAsync(technology);
+                    UserTechnologiesController.Instance.RefreshCurrentDetailsUI(technology);
+                }
+                else if (stat is Titles title)
+                {
+                    await UserTitlesService.Create().UpdateTitleLevelAsync(title);
+                    UserTitlesController.Instance.RefreshCurrentDetailsUI(title);
+                }
+                else if (stat is Vehicles vehicle)
+                {
+                    await UserVehiclesService.Create().UpdateVehicleLevelAsync(vehicle);
+                    UserVehiclesController.Instance.RefreshCurrentDetailsUI(vehicle);
+                }
+                else if (stat is Weapons weapon)
+                {
+                    await UserWeaponsService.Create().UpdateWeaponLevelAsync(weapon);
+                    UserWeaponsController.Instance.RefreshCurrentDetailsUI(weapon);
+                }
+                else if (stat is Outfits outfit)
+                {
+                    await UserOutfitsService.Create().UpdateOutfitLevelAsync(outfit);
+                    UserOutfitsController.Instance.RefreshCurrentDetailsUI(outfit);
+                }
             }
             catch (Exception ex)
             {
@@ -354,33 +526,39 @@ public class LevelController : MonoBehaviour
         }
 
         #region Button Events listeners
-        increaseOne.onClick.AddListener(() =>
+        increaseOneButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ChangeMaterialCount(1);
         });
 
-        increaseTen.onClick.AddListener(() =>
+        increaseTenButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ChangeMaterialCount(10);
         });
 
-        increaseMax.onClick.AddListener(() =>
+        increaseMaxButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             SetMaxMaterialCount();
         });
 
-        decreaseOne.onClick.AddListener(() =>
+        decreaseOneButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ChangeMaterialCount(-1);
         });
 
-        decreaseTen.onClick.AddListener(() =>
+        decreaseTenButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ChangeMaterialCount(-10);
         });
 
-        decreaseMax.onClick.AddListener(() =>
+        decreaseMaxButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             currentMaterialCount = 0;
 
             CalculateLevelFromItems(0);
@@ -388,57 +566,76 @@ public class LevelController : MonoBehaviour
             RefreshUI();
         });
 
-        close.onClick.AddListener(() => Destroy(currentPanel));
-        confirm.onClick.AddListener(async () =>
+        closeButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentPanel);
+        });
+
+        confirmButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
             if (currentMaterialCount > itemExp.Quantity)
             {
                 SetNotification(MessageConstants.NotEnoughMaterials, Color.red);
                 return;
             }
+
             if (currentMaterialCount <= 0)
             {
                 SetNotification(MessageConstants.PleaseSelectQuantity, Color.red);
                 return;
             }
 
-            confirm.interactable = false;
+            confirmButton.interactable = false;
+            closeButton.interactable = false;
+
             SetNotification(MessageConstants.ProcessingUpgrade, Color.cyan);
 
-            // --- BƯỚC 1: Tính toán chuẩn xác dữ liệu mới cho stat ---
-            double totalExpGained = (double)currentMaterialCount * expPerItem;
-            double remainingExpInTargetLevel = currentExp + totalExpGained;
-
-            for (int i = currentLevel; i < targetLevel; i++)
-            {
-                remainingExpInTargetLevel -= expRule(i);
-            }
-
-            if (targetLevel >= maxLevel)
-            {
-                remainingExpInTargetLevel = 0;
-            }
-
-            stat.Level = targetLevel;
-            stat.Experience = remainingExpInTargetLevel;
-
-            // --- BƯỚC 2: API trừ nguyên liệu và gửi dữ liệu stat lên Server ---
             try
             {
-                Items materialItem = new Items { Id = itemExp.Id };
-                double usedQuantity = -(double)currentMaterialCount;
+                // Dữ liệu level/exp mới đã được tính sẵn từ CalculateLevelFromItems()
+                stat.Level = targetLevel;
+                stat.Experience = targetExp;
 
-                await UserItemsService.Create().InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, materialItem, usedQuantity);
+                Items materialItem = new Items
+                {
+                    Id = itemExp.Id
+                };
+
+                // Quantity còn lại sau khi sử dụng
+                double remainingQuantity =
+                    Math.Max(
+                        0,
+                        itemExp.Quantity - currentMaterialCount);
+
+                // Update item
+                await UserItemsService.Create()
+                    .InsertOrUpdateUserItemQuantityAsync(
+                        User.CurrentUserId,
+                        materialItem,
+                        remainingQuantity);
+
+                // Update level
                 await ExecuteServiceInsertAsync();
 
-                SetNotification(MessageConstants.UpgradeSuccess, Color.green);
+                SetNotification(
+                    MessageConstants.UpgradeSuccess,
+                    Color.green);
+
                 await Task.Delay(500);
+
                 Destroy(currentPanel);
             }
             catch (Exception ex)
             {
-                confirm.interactable = true;
-                SetNotification(MessageConstants.UpgradeFailed, Color.red, ex.Message);
+                confirmButton.interactable = true;
+                closeButton.interactable = true;
+
+                SetNotification(
+                    MessageConstants.UpgradeFailed,
+                    Color.red,
+                    ex.Message);
             }
         });
         #endregion

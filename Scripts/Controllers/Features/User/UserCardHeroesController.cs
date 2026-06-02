@@ -189,6 +189,12 @@ public class UserCardHeroesController : MonoBehaviour
     }
     public void CreateDetailsUI(CardHeroes cardHero, GameObject currentObject)
     {
+        RefreshDetailsUI(cardHero, currentObject);
+
+        BindButton(cardHero, currentObject);
+    }
+    public void RefreshDetailsUI(CardHeroes cardHero, GameObject currentObject)
+    {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardHero.Image); // Lấy giá trị của image từ đối tượng Card
@@ -233,7 +239,10 @@ public class UserCardHeroesController : MonoBehaviour
         SetupStat(transform, "MentalAttack", AppConstants.StatFields.MENTAL_ATTACK, AppDisplayConstants.StatFieldsShort.MENTAL_ATTACK, cardHero.MentalAttack);
         SetupStat(transform, "MentalDefense", AppConstants.StatFields.MENTAL_DEFENSE, AppDisplayConstants.StatFieldsShort.MENTAL_DEFENSE, cardHero.MentalDefense);
         SetupStat(transform, "Speed", AppConstants.StatFields.SPEED, AppDisplayConstants.StatFieldsShort.SPEED, cardHero.Speed);
-
+    }
+    public void BindButton(CardHeroes cardHero, GameObject currentObject)
+    {
+        Transform transform = currentObject.transform;
         Button detailButton = transform.Find("DictionaryCards/DetailsPanel/Group4/Stats/DetailButton").GetComponent<Button>();
         detailButton.onClick.AddListener(() =>
         {
@@ -260,6 +269,15 @@ public class UserCardHeroesController : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
+    }
+    public void RefreshCurrentDetailsUI(CardHeroes cardHero)
+    {
+        if (tempCurrentObject == null)
+            return;
+
+        RefreshDetailsUI(
+            cardHero,
+            tempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

@@ -580,7 +580,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                 string updateSQL = @"
                 UPDATE user_Relics
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND relic_id = @relic_id;
             ";
 
@@ -589,6 +589,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@relic_id", relic.Id);
                     updateCommand.Parameters.AddWithValue("@star", relic.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", relic.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

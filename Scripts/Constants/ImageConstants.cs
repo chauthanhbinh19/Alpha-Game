@@ -836,6 +836,24 @@ public static class ImageConstants
         public const string HISN_IX_URL = "UI/Icon/roman_nine";
         public const string HISN_X_URL = "UI/Icon/roman_ten";
     }
+    public static class Module
+    {
+        public const string MODULE_BREAKTHROUGH_URL = "UI/Icon/Module_Breakthrough";
+        public const string MODULE_AWAKENING_URL = "UI/Icon/Module_Awakening";
+        public const string MODULE_ASCENSION_URL = "UI/Icon/Module_Ascension";
+        public const string MODULE_RESONANCE_URL = "UI/Icon/Module_Resonance";
+        public const string MODULE_ENHANCEMENT_URL = "UI/Icon/Module_Enhancement";
+        public const string MODULE_REFINEMENT_URL = "UI/Icon/Module_Refinement";
+    }
+    public static class Upgrade
+    {
+        public const string UPGRADE_BREAKTHROUGH_URL = "UI/Icon/Upgrade_Breakthrough";
+        public const string UPGRADE_AWAKENING_URL = "UI/Icon/Upgrade_Awakening";
+        public const string UPGRADE_ASCENSION_URL = "UI/Icon/Upgrade_Ascension";
+        public const string UPGRADE_RESONANCE_URL = "UI/Icon/Upgrade_Resonance";
+        public const string UPGRADE_ENHANCEMENT_URL = "UI/Icon/Upgrade_Enhancement";
+        public const string UPGRADE_REFINEMENT_URL = "UI/Icon/Upgrade_Refinement";
+    }
     public static class Star
     {
         public const string STAR_LV1_URL = "UI/UI/Star1";

@@ -580,7 +580,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                 string updateSQL = @"
                 UPDATE user_symbols
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND symbol_id = @symbol_id;
             ";
 
@@ -589,6 +589,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@symbol_id", symbol.Id);
                     updateCommand.Parameters.AddWithValue("@star", symbol.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", symbol.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

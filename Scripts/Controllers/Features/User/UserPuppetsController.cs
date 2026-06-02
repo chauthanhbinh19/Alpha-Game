@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -13,6 +14,8 @@ public class UserPuppetsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject PuppetButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
+    private GameObject tempCurrentObject;
+    private const int MAX_LEVEL = 10000;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -125,12 +128,17 @@ public class UserPuppetsController : MonoBehaviour
     }
     public void CreateDetailsUI(Puppets puppet, GameObject currentObject)
     {
+        RefreshDetailsUI(puppet, currentObject);
+
+        BindButton(puppet, currentObject);
+    }
+    public void RefreshDetailsUI(Puppets puppet, GameObject currentObject)
+    {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(puppet.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         image.texture = texture;
-        ImageManager.Instance.ChangeSizeImage(image, texture);
 
         TextMeshProUGUI nameText = transform.Find("DictionaryCards/Name/NameText").GetComponent<TextMeshProUGUI>();
         nameText.text = puppet.Name;
@@ -148,10 +156,16 @@ public class UserPuppetsController : MonoBehaviour
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");
         TextureHelper.SetupStars(starGridLayout, puppet.Star);
 
-        // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        RawImage mainClassImage = transform.Find("DictionaryCards/Class/MainClassImage").GetComponent<RawImage>();
+        RawImage subClassImage = transform.Find("DictionaryCards/Class/SubClassImage").GetComponent<RawImage>();
+        TextMeshProUGUI mainClassText = transform.Find("DictionaryCards/Class/MainClassText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI subClassText = transform.Find("DictionaryCards/Class/SubClassText").GetComponent<TextMeshProUGUI>();
 
-        SetupStat(transform, "Power", AppConstants.StatFields.POWER, AppDisplayConstants.StatFieldsShort.POWER, puppet.Power);
+        // mainClassImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(achievement.Class.MainImage));
+        // subClassImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(achievement.Class.SubImage));
+        // mainClassText.text = achievement.Class.MainType;
+        // subClassText.text = achievement.Class.SubType;
+
         SetupStat(transform, "Health", AppConstants.StatFields.HEALTH, AppDisplayConstants.StatFieldsShort.HEALTH, puppet.Health);
         SetupStat(transform, "PhysicalAttack", AppConstants.StatFields.PHYSICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PHYSICAL_ATTACK, puppet.PhysicalAttack);
         SetupStat(transform, "PhysicalDefense", AppConstants.StatFields.PHYSICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PHYSICAL_DEFENSE, puppet.PhysicalDefense);
@@ -164,13 +178,45 @@ public class UserPuppetsController : MonoBehaviour
         SetupStat(transform, "MentalAttack", AppConstants.StatFields.MENTAL_ATTACK, AppDisplayConstants.StatFieldsShort.MENTAL_ATTACK, puppet.MentalAttack);
         SetupStat(transform, "MentalDefense", AppConstants.StatFields.MENTAL_DEFENSE, AppDisplayConstants.StatFieldsShort.MENTAL_DEFENSE, puppet.MentalDefense);
         SetupStat(transform, "Speed", AppConstants.StatFields.SPEED, AppDisplayConstants.StatFieldsShort.SPEED, puppet.Speed);
-
+    }
+    public void BindButton(Puppets puppet, GameObject currentObject)
+    {
+        Transform transform = currentObject.transform;
         Button detailButton = transform.Find("DictionaryCards/DetailsPanel/Group4/Stats/DetailButton").GetComponent<Button>();
         detailButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             StatsManager.Instance.CreateStatsManager(puppet);
         });
+
+        Button upgradeLevelButton = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/UpgradeLevelButton").GetComponent<Button>();
+        upgradeLevelButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ItemExperienceDTO itemExperienceDTO = await UserItemsService.Create().GetUserItemExperienceByCodeNameAsync(ItemConstants.Experiment.EXP_CARD_HEROES);
+            LevelController.Instance.CreateLevelPanel(puppet, itemExperienceDTO, MAX_LEVEL, level => Math.Max(level, 1) * 500d);
+        });
+
+        Button moduleButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Module").GetComponent<Button>();
+        moduleButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        });
+
+        Button upgradeButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Upgrade").GetComponent<Button>();
+        upgradeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        });
+    }
+    public void RefreshCurrentDetailsUI(Puppets puppet)
+    {
+        if (tempCurrentObject == null)
+            return;
+
+        RefreshDetailsUI(
+            puppet,
+            tempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

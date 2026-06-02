@@ -28,6 +28,7 @@ public class UserCardColonelsController : MonoBehaviour
     private GameObject PopupSkillsPanelPrefab;
     private GameObject PopupSkillDetailPrefab;
     private GameObject skillPanelObject;
+    private const int MAX_LEVEL = 10000;
     private const int PAGE_SIZE = 100;
     private int offset;
     private int currentPage;
@@ -182,6 +183,12 @@ public class UserCardColonelsController : MonoBehaviour
     }
     public void CreateDetailsUI(CardColonels cardColonel, GameObject currentObject)
     {
+        RefreshDetailsUI(cardColonel, currentObject);
+
+        BindButton(cardColonel, currentObject);
+    }
+    public void RefreshDetailsUI(CardColonels cardColonel, GameObject currentObject)
+    {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardColonel.Image); // Lấy giá trị của image từ đối tượng Card
@@ -214,7 +221,6 @@ public class UserCardColonelsController : MonoBehaviour
         mainClassText.text = cardColonel.Class.MainType;
         subClassText.text = cardColonel.Class.SubType;
 
-        SetupStat(transform, "Power", AppConstants.StatFields.POWER, AppDisplayConstants.StatFieldsShort.POWER, cardColonel.Power);
         SetupStat(transform, "Health", AppConstants.StatFields.HEALTH, AppDisplayConstants.StatFieldsShort.HEALTH, cardColonel.Health);
         SetupStat(transform, "PhysicalAttack", AppConstants.StatFields.PHYSICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PHYSICAL_ATTACK, cardColonel.PhysicalAttack);
         SetupStat(transform, "PhysicalDefense", AppConstants.StatFields.PHYSICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PHYSICAL_DEFENSE, cardColonel.PhysicalDefense);
@@ -227,7 +233,10 @@ public class UserCardColonelsController : MonoBehaviour
         SetupStat(transform, "MentalAttack", AppConstants.StatFields.MENTAL_ATTACK, AppDisplayConstants.StatFieldsShort.MENTAL_ATTACK, cardColonel.MentalAttack);
         SetupStat(transform, "MentalDefense", AppConstants.StatFields.MENTAL_DEFENSE, AppDisplayConstants.StatFieldsShort.MENTAL_DEFENSE, cardColonel.MentalDefense);
         SetupStat(transform, "Speed", AppConstants.StatFields.SPEED, AppDisplayConstants.StatFieldsShort.SPEED, cardColonel.Speed);
-
+    }
+    public void BindButton(CardColonels cardColonel, GameObject currentObject)
+    {
+        Transform transform = currentObject.transform;
         Button detailButton = transform.Find("DictionaryCards/DetailsPanel/Group4/Stats/DetailButton").GetComponent<Button>();
         detailButton.onClick.AddListener(() =>
         {
@@ -236,9 +245,11 @@ public class UserCardColonelsController : MonoBehaviour
         });
 
         Button upgradeLevelButton = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/UpgradeLevelButton").GetComponent<Button>();
-        upgradeLevelButton.onClick.AddListener(() =>
+        upgradeLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ItemExperienceDTO itemExperienceDTO = await UserItemsService.Create().GetUserItemExperienceByCodeNameAsync(ItemConstants.Experiment.EXP_CARD_HEROES);
+            LevelController.Instance.CreateLevelPanel(cardColonel, itemExperienceDTO, MAX_LEVEL, level => Math.Max(level, 1) * 500d);
         });
 
         Button moduleButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Module").GetComponent<Button>();
@@ -252,6 +263,15 @@ public class UserCardColonelsController : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
+    }
+    public void RefreshCurrentDetailsUI(CardColonels cardColonel)
+    {
+        if (tempCurrentObject == null)
+            return;
+
+        RefreshDetailsUI(
+            cardColonel,
+            tempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

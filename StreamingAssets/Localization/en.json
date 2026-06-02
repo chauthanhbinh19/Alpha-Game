@@ -736,6 +736,20 @@
   { "key": "HISN.HISNIX", "value": "HISN IX" },
   { "key": "HISN.HISNX", "value": "HISN X" },
 
+  { "key": "Module.ModuleBreakthrough", "value": "Module Breakthrough" },
+  { "key": "Module.ModuleAwakening", "value": "Module Awakening" },
+  { "key": "Module.ModuleAscension", "value": "Module Ascension" },
+  { "key": "Module.ModuleResonance", "value": "Module Resonance" },
+  { "key": "Module.ModuleEnhancement", "value": "Module Enhancement" },
+  { "key": "Module.ModuleRefinement", "value": "Module Refinement" },
+
+  { "key": "Upgrade.UpgradeBreakthrough", "value": "Upgrade Breakthrough" },
+  { "key": "Upgrade.UpgradeAwakening", "value": "Upgrade Awakening" },
+  { "key": "Upgrade.UpgradeAscension", "value": "Upgrade Ascension" },
+  { "key": "Upgrade.UpgradeResonance", "value": "Upgrade Resonance" },
+  { "key": "Upgrade.UpgradeEnhancement", "value": "Upgrade Enhancement" },
+  { "key": "Upgrade.UpgradeRefinement", "value": "Upgrade Refinement" },
+
   { "key": "Equipment.AmnitusEquipment", "value": "Amnitus" },
   { "key": "Equipment.AngelisEquipment", "value": "Angelis" },
   { "key": "Equipment.BellionEquipment", "value": "Bellion" },

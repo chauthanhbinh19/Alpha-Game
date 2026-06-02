@@ -117,12 +117,12 @@ public class UserEquipmentsService : IUserEquipmentsService
         return await _userEquipmentsRepository.BuyEquipmentAsync(Id, await _service.GetEquipmentByIdAsync(Id), quantity);
     }
 
-    public async Task<bool> UpdateEquipmentsLevelAsync(Equipments equipments)
+    public async Task<bool> UpdateEquipmentLevelAsync(Equipments equipments)
     {
         return await _userEquipmentsRepository.UpdateEquipmentsLevelAsync(equipments);
     }
 
-    public async Task<bool> UpdateEquipmentsStarAsync(Equipments equipments)
+    public async Task<bool> UpdateEquipmentStarAsync(Equipments equipments)
     {
         return await _userEquipmentsRepository.UpdateEquipmentsStarAsync(equipments);
     }

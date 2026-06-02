@@ -715,7 +715,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                 string updateSQL = @"
                 UPDATE user_avatars
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND avatar_id = @avatar_id;
             ";
 
@@ -724,6 +724,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@avatar_id", avatar.Id);
                     updateCommand.Parameters.AddWithValue("@star", avatar.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", avatar.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

@@ -2094,6 +2094,29 @@ public static class AppConstants
         public const string HISN_IX = "HISN IX";
         public const string HISN_X = "HISN X";
     }
+    public static class Module
+    {
+        public const string MODULE_BREAKTHROUGH = "Module Breakthrough";
+        public const string MODULE_AWAKENING = "Module Awakening";
+        public const string MODULE_ASCENSION = "Module Ascension";
+        public const string MODULE_RESONANCE = "Module Resonance";
+        public const string MODULE_ENHANCEMENT = "Module Enhancement";
+        public const string MODULE_REFINEMENT = "Module Refinement";
+
+        public static class CodeName
+        {
+            
+        }
+    }
+    public static class Upgrade
+    {
+        public const string UPGRADE_BREAKTHROUGH = "Upgrade Breakthrough";
+        public const string UPGRADE_AWAKENING = "Upgrade Awakening";
+        public const string UPGRADE_ASCENSION = "Upgrade Ascension";
+        public const string UPGRADE_RESONANCE = "Upgrade Resonance";
+        public const string UPGRADE_ENHANCEMENT = "Upgrade Enhancement";
+        public const string UPGRADE_REFINEMENT = "Upgrade Refinement";
+    }
     public static class MainMenuSet1
     {
         public const string EQUIPMENTS = "Equipments";

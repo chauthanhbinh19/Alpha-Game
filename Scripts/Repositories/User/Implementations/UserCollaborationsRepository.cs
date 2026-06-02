@@ -554,7 +554,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                 string updateSQL = @"
                 UPDATE user_collaborations
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND collaboration_id = @collaboration_id;
             ";
 
@@ -563,6 +563,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@collaboration_id", collaboration.Id);
                     updateCommand.Parameters.AddWithValue("@star", collaboration.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", collaboration.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

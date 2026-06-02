@@ -557,7 +557,7 @@ public class UserRunesRepository : IUserRunesRepository
                 string updateSQL = @"
                 UPDATE user_runes
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND rune_id = @rune_id;
             ";
 
@@ -566,6 +566,7 @@ public class UserRunesRepository : IUserRunesRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@rune_id", rune.Id);
                     updateCommand.Parameters.AddWithValue("@star", rune.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", rune.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

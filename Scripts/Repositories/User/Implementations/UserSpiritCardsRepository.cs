@@ -213,7 +213,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
         return count;
     }
-    public async Task<bool> InsertUserSpiritCardAsync(SpiritCards SpiritCard)
+    public async Task<bool> InsertUserSpiritCardAsync(SpiritCards spiritCard)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -232,7 +232,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
+                    checkCommand.Parameters.AddWithValue("@spirit_card_id", spiritCard.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -279,64 +279,64 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            insertCommand.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", SpiritCard.Rare);
+                            insertCommand.Parameters.AddWithValue("@spirit_card_id", spiritCard.Id);
+                            insertCommand.Parameters.AddWithValue("@rare", spiritCard.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(SpiritCard.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(spiritCard.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
-                            insertCommand.Parameters.AddWithValue("@quantity", SpiritCard.Quantity);
-                            insertCommand.Parameters.AddWithValue("@power", SpiritCard.Power);
-                            insertCommand.Parameters.AddWithValue("@health", SpiritCard.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", SpiritCard.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", SpiritCard.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", SpiritCard.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", SpiritCard.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", SpiritCard.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", SpiritCard.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", SpiritCard.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", SpiritCard.AtomicDefense);
-                            insertCommand.Parameters.AddWithValue("@mental_attack", SpiritCard.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", SpiritCard.MentalDefense);
-                            insertCommand.Parameters.AddWithValue("@speed", SpiritCard.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", SpiritCard.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", SpiritCard.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", SpiritCard.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", SpiritCard.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", SpiritCard.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", SpiritCard.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", SpiritCard.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", SpiritCard.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritCard.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", SpiritCard.AbsorbedDamageRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritCard.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritCard.VitalityRegenerationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", SpiritCard.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", SpiritCard.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", SpiritCard.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", SpiritCard.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", SpiritCard.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", SpiritCard.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", SpiritCard.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", SpiritCard.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", SpiritCard.ComboResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@stun_rate", SpiritCard.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", SpiritCard.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", SpiritCard.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", SpiritCard.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", SpiritCard.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", SpiritCard.ReflectionResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@mana", SpiritCard.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", SpiritCard.ManaRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritCard.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritCard.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritCard.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritCard.ResistanceToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", SpiritCard.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", SpiritCard.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", SpiritCard.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", SpiritCard.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@quantity", spiritCard.Quantity);
+                            insertCommand.Parameters.AddWithValue("@power", spiritCard.Power);
+                            insertCommand.Parameters.AddWithValue("@health", spiritCard.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", spiritCard.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", spiritCard.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", spiritCard.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", spiritCard.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", spiritCard.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", spiritCard.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", spiritCard.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", spiritCard.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", spiritCard.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", spiritCard.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@speed", spiritCard.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", spiritCard.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", spiritCard.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", spiritCard.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", spiritCard.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", spiritCard.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", spiritCard.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", spiritCard.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", spiritCard.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", spiritCard.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", spiritCard.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", spiritCard.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", spiritCard.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", spiritCard.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", spiritCard.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", spiritCard.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", spiritCard.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", spiritCard.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", spiritCard.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", spiritCard.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", spiritCard.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", spiritCard.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", spiritCard.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", spiritCard.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", spiritCard.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", spiritCard.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", spiritCard.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", spiritCard.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@mana", spiritCard.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", spiritCard.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", spiritCard.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", spiritCard.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", spiritCard.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", spiritCard.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", spiritCard.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", spiritCard.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", spiritCard.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", spiritCard.SkillResistanceRate);
 
                             await insertCommand.ExecuteNonQueryAsync();
                         }
@@ -353,8 +353,8 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            updateCommand.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
-                            updateCommand.Parameters.AddWithValue("@quantity", SpiritCard.Quantity);
+                            updateCommand.Parameters.AddWithValue("@spirit_card_id", spiritCard.Id);
+                            updateCommand.Parameters.AddWithValue("@quantity", spiritCard.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
                         }
@@ -525,7 +525,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
         return true;
     }
-    public async Task<bool> UpdateSpiritCardLevelAsync(SpiritCards SpiritCard)
+    public async Task<bool> UpdateSpiritCardLevelAsync(SpiritCards spiritCard)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -545,9 +545,9 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
-                    updateCommand.Parameters.AddWithValue("@level", SpiritCard.Level);
-                    updateCommand.Parameters.AddWithValue("@experience", SpiritCard.Experience);
+                    updateCommand.Parameters.AddWithValue("@spirit_card_id", spiritCard.Id);
+                    updateCommand.Parameters.AddWithValue("@level", spiritCard.Level);
+                    updateCommand.Parameters.AddWithValue("@experience", spiritCard.Experience);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -565,7 +565,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
 
         return true;
     }
-    public async Task<bool> UpdateSpiritCardStarAsync(SpiritCards SpiritCard)
+    public async Task<bool> UpdateSpiritCardStarAsync(SpiritCards spiritCard)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -578,15 +578,16 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 string updateSQL = @"
                 UPDATE user_spirit_cards
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND spirit_card_id = @spirit_card_id;
             ";
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
-                    updateCommand.Parameters.AddWithValue("@star", SpiritCard.Star);
+                    updateCommand.Parameters.AddWithValue("@spirit_card_id", spiritCard.Id);
+                    updateCommand.Parameters.AddWithValue("@star", spiritCard.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", spiritCard.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -605,7 +606,7 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
         return true;
     }
 
-    public async Task<bool> UpdateSpiritCardBreakthroughAsync(SpiritCards SpiritCard, int star, double quantity)
+    public async Task<bool> UpdateSpiritCardBreakthroughAsync(SpiritCards spiritCard, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -649,59 +650,59 @@ public class UserSpiritCardsRepository : IUserSpiritCardsRepository
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@spirit_card_id", SpiritCard.Id);
+                    updateCommand.Parameters.AddWithValue("@spirit_card_id", spiritCard.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
-                    updateCommand.Parameters.AddWithValue("@power", SpiritCard.Power);
-                    updateCommand.Parameters.AddWithValue("@health", SpiritCard.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", SpiritCard.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", SpiritCard.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", SpiritCard.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", SpiritCard.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", SpiritCard.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", SpiritCard.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", SpiritCard.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", SpiritCard.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", SpiritCard.MentalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", SpiritCard.MentalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", SpiritCard.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", SpiritCard.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", SpiritCard.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", SpiritCard.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", SpiritCard.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", SpiritCard.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", SpiritCard.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", SpiritCard.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", SpiritCard.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritCard.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", SpiritCard.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritCard.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritCard.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", SpiritCard.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", SpiritCard.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", SpiritCard.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", SpiritCard.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", SpiritCard.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", SpiritCard.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", SpiritCard.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", SpiritCard.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", SpiritCard.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", SpiritCard.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", SpiritCard.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", SpiritCard.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", SpiritCard.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", SpiritCard.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", SpiritCard.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", SpiritCard.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", SpiritCard.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritCard.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritCard.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritCard.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritCard.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", SpiritCard.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", SpiritCard.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", SpiritCard.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", SpiritCard.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@power", spiritCard.Power);
+                    updateCommand.Parameters.AddWithValue("@health", spiritCard.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", spiritCard.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", spiritCard.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", spiritCard.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", spiritCard.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", spiritCard.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", spiritCard.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", spiritCard.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", spiritCard.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", spiritCard.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", spiritCard.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", spiritCard.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", spiritCard.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", spiritCard.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", spiritCard.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", spiritCard.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", spiritCard.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", spiritCard.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", spiritCard.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", spiritCard.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", spiritCard.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", spiritCard.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", spiritCard.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", spiritCard.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", spiritCard.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", spiritCard.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", spiritCard.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", spiritCard.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", spiritCard.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", spiritCard.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", spiritCard.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", spiritCard.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", spiritCard.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", spiritCard.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", spiritCard.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", spiritCard.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", spiritCard.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", spiritCard.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", spiritCard.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", spiritCard.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", spiritCard.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", spiritCard.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", spiritCard.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", spiritCard.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", spiritCard.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", spiritCard.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", spiritCard.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", spiritCard.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", spiritCard.SkillResistanceRate);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

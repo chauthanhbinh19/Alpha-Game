@@ -557,7 +557,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                 string updateSQL = @"
                 UPDATE user_mecha_beasts
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND mecha_beast_id = @mecha_beast_id;
             ";
 
@@ -566,6 +566,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@mecha_beast_id", mechaBeast.Id);
                     updateCommand.Parameters.AddWithValue("@star", mechaBeast.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", mechaBeast.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

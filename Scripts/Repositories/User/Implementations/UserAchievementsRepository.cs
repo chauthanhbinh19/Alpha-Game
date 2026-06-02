@@ -558,7 +558,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 string updateSQL = @"
                 UPDATE user_achievements
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND achievement_id = @achievement_id;
             ";
 
@@ -567,6 +567,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 updateCommand.Parameters.AddWithValue("@achievement_id", achievement.Id);
                 updateCommand.Parameters.AddWithValue("@star", achievement.Star);
+                updateCommand.Parameters.AddWithValue("@quantity", achievement.Quantity);
 
                 await updateCommand.ExecuteNonQueryAsync();
             }

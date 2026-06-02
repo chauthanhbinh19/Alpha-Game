@@ -860,6 +860,24 @@ public static class AppDisplayConstants
         public const string HISN_IX = "HISN.HISNIX";
         public const string HISN_X = "HISN.HISNX";
     }
+    public static class Module
+    {
+        public const string MODULE_BREAKTHROUGH = "Module.ModuleBreakthrough";
+        public const string MODULE_AWAKENING = "Module.ModuleAwakening";
+        public const string MODULE_ASCENSION = "Module.ModuleAscension";
+        public const string MODULE_RESONANCE = "Module.ModuleResonance";
+        public const string MODULE_ENHANCEMENT = "Module.ModuleEnhancement";
+        public const string MODULE_REFINEMENT = "Module.ModuleRefinement";
+    }
+    public static class Upgrade
+    {
+        public const string UPGRADE_BREAKTHROUGH = "Upgrade.UpgradeBreakthrough";
+        public const string UPGRADE_AWAKENING = "Upgrade.UpgradeAwakening";
+        public const string UPGRADE_ASCENSION = "Upgrade.UpgradeAscension";
+        public const string UPGRADE_RESONANCE = "Upgrade.UpgradeResonance";
+        public const string UPGRADE_ENHANCEMENT = "Upgrade.UpgradeEnhancement";
+        public const string UPGRADE_REFINEMENT = "Upgrade.UpgradeRefinement";
+    }
     public static class Message
     {
         public const string PURCHASE_FAILED = "Purchase Failed!";

@@ -560,7 +560,7 @@ public class UserBadgesRepository : IUserBadgesRepository
                 string updateSQL = @"
                 UPDATE user_badges
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND badge_id = @badge_id;
             ";
 
@@ -569,6 +569,7 @@ public class UserBadgesRepository : IUserBadgesRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@badge_id", badge.Id);
                     updateCommand.Parameters.AddWithValue("@star", badge.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", badge.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

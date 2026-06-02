@@ -580,7 +580,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                 string updateSQL = @"
                 UPDATE user_alchemies
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND alchemy_id = @alchemy_id;
             ";
 
@@ -589,6 +589,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
                     updateCommand.Parameters.AddWithValue("@star", alchemy.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", alchemy.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

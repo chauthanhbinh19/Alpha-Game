@@ -698,7 +698,7 @@ public class UserBordersRepository : IUserBordersRepository
                 string updateSQL = @"
                 UPDATE user_borders
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND border_id = @border_id;
             ";
 
@@ -707,6 +707,7 @@ public class UserBordersRepository : IUserBordersRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@border_id", border.Id);
                     updateCommand.Parameters.AddWithValue("@star", border.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", border.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

@@ -38,12 +38,12 @@ public class UserSkillsService : IUserSkillsService
         return await _userSkillsRepository.InsertUserSkillAsync(skill);
     }
 
-    public async Task<bool> UpdateSkillsLevelAsync(Skills skill)
+    public async Task<bool> UpdateSkillLevelAsync(Skills skill)
     {
         return await _userSkillsRepository.UpdateSkillLevelAsync(skill);
     }
 
-    public async Task<bool> UpdateSkillsStarAsync(Skills skill)
+    public async Task<bool> UpdateSkillStarAsync(Skills skill)
     {
         return await _userSkillsRepository.UpdateSkillStarAsync(skill);
     }

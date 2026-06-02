@@ -28,6 +28,7 @@ public class UserCardSpellsController : MonoBehaviour
     private GameObject PopupSkillsPanelPrefab;
     private GameObject PopupSkillDetailPrefab;
     private GameObject skillPanelObject;
+    private const int MAX_LEVEL = 10000;
     private const int PAGE_SIZE = 100;
     private int offset;
     private int currentPage;
@@ -186,6 +187,12 @@ public class UserCardSpellsController : MonoBehaviour
     }
     public void CreateDetailsUI(CardSpells cardSpell, GameObject currentObject)
     {
+        RefreshDetailsUI(cardSpell, currentObject);
+
+        BindButton(cardSpell, currentObject);
+    }
+    public void RefreshDetailsUI(CardSpells cardSpell, GameObject currentObject)
+    {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSpell.Image); // Lấy giá trị của image từ đối tượng Card
@@ -218,7 +225,6 @@ public class UserCardSpellsController : MonoBehaviour
         mainClassText.text = cardSpell.Class.MainType;
         subClassText.text = cardSpell.Class.SubType;
 
-        SetupStat(transform, "Power", AppConstants.StatFields.POWER, AppDisplayConstants.StatFieldsShort.POWER, cardSpell.Power);
         SetupStat(transform, "Health", AppConstants.StatFields.HEALTH, AppDisplayConstants.StatFieldsShort.HEALTH, cardSpell.Health);
         SetupStat(transform, "PhysicalAttack", AppConstants.StatFields.PHYSICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PHYSICAL_ATTACK, cardSpell.PhysicalAttack);
         SetupStat(transform, "PhysicalDefense", AppConstants.StatFields.PHYSICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PHYSICAL_DEFENSE, cardSpell.PhysicalDefense);
@@ -231,7 +237,10 @@ public class UserCardSpellsController : MonoBehaviour
         SetupStat(transform, "MentalAttack", AppConstants.StatFields.MENTAL_ATTACK, AppDisplayConstants.StatFieldsShort.MENTAL_ATTACK, cardSpell.MentalAttack);
         SetupStat(transform, "MentalDefense", AppConstants.StatFields.MENTAL_DEFENSE, AppDisplayConstants.StatFieldsShort.MENTAL_DEFENSE, cardSpell.MentalDefense);
         SetupStat(transform, "Speed", AppConstants.StatFields.SPEED, AppDisplayConstants.StatFieldsShort.SPEED, cardSpell.Speed);
-
+    }
+    public void BindButton(CardSpells cardSpell, GameObject currentObject)
+    {
+        Transform transform = currentObject.transform;
         Button detailButton = transform.Find("DictionaryCards/DetailsPanel/Group4/Stats/DetailButton").GetComponent<Button>();
         detailButton.onClick.AddListener(() =>
         {
@@ -240,9 +249,11 @@ public class UserCardSpellsController : MonoBehaviour
         });
 
         Button upgradeLevelButton = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/UpgradeLevelButton").GetComponent<Button>();
-        upgradeLevelButton.onClick.AddListener(() =>
+        upgradeLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ItemExperienceDTO itemExperienceDTO = await UserItemsService.Create().GetUserItemExperienceByCodeNameAsync(ItemConstants.Experiment.EXP_CARD_HEROES);
+            LevelController.Instance.CreateLevelPanel(cardSpell, itemExperienceDTO, MAX_LEVEL, level => Math.Max(level, 1) * 500d);
         });
 
         Button moduleButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Module").GetComponent<Button>();
@@ -256,6 +267,15 @@ public class UserCardSpellsController : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
+    }
+    public void RefreshCurrentDetailsUI(CardSpells cardSpell)
+    {
+        if (tempCurrentObject == null)
+            return;
+
+        RefreshDetailsUI(
+            cardSpell,
+            tempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

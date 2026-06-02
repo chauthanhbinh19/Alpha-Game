@@ -1470,7 +1470,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeast;
     }
-    public async Task<bool> InsertUserSpiritBeastAsync(SpiritBeasts SpiritBeast)
+    public async Task<bool> InsertUserSpiritBeastAsync(SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1489,7 +1489,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    checkCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
+                    checkCommand.Parameters.AddWithValue("@spirit_beast_id", spiritBeast.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -1536,64 +1536,64 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            insertCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", SpiritBeast.Rare);
+                            insertCommand.Parameters.AddWithValue("@spirit_beast_id", spiritBeast.Id);
+                            insertCommand.Parameters.AddWithValue("@rare", spiritBeast.Rare);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(SpiritBeast.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(spiritBeast.Rare));
                             insertCommand.Parameters.AddWithValue("@block", false);
-                            insertCommand.Parameters.AddWithValue("@quantity", SpiritBeast.Quantity);
-                            insertCommand.Parameters.AddWithValue("@power", SpiritBeast.Power);
-                            insertCommand.Parameters.AddWithValue("@health", SpiritBeast.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", SpiritBeast.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", SpiritBeast.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", SpiritBeast.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", SpiritBeast.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", SpiritBeast.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", SpiritBeast.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", SpiritBeast.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", SpiritBeast.AtomicDefense);
-                            insertCommand.Parameters.AddWithValue("@mental_attack", SpiritBeast.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", SpiritBeast.MentalDefense);
-                            insertCommand.Parameters.AddWithValue("@speed", SpiritBeast.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", SpiritBeast.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", SpiritBeast.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", SpiritBeast.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.AbsorbedDamageRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.VitalityRegenerationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", SpiritBeast.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", SpiritBeast.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", SpiritBeast.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", SpiritBeast.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.ComboResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@stun_rate", SpiritBeast.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", SpiritBeast.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.ReflectionResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@mana", SpiritBeast.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.ManaRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.ResistanceToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.SkillResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@quantity", spiritBeast.Quantity);
+                            insertCommand.Parameters.AddWithValue("@power", spiritBeast.Power);
+                            insertCommand.Parameters.AddWithValue("@health", spiritBeast.Health);
+                            insertCommand.Parameters.AddWithValue("@physical_attack", spiritBeast.PhysicalAttack);
+                            insertCommand.Parameters.AddWithValue("@physical_defense", spiritBeast.PhysicalDefense);
+                            insertCommand.Parameters.AddWithValue("@magical_attack", spiritBeast.MagicalAttack);
+                            insertCommand.Parameters.AddWithValue("@magical_defense", spiritBeast.MagicalDefense);
+                            insertCommand.Parameters.AddWithValue("@chemical_attack", spiritBeast.ChemicalAttack);
+                            insertCommand.Parameters.AddWithValue("@chemical_defense", spiritBeast.ChemicalDefense);
+                            insertCommand.Parameters.AddWithValue("@atomic_attack", spiritBeast.AtomicAttack);
+                            insertCommand.Parameters.AddWithValue("@atomic_defense", spiritBeast.AtomicDefense);
+                            insertCommand.Parameters.AddWithValue("@mental_attack", spiritBeast.MentalAttack);
+                            insertCommand.Parameters.AddWithValue("@mental_defense", spiritBeast.MentalDefense);
+                            insertCommand.Parameters.AddWithValue("@speed", spiritBeast.Speed);
+                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", spiritBeast.CriticalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@critical_rate", spiritBeast.CriticalRate);
+                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", spiritBeast.CriticalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", spiritBeast.IgnoreCriticalRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_rate", spiritBeast.PenetrationRate);
+                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", spiritBeast.PenetrationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@evasion_rate", spiritBeast.EvasionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", spiritBeast.DamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", spiritBeast.IgnoreDamageAbsorptionRate);
+                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", spiritBeast.AbsorbedDamageRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", spiritBeast.VitalityRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", spiritBeast.VitalityRegenerationResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@accuracy_rate", spiritBeast.AccuracyRate);
+                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", spiritBeast.LifestealRate);
+                            insertCommand.Parameters.AddWithValue("@shield_strength", spiritBeast.ShieldStrength);
+                            insertCommand.Parameters.AddWithValue("@tenacity", spiritBeast.Tenacity);
+                            insertCommand.Parameters.AddWithValue("@resistance_rate", spiritBeast.ResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@combo_rate", spiritBeast.ComboRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", spiritBeast.IgnoreComboRate);
+                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", spiritBeast.ComboDamageRate);
+                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", spiritBeast.ComboResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@stun_rate", spiritBeast.StunRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", spiritBeast.IgnoreStunRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_rate", spiritBeast.ReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", spiritBeast.IgnoreReflectionRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", spiritBeast.ReflectionDamageRate);
+                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", spiritBeast.ReflectionResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@mana", spiritBeast.Mana);
+                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", spiritBeast.ManaRegenerationRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", spiritBeast.DamageToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", spiritBeast.ResistanceToDifferentFactionRate);
+                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", spiritBeast.DamageToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", spiritBeast.ResistanceToSameFactionRate);
+                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", spiritBeast.NormalDamageRate);
+                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", spiritBeast.NormalResistanceRate);
+                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", spiritBeast.SkillDamageRate);
+                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", spiritBeast.SkillResistanceRate);
 
                             await insertCommand.ExecuteNonQueryAsync();
                         }
@@ -1610,8 +1610,8 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                            updateCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
-                            updateCommand.Parameters.AddWithValue("@quantity", SpiritBeast.Quantity);
+                            updateCommand.Parameters.AddWithValue("@spirit_beast_id", spiritBeast.Id);
+                            updateCommand.Parameters.AddWithValue("@quantity", spiritBeast.Quantity);
 
                             await updateCommand.ExecuteNonQueryAsync();
                         }
@@ -1782,7 +1782,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> UpdateSpiritBeastLevelAsync(SpiritBeasts SpiritBeast)
+    public async Task<bool> UpdateSpiritBeastLevelAsync(SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1802,9 +1802,9 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
-                    updateCommand.Parameters.AddWithValue("@level", SpiritBeast.Level);
-                    updateCommand.Parameters.AddWithValue("@experience", SpiritBeast.Experience);
+                    updateCommand.Parameters.AddWithValue("@spirit_beast_id", spiritBeast.Id);
+                    updateCommand.Parameters.AddWithValue("@level", spiritBeast.Level);
+                    updateCommand.Parameters.AddWithValue("@experience", spiritBeast.Experience);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -1822,7 +1822,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> UpdateSpiritBeastStarAsync(SpiritBeasts SpiritBeast)
+    public async Task<bool> UpdateSpiritBeastStarAsync(SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1835,15 +1835,16 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 string updateSQL = @"
                 UPDATE user_spirit_beasts
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND spirit_beast_id = @spirit_beast_id;
             ";
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
-                    updateCommand.Parameters.AddWithValue("@star", SpiritBeast.Star);
+                    updateCommand.Parameters.AddWithValue("@spirit_beast_id", spiritBeast.Id);
+                    updateCommand.Parameters.AddWithValue("@star", spiritBeast.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", spiritBeast.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -1862,7 +1863,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
         return true;
     }
 
-    public async Task<bool> UpdateSpiritBeastBreakthroughAsync(SpiritBeasts SpiritBeast, int star, double quantity)
+    public async Task<bool> UpdateSpiritBeastBreakthroughAsync(SpiritBeasts spiritBeast, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1906,59 +1907,59 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
-                    updateCommand.Parameters.AddWithValue("@spirit_beast_id", SpiritBeast.Id);
+                    updateCommand.Parameters.AddWithValue("@spirit_beast_id", spiritBeast.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
-                    updateCommand.Parameters.AddWithValue("@power", SpiritBeast.Power);
-                    updateCommand.Parameters.AddWithValue("@health", SpiritBeast.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", SpiritBeast.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", SpiritBeast.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", SpiritBeast.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", SpiritBeast.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", SpiritBeast.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", SpiritBeast.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", SpiritBeast.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", SpiritBeast.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", SpiritBeast.MentalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", SpiritBeast.MentalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", SpiritBeast.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", SpiritBeast.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", SpiritBeast.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", SpiritBeast.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", SpiritBeast.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", SpiritBeast.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", SpiritBeast.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", SpiritBeast.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", SpiritBeast.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", SpiritBeast.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", SpiritBeast.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", SpiritBeast.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", SpiritBeast.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", SpiritBeast.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", SpiritBeast.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", SpiritBeast.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", SpiritBeast.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", SpiritBeast.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", SpiritBeast.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", SpiritBeast.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", SpiritBeast.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", SpiritBeast.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", SpiritBeast.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", SpiritBeast.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", SpiritBeast.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", SpiritBeast.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", SpiritBeast.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", SpiritBeast.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", SpiritBeast.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", SpiritBeast.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", SpiritBeast.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", SpiritBeast.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", SpiritBeast.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", SpiritBeast.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", SpiritBeast.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", SpiritBeast.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", SpiritBeast.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", SpiritBeast.SkillResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@power", spiritBeast.Power);
+                    updateCommand.Parameters.AddWithValue("@health", spiritBeast.Health);
+                    updateCommand.Parameters.AddWithValue("@physical_attack", spiritBeast.PhysicalAttack);
+                    updateCommand.Parameters.AddWithValue("@physical_defense", spiritBeast.PhysicalDefense);
+                    updateCommand.Parameters.AddWithValue("@magical_attack", spiritBeast.MagicalAttack);
+                    updateCommand.Parameters.AddWithValue("@magical_defense", spiritBeast.MagicalDefense);
+                    updateCommand.Parameters.AddWithValue("@chemical_attack", spiritBeast.ChemicalAttack);
+                    updateCommand.Parameters.AddWithValue("@chemical_defense", spiritBeast.ChemicalDefense);
+                    updateCommand.Parameters.AddWithValue("@atomic_attack", spiritBeast.AtomicAttack);
+                    updateCommand.Parameters.AddWithValue("@atomic_defense", spiritBeast.AtomicDefense);
+                    updateCommand.Parameters.AddWithValue("@mental_attack", spiritBeast.MentalAttack);
+                    updateCommand.Parameters.AddWithValue("@mental_defense", spiritBeast.MentalDefense);
+                    updateCommand.Parameters.AddWithValue("@speed", spiritBeast.Speed);
+                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", spiritBeast.CriticalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@critical_rate", spiritBeast.CriticalRate);
+                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", spiritBeast.CriticalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", spiritBeast.IgnoreCriticalRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_rate", spiritBeast.PenetrationRate);
+                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", spiritBeast.PenetrationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@evasion_rate", spiritBeast.EvasionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", spiritBeast.DamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", spiritBeast.IgnoreDamageAbsorptionRate);
+                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", spiritBeast.AbsorbedDamageRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", spiritBeast.VitalityRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", spiritBeast.VitalityRegenerationResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@accuracy_rate", spiritBeast.AccuracyRate);
+                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", spiritBeast.LifestealRate);
+                    updateCommand.Parameters.AddWithValue("@shield_strength", spiritBeast.ShieldStrength);
+                    updateCommand.Parameters.AddWithValue("@tenacity", spiritBeast.Tenacity);
+                    updateCommand.Parameters.AddWithValue("@resistance_rate", spiritBeast.ResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@combo_rate", spiritBeast.ComboRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", spiritBeast.IgnoreComboRate);
+                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", spiritBeast.ComboDamageRate);
+                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", spiritBeast.ComboResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@stun_rate", spiritBeast.StunRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", spiritBeast.IgnoreStunRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_rate", spiritBeast.ReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", spiritBeast.IgnoreReflectionRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", spiritBeast.ReflectionDamageRate);
+                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", spiritBeast.ReflectionResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@mana", spiritBeast.Mana);
+                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", spiritBeast.ManaRegenerationRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", spiritBeast.DamageToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", spiritBeast.ResistanceToDifferentFactionRate);
+                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", spiritBeast.DamageToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", spiritBeast.ResistanceToSameFactionRate);
+                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", spiritBeast.NormalDamageRate);
+                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", spiritBeast.NormalResistanceRate);
+                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", spiritBeast.SkillDamageRate);
+                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", spiritBeast.SkillResistanceRate);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

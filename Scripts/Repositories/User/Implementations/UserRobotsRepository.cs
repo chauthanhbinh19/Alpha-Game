@@ -557,7 +557,7 @@ public class UserRobotsRepository : IUserRobotsRepository
                 string updateSQL = @"
                 UPDATE user_robots
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND robot_id = @robot_id;
             ";
 
@@ -566,6 +566,7 @@ public class UserRobotsRepository : IUserRobotsRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@robot_id", robot.Id);
                     updateCommand.Parameters.AddWithValue("@star", robot.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", robot.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

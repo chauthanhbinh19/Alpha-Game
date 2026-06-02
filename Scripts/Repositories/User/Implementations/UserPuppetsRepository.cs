@@ -580,7 +580,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                 string updateSQL = @"
                 UPDATE user_puppets
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND puppet_id = @puppet_id;
             ";
 
@@ -589,6 +589,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@puppet_id", puppet.Id);
                     updateCommand.Parameters.AddWithValue("@star", puppet.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", puppet.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

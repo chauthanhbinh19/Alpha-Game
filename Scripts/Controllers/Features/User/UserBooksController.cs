@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -14,6 +15,8 @@ public class UserBooksController : MonoBehaviour
     private GameObject cardsPrefab;
     private GameObject PositionPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
+    private GameObject tempCurrentObject;
+    private const int MAX_LEVEL = 10000;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -174,15 +177,21 @@ public class UserBooksController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.BOOK);
         });
+        tempCurrentObject = currentObject;
         CreateDetailsUI(book, currentObject);
     }
     public void CreateDetailsUI(Books book, GameObject currentObject)
     {
+        RefreshDetailsUI(book, currentObject);
+
+        BindButton(book, currentObject);
+    }
+    public void RefreshDetailsUI(Books book, GameObject currentObject)
+    {
+        Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(book.Image); // Lấy giá trị của image từ đối tượng Card
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-
-        ImageManager.Instance.ChangeSizeImage(image, texture, 700f);
         image.texture = texture;
 
         TextMeshProUGUI nameText = transform.Find("DictionaryCards/Name/NameText").GetComponent<TextMeshProUGUI>();
@@ -201,10 +210,16 @@ public class UserBooksController : MonoBehaviour
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");
         TextureHelper.SetupStars(starGridLayout, book.Star);
 
-        // Button closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        // closeButton.onClick.AddListener(() => ClosePopup(popupObject));
+        RawImage mainClassImage = transform.Find("DictionaryCards/Class/MainClassImage").GetComponent<RawImage>();
+        RawImage subClassImage = transform.Find("DictionaryCards/Class/SubClassImage").GetComponent<RawImage>();
+        TextMeshProUGUI mainClassText = transform.Find("DictionaryCards/Class/MainClassText").GetComponent<TextMeshProUGUI>();
+        TextMeshProUGUI subClassText = transform.Find("DictionaryCards/Class/SubClassText").GetComponent<TextMeshProUGUI>();
 
-        SetupStat(transform, "Power", AppConstants.StatFields.POWER, AppDisplayConstants.StatFieldsShort.POWER, book.Power);
+        // mainClassImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(achievement.Class.MainImage));
+        // subClassImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(achievement.Class.SubImage));
+        // mainClassText.text = achievement.Class.MainType;
+        // subClassText.text = achievement.Class.SubType;
+
         SetupStat(transform, "Health", AppConstants.StatFields.HEALTH, AppDisplayConstants.StatFieldsShort.HEALTH, book.Health);
         SetupStat(transform, "PhysicalAttack", AppConstants.StatFields.PHYSICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PHYSICAL_ATTACK, book.PhysicalAttack);
         SetupStat(transform, "PhysicalDefense", AppConstants.StatFields.PHYSICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PHYSICAL_DEFENSE, book.PhysicalDefense);
@@ -217,13 +232,45 @@ public class UserBooksController : MonoBehaviour
         SetupStat(transform, "MentalAttack", AppConstants.StatFields.MENTAL_ATTACK, AppDisplayConstants.StatFieldsShort.MENTAL_ATTACK, book.MentalAttack);
         SetupStat(transform, "MentalDefense", AppConstants.StatFields.MENTAL_DEFENSE, AppDisplayConstants.StatFieldsShort.MENTAL_DEFENSE, book.MentalDefense);
         SetupStat(transform, "Speed", AppConstants.StatFields.SPEED, AppDisplayConstants.StatFieldsShort.SPEED, book.Speed);
-
+    }
+    public void BindButton(Books book, GameObject currentObject)
+    {
+        Transform transform = currentObject.transform;
         Button detailButton = transform.Find("DictionaryCards/DetailsPanel/Group4/Stats/DetailButton").GetComponent<Button>();
         detailButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             StatsManager.Instance.CreateStatsManager(book);
         });
+
+        Button upgradeLevelButton = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/UpgradeLevelButton").GetComponent<Button>();
+        upgradeLevelButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ItemExperienceDTO itemExperienceDTO = await UserItemsService.Create().GetUserItemExperienceByCodeNameAsync(ItemConstants.Experiment.EXP_CARD_HEROES);
+            LevelController.Instance.CreateLevelPanel(book, itemExperienceDTO, MAX_LEVEL, level => Math.Max(level, 1) * 500d);
+        });
+
+        Button moduleButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Module").GetComponent<Button>();
+        moduleButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        });
+
+        Button upgradeButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Upgrade").GetComponent<Button>();
+        upgradeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+        });
+    }
+    public void RefreshCurrentDetailsUI(Books book)
+    {
+        if (tempCurrentObject == null)
+            return;
+
+        RefreshDetailsUI(
+            book,
+            tempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

@@ -556,7 +556,7 @@ public class UserPlantsRepository : IUserPlantsRepository
                 string updateSQL = @"
                 UPDATE user_plants
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND plant_id = @plant_id;
             ";
 
@@ -565,6 +565,7 @@ public class UserPlantsRepository : IUserPlantsRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@plant_id", plant.Id);
                     updateCommand.Parameters.AddWithValue("@star", plant.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", plant.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

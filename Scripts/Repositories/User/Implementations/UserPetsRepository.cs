@@ -797,7 +797,7 @@ public class UserPetsRepository : IUserPetsRepository
                 string updateSQL = @"
                 UPDATE user_pets
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND pet_id = @pet_id;
             ";
 
@@ -806,6 +806,7 @@ public class UserPetsRepository : IUserPetsRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@pet_id", pet.Id);
                     updateCommand.Parameters.AddWithValue("@star", pet.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", pet.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

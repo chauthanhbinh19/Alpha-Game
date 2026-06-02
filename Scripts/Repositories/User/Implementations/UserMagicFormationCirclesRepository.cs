@@ -580,7 +580,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                 string updateSQL = @"
                 UPDATE user_magic_formation_circles
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND mfc_id = @mfc_id;
             ";
 
@@ -589,6 +589,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@mfc_id", magicFormationCircle.Id);
                     updateCommand.Parameters.AddWithValue("@star", magicFormationCircle.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", magicFormationCircle.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

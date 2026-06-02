@@ -587,7 +587,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                 string updateSQL = @"
                 UPDATE user_talismans
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND talisman_id = @talisman_id;
             ";
 
@@ -596,6 +596,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@talisman_id", talisman.Id);
                     updateCommand.Parameters.AddWithValue("@star", talisman.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", talisman.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -613,7 +614,6 @@ public class UserTalismansRepository : IUserTalismansRepository
 
         return true;
     }
-
     public async Task<bool> UpdateTalismanBreakthroughAsync(Talismans talisman, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;

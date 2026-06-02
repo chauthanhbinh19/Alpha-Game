@@ -548,7 +548,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 string updateSQL = @"
                 UPDATE user_emojis
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND emoji_id = @emoji_id;
             ";
 
@@ -557,6 +557,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@emoji_id", emoji.Id);
                     updateCommand.Parameters.AddWithValue("@star", emoji.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", emoji.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

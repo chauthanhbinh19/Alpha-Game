@@ -582,7 +582,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                 string updateSQL = @"
                 UPDATE user_artworks
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND artwork_id = @artwork_id;
             ";
 
@@ -591,6 +591,7 @@ public class UserArtworksRepository : IUserArtworksRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@artwork_id", artwork.Id);
                     updateCommand.Parameters.AddWithValue("@star", artwork.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", artwork.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1047909553531045971}
   - component: {fileID: 1291051077050239293}
   m_Layer: 0
-  m_Name: UniverseContent
+  m_Name: HIINContent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

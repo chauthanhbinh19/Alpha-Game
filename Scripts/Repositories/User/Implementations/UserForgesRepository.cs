@@ -580,7 +580,7 @@ public class UserForgesRepository : IUserForgesRepository
                 string updateSQL = @"
                 UPDATE user_forges
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND forge_id = @forge_id;
             ";
 
@@ -589,6 +589,7 @@ public class UserForgesRepository : IUserForgesRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@forge_id", forge.Id);
                     updateCommand.Parameters.AddWithValue("@star", forge.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", forge.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

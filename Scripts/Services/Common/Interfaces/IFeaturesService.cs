@@ -17,6 +17,8 @@ public interface IFeaturesService
     Task<Dictionary<string, FeatureHIDCDTO>> GetHIDCFeaturesByTypeAsync(string type);
     Task<Dictionary<string, FeatureHICBDTO>> GetHICBFeaturesByTypeAsync(string type);
     Task<Dictionary<string, FeatureHISNDTO>> GetHISNFeaturesByTypeAsync(string type);
+    Task<Dictionary<string, FeatureModuleDTO>> GetModuleFeaturesByTypeAsync(string type, IStats stat);
+    Task<Dictionary<string, FeatureUpgradeDTO>> GetUpgradeFeaturesByTypeAsync(string type, IStats stat);
     Task<Dictionary<string, Features>> GetAnimeFeaturesByTypeAsync(string type);
     // Add other potential methods related to Features data access here if needed
 }

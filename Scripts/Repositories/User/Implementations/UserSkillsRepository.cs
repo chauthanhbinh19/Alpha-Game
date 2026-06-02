@@ -568,7 +568,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 string updateSQL = @"
                 UPDATE user_skills
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND skill_id = @skill_id;
             ";
 
@@ -577,6 +577,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@skill_id", skill.Id);
                     updateCommand.Parameters.AddWithValue("@star", skill.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", skill.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

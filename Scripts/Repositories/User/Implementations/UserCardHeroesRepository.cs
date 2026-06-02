@@ -1268,7 +1268,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                 string updateSQL = @"
                 UPDATE user_card_heroes
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND card_hero_id = @card_hero_id;
             ";
 
@@ -1277,6 +1277,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@card_hero_id", cardHero.Id);
                     updateCommand.Parameters.AddWithValue("@star", cardHero.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", cardHero.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

@@ -548,7 +548,7 @@ public class UserCoresRepository : IUserCoresRepository
                 string updateSQL = @"
                 UPDATE user_cores
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND core_id = @core_id;
             ";
 
@@ -557,6 +557,7 @@ public class UserCoresRepository : IUserCoresRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@core_id", core.Id);
                     updateCommand.Parameters.AddWithValue("@star", core.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", core.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

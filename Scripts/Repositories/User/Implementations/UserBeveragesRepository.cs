@@ -554,7 +554,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                 string updateSQL = @"
                 UPDATE user_beverages
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND beverage_id = @beverage_id;
             ";
 
@@ -563,6 +563,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@beverage_id", beverage.Id);
                     updateCommand.Parameters.AddWithValue("@star", beverage.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", beverage.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

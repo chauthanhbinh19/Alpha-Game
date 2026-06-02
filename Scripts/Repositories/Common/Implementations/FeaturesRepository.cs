@@ -53,9 +53,10 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.research_level, 0) AS research_level
+                COALESCE(ur.research_level, 0) AS research_level
             FROM features f
-            LEFT JOIN researchs r on f.id = r.research_id
+            LEFT JOIN researchs r on f.id = r.id
+            LEFT JOIN user_researchs ur on r.id = ur.research_id
             WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -95,9 +96,10 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.archive_level, 0) AS archive_level
+                COALESCE(ur.archive_level, 0) AS archive_level
             FROM features f
             LEFT JOIN archives r on f.id = r.archive_id
+            LEFT JOIN user_archives ur on r.id = ur.archive_id
             WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -137,9 +139,10 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.universe_level, 0) AS universe_level
+                COALESCE(ur.universe_level, 0) AS universe_level
             FROM universe f
-            LEFT JOIN researchs r on f.id = r.universe_id
+            LEFT JOIN univerese r on f.id = r.id
+            LEFT JOIN user_universes ur on r.id = ur.universe_id
             WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -179,9 +182,10 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.hiin_level, 0) AS hiin_level
+                COALESCE(ur.hiin_level, 0) AS hiin_level
             FROM features f
-            LEFT JOIN hiins r on f.id = r.hiin_id
+            LEFT JOIN hiins r on f.id = r.id
+            LEFT JOIN user_hiins ur on r.id = ur.hiin_id
             WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -221,9 +225,10 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.sswn_level, 0) AS sswn_level
+                COALESCE(ur.sswn_level, 0) AS sswn_level
             FROM features f
-            LEFT JOIN sswns r on f.id = r.sswn_id
+            LEFT JOIN sswns r on f.id = r.id
+            LEFT JOIN user_sswns ur on r.id = ur.sswn_id
             WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -263,9 +268,10 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.hitn_level, 0) AS hitn_level
+                COALESCE(ur.hitn_level, 0) AS hitn_level
             FROM features f
-            LEFT JOIN hitns r on f.id = r.hitn_id
+            LEFT JOIN hitns r on f.id = r.id
+            LEFT JOIN user_hitns ur on r.id = ur.hitn_id
             WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -305,9 +311,10 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.hihn_level, 0) AS hihn_level
+                COALESCE(ur.hihn_level, 0) AS hihn_level
             FROM features f
-            LEFT JOIN hihns r on f.id = r.hihn_id
+            LEFT JOIN hihns r on f.id = r.id
+            LEFT JOIN user_hihns ur on r.id = ur.hihn_id
             WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -347,9 +354,10 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.hien_level, 0) AS hien_level
+                COALESCE(ur.hien_level, 0) AS hien_level
             FROM features f
-            LEFT JOIN hiens r on f.id = r.hien_id
+            LEFT JOIN hiens r on f.id = r.id
+            LEFT JOIN user_hiens ur on r.id = ur.hien_id
             WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -389,9 +397,10 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.hica_level, 0) AS hica_level
+                COALESCE(ur.hica_level, 0) AS hica_level
             FROM features f
             LEFT JOIN hicas r on f.id = r.hica_id
+            LEFT JOIN user_hicas ur on r.id = ur.hica_id
             WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -431,9 +440,10 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.hirn_level, 0) AS hirn_level
+                COALESCE(ur.hirn_level, 0) AS hirn_level
             FROM features f
-            LEFT JOIN hirns r on f.id = r.hirn_id
+            LEFT JOIN hirns r on f.id = r.id
+            LEFT JOIN user_hirns ur on r.id = ur.hirn_id
             WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -473,9 +483,10 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.hidc_level, 0) AS hidc_level
+                COALESCE(ur.hidc_level, 0) AS hidc_level
             FROM features f
-            LEFT JOIN hidcs r on f.id = r.hidc_id
+            LEFT JOIN hidcs r on f.id = r.id
+            LEFT JOIN user_hidcs ur on r.id = ur.hidc_id
             WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -515,9 +526,10 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.hicb_level, 0) AS hicb_level
+                COALESCE(ur.hicb_level, 0) AS hicb_level
             FROM features f
-            LEFT JOIN hicbs r on f.id = r.hicb_id
+            LEFT JOIN hicbs r on f.id = r.id
+            LEFT JOIN user_hicbs ur on r.id = ur.hicb_id
             WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -557,9 +569,10 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(r.hicb_level, 0) AS hicb_level
+                COALESCE(ur.hisn_level, 0) AS hisn_level
             FROM features f
-            LEFT JOIN hicbs r on f.id = r.hicb_id
+            LEFT JOIN hisns r on f.id = r.id
+            LEFT JOIN user_hisns ur on r.id = ur.hisn_id
             WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
@@ -583,6 +596,104 @@ public class FeaturesRepository : IFeaturesRepository
                     }
                 }
             }
+        }
+
+        return features;
+    }
+    public async Task<Dictionary<string, FeatureModuleDTO>> GetModuleFeaturesByTypeAsync(string objectId, string type, string featureCodeName, string userTable, string objectColumn)
+    {
+        Dictionary<string, FeatureModuleDTO> features = new();
+
+        using MySqlConnection connection = new(DatabaseConfig.ConnectionString);
+        await connection.OpenAsync();
+
+        string selectSQL = $@"
+        SELECT
+            f.id,
+            f.feature_name,
+            f.required_level,
+            f.code_name,
+            m.base_multiplier,
+            COALESCE(u.current_level, 0) AS current_level
+        FROM features f
+        LEFT JOIN modules m
+            ON f.id = m.id
+        LEFT JOIN {userTable} u
+            ON m.id = u.module_id
+            AND u.{objectColumn} = @object_id
+        WHERE f.type = @type
+            AND f.code_name = @code_name";
+
+        using MySqlCommand command = new(selectSQL, connection);
+
+        command.Parameters.AddWithValue("@object_id", objectId);
+        command.Parameters.AddWithValue("@type", type);
+        command.Parameters.AddWithValue("@code_name", featureCodeName);
+
+        using MySqlDataReader reader = await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
+        {
+            FeatureModuleDTO feature = new()
+            {
+                Id = reader.GetStringSafe("id"),
+                FeatureName = reader.GetStringSafe("feature_name"),
+                RequiredLevel = reader.GetIntSafe("required_level"),
+                CodeName = reader.GetStringSafe("code_name"),
+                BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                CurrentLevel = reader.GetIntSafe("current_level")
+            };
+
+            features[feature.FeatureName] = feature;
+        }
+
+        return features;
+    }
+    public async Task<Dictionary<string, FeatureUpgradeDTO>> GetUpgradeFeaturesByTypeAsync(string objectId, string type, string featureCodeName, string userTable, string objectColumn)
+    {
+        Dictionary<string, FeatureUpgradeDTO> features = new();
+
+        using MySqlConnection connection = new(DatabaseConfig.ConnectionString);
+        await connection.OpenAsync();
+
+        string selectSQL = $@"
+        SELECT
+            f.id,
+            f.feature_name,
+            f.required_level,
+            f.code_name,
+            m.base_multiplier,
+            COALESCE(u.current_level, 0) AS current_level
+        FROM features f
+        LEFT JOIN upgrades m
+            ON f.id = m.id
+        LEFT JOIN {userTable} u
+            ON m.id = u.upgrade_id
+            AND u.{objectColumn} = @object_id
+        WHERE f.type = @type
+            AND f.code_name = @code_name";
+
+        using MySqlCommand command = new(selectSQL, connection);
+
+        command.Parameters.AddWithValue("@object_id", objectId);
+        command.Parameters.AddWithValue("@type", type);
+        command.Parameters.AddWithValue("@code_name", featureCodeName);
+
+        using MySqlDataReader reader = await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
+        {
+            FeatureUpgradeDTO feature = new()
+            {
+                Id = reader.GetStringSafe("id"),
+                FeatureName = reader.GetStringSafe("feature_name"),
+                RequiredLevel = reader.GetIntSafe("required_level"),
+                CodeName = reader.GetStringSafe("code_name"),
+                BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                CurrentLevel = reader.GetIntSafe("current_level")
+            };
+
+            features[feature.FeatureName] = feature;
         }
 
         return features;

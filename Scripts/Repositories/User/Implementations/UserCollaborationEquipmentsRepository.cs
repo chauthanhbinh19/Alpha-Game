@@ -580,7 +580,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 string updateSQL = @"
                 UPDATE user_collaboration_equipments
                 SET 
-                    star = @star
+                    star = @star, quantity = @quantity
                 WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
             ";
 
@@ -589,6 +589,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                     updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                     updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
                     updateCommand.Parameters.AddWithValue("@star", collaborationEquipment.Star);
+                    updateCommand.Parameters.AddWithValue("@quantity", collaborationEquipment.Quantity);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }

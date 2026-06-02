@@ -27,6 +27,7 @@ public class UserCardSoldiersController : MonoBehaviour
     private GameObject PopupSkillsPanelPrefab;
     private GameObject PopupSkillDetailPrefab;
     private GameObject skillPanelObject;
+    private const int MAX_LEVEL = 10000;
     private const int PAGE_SIZE = 100;
     // private int offset;
     // private int currentPage;
@@ -178,6 +179,12 @@ public class UserCardSoldiersController : MonoBehaviour
     }
     public void CreateDetailsUI(CardSoldiers cardSoldier, GameObject currentObject)
     {
+        RefreshDetailsUI(cardSoldier, currentObject);
+
+        BindButton(cardSoldier, currentObject);
+    }
+    public void RefreshDetailsUI(CardSoldiers cardSoldier, GameObject currentObject)
+    {
         Transform transform = currentObject.transform;
         RawImage image = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSoldier.Image); // Lấy giá trị của image từ đối tượng Card
@@ -210,7 +217,6 @@ public class UserCardSoldiersController : MonoBehaviour
         mainClassText.text = cardSoldier.Class.MainType;
         subClassText.text = cardSoldier.Class.SubType;
 
-        SetupStat(transform, "Power", AppConstants.StatFields.POWER, AppDisplayConstants.StatFieldsShort.POWER, cardSoldier.Power);
         SetupStat(transform, "Health", AppConstants.StatFields.HEALTH, AppDisplayConstants.StatFieldsShort.HEALTH, cardSoldier.Health);
         SetupStat(transform, "PhysicalAttack", AppConstants.StatFields.PHYSICAL_ATTACK, AppDisplayConstants.StatFieldsShort.PHYSICAL_ATTACK, cardSoldier.PhysicalAttack);
         SetupStat(transform, "PhysicalDefense", AppConstants.StatFields.PHYSICAL_DEFENSE, AppDisplayConstants.StatFieldsShort.PHYSICAL_DEFENSE, cardSoldier.PhysicalDefense);
@@ -223,7 +229,10 @@ public class UserCardSoldiersController : MonoBehaviour
         SetupStat(transform, "MentalAttack", AppConstants.StatFields.MENTAL_ATTACK, AppDisplayConstants.StatFieldsShort.MENTAL_ATTACK, cardSoldier.MentalAttack);
         SetupStat(transform, "MentalDefense", AppConstants.StatFields.MENTAL_DEFENSE, AppDisplayConstants.StatFieldsShort.MENTAL_DEFENSE, cardSoldier.MentalDefense);
         SetupStat(transform, "Speed", AppConstants.StatFields.SPEED, AppDisplayConstants.StatFieldsShort.SPEED, cardSoldier.Speed);
-
+    }
+    public void BindButton(CardSoldiers cardSoldier, GameObject currentObject)
+    {
+        Transform transform = currentObject.transform;
         Button detailButton = transform.Find("DictionaryCards/DetailsPanel/Group4/Stats/DetailButton").GetComponent<Button>();
         detailButton.onClick.AddListener(() =>
         {
@@ -232,9 +241,11 @@ public class UserCardSoldiersController : MonoBehaviour
         });
 
         Button upgradeLevelButton = transform.Find("DictionaryCards/DetailsPanel/Group1/Level/UpgradeLevelButton").GetComponent<Button>();
-        upgradeLevelButton.onClick.AddListener(() =>
+        upgradeLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ItemExperienceDTO itemExperienceDTO = await UserItemsService.Create().GetUserItemExperienceByCodeNameAsync(ItemConstants.Experiment.EXP_CARD_HEROES);
+            LevelController.Instance.CreateLevelPanel(cardSoldier, itemExperienceDTO, MAX_LEVEL, level => Math.Max(level, 1) * 500d);
         });
 
         Button moduleButton = transform.Find("DictionaryCards/DetailsPanel/Group3/Module").GetComponent<Button>();
@@ -248,6 +259,15 @@ public class UserCardSoldiersController : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         });
+    }
+    public void RefreshCurrentDetailsUI(CardSoldiers cardSoldier)
+    {
+        if (tempCurrentObject == null)
+            return;
+
+        RefreshDetailsUI(
+            cardSoldier,
+            tempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

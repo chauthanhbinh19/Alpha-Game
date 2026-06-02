@@ -2,12 +2,14 @@ using System;
 
 public interface IStats
 {
+    public string Id { get; set; }
     public string CodeName { get; set; }
     public string AvailabilityType { get; set; }
     public int Star { get; set; }
     public int Level { get; set; }
     public double Experience { get; set; }
     public double Quality { get; set; }
+    public double Quantity { get; set; }
     public double Power { get; set; }
     public double Health { get; set; }
     public double PhysicalAttack { get; set; }
