@@ -4,9 +4,7 @@ public static class MessageConstants
 {
     public const string USERNAME_DOES_NOT_EXIST = "Username does not exist.";
     public const string INCORRECT_PASSWORD = "Incorrect password.";
-    public const string MAX_LEVEL_REACHED = "Maximum level reached.";
     public const string RECIPE_NOT_FOUND = "Recipe not found for this level.";
-    public const string NOT_ENOUGH_MATERIALS = "Not enough materials to upgrade.";
     public const string UPGRADE_SUCCESS_ONE = "Successfully upgraded 1 level.";
     public const string UPGRADE_SUCCESS_MULTIPLE = "Successfully upgraded {0} levels.";
     public const string SYSTEM_ERROR = "System error: {0}.";
@@ -30,15 +28,16 @@ public static class MessageConstants
 
     #region Hệ Thống Thông Báo Nâng Cấp (Upgrade System Keys)
     // Các Key dùng để tra cứu trong file ngôn ngữ (JSON/Database)
-    public const string NotEnoughMaterials = "Notification.NotEnoughMaterials";
-    public const string PleaseSelectQuantity = "Notification.PleaseSelectQuantity";
-    public const string ReadyToUpgrade = "Notification.ReadyToUpgrade";
-    public const string MaxLevelReached = "Notification.MaxLevelReached";
-    public const string ProcessingUpgrade = "Notification.ProcessingUpgrade";
-    public const string UpgradeSuccess = "Notification.UpgradeSuccess";
-    public const string UpgradeFailed = "Notification.UpgradeFailed";
-    public const string ServerError = "Notification.ServerError";
-    public const string InvalidFilter = "Notification.InvalidFilter";
+    public const string NOT_ENOUGH_MATERIALS = "Notification.NotEnoughMaterials";
+    public const string PLEASE_SELECT_QUANTITY = "Notification.PleaseSelectQuantity";
+    public const string READY_TO_UPGRADE = "Notification.ReadyToUpgrade";
+    public const string MAX_LEVEL_REACHED = "Notification.MaxLevelReached";
+    public const string UPGRADE_ALREADY_MAX = "This Upgrade is already max.";
+    public const string PROCESSING_UPGRADE = "Notification.ProcessingUpgrade";
+    public const string UPGRADE_SUCCESS = "Notification.UpgradeSuccess";
+    public const string UPGRADE_FAILED = "Notification.UpgradeFailed";
+    public const string SERVER_ERROR = "Notification.ServerError";
+    public const string INVALID_FILTER = "Notification.InvalidFilter";
     #endregion
     
     public static string WaringLevel(int value)

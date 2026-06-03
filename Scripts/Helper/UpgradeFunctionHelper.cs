@@ -26,15 +26,14 @@ public static class UpgradeFunctionHelper
         var totalRequiredMap = new Dictionary<string, double>();
 
         int upgradedLevels = 0;
+        int currentTargetLevel = currentLevel + 1;
 
-        for (int level = currentLevel + 1;
-             level <= currentLevel + requestedLevels;
-             level++)
+        while (currentTargetLevel <= currentLevel + requestedLevels)
         {
             var recipeItems =
                 await RecipeService.Create().GetRecipeItemsAsync(
                     featureName,
-                    level,
+                    currentTargetLevel,
                     userId);
 
             if (recipeItems == null || recipeItems.Count == 0)
@@ -44,15 +43,47 @@ public static class UpgradeFunctionHelper
             {
                 if (!userItemMap.ContainsKey(item.ItemId))
                 {
-                    userItemMap[item.ItemId] =
-                        item.UserQuantity;
+                    userItemMap[item.ItemId] = item.UserQuantity;
                 }
             }
 
-            bool canUpgrade = recipeItems.All(item =>
-                userItemMap[item.ItemId] >= item.RequiredQuantity);
+            int rangeEndLevel = recipeItems.Max(item => item.MaxLevel);
+            int maxRangeTarget = Math.Min(currentLevel + requestedLevels, rangeEndLevel);
+            int blockSize = maxRangeTarget - currentTargetLevel + 1;
 
-            if (!canUpgrade)
+            bool canUpgradeAllLevelsInRange = recipeItems.All(item =>
+                userItemMap[item.ItemId] >= item.RequiredQuantity * blockSize);
+
+            if (canUpgradeAllLevelsInRange)
+            {
+                foreach (var item in recipeItems)
+                {
+                    double totalRequired = item.RequiredQuantity * blockSize;
+
+                    userItemMap[item.ItemId] -= totalRequired;
+
+                    if (!totalRequiredMap.ContainsKey(item.ItemId))
+                        totalRequiredMap[item.ItemId] = 0;
+
+                    totalRequiredMap[item.ItemId] += totalRequired;
+                }
+
+                upgradedLevels += blockSize;
+                currentTargetLevel += blockSize;
+                continue;
+            }
+
+            bool canUpgradeOneLevel = true;
+            foreach (var item in recipeItems)
+            {
+                if (userItemMap[item.ItemId] < item.RequiredQuantity)
+                {
+                    canUpgradeOneLevel = false;
+                    break;
+                }
+            }
+
+            if (!canUpgradeOneLevel)
                 break;
 
             foreach (var item in recipeItems)
@@ -66,6 +97,7 @@ public static class UpgradeFunctionHelper
             }
 
             upgradedLevels++;
+            currentTargetLevel++;
         }
 
         return new UpgradePreviewDTO

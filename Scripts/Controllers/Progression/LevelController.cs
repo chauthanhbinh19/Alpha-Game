@@ -111,6 +111,18 @@ public class LevelController : MonoBehaviour
             notificationText.color = color;
         }
 
+        void SetConfirmButtonState(bool interactable, bool isMax = false)
+        {
+            confirmButton.interactable = interactable;
+            var backgroundImage = confirmButton.transform.Find("Background2")?.GetComponent<RawImage>();
+            if (backgroundImage != null)
+            {
+                backgroundImage.color = isMax && !interactable
+                    ? Color.gray
+                    : Color.white;
+            }
+        }
+
         void CalculateLevelFromItems(long itemsToUse)
         {
             double totalExp =
@@ -201,8 +213,9 @@ public class LevelController : MonoBehaviour
                     Color.white;
 
                 SetNotification(
-                    MessageConstants.PleaseSelectQuantity,
+                    MessageConstants.PLEASE_SELECT_QUANTITY,
                     Color.yellow);
+                SetConfirmButtonState(false);
             }
             else
             {
@@ -212,16 +225,18 @@ public class LevelController : MonoBehaviour
                 if (targetLevel >= maxLevel)
                 {
                     SetNotification(
-                        MessageConstants.MaxLevelReached,
+                        MessageConstants.MAX_LEVEL_REACHED,
                         Color.green,
                         maxLevel);
+                    SetConfirmButtonState(false, true);
                 }
                 else
                 {
                     SetNotification(
-                        MessageConstants.ReadyToUpgrade,
+                        MessageConstants.READY_TO_UPGRADE,
                         Color.green,
                         targetLevel);
+                    SetConfirmButtonState(true);
                 }
             }
         }
@@ -520,7 +535,7 @@ public class LevelController : MonoBehaviour
             }
             catch (Exception ex)
             {
-                SetNotification(MessageConstants.ServerError, Color.red, ex.Message);
+                SetNotification(MessageConstants.SERVER_ERROR, Color.red, ex.Message);
                 throw;
             }
         }
@@ -572,25 +587,33 @@ public class LevelController : MonoBehaviour
             Destroy(currentPanel);
         });
 
-        confirmButton.onClick.AddListener(async () =>
+        confirmButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
         {
+            if (currentLevel >= maxLevel)
+            {
+                notificationText.text = MessageConstants.UPGRADE_ALREADY_MAX;
+                notificationText.color = Color.red;
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                return;
+            }
+
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
             if (currentMaterialCount > itemExp.Quantity)
             {
-                SetNotification(MessageConstants.NotEnoughMaterials, Color.red);
+                SetNotification(MessageConstants.NOT_ENOUGH_MATERIALS, Color.red);
                 return;
             }
 
             if (currentMaterialCount <= 0)
             {
-                SetNotification(MessageConstants.PleaseSelectQuantity, Color.red);
+                SetNotification(MessageConstants.PLEASE_SELECT_QUANTITY, Color.red);
                 return;
             }
 
             confirmButton.interactable = false;
             closeButton.interactable = false;
 
-            SetNotification(MessageConstants.ProcessingUpgrade, Color.cyan);
+            SetNotification(MessageConstants.PROCESSING_UPGRADE, Color.cyan);
 
             try
             {
@@ -620,7 +643,7 @@ public class LevelController : MonoBehaviour
                 await ExecuteServiceInsertAsync();
 
                 SetNotification(
-                    MessageConstants.UpgradeSuccess,
+                    MessageConstants.UPGRADE_SUCCESS,
                     Color.green);
 
                 await Task.Delay(500);
@@ -633,11 +656,11 @@ public class LevelController : MonoBehaviour
                 closeButton.interactable = true;
 
                 SetNotification(
-                    MessageConstants.UpgradeFailed,
+                    MessageConstants.UPGRADE_FAILED,
                     Color.red,
                     ex.Message);
             }
-        });
+        }));
         #endregion
     }
 }

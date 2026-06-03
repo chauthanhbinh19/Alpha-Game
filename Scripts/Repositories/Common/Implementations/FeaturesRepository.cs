@@ -53,7 +53,9 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(ur.research_level, 0) AS research_level
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.research_level, 0) AS current_level
             FROM features f
             LEFT JOIN researchs r on f.id = r.id
             LEFT JOIN user_researchs ur on r.id = ur.research_id
@@ -70,10 +72,12 @@ public class FeaturesRepository : IFeaturesRepository
                         string featureName = reader.GetString(1);
                         FeatureResearchDTO feature = new FeatureResearchDTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2),
-                            CurrentLevel = reader.GetInt32(3)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
 
                         features[featureName] = feature;
@@ -96,7 +100,9 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(ur.archive_level, 0) AS archive_level
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.archive_level, 0) AS current_level
             FROM features f
             LEFT JOIN archives r on f.id = r.id
             LEFT JOIN user_archives ur on r.id = ur.archive_id
@@ -113,10 +119,12 @@ public class FeaturesRepository : IFeaturesRepository
                         string featureName = reader.GetString(1);
                         FeatureArchiveDTO feature = new FeatureArchiveDTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2),
-                            CurrentLevel = reader.GetInt32(3)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
 
                         features[featureName] = feature;
@@ -139,7 +147,9 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(ur.universe_level, 0) AS universe_level
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.universe_level, 0) AS current_level
             FROM universe f
             LEFT JOIN univerese r on f.id = r.id
             LEFT JOIN user_universes ur on r.id = ur.universe_id
@@ -156,10 +166,12 @@ public class FeaturesRepository : IFeaturesRepository
                         string featureName = reader.GetString(1);
                         FeatureUniverseDTO feature = new FeatureUniverseDTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2),
-                            CurrentLevel = reader.GetInt32(3)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
 
                         features[featureName] = feature;
@@ -182,7 +194,9 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(ur.hiin_level, 0) AS hiin_level
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.hiin_level, 0) AS current_level
             FROM features f
             LEFT JOIN hiins r on f.id = r.id
             LEFT JOIN user_hiins ur on r.id = ur.hiin_id
@@ -199,10 +213,12 @@ public class FeaturesRepository : IFeaturesRepository
                         string featureName = reader.GetString(1);
                         FeatureHIINDTO feature = new FeatureHIINDTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2),
-                            CurrentLevel = reader.GetInt32(3)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
 
                         features[featureName] = feature;
@@ -225,7 +241,9 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(ur.sswn_level, 0) AS sswn_level
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.sswn_level, 0) AS current_level
             FROM features f
             LEFT JOIN sswns r on f.id = r.id
             LEFT JOIN user_sswns ur on r.id = ur.sswn_id
@@ -242,10 +260,12 @@ public class FeaturesRepository : IFeaturesRepository
                         string featureName = reader.GetString(1);
                         FeatureSSWNDTO feature = new FeatureSSWNDTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2),
-                            CurrentLevel = reader.GetInt32(3)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
 
                         features[featureName] = feature;
@@ -268,7 +288,9 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(ur.hitn_level, 0) AS hitn_level
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.hitn_level, 0) AS current_level
             FROM features f
             LEFT JOIN hitns r on f.id = r.id
             LEFT JOIN user_hitns ur on r.id = ur.hitn_id
@@ -285,10 +307,12 @@ public class FeaturesRepository : IFeaturesRepository
                         string featureName = reader.GetString(1);
                         FeatureHITNDTO feature = new FeatureHITNDTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2),
-                            CurrentLevel = reader.GetInt32(3)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
 
                         features[featureName] = feature;
@@ -311,7 +335,9 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(ur.hihn_level, 0) AS hihn_level
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.hihn_level, 0) AS current_level
             FROM features f
             LEFT JOIN hihns r on f.id = r.id
             LEFT JOIN user_hihns ur on r.id = ur.hihn_id
@@ -328,10 +354,12 @@ public class FeaturesRepository : IFeaturesRepository
                         string featureName = reader.GetString(1);
                         FeatureHIHNDTO feature = new FeatureHIHNDTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2),
-                            CurrentLevel = reader.GetInt32(3)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
 
                         features[featureName] = feature;
@@ -354,7 +382,9 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(ur.hien_level, 0) AS hien_level
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.hien_level, 0) AS current_level
             FROM features f
             LEFT JOIN hiens r on f.id = r.id
             LEFT JOIN user_hiens ur on r.id = ur.hien_id
@@ -371,10 +401,12 @@ public class FeaturesRepository : IFeaturesRepository
                         string featureName = reader.GetString(1);
                         FeatureHIENDTO feature = new FeatureHIENDTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2),
-                            CurrentLevel = reader.GetInt32(3)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
 
                         features[featureName] = feature;
@@ -397,7 +429,9 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(ur.hica_level, 0) AS hica_level
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.hica_level, 0) AS current_level
             FROM features f
             LEFT JOIN hicas r on f.id = r.hica_id
             LEFT JOIN user_hicas ur on r.id = ur.hica_id
@@ -414,10 +448,12 @@ public class FeaturesRepository : IFeaturesRepository
                         string featureName = reader.GetString(1);
                         FeatureHICADTO feature = new FeatureHICADTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2),
-                            CurrentLevel = reader.GetInt32(3)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
 
                         features[featureName] = feature;
@@ -440,7 +476,9 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(ur.hirn_level, 0) AS hirn_level
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.hirn_level, 0) AS current_level
             FROM features f
             LEFT JOIN hirns r on f.id = r.id
             LEFT JOIN user_hirns ur on r.id = ur.hirn_id
@@ -457,10 +495,12 @@ public class FeaturesRepository : IFeaturesRepository
                         string featureName = reader.GetString(1);
                         FeatureHIRNDTO feature = new FeatureHIRNDTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2),
-                            CurrentLevel = reader.GetInt32(3)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
 
                         features[featureName] = feature;
@@ -483,7 +523,9 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(ur.hidc_level, 0) AS hidc_level
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.hidc_level, 0) AS current_level
             FROM features f
             LEFT JOIN hidcs r on f.id = r.id
             LEFT JOIN user_hidcs ur on r.id = ur.hidc_id
@@ -500,10 +542,12 @@ public class FeaturesRepository : IFeaturesRepository
                         string featureName = reader.GetString(1);
                         FeatureHIDCDTO feature = new FeatureHIDCDTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2),
-                            CurrentLevel = reader.GetInt32(3)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
 
                         features[featureName] = feature;
@@ -526,7 +570,9 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(ur.hicb_level, 0) AS hicb_level
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.hicb_level, 0) AS current_level
             FROM features f
             LEFT JOIN hicbs r on f.id = r.id
             LEFT JOIN user_hicbs ur on r.id = ur.hicb_id
@@ -543,10 +589,12 @@ public class FeaturesRepository : IFeaturesRepository
                         string featureName = reader.GetString(1);
                         FeatureHICBDTO feature = new FeatureHICBDTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2),
-                            CurrentLevel = reader.GetInt32(3)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
 
                         features[featureName] = feature;
@@ -569,7 +617,9 @@ public class FeaturesRepository : IFeaturesRepository
             string selectSQL = @"SELECT f.id, 
                 f.feature_name, 
                 f.required_level,
-                COALESCE(ur.hisn_level, 0) AS hisn_level
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.hisn_level, 0) AS current_level
             FROM features f
             LEFT JOIN hisns r on f.id = r.id
             LEFT JOIN user_hisns ur on r.id = ur.hisn_id
@@ -586,10 +636,12 @@ public class FeaturesRepository : IFeaturesRepository
                         string featureName = reader.GetString(1);
                         FeatureHISNDTO feature = new FeatureHISNDTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2),
-                            CurrentLevel = reader.GetInt32(3)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
 
                         features[featureName] = feature;

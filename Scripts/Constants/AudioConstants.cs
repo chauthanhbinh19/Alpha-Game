@@ -13,5 +13,7 @@ public static class AudioConstants
         public const string CAN_OPENING_SOUND = "CanOpeningSound";
         public const string APPEAR_SOUND = "AppearSound";
         public const string GEAR_SCROLL_SOUND = "GearSound";
+        public const string ALERT_SOUND = "AlertSound";
+        public const string REJECT_SOUND = "RejectSound";
     }
 }

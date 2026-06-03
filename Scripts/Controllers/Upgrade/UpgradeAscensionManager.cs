@@ -123,10 +123,10 @@ public class UpgradeAscensionManager : MonoBehaviour
         TextMeshProUGUI currentLevelText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
         Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
-        TextMeshProUGUI userItemQuantityText = panelTransform.Find("UserItemQuantityText").GetComponent<TextMeshProUGUI>();
+        // TextMeshProUGUI userItemQuantityText = panelTransform.Find("UserItemQuantityText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText").GetComponent<TextMeshProUGUI>();
-        RawImage userItemImage = panelTransform.Find("UserItemImage").GetComponent<RawImage>();
-        RawImage itemUsedImage = panelTransform.Find("ItemUsedImage").GetComponent<RawImage>();
+        // RawImage userItemImage = panelTransform.Find("UserItemImage").GetComponent<RawImage>();
+        // RawImage itemUsedImage = panelTransform.Find("ItemUsedImage").GetComponent<RawImage>();
         TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
         Button increaseOneButton = panelTransform.Find("IncreaseOneButton").GetComponent<Button>();
         Button increaseTenButton = panelTransform.Find("IncreaseTenButton").GetComponent<Button>();
@@ -159,7 +159,7 @@ public class UpgradeAscensionManager : MonoBehaviour
                 notificationText.text = MessageConstants.MAX_LEVEL_REACHED;
                 confirmButton.interactable = false;
                 itemUsedQuantityText.text = "0";
-                userItemQuantityText.text = "0";
+                // userItemQuantityText.text = "0";
                 return;
             }
 
@@ -176,7 +176,7 @@ public class UpgradeAscensionManager : MonoBehaviour
                 confirmButton.interactable = false;
                 nextLevelText.text = preview.TargetLevel.ToString();
                 itemUsedQuantityText.text = "0";
-                userItemQuantityText.text = "0";
+                // userItemQuantityText.text = "0";
                 return;
             }
 
@@ -207,8 +207,8 @@ public class UpgradeAscensionManager : MonoBehaviour
                     }
                 }
 
-                itemUsedQuantityText.text = requiredQty.ToString();
-                userItemQuantityText.text = owned.ToString();
+                // itemUsedQuantityText.text = requiredQty.ToString();
+                // userItemQuantityText.text = owned.ToString();
 
                 Texture tex = null;
                 if (!string.IsNullOrEmpty(imagePath))
@@ -216,14 +216,14 @@ public class UpgradeAscensionManager : MonoBehaviour
 
                 if (tex != null)
                 {
-                    itemUsedImage.texture = tex;
-                    userItemImage.texture = tex;
+                    // itemUsedImage.texture = tex;
+                    // userItemImage.texture = tex;
                 }
             }
             else
             {
-                itemUsedQuantityText.text = "0";
-                userItemQuantityText.text = "0";
+                // itemUsedQuantityText.text = "0";
+                // userItemQuantityText.text = "0";
             }
         }
 

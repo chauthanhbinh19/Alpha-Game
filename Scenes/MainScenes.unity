@@ -6557,6 +6557,10 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 642c03a1eda730148ae61ad6de3b5bc0, type: 3}
   - name: GearSound
     clip: {fileID: 8300000, guid: 58bc560835857a7468bae05b0144a257, type: 3}
+  - name: AlertSound
+    clip: {fileID: 8300000, guid: 687d160735a497b4298522540eba0c00, type: 3}
+  - name: RejectSound
+    clip: {fileID: 8300000, guid: 27001a558b5bc6646879a654095fadf5, type: 3}
   musicSource: {fileID: 990023841}
   sfxSource: {fileID: 1537485152}
 --- !u!1 &560472407

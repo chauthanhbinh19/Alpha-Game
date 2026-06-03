@@ -13,6 +13,7 @@ public class HISNXManager : MonoBehaviour
     private GameObject HISNPanelPrefab;
     private GameObject HISNButtonPrefab;
     private GameObject PopupHISNPanelPrefab;
+    private GameObject PopupHISNQuantityPanelPrefab;
     private GameObject PopupHISNButtonPrefab;
     private GameObject MainHISNPanelPrefab;
     private GameObject HISNItemPrefab;
@@ -46,6 +47,7 @@ public class HISNXManager : MonoBehaviour
         HISNPanelPrefab = UIManager.Instance.Get("HISNPanelPrefab");
         HISNButtonPrefab = UIManager.Instance.Get("HISNButtonPrefab");
         PopupHISNPanelPrefab = UIManager.Instance.Get("PopupHISNPanelPrefab");
+        PopupHISNQuantityPanelPrefab = UIManager.Instance.Get("PopupHISNQuantityPanelPrefab");
         PopupHISNButtonPrefab = UIManager.Instance.Get("PopupHISNButtonPrefab");
         MainHISNPanelPrefab = UIManager.Instance.Get("MainHISNPanelPrefab");
         HISNItemPrefab = UIManager.Instance.Get("HISNItemPrefab");
@@ -196,8 +198,7 @@ public class HISNXManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(MainHISNPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        Button upgradeOneLevelButton = transform.Find("UpgradeOneLevelButton").GetComponent<Button>();
-        Button upgradeMaxLevelButton = transform.Find("UpgradeMaxLevelButton").GetComponent<Button>();
+        Button upgradeLevelButton = transform.Find("UpgradeLevelButton").GetComponent<Button>();
         Transform leftSideContent = transform.Find("LeftSideContent");
         Transform rightSideContent = transform.Find("RightSideContent");
         TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
@@ -282,45 +283,236 @@ public class HISNXManager : MonoBehaviour
         }
 
 
-        upgradeOneLevelButton.onClick.AddListener(async () =>
+        // Popup that allows upgrading multiple levels (wired to UpgradeLevelButton)
+        void CreatePopupUpgradePanelAsync()
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, hisn.MaxLevel, User.CurrentUserId);
-            if (result.Success)
-            {
-                userHISN = EnhanceHelper.EnhanceHISNs(userHISN, result.UpgradedLevels, hisn.BaseMultiplier);
-                await UserHISNsService.Create().InsertOrUpdateUserHISNsAsync(User.CurrentUserId, userHISN, featureId);
-                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                double currentPower = User.CurrentUserPower;
-                User.CurrentUserPower = newPower;
-                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+            GameObject gameObject =
+                Instantiate(PopupHISNQuantityPanelPrefab, MainPanel);
 
-                await RefreshPanelAsync();
-            }
-            else
+            Transform panelTransform = gameObject.transform;
+
+            TextMeshProUGUI currentLevelText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
+            Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
+            // TextMeshProUGUI userItemQuantityText = panelTransform.Find("UserItemQuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText").GetComponent<TextMeshProUGUI>();
+            // RawImage userItemImage = panelTransform.Find("UserItemImage").GetComponent<RawImage>();
+            // RawImage itemUsedImage = panelTransform.Find("ItemUsedImage").GetComponent<RawImage>();
+            TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
+            Button increaseOneButton = panelTransform.Find("IncreaseOneButton").GetComponent<Button>();
+            Button increaseTenButton = panelTransform.Find("IncreaseTenButton").GetComponent<Button>();
+            Button increaseMaxButton = panelTransform.Find("IncreaseMaxButton").GetComponent<Button>();
+            Button decreaseOneButton = panelTransform.Find("DecreaseOneButton").GetComponent<Button>();
+            Button decreaseTenButton = panelTransform.Find("DecreaseTenButton").GetComponent<Button>();
+            Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
+            Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
+            Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+
+            int popupCurrentLevel = currentLevel;
+            int maxLevel = hisn != null ? hisn.MaxLevel : popupCurrentLevel;
+            int maxPossible = Mathf.Max(0, maxLevel - popupCurrentLevel);
+
+            currentLevelText.text = popupCurrentLevel.ToString();
+            nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            quantitySlider.minValue = 1;
+            quantitySlider.maxValue = Mathf.Max(1, maxPossible);
+            quantitySlider.wholeNumbers = true;
+            quantitySlider.value = 1;
+
+            void SetPreviewNotification(string value, Color color)
             {
-                Debug.Log(result.Message);
+                notificationText.text = LocalizationManager.Get(value);
+                notificationText.color = color;
             }
-        });
-        upgradeMaxLevelButton.onClick.AddListener(async () =>
+
+            async void UpdatePreview()
+            {
+                await UpdatePreviewAsync();
+            }
+
+            async Task UpdatePreviewAsync()
+            {
+                int requested = (int)quantitySlider.value;
+
+                if (maxPossible <= 0)
+                {
+                    var backgroundImage = confirmButton.transform.Find("Background2")?.GetComponent<RawImage>();
+                    if (backgroundImage != null)
+                        backgroundImage.color = Color.gray;
+
+                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, Color.red);
+                    nextLevelText.text = "MAX";
+                    confirmButton.interactable = true;
+                    itemUsedQuantityText.text = "0";
+                    return;
+                }
+
+                var preview = await UpgradeFunctionHelper.PreviewUpgradeAsync(
+                    featureName,
+                    popupCurrentLevel,
+                    maxLevel,
+                    requested,
+                    User.CurrentUserId);
+
+                if (!preview.Success)
+                {
+                    SetPreviewNotification(preview.Message, Color.red);
+                    confirmButton.interactable = false;
+                    nextLevelText.text = preview.TargetLevel.ToString();
+                    itemUsedQuantityText.text = "0";
+                    // userItemQuantityText.text = "0";
+                    return;
+                }
+
+                nextLevelText.text = preview.TargetLevel.ToString();
+                confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                bool hasEnough = true;
+                if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)
+                {
+                    var first = preview.RequiredItems.First();
+                    string firstItemId = first.Key;
+                    double requiredQty = first.Value;
+
+                    var recipeLevelItems = await RecipeService.Create()
+                        .GetRecipeItemsAsync(featureName, popupCurrentLevel + 1, User.CurrentUserId);
+
+                    double owned = 0;
+                    string imagePath = null;
+                    if (recipeLevelItems != null)
+                    {
+                        var match = recipeLevelItems.FirstOrDefault(x => x.ItemId == firstItemId);
+                        if (match != null)
+                        {
+                            owned = match.UserQuantity;
+                            imagePath = match.ItemImage;
+                        }
+                    }
+
+                    itemUsedQuantityText.text = requiredQty.ToString();
+                    // userItemQuantityText.text = owned.ToString();
+
+                    if (owned < requiredQty)
+                    {
+                        hasEnough = false;
+                    }
+
+                    Texture tex = null;
+                    if (!string.IsNullOrEmpty(imagePath))
+                        tex = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(imagePath));
+
+                    if (tex != null)
+                    {
+                        // itemUsedImage.texture = tex;
+                        // userItemImage.texture = tex;
+                    }
+                }
+                else
+                {
+                    itemUsedQuantityText.text = "0";
+                    // userItemQuantityText.text = "0";
+                }
+
+                if (preview.UpgradedLevels > 0 && hasEnough)
+                {
+                    SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, Color.green);
+                }
+                else
+                {
+                    SetPreviewNotification(MessageConstants.NOT_ENOUGH_MATERIALS, Color.red);
+                    confirmButton.interactable = false;
+                }
+            }
+
+            quantitySlider.onValueChanged.AddListener(_ => UpdatePreview());
+
+            increaseOneButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 1);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+            increaseTenButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 10);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+            increaseMaxButton.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                quantitySlider.SetValueWithoutNotify(quantitySlider.maxValue);
+                await UpdatePreviewAsync();
+            });
+
+            decreaseOneButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = Mathf.Max(quantitySlider.minValue, quantitySlider.value - 1);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+            decreaseTenButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = Mathf.Max(quantitySlider.minValue, quantitySlider.value - 10);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+            decreaseMaxButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = quantitySlider.minValue;
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+
+            UpdatePreview();
+
+            confirmButton.onClick.AddListener(async () =>
+            {
+                if (popupCurrentLevel >= maxLevel)
+                {
+                    notificationText.text = MessageConstants.UPGRADE_ALREADY_MAX;
+                    notificationText.color = Color.red;
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    return;
+                }
+
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
+
+                int requested = (int)quantitySlider.value;
+                var result = await UpgradeFunctionHelper.UpgradeLevelAsync(
+                    featureName,
+                    popupCurrentLevel,
+                    maxLevel,
+                    requested,
+                    User.CurrentUserId);
+
+                if (result.Success)
+                {
+                    userHISN = EnhanceHelper.EnhanceHISNs(userHISN, result.UpgradedLevels, hisn.BaseMultiplier);
+                    await UserHISNsService.Create().InsertOrUpdateUserHISNsAsync(User.CurrentUserId, userHISN, featureId);
+
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
+                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
+                    Destroy(gameObject);
+                    await RefreshPanelAsync();
+                }
+                else
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
+                    notificationText.text = result.Message;
+                }
+            });
+
+            closeButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Destroy(gameObject);
+            });
+        }
+
+        upgradeLevelButton.onClick.AddListener(() =>
         {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, hisn.MaxLevel, User.CurrentUserId);
-            if (result.Success)
-            {
-                userHISN = EnhanceHelper.EnhanceHISNs(userHISN, result.UpgradedLevels, hisn.BaseMultiplier);
-                await UserHISNsService.Create().InsertOrUpdateUserHISNsAsync(User.CurrentUserId, userHISN, featureId);
-                                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                double currentPower = User.CurrentUserPower;
-                User.CurrentUserPower = newPower;
-                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
-                
-                await RefreshPanelAsync();
-            }
-            else
-            {
-                Debug.Log(result.Message);
-            }
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            CreatePopupUpgradePanelAsync();
         });
     }
     
