@@ -137,6 +137,11 @@ public class FeaturesService : IFeaturesService
         return await _featuresRepository.GetAnimeFeaturesByTypeAsync(type);
     }
 
+    public async Task<Dictionary<string, FeatureScienceFictionDTO>> GetScienceFictionFeaturesByTypeAsync(string type)
+    {
+        return await _featuresRepository.GetScienceFictionFeaturesByTypeAsync(type);
+    }
+
     public async Task<Dictionary<string, FeatureResearchDTO>> GetResearchFeaturesByTypeAsync(string type)
     {
         return await _featuresRepository.GetResearchFeaturesByTypeAsync(type);

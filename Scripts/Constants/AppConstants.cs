@@ -2380,25 +2380,25 @@ public static class AppConstants
     }
     public static class ScienceFiction
     {
-        public const string REACTOR_NUMBER_1 = "Reactor Number 1";
-        public const string REACTOR_NUMBER_2 = "Reactor Number 2";
-        public const string REACTOR_NUMBER_3 = "Reactor Number 3";
-        public const string REACTOR_NUMBER_4 = "Reactor Number 4";
-        public const string REACTOR_NUMBER_5 = "Reactor Number 5";
-        public const string REACTOR_NUMBER_6 = "Reactor Number 6";
-        public const string REACTOR_NUMBER_7 = "Reactor Number 7";
-        public const string REACTOR_NUMBER_8 = "Reactor Number 8";
-        public const string REACTOR_NUMBER_9 = "Reactor Number 9";
-        public const string REACTOR_NUMBER_10 = "Reactor Number 10";
-        public const string REACTOR_NUMBER_11 = "Reactor Number 11";
-        public const string REACTOR_NUMBER_12 = "Reactor Number 12";
-        public const string REACTOR_NUMBER_13 = "Reactor Number 13";
-        public const string REACTOR_NUMBER_14 = "Reactor Number 14";
-        public const string REACTOR_NUMBER_15 = "Reactor Number 15";
-        public const string REACTOR_NUMBER_16 = "Reactor Number 16";
-        public const string REACTOR_NUMBER_17 = "Reactor Number 17";
-        public const string REACTOR_NUMBER_18 = "Reactor Number 18";
-        public const string REACTOR_NUMBER_19 = "Reactor Number 19";
-        public const string REACTOR_NUMBER_20 = "Reactor Number 20";
+        public const string SCIENCE_FICTION_I = "Science Fiction I";
+        public const string SCIENCE_FICTION_II = "Science Fiction II";
+        public const string SCIENCE_FICTION_III = "Science Fiction III";
+        public const string SCIENCE_FICTION_IV = "Science Fiction IV";
+        public const string SCIENCE_FICTION_V = "Science Fiction V";
+        public const string SCIENCE_FICTION_VI = "Science Fiction VI";
+        public const string SCIENCE_FICTION_VII = "Science Fiction VII";
+        public const string SCIENCE_FICTION_VIII = "Science Fiction VIII";
+        public const string SCIENCE_FICTION_IX = "Science Fiction IX";
+        public const string SCIENCE_FICTION_X = "Science Fiction X";
+        public const string SCIENCE_FICTION_XI = "Science Fiction XI";
+        public const string SCIENCE_FICTION_XII = "Science Fiction XII";
+        public const string SCIENCE_FICTION_XIII = "Science Fiction XIII";
+        public const string SCIENCE_FICTION_XIV = "Science Fiction XIV";
+        public const string SCIENCE_FICTION_XV = "Science Fiction XV";
+        public const string SCIENCE_FICTION_XVI = "Science Fiction XVI";
+        public const string SCIENCE_FICTION_XVII = "Science Fiction XVII";
+        public const string SCIENCE_FICTION_XVIII = "Science Fiction XVIII";
+        public const string SCIENCE_FICTION_XIX = "Science Fiction XIX";
+        public const string SCIENCE_FICTION_XX = "Science Fiction XX";
     }
 }

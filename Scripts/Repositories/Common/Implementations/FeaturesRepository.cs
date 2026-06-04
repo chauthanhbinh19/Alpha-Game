@@ -41,6 +41,53 @@ public class FeaturesRepository : IFeaturesRepository
 
         return features;
     }
+    public async Task<Dictionary<string, FeatureScienceFictionDTO>> GetScienceFictionFeaturesByTypeAsync(string type)
+    {
+        Dictionary<string, FeatureScienceFictionDTO> features = new Dictionary<string, FeatureScienceFictionDTO>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            await connection.OpenAsync();
+
+            string selectSQL = @"SELECT f.id, 
+                f.feature_name, 
+                f.required_level,
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.science_fiction_level, 0) AS current_level
+            FROM features f
+            LEFT JOIN science_fictions r on f.id = r.id
+            LEFT JOIN user_science_fictions ur on r.id = ur.science_fiction_id
+            WHERE type = @type";
+
+            using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+            {
+                selectCommand.Parameters.AddWithValue("@type", type);
+
+                using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                {
+                    while (await reader.ReadAsync())
+                    {
+                        string featureName = reader.GetString(1);
+                        FeatureScienceFictionDTO feature = new FeatureScienceFictionDTO
+                        {
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
+                        };
+
+                        features[featureName] = feature;
+                    }
+                }
+            }
+        }
+
+        return features;
+    }
     public async Task<Dictionary<string, FeatureResearchDTO>> GetResearchFeaturesByTypeAsync(string type)
     {
         Dictionary<string, FeatureResearchDTO> features = new Dictionary<string, FeatureResearchDTO>();

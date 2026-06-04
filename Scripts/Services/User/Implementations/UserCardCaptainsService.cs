@@ -365,7 +365,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         List<CardCaptains> list = await _userCardCaptainsRepository.GetUserCardCaptainsAsync(user_id, search, type, pageSize, offset, rare);
         
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = ScienceFictionService.Create().GetSumScienceFictionAsync(user_id);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
         var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
         var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
@@ -437,7 +437,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         List<CardCaptains> list = await _userCardCaptainsRepository.GetUserCardCaptainsTeamAsync(user_id, teamId, position);
         
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = ScienceFictionService.Create().GetSumScienceFictionAsync(user_id);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
         var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
         var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
@@ -509,7 +509,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         List<CardCaptains> list = await _userCardCaptainsRepository.GetUserCardCaptainsTeamWithoutPositionAsync(user_id, teamId);
         
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = ScienceFictionService.Create().GetSumScienceFictionAsync(user_id);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
         var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
         var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
@@ -630,7 +630,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         List<CardCaptains> list = new List<CardCaptains> { cardCaptain };
 
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = ScienceFictionService.Create().GetSumScienceFictionAsync(user_id);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
         var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
         var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
@@ -701,7 +701,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         List<CardCaptains> list = await _userCardCaptainsRepository.GetAllUserCardCaptainsInTeamAsync(user_id);
         
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = ScienceFictionService.Create().GetSumScienceFictionAsync(user_id);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
         var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
         var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);

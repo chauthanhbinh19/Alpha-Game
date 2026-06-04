@@ -229,26 +229,26 @@ public static class ImageConstants
     }
     public static class ScienceFiction
     {
-        public const string REACTOR_NUMBER_1_URL = "UI/Background3/ReactorNumber1";
-        public const string REACTOR_NUMBER_2_URL = "UI/Background3/ReactorNumber2";
-        public const string REACTOR_NUMBER_3_URL = "UI/Background3/ReactorNumber3";
-        public const string REACTOR_NUMBER_4_URL = "UI/Background3/ReactorNumber4";
-        public const string REACTOR_NUMBER_5_URL = "UI/Background3/ReactorNumber5";
-        public const string REACTOR_NUMBER_6_URL = "UI/Background3/ReactorNumber6";
-        public const string REACTOR_NUMBER_7_URL = "UI/Background3/ReactorNumber7";
-        public const string REACTOR_NUMBER_8_URL = "UI/Background3/ReactorNumber8";
-        public const string REACTOR_NUMBER_9_URL = "UI/Background3/ReactorNumber9";
-        public const string REACTOR_NUMBER_10_URL = "UI/Background3/ReactorNumber10";
-        public const string REACTOR_NUMBER_11_URL = "UI/Background3/ReactorNumber11";
-        public const string REACTOR_NUMBER_12_URL = "UI/Background3/ReactorNumber12";
-        public const string REACTOR_NUMBER_13_URL = "UI/Background3/ReactorNumber13";
-        public const string REACTOR_NUMBER_14_URL = "UI/Background3/ReactorNumber14";
-        public const string REACTOR_NUMBER_15_URL = "UI/Background3/ReactorNumber15";
-        public const string REACTOR_NUMBER_16_URL = "UI/Background3/ReactorNumber16";
-        public const string REACTOR_NUMBER_17_URL = "UI/Background3/ReactorNumber17";
-        public const string REACTOR_NUMBER_18_URL = "UI/Background3/ReactorNumber18";
-        public const string REACTOR_NUMBER_19_URL = "UI/Background3/ReactorNumber19";
-        public const string REACTOR_NUMBER_20_URL = "UI/Background3/ReactorNumber20";
+        public const string REACTOR_NUMBER_1_URL = "UI/Rank_Research/Science_Fiction_I";
+        public const string REACTOR_NUMBER_2_URL = "UI/Rank_Research/Science_Fiction_II";
+        public const string REACTOR_NUMBER_3_URL = "UI/Rank_Research/Science_Fiction_III";
+        public const string REACTOR_NUMBER_4_URL = "UI/Rank_Research/Science_Fiction_IV";
+        public const string REACTOR_NUMBER_5_URL = "UI/Rank_Research/Science_Fiction_V";
+        public const string REACTOR_NUMBER_6_URL = "UI/Rank_Research/Science_Fiction_VI";
+        public const string REACTOR_NUMBER_7_URL = "UI/Rank_Research/Science_Fiction_VII";
+        public const string REACTOR_NUMBER_8_URL = "UI/Rank_Research/Science_Fiction_VIII";
+        public const string REACTOR_NUMBER_9_URL = "UI/Rank_Research/Science_Fiction_IX";
+        public const string REACTOR_NUMBER_10_URL = "UI/Rank_Research/Science_Fiction_X";
+        public const string REACTOR_NUMBER_11_URL = "UI/Rank_Research/Science_Fiction_XI";
+        public const string REACTOR_NUMBER_12_URL = "UI/Rank_Research/Science_Fiction_XII";
+        public const string REACTOR_NUMBER_13_URL = "UI/Rank_Research/Science_Fiction_XIII";
+        public const string REACTOR_NUMBER_14_URL = "UI/Rank_Research/Science_Fiction_XIV";
+        public const string REACTOR_NUMBER_15_URL = "UI/Rank_Research/Science_Fiction_XV";
+        public const string REACTOR_NUMBER_16_URL = "UI/Rank_Research/Science_Fiction_XVI";
+        public const string REACTOR_NUMBER_17_URL = "UI/Rank_Research/Science_Fiction_XVII";
+        public const string REACTOR_NUMBER_18_URL = "UI/Rank_Research/Science_Fiction_XVIII";
+        public const string REACTOR_NUMBER_19_URL = "UI/Rank_Research/Science_Fiction_XIX";
+        public const string REACTOR_NUMBER_20_URL = "UI/Rank_Research/Science_Fiction_XX";
     }
     public static class Gallery
     {

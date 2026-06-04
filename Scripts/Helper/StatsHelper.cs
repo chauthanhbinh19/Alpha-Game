@@ -54,7 +54,7 @@ public static class StatsHelper
         cardHero.SkillDamageRate = cardHero.SkillDamageRate + powerManager.SkillDamageRate;
         cardHero.SkillResistanceRate = cardHero.SkillResistanceRate + powerManager.SkillResistanceRate;
     }
-    public static void ApplyScienceFictionStats(this CardHeroes cardHero, ScienceFiction scienceFiction)
+    public static void ApplyScienceFictionStats(this CardHeroes cardHero, UserScienceFictions scienceFiction)
     {
         if (scienceFiction == null) return;
         cardHero.Health = cardHero.Health + scienceFiction.Health + cardHero.BaseStats.Health * scienceFiction.PercentAllHealth / 100;
@@ -929,7 +929,7 @@ public static class StatsHelper
         cardCaptain.SkillDamageRate = cardCaptain.SkillDamageRate + powerManager.SkillDamageRate;
         cardCaptain.SkillResistanceRate = cardCaptain.SkillResistanceRate + powerManager.SkillResistanceRate;
     }
-    public static void ApplyScienceFictionStats(this CardCaptains cardCaptain, ScienceFiction scienceFiction)
+    public static void ApplyScienceFictionStats(this CardCaptains cardCaptain, UserScienceFictions scienceFiction)
     {
         if (scienceFiction == null) return;
         cardCaptain.Health = cardCaptain.Health + scienceFiction.Health + cardCaptain.BaseStats.Health * scienceFiction.PercentAllHealth / 100;
@@ -1804,7 +1804,7 @@ public static class StatsHelper
         cardColonel.SkillDamageRate = cardColonel.SkillDamageRate + powerManager.SkillDamageRate;
         cardColonel.SkillResistanceRate = cardColonel.SkillResistanceRate + powerManager.SkillResistanceRate;
     }
-    public static void ApplyScienceFictionStats(this CardColonels cardColonel, ScienceFiction scienceFiction)
+    public static void ApplyScienceFictionStats(this CardColonels cardColonel, UserScienceFictions scienceFiction)
     {
         if (scienceFiction == null) return;
         cardColonel.Health = cardColonel.Health + scienceFiction.Health + cardColonel.BaseStats.Health * scienceFiction.PercentAllHealth / 100;
@@ -2679,7 +2679,7 @@ public static class StatsHelper
         cardGeneral.SkillDamageRate = cardGeneral.SkillDamageRate + powerManager.SkillDamageRate;
         cardGeneral.SkillResistanceRate = cardGeneral.SkillResistanceRate + powerManager.SkillResistanceRate;
     }
-    public static void ApplyScienceFictionStats(this CardGenerals cardGeneral, ScienceFiction scienceFiction)
+    public static void ApplyScienceFictionStats(this CardGenerals cardGeneral, UserScienceFictions scienceFiction)
     {
         if (scienceFiction == null) return;
         cardGeneral.Health = cardGeneral.Health + scienceFiction.Health + cardGeneral.BaseStats.Health * scienceFiction.PercentAllHealth / 100;
@@ -3554,7 +3554,7 @@ public static class StatsHelper
         cardAdmiral.SkillDamageRate = cardAdmiral.SkillDamageRate + powerManager.SkillDamageRate;
         cardAdmiral.SkillResistanceRate = cardAdmiral.SkillResistanceRate + powerManager.SkillResistanceRate;
     }
-    public static void ApplyScienceFictionStats(this CardAdmirals cardAdmiral, ScienceFiction scienceFiction)
+    public static void ApplyScienceFictionStats(this CardAdmirals cardAdmiral, UserScienceFictions scienceFiction)
     {
         if (scienceFiction == null) return;
         cardAdmiral.Health = cardAdmiral.Health + scienceFiction.Health + cardAdmiral.BaseStats.Health * scienceFiction.PercentAllHealth / 100;
@@ -4429,7 +4429,7 @@ public static class StatsHelper
         cardMonster.SkillDamageRate = cardMonster.SkillDamageRate + powerManager.SkillDamageRate;
         cardMonster.SkillResistanceRate = cardMonster.SkillResistanceRate + powerManager.SkillResistanceRate;
     }
-    public static void ApplyScienceFictionStats(this CardMonsters cardMonster, ScienceFiction scienceFiction)
+    public static void ApplyScienceFictionStats(this CardMonsters cardMonster, UserScienceFictions scienceFiction)
     {
         if (scienceFiction == null) return;
         cardMonster.Health = cardMonster.Health + scienceFiction.Health + cardMonster.BaseStats.Health * scienceFiction.PercentAllHealth / 100;
@@ -5304,7 +5304,7 @@ public static class StatsHelper
         cardMilitary.SkillDamageRate = cardMilitary.SkillDamageRate + powerManager.SkillDamageRate;
         cardMilitary.SkillResistanceRate = cardMilitary.SkillResistanceRate + powerManager.SkillResistanceRate;
     }
-    public static void ApplyScienceFictionStats(this CardMilitaries cardMilitary, ScienceFiction scienceFiction)
+    public static void ApplyScienceFictionStats(this CardMilitaries cardMilitary, UserScienceFictions scienceFiction)
     {
         if (scienceFiction == null) return;
         cardMilitary.Health = cardMilitary.Health + scienceFiction.Health + cardMilitary.BaseStats.Health * scienceFiction.PercentAllHealth / 100;
@@ -6179,7 +6179,7 @@ public static class StatsHelper
         cardSpell.SkillDamageRate = cardSpell.SkillDamageRate + powerManager.SkillDamageRate;
         cardSpell.SkillResistanceRate = cardSpell.SkillResistanceRate + powerManager.SkillResistanceRate;
     }
-    public static void ApplyScienceFictionStats(this CardSpells cardSpell, ScienceFiction scienceFiction)
+    public static void ApplyScienceFictionStats(this CardSpells cardSpell, UserScienceFictions scienceFiction)
     {
         if (scienceFiction == null) return;
         cardSpell.Health = cardSpell.Health + scienceFiction.Health + cardSpell.BaseStats.Health * scienceFiction.PercentAllHealth / 100;
@@ -7054,7 +7054,7 @@ public static class StatsHelper
         book.SkillDamageRate = book.SkillDamageRate + powerManager.SkillDamageRate;
         book.SkillResistanceRate = book.SkillResistanceRate + powerManager.SkillResistanceRate;
     }
-    public static void ApplyScienceFictionStats(this Books book, ScienceFiction scienceFiction)
+    public static void ApplyScienceFictionStats(this Books book, UserScienceFictions scienceFiction)
     {
         if (scienceFiction == null) return;
         book.Health = book.Health + scienceFiction.Health + book.BaseStats.Health * scienceFiction.PercentAllHealth / 100;
@@ -7929,7 +7929,7 @@ public static class StatsHelper
         pet.SkillDamageRate = pet.SkillDamageRate + powerManager.SkillDamageRate;
         pet.SkillResistanceRate = pet.SkillResistanceRate + powerManager.SkillResistanceRate;
     }
-    public static void ApplyScienceFictionStats(this Pets pet, ScienceFiction scienceFiction)
+    public static void ApplyScienceFictionStats(this Pets pet, UserScienceFictions scienceFiction)
     {
         if (scienceFiction == null) return;
         pet.Health = pet.Health + scienceFiction.Health + pet.BaseStats.Health * scienceFiction.PercentAllHealth / 100;
@@ -8804,7 +8804,7 @@ public static class StatsHelper
         cardSoldier.SkillDamageRate = cardSoldier.SkillDamageRate + powerManager.SkillDamageRate;
         cardSoldier.SkillResistanceRate = cardSoldier.SkillResistanceRate + powerManager.SkillResistanceRate;
     }
-    public static void ApplyScienceFictionStats(this CardSoldiers cardSoldier, ScienceFiction scienceFiction)
+    public static void ApplyScienceFictionStats(this CardSoldiers cardSoldier, UserScienceFictions scienceFiction)
     {
         if (scienceFiction == null) return;
         cardSoldier.Health = cardSoldier.Health + scienceFiction.Health + cardSoldier.BaseStats.Health * scienceFiction.PercentAllHealth / 100;

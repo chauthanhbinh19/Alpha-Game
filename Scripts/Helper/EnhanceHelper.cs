@@ -322,14 +322,14 @@ public static class EnhanceHelper
         rank.Level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
         return rank;
     }
-    public static ScienceFiction EnhanceScienceFiction(ScienceFiction scienceFiction, int level, int multiplier = 1)
+    public static UserScienceFictions EnhanceScienceFictions(UserScienceFictions scienceFiction, int level, double multiplier = 1)
     {
         int startLevel = scienceFiction.Level;
         int endLevel = startLevel + level;
 
         for (int lvl = startLevel; lvl < endLevel; lvl++)
         {
-            int statMultiplier = multiplier;  // Hệ số nhân dựa trên cấp độ hiện tại
+            double statMultiplier = multiplier;  // Hệ số nhân dựa trên cấp độ hiện tại
 
             if (lvl >= 0 && lvl <= 500)
             {

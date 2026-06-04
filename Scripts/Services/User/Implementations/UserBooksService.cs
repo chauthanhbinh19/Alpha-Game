@@ -269,7 +269,7 @@ public class UserBooksService : IUserBooksService
         List<Books> list = await _userBooksRepository.GetUserBooksAsync(user_id, search, type, pageSize, offset, rare);
         
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = ScienceFictionService.Create().GetSumScienceFictionAsync(user_id);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
         var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
         var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
@@ -340,7 +340,7 @@ public class UserBooksService : IUserBooksService
         List<Books> list = await _userBooksRepository.GetUserBooksTeamAsync(teamId);
         
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = ScienceFictionService.Create().GetSumScienceFictionAsync(user_id);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
         var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
         var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
@@ -451,7 +451,7 @@ public class UserBooksService : IUserBooksService
         List<Books> list = await _userBooksRepository.GetAllUserBooksInTeamAsync(user_id);
         
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = ScienceFictionService.Create().GetSumScienceFictionAsync(user_id);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
         var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
         var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
