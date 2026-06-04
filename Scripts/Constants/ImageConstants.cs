@@ -658,183 +658,183 @@ public static class ImageConstants
     }
     public static class Archive
     {
-        public const string ARCHIVE_I_URL = "UI/Icon/roman_one";
-        public const string ARCHIVE_II_URL = "UI/Icon/roman_two";
-        public const string ARCHIVE_III_URL = "UI/Icon/roman_three";
-        public const string ARCHIVE_IV_URL = "UI/Icon/roman_four";
-        public const string ARCHIVE_V_URL = "UI/Icon/roman_five";
-        public const string ARCHIVE_VI_URL = "UI/Icon/roman_six";
-        public const string ARCHIVE_VII_URL = "UI/Icon/roman_seven";
-        public const string ARCHIVE_VIII_URL = "UI/Icon/roman_eight";
-        public const string ARCHIVE_IX_URL = "UI/Icon/roman_nine";
-        public const string ARCHIVE_X_URL = "UI/Icon/roman_ten";
-        public const string ARCHIVE_XI_URL = "UI/Icon/roman_eleven";
-        public const string ARCHIVE_XII_URL = "UI/Icon/roman_twelve";
-        public const string ARCHIVE_XIII_URL = "UI/Icon/roman_thirteen";
-        public const string ARCHIVE_XIV_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XV_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XVI_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XVII_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XVIII_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XIX_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XX_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXI_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXII_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXIII_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXIV_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXV_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXVI_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXVII_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXVIII_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXIX_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXX_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXXI_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXXII_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXXIII_URL = "UI/Icon/roman_fourteen";
-        public const string ARCHIVE_XXXIV_URL = "UI/Icon/roman_fourteen";
+        public const string ARCHIVE_I_URL = "UI/Rank_Research/Archive I";
+        public const string ARCHIVE_II_URL = "UI/Rank_Research/Archive II";
+        public const string ARCHIVE_III_URL = "UI/Rank_Research/Archive III";
+        public const string ARCHIVE_IV_URL = "UI/Rank_Research/Archive IV";
+        public const string ARCHIVE_V_URL = "UI/Rank_Research/Archive V";
+        public const string ARCHIVE_VI_URL = "UI/Rank_Research/Archive VI";
+        public const string ARCHIVE_VII_URL = "UI/Rank_Research/Archive VII";
+        public const string ARCHIVE_VIII_URL = "UI/Rank_Research/Archive VIII";
+        public const string ARCHIVE_IX_URL = "UI/Rank_Research/Archive IX";
+        public const string ARCHIVE_X_URL = "UI/Rank_Research/Archive X";
+        public const string ARCHIVE_XI_URL = "UI/Rank_Research/Archive XI";
+        public const string ARCHIVE_XII_URL = "UI/Rank_Research/Archive XII";
+        public const string ARCHIVE_XIII_URL = "UI/Rank_Research/Archive XIII";
+        public const string ARCHIVE_XIV_URL = "UI/Rank_Research/Archive XIV";
+        public const string ARCHIVE_XV_URL = "UI/Rank_Research/Archive XV";
+        public const string ARCHIVE_XVI_URL = "UI/Rank_Research/Archive XVI";
+        public const string ARCHIVE_XVII_URL = "UI/Rank_Research/Archive XVII";
+        public const string ARCHIVE_XVIII_URL = "UI/Rank_Research/Archive XVIII";
+        public const string ARCHIVE_XIX_URL = "UI/Rank_Research/Archive XIX";
+        public const string ARCHIVE_XX_URL = "UI/Rank_Research/Archive XX";
+        public const string ARCHIVE_XXI_URL = "UI/Rank_Research/Archive XXI";
+        public const string ARCHIVE_XXII_URL = "UI/Rank_Research/Archive XXII";
+        public const string ARCHIVE_XXIII_URL = "UI/Rank_Research/Archive XXIII";
+        public const string ARCHIVE_XXIV_URL = "UI/Rank_Research/Archive XXIV";
+        public const string ARCHIVE_XXV_URL = "UI/Rank_Research/Archive XXV";
+        public const string ARCHIVE_XXVI_URL = "UI/Rank_Research/Archive XXVI";
+        public const string ARCHIVE_XXVII_URL = "UI/Rank_Research/Archive XXVII";
+        public const string ARCHIVE_XXVIII_URL = "UI/Rank_Research/Archive XXVIII";
+        public const string ARCHIVE_XXIX_URL = "UI/Rank_Research/Archive XXIX";
+        public const string ARCHIVE_XXX_URL = "UI/Rank_Research/Archive XXX";
+        public const string ARCHIVE_XXXI_URL = "UI/Rank_Research/Archive XXXI";
+        public const string ARCHIVE_XXXII_URL = "UI/Rank_Research/Archive XXXII";
+        public const string ARCHIVE_XXXIII_URL = "UI/Rank_Research/Archive XXXIII";
+        public const string ARCHIVE_XXXIV_URL = "UI/Rank_Research/Archive XXXIV";
     }
     public static class Universe
     {
-        public const string UNIVERSE_I_URL = "UI/Icon/roman_one";
-        public const string UNIVERSE_II_URL = "UI/Icon/roman_two";
-        public const string UNIVERSE_III_URL = "UI/Icon/roman_three";
-        public const string UNIVERSE_IV_URL = "UI/Icon/roman_four";
-        public const string UNIVERSE_V_URL = "UI/Icon/roman_five";
-        public const string UNIVERSE_VI_URL = "UI/Icon/roman_six";
-        public const string UNIVERSE_VII_URL = "UI/Icon/roman_seven";
-        public const string UNIVERSE_VIII_URL = "UI/Icon/roman_eight";
-        public const string UNIVERSE_IX_URL = "UI/Icon/roman_nine";
-        public const string UNIVERSE_X_URL = "UI/Icon/roman_ten";
+        public const string UNIVERSE_I_URL = "UI/Rank_Research/Universe I";
+        public const string UNIVERSE_II_URL = "UI/Rank_Research/Universe II";
+        public const string UNIVERSE_III_URL = "UI/Rank_Research/Universe III";
+        public const string UNIVERSE_IV_URL = "UI/Rank_Research/Universe IV";
+        public const string UNIVERSE_V_URL = "UI/Rank_Research/Universe V";
+        public const string UNIVERSE_VI_URL = "UI/Rank_Research/Universe VI";
+        public const string UNIVERSE_VII_URL = "UI/Rank_Research/Universe VII";
+        public const string UNIVERSE_VIII_URL = "UI/Rank_Research/Universe VIII";
+        public const string UNIVERSE_IX_URL = "UI/Rank_Research/Universe IX";
+        public const string UNIVERSE_X_URL = "UI/Rank_Research/Universe X";
     }
     public static class HIIN
     {
-        public const string HIIN_I_URL = "UI/Icon/roman_one";
-        public const string HIIN_II_URL = "UI/Icon/roman_two";
-        public const string HIIN_III_URL = "UI/Icon/roman_three";
-        public const string HIIN_IV_URL = "UI/Icon/roman_four";
-        public const string HIIN_V_URL = "UI/Icon/roman_five";
-        public const string HIIN_VI_URL = "UI/Icon/roman_six";
-        public const string HIIN_VII_URL = "UI/Icon/roman_seven";
-        public const string HIIN_VIII_URL = "UI/Icon/roman_eight";
-        public const string HIIN_IX_URL = "UI/Icon/roman_nine";
-        public const string HIIN_X_URL = "UI/Icon/roman_ten";
+        public const string HIIN_I_URL = "UI/Rank_Research/HIIN I";
+        public const string HIIN_II_URL = "UI/Rank_Research/HIIN II";
+        public const string HIIN_III_URL = "UI/Rank_Research/HIIN III";
+        public const string HIIN_IV_URL = "UI/Rank_Research/HIIN IV";
+        public const string HIIN_V_URL = "UI/Rank_Research/HIIN V";
+        public const string HIIN_VI_URL = "UI/Rank_Research/HIIN VI";
+        public const string HIIN_VII_URL = "UI/Rank_Research/HIIN VII";
+        public const string HIIN_VIII_URL = "UI/Rank_Research/HIIN VIII";
+        public const string HIIN_IX_URL = "UI/Rank_Research/HIIN IX";
+        public const string HIIN_X_URL = "UI/Rank_Research/HIIN X";
     }
     public static class SSWN
     {
-        public const string SSWN_I_URL = "UI/Icon/roman_one";
-        public const string SSWN_II_URL = "UI/Icon/roman_two";
-        public const string SSWN_III_URL = "UI/Icon/roman_three";
-        public const string SSWN_IV_URL = "UI/Icon/roman_four";
-        public const string SSWN_V_URL = "UI/Icon/roman_five";
-        public const string SSWN_VI_URL = "UI/Icon/roman_six";
-        public const string SSWN_VII_URL = "UI/Icon/roman_seven";
-        public const string SSWN_VIII_URL = "UI/Icon/roman_eight";
-        public const string SSWN_IX_URL = "UI/Icon/roman_nine";
-        public const string SSWN_X_URL = "UI/Icon/roman_ten";
+        public const string SSWN_I_URL = "UI/Rank_Research/SSWN I";
+        public const string SSWN_II_URL = "UI/Rank_Research/SSWN II";
+        public const string SSWN_III_URL = "UI/Rank_Research/SSWN III";
+        public const string SSWN_IV_URL = "UI/Rank_Research/SSWN IV";
+        public const string SSWN_V_URL = "UI/Rank_Research/SSWN V";
+        public const string SSWN_VI_URL = "UI/Rank_Research/SSWN VI";
+        public const string SSWN_VII_URL = "UI/Rank_Research/SSWN VII";
+        public const string SSWN_VIII_URL = "UI/Rank_Research/SSWN VIII";
+        public const string SSWN_IX_URL = "UI/Rank_Research/SSWN IX";
+        public const string SSWN_X_URL = "UI/Rank_Research/SSWN X";
     }
     public static class HITN
     {
-        public const string HITN_I_URL = "UI/Icon/roman_one";
-        public const string HITN_II_URL = "UI/Icon/roman_two";
-        public const string HITN_III_URL = "UI/Icon/roman_three";
-        public const string HITN_IV_URL = "UI/Icon/roman_four";
-        public const string HITN_V_URL = "UI/Icon/roman_five";
-        public const string HITN_VI_URL = "UI/Icon/roman_six";
-        public const string HITN_VII_URL = "UI/Icon/roman_seven";
-        public const string HITN_VIII_URL = "UI/Icon/roman_eight";
-        public const string HITN_IX_URL = "UI/Icon/roman_nine";
-        public const string HITN_X_URL = "UI/Icon/roman_ten";
+        public const string HITN_I_URL = "UI/Rank_Research/HITN I";
+        public const string HITN_II_URL = "UI/Rank_Research/HITN II";
+        public const string HITN_III_URL = "UI/Rank_Research/HITN III";
+        public const string HITN_IV_URL = "UI/Rank_Research/HITN IV";
+        public const string HITN_V_URL = "UI/Rank_Research/HITN V";
+        public const string HITN_VI_URL = "UI/Rank_Research/HITN VI";
+        public const string HITN_VII_URL = "UI/Rank_Research/HITN VII";
+        public const string HITN_VIII_URL = "UI/Rank_Research/HITN VIII";
+        public const string HITN_IX_URL = "UI/Rank_Research/HITN IX";
+        public const string HITN_X_URL = "UI/Rank_Research/HITN X";
     }
     public static class HIHN
     {
-        public const string HIHN_I_URL = "UI/Icon/roman_one";
-        public const string HIHN_II_URL = "UI/Icon/roman_two";
-        public const string HIHN_III_URL = "UI/Icon/roman_three";
-        public const string HIHN_IV_URL = "UI/Icon/roman_four";
-        public const string HIHN_V_URL = "UI/Icon/roman_five";
-        public const string HIHN_VI_URL = "UI/Icon/roman_six";
-        public const string HIHN_VII_URL = "UI/Icon/roman_seven";
-        public const string HIHN_VIII_URL = "UI/Icon/roman_eight";
-        public const string HIHN_IX_URL = "UI/Icon/roman_nine";
-        public const string HIHN_X_URL = "UI/Icon/roman_ten";
+        public const string HIHN_I_URL = "UI/Rank_Research/HIHN I";
+        public const string HIHN_II_URL = "UI/Rank_Research/HIHN II";
+        public const string HIHN_III_URL = "UI/Rank_Research/HIHN III";
+        public const string HIHN_IV_URL = "UI/Rank_Research/HIHN IV";
+        public const string HIHN_V_URL = "UI/Rank_Research/HIHN V";
+        public const string HIHN_VI_URL = "UI/Rank_Research/HIHN VI";
+        public const string HIHN_VII_URL = "UI/Rank_Research/HIHN VII";
+        public const string HIHN_VIII_URL = "UI/Rank_Research/HIHN VIII";
+        public const string HIHN_IX_URL = "UI/Rank_Research/HIHN IX";
+        public const string HIHN_X_URL = "UI/Rank_Research/HIHN X";
     }
     public static class HIEN
     {
-        public const string HIEN_I_URL = "UI/Icon/roman_one";
-        public const string HIEN_II_URL = "UI/Icon/roman_two";
-        public const string HIEN_III_URL = "UI/Icon/roman_three";
-        public const string HIEN_IV_URL = "UI/Icon/roman_four";
-        public const string HIEN_V_URL = "UI/Icon/roman_five";
-        public const string HIEN_VI_URL = "UI/Icon/roman_six";
-        public const string HIEN_VII_URL = "UI/Icon/roman_seven";
-        public const string HIEN_VIII_URL = "UI/Icon/roman_eight";
-        public const string HIEN_IX_URL = "UI/Icon/roman_nine";
-        public const string HIEN_X_URL = "UI/Icon/roman_ten";
+        public const string HIEN_I_URL = "UI/Rank_Research/HIEN I";
+        public const string HIEN_II_URL = "UI/Rank_Research/HIEN II";
+        public const string HIEN_III_URL = "UI/Rank_Research/HIEN III";
+        public const string HIEN_IV_URL = "UI/Rank_Research/HIEN IV";
+        public const string HIEN_V_URL = "UI/Rank_Research/HIEN V";
+        public const string HIEN_VI_URL = "UI/Rank_Research/HIEN VI";
+        public const string HIEN_VII_URL = "UI/Rank_Research/HIEN VII";
+        public const string HIEN_VIII_URL = "UI/Rank_Research/HIEN VIII";
+        public const string HIEN_IX_URL = "UI/Rank_Research/HIEN IX";
+        public const string HIEN_X_URL = "UI/Rank_Research/HIEN X";
     }
     public static class HICA
     {
-        public const string HICA_I_URL = "UI/Icon/roman_one";
-        public const string HICA_II_URL = "UI/Icon/roman_two";
-        public const string HICA_III_URL = "UI/Icon/roman_three";
-        public const string HICA_IV_URL = "UI/Icon/roman_four";
-        public const string HICA_V_URL = "UI/Icon/roman_five";
-        public const string HICA_VI_URL = "UI/Icon/roman_six";
-        public const string HICA_VII_URL = "UI/Icon/roman_seven";
-        public const string HICA_VIII_URL = "UI/Icon/roman_eight";
-        public const string HICA_IX_URL = "UI/Icon/roman_nine";
-        public const string HICA_X_URL = "UI/Icon/roman_ten";
+        public const string HICA_I_URL = "UI/Rank_Research/HICA I";
+        public const string HICA_II_URL = "UI/Rank_Research/HICA II";
+        public const string HICA_III_URL = "UI/Rank_Research/HICA III";
+        public const string HICA_IV_URL = "UI/Rank_Research/HICA IV";
+        public const string HICA_V_URL = "UI/Rank_Research/HICA V";
+        public const string HICA_VI_URL = "UI/Rank_Research/HICA VI";
+        public const string HICA_VII_URL = "UI/Rank_Research/HICA VII";
+        public const string HICA_VIII_URL = "UI/Rank_Research/HICA VIII";
+        public const string HICA_IX_URL = "UI/Rank_Research/HICA IX";
+        public const string HICA_X_URL = "UI/Rank_Research/HICA X";
     }
     public static class HIRN
     {
-        public const string HIRN_I_URL = "UI/Icon/roman_one";
-        public const string HIRN_II_URL = "UI/Icon/roman_two";
-        public const string HIRN_III_URL = "UI/Icon/roman_three";
-        public const string HIRN_IV_URL = "UI/Icon/roman_four";
-        public const string HIRN_V_URL = "UI/Icon/roman_five";
-        public const string HIRN_VI_URL = "UI/Icon/roman_six";
-        public const string HIRN_VII_URL = "UI/Icon/roman_seven";
-        public const string HIRN_VIII_URL = "UI/Icon/roman_eight";
-        public const string HIRN_IX_URL = "UI/Icon/roman_nine";
-        public const string HIRN_X_URL = "UI/Icon/roman_ten";
+        public const string HIRN_I_URL = "UI/Rank_Research/HIRN I";
+        public const string HIRN_II_URL = "UI/Rank_Research/HIRN II";
+        public const string HIRN_III_URL = "UI/Rank_Research/HIRN III";
+        public const string HIRN_IV_URL = "UI/Rank_Research/HIRN IV";
+        public const string HIRN_V_URL = "UI/Rank_Research/HIRN V";
+        public const string HIRN_VI_URL = "UI/Rank_Research/HIRN VI";
+        public const string HIRN_VII_URL = "UI/Rank_Research/HIRN VII";
+        public const string HIRN_VIII_URL = "UI/Rank_Research/HIRN VIII";
+        public const string HIRN_IX_URL = "UI/Rank_Research/HIRN IX";
+        public const string HIRN_X_URL = "UI/Rank_Research/HIRN X";
     }
     public static class HIDC
     {
-        public const string HIDC_I_URL = "UI/Icon/roman_one";
-        public const string HIDC_II_URL = "UI/Icon/roman_two";
-        public const string HIDC_III_URL = "UI/Icon/roman_three";
-        public const string HIDC_IV_URL = "UI/Icon/roman_four";
-        public const string HIDC_V_URL = "UI/Icon/roman_five";
-        public const string HIDC_VI_URL = "UI/Icon/roman_six";
-        public const string HIDC_VII_URL = "UI/Icon/roman_seven";
-        public const string HIDC_VIII_URL = "UI/Icon/roman_eight";
-        public const string HIDC_IX_URL = "UI/Icon/roman_nine";
-        public const string HIDC_X_URL = "UI/Icon/roman_ten";
+        public const string HIDC_I_URL = "UI/Rank_Research/HIDC I";
+        public const string HIDC_II_URL = "UI/Rank_Research/HIDC II";
+        public const string HIDC_III_URL = "UI/Rank_Research/HIDC III";
+        public const string HIDC_IV_URL = "UI/Rank_Research/HIDC IV";
+        public const string HIDC_V_URL = "UI/Rank_Research/HIDC V";
+        public const string HIDC_VI_URL = "UI/Rank_Research/HIDC VI";
+        public const string HIDC_VII_URL = "UI/Rank_Research/HIDC VII";
+        public const string HIDC_VIII_URL = "UI/Rank_Research/HIDC VIII";
+        public const string HIDC_IX_URL = "UI/Rank_Research/HIDC IX";
+        public const string HIDC_X_URL = "UI/Rank_Research/HIDC X";
     }
     public static class HICB
     {
-        public const string HICB_I_URL = "UI/Icon/roman_one";
-        public const string HICB_II_URL = "UI/Icon/roman_two";
-        public const string HICB_III_URL = "UI/Icon/roman_three";
-        public const string HICB_IV_URL = "UI/Icon/roman_four";
-        public const string HICB_V_URL = "UI/Icon/roman_five";
-        public const string HICB_VI_URL = "UI/Icon/roman_six";
-        public const string HICB_VII_URL = "UI/Icon/roman_seven";
-        public const string HICB_VIII_URL = "UI/Icon/roman_eight";
-        public const string HICB_IX_URL = "UI/Icon/roman_nine";
-        public const string HICB_X_URL = "UI/Icon/roman_ten";
+        public const string HICB_I_URL = "UI/Rank_Research/HICB I";
+        public const string HICB_II_URL = "UI/Rank_Research/HICB II";
+        public const string HICB_III_URL = "UI/Rank_Research/HICB III";
+        public const string HICB_IV_URL = "UI/Rank_Research/HICB IV";
+        public const string HICB_V_URL = "UI/Rank_Research/HICB V";
+        public const string HICB_VI_URL = "UI/Rank_Research/HICB VI";
+        public const string HICB_VII_URL = "UI/Rank_Research/HICB VII";
+        public const string HICB_VIII_URL = "UI/Rank_Research/HICB VIII";
+        public const string HICB_IX_URL = "UI/Rank_Research/HICB IX";
+        public const string HICB_X_URL = "UI/Rank_Research/HICB X";
     }
     public static class HISN
     {
-        public const string HISN_I_URL = "UI/Icon/roman_one";
-        public const string HISN_II_URL = "UI/Icon/roman_two";
-        public const string HISN_III_URL = "UI/Icon/roman_three";
-        public const string HISN_IV_URL = "UI/Icon/roman_four";
-        public const string HISN_V_URL = "UI/Icon/roman_five";
-        public const string HISN_VI_URL = "UI/Icon/roman_six";
-        public const string HISN_VII_URL = "UI/Icon/roman_seven";
-        public const string HISN_VIII_URL = "UI/Icon/roman_eight";
-        public const string HISN_IX_URL = "UI/Icon/roman_nine";
-        public const string HISN_X_URL = "UI/Icon/roman_ten";
+        public const string HISN_I_URL = "UI/Rank_Research/HISN I";
+        public const string HISN_II_URL = "UI/Rank_Research/HISN II";
+        public const string HISN_III_URL = "UI/Rank_Research/HISN III";
+        public const string HISN_IV_URL = "UI/Rank_Research/HISN IV";
+        public const string HISN_V_URL = "UI/Rank_Research/HISN V";
+        public const string HISN_VI_URL = "UI/Rank_Research/HISN VI";
+        public const string HISN_VII_URL = "UI/Rank_Research/HISN VII";
+        public const string HISN_VIII_URL = "UI/Rank_Research/HISN VIII";
+        public const string HISN_IX_URL = "UI/Rank_Research/HISN IX";
+        public const string HISN_X_URL = "UI/Rank_Research/HISN X";
     }
     public static class Module
     {
