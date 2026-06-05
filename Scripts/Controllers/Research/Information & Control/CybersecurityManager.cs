@@ -123,9 +123,23 @@ public class CybersecurityManager : MonoBehaviour
 
             quantityText.text = (i + 1).ToString();
 
+            bool isLocked = requiredLevel > User.CurrentUserLevel;
+
+            Transform warningLevel = button.transform.Find("WarningLevel");
+            if (warningLevel != null)
+            {
+                warningLevel.gameObject.SetActive(isLocked);
+            }
+
             Button btn = button.GetComponent<Button>();
             btn.onClick.AddListener(async () =>
             {
+                if (isLocked)
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    return;
+                }
+
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 await CreateMainResearchPanelAsync(featureId, subtype);
             });

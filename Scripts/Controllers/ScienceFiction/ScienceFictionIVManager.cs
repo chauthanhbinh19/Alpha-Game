@@ -10,17 +10,17 @@ public class ScienceFictionIVManager : MonoBehaviour
 {
     public static ScienceFictionIVManager Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject ArchivePanelPrefab;
-    private GameObject ArchiveButtonPrefab;
-    private GameObject PopupArchivePanelPrefab;
-    private GameObject PopupArchiveQuantityPanelPrefab;
-    private GameObject PopupArchiveButtonPrefab;
-    private GameObject MainArchivePanelPrefab;
-    private GameObject ArchiveItemPrefab;
+    private GameObject ScienceFictionPanelPrefab;
+    private GameObject ScienceFictionButtonPrefab;
+    private GameObject PopupScienceFictionPanelPrefab;
+    private GameObject PopupScienceFictionQuantityPanelPrefab;
+    private GameObject PopupScienceFictionButtonPrefab;
+    private GameObject MainScienceFictionPanelPrefab;
+    private GameObject ScienceFictionItemPrefab;
     private Transform content;
     private const int ITEMS_PER_PAGE = 50;
     private int _currentPage = 0;
-    private List<KeyValuePair<string, FeatureArchiveDTO>> _featureList;
+    private List<KeyValuePair<string, FeatureScienceFictionDTO>> _featureList;
     private Button nextButton;
     private Button previousButton;
     private TextMeshProUGUI pageText;
@@ -44,17 +44,17 @@ public class ScienceFictionIVManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ArchivePanelPrefab = UIManager.Instance.Get("ArchivePanelPrefab");
-        ArchiveButtonPrefab = UIManager.Instance.Get("ArchiveButtonPrefab");
-        PopupArchivePanelPrefab = UIManager.Instance.Get("PopupArchivePanelPrefab");
-        PopupArchiveQuantityPanelPrefab = UIManager.Instance.Get("PopupArchiveQuantityPanelPrefab");
-        PopupArchiveButtonPrefab = UIManager.Instance.Get("PopupArchiveButtonPrefab");
-        MainArchivePanelPrefab = UIManager.Instance.Get("MainArchivePanelPrefab");
-        ArchiveItemPrefab = UIManager.Instance.Get("ArchiveItemPrefab");
+        ScienceFictionPanelPrefab = UIManager.Instance.Get("ScienceFictionPanelPrefab");
+        ScienceFictionButtonPrefab = UIManager.Instance.Get("ScienceFictionButtonPrefab");
+        PopupScienceFictionPanelPrefab = UIManager.Instance.Get("PopupScienceFictionPanelPrefab");
+        PopupScienceFictionQuantityPanelPrefab = UIManager.Instance.Get("PopupScienceFictionQuantityPanelPrefab");
+        PopupScienceFictionButtonPrefab = UIManager.Instance.Get("PopupScienceFictionButtonPrefab");
+        MainScienceFictionPanelPrefab = UIManager.Instance.Get("MainScienceFictionPanelPrefab");
+        ScienceFictionItemPrefab = UIManager.Instance.Get("ScienceFictionItemPrefab");
     }
     public async Task CreateScienceFictionIVManagerAsync()
     {
-        GameObject currentObject = Instantiate(PopupArchivePanelPrefab, MainPanel);
+        GameObject currentObject = Instantiate(PopupScienceFictionPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
         content = transform.Find("Scroll View/Viewport/Content");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
@@ -70,8 +70,8 @@ public class ScienceFictionIVManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
 
         });
-        Dictionary<string, FeatureArchiveDTO> uniqueTypes = new Dictionary<string, FeatureArchiveDTO>();
-        uniqueTypes = await FeaturesService.Create().GetArchiveFeaturesByTypeAsync(AppConstants.Archive.ARCHIVE_I);
+        Dictionary<string, FeatureScienceFictionDTO> uniqueTypes = new Dictionary<string, FeatureScienceFictionDTO>();
+        uniqueTypes = await FeaturesService.Create().GetScienceFictionFeaturesByTypeAsync(AppConstants.ScienceFiction.SCIENCE_FICTION_IV);
         uniqueTypes = uniqueTypes
             .OrderBy(kvp =>
             {
@@ -101,7 +101,7 @@ public class ScienceFictionIVManager : MonoBehaviour
             int requiredLevel = kvp.Value.RequiredLevel;
             string featureId = kvp.Value.Id;
 
-            GameObject button = Instantiate(PopupArchiveButtonPrefab, content);
+            GameObject button = Instantiate(PopupScienceFictionButtonPrefab, content);
 
             TextMeshProUGUI buttonText =
                 button.transform.Find("ContentText")
@@ -121,11 +121,25 @@ public class ScienceFictionIVManager : MonoBehaviour
 
             quantityText.text = (i + 1).ToString();
 
+            bool isLocked = requiredLevel > User.CurrentUserLevel;
+
+            Transform warningLevel = button.transform.Find("WarningLevel");
+            if (warningLevel != null)
+            {
+                warningLevel.gameObject.SetActive(isLocked);
+            }
+
             Button btn = button.GetComponent<Button>();
             btn.onClick.AddListener(async () =>
             {
+                if (isLocked)
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    return;
+                }
+
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CreateMainArchivePanelAsync(featureId, subtype);
+                await CreateMainScienceFictionPanelAsync(featureId, subtype);
             });
         }
     }
@@ -194,9 +208,9 @@ public class ScienceFictionIVManager : MonoBehaviour
         UpdatePageUI();
     }
 
-    public async Task CreateMainArchivePanelAsync(string featureId, string featureName)
+    public async Task CreateMainScienceFictionPanelAsync(string featureId, string featureName)
     {
-        GameObject currentObject = Instantiate(MainArchivePanelPrefab, MainPanel);
+        GameObject currentObject = Instantiate(MainScienceFictionPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
         Button upgradeLevelButton = transform.Find("UpgradeLevelButton").GetComponent<Button>();
         Transform leftSideContent = transform.Find("LeftSideContent");
@@ -219,12 +233,12 @@ public class ScienceFictionIVManager : MonoBehaviour
         Texture mapTexture = Resources.Load<Texture2D>("UI/Background2/Chapter_16");
         mapImage.texture = mapTexture;
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
-        Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{AppConstants.Archive.ARCHIVE_I}");
+        Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{AppConstants.ScienceFiction.SCIENCE_FICTION_IV}");
         rankImage.texture = rankTexture;
 
-        Archives archive = await ArchivesService.Create().GetArchiveByIdAsync(featureId);
+        ScienceFictions archive = await ScienceFictionsService.Create().GetScienceFictionByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserArchives userArchive = await UserArchivesService.Create().GetUserArchivesAsync(featureId);
+        UserScienceFictions userScienceFiction = await UserScienceFictionsService.Create().GetUserScienceFictionsAsync(featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -251,18 +265,18 @@ public class ScienceFictionIVManager : MonoBehaviour
                 ? leftSideContent
                 : rightSideContent;
 
-            GameObject itemGO = Instantiate(ArchiveItemPrefab, parent);
+            GameObject itemGO = Instantiate(ScienceFictionItemPrefab, parent);
 
-            SetupArchiveItemUI(itemGO, recipeItems[i]);
+            SetupScienceFictionItemUI(itemGO, recipeItems[i]);
         }
 
-        int currentLevel = userArchive?.Level ?? 0;
+        int currentLevel = userScienceFiction?.Level ?? 0;
         levelText.text = currentLevel.ToString();
 
         async Task RefreshPanelAsync()
         {
-            userArchive = await UserArchivesService.Create().GetUserArchivesAsync(featureId);
-            currentLevel = userArchive?.Level ?? 0;
+            userScienceFiction = await UserScienceFictionsService.Create().GetUserScienceFictionsAsync(featureId);
+            currentLevel = userScienceFiction?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
             List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
@@ -283,8 +297,8 @@ public class ScienceFictionIVManager : MonoBehaviour
                     ? leftSideContent
                     : rightSideContent;
 
-                GameObject itemGO = Instantiate(ArchiveItemPrefab, parent);
-                SetupArchiveItemUI(itemGO, refreshedRecipeItems[i]);
+                GameObject itemGO = Instantiate(ScienceFictionItemPrefab, parent);
+                SetupScienceFictionItemUI(itemGO, refreshedRecipeItems[i]);
             }
         }
 
@@ -292,7 +306,7 @@ public class ScienceFictionIVManager : MonoBehaviour
         void CreatePopupUpgradePanelAsync()
         {
             GameObject gameObject =
-                Instantiate(PopupArchiveQuantityPanelPrefab, MainPanel);
+                Instantiate(PopupScienceFictionQuantityPanelPrefab, MainPanel);
 
             Transform panelTransform = gameObject.transform;
 
@@ -489,8 +503,8 @@ public class ScienceFictionIVManager : MonoBehaviour
 
                 if (result.Success)
                 {
-                    userArchive = EnhanceHelper.EnhanceArchives(userArchive, result.UpgradedLevels, archive.BaseMultiplier);
-                    await UserArchivesService.Create().InsertOrUpdateUserArchivesAsync(User.CurrentUserId, userArchive, featureId);
+                    userScienceFiction = EnhanceHelper.EnhanceScienceFictions(userScienceFiction, result.UpgradedLevels, archive.BaseMultiplier);
+                    await UserScienceFictionsService.Create().InsertOrUpdateUserScienceFictionsAsync(User.CurrentUserId, userScienceFiction, featureId);
 
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -521,7 +535,7 @@ public class ScienceFictionIVManager : MonoBehaviour
         });
     }
 
-    private void SetupArchiveItemUI(GameObject itemGO, RecipeItemDto data)
+    private void SetupScienceFictionItemUI(GameObject itemGO, RecipeItemDto data)
     {
         // TextMeshProUGUI nameText =
         //     itemGO.transform.Find("ItemName")

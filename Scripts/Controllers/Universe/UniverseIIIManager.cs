@@ -64,11 +64,11 @@ public class UniverseIIIManager : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
+
         });
         Dictionary<string, FeatureUniverseDTO> uniqueTypes = new Dictionary<string, FeatureUniverseDTO>();
         uniqueTypes = await FeaturesService.Create().GetUniverseFeaturesByTypeAsync(AppConstants.Universe.UNIVERSE_III);
@@ -84,7 +84,7 @@ public class UniverseIIIManager : MonoBehaviour
         SetupPagination(currentObject);
         RenderPage();
     }
-    
+
     private void RenderPage()
     {
         foreach (Transform child in content)
@@ -121,15 +121,29 @@ public class UniverseIIIManager : MonoBehaviour
 
             quantityText.text = (i + 1).ToString();
 
+            bool isLocked = requiredLevel > User.CurrentUserLevel;
+
+            Transform warningLevel = button.transform.Find("WarningLevel");
+            if (warningLevel != null)
+            {
+                warningLevel.gameObject.SetActive(isLocked);
+            }
+
             Button btn = button.GetComponent<Button>();
             btn.onClick.AddListener(async () =>
             {
+                if (isLocked)
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    return;
+                }
+
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 await CreateMainUniversePanelAsync(featureId, subtype);
             });
         }
     }
-    
+
     private void SetupPagination(GameObject currentObject)
     {
         Transform transform = currentObject.transform;
@@ -209,11 +223,11 @@ public class UniverseIIIManager : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
+
         });
 
         Universes universe = await UniversesService.Create().GetUniverseByIdAsync(featureId);
@@ -508,8 +522,8 @@ public class UniverseIIIManager : MonoBehaviour
             CreatePopupUpgradePanelAsync();
         });
     }
-    
-    private void SetupUniverseItemUI(GameObject itemGO,RecipeItemDto data)
+
+    private void SetupUniverseItemUI(GameObject itemGO, RecipeItemDto data)
     {
         // TextMeshProUGUI nameText =
         //     itemGO.transform.Find("ItemName")
