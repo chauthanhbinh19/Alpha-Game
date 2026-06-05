@@ -13,7 +13,7 @@ public interface IUserItemsService
     Task<Items> UpdateUserItemQuantityAsync(Items item, double quantity);
     Task<bool> InsertOrUpdateUserItemQuantityAsync(string userId, Items item, double quantity);
     Task<bool> InsertOrUpdateUserItemsBatchAsync(List<(Items item, double quantity)> items);
-    Task<List<Items>> GetItemForLevelAsync(string type);
+    List<Items> GetItemForLevelAsync(string type);
     Task<List<Items>> GetItemForBreakthourghAsync(string type);
     Task<List<Items>> GetItemForRankAsync(string type);
 }

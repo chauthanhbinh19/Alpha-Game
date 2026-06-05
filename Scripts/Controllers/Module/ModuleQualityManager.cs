@@ -246,50 +246,50 @@ public class ModuleQualityManager : MonoBehaviour
         int currentLevel = userUniverse?.Level ?? 0;
         levelText.text = currentLevel.ToString();
 
-        upgradeOneLevelButton.onClick.AddListener(async () =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, universe.MaxLevel, User.CurrentUserId);
-            if (result.Success)
-            {
-                userUniverse = EnhanceHelper.EnhanceUniverses(userUniverse, result.UpgradedLevels, universe.BaseMultiplier);
-                await UserUniversesService.Create().InsertOrUpdateUserUniversesAsync(User.CurrentUserId, userUniverse, featureId);
-                Destroy(currentObject);
+        // upgradeOneLevelButton.onClick.AddListener(async () =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
+        //     UpgradeResultDTO result = await UpgradeService.Create().UpgradeOneLevelAsync(featureName, currentLevel, universe.MaxLevel, User.CurrentUserId);
+        //     if (result.Success)
+        //     {
+        //         userUniverse = EnhanceHelper.EnhanceUniverses(userUniverse, result.UpgradedLevels, universe.BaseMultiplier);
+        //         await UserUniversesService.Create().InsertOrUpdateUserUniversesAsync(User.CurrentUserId, userUniverse, featureId);
+        //         Destroy(currentObject);
 
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                double currentPower = User.CurrentUserPower;
-                User.CurrentUserPower = newPower;
-                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+        //         double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+        //         double currentPower = User.CurrentUserPower;
+        //         User.CurrentUserPower = newPower;
+        //         PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
 
-                await CreateMainUniversePanelAsync(featureId, featureName);
-            }
-            else
-            {
-                Debug.Log(result.Message);
-            }
-        });
-        upgradeMaxLevelButton.onClick.AddListener(async () =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, universe.MaxLevel, User.CurrentUserId);
-            if (result.Success)
-            {
-                userUniverse = EnhanceHelper.EnhanceUniverses(userUniverse, result.UpgradedLevels, universe.BaseMultiplier);
-                await UserUniversesService.Create().InsertOrUpdateUserUniversesAsync(User.CurrentUserId, userUniverse, featureId);
-                Destroy(currentObject);
+        //         await CreateMainUniversePanelAsync(featureId, featureName);
+        //     }
+        //     else
+        //     {
+        //         Debug.Log(result.Message);
+        //     }
+        // });
+        // upgradeMaxLevelButton.onClick.AddListener(async () =>
+        // {
+        //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
+        //     UpgradeResultDTO result = await UpgradeService.Create().UpgradeMaxLevelAsync(featureName, currentLevel, universe.MaxLevel, User.CurrentUserId);
+        //     if (result.Success)
+        //     {
+        //         userUniverse = EnhanceHelper.EnhanceUniverses(userUniverse, result.UpgradedLevels, universe.BaseMultiplier);
+        //         await UserUniversesService.Create().InsertOrUpdateUserUniversesAsync(User.CurrentUserId, userUniverse, featureId);
+        //         Destroy(currentObject);
 
-                double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                double currentPower = User.CurrentUserPower;
-                User.CurrentUserPower = newPower;
-                PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+        //         double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+        //         double currentPower = User.CurrentUserPower;
+        //         User.CurrentUserPower = newPower;
+        //         PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
                 
-                await CreateMainUniversePanelAsync(featureId, featureName);
-            }
-            else
-            {
-                Debug.Log(result.Message);
-            }
-        });
+        //         await CreateMainUniversePanelAsync(featureId, featureName);
+        //     }
+        //     else
+        //     {
+        //         Debug.Log(result.Message);
+        //     }
+        // });
     }
     
     private void SetupUniverseItemUI(GameObject itemGO,RecipeItemDto data)

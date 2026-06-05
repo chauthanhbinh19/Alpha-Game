@@ -18,7 +18,7 @@ public class UniversesRepository : IUniversesRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = "SELECT * FROM universe where id = @id";
+                string selectSQL = "SELECT * FROM universes where id = @id";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@id", id);

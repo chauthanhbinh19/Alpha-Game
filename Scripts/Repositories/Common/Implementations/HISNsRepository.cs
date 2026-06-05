@@ -18,7 +18,7 @@ public class HISNsRepository : IHISNsRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = "SELECT * FROM hisn where id = @id";
+                string selectSQL = "SELECT * FROM hisns where id = @id";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@id", id);

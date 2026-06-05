@@ -57,7 +57,7 @@ public class UserItemsService : IUserItemsService
     {
         return await _userItemsRepository.UpdateUserItemQuantityAsync(item, quantity);
     }
-    public async Task<List<Items>> GetItemForLevelAsync(string type)
+    public List<Items> GetItemForLevelAsync(string type)
     {
         List<Items> items = new List<Items>();
         // switch (type)

@@ -14,7 +14,7 @@ public class ScienceFictionsService : IScienceFictionsService
     {
         if (_instance == null)
         {
-            _instance = new ScienceFictionsService(new ScienceFictionRepository());
+            _instance = new ScienceFictionsService(new ScienceFictionsRepository());
         }
         return _instance;
     }

@@ -20,7 +20,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
 
                 string selectSQL = @"
                 SELECT *
-                FROM science_fiction
+                FROM user_science_fictions
                 WHERE user_id = @user_id AND science_fiction_id = @type;
             ";
 
@@ -118,7 +118,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
             await connection.OpenAsync();
 
             string checkSQL = @"
-            SELECT COUNT(*) FROM science_fiction 
+            SELECT COUNT(*) FROM user_science_fictions 
             WHERE user_id = @user_id AND science_fiction_id = @science_fiction_id";
 
             await using (var checkCommand = new MySqlCommand(checkSQL, connection))
@@ -132,7 +132,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
                 {
                     // -------- UPDATE ----------
                     string updateSQL = @"
-                    UPDATE science_fiction
+                    UPDATE user_science_fictions
                     SET
                         science_fiction_level = @science_fiction_level, power = @power, health = @health, mana = @mana, speed = @speed,
                         physical_attack = @physical_attack, physical_defense = @physical_defense,
@@ -190,7 +190,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
                 {
                     // -------- INSERT ----------
                     string insertSQL = @"
-                    INSERT INTO science_fiction (
+                    INSERT INTO user_science_fictions (
                     user_id, science_fiction_id, science_fiction_level, power, health, mana, speed,
                     physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
                     atomic_attack, atomic_defense, mental_attack, mental_defense,
@@ -326,7 +326,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
                     SUM(percent_all_atomic_defense) AS percent_all_atomic_defense,
                     SUM(percent_all_mental_attack) AS percent_all_mental_attack,
                     SUM(percent_all_mental_defense) AS percent_all_mental_defense
-                FROM science_fiction 
+                FROM user_science_fictions 
                 WHERE user_id = @user_id;
             ";
 

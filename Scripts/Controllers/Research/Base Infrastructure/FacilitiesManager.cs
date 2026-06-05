@@ -64,7 +64,7 @@ public class FacilitiesManager : MonoBehaviour
             Destroy(currentObject);
         });
         Button HomeButton = transform.Find("HomeButton").GetComponent<Button>();
-        HomeButton.onClick.AddListener(async () =>
+        HomeButton.onClick.AddListener( () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
