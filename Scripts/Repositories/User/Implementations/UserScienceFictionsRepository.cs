@@ -8,7 +8,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
 {
     public async Task<UserScienceFictions> GetScienceFictionsAsync(string id)
     {
-        UserScienceFictions scienceFiction = new UserScienceFictions();
+        UserScienceFictions userScienceFiction = new UserScienceFictions();
         string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -33,69 +33,69 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
                     {
                         if (await reader.ReadAsync())
                         {
-                            scienceFiction.Id = reader.GetStringSafe("science_fiction_id");
-                            scienceFiction.Level = reader.GetIntSafe("science_fiction_level");
-                            scienceFiction.Power = reader.GetDoubleSafe("power");
-                            scienceFiction.Health = reader.GetDoubleSafe("health");
-                            scienceFiction.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
-                            scienceFiction.PhysicalDefense = reader.GetDoubleSafe("physical_defense");
-                            scienceFiction.MagicalAttack = reader.GetDoubleSafe("magical_attack");
-                            scienceFiction.MagicalDefense = reader.GetDoubleSafe("magical_defense");
-                            scienceFiction.ChemicalAttack = reader.GetDoubleSafe("chemical_attack");
-                            scienceFiction.ChemicalDefense = reader.GetDoubleSafe("chemical_defense");
-                            scienceFiction.AtomicAttack = reader.GetDoubleSafe("atomic_attack");
-                            scienceFiction.AtomicDefense = reader.GetDoubleSafe("atomic_defense");
-                            scienceFiction.MentalAttack = reader.GetDoubleSafe("mental_attack");
-                            scienceFiction.MentalDefense = reader.GetDoubleSafe("mental_defense");
-                            scienceFiction.Speed = reader.GetDoubleSafe("speed");
-                            scienceFiction.CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate");
-                            scienceFiction.CriticalRate = reader.GetDoubleSafe("critical_rate");
-                            scienceFiction.CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate");
-                            scienceFiction.IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate");
-                            scienceFiction.PenetrationRate = reader.GetDoubleSafe("penetration_rate");
-                            scienceFiction.PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate");
-                            scienceFiction.EvasionRate = reader.GetDoubleSafe("evasion_rate");
-                            scienceFiction.DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate");
-                            scienceFiction.IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate");
-                            scienceFiction.AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate");
-                            scienceFiction.VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate");
-                            scienceFiction.VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate");
-                            scienceFiction.AccuracyRate = reader.GetDoubleSafe("accuracy_rate");
-                            scienceFiction.LifestealRate = reader.GetDoubleSafe("lifesteal_rate");
-                            scienceFiction.ShieldStrength = reader.GetDoubleSafe("shield_strength");
-                            scienceFiction.Tenacity = reader.GetDoubleSafe("tenacity");
-                            scienceFiction.ResistanceRate = reader.GetDoubleSafe("resistance_rate");
-                            scienceFiction.ComboRate = reader.GetDoubleSafe("combo_rate");
-                            scienceFiction.IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate");
-                            scienceFiction.ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate");
-                            scienceFiction.ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate");
-                            scienceFiction.StunRate = reader.GetDoubleSafe("stun_rate");
-                            scienceFiction.IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate");
-                            scienceFiction.ReflectionRate = reader.GetDoubleSafe("reflection_rate");
-                            scienceFiction.IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate");
-                            scienceFiction.ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate");
-                            scienceFiction.ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate");
-                            scienceFiction.Mana = reader.GetDoubleSafe("mana");
-                            scienceFiction.ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate");
-                            scienceFiction.DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate");
-                            scienceFiction.ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate");
-                            scienceFiction.DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate");
-                            scienceFiction.ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate");
-                            scienceFiction.NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate");
-                            scienceFiction.NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate");
-                            scienceFiction.SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate");
-                            scienceFiction.SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate");
-                            scienceFiction.PercentAllHealth = reader.GetDoubleSafe("percent_all_health");
-                            scienceFiction.PercentAllPhysicalAttack = reader.GetDoubleSafe("percent_all_physical_attack");
-                            scienceFiction.PercentAllPhysicalDefense = reader.GetDoubleSafe("percent_all_physical_defense");
-                            scienceFiction.PercentAllMagicalAttack = reader.GetDoubleSafe("percent_all_magical_attack");
-                            scienceFiction.PercentAllMagicalDefense = reader.GetDoubleSafe("percent_all_magical_defense");
-                            scienceFiction.PercentAllChemicalAttack = reader.GetDoubleSafe("percent_all_chemical_attack");
-                            scienceFiction.PercentAllChemicalDefense = reader.GetDoubleSafe("percent_all_chemical_defense");
-                            scienceFiction.PercentAllAtomicAttack = reader.GetDoubleSafe("percent_all_atomic_attack");
-                            scienceFiction.PercentAllAtomicDefense = reader.GetDoubleSafe("percent_all_atomic_defense");
-                            scienceFiction.PercentAllMentalAttack = reader.GetDoubleSafe("percent_all_mental_attack");
-                            scienceFiction.PercentAllMentalDefense = reader.GetDoubleSafe("percent_all_mental_defense");
+                            userScienceFiction.Id = reader.GetStringSafe("science_fiction_id");
+                            userScienceFiction.Level = reader.GetIntSafe("science_fiction_level");
+                            userScienceFiction.Power = reader.GetDoubleSafe("power");
+                            userScienceFiction.Health = reader.GetDoubleSafe("health");
+                            userScienceFiction.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
+                            userScienceFiction.PhysicalDefense = reader.GetDoubleSafe("physical_defense");
+                            userScienceFiction.MagicalAttack = reader.GetDoubleSafe("magical_attack");
+                            userScienceFiction.MagicalDefense = reader.GetDoubleSafe("magical_defense");
+                            userScienceFiction.ChemicalAttack = reader.GetDoubleSafe("chemical_attack");
+                            userScienceFiction.ChemicalDefense = reader.GetDoubleSafe("chemical_defense");
+                            userScienceFiction.AtomicAttack = reader.GetDoubleSafe("atomic_attack");
+                            userScienceFiction.AtomicDefense = reader.GetDoubleSafe("atomic_defense");
+                            userScienceFiction.MentalAttack = reader.GetDoubleSafe("mental_attack");
+                            userScienceFiction.MentalDefense = reader.GetDoubleSafe("mental_defense");
+                            userScienceFiction.Speed = reader.GetDoubleSafe("speed");
+                            userScienceFiction.CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate");
+                            userScienceFiction.CriticalRate = reader.GetDoubleSafe("critical_rate");
+                            userScienceFiction.CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate");
+                            userScienceFiction.IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate");
+                            userScienceFiction.PenetrationRate = reader.GetDoubleSafe("penetration_rate");
+                            userScienceFiction.PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate");
+                            userScienceFiction.EvasionRate = reader.GetDoubleSafe("evasion_rate");
+                            userScienceFiction.DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate");
+                            userScienceFiction.IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate");
+                            userScienceFiction.AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate");
+                            userScienceFiction.VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate");
+                            userScienceFiction.VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate");
+                            userScienceFiction.AccuracyRate = reader.GetDoubleSafe("accuracy_rate");
+                            userScienceFiction.LifestealRate = reader.GetDoubleSafe("lifesteal_rate");
+                            userScienceFiction.ShieldStrength = reader.GetDoubleSafe("shield_strength");
+                            userScienceFiction.Tenacity = reader.GetDoubleSafe("tenacity");
+                            userScienceFiction.ResistanceRate = reader.GetDoubleSafe("resistance_rate");
+                            userScienceFiction.ComboRate = reader.GetDoubleSafe("combo_rate");
+                            userScienceFiction.IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate");
+                            userScienceFiction.ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate");
+                            userScienceFiction.ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate");
+                            userScienceFiction.StunRate = reader.GetDoubleSafe("stun_rate");
+                            userScienceFiction.IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate");
+                            userScienceFiction.ReflectionRate = reader.GetDoubleSafe("reflection_rate");
+                            userScienceFiction.IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate");
+                            userScienceFiction.ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate");
+                            userScienceFiction.ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate");
+                            userScienceFiction.Mana = reader.GetDoubleSafe("mana");
+                            userScienceFiction.ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate");
+                            userScienceFiction.DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate");
+                            userScienceFiction.ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate");
+                            userScienceFiction.DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate");
+                            userScienceFiction.ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate");
+                            userScienceFiction.NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate");
+                            userScienceFiction.NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate");
+                            userScienceFiction.SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate");
+                            userScienceFiction.SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate");
+                            userScienceFiction.PercentAllHealth = reader.GetDoubleSafe("percent_all_health");
+                            userScienceFiction.PercentAllPhysicalAttack = reader.GetDoubleSafe("percent_all_physical_attack");
+                            userScienceFiction.PercentAllPhysicalDefense = reader.GetDoubleSafe("percent_all_physical_defense");
+                            userScienceFiction.PercentAllMagicalAttack = reader.GetDoubleSafe("percent_all_magical_attack");
+                            userScienceFiction.PercentAllMagicalDefense = reader.GetDoubleSafe("percent_all_magical_defense");
+                            userScienceFiction.PercentAllChemicalAttack = reader.GetDoubleSafe("percent_all_chemical_attack");
+                            userScienceFiction.PercentAllChemicalDefense = reader.GetDoubleSafe("percent_all_chemical_defense");
+                            userScienceFiction.PercentAllAtomicAttack = reader.GetDoubleSafe("percent_all_atomic_attack");
+                            userScienceFiction.PercentAllAtomicDefense = reader.GetDoubleSafe("percent_all_atomic_defense");
+                            userScienceFiction.PercentAllMentalAttack = reader.GetDoubleSafe("percent_all_mental_attack");
+                            userScienceFiction.PercentAllMentalDefense = reader.GetDoubleSafe("percent_all_mental_defense");
                         }
                     }
                 }
@@ -106,9 +106,9 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
             }
         }
 
-        return scienceFiction;
+        return userScienceFiction;
     }
-    public async Task InsertOrUpdateScienceFictionsAsync(string user_id, UserScienceFictions scienceFiction, string id)
+    public async Task InsertOrUpdateScienceFictionsAsync(string userId, UserScienceFictions scienceFiction, string id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -123,7 +123,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
 
             await using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
-                checkCommand.Parameters.AddWithValue("@user_id", user_id);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@science_fiction_id", id);
 
                 int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -182,7 +182,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
                 ";
 
                     await using var updateCommand = new MySqlCommand(updateSQL, connection);
-                    AddAllParameters(updateCommand, scienceFiction, user_id, id);
+                    AddAllParameters(updateCommand, scienceFiction, userId, id);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -241,7 +241,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
                 ";
 
                     await using var insertCommand = new MySqlCommand(insertSQL, connection);
-                    AddAllParameters(insertCommand, scienceFiction, user_id, id);
+                    AddAllParameters(insertCommand, scienceFiction, userId, id);
 
                     await insertCommand.ExecuteNonQueryAsync();
                 }
@@ -252,9 +252,9 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
             Debug.LogError("Error: " + ex.Message);
         }
     }
-    public async Task<UserScienceFictions> GetSumScienceFictionsAsync(string user_id)
+    public async Task<UserScienceFictions> GetSumScienceFictionsAsync(string userId)
     {
-        UserScienceFictions scienceFiction = new UserScienceFictions();
+        UserScienceFictions userScienceFictions = new UserScienceFictions();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -332,73 +332,73 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
                         {
-                            scienceFiction.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDoubleSafe("total_power");
-                            scienceFiction.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDoubleSafe("total_health");
-                            scienceFiction.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
-                            scienceFiction.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDoubleSafe("total_physical_attack");
-                            scienceFiction.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDoubleSafe("total_physical_defense");
-                            scienceFiction.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDoubleSafe("total_magical_attack");
-                            scienceFiction.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDoubleSafe("total_magical_defense");
-                            scienceFiction.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_chemical_attack");
-                            scienceFiction.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_chemical_defense");
-                            scienceFiction.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_atomic_attack");
-                            scienceFiction.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_atomic_defense");
-                            scienceFiction.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDoubleSafe("total_mental_attack");
-                            scienceFiction.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDoubleSafe("total_mental_defense");
-                            scienceFiction.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDoubleSafe("total_speed");
-                            scienceFiction.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDoubleSafe("total_critical_damage_rate");
-                            scienceFiction.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDoubleSafe("total_critical_rate");
-                            scienceFiction.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_critical_resistance_rate");
-                            scienceFiction.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_critical_rate");
-                            scienceFiction.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_rate");
-                            scienceFiction.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_resistance_rate");
-                            scienceFiction.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDoubleSafe("total_evasion_rate");
-                            scienceFiction.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_damage_absorption_rate");
-                            scienceFiction.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_damage_absorption_rate");
-                            scienceFiction.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDoubleSafe("total_absorbed_damage_rate");
-                            scienceFiction.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_rate");
-                            scienceFiction.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_resistance_rate");
-                            scienceFiction.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDoubleSafe("total_accuracy_rate");
-                            scienceFiction.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDoubleSafe("total_lifesteal_rate");
-                            scienceFiction.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDoubleSafe("total_shield_strength");
-                            scienceFiction.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDoubleSafe("total_tenacity");
-                            scienceFiction.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_rate");
-                            scienceFiction.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDoubleSafe("total_combo_rate");
-                            scienceFiction.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_combo_rate");
-                            scienceFiction.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDoubleSafe("total_combo_damage_rate");
-                            scienceFiction.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_combo_resistance_rate");
-                            scienceFiction.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDoubleSafe("total_stun_rate");
-                            scienceFiction.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_stun_rate");
-                            scienceFiction.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_rate");
-                            scienceFiction.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_reflection_rate");
-                            scienceFiction.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_damage_rate");
-                            scienceFiction.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_resistance_rate");
-                            scienceFiction.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_mana_regeneration_rate");
-                            scienceFiction.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_different_faction_rate");
-                            scienceFiction.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_different_faction_rate");
-                            scienceFiction.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_same_faction_rate");
-                            scienceFiction.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_same_faction_rate");
-                            scienceFiction.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDoubleSafe("total_normal_damage_rate");
-                            scienceFiction.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_normal_resistance_rate");
-                            scienceFiction.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDoubleSafe("total_skill_damage_rate");
-                            scienceFiction.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_skill_resistance_rate");
-                            scienceFiction.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDoubleSafe("percent_all_health");
-                            scienceFiction.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_physical_attack");
-                            scienceFiction.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_physical_defense");
-                            scienceFiction.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_magical_attack");
-                            scienceFiction.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_magical_defense");
-                            scienceFiction.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_attack");
-                            scienceFiction.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_defense");
-                            scienceFiction.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_attack");
-                            scienceFiction.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_defense");
-                            scienceFiction.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDoubleSafe("percent_all_mental_attack");
-                            scienceFiction.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDoubleSafe("percent_all_mental_defense");
+                            userScienceFictions.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDoubleSafe("total_power");
+                            userScienceFictions.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDoubleSafe("total_health");
+                            userScienceFictions.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetFloat("total_mana");
+                            userScienceFictions.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDoubleSafe("total_physical_attack");
+                            userScienceFictions.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDoubleSafe("total_physical_defense");
+                            userScienceFictions.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDoubleSafe("total_magical_attack");
+                            userScienceFictions.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDoubleSafe("total_magical_defense");
+                            userScienceFictions.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_chemical_attack");
+                            userScienceFictions.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_chemical_defense");
+                            userScienceFictions.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_atomic_attack");
+                            userScienceFictions.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_atomic_defense");
+                            userScienceFictions.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDoubleSafe("total_mental_attack");
+                            userScienceFictions.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDoubleSafe("total_mental_defense");
+                            userScienceFictions.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDoubleSafe("total_speed");
+                            userScienceFictions.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDoubleSafe("total_critical_damage_rate");
+                            userScienceFictions.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDoubleSafe("total_critical_rate");
+                            userScienceFictions.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_critical_resistance_rate");
+                            userScienceFictions.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_critical_rate");
+                            userScienceFictions.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_rate");
+                            userScienceFictions.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_resistance_rate");
+                            userScienceFictions.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDoubleSafe("total_evasion_rate");
+                            userScienceFictions.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_damage_absorption_rate");
+                            userScienceFictions.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_damage_absorption_rate");
+                            userScienceFictions.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDoubleSafe("total_absorbed_damage_rate");
+                            userScienceFictions.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_rate");
+                            userScienceFictions.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_resistance_rate");
+                            userScienceFictions.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDoubleSafe("total_accuracy_rate");
+                            userScienceFictions.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDoubleSafe("total_lifesteal_rate");
+                            userScienceFictions.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDoubleSafe("total_shield_strength");
+                            userScienceFictions.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDoubleSafe("total_tenacity");
+                            userScienceFictions.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_rate");
+                            userScienceFictions.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDoubleSafe("total_combo_rate");
+                            userScienceFictions.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_combo_rate");
+                            userScienceFictions.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDoubleSafe("total_combo_damage_rate");
+                            userScienceFictions.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_combo_resistance_rate");
+                            userScienceFictions.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDoubleSafe("total_stun_rate");
+                            userScienceFictions.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_stun_rate");
+                            userScienceFictions.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_rate");
+                            userScienceFictions.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_reflection_rate");
+                            userScienceFictions.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_damage_rate");
+                            userScienceFictions.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_resistance_rate");
+                            userScienceFictions.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_mana_regeneration_rate");
+                            userScienceFictions.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_different_faction_rate");
+                            userScienceFictions.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_different_faction_rate");
+                            userScienceFictions.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_same_faction_rate");
+                            userScienceFictions.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_same_faction_rate");
+                            userScienceFictions.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDoubleSafe("total_normal_damage_rate");
+                            userScienceFictions.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_normal_resistance_rate");
+                            userScienceFictions.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDoubleSafe("total_skill_damage_rate");
+                            userScienceFictions.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_skill_resistance_rate");
+                            userScienceFictions.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDoubleSafe("percent_all_health");
+                            userScienceFictions.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_physical_attack");
+                            userScienceFictions.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_physical_defense");
+                            userScienceFictions.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_magical_attack");
+                            userScienceFictions.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_magical_defense");
+                            userScienceFictions.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_attack");
+                            userScienceFictions.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_defense");
+                            userScienceFictions.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_attack");
+                            userScienceFictions.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_defense");
+                            userScienceFictions.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDoubleSafe("percent_all_mental_attack");
+                            userScienceFictions.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDoubleSafe("percent_all_mental_defense");
                         }
                     }
                 }
@@ -409,7 +409,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
             }
         }
 
-        return scienceFiction;
+        return userScienceFictions;
     }
     private void AddAllParameters(MySqlCommand cmd, UserScienceFictions a, string user_id, string type)
     {

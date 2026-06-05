@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public interface IUserUpgradesService
 { 
-    Task<UserUpgrades> GetUserUpgradesAsync(string id);
-    Task InsertOrUpdateUserUpgradesAsync(string user_id, UserUpgrades Upgrades, string id);
-    Task<UserUpgrades> GetSumUserUpgradesAsync(string user_id);
+    Task<UserUpgrades> GetUserUpgradesAsync(string upgradeId, IStats stat);
+    Task InsertOrUpdateUserUpgradesAsync(string userId, UserUpgrades upgrade, IStats stat);
+    Task<UserUpgrades> GetSumUserUpgradesAsync(string userId, IStats stat);
 }

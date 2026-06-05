@@ -1,6 +1,8 @@
 public class UserUpgrades : BaseEntity
 {
     public string Id { get; set; }
+    public int CurrentLevel { get; set; } =  0;
+    public double CurrentMultiplier { get; set; } =  0;
     public double PercentAllHealth { get; set; }
     public double PercentAllPhysicalAttack { get; set; }
     public double PercentAllPhysicalDefense { get; set; }
