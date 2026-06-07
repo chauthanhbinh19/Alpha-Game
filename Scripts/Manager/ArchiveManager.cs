@@ -107,6 +107,18 @@ public class ArchiveManager : MonoBehaviour
         {
             nameText.text = LocalizationManager.Get(itemName);
         }
+
+        RawImage borderImage = transform.Find("BorderCircleImage").GetComponent<RawImage>();
+        if (borderImage != null)
+        {
+            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Archive.Archive_BORDER_URL);
+        }
+
+        RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();
+        if (iconImage != null)
+        {
+            iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Archive.Archive_ICON_URL);
+        }
     }
     public void CreateArchiveButtonEvent(Transform panel)
     {

@@ -33,8 +33,8 @@ public class UserUniversesRepository : IUserUniversesRepository
                     {
                         if (await reader.ReadAsync())
                         {
-                            userUniverse.Id = reader.GetStringSafe("Universe_id");
-                            userUniverse.Level = reader.GetIntSafe("Universe_level");
+                            userUniverse.Id = reader.GetStringSafe("universe_id");
+                            userUniverse.Level = reader.GetIntSafe("universe_level");
                             userUniverse.Power = reader.GetDoubleSafe("power");
                             userUniverse.Health = reader.GetDoubleSafe("health");
                             userUniverse.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
@@ -120,12 +120,12 @@ public class UserUniversesRepository : IUserUniversesRepository
 
             string checkSQL = @"
             SELECT COUNT(*) FROM user_universes 
-            WHERE user_id = @user_id AND Universe_id = @Universe_id";
+            WHERE user_id = @user_id AND universe_id = @universe_id";
 
             await using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@Universe_id", id);
+                checkCommand.Parameters.AddWithValue("@universe_id", id);
 
                 int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -135,7 +135,7 @@ public class UserUniversesRepository : IUserUniversesRepository
                     string updateSQL = @"
                     UPDATE user_universes
                     SET
-                        Universe_level = @Universe_level, power = @power, health = @health, mana = @mana, speed = @speed,
+                        universe_level = @universe_level, power = @power, health = @health, mana = @mana, speed = @speed,
                         physical_attack = @physical_attack, physical_defense = @physical_defense,
                         magical_attack = @magical_attack, magical_defense = @magical_defense,
                         chemical_attack = @chemical_attack, chemical_defense = @chemical_defense,
@@ -179,7 +179,7 @@ public class UserUniversesRepository : IUserUniversesRepository
                         percent_all_mental_attack = @percent_all_mental_attack,
                         percent_all_mental_defense = @percent_all_mental_defense
                     WHERE user_id = @user_id
-                    AND Universe_id = @Universe_id;
+                    AND universe_id = @universe_id;
                 ";
 
                     await using var updateCommand = new MySqlCommand(updateSQL, connection);
@@ -192,7 +192,7 @@ public class UserUniversesRepository : IUserUniversesRepository
                     // -------- INSERT ----------
                     string insertSQL = @"
                     INSERT INTO user_universes (
-                    user_id, Universe_id, Universe_level, power, health, mana, speed,
+                    user_id, universe_id, universe_level, power, health, mana, speed,
                     physical_attack, physical_defense, magical_attack, magical_defense, chemical_attack, chemical_defense,
                     atomic_attack, atomic_defense, mental_attack, mental_defense,
                     critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
@@ -217,7 +217,7 @@ public class UserUniversesRepository : IUserUniversesRepository
                     percent_all_mental_attack, percent_all_mental_defense
                 )
                 VALUES (
-                    @user_id, @Universe_id, @Universe_level, @power, @health, @mana, @speed,
+                    @user_id, @universe_id, @universe_level, @power, @health, @mana, @speed,
                     @physical_attack, @physical_defense, @magical_attack, @magical_defense,
                     @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
                     @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
@@ -415,9 +415,9 @@ public class UserUniversesRepository : IUserUniversesRepository
     private void AddAllParameters(MySqlCommand cmd, UserUniverses a, string userId, string type)
     {
         cmd.Parameters.AddWithValue("@user_id", userId);
-        cmd.Parameters.AddWithValue("@Universe_id", type);
+        cmd.Parameters.AddWithValue("@universe_id", type);
 
-        cmd.Parameters.AddWithValue("@Universe_level", a.Level == 0 ? 1 : a.Level);
+        cmd.Parameters.AddWithValue("@universe_level", a.Level == 0 ? 1 : a.Level);
         cmd.Parameters.AddWithValue("@power", a.Power);
         cmd.Parameters.AddWithValue("@health", a.Health);
         cmd.Parameters.AddWithValue("@mana", a.Mana);

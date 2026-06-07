@@ -215,6 +215,8 @@ public static class ImageConstants
     }
     public static class Anime
     {
+        public const string ANIME_ICON_URL = "UI/Icon/Anime";
+        public const string ANIME_BORDER_URL = "UI/Button/Border/AnimeBorder";
         public const string ONE_PIECE_URL = "UI/Button/Anime/One Piece";
         public const string NARUTO_URL = "UI/Button/Anime/Naruto";
         public const string DRAGON_BALL_URL = "UI/Button/Anime/Dragon Ball";
@@ -229,6 +231,8 @@ public static class ImageConstants
     }
     public static class ScienceFiction
     {
+        public const string SCIENCE_FICTION_ICON_URL = "UI/Icon/ScienceFiction";
+        public const string SCIENCE_FICTION_BORDER_URL = "UI/Button/Border/ScienceFictionBorder";
         public const string REACTOR_NUMBER_1_URL = "UI/Rank_Research/Science_Fiction_I";
         public const string REACTOR_NUMBER_2_URL = "UI/Rank_Research/Science_Fiction_II";
         public const string REACTOR_NUMBER_3_URL = "UI/Rank_Research/Science_Fiction_III";
@@ -546,6 +550,8 @@ public static class ImageConstants
     }
     public static class Research
     {
+        public const string RESEARCH_ICON_URL = "UI/Icon/Research";
+        public const string RESEARCH_BORDER_URL = "UI/Button/Border/ResearchBorder";
         public const string HOUSING_URL = "UI/Icon/Housing";
         public const string INFRASTRUCTURE_URL = "UI/Icon/Infrastructure";
         public const string LOGISTICS_URL = "UI/Icon/Logistics";
@@ -658,6 +664,8 @@ public static class ImageConstants
     }
     public static class Archive
     {
+        public const string Archive_ICON_URL = "UI/Icon/Archive";
+        public const string Archive_BORDER_URL = "UI/Button/Border/ArchiveBorder";
         public const string ARCHIVE_I_URL = "UI/Rank_Research/Archive I";
         public const string ARCHIVE_II_URL = "UI/Rank_Research/Archive II";
         public const string ARCHIVE_III_URL = "UI/Rank_Research/Archive III";
@@ -695,6 +703,8 @@ public static class ImageConstants
     }
     public static class Universe
     {
+        public const string UNIVERSE_ICON_URL = "UI/Icon/Universe";
+        public const string UNIVERSE_BORDER_URL = "UI/Button/Border/UniverseBorder";
         public const string UNIVERSE_I_URL = "UI/Rank_Research/Universe I";
         public const string UNIVERSE_II_URL = "UI/Rank_Research/Universe II";
         public const string UNIVERSE_III_URL = "UI/Rank_Research/Universe III";
@@ -708,6 +718,8 @@ public static class ImageConstants
     }
     public static class HIIN
     {
+        public const string HIIN_ICON_URL = "UI/Icon/HIIN";
+        public const string HIIN_BORDER_URL = "UI/Button/Border/HIINBorder";
         public const string HIIN_I_URL = "UI/Rank_Research/HIIN I";
         public const string HIIN_II_URL = "UI/Rank_Research/HIIN II";
         public const string HIIN_III_URL = "UI/Rank_Research/HIIN III";
@@ -721,6 +733,8 @@ public static class ImageConstants
     }
     public static class SSWN
     {
+        public const string SSWN_ICON_URL = "UI/Icon/SSWN";
+        public const string SSWN_BORDER_URL = "UI/Button/Border/SSWNBorder";
         public const string SSWN_I_URL = "UI/Rank_Research/SSWN I";
         public const string SSWN_II_URL = "UI/Rank_Research/SSWN II";
         public const string SSWN_III_URL = "UI/Rank_Research/SSWN III";
@@ -734,6 +748,8 @@ public static class ImageConstants
     }
     public static class HITN
     {
+        public const string HITN_ICON_URL = "UI/Icon/HITN";
+        public const string HITN_BORDER_URL = "UI/Button/Border/HITNBorder";
         public const string HITN_I_URL = "UI/Rank_Research/HITN I";
         public const string HITN_II_URL = "UI/Rank_Research/HITN II";
         public const string HITN_III_URL = "UI/Rank_Research/HITN III";
@@ -747,6 +763,8 @@ public static class ImageConstants
     }
     public static class HIHN
     {
+        public const string HIHN_ICON_URL = "UI/Icon/HIHN";
+        public const string HIHN_BORDER_URL = "UI/Button/Border/HIHNBorder";
         public const string HIHN_I_URL = "UI/Rank_Research/HIHN I";
         public const string HIHN_II_URL = "UI/Rank_Research/HIHN II";
         public const string HIHN_III_URL = "UI/Rank_Research/HIHN III";
@@ -760,6 +778,8 @@ public static class ImageConstants
     }
     public static class HIEN
     {
+        public const string HIEN_ICON_URL = "UI/Icon/HIEN";
+        public const string HIEN_BORDER_URL = "UI/Button/Border/HIENBorder";
         public const string HIEN_I_URL = "UI/Rank_Research/HIEN I";
         public const string HIEN_II_URL = "UI/Rank_Research/HIEN II";
         public const string HIEN_III_URL = "UI/Rank_Research/HIEN III";
@@ -773,6 +793,8 @@ public static class ImageConstants
     }
     public static class HICA
     {
+        public const string HICA_ICON_URL = "UI/Icon/HICA";
+        public const string HICA_BORDER_URL = "UI/Button/Border/HICABorder";
         public const string HICA_I_URL = "UI/Rank_Research/HICA I";
         public const string HICA_II_URL = "UI/Rank_Research/HICA II";
         public const string HICA_III_URL = "UI/Rank_Research/HICA III";
@@ -786,6 +808,8 @@ public static class ImageConstants
     }
     public static class HIRN
     {
+        public const string HIRN_ICON_URL = "UI/Icon/HIRN";
+        public const string HIRN_BORDER_URL = "UI/Button/Border/HIRNBorder";
         public const string HIRN_I_URL = "UI/Rank_Research/HIRN I";
         public const string HIRN_II_URL = "UI/Rank_Research/HIRN II";
         public const string HIRN_III_URL = "UI/Rank_Research/HIRN III";
@@ -799,6 +823,8 @@ public static class ImageConstants
     }
     public static class HIDC
     {
+        public const string HIDC_ICON_URL = "UI/Icon/HIDC";
+        public const string HIDC_BORDER_URL = "UI/Button/Border/HIDCBorder";
         public const string HIDC_I_URL = "UI/Rank_Research/HIDC I";
         public const string HIDC_II_URL = "UI/Rank_Research/HIDC II";
         public const string HIDC_III_URL = "UI/Rank_Research/HIDC III";
@@ -812,6 +838,8 @@ public static class ImageConstants
     }
     public static class HICB
     {
+        public const string HICB_ICON_URL = "UI/Icon/HICB";
+        public const string HICB_BORDER_URL = "UI/Button/Border/HICBBorder";
         public const string HICB_I_URL = "UI/Rank_Research/HICB I";
         public const string HICB_II_URL = "UI/Rank_Research/HICB II";
         public const string HICB_III_URL = "UI/Rank_Research/HICB III";
@@ -825,6 +853,8 @@ public static class ImageConstants
     }
     public static class HISN
     {
+        public const string HISN_ICON_URL = "UI/Icon/HISN";
+        public const string HISN_BORDER_URL = "UI/Button/Border/HISNBorder";
         public const string HISN_I_URL = "UI/Rank_Research/HISN I";
         public const string HISN_II_URL = "UI/Rank_Research/HISN II";
         public const string HISN_III_URL = "UI/Rank_Research/HISN III";

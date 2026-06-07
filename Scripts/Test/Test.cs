@@ -17,7 +17,7 @@ public class Test : MonoBehaviour
     [ContextMenu("Run Initiate Async")]
     public async Task InitiateAsync()
     {
-        User.CurrentUserId = "639160007541427164";
+        User.CurrentUserId = "639163712169916215";
 
         Debug.Log("<color=yellow>Start</color>");
         List<Achievements> achievements = await AchievementsService.Create()
@@ -308,6 +308,12 @@ public class Test : MonoBehaviour
         await UserWeaponsService.Create()
             .InsertOrUpdateUserWeaponsBatchAsync(weapons);
         Debug.Log("<color=cyan>Weapons initiate successfully</color>");
+
+        List<Outfits> outfits = await OutfitsService.Create()
+            .GetOutfitsAsync(search, type, rare, PAGE_SIZE, offset);
+        await UserOutfitsService.Create()
+            .InsertOrUpdateUserOutfitsBatchAsync(outfits);
+        Debug.Log("<color=cyan>Outfits initiate successfully</color>");
 
         List<Items> items = await ItemsService.Create()
             .GetItemsAsync();

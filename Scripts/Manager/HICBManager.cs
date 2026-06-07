@@ -86,6 +86,18 @@ public class HICBManager : MonoBehaviour
         {
             nameText.text = LocalizationManager.Get(itemName);
         }
+
+        RawImage borderImage = transform.Find("BorderCircleImage").GetComponent<RawImage>();
+        if (borderImage != null)
+        {
+            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_BORDER_URL);
+        }
+
+        RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();
+        if (iconImage != null)
+        {
+            iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_ICON_URL);
+        }
     }
     public void CreateHICBButtonEvent(Transform panel)
     {

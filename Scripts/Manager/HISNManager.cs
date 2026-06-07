@@ -86,6 +86,18 @@ public class HISNManager : MonoBehaviour
         {
             nameText.text = LocalizationManager.Get(itemName);
         }
+
+        RawImage borderImage = transform.Find("BorderCircleImage").GetComponent<RawImage>();
+        if (borderImage != null)
+        {
+            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HISN.HISN_BORDER_URL);
+        }
+
+        RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();
+        if (iconImage != null)
+        {
+            iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HISN.HISN_ICON_URL);
+        }
     }
     public void CreateHISNButtonEvent(Transform panel)
     {

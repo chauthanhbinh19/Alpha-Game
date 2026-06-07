@@ -13,8 +13,6 @@ public class MainMenuManager : MonoBehaviour
     private GameObject DictionaryPanelPrefab;
     private GameObject PopupMenuPanelPrefab;
     private GameObject ArenaPanelPrefab;
-    private GameObject AnimePanelPrefab;
-    private GameObject ReactorPanelPrefab;
     private GameObject MasterBoardPanelPrefab;
     private GameObject PopupButtonPanelPrefab;
     private Transform MainPanel;
@@ -69,8 +67,6 @@ public class MainMenuManager : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         PopupMenuPanelPrefab = UIManager.Instance.Get("PopupMenuPanelPrefab");
         ArenaPanelPrefab = UIManager.Instance.Get("ArenaPanelPrefab");
-        AnimePanelPrefab = UIManager.Instance.Get("AnimePanelPrefab");
-        ReactorPanelPrefab = UIManager.Instance.Get("ReactorPanelPrefab");
         MasterBoardPanelPrefab = UIManager.Instance.Get("MasterBoardPanelPrefab");
         UI_Red_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_70");
     }
@@ -103,6 +99,7 @@ public class MainMenuManager : MonoBehaviour
         Button archiveButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ArchiveButton").GetComponent<Button>();
         Button universeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/UniverseButton").GetComponent<Button>();
         Button structureButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/StructureButton").GetComponent<Button>();
+        Button animeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/AnimeButton").GetComponent<Button>();
         // Button profileButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton").GetComponent<Button>();
         
         Button missionButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/MissionContent/MissionButton").GetComponent<Button>();
@@ -207,23 +204,7 @@ public class MainMenuManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            GameObject popupObject = Instantiate(ReactorPanelPrefab, MainPanel);
-            titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-            closeButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-            closeButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Destroy(popupObject);
-            });
-            this.homeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            this.homeButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                ButtonEvent.Instance.Close(MainPanel);
-            });
-            titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SCIENCE_FICTION);
-            ScienceFictionManager.Instance.CreateScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
-            ScienceFictionManager.Instance.GetScienceFictionButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
+            ScienceFictionManager.Instance.CreateScienceFiction();
         });
 
         galleryButton.onClick.AddListener(() =>
@@ -379,6 +360,13 @@ public class MainMenuManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             StructureManager.Instance.CreateStructure();
         });
+
+        animeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            AnimeManager.Instance.CreateAnime();
+        });
     }
     public void CreateMainPanelUserInformation(AuthResult authResult)
     {
@@ -522,26 +510,8 @@ public class MainMenuManager : MonoBehaviour
     }
     public async Task CreateMainMenuManagerAsync()
     {
-        // MainMenuPanel.SetActive(true);
-        if (mainType.Equals(AppConstants.MainType.ANIME))
-        {
-            GameObject popupObject = Instantiate(AnimePanelPrefab, MainPanel);
-            titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-            // CloseButton = popupObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-            // CloseButton.onClick.AddListener(() =>
-            // {
-            //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            //     Destroy(popupObject);
-            // });
-            // HomeButton = popupObject.transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-            // HomeButton.onClick.AddListener(() =>
-            // {
-            //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            //     Close(MainPanel);
-            // });
-            MainMenuAnimeStatsManager.Instance.CreateAnimeButton(popupObject.transform.Find("DictionaryCards/Scroll View/Viewport/Content"));
-        }
-        else if (mainType.Equals(AppConstants.MainType.TOWER))
+        // MainMenuPanel.SetActive(true)
+        if (mainType.Equals(AppConstants.MainType.TOWER))
         {
             GameObject popupObject = Instantiate(ArenaPanelPrefab, MainPanel);
             titleText = popupObject.transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();

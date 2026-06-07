@@ -86,6 +86,18 @@ public class HIDCManager : MonoBehaviour
         {
             nameText.text = LocalizationManager.Get(itemName);
         }
+
+        RawImage borderImage = transform.Find("BorderCircleImage").GetComponent<RawImage>();
+        if (borderImage != null)
+        {
+            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_BORDER_URL);
+        }
+
+        RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();
+        if (iconImage != null)
+        {
+            iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_ICON_URL);
+        }
     }
     public void CreateHIDCButtonEvent(Transform panel)
     {

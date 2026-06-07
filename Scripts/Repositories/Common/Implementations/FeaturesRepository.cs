@@ -797,16 +797,25 @@ public class FeaturesRepository : IFeaturesRepository
 
         return features;
     }
-    public async Task<Dictionary<string, Features>> GetAnimeFeaturesByTypeAsync(string type)
+    public async Task<Dictionary<string, FeatureAnimeDTO>> GetAnimeFeaturesByTypeAsync(string type)
     {
-        Dictionary<string, Features> features = new Dictionary<string, Features>();
+        Dictionary<string, FeatureAnimeDTO> features = new Dictionary<string, FeatureAnimeDTO>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
         {
             await connection.OpenAsync();
 
-            string selectSQL = "SELECT DISTINCT type FROM features WHERE type = @type";
+            string selectSQL = @"SELECT f.id, 
+                f.feature_name, 
+                f.required_level,
+                f.code_name,
+                r.base_multiplier,
+                COALESCE(ur.anime_level, 0) AS current_level
+            FROM features f
+            LEFT JOIN animes r on f.id = r.id
+            LEFT JOIN user_animes ur on r.id = ur.anime_id
+            WHERE type = @type";
 
             using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
             {
@@ -816,16 +825,18 @@ public class FeaturesRepository : IFeaturesRepository
                 {
                     while (await reader.ReadAsync())
                     {
-                        string featureType = reader.GetString(1);
-
-                        Features feature = new Features
+                        string featureName = reader.GetString(1);
+                        FeatureAnimeDTO feature = new FeatureAnimeDTO
                         {
-                            Id = reader.GetString(0),
-                            FeatureName = reader.GetString(1),
-                            RequiredLevel = reader.GetInt32(2)
+                            Id = reader.GetStringSafe("id"),
+                            FeatureName = reader.GetStringSafe("feature_name"),
+                            RequiredLevel = reader.GetIntSafe("required_level"),
+                            CodeName = reader.GetStringSafe("code_name"),
+                            BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                            CurrentLevel = reader.GetIntSafe("current_level")
                         };
-                        // Vì selectSQL KHÔNG có cột thứ 2, đặt value mặc định
-                        features[featureType] = feature;
+
+                        features[featureName] = feature;
                     }
                 }
             }
