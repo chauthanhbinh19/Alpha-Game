@@ -87,7 +87,7 @@ public class MainMenuManager : MonoBehaviour
         Button inventoryButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/InventoryContent/InventoryButton").GetComponent<Button>();
         Button militaryButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/InventoryContent/MilitaryButton").GetComponent<Button>();
         Button deploymentButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/InventoryContent/DeploymentButton").GetComponent<Button>();
-        
+
         Button teamButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/TeamButton").GetComponent<Button>();
         Button masterBoardButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/MasterBoardButton").GetComponent<Button>();
         Button scienceFictionButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/ScienceFictionButton").GetComponent<Button>();
@@ -101,11 +101,11 @@ public class MainMenuManager : MonoBehaviour
         Button structureButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/StructureButton").GetComponent<Button>();
         Button animeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/AnimeButton").GetComponent<Button>();
         // Button profileButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton").GetComponent<Button>();
-        
+
         Button missionButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/MissionContent/MissionButton").GetComponent<Button>();
-        
+
         Button guildButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/SocialContent/GuildButton").GetComponent<Button>();
-        
+
         Button shopButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/ShopContent/ShopButton").GetComponent<Button>();
 
         // _ = HomeManager.Instance.CreateHomePanelAsync();
@@ -225,8 +225,15 @@ public class MainMenuManager : MonoBehaviour
             });
             TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.GALLERY);
-            GalleryManager.Instance.CreateGalleryButton(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
-            GalleryManager.Instance.CreateGallery(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
+            Transform popupTransform = popupButtonPanel.transform.Find("Scroll View/Viewport/Content");
+            GalleryManager.Instance.CreateGalleryButton(popupTransform);
+            GalleryManager.Instance.CreateGallery(popupTransform);
+
+            GridLayoutGroup gridLayout = popupTransform.GetComponent<GridLayoutGroup>();
+            if (gridLayout != null)
+            {
+                gridLayout.cellSize = new Vector2(400, 200);
+            }
         });
 
         collectionButton.onClick.AddListener(() =>
@@ -247,8 +254,15 @@ public class MainMenuManager : MonoBehaviour
             });
             TextMeshProUGUI titleText = popupButtonPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLECTION);
-            CollectionManager.Instance.CreateCollectionButton(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
-            CollectionManager.Instance.CreateCollection(popupButtonPanel.transform.Find("Scroll View/Viewport/Content"));
+            Transform popupTransform = popupButtonPanel.transform.Find("Scroll View/Viewport/Content");
+            CollectionManager.Instance.CreateCollectionButton(popupTransform);
+            CollectionManager.Instance.CreateCollection(popupTransform);
+
+            GridLayoutGroup gridLayout = popupTransform.GetComponent<GridLayoutGroup>();
+            if (gridLayout != null)
+            {
+                gridLayout.cellSize = new Vector2(400, 200);
+            }
         });
 
         gachaButton.onClick.AddListener(() =>
@@ -580,7 +594,7 @@ public class MainMenuManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Close(MainPanel);
-                
+
             });
             nextButton.onClick.AddListener(() =>
             {

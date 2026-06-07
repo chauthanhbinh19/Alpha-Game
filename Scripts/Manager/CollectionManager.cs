@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 public class CollectionManager : MonoBehaviour
 {
-    private GameObject MainButtonPrefab;
+    private GameObject CollectionButtonPrefab;
     private Transform collectionMenuPanel;
     private GameObject DictionaryPanelPrefab;
     private Transform DictionaryContentPanel;
@@ -50,7 +50,7 @@ public class CollectionManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainButtonPrefab = UIManager.Instance.Get("MainButtonPrefab");
+        CollectionButtonPrefab = UIManager.Instance.Get("CollectionButtonPrefab");
     }
     public void CreateCollectionButton(Transform tempCollectionMenuPanel)
     {
@@ -258,15 +258,15 @@ public class CollectionManager : MonoBehaviour
     private void CreateCollectionButtonUI(int index, string itemName, Texture2D _itemBackground, Texture2D _itemImage, Texture2D _borderImage, Transform panel)
     {
         // Tạo button từ prefab
-        GameObject newButton = Instantiate(MainButtonPrefab, panel);
+        GameObject newButton = Instantiate(CollectionButtonPrefab, panel);
         Transform transform = newButton.transform;
         newButton.name = "Button_" + index;
 
-        // Gán màu cho itemBackground
-        RawImage itemBackground = transform.Find("ItemBackground").GetComponent<RawImage>();
-        if (itemBackground != null && _itemBackground != null)
+        // Gán màu cho subBackground
+        RawImage subBackground = transform.Find("SubBackground").GetComponent<RawImage>();
+        if (subBackground != null && _itemBackground != null)
         {
-            itemBackground.texture = _itemBackground;
+            subBackground.texture = _itemBackground;
         }
 
         // Gán hình ảnh cho itemImage
@@ -288,6 +288,13 @@ public class CollectionManager : MonoBehaviour
         if (borderImage != null && _borderImage != null)
         {
             borderImage.texture = _borderImage;
+        }
+
+        // Gán màu cho subBackground
+        RawImage itemBackground = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        if (itemBackground != null)
+        {
+            itemBackground.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Flag.FLAG_COLLECTION_URL);
         }
     }
     public void CreateCollection(Transform tempCollectionMenuPanel)

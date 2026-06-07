@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 public class GalleryManager : MonoBehaviour
 {
-    private GameObject MainButtonPrefab;
+    private GameObject GalleryButtonPrefab;
     private Transform galleryMenuPanel;
     private GameObject DictionaryPanelPrefab;
     private Transform DictionaryContentPanel;
@@ -51,7 +51,7 @@ public class GalleryManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainButtonPrefab = UIManager.Instance.Get("MainButtonPrefab");
+        GalleryButtonPrefab = UIManager.Instance.Get("GalleryButtonPrefab");
     }
     public void CreateGalleryButton(Transform tempGalleryMenuPanel)
     {
@@ -259,14 +259,14 @@ public class GalleryManager : MonoBehaviour
     private void CreateGalleryButtonUI(int index, string itemName, Texture2D _itemBackground, Texture2D _itemImage, Texture2D _borderImage, Transform panel)
     {
         // Tạo button từ prefab
-        GameObject newButton = Instantiate(MainButtonPrefab, panel);
+        GameObject newButton = Instantiate(GalleryButtonPrefab, panel);
         newButton.name = "Button_" + index;
 
-        // Gán màu cho itemBackground
-        RawImage background = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
-        if (background != null && _itemBackground != null)
+        // Gán màu cho subBackground
+        RawImage subBackground = newButton.transform.Find("SubBackground").GetComponent<RawImage>();
+        if (subBackground != null && _itemBackground != null)
         {
-            background.texture = _itemBackground;
+            subBackground.texture = _itemBackground;
         }
 
         // Gán hình ảnh cho itemImage
@@ -288,6 +288,13 @@ public class GalleryManager : MonoBehaviour
         if (borderImage != null && _borderImage != null)
         {
             borderImage.texture = _borderImage;
+        }
+
+        // Gán màu cho subBackground
+        RawImage itemBackground = newButton.transform.Find("ItemBackground").GetComponent<RawImage>();
+        if (itemBackground != null)
+        {
+            itemBackground.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Flag.FLAG_GALLERY_URL);
         }
     }
     public void CreateGallery(Transform tempGalleryMenuPanel)

@@ -664,8 +664,8 @@ public static class ImageConstants
     }
     public static class Archive
     {
-        public const string Archive_ICON_URL = "UI/Icon/Archive";
-        public const string Archive_BORDER_URL = "UI/Button/Border/ArchiveBorder";
+        public const string ARCHIVE_ICON_URL = "UI/Icon/Archive";
+        public const string ARCHIVE_BORDER_URL = "UI/Button/Border/ArchiveBorder";
         public const string ARCHIVE_I_URL = "UI/Rank_Research/Archive I";
         public const string ARCHIVE_II_URL = "UI/Rank_Research/Archive II";
         public const string ARCHIVE_III_URL = "UI/Rank_Research/Archive III";

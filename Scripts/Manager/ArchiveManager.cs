@@ -111,13 +111,13 @@ public class ArchiveManager : MonoBehaviour
         RawImage borderImage = transform.Find("BorderCircleImage").GetComponent<RawImage>();
         if (borderImage != null)
         {
-            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Archive.Archive_BORDER_URL);
+            borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_BORDER_URL);
         }
 
         RawImage iconImage = transform.Find("IconImage").GetComponent<RawImage>();
         if (iconImage != null)
         {
-            iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Archive.Archive_ICON_URL);
+            iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_ICON_URL);
         }
     }
     public void CreateArchiveButtonEvent(Transform panel)
