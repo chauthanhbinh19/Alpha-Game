@@ -92,8 +92,8 @@ public class UserFoodsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(food.Rare));
-            rareText.text = food.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(food.Rarity));
+            rareText.text = food.Rarity;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -153,7 +153,7 @@ public class UserFoodsController : MonoBehaviour
         levelText.text = food.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{food.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{food.Rarity}");
         rareImage.texture = rareTexture;
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");

@@ -94,8 +94,8 @@ public class UserAchievementsController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(achievement.Rare));
-            rareText.text = achievement.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(achievement.Rarity));
+            rareText.text = achievement.Rarity;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -156,7 +156,7 @@ public class UserAchievementsController : MonoBehaviour
         levelText.text = achievement.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{achievement.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{achievement.Rarity}");
         rareImage.texture = rareTexture;
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");

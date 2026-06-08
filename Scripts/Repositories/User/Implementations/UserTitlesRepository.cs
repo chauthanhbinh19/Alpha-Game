@@ -64,7 +64,7 @@ public class UserTitlesRepository : IUserTitlesRepository
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Star = reader.GetIntSafe("star"),
                                 Level = reader.GetIntSafe("level"),
@@ -262,11 +262,11 @@ public class UserTitlesRepository : IUserTitlesRepository
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@title_id", title.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", title.Rare);
+                            insertCommand.Parameters.AddWithValue("@rare", title.Rarity);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(title.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(title.Rarity));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@quantity", title.Quantity);
                             insertCommand.Parameters.AddWithValue("@power", title.Power);
@@ -425,8 +425,8 @@ public class UserTitlesRepository : IUserTitlesRepository
                     parameters.AddRange(new[]
                     {
                         new MySqlParameter($"@title_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rare),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rare)),
+                        new MySqlParameter($"@rare_{j}", c.Rarity),
+                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
                         new MySqlParameter($"@quantity_{j}", c.Quantity),
                         new MySqlParameter($"@power_{j}", c.Power),
                         new MySqlParameter($"@health_{j}", c.Health),

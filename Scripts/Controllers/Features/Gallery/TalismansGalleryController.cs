@@ -91,8 +91,8 @@ public class TalismansGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(talisman.Rare));
-                rareText.text = talisman.Rare;
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(talisman.Rarity));
+                rareText.text = talisman.Rarity;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
                 Button unlockButton = transform.Find("UnlockButton").GetComponent<Button>();

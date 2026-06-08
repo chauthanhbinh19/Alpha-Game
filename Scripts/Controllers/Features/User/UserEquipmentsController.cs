@@ -89,7 +89,7 @@ public class UserEquipmentsController : MonoBehaviour
         levelText.text = equipment.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rarity}");
         rareImage.texture = rareTexture;
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");

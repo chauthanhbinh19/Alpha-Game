@@ -72,7 +72,7 @@ public class CardSoldiersController : MonoBehaviour
             typePanel.text = cardSoldier.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rarity));
 
             Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -82,8 +82,8 @@ public class CardSoldiersController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rare));
-            rareText.text = cardSoldier.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rarity));
+            rareText.text = cardSoldier.Rarity;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)

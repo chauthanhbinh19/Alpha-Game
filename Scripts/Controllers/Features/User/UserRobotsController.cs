@@ -92,8 +92,8 @@ public class UserRobotsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(robot.Rare));
-            rareText.text = robot.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(robot.Rarity));
+            rareText.text = robot.Rarity;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -153,7 +153,7 @@ public class UserRobotsController : MonoBehaviour
         levelText.text = robot.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{robot.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{robot.Rarity}");
         rareImage.texture = rareTexture;
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");

@@ -85,8 +85,8 @@ public class UserCollaborationsController : MonoBehaviour
             backgroundImage.texture = bgTexture;
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(collaboration.Rare));
-            rareText.text = collaboration.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(collaboration.Rarity));
+            rareText.text = collaboration.Rarity;
 
             Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -153,7 +153,7 @@ public class UserCollaborationsController : MonoBehaviour
         levelText.text = collaboration.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{collaboration.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{collaboration.Rarity}");
         rareImage.texture = rareTexture;
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");

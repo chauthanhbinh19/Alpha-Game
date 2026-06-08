@@ -97,8 +97,8 @@ public class BooksController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(book.Rare));
-                rareText.text = book.Rare;
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(book.Rarity));
+                rareText.text = book.Rarity;
             }
             catch (Exception ex)
             {

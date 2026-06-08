@@ -96,8 +96,8 @@ public class PuppetsController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(puppet.Rare));
-            rareText.text = puppet.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(puppet.Rarity));
+            rareText.text = puppet.Rarity;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

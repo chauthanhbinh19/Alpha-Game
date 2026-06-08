@@ -88,8 +88,8 @@ public class BordersGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(border.Rare));
-                rareText.text = border.Rare;
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(border.Rarity));
+                rareText.text = border.Rarity;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
                 Button unlockButton = transform.Find("UnlockButton").GetComponent<Button>();

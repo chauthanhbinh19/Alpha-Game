@@ -95,8 +95,8 @@ public class UserBuildingsController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(building.Rare));
-            rareText.text = building.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(building.Rarity));
+            rareText.text = building.Rarity;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -157,7 +157,7 @@ public class UserBuildingsController : MonoBehaviour
         levelText.text = building.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{building.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{building.Rarity}");
         rareImage.texture = rareTexture;
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");

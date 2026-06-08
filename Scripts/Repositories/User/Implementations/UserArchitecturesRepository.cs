@@ -61,7 +61,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Star = reader.GetIntSafe("star"),
                                 Level = reader.GetIntSafe("level"),
@@ -258,11 +258,11 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@architecture_id", architecture.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", architecture.Rare);
+                            insertCommand.Parameters.AddWithValue("@rare", architecture.Rarity);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(architecture.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(architecture.Rarity));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@quantity", architecture.Quantity);
                             insertCommand.Parameters.AddWithValue("@power", architecture.Power);
@@ -421,8 +421,8 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
                     parameters.AddRange(new[]
                     {
                         new MySqlParameter($"@architecture_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rare),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rare)),
+                        new MySqlParameter($"@rare_{j}", c.Rarity),
+                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
                         new MySqlParameter($"@quantity_{j}", c.Quantity),
                         new MySqlParameter($"@power_{j}", c.Power),
                         new MySqlParameter($"@health_{j}", c.Health),

@@ -16,7 +16,7 @@ public class CardSpell : CardBase
         this.Name = cardSpell.Name;
         this.Image = cardSpell.Image;
         this.Type = cardSpell.Type;
-        this.Rare = cardSpell.Rare;
+        this.Rare = cardSpell.Rarity;
         this.Power = cardSpell.Power;
         this.Health = cardSpell.Health;
         this.PhysicalAttack = cardSpell.PhysicalAttack;

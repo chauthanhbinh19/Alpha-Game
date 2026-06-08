@@ -76,7 +76,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Type = reader.GetStringSafe("type"),
                                 CurrentStar = reader.IsDBNull(reader.GetOrdinal("current_star")) ? 0 : reader.GetInt32("current_star"),

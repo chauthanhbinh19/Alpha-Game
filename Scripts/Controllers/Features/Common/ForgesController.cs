@@ -96,8 +96,8 @@ public class ForgesController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(forge.Rare));
-            rareText.text = forge.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(forge.Rarity));
+            rareText.text = forge.Rarity;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

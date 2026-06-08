@@ -100,7 +100,7 @@ public class UserCardMonstersController : MonoBehaviour
             typePanel.text = cardMonster.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardMonster.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardMonster.Rarity));
 
             Transform teamPanel = transform.Find("Team");
             if(cardMonster.Team.TeamNumber != 0)
@@ -125,8 +125,8 @@ public class UserCardMonstersController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardMonster.Rare));
-            rareText.text = cardMonster.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardMonster.Rarity));
+            rareText.text = cardMonster.Rarity;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -213,7 +213,7 @@ public class UserCardMonstersController : MonoBehaviour
         levelText.text = cardMonster.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMonster.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMonster.Rarity}");
         rareImage.texture = rareTexture;
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");
@@ -662,7 +662,7 @@ public class UserCardMonstersController : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritBeast.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritBeast.Rarity}");
             rareImage.texture = rareTexture;
 
             Button equipButton = transform.Find("EquipButton").GetComponent<Button>();

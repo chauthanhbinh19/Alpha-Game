@@ -71,7 +71,7 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Type = reader.GetStringSafe("type"),
                                 Star = reader.GetIntSafe("star"),
@@ -282,11 +282,11 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", collaborationEquipment.Rare);
+                            insertCommand.Parameters.AddWithValue("@rare", collaborationEquipment.Rarity);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(collaborationEquipment.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(collaborationEquipment.Rarity));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@quantity", collaborationEquipment.Quantity);
                             insertCommand.Parameters.AddWithValue("@power", collaborationEquipment.Power);
@@ -446,8 +446,8 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                     parameters.AddRange(new[]
                     {
                         new MySqlParameter($"@collaboration_equipment_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rare),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rare)),
+                        new MySqlParameter($"@rare_{j}", c.Rarity),
+                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
                         new MySqlParameter($"@quantity_{j}", c.Quantity),
                         new MySqlParameter($"@power_{j}", c.Power),
                         new MySqlParameter($"@health_{j}", c.Health),

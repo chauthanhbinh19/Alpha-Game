@@ -74,7 +74,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Type = reader.GetStringSafe("type"),
                                 Star = reader.GetIntSafe("star"),
@@ -286,11 +286,11 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@vehicle_id", vehicle.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", vehicle.Rare);
+                            insertCommand.Parameters.AddWithValue("@rare", vehicle.Rarity);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(vehicle.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(vehicle.Rarity));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@quantity", vehicle.Quantity);
                             insertCommand.Parameters.AddWithValue("@power", vehicle.Power);
@@ -450,8 +450,8 @@ public class UserVehiclesRepository : IUserVehiclesRepository
                     parameters.AddRange(new[]
                     {
                         new MySqlParameter($"@vehicle_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rare),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rare)),
+                        new MySqlParameter($"@rare_{j}", c.Rarity),
+                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
                         new MySqlParameter($"@quantity_{j}", c.Quantity),
                         new MySqlParameter($"@power_{j}", c.Power),
                         new MySqlParameter($"@health_{j}", c.Health),

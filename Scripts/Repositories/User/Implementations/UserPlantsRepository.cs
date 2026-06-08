@@ -62,7 +62,7 @@ public class UserPlantsRepository : IUserPlantsRepository
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Star = reader.GetIntSafe("star"),
                                 Level = reader.GetIntSafe("level"),
@@ -259,11 +259,11 @@ public class UserPlantsRepository : IUserPlantsRepository
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@plant_id", plant.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", plant.Rare);
+                            insertCommand.Parameters.AddWithValue("@rare", plant.Rarity);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(plant.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(plant.Rarity));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@quantity", plant.Quantity);
                             insertCommand.Parameters.AddWithValue("@power", plant.Power);
@@ -422,8 +422,8 @@ public class UserPlantsRepository : IUserPlantsRepository
                     parameters.AddRange(new[]
                     {
                         new MySqlParameter($"@plant_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rare),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rare)),
+                        new MySqlParameter($"@rare_{j}", c.Rarity),
+                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
                         new MySqlParameter($"@quantity_{j}", c.Quantity),
                         new MySqlParameter($"@power_{j}", c.Power),
                         new MySqlParameter($"@health_{j}", c.Health),

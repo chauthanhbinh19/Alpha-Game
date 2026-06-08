@@ -16,7 +16,7 @@ public class CardGeneral : CardBase
         this.Name = cardGeneral.Name;
         this.Image = cardGeneral.Image;
         this.Type = cardGeneral.Type;
-        this.Rare = cardGeneral.Rare;
+        this.Rare = cardGeneral.Rarity;
         this.Power = cardGeneral.Power;
         this.Health = cardGeneral.Health;
         this.PhysicalAttack = cardGeneral.PhysicalAttack;

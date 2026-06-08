@@ -88,8 +88,8 @@ public class WeaponsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(weapon.Rare));
-                rareText.text = weapon.Rare;
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(weapon.Rarity));
+                rareText.text = weapon.Rarity;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
                 Button unlockButton = transform.Find("UnlockButton").GetComponent<Button>();

@@ -1919,7 +1919,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rarity}");
             rareImage.texture = rareTexture;
 
             Button equipButton = equipmentObject.transform.Find("EquipButton").GetComponent<Button>();

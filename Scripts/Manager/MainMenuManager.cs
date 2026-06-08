@@ -502,7 +502,7 @@ public class MainMenuManager : MonoBehaviour
     public void GetButtonEvent(GameObject popupButtonObject)
     {
         Transform contentPanel = popupButtonObject.transform.Find("Scroll View/Viewport/Content");
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, () => GetType(AppConstants.MainType.ANIME));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, () => GetType(AppConstants.MainType.ANIME));
         // ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, () => GetType(AppConstants.MainType.GUILD));
         ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, () => GetType(AppConstants.MainType.TOWER));
         ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, () => GetType(AppConstants.MainType.EVENT));

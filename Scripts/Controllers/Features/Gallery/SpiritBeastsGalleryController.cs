@@ -88,8 +88,8 @@ public class SpiritBeastsGalleryController : MonoBehaviour
                 });
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(spiritBeast.Rare));
-                rareText.text = spiritBeast.Rare;
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(spiritBeast.Rarity));
+                rareText.text = spiritBeast.Rarity;
 
                 RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
                 Button unlockButton = transform.Find("UnlockButton").GetComponent<Button>();

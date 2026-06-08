@@ -295,10 +295,6 @@ public class ButtonLoader : MonoBehaviour
             TextureHelper.LoadTexture2DCached(ImageConstants.Main.SUMMON_CARD_ADMIRAL_URL), 
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
             contentPanel);
-        CreateButtonUI(10, AppConstants.MainType.ANIME, subBackground, itemBackground, 
-            TextureHelper.LoadTexture2DCached(ImageConstants.Main.ANIME_URL), 
-            TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
-            contentPanel);
         CreateButtonUI(11, AppConstants.MainType.TOWER, subBackground, itemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Main.TOWER_URL), 
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),

@@ -92,8 +92,8 @@ public class UserMagicFormationCirclesController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(magicFormationCircle.Rare));
-            rareText.text = magicFormationCircle.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(magicFormationCircle.Rarity));
+            rareText.text = magicFormationCircle.Rarity;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -154,7 +154,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
         levelText.text = magicFormationCircle.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{magicFormationCircle.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{magicFormationCircle.Rarity}");
         rareImage.texture = rareTexture;
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");

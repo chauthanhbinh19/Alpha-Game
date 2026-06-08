@@ -16,7 +16,7 @@ public class CardColonel : CardBase
         this.Name = cardColonel.Name;
         this.Image = cardColonel.Image;
         this.Type = cardColonel.Type;
-        this.Rare = cardColonel.Rare;
+        this.Rare = cardColonel.Rarity;
         this.Power = cardColonel.Power;
         this.Health = cardColonel.Health;
         this.PhysicalAttack = cardColonel.PhysicalAttack;

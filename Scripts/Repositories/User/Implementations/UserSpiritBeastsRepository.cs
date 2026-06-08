@@ -61,7 +61,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                                 Id = reader.GetStringSafe("spirit_beast_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Star = reader.GetIntSafe("star"),
                                 Level = reader.GetIntSafe("level"),
@@ -170,7 +170,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                                 Id = reader.GetStringSafe("spirit_beast_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Star = reader.GetIntSafe("star"),
                                 Level = reader.GetIntSafe("level"),
@@ -290,7 +290,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             Id = reader.GetStringSafe("spirit_beast_id"),
                             Name = reader.GetStringSafe("name"),
                             Image = reader.GetStringSafe("image"),
-                            Rare = reader.GetStringSafe("rare"),
+                            Rarity = reader.GetStringSafe("rare"),
                             Quality = reader.GetDoubleSafe("quality"),
                             Star = reader.GetIntSafe("star"),
                             Level = reader.GetIntSafe("level"),
@@ -446,7 +446,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Id = reader.GetStringSafe("spirit_beast_id");
                             spiritBeast.Name = reader.GetStringSafe("name");
                             spiritBeast.Image = reader.GetStringSafe("image");
-                            spiritBeast.Rare = reader.GetStringSafe("rare");
+                            spiritBeast.Rarity = reader.GetStringSafe("rare");
                             spiritBeast.Quality = reader.GetDoubleSafe("quality");
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
@@ -564,7 +564,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Id = reader.GetStringSafe("spirit_beast_id");
                             spiritBeast.Name = reader.GetStringSafe("name");
                             spiritBeast.Image = reader.GetStringSafe("image");
-                            spiritBeast.Rare = reader.GetStringSafe("rare");
+                            spiritBeast.Rarity = reader.GetStringSafe("rare");
                             spiritBeast.Quality = reader.GetDoubleSafe("quality");
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
@@ -681,7 +681,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     spiritBeast.Id = reader.GetStringSafe("spirit_beast_id");
                     spiritBeast.Name = reader.GetStringSafe("name");
                     spiritBeast.Image = reader.GetStringSafe("image");
-                    spiritBeast.Rare = reader.GetStringSafe("rare");
+                    spiritBeast.Rarity = reader.GetStringSafe("rare");
                     spiritBeast.Quality = reader.GetDoubleSafe("quality");
                     spiritBeast.Star = reader.GetIntSafe("star");
                     spiritBeast.Level = reader.GetIntSafe("level");
@@ -797,7 +797,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Id = reader.GetStringSafe("spirit_beast_id");
                             spiritBeast.Name = reader.GetStringSafe("name");
                             spiritBeast.Image = reader.GetStringSafe("image");
-                            spiritBeast.Rare = reader.GetStringSafe("rare");
+                            spiritBeast.Rarity = reader.GetStringSafe("rare");
                             spiritBeast.Quality = reader.GetDoubleSafe("quality");
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
@@ -915,7 +915,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Id = reader.GetStringSafe("spirit_beast_id");
                             spiritBeast.Name = reader.GetStringSafe("name");
                             spiritBeast.Image = reader.GetStringSafe("image");
-                            spiritBeast.Rare = reader.GetStringSafe("rare");
+                            spiritBeast.Rarity = reader.GetStringSafe("rare");
                             spiritBeast.Quality = reader.GetDoubleSafe("quality");
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
@@ -1033,7 +1033,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Id = reader.GetStringSafe("spirit_beast_id");
                             spiritBeast.Name = reader.GetStringSafe("name");
                             spiritBeast.Image = reader.GetStringSafe("image");
-                            spiritBeast.Rare = reader.GetStringSafe("rare");
+                            spiritBeast.Rarity = reader.GetStringSafe("rare");
                             spiritBeast.Quality = reader.GetDoubleSafe("quality");
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
@@ -1151,7 +1151,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Id = reader.GetStringSafe("spirit_beast_id");
                             spiritBeast.Name = reader.GetStringSafe("name");
                             spiritBeast.Image = reader.GetStringSafe("image");
-                            spiritBeast.Rare = reader.GetStringSafe("rare");
+                            spiritBeast.Rarity = reader.GetStringSafe("rare");
                             spiritBeast.Quality = reader.GetDoubleSafe("quality");
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
@@ -1269,7 +1269,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Id = reader.GetStringSafe("spirit_beast_id");
                             spiritBeast.Name = reader.GetStringSafe("name");
                             spiritBeast.Image = reader.GetStringSafe("image");
-                            spiritBeast.Rare = reader.GetStringSafe("rare");
+                            spiritBeast.Rarity = reader.GetStringSafe("rare");
                             spiritBeast.Quality = reader.GetDoubleSafe("quality");
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
@@ -1387,7 +1387,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Id = reader.GetStringSafe("spirit_beast_id");
                             spiritBeast.Name = reader.GetStringSafe("name");
                             spiritBeast.Image = reader.GetStringSafe("image");
-                            spiritBeast.Rare = reader.GetStringSafe("rare");
+                            spiritBeast.Rarity = reader.GetStringSafe("rare");
                             spiritBeast.Quality = reader.GetDoubleSafe("quality");
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
@@ -1537,11 +1537,11 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                             insertCommand.Parameters.AddWithValue("@spirit_beast_id", spiritBeast.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", spiritBeast.Rare);
+                            insertCommand.Parameters.AddWithValue("@rare", spiritBeast.Rarity);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(spiritBeast.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(spiritBeast.Rarity));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@quantity", spiritBeast.Quantity);
                             insertCommand.Parameters.AddWithValue("@power", spiritBeast.Power);
@@ -1701,8 +1701,8 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     parameters.AddRange(new[]
                     {
                         new MySqlParameter($"@spirit_beast_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rare),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rare)),
+                        new MySqlParameter($"@rare_{j}", c.Rarity),
+                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
                         new MySqlParameter($"@quantity_{j}", c.Quantity),
                         new MySqlParameter($"@power_{j}", c.Power),
                         new MySqlParameter($"@health_{j}", c.Health),
@@ -2587,7 +2587,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
-                    Rare = reader.GetStringSafe("rare"),
+                    Rarity = reader.GetStringSafe("rare"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
@@ -2701,7 +2701,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
-                    Rare = reader.GetStringSafe("rare"),
+                    Rarity = reader.GetStringSafe("rare"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
@@ -2815,7 +2815,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
-                    Rare = reader.GetStringSafe("rare"),
+                    Rarity = reader.GetStringSafe("rare"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
@@ -2929,7 +2929,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
-                    Rare = reader.GetStringSafe("rare"),
+                    Rarity = reader.GetStringSafe("rare"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
@@ -3043,7 +3043,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
-                    Rare = reader.GetStringSafe("rare"),
+                    Rarity = reader.GetStringSafe("rare"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
@@ -3157,7 +3157,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
-                    Rare = reader.GetStringSafe("rare"),
+                    Rarity = reader.GetStringSafe("rare"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
@@ -3271,7 +3271,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
-                    Rare = reader.GetStringSafe("rare"),
+                    Rarity = reader.GetStringSafe("rare"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
@@ -3385,7 +3385,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
-                    Rare = reader.GetStringSafe("rare"),
+                    Rarity = reader.GetStringSafe("rare"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
@@ -3499,7 +3499,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Id = reader.GetStringSafe("spirit_beast_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
-                    Rare = reader.GetStringSafe("rare"),
+                    Rarity = reader.GetStringSafe("rare"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),

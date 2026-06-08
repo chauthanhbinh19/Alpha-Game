@@ -77,7 +77,7 @@ public class UserTalismansRepository : IUserTalismansRepository
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Type = reader.GetStringSafe("type"),
                                 Star = reader.GetIntSafe("star"),
@@ -289,11 +289,11 @@ public class UserTalismansRepository : IUserTalismansRepository
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@talisman_id", talisman.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", talisman.Rare);
+                            insertCommand.Parameters.AddWithValue("@rare", talisman.Rarity);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(talisman.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(talisman.Rarity));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@quantity", talisman.Quantity);
                             insertCommand.Parameters.AddWithValue("@power", talisman.Power);
@@ -453,8 +453,8 @@ public class UserTalismansRepository : IUserTalismansRepository
                     parameters.AddRange(new[]
                     {
                         new MySqlParameter($"@talisman_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rare),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rare)),
+                        new MySqlParameter($"@rare_{j}", c.Rarity),
+                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
                         new MySqlParameter($"@quantity_{j}", c.Quantity),
                         new MySqlParameter($"@power_{j}", c.Power),
                         new MySqlParameter($"@health_{j}", c.Health),

@@ -263,7 +263,7 @@ public class EquipmentManager : MonoBehaviour
             eventTrigger.triggers.Add(scrollEntry);
 
             RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rarity}");
             rareImage.texture = rareTexture;
         }
         tempContent.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -322,7 +322,7 @@ public class EquipmentManager : MonoBehaviour
             // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
 
             RawImage rareImage = equipmentObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rarity}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = MainMenuContent.GetComponent<GridLayoutGroup>();

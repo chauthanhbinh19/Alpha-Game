@@ -97,7 +97,7 @@ public class UserCardSoldiersController : MonoBehaviour
             typePanel.text = cardSoldier.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rarity));
 
             Transform teamPanel = transform.Find("Team");
             if(cardSoldier.Team.TeamNumber != 0)
@@ -121,8 +121,8 @@ public class UserCardSoldiersController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rare));
-            rareText.text = cardSoldier.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardSoldier.Rarity));
+            rareText.text = cardSoldier.Rarity;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
         if (gridLayout != null)
@@ -204,7 +204,7 @@ public class UserCardSoldiersController : MonoBehaviour
         levelText.text = cardSoldier.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSoldier.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSoldier.Rarity}");
         rareImage.texture = rareTexture;
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");

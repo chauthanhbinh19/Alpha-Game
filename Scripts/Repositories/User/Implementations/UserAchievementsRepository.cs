@@ -62,7 +62,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Star = reader.GetIntSafe("star"),
                                 Level = reader.GetIntSafe("level"),
@@ -259,11 +259,11 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
                     insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@achievement_id", achievement.Id);
-                    insertCommand.Parameters.AddWithValue("@rare", achievement.Rare);
+                    insertCommand.Parameters.AddWithValue("@rare", achievement.Rarity);
                     insertCommand.Parameters.AddWithValue("@level", 0);
                     insertCommand.Parameters.AddWithValue("@experience", 0);
                     insertCommand.Parameters.AddWithValue("@star", 0);
-                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(achievement.Rare));
+                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(achievement.Rarity));
                     insertCommand.Parameters.AddWithValue("@block", false);
                     insertCommand.Parameters.AddWithValue("@quantity", achievement.Quantity);
 
@@ -425,8 +425,8 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                     parameters.AddRange(new[]
                     {
                         new MySqlParameter($"@achievement_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rare),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rare)),
+                        new MySqlParameter($"@rare_{j}", c.Rarity),
+                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
                         new MySqlParameter($"@quantity_{j}", c.Quantity),
                         new MySqlParameter($"@power_{j}", c.Power),
                         new MySqlParameter($"@health_{j}", c.Health),
@@ -729,7 +729,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Experience = reader.GetDoubleSafe("experience"),
                                 Star = reader.GetIntSafe("star"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),

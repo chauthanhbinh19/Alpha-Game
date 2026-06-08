@@ -71,7 +71,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Type = reader.GetStringSafe("type"),
                                 Star = reader.GetIntSafe("star"),
@@ -282,11 +282,11 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@mfc_id", magicFormationCircle.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", magicFormationCircle.Rare);
+                            insertCommand.Parameters.AddWithValue("@rare", magicFormationCircle.Rarity);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(magicFormationCircle.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(magicFormationCircle.Rarity));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@quantity", magicFormationCircle.Quantity);
                             insertCommand.Parameters.AddWithValue("@power", magicFormationCircle.Power);
@@ -446,8 +446,8 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
                     parameters.AddRange(new[]
                     {
                         new MySqlParameter($"@mfc_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rare),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rare)),
+                        new MySqlParameter($"@rare_{j}", c.Rarity),
+                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
                         new MySqlParameter($"@quantity_{j}", c.Quantity),
                         new MySqlParameter($"@power_{j}", c.Power),
                         new MySqlParameter($"@health_{j}", c.Health),

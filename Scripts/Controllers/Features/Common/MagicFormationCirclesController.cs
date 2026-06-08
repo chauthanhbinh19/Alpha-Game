@@ -96,8 +96,8 @@ public class MagicFormationCirclesController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(magicFormationCircle.Rare));
-            rareText.text = magicFormationCircle.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(magicFormationCircle.Rarity));
+            rareText.text = magicFormationCircle.Rarity;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

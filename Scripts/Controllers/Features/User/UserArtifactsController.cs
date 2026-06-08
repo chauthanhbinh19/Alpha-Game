@@ -71,8 +71,8 @@ public class UserArtifactsController : MonoBehaviour
             backgroundImage.texture = bgTexture;
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(artifact.Rare));
-            rareText.text = artifact.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(artifact.Rarity));
+            rareText.text = artifact.Rarity;
 
             Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -139,7 +139,7 @@ public class UserArtifactsController : MonoBehaviour
         levelText.text = artifact.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artifact.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artifact.Rarity}");
         rareImage.texture = rareTexture;
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");

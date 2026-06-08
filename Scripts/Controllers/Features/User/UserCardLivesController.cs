@@ -70,11 +70,11 @@ public class UserCardLivesController : MonoBehaviour
             typePanel.text = cardLife.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardLife.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardLife.Rarity));
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardLife.Rare));
-            rareText.text = cardLife.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardLife.Rarity));
+            rareText.text = cardLife.Rarity;
 
             Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -142,7 +142,7 @@ public class UserCardLivesController : MonoBehaviour
         levelText.text = cardLife.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardLife.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardLife.Rarity}");
         rareImage.texture = rareTexture;
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");

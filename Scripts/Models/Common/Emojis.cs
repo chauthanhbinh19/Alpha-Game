@@ -3,7 +3,7 @@ public class Emojis : BaseEntity, IPowerSortable, IStats
     public string Id { get; set; }
     public string Name { get; set; }
     public string Image { get; set; }
-    public string Rare { get; set; }
+    
     public double Quality { get; set; }
     public int CurrentStar { get; set; }
     public int TempStar { get; set; }

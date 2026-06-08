@@ -16,7 +16,7 @@ public class CardMilitary : CardBase
         this.Name = cardMilitary.Name;
         this.Image = cardMilitary.Image;
         this.Type = cardMilitary.Type;
-        this.Rare = cardMilitary.Rare;
+        this.Rare = cardMilitary.Rarity;
         this.Power = cardMilitary.Power;
         this.Health = cardMilitary.Health;
         this.PhysicalAttack = cardMilitary.PhysicalAttack;

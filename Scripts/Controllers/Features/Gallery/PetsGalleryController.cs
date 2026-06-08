@@ -109,8 +109,8 @@ public class PetsGalleryController : MonoBehaviour
                 }
 
                 TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(pet.Rare));
-                rareText.text = pet.Rare;
+                rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(pet.Rarity));
+                rareText.text = pet.Rarity;
 
                 unlockButton.onClick.AddListener(async () =>
                 {

@@ -79,7 +79,7 @@ public class CitiesController : MonoBehaviour
             });
 
             RawImage rareImage = cityObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{city.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{city.Rarity}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

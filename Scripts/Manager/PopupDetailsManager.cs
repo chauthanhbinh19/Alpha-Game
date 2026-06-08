@@ -106,7 +106,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = cardHero.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardHero.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardHero.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -153,7 +153,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = book.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{book.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{book.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -185,7 +185,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = cardCaptain.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardCaptain.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardCaptain.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -237,7 +237,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = pet.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{pet.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{pet.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -285,7 +285,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = collaborationEquipment.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{collaborationEquipment.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{collaborationEquipment.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -317,7 +317,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = cardMilitary.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMilitary.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMilitary.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -349,7 +349,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = cardSpell.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSpell.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSpell.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -381,7 +381,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = collaboration.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{collaboration.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{collaboration.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -413,7 +413,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = cardMonster.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMonster.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMonster.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -445,7 +445,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = cardSoldier.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSoldier.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSoldier.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -493,7 +493,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = equipment.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{equipment.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -540,7 +540,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = medal.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{medal.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{medal.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -595,7 +595,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = skill.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{skill.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{skill.Rarity}");
         rareImage.texture = rareTexture;
 
         // Dùng Reflection để lấy tất cả thuộc tính và giá trị
@@ -620,7 +620,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = symbol.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{symbol.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{symbol.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -668,7 +668,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = title.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{title.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{title.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -716,7 +716,7 @@ public class PopupDetailsManager : MonoBehaviour
         // level.text = border.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{border.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{border.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -764,7 +764,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = achievement.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{achievement.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{achievement.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -812,7 +812,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = magicFormationCircle.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{magicFormationCircle.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{magicFormationCircle.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -860,7 +860,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = relic.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{relic.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{relic.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -892,7 +892,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = cardColonel.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardColonel.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardColonel.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -924,7 +924,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = cardGeneral.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardGeneral.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardGeneral.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -956,7 +956,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = cardAdmiral.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardAdmiral.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardAdmiral.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1004,7 +1004,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = talisman.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{talisman.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{talisman.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1052,7 +1052,7 @@ public class PopupDetailsManager : MonoBehaviour
         level.text = puppet.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{puppet.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{puppet.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1100,7 +1100,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = alchemy.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{alchemy.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{alchemy.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1148,7 +1148,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = forge.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{forge.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{forge.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1180,7 +1180,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = cardLife.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardLife.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardLife.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1212,7 +1212,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = artwork.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artwork.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artwork.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1244,7 +1244,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = spiritBeast.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritBeast.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritBeast.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1276,7 +1276,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = spiritCard.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritCard.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritCard.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1308,7 +1308,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = artifact.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artifact.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artifact.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1340,7 +1340,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = architecture.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{architecture.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{architecture.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1372,7 +1372,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = technology.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{technology.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{technology.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1404,7 +1404,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = vehicle.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{vehicle.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{vehicle.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1436,7 +1436,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = core.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{core.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{core.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1468,7 +1468,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = weapon.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{weapon.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{weapon.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1500,7 +1500,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = robot.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{robot.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{robot.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1532,7 +1532,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = badge.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{badge.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{badge.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1564,7 +1564,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = mechaBeast.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{mechaBeast.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{mechaBeast.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1596,7 +1596,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = rune.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{rune.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{rune.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1628,7 +1628,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = building.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{building.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{building.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1660,7 +1660,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = beverage.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{beverage.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{beverage.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1692,7 +1692,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = food.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{food.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{food.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1724,7 +1724,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = emoji.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{emoji.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{emoji.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1756,7 +1756,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = fashion.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{fashion.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{fashion.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
@@ -1788,7 +1788,7 @@ public class PopupDetailsManager : MonoBehaviour
         levelText.text = furniture.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{furniture.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{furniture.Rarity}");
         rareImage.texture = rareTexture;
 
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();

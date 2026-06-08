@@ -88,7 +88,7 @@ public class WorldsController : MonoBehaviour
             });
 
             RawImage rareImage = worldObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{world.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{world.Rarity}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

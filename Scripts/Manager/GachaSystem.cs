@@ -392,15 +392,15 @@ public class GachaSystem : MonoBehaviour
     {
         return item switch
         {
-            Equipments c => $"UI/UI/{c.Rare}",
-            Books b => $"UI/UI/{b.Rare}",
-            CardCaptains c => $"UI/UI/{c.Rare}",
-            CardMonsters c => $"UI/UI/{c.Rare}",
-            CardMilitaries c => $"UI/UI/{c.Rare}",
-            CardSpells c => $"UI/UI/{c.Rare}",
-            CardColonels c => $"UI/UI/{c.Rare}",
-            CardGenerals c => $"UI/UI/{c.Rare}",
-            CardAdmirals c => $"UI/UI/{c.Rare}",
+            Equipments c => $"UI/UI/{c.Rarity}",
+            Books b => $"UI/UI/{b.Rarity}",
+            CardCaptains c => $"UI/UI/{c.Rarity}",
+            CardMonsters c => $"UI/UI/{c.Rarity}",
+            CardMilitaries c => $"UI/UI/{c.Rarity}",
+            CardSpells c => $"UI/UI/{c.Rarity}",
+            CardColonels c => $"UI/UI/{c.Rarity}",
+            CardGenerals c => $"UI/UI/{c.Rarity}",
+            CardAdmirals c => $"UI/UI/{c.Rarity}",
             _ => string.Empty,
         };
     }

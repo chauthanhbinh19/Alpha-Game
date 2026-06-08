@@ -104,7 +104,7 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
                     Id = reader.GetStringSafe("card_captain_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
-                    Rare = reader.GetStringSafe("rare"),
+                    Rarity = reader.GetStringSafe("rare"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Type = reader.GetStringSafe("type"),
                     Star = reader.GetIntSafe("star"),
@@ -335,7 +335,7 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
                     Id = reader.GetStringSafe("card_captain_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
-                    Rare = reader.GetStringSafe("rare"),
+                    Rarity = reader.GetStringSafe("rare"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Type = reader.GetStringSafe("type"),
                     Star = reader.GetIntSafe("star"),
@@ -560,7 +560,7 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
                     Id = reader.GetStringSafe("card_captain_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
-                    Rare = reader.GetStringSafe("rare"),
+                    Rarity = reader.GetStringSafe("rare"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Type = reader.GetStringSafe("type"),
                     Star = reader.GetIntSafe("star"),
@@ -985,11 +985,11 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
 
                 insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
                 insertCommand.Parameters.AddWithValue("@card_captain_id", cardCaptain.Id);
-                insertCommand.Parameters.AddWithValue("@rare", cardCaptain.Rare);
+                insertCommand.Parameters.AddWithValue("@rare", cardCaptain.Rarity);
                 insertCommand.Parameters.AddWithValue("@level", 0);
                 insertCommand.Parameters.AddWithValue("@experience", 0);
                 insertCommand.Parameters.AddWithValue("@star", 0);
-                insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(cardCaptain.Rare));
+                insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(cardCaptain.Rarity));
                 insertCommand.Parameters.AddWithValue("@block", false);
                 insertCommand.Parameters.AddWithValue("@quantity", cardCaptain.Quantity);
                 insertCommand.Parameters.AddWithValue("@power", cardCaptain.Power);
@@ -1140,8 +1140,8 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
                     parameters.AddRange(new[]
                     {
                         new MySqlParameter($"@card_captain_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rare),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rare)),
+                        new MySqlParameter($"@rare_{j}", c.Rarity),
+                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
                         new MySqlParameter($"@quantity_{j}", c.Quantity),
                         new MySqlParameter($"@power_{j}", c.Power),
                         new MySqlParameter($"@health_{j}", c.Health),
@@ -1610,7 +1610,7 @@ public class UserCardCaptainsRepository : IUserCardCaptainsRepository
                     Id = reader.GetStringSafe("card_captain_id"),
                     Name = reader.GetStringSafe("name"),
                     Image = reader.GetStringSafe("image"),
-                    Rare = reader.GetStringSafe("rare"),
+                    Rarity = reader.GetStringSafe("rare"),
                     Quality = reader.GetDoubleSafe("quality"),
                     Type = reader.GetStringSafe("type"),
                     Star = reader.GetIntSafe("star"),

@@ -60,7 +60,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                         Id = reader.GetStringSafe("id"),
                         Name = reader.GetStringSafe("name"),
                         Image = reader.GetStringSafe("image"),
-                        Rare = reader.GetStringSafe("rare"),
+                        Rarity = reader.GetStringSafe("rare"),
                         Quality = reader.GetDoubleSafe("quality"),
                         Star = reader.GetIntSafe("star"),
                         Level = reader.GetIntSafe("level"),
@@ -254,11 +254,11 @@ public class UserEmojisRepository : IUserEmojisRepository
 
                     insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@emoji_id", emoji.Id);
-                    insertCommand.Parameters.AddWithValue("@rare", emoji.Rare);
+                    insertCommand.Parameters.AddWithValue("@rare", emoji.Rarity);
                     insertCommand.Parameters.AddWithValue("@level", 0);
                     insertCommand.Parameters.AddWithValue("@experience", 0);
                     insertCommand.Parameters.AddWithValue("@star", 0);
-                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(emoji.Rare));
+                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(emoji.Rarity));
                     insertCommand.Parameters.AddWithValue("@block", false);
                     insertCommand.Parameters.AddWithValue("@quantity", emoji.Quantity);
                     insertCommand.Parameters.AddWithValue("@power", emoji.Power);
@@ -414,8 +414,8 @@ public class UserEmojisRepository : IUserEmojisRepository
                     parameters.AddRange(new[]
                     {
                         new MySqlParameter($"@emoji_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rare),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rare)),
+                        new MySqlParameter($"@rare_{j}", c.Rarity),
+                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
                         new MySqlParameter($"@quantity_{j}", c.Quantity),
                         new MySqlParameter($"@power_{j}", c.Power),
                         new MySqlParameter($"@health_{j}", c.Health),

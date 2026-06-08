@@ -1218,7 +1218,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -1356,7 +1356,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -1493,7 +1493,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -1621,7 +1621,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -1750,7 +1750,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -1879,7 +1879,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -2008,7 +2008,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -2137,7 +2137,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -2275,7 +2275,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -2403,7 +2403,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -2541,7 +2541,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -2678,7 +2678,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -2815,7 +2815,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -2952,7 +2952,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -3089,7 +3089,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -3226,7 +3226,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -3363,7 +3363,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -3500,7 +3500,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -3637,7 +3637,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -3774,7 +3774,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -3911,7 +3911,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -4048,7 +4048,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -4176,7 +4176,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -4305,7 +4305,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -4434,7 +4434,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -4572,7 +4572,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -4709,7 +4709,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -4837,7 +4837,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -4975,7 +4975,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -5112,7 +5112,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -5249,7 +5249,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -5377,7 +5377,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -5506,7 +5506,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -5644,7 +5644,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -5772,7 +5772,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -5910,7 +5910,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -6047,7 +6047,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -6175,7 +6175,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -6304,7 +6304,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedRune.Id,
                         Name = selectedRune.Name,
                         Image = selectedRune.Image,
-                        Rare = selectedRune.Rare,
+                        Rare = selectedRune.Rarity,
                     });
                 }
             }
@@ -6442,7 +6442,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedCard.Id,
                         Name = selectedCard.Name,
                         Image = selectedCard.Image,
-                        Rare = selectedCard.Rare,
+                        Rare = selectedCard.Rarity,
                     });
                 }
             }
@@ -6570,7 +6570,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedSpiritBeast.Id,
                         Name = selectedSpiritBeast.Name,
                         Image = selectedSpiritBeast.Image,
-                        Rare = selectedSpiritBeast.Rare,
+                        Rare = selectedSpiritBeast.Rarity,
                         Quantity = selectedSpiritBeast.Quantity
                     });
                 }
@@ -6710,7 +6710,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedSpiritCard.Id,
                         Name = selectedSpiritCard.Name,
                         Image = selectedSpiritCard.Image,
-                        Rare = selectedSpiritCard.Rare,
+                        Rare = selectedSpiritCard.Rarity,
                         Quantity = selectedSpiritCard.Quantity
                     });
                 }
@@ -6849,7 +6849,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedSymbol.Id,
                         Name = selectedSymbol.Name,
                         Image = selectedSymbol.Image,
-                        Rare = selectedSymbol.Rare,
+                        Rare = selectedSymbol.Rarity,
                         Quantity = selectedSymbol.Quantity
                     });
                 }
@@ -6988,7 +6988,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedTalisman.Id,
                         Name = selectedTalisman.Name,
                         Image = selectedTalisman.Image,
-                        Rare = selectedTalisman.Rare,
+                        Rare = selectedTalisman.Rarity,
                         Quantity = selectedTalisman.Quantity
                     });
                 }
@@ -7118,7 +7118,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedTechnology.Id,
                         Name = selectedTechnology.Name,
                         Image = selectedTechnology.Image,
-                        Rare = selectedTechnology.Rare,
+                        Rare = selectedTechnology.Rarity,
                         Quantity = selectedTechnology.Quantity
                     });
                 }
@@ -7249,7 +7249,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedTitle.Id,
                         Name = selectedTitle.Name,
                         Image = selectedTitle.Image,
-                        Rare = selectedTitle.Rare,
+                        Rare = selectedTitle.Rarity,
                         Quantity = selectedTitle.Quantity
                     });
                 }
@@ -7389,7 +7389,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedVehicle.Id,
                         Name = selectedVehicle.Name,
                         Image = selectedVehicle.Image,
-                        Rare = selectedVehicle.Rare,
+                        Rare = selectedVehicle.Rarity,
                         Quantity = selectedVehicle.Quantity
                     });
                 }
@@ -7528,7 +7528,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedWeapon.Id,
                         Name = selectedWeapon.Name,
                         Image = selectedWeapon.Image,
-                        Rare = selectedWeapon.Rare,
+                        Rare = selectedWeapon.Rarity,
                         Quantity = selectedWeapon.Quantity
                     });
                 }
@@ -7667,7 +7667,7 @@ public class GachaManager : MonoBehaviour
                         RewardId = selectedOutfit.Id,
                         Name = selectedOutfit.Name,
                         Image = selectedOutfit.Image,
-                        Rare = selectedOutfit.Rare,
+                        Rare = selectedOutfit.Rarity,
                         Quantity = selectedOutfit.Quantity
                     });
                 }

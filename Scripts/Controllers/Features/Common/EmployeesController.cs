@@ -79,7 +79,7 @@ public class EmployeesController : MonoBehaviour
             });
 
             RawImage rareImage = employeeObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{employee.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{employee.Rarity}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

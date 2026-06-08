@@ -57,7 +57,7 @@ public class UserBordersRepository : IUserBordersRepository
                         Id = reader.GetString("id"),
                         Name = reader.GetString("name"),
                         Image = reader.GetString("image"),
-                        Rare = reader.GetString("rare"),
+                        Rarity = reader.GetString("rare"),
                         Quality = reader.GetDouble("quality"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),
@@ -249,11 +249,11 @@ public class UserBordersRepository : IUserBordersRepository
                     await using MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
                     insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@border_id", border.Id);
-                    insertCommand.Parameters.AddWithValue("@rare", border.Rare);
+                    insertCommand.Parameters.AddWithValue("@rare", border.Rarity);
                     insertCommand.Parameters.AddWithValue("@level", 0);
                     insertCommand.Parameters.AddWithValue("@experience", 0);
                     insertCommand.Parameters.AddWithValue("@star", 0);
-                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(border.Rare));
+                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(border.Rarity));
                     insertCommand.Parameters.AddWithValue("@block", false);
                     insertCommand.Parameters.AddWithValue("@quantity", border.Quantity);
                     insertCommand.Parameters.AddWithValue("@power", border.Power);
@@ -406,11 +406,11 @@ public class UserBordersRepository : IUserBordersRepository
                     await using MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
                     insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@border_id", border.Id);
-                    insertCommand.Parameters.AddWithValue("@rare", border.Rare);
+                    insertCommand.Parameters.AddWithValue("@rare", border.Rarity);
                     insertCommand.Parameters.AddWithValue("@level", 0);
                     insertCommand.Parameters.AddWithValue("@experience", 0);
                     insertCommand.Parameters.AddWithValue("@star", 0);
-                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(border.Rare));
+                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(border.Rarity));
                     insertCommand.Parameters.AddWithValue("@block", false);
                     insertCommand.Parameters.AddWithValue("@is_used", false);
                     insertCommand.Parameters.AddWithValue("@quantity", 1);
@@ -565,8 +565,8 @@ public class UserBordersRepository : IUserBordersRepository
                     parameters.AddRange(new[]
                     {
                         new MySqlParameter($"@border_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rare),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rare)),
+                        new MySqlParameter($"@rare_{j}", c.Rarity),
+                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
                         new MySqlParameter($"@quantity_{j}", c.Quantity),
                         new MySqlParameter($"@power_{j}", c.Power),
                         new MySqlParameter($"@health_{j}", c.Health),
@@ -783,7 +783,7 @@ public class UserBordersRepository : IUserBordersRepository
                     {
                         Id = reader.GetString("border_id"),
                         Image = reader.GetString("image"),
-                        Rare = reader.GetString("rare"),
+                        Rarity = reader.GetString("rare"),
                         Quality = reader.GetDouble("quality"),
                         Power = reader.GetDouble("power"),
                         Health = reader.GetDouble("health"),

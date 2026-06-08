@@ -81,8 +81,8 @@ public class UserArtworksController : MonoBehaviour
             frameImage.gameObject.SetActive(true);
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(artwork.Rare));
-            rareText.text = artwork.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(artwork.Rarity));
+            rareText.text = artwork.Rarity;
 
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();
@@ -143,7 +143,7 @@ public class UserArtworksController : MonoBehaviour
         levelText.text = artwork.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artwork.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{artwork.Rarity}");
         rareImage.texture = rareTexture;
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");

@@ -1181,11 +1181,11 @@ public class TeamsManager : MonoBehaviour
             typePanel.text = card.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(card.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(card.Rarity));
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(card.Rare));
-            rareText.text = card.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(card.Rarity));
+            rareText.text = card.Rarity;
 
             Transform teamPanel = transform.Find("TeamPanel");
             if (card.Team.TeamNumber != 0)
@@ -2306,7 +2306,7 @@ public class TeamsManager : MonoBehaviour
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardHero.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardHero.Rarity}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardHero.TeamId != null)
@@ -2359,7 +2359,7 @@ public class TeamsManager : MonoBehaviour
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardCaptain.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardCaptain.Rarity}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardCaptain.TeamId != null)
@@ -2411,7 +2411,7 @@ public class TeamsManager : MonoBehaviour
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardColonel.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardColonel.Rarity}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardColonel.TeamId != null)
@@ -2463,7 +2463,7 @@ public class TeamsManager : MonoBehaviour
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardGeneral.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardGeneral.Rarity}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardGeneral.TeamId != null)
@@ -2515,7 +2515,7 @@ public class TeamsManager : MonoBehaviour
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardAdmiral.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardAdmiral.Rarity}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardAdmiral.TeamId != null)
@@ -2567,7 +2567,7 @@ public class TeamsManager : MonoBehaviour
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMonster.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMonster.Rarity}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardMonster.TeamId != null)
@@ -2619,7 +2619,7 @@ public class TeamsManager : MonoBehaviour
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMilitary.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardMilitary.Rarity}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardMilitary.TeamId != null)
@@ -2671,7 +2671,7 @@ public class TeamsManager : MonoBehaviour
                 Image.texture = texture;
 
                 RawImage rareImage = cardObject.transform.Find("Rare").GetComponent<RawImage>();
-                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSpell.Rare}");
+                Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{cardSpell.Rarity}");
                 rareImage.texture = rareTexture;
                 Transform InTeam = cardObject.transform.Find("InTeam");
                 if (cardSpell.TeamId != null)

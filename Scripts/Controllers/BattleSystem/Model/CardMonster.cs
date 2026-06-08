@@ -16,7 +16,7 @@ public class CardMonster : CardBase
         this.Name = cardMonster.Name;
         this.Image = cardMonster.Image;
         this.Type = cardMonster.Type;
-        this.Rare = cardMonster.Rare;
+        this.Rare = cardMonster.Rarity;
         this.Power = cardMonster.Power;
         this.Health = cardMonster.Health;
         this.PhysicalAttack = cardMonster.PhysicalAttack;

@@ -60,7 +60,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                                 Id = reader.GetString("avatar_id"),
                                 Name = reader.GetString("name"),
                                 Image = reader.GetString("image"),
-                                Rare = reader.GetString("rare"),
+                                Rarity = reader.GetString("rare"),
                                 Quality = reader.GetDouble("quality"),
                                 Power = reader.GetDouble("power"),
                                 Health = reader.GetDouble("health"),
@@ -255,11 +255,11 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@avatar_id", avatar.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", avatar.Rare);
+                            insertCommand.Parameters.AddWithValue("@rare", avatar.Rarity);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(avatar.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(avatar.Rarity));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@quantity", avatar.Quantity);
                             insertCommand.Parameters.AddWithValue("@power", avatar.Power);
@@ -417,11 +417,11 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@avatar_id", avatar.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", avatar.Rare);
+                            insertCommand.Parameters.AddWithValue("@rare", avatar.Rarity);
                             insertCommand.Parameters.AddWithValue("@level", 0);
                             insertCommand.Parameters.AddWithValue("@experience", 0);
                             insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(avatar.Rare));
+                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(avatar.Rarity));
                             insertCommand.Parameters.AddWithValue("@block", false);
                             insertCommand.Parameters.AddWithValue("@is_used", false);
                             insertCommand.Parameters.AddWithValue("@quantity", 1);
@@ -581,8 +581,8 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                     parameters.AddRange(new[]
                     {
                         new MySqlParameter($"@avatar_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rare),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rare)),
+                        new MySqlParameter($"@rare_{j}", c.Rarity),
+                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
                         new MySqlParameter($"@quantity_{j}", c.Quantity),
                         // new MySqlParameter("@is_used", false),
                         new MySqlParameter($"@power_{j}", c.Power),
@@ -773,7 +773,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
                             {
                                 Id = reader.GetString("avatar_id"),
                                 Image = reader.GetString("image"),
-                                Rare = reader.GetString("rare"),
+                                Rarity = reader.GetString("rare"),
                                 Quality = reader.GetDouble("quality"),
                                 Power = reader.GetDouble("power"),
                                 Health = reader.GetDouble("health"),

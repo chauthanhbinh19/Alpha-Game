@@ -16,7 +16,7 @@ public class CardCaptain : CardBase
         this.Name = cardCaptain.Name;
         this.Image = cardCaptain.Image;
         this.Type = cardCaptain.Type;
-        this.Rare = cardCaptain.Rare;
+        this.Rare = cardCaptain.Rarity;
         this.Power = cardCaptain.Power;
         this.Health = cardCaptain.Health;
         this.PhysicalAttack = cardCaptain.PhysicalAttack;

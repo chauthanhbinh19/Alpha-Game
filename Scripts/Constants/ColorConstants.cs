@@ -9,7 +9,7 @@ public static class ColorConstants
     public const string DESCRIPTION_TEXT_COLOR = "#F9EED9";
     public const string RED_COLOR = "#FD1F41";
     public const string GREEN_COLOR = "#1ffd4b";
-    public const string BLUE_COLOR = "#1f35fd";
+    public const string BLUE_COLOR = "#1f27fd";
     public const string YELLOW_COLOR = "#FDEE1F";
     public const string CYAN_COLOR = "#00FFFF";
     public const string MAGENTA_COLOR = "#ea00ff";

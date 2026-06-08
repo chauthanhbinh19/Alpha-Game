@@ -16,7 +16,7 @@ public class CardHero : CardBase
         this.Name = cardHero.Name;
         this.Image = cardHero.Image;
         this.Type = cardHero.Type;
-        this.Rare = cardHero.Rare;
+        this.Rare = cardHero.Rarity;
         this.Power = cardHero.Power;
         this.Health = cardHero.Health;
         this.PhysicalAttack = cardHero.PhysicalAttack;

@@ -109,7 +109,7 @@ public class UserHISNsRepository : IUserHISNsRepository
 
         return null;
     }
-    public async Task InsertOrUpdateUserHISNsAsync(string user_id, UserHISNs HISNs, string id)
+    public async Task InsertOrUpdateUserHISNsAsync(string userId, UserHISNs userHISN, string id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -124,7 +124,7 @@ public class UserHISNsRepository : IUserHISNsRepository
 
             await using (var checkCommand = new MySqlCommand(checkSQL, connection))
             {
-                checkCommand.Parameters.AddWithValue("@user_id", user_id);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@hisn_id", id);
 
                 int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -183,7 +183,7 @@ public class UserHISNsRepository : IUserHISNsRepository
                 ";
 
                     await using var updateCommand = new MySqlCommand(updateSQL, connection);
-                    AddAllParameters(updateCommand, HISNs, user_id, id);
+                    AddAllParameters(updateCommand, userHISN, userId, id);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -242,7 +242,7 @@ public class UserHISNsRepository : IUserHISNsRepository
                 ";
 
                     await using var insertCommand = new MySqlCommand(insertSQL, connection);
-                    AddAllParameters(insertCommand, HISNs, user_id, id);
+                    AddAllParameters(insertCommand, userHISN, userId, id);
 
                     await insertCommand.ExecuteNonQueryAsync();
                 }
@@ -253,7 +253,7 @@ public class UserHISNsRepository : IUserHISNsRepository
             Debug.LogError("Error: " + ex.Message);
         }
     }
-    public async Task<UserHISNs> GetSumUserHISNsAsync(string user_id)
+    public async Task<UserHISNs> GetSumUserHISNsAsync(string userId)
     {
         UserHISNs userHISNs = new UserHISNs();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -333,7 +333,7 @@ public class UserHISNsRepository : IUserHISNsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {
@@ -412,78 +412,78 @@ public class UserHISNsRepository : IUserHISNsRepository
 
         return userHISNs;
     }
-    private void AddAllParameters(MySqlCommand cmd, UserHISNs a, string user_id, string type)
+    private void AddAllParameters(MySqlCommand command, UserHISNs userHISN, string userId, string type)
     {
-        cmd.Parameters.AddWithValue("@user_id", user_id);
-        cmd.Parameters.AddWithValue("@hisn_id", type);
+        command.Parameters.AddWithValue("@user_id", userId);
+        command.Parameters.AddWithValue("@hisn_id", type);
 
-        cmd.Parameters.AddWithValue("@hisn_level", a.Level == 0 ? 1 : a.Level);
-        cmd.Parameters.AddWithValue("@power", a.Power);
-        cmd.Parameters.AddWithValue("@health", a.Health);
-        cmd.Parameters.AddWithValue("@mana", a.Mana);
-        cmd.Parameters.AddWithValue("@speed", a.Speed);
+        command.Parameters.AddWithValue("@hisn_level", userHISN.Level == 0 ? 1 : userHISN.Level);
+        command.Parameters.AddWithValue("@power", userHISN.Power);
+        command.Parameters.AddWithValue("@health", userHISN.Health);
+        command.Parameters.AddWithValue("@mana", userHISN.Mana);
+        command.Parameters.AddWithValue("@speed", userHISN.Speed);
 
-        cmd.Parameters.AddWithValue("@physical_attack", a.PhysicalAttack);
-        cmd.Parameters.AddWithValue("@physical_defense", a.PhysicalDefense);
-        cmd.Parameters.AddWithValue("@magical_attack", a.MagicalAttack);
-        cmd.Parameters.AddWithValue("@magical_defense", a.MagicalDefense);
+        command.Parameters.AddWithValue("@physical_attack", userHISN.PhysicalAttack);
+        command.Parameters.AddWithValue("@physical_defense", userHISN.PhysicalDefense);
+        command.Parameters.AddWithValue("@magical_attack", userHISN.MagicalAttack);
+        command.Parameters.AddWithValue("@magical_defense", userHISN.MagicalDefense);
 
-        cmd.Parameters.AddWithValue("@chemical_attack", a.ChemicalAttack);
-        cmd.Parameters.AddWithValue("@chemical_defense", a.ChemicalDefense);
-        cmd.Parameters.AddWithValue("@atomic_attack", a.AtomicAttack);
-        cmd.Parameters.AddWithValue("@atomic_defense", a.AtomicDefense);
-        cmd.Parameters.AddWithValue("@mental_attack", a.MentalAttack);
-        cmd.Parameters.AddWithValue("@mental_defense", a.MentalDefense);
+        command.Parameters.AddWithValue("@chemical_attack", userHISN.ChemicalAttack);
+        command.Parameters.AddWithValue("@chemical_defense", userHISN.ChemicalDefense);
+        command.Parameters.AddWithValue("@atomic_attack", userHISN.AtomicAttack);
+        command.Parameters.AddWithValue("@atomic_defense", userHISN.AtomicDefense);
+        command.Parameters.AddWithValue("@mental_attack", userHISN.MentalAttack);
+        command.Parameters.AddWithValue("@mental_defense", userHISN.MentalDefense);
 
-        cmd.Parameters.AddWithValue("@critical_damage_rate", a.CriticalDamageRate);
-        cmd.Parameters.AddWithValue("@critical_rate", a.CriticalRate);
-        cmd.Parameters.AddWithValue("@critical_resistance_rate", a.CriticalResistanceRate);
-        cmd.Parameters.AddWithValue("@ignore_critical_rate", a.IgnoreCriticalRate);
-        cmd.Parameters.AddWithValue("@penetration_resistance_rate", a.PenetrationResistanceRate);
-        cmd.Parameters.AddWithValue("@penetration_rate", a.PenetrationRate);
-        cmd.Parameters.AddWithValue("@evasion_rate", a.EvasionRate);
-        cmd.Parameters.AddWithValue("@damage_absorption_rate", a.DamageAbsorptionRate);
-        cmd.Parameters.AddWithValue("@vitality_regeneration_rate", a.VitalityRegenerationRate);
-        cmd.Parameters.AddWithValue("@ignore_damage_absorption_rate", a.IgnoreDamageAbsorptionRate);
-        cmd.Parameters.AddWithValue("@absorbed_damage_rate", a.AbsorbedDamageRate);
-        cmd.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", a.VitalityRegenerationResistanceRate);
+        command.Parameters.AddWithValue("@critical_damage_rate", userHISN.CriticalDamageRate);
+        command.Parameters.AddWithValue("@critical_rate", userHISN.CriticalRate);
+        command.Parameters.AddWithValue("@critical_resistance_rate", userHISN.CriticalResistanceRate);
+        command.Parameters.AddWithValue("@ignore_critical_rate", userHISN.IgnoreCriticalRate);
+        command.Parameters.AddWithValue("@penetration_resistance_rate", userHISN.PenetrationResistanceRate);
+        command.Parameters.AddWithValue("@penetration_rate", userHISN.PenetrationRate);
+        command.Parameters.AddWithValue("@evasion_rate", userHISN.EvasionRate);
+        command.Parameters.AddWithValue("@damage_absorption_rate", userHISN.DamageAbsorptionRate);
+        command.Parameters.AddWithValue("@vitality_regeneration_rate", userHISN.VitalityRegenerationRate);
+        command.Parameters.AddWithValue("@ignore_damage_absorption_rate", userHISN.IgnoreDamageAbsorptionRate);
+        command.Parameters.AddWithValue("@absorbed_damage_rate", userHISN.AbsorbedDamageRate);
+        command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", userHISN.VitalityRegenerationResistanceRate);
 
-        cmd.Parameters.AddWithValue("@accuracy_rate", a.AccuracyRate);
-        cmd.Parameters.AddWithValue("@lifesteal_rate", a.LifestealRate);
-        cmd.Parameters.AddWithValue("@shield_strength", a.ShieldStrength);
-        cmd.Parameters.AddWithValue("@tenacity", a.Tenacity);
-        cmd.Parameters.AddWithValue("@resistance_rate", a.ResistanceRate);
-        cmd.Parameters.AddWithValue("@combo_rate", a.ComboRate);
-        cmd.Parameters.AddWithValue("@reflection_rate", a.ReflectionRate);
-        cmd.Parameters.AddWithValue("@ignore_combo_rate", a.IgnoreComboRate);
-        cmd.Parameters.AddWithValue("@combo_damage_rate", a.ComboDamageRate);
-        cmd.Parameters.AddWithValue("@combo_resistance_rate", a.ComboResistanceRate);
-        cmd.Parameters.AddWithValue("@stun_rate", a.StunRate);
-        cmd.Parameters.AddWithValue("@ignore_stun_rate", a.IgnoreStunRate);
-        cmd.Parameters.AddWithValue("@ignore_reflection_rate", a.IgnoreReflectionRate);
-        cmd.Parameters.AddWithValue("@reflection_damage_rate", a.ReflectionDamageRate);
-        cmd.Parameters.AddWithValue("@reflection_resistance_rate", a.ReflectionResistanceRate);
+        command.Parameters.AddWithValue("@accuracy_rate", userHISN.AccuracyRate);
+        command.Parameters.AddWithValue("@lifesteal_rate", userHISN.LifestealRate);
+        command.Parameters.AddWithValue("@shield_strength", userHISN.ShieldStrength);
+        command.Parameters.AddWithValue("@tenacity", userHISN.Tenacity);
+        command.Parameters.AddWithValue("@resistance_rate", userHISN.ResistanceRate);
+        command.Parameters.AddWithValue("@combo_rate", userHISN.ComboRate);
+        command.Parameters.AddWithValue("@reflection_rate", userHISN.ReflectionRate);
+        command.Parameters.AddWithValue("@ignore_combo_rate", userHISN.IgnoreComboRate);
+        command.Parameters.AddWithValue("@combo_damage_rate", userHISN.ComboDamageRate);
+        command.Parameters.AddWithValue("@combo_resistance_rate", userHISN.ComboResistanceRate);
+        command.Parameters.AddWithValue("@stun_rate", userHISN.StunRate);
+        command.Parameters.AddWithValue("@ignore_stun_rate", userHISN.IgnoreStunRate);
+        command.Parameters.AddWithValue("@ignore_reflection_rate", userHISN.IgnoreReflectionRate);
+        command.Parameters.AddWithValue("@reflection_damage_rate", userHISN.ReflectionDamageRate);
+        command.Parameters.AddWithValue("@reflection_resistance_rate", userHISN.ReflectionResistanceRate);
 
-        cmd.Parameters.AddWithValue("@mana_regeneration_rate", a.ManaRegenerationRate);
-        cmd.Parameters.AddWithValue("@damage_to_different_faction_rate", a.DamageToDifferentFactionRate);
-        cmd.Parameters.AddWithValue("@resistance_to_different_faction_rate", a.ResistanceToDifferentFactionRate);
-        cmd.Parameters.AddWithValue("@damage_to_same_faction_rate", a.DamageToSameFactionRate);
-        cmd.Parameters.AddWithValue("@resistance_to_same_faction_rate", a.ResistanceToSameFactionRate);
-        cmd.Parameters.AddWithValue("@normal_damage_rate", a.NormalDamageRate);
-        cmd.Parameters.AddWithValue("@normal_resistance_rate", a.NormalResistanceRate);
-        cmd.Parameters.AddWithValue("@skill_damage_rate", a.SkillDamageRate);
-        cmd.Parameters.AddWithValue("@skill_resistance_rate", a.SkillResistanceRate);
+        command.Parameters.AddWithValue("@mana_regeneration_rate", userHISN.ManaRegenerationRate);
+        command.Parameters.AddWithValue("@damage_to_different_faction_rate", userHISN.DamageToDifferentFactionRate);
+        command.Parameters.AddWithValue("@resistance_to_different_faction_rate", userHISN.ResistanceToDifferentFactionRate);
+        command.Parameters.AddWithValue("@damage_to_same_faction_rate", userHISN.DamageToSameFactionRate);
+        command.Parameters.AddWithValue("@resistance_to_same_faction_rate", userHISN.ResistanceToSameFactionRate);
+        command.Parameters.AddWithValue("@normal_damage_rate", userHISN.NormalDamageRate);
+        command.Parameters.AddWithValue("@normal_resistance_rate", userHISN.NormalResistanceRate);
+        command.Parameters.AddWithValue("@skill_damage_rate", userHISN.SkillDamageRate);
+        command.Parameters.AddWithValue("@skill_resistance_rate", userHISN.SkillResistanceRate);
 
-        cmd.Parameters.AddWithValue("@percent_all_health", a.PercentAllHealth);
-        cmd.Parameters.AddWithValue("@percent_all_physical_attack", a.PercentAllPhysicalAttack);
-        cmd.Parameters.AddWithValue("@percent_all_physical_defense", a.PercentAllPhysicalDefense);
-        cmd.Parameters.AddWithValue("@percent_all_magical_attack", a.PercentAllMagicalAttack);
-        cmd.Parameters.AddWithValue("@percent_all_magical_defense", a.PercentAllMagicalDefense);
-        cmd.Parameters.AddWithValue("@percent_all_chemical_attack", a.PercentAllChemicalAttack);
-        cmd.Parameters.AddWithValue("@percent_all_chemical_defense", a.PercentAllChemicalDefense);
-        cmd.Parameters.AddWithValue("@percent_all_atomic_attack", a.PercentAllAtomicAttack);
-        cmd.Parameters.AddWithValue("@percent_all_atomic_defense", a.PercentAllAtomicDefense);
-        cmd.Parameters.AddWithValue("@percent_all_mental_attack", a.PercentAllMentalAttack);
-        cmd.Parameters.AddWithValue("@percent_all_mental_defense", a.PercentAllMentalDefense);
+        command.Parameters.AddWithValue("@percent_all_health", userHISN.PercentAllHealth);
+        command.Parameters.AddWithValue("@percent_all_physical_attack", userHISN.PercentAllPhysicalAttack);
+        command.Parameters.AddWithValue("@percent_all_physical_defense", userHISN.PercentAllPhysicalDefense);
+        command.Parameters.AddWithValue("@percent_all_magical_attack", userHISN.PercentAllMagicalAttack);
+        command.Parameters.AddWithValue("@percent_all_magical_defense", userHISN.PercentAllMagicalDefense);
+        command.Parameters.AddWithValue("@percent_all_chemical_attack", userHISN.PercentAllChemicalAttack);
+        command.Parameters.AddWithValue("@percent_all_chemical_defense", userHISN.PercentAllChemicalDefense);
+        command.Parameters.AddWithValue("@percent_all_atomic_attack", userHISN.PercentAllAtomicAttack);
+        command.Parameters.AddWithValue("@percent_all_atomic_defense", userHISN.PercentAllAtomicDefense);
+        command.Parameters.AddWithValue("@percent_all_mental_attack", userHISN.PercentAllMentalAttack);
+        command.Parameters.AddWithValue("@percent_all_mental_defense", userHISN.PercentAllMentalDefense);
     }
 }

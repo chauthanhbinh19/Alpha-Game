@@ -79,7 +79,7 @@ public class BasesController : MonoBehaviour
             });
 
             RawImage rareImage = BaseObject.transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Base.Rare}");
+            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{Base.Rarity}");
             rareImage.texture = rareTexture;
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

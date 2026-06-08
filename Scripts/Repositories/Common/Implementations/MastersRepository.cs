@@ -18,7 +18,7 @@ public class MastersRepository : IMastersRepository
             {
                 await connection.OpenAsync();
 
-                string selectSQL = "SELECT * FROM universes where id = @id";
+                string selectSQL = "SELECT * FROM masters where id = @id";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@id", id);

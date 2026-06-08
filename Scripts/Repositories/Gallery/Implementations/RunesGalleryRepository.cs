@@ -67,7 +67,7 @@ public class RunesGalleryRepository : IRunesGalleryRepository
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),

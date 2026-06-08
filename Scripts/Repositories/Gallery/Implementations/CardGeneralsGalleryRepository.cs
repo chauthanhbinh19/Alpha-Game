@@ -105,7 +105,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Rare = reader.GetStringSafe("rare"),
+                                Rarity = reader.GetStringSafe("rare"),
                                 Type = reader.GetStringSafe("type"),
                                 Quality = reader.GetDoubleSafe("quality"),
                                 CurrentStar = reader.IsDBNull(reader.GetOrdinal("current_star")) ? 0 : reader.GetIntSafe("current_star"),

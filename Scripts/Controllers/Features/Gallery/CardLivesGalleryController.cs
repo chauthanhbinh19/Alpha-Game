@@ -63,7 +63,7 @@ public class CardLivesGalleryController : MonoBehaviour
             typePanel.text = cardLife.Type.ToString().Replace("_", " ");
 
             Image rareBackground = transform.Find("RareBackground").GetComponent<Image>();
-            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardLife.Rare));
+            rareBackground.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardLife.Rarity));
 
             Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -73,8 +73,8 @@ public class CardLivesGalleryController : MonoBehaviour
             });
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardLife.Rare));
-            rareText.text = cardLife.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(cardLife.Rarity));
+            rareText.text = cardLife.Rarity;
 
             RawImage blockImage = transform.Find("Block").GetComponent<RawImage>();
             Button unlockButton = transform.Find("UnlockButton").GetComponent<Button>();

@@ -87,8 +87,8 @@ public class UserBooksController : MonoBehaviour
             backgroundImage.texture = bgTexture;
 
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(book.Rare));
-            rareText.text = book.Rare;
+            rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(book.Rarity));
+            rareText.text = book.Rarity;
 
             Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
@@ -207,7 +207,7 @@ public class UserBooksController : MonoBehaviour
         levelText.text = book.Level.ToString();
 
         RawImage rareImage = transform.Find("DictionaryCards/DetailsPanel/Group2/Rare/RareImage").GetComponent<RawImage>();
-        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{book.Rare}");
+        Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{book.Rarity}");
         rareImage.texture = rareTexture;
 
         Transform starGridLayout = transform.Find("DictionaryCards/DetailsPanel/Group2/Star/GridLayout");
