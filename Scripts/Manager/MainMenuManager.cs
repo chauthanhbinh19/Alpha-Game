@@ -476,7 +476,7 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_25", contentPanel, () => GetType(AppConstants.MainType.ARTWORK));
         ButtonEvent.Instance.AssignButtonEvent("Button_26", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_BEAST));
         ButtonEvent.Instance.AssignButtonEvent("Button_27", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_CARD));
-        ButtonEvent.Instance.AssignButtonEvent("Button_28", contentPanel, () => GetType(AppConstants.MainType.ARTIFACTS));
+        ButtonEvent.Instance.AssignButtonEvent("Button_28", contentPanel, () => GetType(AppConstants.MainType.ARTIFACT));
         ButtonEvent.Instance.AssignButtonEvent("Button_29", contentPanel, () => GetType(AppConstants.MainType.ARCHITECTURE));
         ButtonEvent.Instance.AssignButtonEvent("Button_30", contentPanel, () => GetType(AppConstants.MainType.TECHNOLOGY));
         ButtonEvent.Instance.AssignButtonEvent("Button_31", contentPanel, () => GetType(AppConstants.MainType.VEHICLE));
@@ -935,6 +935,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.ARTIFACT))
         {
             List<Artifacts> artifacts = await UserArtifactsService.Create().GetUserArtifactsAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
             UserArtifactsController.Instance.CreateUserArtifacts(artifacts, DictionaryContentPanel);
             listCount = artifacts.Count;
 
@@ -943,6 +944,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
         {
             List<Architectures> architectures = await UserArchitecturesService.Create().GetUserArchitecturesAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
             UserArchitecturesController.Instance.CreateUserArchitectures(architectures, DictionaryContentPanel);
             listCount = architectures.Count;
 
@@ -951,6 +953,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
         {
             List<Technologies> technologies = await UserTechnologiesService.Create().GetUserTechnologiesAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
             UserTechnologiesController.Instance.CreateUserTechnologies(technologies, DictionaryContentPanel);
             listCount = technologies.Count;
 
@@ -968,6 +971,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.CORE))
         {
             List<Cores> cores = await UserCoresService.Create().GetUserCoresAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
             UserCoresController.Instance.CreateUserCores(cores, DictionaryContentPanel);
             listCount = cores.Count;
 
@@ -976,6 +980,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.WEAPON))
         {
             List<Weapons> weapons = await UserWeaponsService.Create().GetUserWeaponsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
             UserWeaponsController.Instance.CreateUserWeapons(weapons, DictionaryContentPanel);
             listCount = weapons.Count;
 
@@ -984,6 +989,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.ROBOT))
         {
             List<Robots> robots = await UserRobotsService.Create().GetUserRobotsAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
             UserRobotsController.Instance.CreateUserRobots(robots, DictionaryContentPanel);
             listCount = robots.Count;
 
@@ -992,6 +998,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.BADGE))
         {
             List<Badges> badges = await UserBadgesService.Create().GetUserBadgesAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
             UserBadgesController.Instance.CreateUserBadges(badges, DictionaryContentPanel);
             listCount = badges.Count;
 
@@ -1000,6 +1007,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
         {
             List<MechaBeasts> mechaBeasts = await UserMechaBeastsService.Create().GetUserMechaBeastsAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
             UserMechaBeastsController.Instance.CreateUserMechaBeasts(mechaBeasts, DictionaryContentPanel);
             listCount = mechaBeasts.Count;
 
@@ -1008,6 +1016,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.RUNE))
         {
             List<Runes> runes = await UserRunesService.Create().GetUserRunesAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
             UserRunesController.Instance.CreateUserRunes(runes, DictionaryContentPanel);
             listCount = runes.Count;
 
@@ -1025,6 +1034,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.FOOD))
         {
             List<Foods> foods = await UserFoodsService.Create().GetUserFoodsAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
             UserFoodsController.Instance.CreateUserFoods(foods, DictionaryContentPanel);
             listCount = foods.Count;
 
@@ -1033,6 +1043,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.BEVERAGE))
         {
             List<Beverages> beverages = await UserBeveragesService.Create().GetUserBeveragesAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
             UserBeveragesController.Instance.CreateUserBeverages(beverages, DictionaryContentPanel);
             listCount = beverages.Count;
 
@@ -1050,6 +1061,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.PLANT))
         {
             List<Plants> plants = await UserPlantsService.Create().GetUserPlantsAsync(User.CurrentUserId, search, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
             UserPlantsController.Instance.CreateUserPlants(plants, DictionaryContentPanel);
             listCount = plants.Count;
 
@@ -1112,6 +1124,7 @@ public class MainMenuManager : MonoBehaviour
         else if (mainType.Equals(AppConstants.MainType.OUTFIT))
         {
             List<Outfits> outfits = await UserOutfitsService.Create().GetUserOutfitsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare);
+            Close(DictionaryContentPanel);
             UserOutfitsController.Instance.CreateUserOutfits(outfits, DictionaryContentPanel);
             listCount = outfits.Count;
 

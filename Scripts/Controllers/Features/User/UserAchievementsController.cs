@@ -90,9 +90,6 @@ public class UserAchievementsController : MonoBehaviour
                 ShowAchievementDetails(achievement);
             });
 
-            RawImage frameImage = transform.Find("FrameImage").GetComponent<RawImage>();
-            frameImage.gameObject.SetActive(true);
-
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(achievement.Rarity));
             rareText.text = achievement.Rarity;

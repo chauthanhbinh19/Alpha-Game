@@ -109,7 +109,7 @@ public class UserMastersRepository : IUserMastersRepository
 
         return null;
     }
-    public async Task InsertOrUpdateUserMastersAsync(string userId, UserMasters Masters, string id)
+    public async Task InsertOrUpdateUserMastersAsync(string userId, UserMasters userMaster, string id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -183,7 +183,7 @@ public class UserMastersRepository : IUserMastersRepository
                 ";
 
                     await using var updateCommand = new MySqlCommand(updateSQL, connection);
-                    AddAllParameters(updateCommand, Masters, userId, id);
+                    AddAllParameters(updateCommand, userMaster, userId, id);
 
                     await updateCommand.ExecuteNonQueryAsync();
                 }
@@ -242,7 +242,7 @@ public class UserMastersRepository : IUserMastersRepository
                 ";
 
                     await using var insertCommand = new MySqlCommand(insertSQL, connection);
-                    AddAllParameters(insertCommand, Masters, userId, id);
+                    AddAllParameters(insertCommand, userMaster, userId, id);
 
                     await insertCommand.ExecuteNonQueryAsync();
                 }

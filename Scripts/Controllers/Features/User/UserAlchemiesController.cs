@@ -91,9 +91,6 @@ public class UserAlchemiesController : MonoBehaviour
                 ShowAlchemyDetails(alchemy);
             });
 
-            RawImage frameImage = transform.Find("FrameImage").GetComponent<RawImage>();
-            frameImage.gameObject.SetActive(true);
-
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(alchemy.Rarity));
             rareText.text = alchemy.Rarity;

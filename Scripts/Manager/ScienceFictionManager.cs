@@ -78,7 +78,7 @@ public class ScienceFictionManager : MonoBehaviour
         CreateScienceFictionButtonUI(19, AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_19, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_19_URL), contentPanel);
         CreateScienceFictionButtonUI(20, AppDisplayConstants.ScienceFiction.REACTOR_NUMBER_20, TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.REACTOR_NUMBER_20_URL), contentPanel);
 
-        FindAnyObjectByType<MainMenuAnimeStatsManager>().CreateAnimeButton(contentPanel);
+        // FindAnyObjectByType<MainMenuAnimeStatsManager>().CreateAnimeButton(contentPanel);
         contentPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
     }
     private void CreateScienceFictionButtonUI(int index, string itemName, Texture2D _itemImage, Transform panel)

@@ -55,7 +55,7 @@ public class UserRelicsController : MonoBehaviour
             GameObject relicObject = Instantiate(RelicButtonPrefab, contentPanel);
             Transform transform = relicObject.transform;
 
-            TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = relic.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();

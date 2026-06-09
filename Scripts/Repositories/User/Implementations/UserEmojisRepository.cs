@@ -36,8 +36,7 @@ public class UserEmojisRepository : IUserEmojisRepository
                 }
 
                 selectSQL += @"
-                LIMIT @limit OFFSET @offset;
-            ";
+                LIMIT @limit OFFSET @offset;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);

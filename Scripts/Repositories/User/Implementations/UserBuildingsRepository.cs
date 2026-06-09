@@ -20,7 +20,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT um.*, m.id, m.name, m.image, m.rare, m.description 
+                SELECT um.*, m.id, m.name, m.image, m.rare, m.type, m.description 
                 FROM Buildings m
                 JOIN user_buildings um ON m.id = um.building_id
                 WHERE um.user_id = @userId 

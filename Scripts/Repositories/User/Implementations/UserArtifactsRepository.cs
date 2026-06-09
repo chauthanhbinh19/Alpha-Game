@@ -127,6 +127,11 @@ public class UserArtifactsRepository : IUserArtifactsRepository
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogException(ex);
             }
             finally
             {

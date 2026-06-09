@@ -35,7 +35,7 @@ public class UserBeveragesRepository : IUserBeveragesRepository
                     selectSQL += " AND t.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                selectSQL += @"LIMIT @limit OFFSET @offset";
+                selectSQL += @" LIMIT @limit OFFSET @offset";
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

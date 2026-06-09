@@ -77,9 +77,6 @@ public class UserArtworksController : MonoBehaviour
                 ShowArtworkDetails(artwork);
             });
 
-            RawImage frameImage = transform.Find("FrameImage").GetComponent<RawImage>();
-            frameImage.gameObject.SetActive(true);
-
             TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
             rareText.color = ColorHelper.HexToColor(QualityEvaluatorHelper.CheckRareColor(artwork.Rarity));
             rareText.text = artwork.Rarity;

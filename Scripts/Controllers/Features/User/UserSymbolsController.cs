@@ -84,7 +84,7 @@ public class UserSymbolsController : MonoBehaviour
             RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = bgTexture;
 
-            Button button = GetComponent<Button>();
+            Button button = transform.GetComponent<Button>();
             button.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
