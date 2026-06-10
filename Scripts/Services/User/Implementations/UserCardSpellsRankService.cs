@@ -24,9 +24,9 @@ public class UserCardSpellsRankService : IUserCardSpellsRankService
         return await _userCardSpellsRankRepository.GetCardSpellRankAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdateCardSpellRankAsync(Rank rank, string card_id)
+    public async Task InsertOrUpdateCardSpellRankAsync(string userId, UserRanks userRank, string cardId)
     {
-        await _userCardSpellsRankRepository.InsertOrUpdateCardSpellRankAsync(rank, card_id);
+        await _userCardSpellsRankRepository.InsertOrUpdateCardSpellRankAsync(userId, userRank, cardId);
     }
 
     public async Task<Rank> GetSumCardSpellsRankAsync(string user_id, string card_id)

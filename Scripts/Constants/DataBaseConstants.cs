@@ -2,6 +2,30 @@ public static class DataBaseConstants
 {
     public static class Table
     {
+        public const string USER_BOOKS_RANK = "user_books_rank";
+        public const string USER_CARD_ADMIRALS_RANK = "user_card_admirals_rank";
+        public const string USER_CARD_CAPTAINS_RANK = "user_card_captains_rank";
+        public const string USER_CARD_COLONELS_RANK = "user_card_colonels_rank";
+        public const string USER_CARD_GENERALS_RANK = "user_card_generals_rank";
+        public const string USER_CARD_HEROES_RANK = "user_card_heroes_rank";
+        public const string USER_CARD_MILITARIES_RANK = "user_card_militaries_rank";
+        public const string USER_CARD_MONSTERS_RANK = "user_card_monsters_rank";
+        public const string USER_CARD_SOLDIERS_RANK = "user_card_soldiers_rank";
+        public const string USER_CARD_SPELLS_RANK = "user_card_spells_rank";
+        public const string USER_PETS_RANK = "user_pets_rank";
+
+        public const string USER_BOOKS_MASTER = "user_books_master";
+        public const string USER_CARD_ADMIRALS_MASTER = "user_card_admirals_master";
+        public const string USER_CARD_CAPTAINS_MASTER = "user_card_captains_master";
+        public const string USER_CARD_COLONELS_MASTER = "user_card_colonels_master";
+        public const string USER_CARD_GENERALS_MASTER = "user_card_generals_master";
+        public const string USER_CARD_HEROES_MASTER = "user_card_heroes_master";
+        public const string USER_CARD_MILITARIES_MASTER = "user_card_militaries_master";
+        public const string USER_CARD_MONSTERS_MASTER = "user_card_monsters_master";
+        public const string USER_CARD_SOLDIERS_MASTER = "user_card_soldiers_master";
+        public const string USER_CARD_SPELLS_MASTER = "user_card_spells_master";
+        public const string USER_PETS_MASTER = "user_pets_master";
+
         public const string USER_ACHIEVEMENTS_MODULE = "user_achievements_module";
         public const string USER_ALCHEMIES_MODULE = "user_alchemies_module";
         public const string USER_ARCHITECTURES_MODULE = "user_architectures_module";

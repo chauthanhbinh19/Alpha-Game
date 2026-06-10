@@ -230,6 +230,15 @@ public class UniverseVIIIManager : MonoBehaviour
             
         });
 
+        RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
+        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_14");
+        mapImage.texture = mapTexture; 
+        RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
+        Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Universe.UNIVERSE_VIII}");
+        rankImage.texture = rankTexture;
+        RawImage background = transform.Find("Background").GetComponent<RawImage>();
+        background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_VIII_BACKGROUND_URL);
+
         Universes universe = await UniversesService.Create().GetUniverseByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserUniverses userUniverse = await UserUniversesService.Create().GetUserUniversesAsync(featureId);

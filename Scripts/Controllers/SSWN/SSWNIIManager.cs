@@ -235,6 +235,8 @@ public class SSWNIIManager : MonoBehaviour
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
         Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.SSWN.SSWN_II}");
         rankImage.texture = rankTexture;
+        RawImage background = transform.Find("Background").GetComponent<RawImage>();
+        background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.SSWN.SSWN_II_BACKGROUND_URL);
 
         SSWNs sswn = await SSWNsService.Create().GetSSWNByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);

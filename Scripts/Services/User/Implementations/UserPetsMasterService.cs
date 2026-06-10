@@ -26,9 +26,9 @@ public class UserPetsMasterService : IUserPetsMasterService
         return await _userPetsMasterRepository.GetPetMasterAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdatePetMasterAsync(Master master, string card_id)
+    public async Task InsertOrUpdatePetMasterAsync(string userId, UserMasters userMaster, string card_id)
     {
-        await _userPetsMasterRepository.InsertOrUpdatePetMasterAsync(master, card_id);
+        await _userPetsMasterRepository.InsertOrUpdatePetMasterAsync(userId, userMaster, card_id);
     }
 
     public async Task<Master> GetSumPetsMasterAsync(string user_id, string card_id)

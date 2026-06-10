@@ -235,6 +235,8 @@ public class HIENIManager : MonoBehaviour
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
         Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.HIEN.HIEN_I}");
         rankImage.texture = rankTexture;
+        RawImage background = transform.Find("Background").GetComponent<RawImage>();
+        background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_I_BACKGROUND_URL);
 
         HIENs hien = await HIENsService.Create().GetHIENByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);

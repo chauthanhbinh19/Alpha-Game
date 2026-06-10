@@ -9,7 +9,7 @@ public class MastersRepository : IMastersRepository
 {
     public async Task<Masters> GetMasterByIdAsync(string id)
     {
-        Masters universe = new Masters();
+        Masters master = new Masters();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -26,7 +26,7 @@ public class MastersRepository : IMastersRepository
 
                 while (await reader.ReadAsync())
                 {
-                    universe = new Masters{
+                    master = new Masters{
                         Id = reader.GetStringSafe("id"),
                         Name = reader.GetStringSafe("name"),
                         BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
@@ -44,6 +44,6 @@ public class MastersRepository : IMastersRepository
             }
         }
 
-        return universe;
+        return master;
     }
 }

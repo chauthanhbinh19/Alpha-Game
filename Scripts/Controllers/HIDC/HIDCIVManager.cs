@@ -235,6 +235,8 @@ public class HIDCIVManager : MonoBehaviour
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
         Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.HIDC.HIDC_IV}");
         rankImage.texture = rankTexture;
+        RawImage background = transform.Find("Background").GetComponent<RawImage>();
+        background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_IV_BACKGROUND_URL);
 
         HIDCs hidc = await HIDCsService.Create().GetHIDCByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);

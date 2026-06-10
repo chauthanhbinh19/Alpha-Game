@@ -24,9 +24,9 @@ public class UserBooksRankService : IUserBooksRankService
         return await _userBooksRankRepository.GetBookRankAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdateBookRankAsync(Rank rank, string card_id)
+    public async Task InsertOrUpdateBookRankAsync(string userId, UserRanks userRank, string cardId)
     {
-        await _userBooksRankRepository.InsertOrUpdateBookRankAsync(rank, card_id);
+        await _userBooksRankRepository.InsertOrUpdateBookRankAsync(userId, userRank, cardId);
     }
 
     public async Task<Rank> GetSumBooksRankAsync(string user_id, string card_id)

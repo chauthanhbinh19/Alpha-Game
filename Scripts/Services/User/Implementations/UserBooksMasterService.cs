@@ -24,9 +24,9 @@ public class UserBooksMasterService : IUserBooksMasterService
         return await _userBooksMasterRepository.GetBookMasterAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdateBookMasterAsync(Master master, string card_id)
+    public async Task InsertOrUpdateBookMasterAsync(string userId, UserMasters userMaster, string card_id)
     {
-        await _userBooksMasterRepository.InsertOrUpdateBookMasterAsync(master, card_id);
+        await _userBooksMasterRepository.InsertOrUpdateBookMasterAsync(userId, userMaster, card_id);
     }
 
     public async Task<Master> GetSumBooksMasterAsync(string user_id, string card_id)

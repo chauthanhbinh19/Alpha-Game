@@ -235,6 +235,8 @@ public class ArchiveXIVManager : MonoBehaviour
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
         Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{AppConstants.Archive.ARCHIVE_XIV}");
         rankImage.texture = rankTexture; 
+        RawImage background = transform.Find("Background").GetComponent<RawImage>();
+        background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XIV_BACKGROUND_URL);
 
         Archives archive = await ArchivesService.Create().GetArchiveByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);

@@ -7,6 +7,36 @@ public class FeaturesService : IFeaturesService
     private static FeaturesService _instance;
     private readonly IFeaturesRepository _featuresRepository;
 
+    private static readonly Dictionary<Type, (string Table, string Column, string CodeName)> RankMappings = new()
+    {
+        { typeof(Books), (DataBaseConstants.Table.USER_BOOKS_RANK, DataBaseConstants.Column.USER_BOOK_ID, "books") },
+        { typeof(CardAdmirals), (DataBaseConstants.Table.USER_CARD_ADMIRALS_RANK, DataBaseConstants.Column.USER_CARD_ADMIRAL_ID, "card_admirals") },
+        { typeof(CardCaptains), (DataBaseConstants.Table.USER_CARD_CAPTAINS_RANK, DataBaseConstants.Column.USER_CARD_CAPTAIN_ID, "card_captains") },
+        { typeof(CardColonels), (DataBaseConstants.Table.USER_CARD_COLONELS_RANK, DataBaseConstants.Column.USER_CARD_COLONEL_ID, "card_colonels") },
+        { typeof(CardGenerals), (DataBaseConstants.Table.USER_CARD_GENERALS_RANK, DataBaseConstants.Column.USER_CARD_GENERAL_ID, "card_generals") },
+        { typeof(CardHeroes), (DataBaseConstants.Table.USER_CARD_HEROES_RANK, DataBaseConstants.Column.USER_CARD_HERO_ID, "card_heroes") },
+        { typeof(CardMilitaries), (DataBaseConstants.Table.USER_CARD_MILITARIES_RANK, DataBaseConstants.Column.USER_CARD_MILITARY_ID, "card_militaries") },
+        { typeof(CardMonsters), (DataBaseConstants.Table.USER_CARD_MONSTERS_RANK, DataBaseConstants.Column.USER_CARD_MONSTER_ID, "card_monsters") },
+        { typeof(CardSoldiers), (DataBaseConstants.Table.USER_CARD_SOLDIERS_RANK, DataBaseConstants.Column.USER_CARD_SOLDIER_ID, "card_soldiers") },
+        { typeof(CardSpells), (DataBaseConstants.Table.USER_CARD_SPELLS_RANK, DataBaseConstants.Column.USER_CARD_SPELL_ID, "card_spells") },
+        { typeof(Pets), (DataBaseConstants.Table.USER_PETS_RANK, DataBaseConstants.Column.USER_PET_ID, "pets") },
+    };
+
+    private static readonly Dictionary<Type, (string Table, string Column, string CodeName)> MasterMappings = new()
+    {
+        { typeof(Books), (DataBaseConstants.Table.USER_BOOKS_MASTER, DataBaseConstants.Column.USER_BOOK_ID, "books") },
+        { typeof(CardAdmirals), (DataBaseConstants.Table.USER_CARD_ADMIRALS_MASTER, DataBaseConstants.Column.USER_CARD_ADMIRAL_ID, "card_admirals") },
+        { typeof(CardCaptains), (DataBaseConstants.Table.USER_CARD_CAPTAINS_MASTER, DataBaseConstants.Column.USER_CARD_CAPTAIN_ID, "card_captains") },
+        { typeof(CardColonels), (DataBaseConstants.Table.USER_CARD_COLONELS_MASTER, DataBaseConstants.Column.USER_CARD_COLONEL_ID, "card_colonels") },
+        { typeof(CardGenerals), (DataBaseConstants.Table.USER_CARD_GENERALS_MASTER, DataBaseConstants.Column.USER_CARD_GENERAL_ID, "card_generals") },
+        { typeof(CardHeroes), (DataBaseConstants.Table.USER_CARD_HEROES_MASTER, DataBaseConstants.Column.USER_CARD_HERO_ID, "card_heroes") },
+        { typeof(CardMilitaries), (DataBaseConstants.Table.USER_CARD_MILITARIES_MASTER, DataBaseConstants.Column.USER_CARD_MILITARY_ID, "card_militaries") },
+        { typeof(CardMonsters), (DataBaseConstants.Table.USER_CARD_MONSTERS_MASTER, DataBaseConstants.Column.USER_CARD_MONSTER_ID, "card_monsters") },
+        { typeof(CardSoldiers), (DataBaseConstants.Table.USER_CARD_SOLDIERS_MASTER, DataBaseConstants.Column.USER_CARD_SOLDIER_ID, "card_soldiers") },
+        { typeof(CardSpells), (DataBaseConstants.Table.USER_CARD_SPELLS_MASTER, DataBaseConstants.Column.USER_CARD_SPELL_ID, "card_spells") },
+        { typeof(Pets), (DataBaseConstants.Table.USER_PETS_MASTER, DataBaseConstants.Column.USER_PET_ID, "pets") },
+    };
+
     private static readonly Dictionary<Type, (string Table, string Column, string CodeName)> ModuleMappings = new()
     {
         { typeof(Achievements), (DataBaseConstants.Table.USER_ACHIEVEMENTS_MODULE, DataBaseConstants.Column.USER_ACHIEVEMENT_ID, "achievements") },
@@ -251,6 +281,52 @@ public class FeaturesService : IFeaturesService
         string featureCodeName = $"{prefix}_{mapping.CodeName}";
 
         return await _featuresRepository.GetUpgradeFeaturesByTypeAsync(stat.Id, type, featureCodeName, mapping.Table, mapping.Column);
+    }
+
+    public async Task<Dictionary<string, FeatureMasterDTO>> GetMasterFeaturesByTypeAsync(string type, IStats stat)
+    {
+        if (!MasterMappings.TryGetValue(stat.GetType(), out var mapping))
+        {
+            throw new NotSupportedException(
+                $"Unsupported stat type: {stat.GetType().Name}");
+        }
+
+        string prefix = type switch
+        {
+            "Upgrade Breakthrough" => "breakthrough",
+            "Upgrade Awakening" => "awakening",
+            "Upgrade Ascension" => "ascension",
+            "Upgrade Resonance" => "resonance",
+            "Upgrade Enhancement" => "enhancement",
+            "Upgrade Refinement" => "refinement",
+            _ => throw new ArgumentException($"Unknown module type: {type}")
+        };
+        string featureCodeName = $"{prefix}_{mapping.CodeName}";
+
+        return await _featuresRepository.GetMasterFeaturesByTypeAsync(stat.Id, type, featureCodeName, mapping.Table, mapping.Column);
+    }
+
+    public async Task<Dictionary<string, FeatureRankDTO>> GetRankFeaturesByTypeAsync(string type, IStats stat)
+    {
+        if (!RankMappings.TryGetValue(stat.GetType(), out var mapping))
+        {
+            throw new NotSupportedException(
+                $"Unsupported stat type: {stat.GetType().Name}");
+        }
+
+        string prefix = type switch
+        {
+            "Upgrade Breakthrough" => "breakthrough",
+            "Upgrade Awakening" => "awakening",
+            "Upgrade Ascension" => "ascension",
+            "Upgrade Resonance" => "resonance",
+            "Upgrade Enhancement" => "enhancement",
+            "Upgrade Refinement" => "refinement",
+            _ => throw new ArgumentException($"Unknown module type: {type}")
+        };
+        string featureCodeName = $"{prefix}_{mapping.CodeName}";
+
+        return await _featuresRepository.GetRankFeaturesByTypeAsync(stat.Id, type, featureCodeName, mapping.Table, mapping.Column);
     }
 
     // Implement other methods from IFeaturesService by calling the repository

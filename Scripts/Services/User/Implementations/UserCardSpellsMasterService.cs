@@ -24,9 +24,9 @@ public class UserCardSpellsMasterService : IUserCardSpellsMasterService
         return await _userCardSpellsMasterRepository.GetCardSpellMasterAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdateCardSpellMasterAsync(Master master, string card_id)
+    public async Task InsertOrUpdateCardSpellMasterAsync(string userId, UserMasters userMaster, string card_id)
     {
-        await _userCardSpellsMasterRepository.InsertOrUpdateCardSpellMasterAsync(master, card_id);
+        await _userCardSpellsMasterRepository.InsertOrUpdateCardSpellMasterAsync(userId, userMaster, card_id);
     }
 
     public async Task<Master> GetSumCardSpellsMasterAsync(string user_id, string card_id)

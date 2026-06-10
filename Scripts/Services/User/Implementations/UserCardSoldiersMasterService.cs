@@ -24,9 +24,9 @@ public class UserCardSoldiersMasterService : IUserCardSoldiersMasterService
         return await _userCardSoldiersMasterRepository.GetCardSoldierMasterAsync(id, card_id);
     }
 
-    public async Task InsertOrUpdateCardSoldierMasterAsync(Master master, string card_id)
+    public async Task InsertOrUpdateCardSoldierMasterAsync(string userId, UserMasters userMaster, string card_id)
     {
-        await _userCardSoldiersMasterRepository.InsertOrUpdateCardSoldierMasterAsync(master, card_id);
+        await _userCardSoldiersMasterRepository.InsertOrUpdateCardSoldierMasterAsync(userId, userMaster, card_id);
     }
 
     public async Task<Master> GetSumCardSoldiersMasterAsync(string user_id, string card_id)

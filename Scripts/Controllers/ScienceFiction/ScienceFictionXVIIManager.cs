@@ -235,6 +235,8 @@ public class ScienceFictionXVIIManager : MonoBehaviour
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
         Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{AppConstants.ScienceFiction.SCIENCE_FICTION_XVII}");
         rankImage.texture = rankTexture;
+        RawImage background = transform.Find("Background").GetComponent<RawImage>();
+        background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_17_BACKGROUND_URL);
 
         ScienceFictions archive = await ScienceFictionsService.Create().GetScienceFictionByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);

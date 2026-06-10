@@ -283,7 +283,7 @@ public class UserBooksService : IUserBooksService
         var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
         var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
         var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
+        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
@@ -328,7 +328,7 @@ public class UserBooksService : IUserBooksService
             book.ApplyHIDCStats(hidcData);
             book.ApplyHICBStats(hicbData);
             book.ApplyHISNStats(hisnData);
-            book.ApplyAllAnimeStats(animeStatsData);
+            book.ApplyAllUserAnimes(animeStatsData);
             book.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);
@@ -354,7 +354,7 @@ public class UserBooksService : IUserBooksService
         var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
         var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
         var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
+        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
@@ -399,7 +399,7 @@ public class UserBooksService : IUserBooksService
             book.ApplyHIDCStats(hidcData);
             book.ApplyHICBStats(hicbData);
             book.ApplyHISNStats(hisnData);
-            book.ApplyAllAnimeStats(animeStatsData);
+            book.ApplyAllUserAnimes(animeStatsData);
             book.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);
@@ -465,7 +465,7 @@ public class UserBooksService : IUserBooksService
         var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
         var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
         var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = AnimeStatsService.Create().GetSumAnimeStatsAsync(user_id);
+        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
@@ -510,7 +510,7 @@ public class UserBooksService : IUserBooksService
             book.ApplyHIDCStats(hidcData);
             book.ApplyHICBStats(hicbData);
             book.ApplyHISNStats(hisnData);
-            book.ApplyAllAnimeStats(animeStatsData);
+            book.ApplyAllUserAnimes(animeStatsData);
             book.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);

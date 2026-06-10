@@ -4,23 +4,41 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Text.RegularExpressions;
 
 public class MainMenuKhorazalManager : MonoBehaviour
 {
+    public static MainMenuKhorazalManager Instance { get; private set; }
     private Transform MainPanel;
-    private Transform TabButtonPanel;
-    private Transform SlotPanel;
-    private GameObject MainMenuKhorazalPanelPrefab;
-    private GameObject SlotPrefab;
-    private GameObject TypeButtonPrefab;
-    private GameObject currentObject;
-    private Button upLevelButton;
-    private Button upMaxLevelButton;
-    private Transform LevelCondition;
-    private Features feature;
-    private string parentType;
-    private TMP_FontAsset EuroStyleNormalFont;
-    // Start is called before the first frame update
+    private GameObject RankPanelPrefab;
+    private GameObject RankButtonPrefab;
+    private GameObject PopupRankPanelPrefab;
+    private GameObject PopupRankQuantityPanelPrefab;
+    private GameObject PopupRankButtonPrefab;
+    private GameObject MainRankPanelPrefab;
+    private GameObject RankItemPrefab;
+    private Transform content;
+    private const int ITEMS_PER_PAGE = 50;
+    private int _currentPage = 0;
+    private List<KeyValuePair<string, FeatureRankDTO>> _featureList;
+    private IStats _stat;
+    private Button nextButton;
+    private Button previousButton;
+    private TextMeshProUGUI pageText;
+    private void Awake()
+    {
+        // Ensure there's only one instance of PanelManager
+        if (Instance == null)
+        {
+            Instance = this;
+            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
+        }
+        else
+        {
+            Destroy(gameObject); // Destroy duplicate instances
+        }
+    }
     void Start()
     {
         Initialize();
@@ -28,426 +46,527 @@ public class MainMenuKhorazalManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MainMenuKhorazalPanelPrefab = UIManager.Instance.Get("MainMenuKhorazalPanelPrefab");
-        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
-        SlotPrefab = UIManager.Instance.Get("KhorazalSlotPrefab");
-        EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
+        RankPanelPrefab = UIManager.Instance.Get("RankPanelPrefab");
+        RankButtonPrefab = UIManager.Instance.Get("RankButtonPrefab");
+        PopupRankPanelPrefab = UIManager.Instance.Get("PopupRankPanelPrefab");
+        PopupRankQuantityPanelPrefab = UIManager.Instance.Get("PopupRankQuantityPanelPrefab");
+        PopupRankButtonPrefab = UIManager.Instance.Get("PopupRankButtonPrefab");
+        MainRankPanelPrefab = UIManager.Instance.Get("MainRankPanelPrefab");
+        RankItemPrefab = UIManager.Instance.Get("RankItemPrefab");
     }
-    public async Task CreateMainMenuKhorazalManagerAsync(object data)
+    public async Task CreateMainMenuKhorazalManagerAsync(IStats stat)
     {
-        currentObject = Instantiate(MainMenuKhorazalPanelPrefab, MainPanel);
+        GameObject currentObject = Instantiate(PopupRankPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        TabButtonPanel = transform.Find("Scroll View/Viewport/Content");
-        SlotPanel = transform.Find("DictionaryCards/Slot");
-        TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet3.KHORAZAL);
-        parentType = AppConstants.MainMenuSet3.KHORAZAL;
-        upLevelButton = transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
-        upMaxLevelButton = transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
-        Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ButtonEvent.Instance.Close(MainPanel);
-        });
+        content = transform.Find("Scroll View/Viewport/Content");
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
         });
-
-        RawImage background = transform.Find("DictionaryBackground").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BACKGROUND_117_URL);
-        RawImage closeButtonBackground = closeButton.GetComponent<RawImage>();
-        RawImage homeButtonBackground = homeButton.GetComponent<RawImage>();
-        closeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.BACK_BUTTON_BACKGROUND_URL);
-        homeButtonBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.HOME_BUTTON_BACKGROUND_URL);
-        RawImage scrollViewBackground = transform.Find("DictionaryCards/ScrollViewBackground").GetComponent<RawImage>();
-        scrollViewBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SCROLLVIEW_BACKGROUND_3_URL);
-        RawImage titleBackground = transform.Find("DictionaryCards/TitleBackground").GetComponent<RawImage>();
-        titleBackground.texture = TextureHelper.LoadTextureCached(ImageConstants.Button.TITLE_BUTTON_BACKGROUND_URL);
-
-        LevelCondition = transform.Find("DictionaryCards/LevelCondition");
-
-        Dictionary<string, Features> uniqueTypes = new Dictionary<string, Features>();
-        uniqueTypes = await FeaturesService.Create().GetFeaturesByTypeAsync(AppConstants.MainMenuSet3.KHORAZAL);
-        if (uniqueTypes.Count > 0)
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
         {
-            int index = 0;
-            foreach (var kvp in uniqueTypes)
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+
+        });
+        Dictionary<string, FeatureRankDTO> uniqueTypes = new Dictionary<string, FeatureRankDTO>();
+        uniqueTypes = await FeaturesService.Create().GetRankFeaturesByTypeAsync(AppConstants.MainMenuSet3.KHORAZAL, stat);
+        uniqueTypes = uniqueTypes
+            .OrderBy(kvp =>
             {
-                // Tạo một nút mới từ prefab
-                string subtype = kvp.Key;
-                int requiredLevel = kvp.Value.RequiredLevel;
-                GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
+                var match = Regex.Match(kvp.Value.FeatureName, @"\d+$");
+                return match.Success ? int.Parse(match.Value) : 0;
+            })
+            .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        _featureList = uniqueTypes.ToList();
+        _currentPage = 0;
+        _stat = stat;
+        SetupPagination(currentObject);
+        RenderPage();
+    }
 
-                TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-                buttonText.text = subtype.Replace("_", " ");
+    private void RenderPage()
+    {
+        foreach (Transform child in content)
+            Destroy(child.gameObject);
 
-                Button btn = button.GetComponent<Button>();
-                btn.onClick.AddListener(async () =>
+        int start = _currentPage * ITEMS_PER_PAGE;
+        int end = Mathf.Min(start + ITEMS_PER_PAGE, _featureList.Count);
+
+        for (int i = start; i < end; i++)
+        {
+            var kvp = _featureList[i];
+
+            string subtype = kvp.Key;
+            int requiredLevel = kvp.Value.RequiredLevel;
+            string featureId = kvp.Value.Id;
+
+            GameObject button = Instantiate(PopupRankButtonPrefab, content);
+
+            TextMeshProUGUI buttonText =
+                button.transform.Find("ContentText")
+                .GetComponentInChildren<TextMeshProUGUI>();
+
+            buttonText.text = subtype.Replace("_", " ");
+
+            TextMeshProUGUI buttonText2 =
+                button.transform.Find("MainTitleText")
+                .GetComponentInChildren<TextMeshProUGUI>();
+
+            buttonText2.text = subtype.Replace("_", " ");
+
+            TextMeshProUGUI quantityText =
+                button.transform.Find("QuantityText")
+                .GetComponentInChildren<TextMeshProUGUI>();
+
+            quantityText.text = (i + 1).ToString();
+
+            bool isLocked = requiredLevel > User.CurrentUserLevel;
+
+            Transform warningLevel = button.transform.Find("WarningLevel");
+            if (warningLevel != null)
+            {
+                warningLevel.gameObject.SetActive(isLocked);
+            }
+
+            Button btn = button.GetComponent<Button>();
+            btn.onClick.AddListener(async () =>
+            {
+                if (isLocked)
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await OnButtonClickAsync(button, data, kvp.Value, requiredLevel);
-                });
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    return;
+                }
 
-                if (index == 0)
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                await CreateMainRankPanelAsync(featureId, subtype);
+            });
+        }
+    }
+
+    private void SetupPagination(GameObject currentObject)
+    {
+        Transform transform = currentObject.transform;
+        nextButton = transform
+            .Find("Pagination/Next")
+            .GetComponent<Button>();
+
+        previousButton = transform
+            .Find("Pagination/Previous")
+            .GetComponent<Button>();
+
+        pageText = transform
+            .Find("Pagination/Page")
+            .GetComponent<TextMeshProUGUI>();
+
+        nextButton.onClick.RemoveAllListeners();
+        previousButton.onClick.RemoveAllListeners();
+
+        nextButton.onClick.AddListener(OnNextPage);
+        previousButton.onClick.AddListener(OnPreviousPage);
+
+        UpdatePageUI();
+    }
+
+    private int GetTotalPages()
+    {
+        if (_featureList == null || _featureList.Count == 0)
+            return 1;
+
+        return Mathf.CeilToInt((float)_featureList.Count / ITEMS_PER_PAGE);
+    }
+
+    private void UpdatePageUI()
+    {
+        int totalPages = GetTotalPages();
+
+        pageText.text = $"{_currentPage + 1} / {totalPages}";
+
+        previousButton.interactable = _currentPage > 0;
+        nextButton.interactable = _currentPage < totalPages - 1;
+    }
+
+    private void OnNextPage()
+    {
+        int totalPages = GetTotalPages();
+
+        if (_currentPage >= totalPages - 1)
+            return;
+
+        _currentPage++;
+        RenderPage();
+        UpdatePageUI();
+    }
+
+    private void OnPreviousPage()
+    {
+        if (_currentPage <= 0)
+            return;
+
+        _currentPage--;
+        RenderPage();
+        UpdatePageUI();
+    }
+
+    public async Task CreateMainRankPanelAsync(string featureId, string featureName)
+    {
+        GameObject currentObject = Instantiate(MainRankPanelPrefab, MainPanel);
+        Transform transform = currentObject.transform;
+        Button upgradeLevelButton = transform.Find("UpgradeLevelButton").GetComponent<Button>();
+        Transform leftSideContent = transform.Find("LeftSideContent");
+        Transform rightSideContent = transform.Find("RightSideContent");
+        TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
+        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Destroy(currentObject);
+        });
+        Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+
+        });
+
+        RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
+        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_14");
+        mapImage.texture = mapTexture; 
+        RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
+        // Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Rank.MASTER_OF_ATOMIC}");
+        // rankImage.texture = rankTexture;
+        RawImage background = transform.Find("Background").GetComponent<RawImage>();
+        background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.MainMenuSet3.KHORAZAL);
+
+        Ranks rank = await RanksService.Create().GetRankByIdAsync(featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+        UserRanks userRank = await UserRanksService.Create().GetUserRanksAsync(featureId);
+
+        if (recipeItems == null || recipeItems.Count == 0)
+            return;
+
+        // Xoá item cũ nếu có
+        foreach (Transform child in leftSideContent)
+            Destroy(child.gameObject);
+
+        foreach (Transform child in rightSideContent)
+            Destroy(child.gameObject);
+
+        int total = recipeItems.Count;
+        int leftCount = Mathf.CeilToInt(total / 2f);
+
+        for (int i = 0; i < total; i++)
+        {
+            Transform parent = (i < leftCount)
+                ? leftSideContent
+                : rightSideContent;
+
+            GameObject itemGO = Instantiate(RankItemPrefab, parent);
+
+            SetupRankItemUI(itemGO, recipeItems[i]);
+        }
+
+        int currentLevel = userRank?.Level ?? 0;
+        levelText.text = currentLevel.ToString();
+        async Task RefreshPanelAsync()
+        {
+            userRank = await UserRanksService.Create().GetUserRanksAsync(featureId);
+            currentLevel = userRank?.Level ?? 0;
+            levelText.text = currentLevel.ToString();
+
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            if (refreshedRecipeItems == null)
+                return;
+
+            foreach (Transform child in leftSideContent)
+                Destroy(child.gameObject);
+            foreach (Transform child in rightSideContent)
+                Destroy(child.gameObject);
+
+            int refreshedTotal = refreshedRecipeItems.Count;
+            int refreshedLeftCount = Mathf.CeilToInt(refreshedTotal / 2f);
+
+            for (int i = 0; i < refreshedTotal; i++)
+            {
+                Transform parent = (i < refreshedLeftCount)
+                    ? leftSideContent
+                    : rightSideContent;
+
+                GameObject itemGO = Instantiate(RankItemPrefab, parent);
+                SetupRankItemUI(itemGO, refreshedRecipeItems[i]);
+            }
+        }
+
+
+        // Popup that allows upgrading multiple levels (wired to UpgradeLevelButton)
+        void CreatePopupUpgradePanelAsync()
+        {
+            GameObject gameObject =
+                Instantiate(PopupRankQuantityPanelPrefab, MainPanel);
+
+            Transform panelTransform = gameObject.transform;
+
+            TextMeshProUGUI currentLevelText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI nextLevelText = panelTransform.Find("NextLevel").GetComponent<TextMeshProUGUI>();
+            Slider quantitySlider = panelTransform.Find("QuantitySlider").GetComponent<Slider>();
+            // TextMeshProUGUI userItemQuantityText = panelTransform.Find("UserItemQuantityText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI itemUsedQuantityText = panelTransform.Find("ItemUsedQuantityText").GetComponent<TextMeshProUGUI>();
+            // RawImage userItemImage = panelTransform.Find("UserItemImage").GetComponent<RawImage>();
+            // RawImage itemUsedImage = panelTransform.Find("ItemUsedImage").GetComponent<RawImage>();
+            TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
+            Button increaseOneButton = panelTransform.Find("IncreaseOneButton").GetComponent<Button>();
+            Button increaseTenButton = panelTransform.Find("IncreaseTenButton").GetComponent<Button>();
+            Button increaseMaxButton = panelTransform.Find("IncreaseMaxButton").GetComponent<Button>();
+            Button decreaseOneButton = panelTransform.Find("DecreaseOneButton").GetComponent<Button>();
+            Button decreaseTenButton = panelTransform.Find("DecreaseTenButton").GetComponent<Button>();
+            Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
+            Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
+            Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+
+            int popupCurrentLevel = currentLevel;
+            int maxLevel = rank != null ? rank.MaxLevel : popupCurrentLevel;
+            int maxPossible = Mathf.Max(0, maxLevel - popupCurrentLevel);
+
+            currentLevelText.text = popupCurrentLevel.ToString();
+            nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            quantitySlider.minValue = 1;
+            quantitySlider.maxValue = Mathf.Max(1, maxPossible);
+            quantitySlider.wholeNumbers = true;
+            quantitySlider.value = 1;
+
+            void SetPreviewNotification(string value, Color color)
+            {
+                notificationText.text = LocalizationManager.Get(value);
+                notificationText.color = color;
+            }
+
+            async void UpdatePreview()
+            {
+                await UpdatePreviewAsync();
+            }
+
+            async Task UpdatePreviewAsync()
+            {
+                int requested = (int)quantitySlider.value;
+
+                if (maxPossible <= 0)
                 {
-                    feature = kvp.Value;
-                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-                    if (data is CardHeroes cardHeroes)
+                    var backgroundImage = confirmButton.transform.Find("Background2")?.GetComponent<RawImage>();
+                    if (backgroundImage != null)
+                        backgroundImage.color = Color.gray;
+
+                    SetPreviewNotification(MessageConstants.UPGRADE_ALREADY_MAX, Color.red);
+                    nextLevelText.text = "MAX";
+                    confirmButton.interactable = true;
+                    itemUsedQuantityText.text = "0";
+                    return;
+                }
+
+                var preview = await UpgradeFunctionHelper.PreviewUpgradeAsync(
+                    featureName,
+                    popupCurrentLevel,
+                    maxLevel,
+                    requested,
+                    User.CurrentUserId);
+
+                if (!preview.Success)
+                {
+                    SetPreviewNotification(preview.Message, Color.red);
+                    confirmButton.interactable = false;
+                    nextLevelText.text = preview.TargetLevel.ToString();
+                    itemUsedQuantityText.text = "0";
+                    // userItemQuantityText.text = "0";
+                    return;
+                }
+
+                nextLevelText.text = preview.TargetLevel.ToString();
+                confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                bool hasEnough = true;
+                if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)
+                {
+                    var first = preview.RequiredItems.First();
+                    string firstItemId = first.Key;
+                    double requiredQty = first.Value;
+
+                    var recipeLevelItems = await RecipeService.Create()
+                        .GetRecipeItemsAsync(featureName, popupCurrentLevel + 1, User.CurrentUserId);
+
+                    double owned = 0;
+                    string imagePath = null;
+                    if (recipeLevelItems != null)
                     {
-                        // mainId = cardHeroes.id;
-                        await DetailMenuManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardHeroes);
-                        if (cardHeroes.Level >= requiredLevel)
+                        var match = recipeLevelItems.FirstOrDefault(x => x.ItemId == firstItemId);
+                        if (match != null)
                         {
-                            LevelCondition.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            CreateWarningLevelCondition(requiredLevel);
+                            owned = match.UserQuantity;
+                            imagePath = match.ItemImage;
                         }
                     }
-                    else if (data is Books books)
+
+                    itemUsedQuantityText.text = requiredQty.ToString();
+                    // userItemQuantityText.text = owned.ToString();
+
+                    if (owned < requiredQty)
                     {
-                        // mainId = books.id;
-                        await DetailMenuManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, books);
-                        if (books.Level >= requiredLevel)
-                        {
-                            LevelCondition.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            CreateWarningLevelCondition(requiredLevel);
-                        }
+                        hasEnough = false;
                     }
-                    else if (data is CardCaptains cardCaptains)
+
+                    Texture tex = null;
+                    if (!string.IsNullOrEmpty(imagePath))
+                        tex = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(imagePath));
+
+                    if (tex != null)
                     {
-                        // mainId = cardCaptains.id;
-                        await DetailMenuManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardCaptains);
-                        if (cardCaptains.Level >= requiredLevel)
-                        {
-                            LevelCondition.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            CreateWarningLevelCondition(requiredLevel);
-                        }
-                    }
-                    else if (data is Pets pets)
-                    {
-                        // mainId = pets.id;
-                        await DetailMenuManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, pets);
-                        if (pets.Level >= requiredLevel)
-                        {
-                            LevelCondition.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            CreateWarningLevelCondition(requiredLevel);
-                        }
-                    }
-                    else if (data is CardMilitaries cardMilitary)
-                    {
-                        // mainId = cardMilitary.id;
-                        await DetailMenuManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMilitary);
-                        if (cardMilitary.Level >= requiredLevel)
-                        {
-                            LevelCondition.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            CreateWarningLevelCondition(requiredLevel);
-                        }
-                    }
-                    else if (data is CardSpells cardSpell)
-                    {
-                        // mainId = cardSpell.id;
-                        await DetailMenuManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSpell);
-                        if (cardSpell.Level >= requiredLevel)
-                        {
-                            LevelCondition.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            CreateWarningLevelCondition(requiredLevel);
-                        }
-                    }
-                    else if (data is CardMonsters cardMonsters)
-                    {
-                        // mainId = cardMonsters.id;
-                        await DetailMenuManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMonsters);
-                        if (cardMonsters.Level >= requiredLevel)
-                        {
-                            LevelCondition.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            CreateWarningLevelCondition(requiredLevel);
-                        }
-                    }
-                    else if (data is CardColonels cardColonels)
-                    {
-                        // mainId = cardColonels.id;
-                        await DetailMenuManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardColonels);
-                        if (cardColonels.Level >= requiredLevel)
-                        {
-                            LevelCondition.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            CreateWarningLevelCondition(requiredLevel);
-                        }
-                    }
-                    else if (data is CardGenerals cardGenerals)
-                    {
-                        // mainId = cardGenerals.id;
-                        await DetailMenuManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardGenerals);
-                        if (cardGenerals.Level >= requiredLevel)
-                        {
-                            LevelCondition.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            CreateWarningLevelCondition(requiredLevel);
-                        }
-                    }
-                    else if (data is CardAdmirals cardAdmirals)
-                    {
-                        // mainId = cardAdmirals.id;
-                        await DetailMenuManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardAdmirals);
-                        if (cardAdmirals.Level >= requiredLevel)
-                        {
-                            LevelCondition.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            CreateWarningLevelCondition(requiredLevel);
-                        }
-                    }
-                    else if (data is Equipments equipments)
-                    {
-                        // mainId = cardAdmirals.id;
-                        await DetailMenuManager.Instance.CreateEquipmentsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, equipments);
-                        if (equipments.Level >= requiredLevel)
-                        {
-                            LevelCondition.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            CreateWarningLevelCondition(requiredLevel);
-                        }
-                    }
-                    else if (data is CardSoldiers cardSoldier)
-                    {
-                        // mainId = cardAdmirals.id;
-                        await DetailMenuManager.Instance.CreateCardSoldiersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSoldier);
-                        if (cardSoldier.Level >= requiredLevel)
-                        {
-                            LevelCondition.gameObject.SetActive(false);
-                        }
-                        else
-                        {
-                            CreateWarningLevelCondition(requiredLevel);
-                        }
+                        // itemUsedImage.texture = tex;
+                        // userItemImage.texture = tex;
                     }
                 }
                 else
                 {
-                    UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL);
+                    itemUsedQuantityText.text = "0";
+                    // userItemQuantityText.text = "0";
                 }
-                ButtonEvent.Instance.CheckLockedButton(data, requiredLevel, button);
-                index = index + 1;
+
+                if (preview.UpgradedLevels > 0 && hasEnough)
+                {
+                    SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, Color.green);
+                }
+                else
+                {
+                    SetPreviewNotification(MessageConstants.NOT_ENOUGH_MATERIALS, Color.red);
+                    confirmButton.interactable = false;
+                }
             }
-            LoadAnimation();
-        }
-    }
-    async Task OnButtonClickAsync(GameObject clickedButton, object data, Features subFeature, int requiredLevel)
-    {
-        foreach (Transform child in TabButtonPanel)
-        {
-            // Lấy component Button từ con cái
-            Button button = child.GetComponent<Button>();
-            if (button != null)
+
+            quantitySlider.onValueChanged.AddListener(_ => UpdatePreview());
+
+            increaseOneButton.onClick.AddListener(() =>
             {
-                // Gọi hàm ChangeButtonBackground với màu trắng
-                UIManager.Instance.ChangeButtonBackground(button.gameObject, ImageConstants.Button.TAB_BUTTON_BEFORE_CLICK_URL); // Giả sử bạn có texture trắng
-            }
+                quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 1);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+            increaseTenButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = Mathf.Min(quantitySlider.maxValue, quantitySlider.value + 10);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+            increaseMaxButton.onClick.AddListener(async () =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                quantitySlider.SetValueWithoutNotify(quantitySlider.maxValue);
+                await UpdatePreviewAsync();
+            });
+
+            decreaseOneButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = Mathf.Max(quantitySlider.minValue, quantitySlider.value - 1);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+            decreaseTenButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = Mathf.Max(quantitySlider.minValue, quantitySlider.value - 10);
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+            decreaseMaxButton.onClick.AddListener(() =>
+            {
+                quantitySlider.value = quantitySlider.minValue;
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            });
+
+            UpdatePreview();
+
+            confirmButton.onClick.AddListener(async () =>
+            {
+                if (popupCurrentLevel >= maxLevel)
+                {
+                    notificationText.text = MessageConstants.UPGRADE_ALREADY_MAX;
+                    notificationText.color = Color.red;
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    return;
+                }
+
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
+
+                int requested = (int)quantitySlider.value;
+                var result = await UpgradeFunctionHelper.UpgradeLevelAsync(
+                    featureName,
+                    popupCurrentLevel,
+                    maxLevel,
+                    requested,
+                    User.CurrentUserId);
+
+                if (result.Success)
+                {
+                    userRank = EnhanceHelper.EnhanceRanks(userRank, result.UpgradedLevels, rank.BaseMultiplier);
+                    await UserRanksService.Create().InsertOrUpdateUserRanksAsync(User.CurrentUserId, userRank, featureId, _stat);
+
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                    double currentPower = User.CurrentUserPower;
+                    User.CurrentUserPower = newPower;
+                    PowerController.Instance.ShowPower(currentPower, newPower - currentPower, 1);
+
+                    Destroy(gameObject);
+                    await RefreshPanelAsync();
+                }
+                else
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.ALERT_SOUND);
+                    notificationText.text = result.Message;
+                }
+            });
+
+            closeButton.onClick.AddListener(() =>
+            {
+                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                Destroy(gameObject);
+            });
         }
 
-        feature = subFeature;
-        UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
+        upgradeLevelButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            CreatePopupUpgradePanelAsync();
+        });
+    }
 
-        if (data is CardHeroes cardHeroes)
-        {
-            // mainId = cardHeroes.id;
-            await DetailMenuManager.Instance.CreateCardHeroesEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardHeroes);
-            if (cardHeroes.Level >= requiredLevel)
-            {
-                LevelCondition.gameObject.SetActive(false);
-            }
-            else
-            {
-                CreateWarningLevelCondition(requiredLevel);
-            }
-        }
-        else if (data is Books books)
-        {
-            // mainId = books.id;
-            await DetailMenuManager.Instance.CreateBooksEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, books);
-            if (books.Level >= requiredLevel)
-            {
-                LevelCondition.gameObject.SetActive(false);
-            }
-            else
-            {
-                CreateWarningLevelCondition(requiredLevel);
-            }
-        }
-        else if (data is CardCaptains cardCaptains)
-        {
-            // mainId = cardCaptains.id;
-            await DetailMenuManager.Instance.CreateCardCaptainsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardCaptains);
-            if (cardCaptains.Level >= requiredLevel)
-            {
-                LevelCondition.gameObject.SetActive(false);
-            }
-            else
-            {
-                CreateWarningLevelCondition(requiredLevel);
-            }
-        }
-        else if (data is Pets pets)
-        {
-            // mainId = pets.id;
-            await DetailMenuManager.Instance.CreatePetsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, pets);
-            if (pets.Level >= requiredLevel)
-            {
-                LevelCondition.gameObject.SetActive(false);
-            }
-            else
-            {
-                CreateWarningLevelCondition(requiredLevel);
-            }
-        }
-        else if (data is CardMilitaries cardMilitary)
-        {
-            // mainId = cardMilitary.id;
-            await DetailMenuManager.Instance.CreateCardMilitaryEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMilitary);
-            if (cardMilitary.Level >= requiredLevel)
-            {
-                LevelCondition.gameObject.SetActive(false);
-            }
-            else
-            {
-                CreateWarningLevelCondition(requiredLevel);
-            }
-        }
-        else if (data is CardSpells cardSpell)
-        {
-            // mainId = cardSpell.id;
-            await DetailMenuManager.Instance.CreateCardSpellEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSpell);
-            if (cardSpell.Level >= requiredLevel)
-            {
-                LevelCondition.gameObject.SetActive(false);
-            }
-            else
-            {
-                CreateWarningLevelCondition(requiredLevel);
-            }
-        }
-        else if (data is CardMonsters cardMonsters)
-        {
-            // mainId = cardMonsters.id;
-            await DetailMenuManager.Instance.CreateCardMonstersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardMonsters);
-            if (cardMonsters.Level >= requiredLevel)
-            {
-                LevelCondition.gameObject.SetActive(false);
-            }
-            else
-            {
-                CreateWarningLevelCondition(requiredLevel);
-            }
-        }
-        else if (data is CardColonels cardColonels)
-        {
-            // mainId = cardColonels.id;
-            await DetailMenuManager.Instance.CreateCardColonelsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardColonels);
-            if (cardColonels.Level >= requiredLevel)
-            {
-                LevelCondition.gameObject.SetActive(false);
-            }
-            else
-            {
-                CreateWarningLevelCondition(requiredLevel);
-            }
-        }
-        else if (data is CardGenerals cardGenerals)
-        {
-            // mainId = cardGenerals.id;
-            await DetailMenuManager.Instance.CreateCardGeneralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardGenerals);
-            if (cardGenerals.Level >= requiredLevel)
-            {
-                LevelCondition.gameObject.SetActive(false);
-            }
-            else
-            {
-                CreateWarningLevelCondition(requiredLevel);
-            }
-        }
-        else if (data is CardAdmirals cardAdmirals)
-        {
-            // mainId = cardAdmirals.id;
-            await DetailMenuManager.Instance.CreateCardAdmiralsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardAdmirals);
-            if (cardAdmirals.Level >= requiredLevel)
-            {
-                LevelCondition.gameObject.SetActive(false);
-            }
-            else
-            {
-                CreateWarningLevelCondition(requiredLevel);
-            }
-        }
-        else if (data is Equipments equipments)
-        {
-            // mainId = cardAdmirals.id;
-            await DetailMenuManager.Instance.CreateEquipmentsEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, equipments);
-            if (equipments.Level >= requiredLevel)
-            {
-                LevelCondition.gameObject.SetActive(false);
-            }
-            else
-            {
-                CreateWarningLevelCondition(requiredLevel);
-            }
-        }
-        else if (data is CardSoldiers cardSoldier)
-        {
-            // mainId = cardAdmirals.id;
-            await DetailMenuManager.Instance.CreateCardSoldiersEquipmentsAsync(SlotPrefab, SlotPanel, currentObject, upLevelButton, upMaxLevelButton, feature, parentType, cardSoldier);
-            if (cardSoldier.Level >= requiredLevel)
-            {
-                LevelCondition.gameObject.SetActive(false);
-            }
-            else
-            {
-                CreateWarningLevelCondition(requiredLevel);
-            }
-        }
-    }
-    public void CreateWarningLevelCondition(int value)
+    private void SetupRankItemUI(GameObject itemGO, RecipeItemDto data)
     {
-        LevelCondition.gameObject.SetActive(true);
-        TextMeshProUGUI warningText = LevelCondition.Find("WarningText").GetComponent<TextMeshProUGUI>();
-        warningText.font = EuroStyleNormalFont;
-        warningText.fontSize = 50;
-        warningText.fontStyle = FontStyles.Bold;
-        warningText.text = MessageConstants.WaringLevel(value);
-        LevelCondition.gameObject.AddComponent<SlideBottomToTopAnimation>();
-    }
-    public void LoadAnimation()
-    {
-        TabButtonPanel.gameObject.AddComponent<SlideLeftToRightAnimation>();
+        // TextMeshProUGUI nameText =
+        //     itemGO.transform.Find("ItemName")
+        //     .GetComponent<TextMeshProUGUI>();
+
+        TextMeshProUGUI requiredText =
+            itemGO.transform.Find("RequiredText")
+            .GetComponent<TextMeshProUGUI>();
+
+        TextMeshProUGUI ownedText =
+            itemGO.transform.Find("AvailableText")
+            .GetComponent<TextMeshProUGUI>();
+
+        RawImage image =
+            itemGO.transform.Find("Image")
+            .GetComponent<RawImage>();
+
+        // nameText.text = data.ItemId;
+
+        requiredText.text = data.RequiredQuantity.ToString();
+        ownedText.text = data.UserQuantity.ToString();
+
+        // Nếu thiếu nguyên liệu -> đổi màu
+        if (data.UserQuantity < data.RequiredQuantity)
+            ownedText.color = Color.red;
+        else
+            ownedText.color = Color.green;
+
+        // Load icon nếu có
+        Texture texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(data.ItemImage));
+        if (texture != null)
+            image.texture = texture;
     }
 }

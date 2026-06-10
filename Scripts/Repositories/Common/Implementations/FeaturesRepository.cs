@@ -844,4 +844,102 @@ public class FeaturesRepository : IFeaturesRepository
 
         return features;
     }
+    public async Task<Dictionary<string, FeatureMasterDTO>> GetMasterFeaturesByTypeAsync(string objectId, string type, string featureCodeName, string userTable, string objectColumn)
+    {
+        Dictionary<string, FeatureMasterDTO> features = new();
+
+        using MySqlConnection connection = new(DatabaseConfig.ConnectionString);
+        await connection.OpenAsync();
+
+        string selectSQL = $@"
+        SELECT
+            f.id,
+            f.feature_name,
+            f.required_level,
+            f.code_name,
+            m.base_multiplier,
+            COALESCE(u.current_level, 0) AS current_level
+        FROM features f
+        LEFT JOIN masters m
+            ON f.id = m.id
+        LEFT JOIN {userTable} u
+            ON m.id = u.master_id
+            AND u.{objectColumn} = @object_id
+        WHERE f.type = @type
+            AND f.code_name = @code_name";
+
+        using MySqlCommand command = new(selectSQL, connection);
+
+        command.Parameters.AddWithValue("@object_id", objectId);
+        command.Parameters.AddWithValue("@type", type);
+        command.Parameters.AddWithValue("@code_name", featureCodeName);
+
+        using MySqlDataReader reader = await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
+        {
+            FeatureMasterDTO feature = new()
+            {
+                Id = reader.GetStringSafe("id"),
+                FeatureName = reader.GetStringSafe("feature_name"),
+                RequiredLevel = reader.GetIntSafe("required_level"),
+                CodeName = reader.GetStringSafe("code_name"),
+                BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                CurrentLevel = reader.GetIntSafe("current_level")
+            };
+
+            features[feature.FeatureName] = feature;
+        }
+
+        return features;
+    }
+    public async Task<Dictionary<string, FeatureRankDTO>> GetRankFeaturesByTypeAsync(string objectId, string type, string featureCodeName, string userTable, string objectColumn)
+    {
+        Dictionary<string, FeatureRankDTO> features = new();
+
+        using MySqlConnection connection = new(DatabaseConfig.ConnectionString);
+        await connection.OpenAsync();
+
+        string selectSQL = $@"
+        SELECT
+            f.id,
+            f.feature_name,
+            f.required_level,
+            f.code_name,
+            m.base_multiplier,
+            COALESCE(u.current_level, 0) AS current_level
+        FROM features f
+        LEFT JOIN ranks m
+            ON f.id = m.id
+        LEFT JOIN {userTable} u
+            ON m.id = u.rank_id
+            AND u.{objectColumn} = @object_id
+        WHERE f.type = @type
+            AND f.code_name = @code_name";
+
+        using MySqlCommand command = new(selectSQL, connection);
+
+        command.Parameters.AddWithValue("@object_id", objectId);
+        command.Parameters.AddWithValue("@type", type);
+        command.Parameters.AddWithValue("@code_name", featureCodeName);
+
+        using MySqlDataReader reader = await command.ExecuteReaderAsync();
+
+        while (await reader.ReadAsync())
+        {
+            FeatureRankDTO feature = new()
+            {
+                Id = reader.GetStringSafe("id"),
+                FeatureName = reader.GetStringSafe("feature_name"),
+                RequiredLevel = reader.GetIntSafe("required_level"),
+                CodeName = reader.GetStringSafe("code_name"),
+                BaseMultiplier = reader.GetDoubleSafe("base_multiplier"),
+                CurrentLevel = reader.GetIntSafe("current_level")
+            };
+
+            features[feature.FeatureName] = feature;
+        }
+
+        return features;
+    }
 }
