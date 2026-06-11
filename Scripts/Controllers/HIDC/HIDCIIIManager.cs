@@ -240,6 +240,7 @@ public class HIDCIIIManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HIDC.HIDC_III_BACKGROUND_URL);
 
+        AnimationController.Instance.CreateHIDCAnimation(currentObject);
         HIDCs hidc = await HIDCsService.Create().GetHIDCByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHIDCs userHIDC = await UserHIDCsService.Create().GetUserHIDCsAsync(featureId);

@@ -240,6 +240,7 @@ public class HICBIVManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HICB.HICB_IV_BACKGROUND_URL);
 
+        AnimationController.Instance.CreateHICBAnimation(currentObject);
         HICBs hicb = await HICBsService.Create().GetHICBByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHICBs userHICB = await UserHICBsService.Create().GetUserHICBsAsync(featureId);

@@ -240,6 +240,7 @@ public class HIENIIIManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HIEN.HIEN_III_BACKGROUND_URL);
 
+        AnimationController.Instance.CreateHIENAnimation(currentObject);
         HIENs hien = await HIENsService.Create().GetHIENByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHIENs userHIEN = await UserHIENsService.Create().GetUserHIENsAsync(featureId);

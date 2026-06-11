@@ -239,6 +239,7 @@ public class ArchiveIManager : MonoBehaviour
         rankImage.texture = rankTexture;
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_I_BACKGROUND_URL);
+
         AnimationController.Instance.CreateArchiveAnimation(currentObject);
         Archives archive = await ArchivesService.Create().GetArchiveByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);

@@ -240,6 +240,7 @@ public class HISNXManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HISN.HISN_X_BACKGROUND_URL);
 
+        AnimationController.Instance.CreateHISNAnimation(currentObject);
         HISNs hisn = await HISNsService.Create().GetHISNByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHISNs userHISN = await UserHISNsService.Create().GetUserHISNsAsync(featureId);

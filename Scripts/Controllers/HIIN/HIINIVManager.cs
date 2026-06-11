@@ -240,6 +240,7 @@ public class HIINIVManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HIIN.HIIN_IV_BACKGROUND_URL);
 
+        AnimationController.Instance.CreateHIINAnimation(currentObject);
         HIINs hiin = await HIINsService.Create().GetHIINByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHIINs userHIIN = await UserHIINsService.Create().GetUserHIINsAsync(featureId);

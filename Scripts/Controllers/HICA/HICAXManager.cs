@@ -240,6 +240,7 @@ public class HICAXManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HICA.HICA_X_BACKGROUND_URL);
 
+        AnimationController.Instance.CreateHICAAnimation(currentObject);
         HICAs hica = await HICAsService.Create().GetHICAByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHICAs userHICA = await UserHICAsService.Create().GetUserHICAsAsync(featureId);

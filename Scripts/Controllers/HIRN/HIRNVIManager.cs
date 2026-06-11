@@ -240,6 +240,7 @@ public class HIRNVIManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HIRN.HIRN_VI_BACKGROUND_URL);
 
+        AnimationController.Instance.CreateHIRNAnimation(currentObject);
         HIRNs hirn = await HIRNsService.Create().GetHIRNByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHIRNs userHIRN = await UserHIRNsService.Create().GetUserHIRNsAsync(featureId);

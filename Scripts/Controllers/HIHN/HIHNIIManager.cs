@@ -240,6 +240,7 @@ public class HIHNIIManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HIHN.HIHN_II_BACKGROUND_URL);
 
+        AnimationController.Instance.CreateHIHNAnimation(currentObject);
         HIHNs hihn = await HIHNsService.Create().GetHIHNByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHIHNs userHIHN = await UserHIHNsService.Create().GetUserHIHNsAsync(featureId);

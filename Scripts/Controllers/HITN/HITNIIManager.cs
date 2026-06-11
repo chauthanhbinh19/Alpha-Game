@@ -240,6 +240,7 @@ public class HITNIIManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.HITN.HITN_II_BACKGROUND_URL);
 
+        AnimationController.Instance.CreateHITNAnimation(currentObject);
         HITNs hitn = await HITNsService.Create().GetHITNByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHITNs userHITN = await UserHITNsService.Create().GetUserHITNsAsync(featureId);
