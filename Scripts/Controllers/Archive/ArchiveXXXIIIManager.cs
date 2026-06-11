@@ -127,6 +127,8 @@ public class ArchiveXXXIIIManager : MonoBehaviour
             if (warningLevel != null)
             {
                 warningLevel.gameObject.SetActive(isLocked);
+                TextMeshProUGUI levelText = button.transform.Find("WarningLevel/LevelText").GetComponent<TextMeshProUGUI>();
+                levelText.text = requiredLevel.ToString();
             }
 
             Button btn = button.GetComponent<Button>();

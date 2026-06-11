@@ -48,19 +48,8 @@ public class UIManager : MonoBehaviour
 
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet1/Panel"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet1/Slot"));
-        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet2/Panel"));
-        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet2/Slot"));
-        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet3/Panel"));
-        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet3/Slot"));
-        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet4/Panel"));
-        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet4/Slot"));
-        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet5/Panel"));
-        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet5/Slot"));
-        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet6/Panel"));
-        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet6/Slot"));
-        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet7/Panel"));
-        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/MainMenuSet7/Slot"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Market"));
+        prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Rank"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Master"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/Component"));
         prefabs.AddRange(Resources.LoadAll<GameObject>("Main Feature/Prefabs/General"));

@@ -17,7 +17,7 @@ public class Test : MonoBehaviour
     [ContextMenu("Run Initiate Async")]
     public async Task InitiateAsync()
     {
-        User.CurrentUserId = "639163712169916215";
+        User.CurrentUserId = "639167826246347876";
 
         Debug.Log("<color=yellow>Start</color>");
         List<Achievements> achievements = await AchievementsService.Create()

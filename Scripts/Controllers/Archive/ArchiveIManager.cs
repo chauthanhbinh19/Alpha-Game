@@ -127,6 +127,8 @@ public class ArchiveIManager : MonoBehaviour
             if (warningLevel != null)
             {
                 warningLevel.gameObject.SetActive(isLocked);
+                TextMeshProUGUI levelText = button.transform.Find("WarningLevel/LevelText").GetComponent<TextMeshProUGUI>();
+                levelText.text = requiredLevel.ToString();
             }
 
             Button btn = button.GetComponent<Button>();
@@ -237,7 +239,7 @@ public class ArchiveIManager : MonoBehaviour
         rankImage.texture = rankTexture;
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_I_BACKGROUND_URL);
-
+        AnimationController.Instance.CreateArchiveAnimation(currentObject);
         Archives archive = await ArchivesService.Create().GetArchiveByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserArchives userArchive = await UserArchivesService.Create().GetUserArchivesAsync(featureId);
