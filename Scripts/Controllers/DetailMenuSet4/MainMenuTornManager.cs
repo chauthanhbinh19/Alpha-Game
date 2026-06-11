@@ -244,7 +244,8 @@ public class MainMenuTornManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.MainMenuSet4.TORN);
 
-        Ranks master = await RanksService.Create().GetRankByIdAsync(featureId);
+        AnimationController.Instance.CreateRankAnimation(currentObject);
+        Ranks rank = await RanksService.Create().GetRankByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserRanks userRank = await UserRanksService.Create().GetUserRanksAsync(featureId);
 
@@ -330,7 +331,7 @@ public class MainMenuTornManager : MonoBehaviour
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
 
             int popupCurrentLevel = currentLevel;
-            int maxLevel = master != null ? master.MaxLevel : popupCurrentLevel;
+            int maxLevel = rank != null ? rank.MaxLevel : popupCurrentLevel;
             int maxPossible = Mathf.Max(0, maxLevel - popupCurrentLevel);
 
             currentLevelText.text = popupCurrentLevel.ToString();
@@ -505,7 +506,7 @@ public class MainMenuTornManager : MonoBehaviour
 
                 if (result.Success)
                 {
-                    userRank = EnhanceHelper.EnhanceRanks(userRank, result.UpgradedLevels, master.BaseMultiplier);
+                    userRank = EnhanceHelper.EnhanceRanks(userRank, result.UpgradedLevels, rank.BaseMultiplier);
                     await UserRanksService.Create().InsertOrUpdateUserRanksAsync(User.CurrentUserId, userRank, featureId, _stat);
 
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);

@@ -244,6 +244,7 @@ public class MasterOfSpiritManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_ATOMIC_BACKGROUND_URL);
 
+        AnimationController.Instance.CreateMasterAnimation(currentObject);
         Masters master = await MastersService.Create().GetMasterByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserMasters userMaster = await UserMastersService.Create().GetUserMastersAsync(featureId);

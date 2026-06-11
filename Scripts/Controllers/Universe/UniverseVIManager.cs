@@ -241,6 +241,7 @@ public class UniverseVIManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Universe.UNIVERSE_VI_BACKGROUND_URL);
 
+        AnimationController.Instance.CreateUniverseAnimation(currentObject);
         Universes universe = await UniversesService.Create().GetUniverseByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserUniverses userUniverse = await UserUniversesService.Create().GetUserUniversesAsync(featureId);

@@ -240,7 +240,8 @@ public class ScienceFictionVIManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_6_BACKGROUND_URL);
 
-        ScienceFictions archive = await ScienceFictionsService.Create().GetScienceFictionByIdAsync(featureId);
+        AnimationController.Instance.CreateScienceFictionAnimation(currentObject);
+        ScienceFictions scienceFiction = await ScienceFictionsService.Create().GetScienceFictionByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserScienceFictions userScienceFiction = await UserScienceFictionsService.Create().GetUserScienceFictionsAsync(featureId);
 
@@ -332,7 +333,7 @@ public class ScienceFictionVIManager : MonoBehaviour
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
 
             int popupCurrentLevel = currentLevel;
-            int maxLevel = archive != null ? archive.MaxLevel : popupCurrentLevel;
+            int maxLevel = scienceFiction != null ? scienceFiction.MaxLevel : popupCurrentLevel;
             int maxPossible = Mathf.Max(0, maxLevel - popupCurrentLevel);
 
             currentLevelText.text = popupCurrentLevel.ToString();
@@ -507,7 +508,7 @@ public class ScienceFictionVIManager : MonoBehaviour
 
                 if (result.Success)
                 {
-                    userScienceFiction = EnhanceHelper.EnhanceScienceFictions(userScienceFiction, result.UpgradedLevels, archive.BaseMultiplier);
+                    userScienceFiction = EnhanceHelper.EnhanceScienceFictions(userScienceFiction, result.UpgradedLevels, scienceFiction.BaseMultiplier);
                     await UserScienceFictionsService.Create().InsertOrUpdateUserScienceFictionsAsync(User.CurrentUserId, userScienceFiction, featureId);
 
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);

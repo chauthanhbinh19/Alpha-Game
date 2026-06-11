@@ -240,6 +240,7 @@ public class ScienceFictionIIIManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.ScienceFiction.SCIENCE_FICTION_NUMBER_3_BACKGROUND_URL);
 
+        AnimationController.Instance.CreateScienceFictionAnimation(currentObject);
         ScienceFictions scienceFiction = await ScienceFictionsService.Create().GetScienceFictionByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserScienceFictions userScienceFiction = await UserScienceFictionsService.Create().GetUserScienceFictionsAsync(featureId);

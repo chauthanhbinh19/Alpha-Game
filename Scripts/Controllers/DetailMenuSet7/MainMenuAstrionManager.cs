@@ -244,6 +244,7 @@ public class MainMenuAstrionManager : MonoBehaviour
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.MainMenuSet7.ASTRION);
 
+        AnimationController.Instance.CreateRankAnimation(currentObject);
         Ranks rank = await RanksService.Create().GetRankByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserRanks userRank = await UserRanksService.Create().GetUserRanksAsync(featureId);
