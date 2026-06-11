@@ -123,9 +123,25 @@ public class SurveillanceManager : MonoBehaviour
 
             quantityText.text = (i + 1).ToString();
 
+            bool isLocked = requiredLevel > User.CurrentUserLevel;
+
+            Transform warningLevel = button.transform.Find("WarningLevel");
+            if (warningLevel != null)
+            {
+                warningLevel.gameObject.SetActive(isLocked);
+                TextMeshProUGUI levelText = button.transform.Find("WarningLevel/LevelText").GetComponent<TextMeshProUGUI>();
+                levelText.text = requiredLevel.ToString();
+            }
+
             Button btn = button.GetComponent<Button>();
             btn.onClick.AddListener(async () =>
             {
+                if (isLocked)
+                {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                    return;
+                }
+
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 await CreateMainResearchPanelAsync(featureId, subtype);
             });
@@ -224,6 +240,7 @@ public class SurveillanceManager : MonoBehaviour
         Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Research.SURVEILLANCE}");
         rankImage.texture = rankTexture; 
 
+        AnimationController.Instance.CreateResearchAnimation(currentObject);
         Researchs research = await ResearchsService.Create().GetResearchByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserResearchs userResearch = await UserResearchsService.Create().GetUserResearchsAsync(featureId);

@@ -240,6 +240,7 @@ public class ClimateManager : MonoBehaviour
         Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Research.CLIMATE}");
         rankImage.texture = rankTexture; 
 
+        AnimationController.Instance.CreateResearchAnimation(currentObject);
         Researchs research = await ResearchsService.Create().GetResearchByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserResearchs userResearch = await UserResearchsService.Create().GetUserResearchsAsync(featureId);

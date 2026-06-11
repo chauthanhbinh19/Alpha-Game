@@ -129,6 +129,8 @@ public class EducationManager : MonoBehaviour
             if (warningLevel != null)
             {
                 warningLevel.gameObject.SetActive(isLocked);
+                TextMeshProUGUI levelText = button.transform.Find("WarningLevel/LevelText").GetComponent<TextMeshProUGUI>();
+                levelText.text = requiredLevel.ToString();
             }
 
             Button btn = button.GetComponent<Button>();
@@ -238,6 +240,7 @@ public class EducationManager : MonoBehaviour
         Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Research.EDUCATION}");
         rankImage.texture = rankTexture; 
 
+        AnimationController.Instance.CreateResearchAnimation(currentObject);
         Researchs research = await ResearchsService.Create().GetResearchByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserResearchs userResearch = await UserResearchsService.Create().GetUserResearchsAsync(featureId);
