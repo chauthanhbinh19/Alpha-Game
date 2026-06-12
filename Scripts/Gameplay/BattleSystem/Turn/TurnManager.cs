@@ -3,124 +3,194 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-public enum BattleState { Start, Battle, End }
+public enum BattleState
+{
+    GameStart,  // Chuẩn bị đầu trận (Chọn map, chia bài ban đầu)
+    Playing,    // Trận đấu đang diễn ra (Vòng lặp các Phase)
+    GameOver    // Trận đấu kết thúc (Thắng / Thua)
+}
+
+public enum TurnPhase
+{
+    StartPhase,    // Đầu Turn: Hồi năng lượng, kích hoạt hiệu ứng đầu trận
+    ShoppingPhase, // Giai đoạn mua sắm: Mua thẻ, sắp xếp đội hình lên bàn cờ 12x12
+    BattlePhase,   // Giai đoạn chiến đấu: Các thẻ bài di chuyển và băm nhau (Code cũ của bạn)
+    EndPhase       // Cuối Turn: Kiểm tra sát thương người chơi, dọn dẹp bàn cờ, tăng số Turn
+}
 
 public class TurnManager : MonoBehaviour
 {
+    [Header("Game Loop Settings")]
+    public int currentTurnNumber = 1;
+    private BattleState currentBattleState;
+    private TurnPhase currentPhase;
+
+    [Header("Card & Battle Reference")]
     public List<CardBase> allCards = new List<CardBase>();
     private Queue<CardBase> actionQueue = new Queue<CardBase>();
-
-    private BattleState currentState;
     private CardBase currentActiveCard;
 
     void Start()
     {
-        ChangeState(BattleState.Start);
+        // Khởi động trận đấu
+        currentBattleState = BattleState.GameStart;
+        HandleGameStart();
     }
-    
-    private void ChangeState(BattleState newState)
+
+    private void HandleGameStart()
     {
-        currentState = newState;
-        switch (currentState)
+        Debug.Log("=== TRẬN ĐẤU KHỞI TRANH ===");
+        // Khởi tạo bàn cờ 12x12, nạp dữ liệu thẻ bài...
+
+        currentBattleState = BattleState.Playing;
+        // Bắt đầu Phase đầu tiên của Turn 1
+        ChangePhase(TurnPhase.StartPhase);
+    }
+
+    // Bộ điều hướng Phase (Central Phase Controller)
+    public void ChangePhase(TurnPhase newPhase)
+    {
+        if (currentBattleState == BattleState.GameOver) return;
+
+        currentPhase = newPhase;
+        Debug.Log($"<color=yellow>=== TURN {currentTurnNumber} | PHASE: {currentPhase} ===</color>");
+
+        switch (currentPhase)
         {
-            case BattleState.Start:
-                StartCoroutine(HandleTurnStart());
+            case TurnPhase.StartPhase:
+                StartCoroutine(HandleStartPhase());
                 break;
-            case BattleState.Battle:
-                HandleTurnBattle();
+            case TurnPhase.ShoppingPhase:
+                StartCoroutine(HandleShoppingPhase());
                 break;
-            case BattleState.End:
-                StartCoroutine(HandleTurnEnd());
+            case TurnPhase.BattlePhase:
+                HandleBattlePhaseInit();
+                break;
+            case TurnPhase.EndPhase:
+                StartCoroutine(HandleEndPhase());
                 break;
         }
     }
 
-    // --- TURN START ---
-    private IEnumerator HandleTurnStart()
+    // =========================================================================
+    // 1. START PHASE: Đầu Turn
+    // =========================================================================
+    private IEnumerator HandleStartPhase()
     {
-        Debug.Log("=== TRẬN ĐẤU BẮT ĐẦU: TURN START ===");
-        
-        // Reset trạng thái hành động của tất cả tướng
+        // Logic: Cộng tiền thụ động, hồi MovementPoint tối đa cho tướng từ DB
         foreach (var card in allCards)
         {
             card.hasActedThisturn = false;
+            // Ví dụ hồi điểm di chuyển: card.currentRuntimeMovePoint = card.classData.movement_point;
         }
 
-        // SẮP XẾP: Lực chiến cao hơn xếp trước. 
-        // Nếu bằng lực chiến, bạn có thể thêm điều kiện phụ (ví dụ: Phe A ưu tiên)
+        yield return new WaitForSeconds(1f); // Hiển thị UI "Turn X"
+
+        // Tự động chuyển sang Phase mua sắm
+        ChangePhase(TurnPhase.ShoppingPhase);
+    }
+
+    // =========================================================================
+    // 2. SHOPPING PHASE: Mua sắm & Sắp xếp đội hình
+    // =========================================================================
+    private IEnumerator HandleShoppingPhase()
+    {
+        Debug.Log("Cửa hàng mở cửa! Người chơi có 30 giây để mua bài và xếp quân.");
+
+        // Bật UI Shop, cho phép kéo thả thẻ bài lên bàn cờ 12x12
+        // Thường đoạn này bạn sẽ làm một bộ đếm thời gian (Countdown Timer)
+
+        float shoppingTime = 5f; // Giả lập cho 5 giây mua sắm nhanh
+        while (shoppingTime > 0)
+        {
+            // Debug.Log($"Thời gian mua sắm còn: {Mathf.CeilToInt(shoppingTime)}s");
+            yield return new WaitForSeconds(1f);
+            shoppingTime -= 1f;
+        }
+
+        // Đóng UI Shop, khóa vị trí không cho xếp quân nữa
+        Debug.Log("Hết giờ mua sắm! Chuẩn bị chiến đấu.");
+
+        ChangePhase(TurnPhase.BattlePhase);
+    }
+
+    // =========================================================================
+    // 3. BATTLE PHASE: Giai đoạn chiến đấu (Logic cũ của bạn được đem vào đây)
+    // =========================================================================
+    private void HandleBattlePhaseInit()
+    {
+        Debug.Log("--- BẮT ĐẦU GIAO TRANH ---");
+
+        // Lọc lấy những tướng thực sự đang có mặt trên bàn cờ để chiến đấu
+        // Sắp xếp: Lực chiến cao xếp trước
         List<CardBase> sortedList = allCards
             .OrderByDescending(c => c.Power)
-            .ThenBy(c => c.Team) 
+            .ThenBy(c => c.Team)
             .ToList();
 
-        // Nạp vào Hàng đợi (Queue)
         actionQueue.Clear();
         foreach (var card in sortedList)
         {
             actionQueue.Enqueue(card);
         }
 
-        yield return new WaitForSeconds(1f); // Chờ 1 giây để hiển thị UI hiệu ứng Turn Start
-        ChangeState(BattleState.Battle);
+        // Chạy vòng lặp hành động cho hàng đợi
+        ExecuteNextBattleAction();
     }
 
-    // --- TURN BATTLE ---
-    private void HandleTurnBattle()
+    private void ExecuteNextBattleAction()
     {
-        // Kiểm tra xem còn tướng nào chưa đi không
         if (actionQueue.Count > 0)
         {
             currentActiveCard = actionQueue.Dequeue();
-            Debug.Log($"---> Lượt của: {currentActiveCard.Name} (Phe {currentActiveCard.Team}) - Lực chiến: {currentActiveCard.Power}");
-            
-            // Kích hoạt quyền điều khiển cho tướng này
-            StartCoroutine(PlayerOrAIControl(currentActiveCard));
+            Debug.Log($"-> Lượt hành động: {currentActiveCard.Name} (Phe {currentActiveCard.Team})");
+
+            StartCoroutine(CharacterControlRoutine(currentActiveCard));
         }
         else
         {
-            // Tất cả các tướng đều đã đi xong lượt
-            ChangeState(BattleState.End);
+            // Tất cả các tướng trên bàn cờ đã đi xong lượt hành động
+            ChangePhase(TurnPhase.EndPhase);
         }
     }
 
-    // Mô phỏng quá trình điều khiển tướng (Di chuyển -> Tấn công/Bỏ qua)
-    private IEnumerator PlayerOrAIControl(CardBase character)
+    private IEnumerator CharacterControlRoutine(CardBase character)
     {
-        // 1. Giai đoạn di chuyển (Ví dụ: click chọn vị trí cụ thể)
-        // Trong game thật, bạn sẽ đợi người chơi bấm chuột hoặc AI tính toán. Ở đây giả lập chờ 1.5s
-        yield return new WaitForSeconds(1f);
+        // Giả lập Tướng di chuyển dựa trên movement_range
+        yield return new WaitForSeconds(0.8f);
         character.MoveTo(new Vector3(Random.Range(0, 5), 0, Random.Range(0, 5)));
 
-        // 2. Giai đoạn Tấn công hoặc Không tấn công
-        yield return new WaitForSeconds(1f);
-        bool choseToAttack = Random.value > 0.3f; // Giả lập tỷ lệ 70% tấn công, 30% bỏ qua
-        
-        if (choseToAttack)
-        {
-            // character.Attack();
-        }
-        else
-        {
-            Debug.Log($"{character.Name} chọn Đứng Yên (Không tấn công).");
-        }
+        // Giả lập Tướng tấn công
+        yield return new WaitForSeconds(0.8f);
+        // character.Attack();
 
-        // 3. Kết thúc hành động của tướng này
         character.EndAction();
-        Debug.Log($"{character.Name} kết thúc lượt cá nhân.");
 
-        // Tiếp tục vòng lặp lấy tướng tiếp theo trong Queue
-        HandleTurnBattle(); 
+        // Đệ quy lấy tướng tiếp theo trong Queue chiến đấu
+        ExecuteNextBattleAction();
     }
 
-    // --- TURN END ---
-    private IEnumerator HandleTurnEnd()
+    // =========================================================================
+    // 4. END PHASE: Kết thúc Turn, dọn dẹp dữ liệu
+    // =========================================================================
+    private IEnumerator HandleEndPhase()
     {
-        Debug.Log("=== KẾT THÚC TURN: TURN END ===");
-        // Kiểm tra điều kiện thắng/thua ở đây (ví dụ: một phe chết hết chưa)
-        
+        Debug.Log("--- KẾT THÚC LƯỢT (CLEANUP) ---");
+
+        // Logic: Tính toán trừ máu Linh Hồn của Người chơi nếu bị thua trong Battle Phase
+        // Kiểm tra xem có người chơi nào máu về 0 chưa để chuyển sang BattleState.GameOver
+
         yield return new WaitForSeconds(1.5f);
 
-        // Chuyển sang Turn mới, vòng lặp lại từ đầu
-        ChangeState(BattleState.Start);
+        // Tăng số Turn lên và lặp lại vòng tuần hoàn mới
+        currentTurnNumber++;
+        ChangePhase(TurnPhase.StartPhase);
+    }
+
+    // Hàm để các class khác gọi từ ngoài vào khi game kết thúc đột ngột
+    public void TriggerGameOver()
+    {
+        currentBattleState = BattleState.GameOver;
+        Debug.Log("<color=red>=== TRẬN ĐẤU KẾT THÚC ===</color>");
     }
 }
