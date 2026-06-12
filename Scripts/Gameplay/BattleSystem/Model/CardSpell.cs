@@ -71,6 +71,8 @@ public class CardSpell : CardBase
         this.IsAlive = true;
         this.Skills = cardSpell.Skills;
         this.CardType = CardType.CardSpell;
+        this.Emblems = cardSpell.Emblems;
+        this.Class = cardSpell.Class;
 
         this.CurrentHealth = cardSpell.Health;
         this.CurrentPhysicalAttack = cardSpell.PhysicalAttack;

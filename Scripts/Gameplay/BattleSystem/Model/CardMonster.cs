@@ -71,6 +71,8 @@ public class CardMonster : CardBase
         this.IsAlive = true;
         this.Skills = cardMonster.Skills;
         this.CardType = CardType.CardMonster;
+        this.Emblems = cardMonster.Emblems;
+        this.Class = cardMonster.Class;
 
         this.CurrentHealth = cardMonster.Health;
         this.CurrentPhysicalAttack = cardMonster.PhysicalAttack;

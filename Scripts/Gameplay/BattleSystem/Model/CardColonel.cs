@@ -71,6 +71,8 @@ public class CardColonel : CardBase
         this.IsAlive = true;
         this.Skills = cardColonel.Skills;
         this.CardType = CardType.CardColonel;
+        this.Emblems = cardColonel.Emblems;
+        this.Class = cardColonel.Class;
 
         this.CurrentHealth = cardColonel.Health;
         this.CurrentPhysicalAttack = cardColonel.PhysicalAttack;

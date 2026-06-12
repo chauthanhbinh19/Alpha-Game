@@ -71,6 +71,8 @@ public class CardMilitary : CardBase
         this.IsAlive = true;
         this.Skills = cardMilitary.Skills;
         this.CardType = CardType.CardMilitary;
+        this.Emblems = cardMilitary.Emblems;
+        this.Class = cardMilitary.Class;
 
         this.CurrentHealth = cardMilitary.Health;
         this.CurrentPhysicalAttack = cardMilitary.PhysicalAttack;

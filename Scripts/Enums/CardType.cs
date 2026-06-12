@@ -7,6 +7,7 @@ public enum CardType
     CardAdmiral,
     CardMonster,
     CardMilitary,
+    CardSoldier,
     CardSpell,
     Book,
     Pet

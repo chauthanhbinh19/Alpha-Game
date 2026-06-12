@@ -15,16 +15,16 @@ public class EmblemSystem
     {
         Dictionary<string, int> dict = new();
 
-        foreach (var card in team)
-        {
-            foreach (var emblem in card.Emblems)
-            {
-                if (!dict.ContainsKey(emblem))
-                    dict[emblem] = 0;
+        // foreach (var card in team)
+        // {
+        //     foreach (var emblem in card.Emblems)
+        //     {
+        //         if (!dict.ContainsKey(emblem))
+        //             dict[emblem] = 0;
 
-                dict[emblem]++;
-            }
-        }
+        //         dict[emblem]++;
+        //     }
+        // }
 
         return dict;
     }

@@ -179,6 +179,18 @@ public static class JsonHelper
                                 c.MovementRange = 2; // Giá trị mặc định nếu parse lỗi
                             }
                             break;
+
+                        case "movement_point":
+                            // === SỬA LỖI TẠI ĐÂY: Ép kiểu từ String sang Int an toàn ===
+                            if (int.TryParse(value, out int point))
+                            {
+                                c.MovementPoint = point; 
+                            }
+                            else
+                            {
+                                c.MovementPoint = 4; // Giá trị mặc định nếu parse lỗi
+                            }
+                            break;
                     }
                 }
             }
@@ -210,7 +222,8 @@ public static class JsonHelper
         jsonBuilder.Append($"\"sub_image\":\"{EscapeString(c.SubImage)}\",");
         jsonBuilder.Append($"\"main_type\":\"{EscapeString(c.MainType)}\",");
         jsonBuilder.Append($"\"main_image\":\"{EscapeString(c.MainImage)}\",");
-        jsonBuilder.Append($"\"movement_range\":\"{c.MovementRange}\"");
+        jsonBuilder.Append($"\"movement_range\":\"{c.MovementRange}\",");
+        jsonBuilder.Append($"\"movement_point\":\"{c.MovementPoint}\"");
         jsonBuilder.Append("}");
 
         return jsonBuilder.ToString();

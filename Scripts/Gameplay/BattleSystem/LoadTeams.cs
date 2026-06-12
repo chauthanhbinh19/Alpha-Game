@@ -16,9 +16,10 @@ public class LoadTeams
         var admiralTask = UserCardAdmiralsService.Create().GetUserCardAdmiralsTeamWithoutPositionAsync(userId, teamId);
         var monsterTask = UserCardMonstersService.Create().GetUserCardMonstersTeamWithoutPositionAsync(userId, teamId);
         var militaryTask = UserCardMilitariesService.Create().GetUserCardMilitariesTeamWithoutPositionAsync(userId, teamId);
+        var soldierTask = UserCardSoldiersService.Create().GetUserCardSoldiersTeamWithoutPositionAsync(userId, teamId);
         var spellTask = UserCardSpellsService.Create().GetUserCardSpellsTeamWithoutPositionAsync(userId, teamId);
 
-        await Task.WhenAll(heroTask, captainTask, colonelTask, generalTask, admiralTask, monsterTask, militaryTask, spellTask);
+        await Task.WhenAll(heroTask, captainTask, colonelTask, generalTask, admiralTask, monsterTask, militaryTask, soldierTask, spellTask);
 
         var cardHeroList = heroTask.Result;
         var cardCaptainList = captainTask.Result;
@@ -27,6 +28,7 @@ public class LoadTeams
         var cardAdmiralList = admiralTask.Result;
         var cardMonsterList = monsterTask.Result;
         var cardMilitaryList = militaryTask.Result;
+        var cardSoldierList = soldierTask.Result;
         var cardSpellList = spellTask.Result;
 
         List<CardBase> allCards = new List<CardBase>();
@@ -76,6 +78,13 @@ public class LoadTeams
         foreach (var entity in cardMonsterList)
         {
             CardMonster card = new CardMonster();
+            card.Initialize(entity);
+            allCards.Add(card);
+        }
+
+        foreach (var entity in cardSoldierList)
+        {
+            CardSoldier card = new CardSoldier();
             card.Initialize(entity);
             allCards.Add(card);
         }

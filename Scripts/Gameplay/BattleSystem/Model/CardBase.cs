@@ -66,7 +66,8 @@ public abstract class CardBase : MonoBehaviour
     public double SkillResistanceRate { get; set; } = 0;
     public CardType CardType;
     public List<Skills> Skills { get; set; } = new List<Skills>{ };
-    public List<string> Emblems { get; set; } = new();
+    public List<Emblems> Emblems { get; set; } = new List<Emblems>();
+    public Classes Class { get; set; } = new Classes();
     //Current
     public double CurrentHealth { get; set; } = 0;
     public double CurrentPhysicalAttack { get; set; } = 0;

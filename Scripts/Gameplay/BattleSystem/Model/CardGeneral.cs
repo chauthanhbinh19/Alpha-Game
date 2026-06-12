@@ -71,6 +71,8 @@ public class CardGeneral : CardBase
         this.IsAlive = true;
         this.Skills = cardGeneral.Skills;
         this.CardType = CardType.CardGeneral;
+        this.Emblems = cardGeneral.Emblems;
+        this.Class = cardGeneral.Class;
 
         this.CurrentHealth = cardGeneral.Health;
         this.CurrentPhysicalAttack = cardGeneral.PhysicalAttack;

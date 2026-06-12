@@ -47,7 +47,8 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                             'sub_image', cl.sub_image,
                             'main_type', cl.main_type,
                             'main_image', cl.main_image,
-                            'movement_range', cl.movement_range
+                            'movement_range', cl.movement_range,
+                                'movement_point', cl.movement_point
                         )
                     )
                     FROM card_soldier_class chc
@@ -313,7 +314,8 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                                 'sub_image', cl.sub_image,
                                 'main_type', cl.main_type,
                                 'main_image', cl.main_image,
-                                'movement_range', cl.movement_range
+                                'movement_range', cl.movement_range,
+                                'movement_point', cl.movement_point
                             )
                         )
                         FROM card_soldier_class chc
@@ -544,7 +546,8 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                                 'sub_image', cl.sub_image,
                                 'main_type', cl.main_type,
                                 'main_image', cl.main_image,
-                                'movement_range', cl.movement_range
+                                'movement_range', cl.movement_range,
+                                'movement_point', cl.movement_point
                             )
                         )
                         FROM card_soldier_class chc
@@ -1639,7 +1642,8 @@ public class UserCardSoldiersRepository : IUserCardSoldiersRepository
                                 'sub_image', cl.sub_image,
                                 'main_type', cl.main_type,
                                 'main_image', cl.main_image,
-                                'movement_range', cl.movement_range
+                                'movement_range', cl.movement_range,
+                                'movement_point', cl.movement_point
                             )
                         )
                         FROM card_soldier_class chc

@@ -71,6 +71,8 @@ public class CardAdmiral : CardBase
         this.IsAlive = true;
         this.Skills = cardAdmiral.Skills;
         this.CardType = CardType.CardAdmiral;
+        this.Emblems = cardAdmiral.Emblems;
+        this.Class = cardAdmiral.Class;
 
         this.CurrentHealth = cardAdmiral.Health;
         this.CurrentPhysicalAttack = cardAdmiral.PhysicalAttack;

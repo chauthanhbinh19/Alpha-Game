@@ -71,6 +71,8 @@ public class CardHero : CardBase
         this.IsAlive = true;
         this.Skills = cardHero.Skills;
         this.CardType = CardType.CardHero;
+        this.Emblems = cardHero.Emblems;
+        this.Class = cardHero.Class;
 
         this.CurrentHealth = cardHero.Health;
         this.CurrentPhysicalAttack = cardHero.PhysicalAttack;

@@ -8,6 +8,7 @@ public class Classes
     public string MainType { get; set; }
     public string MainImage { get; set; }
     public int MovementRange { get; set; }
+    public int MovementPoint { get; set; }
     public string Description { get; set; }
     // public List<EmblemThreshold> Thresholds;
     public Classes()
