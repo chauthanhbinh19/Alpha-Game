@@ -44,6 +44,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -70,6 +72,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -99,6 +103,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -125,6 +131,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -154,6 +162,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -180,6 +190,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -209,6 +221,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -235,6 +249,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -264,6 +280,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -290,6 +308,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -319,6 +339,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -345,6 +367,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -374,6 +398,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -400,6 +426,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -429,6 +457,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -455,6 +485,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -484,6 +516,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -510,6 +544,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -539,6 +575,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -565,6 +603,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -594,6 +634,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -620,6 +662,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -649,6 +693,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -675,6 +721,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -704,6 +752,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -730,6 +780,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -759,6 +811,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -785,6 +839,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -814,6 +870,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -840,6 +898,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);
@@ -869,6 +929,8 @@ public class AnimationController : MonoBehaviour
         Transform group2Background3Transform = transform.Find("Group2/Background3");
         Transform group2Background4Transform = transform.Find("Group2/Background4");
         Transform group2Background6Transform = transform.Find("Group2/Background6");
+        Transform group2Background7Transform = transform.Find("Group2/Background7");
+        Transform group2Background9Transform = transform.Find("Group2/Background9");
 
         Transform group3Background1Transform = transform.Find("Group3/Background1");
         Transform group3Background3Transform = transform.Find("Group3/Background3");
@@ -895,6 +957,8 @@ public class AnimationController : MonoBehaviour
         AddRotation(group2Background3Transform, 40f, 1);
         AddRotation(group2Background4Transform, 40f, -1);
         AddRotation(group2Background6Transform, 40f, 1);
+        AddRotation(group2Background7Transform, 40f, -1);
+        AddRotation(group2Background9Transform, 40f, 1);
 
         AddRotation(group3Background1Transform, 20f, -1);
         AddRotation(group3Background3Transform, 20f, 1);

@@ -12,7 +12,7 @@ public class UserBooksController : MonoBehaviour
 {
     public static UserBooksController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject cardsPrefab;
+    private GameObject BookButtonPrefab;
     private GameObject PositionPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
     private GameObject tempCurrentObject;
@@ -39,7 +39,7 @@ public class UserBooksController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        cardsPrefab = UIManager.Instance.Get("CardsPrefab");
+        BookButtonPrefab = UIManager.Instance.Get("BookButtonPrefab");
         PositionPrefab = UIManager.Instance.Get("PositionPrefab");
         MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
     }
@@ -54,10 +54,10 @@ public class UserBooksController : MonoBehaviour
 
         foreach (var book in books)
         {
-            GameObject bookObject = Instantiate(cardsPrefab, contentPanel);
+            GameObject bookObject = Instantiate(BookButtonPrefab, contentPanel);
             Transform transform = bookObject.transform;
 
-            Text titleText = transform.Find("Title").GetComponent<Text>();
+            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
             titleText.text = book.Name.Replace("_", " ");
 
             RawImage image = transform.Find("Image").GetComponent<RawImage>();

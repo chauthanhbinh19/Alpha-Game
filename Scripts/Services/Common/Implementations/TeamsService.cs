@@ -85,4 +85,49 @@ public class TeamsService : ITeamsService
     {
         return _teamsRepository.DeleteUserTeamEmblemsAsync(user_id, teamId, position, cardType);
     }
+
+    public Task<bool> UpdateUserCardHeroesTeamPositionsAsync(string userId)
+    {
+        return _teamsRepository.UpdateUserCardHeroesTeamPositionsAsync(userId);
+    }
+
+    public Task<bool> UpdateUserCardCaptainsTeamPositionsAsync(string userId)
+    {
+        return _teamsRepository.UpdateUserCardCaptainsTeamPositionsAsync(userId);
+    }
+
+    public Task<bool> UpdateUserCardColonelsTeamPositionsAsync(string userId)
+    {
+        return _teamsRepository.UpdateUserCardColonelsTeamPositionsAsync(userId);
+    }
+
+    public Task<bool> UpdateUserCardGeneralsTeamPositionsAsync(string userId)
+    {
+        return _teamsRepository.UpdateUserCardGeneralsTeamPositionsAsync(userId);
+    }
+
+    public Task<bool> UpdateUserCardAdmiralsTeamPositionsAsync(string userId)
+    {
+        return _teamsRepository.UpdateUserCardAdmiralsTeamPositionsAsync(userId);
+    }
+
+    public Task<bool> UpdateUserCardMonstersTeamPositionsAsync(string userId)
+    {
+        return _teamsRepository.UpdateUserCardMonstersTeamPositionsAsync(userId);
+    }
+
+    public Task<bool> UpdateUserCardMilitariesTeamPositionsAsync(string userId)
+    {
+        return _teamsRepository.UpdateUserCardMilitariesTeamPositionsAsync(userId);
+    }
+
+    public Task<bool> UpdateUserCardSoldiersTeamPositionsAsync(string userId)
+    {
+        return _teamsRepository.UpdateUserCardSoldiersTeamPositionsAsync(userId);
+    }
+
+    public Task<bool> UpdateUserCardSpellsTeamPositionsAsync(string userId)
+    {
+        return _teamsRepository.UpdateUserCardSpellsTeamPositionsAsync(userId);
+    }
 }

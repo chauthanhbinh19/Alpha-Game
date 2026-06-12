@@ -196,4 +196,652 @@ public class TeamsRepository : ITeamsRepository
             }
         }
     }
+    public async Task<bool> UpdateUserCardHeroesTeamPositionsAsync(string userId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        try
+        {
+            const string sql = @"
+            UPDATE user_card_heroes uch
+            JOIN (
+                SELECT
+                    h.card_hero_id,
+                    t.team_id,
+                    CONCAT(
+                        FLOOR(((h.rn - 1) % 100) / 10) + 1,
+                        '-',
+                        ((h.rn - 1) % 10) + 1
+                    ) AS position
+                FROM (
+                    SELECT
+                        card_hero_id,
+                        ROW_NUMBER() OVER (ORDER BY card_hero_id) AS rn
+                    FROM user_card_heroes
+                    WHERE user_id = @userId
+                ) h
+                JOIN (
+                    SELECT
+                        team_id,
+                        ROW_NUMBER() OVER (ORDER BY team_id) AS team_rn
+                    FROM teams
+                    WHERE user_id = @userId
+                ) t
+                    ON FLOOR((h.rn - 1) / 100) + 1 = t.team_rn
+            ) x
+            ON uch.card_hero_id = x.card_hero_id
+            AND uch.user_id = @userId
+            SET
+                uch.team_id = x.team_id,
+                uch.position = x.position;";
+
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            await using var transaction = await connection.BeginTransactionAsync();
+
+            try
+            {
+                await using var command = new MySqlCommand(sql, connection, (MySqlTransaction)transaction);
+                command.Parameters.AddWithValue("@userId", userId);
+
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+
+                await transaction.CommitAsync();
+
+                Console.WriteLine($"Updated {rowsAffected} rows for user {userId}");
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"MySQL Error: {ex.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected Error: {ex.Message}");
+            return false;
+        }
+    }
+    public async Task<bool> UpdateUserCardCaptainsTeamPositionsAsync(string userId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        try
+        {
+            const string sql = @"
+            UPDATE user_card_captains uch
+            JOIN (
+                SELECT
+                    h.card_captain_id,
+                    t.team_id,
+                    CONCAT(
+                        FLOOR(((h.rn - 1) % 100) / 10) + 1,
+                        '-',
+                        ((h.rn - 1) % 10) + 1
+                    ) AS position
+                FROM (
+                    SELECT
+                        card_captain_id,
+                        ROW_NUMBER() OVER (ORDER BY card_captain_id) AS rn
+                    FROM user_card_captains
+                    WHERE user_id = @userId
+                ) h
+                JOIN (
+                    SELECT
+                        team_id,
+                        ROW_NUMBER() OVER (ORDER BY team_id) AS team_rn
+                    FROM teams
+                    WHERE user_id = @userId
+                ) t
+                    ON FLOOR((h.rn - 1) / 100) + 1 = t.team_rn
+            ) x
+            ON uch.card_captain_id = x.card_captain_id
+            AND uch.user_id = @userId
+            SET
+                uch.team_id = x.team_id,
+                uch.position = x.position;";
+
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            await using var transaction = await connection.BeginTransactionAsync();
+
+            try
+            {
+                await using var command = new MySqlCommand(sql, connection, (MySqlTransaction)transaction);
+                command.Parameters.AddWithValue("@userId", userId);
+
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+
+                await transaction.CommitAsync();
+
+                Console.WriteLine($"Updated {rowsAffected} rows for user {userId}");
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"MySQL Error: {ex.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected Error: {ex.Message}");
+            return false;
+        }
+    }
+    public async Task<bool> UpdateUserCardColonelsTeamPositionsAsync(string userId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        try
+        {
+            const string sql = @"
+            UPDATE user_card_colonels uch
+            JOIN (
+                SELECT
+                    h.card_colonel_id,
+                    t.team_id,
+                    CONCAT(
+                        FLOOR(((h.rn - 1) % 100) / 10) + 1,
+                        '-',
+                        ((h.rn - 1) % 10) + 1
+                    ) AS position
+                FROM (
+                    SELECT
+                        card_colonel_id,
+                        ROW_NUMBER() OVER (ORDER BY card_colonel_id) AS rn
+                    FROM user_card_colonels
+                    WHERE user_id = @userId
+                ) h
+                JOIN (
+                    SELECT
+                        team_id,
+                        ROW_NUMBER() OVER (ORDER BY team_id) AS team_rn
+                    FROM teams
+                    WHERE user_id = @userId
+                ) t
+                    ON FLOOR((h.rn - 1) / 100) + 1 = t.team_rn
+            ) x
+            ON uch.card_colonel_id = x.card_colonel_id
+            AND uch.user_id = @userId
+            SET
+                uch.team_id = x.team_id,
+                uch.position = x.position;";
+
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            await using var transaction = await connection.BeginTransactionAsync();
+
+            try
+            {
+                await using var command = new MySqlCommand(sql, connection, (MySqlTransaction)transaction);
+                command.Parameters.AddWithValue("@userId", userId);
+
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+
+                await transaction.CommitAsync();
+
+                Console.WriteLine($"Updated {rowsAffected} rows for user {userId}");
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"MySQL Error: {ex.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected Error: {ex.Message}");
+            return false;
+        }
+    }
+    public async Task<bool> UpdateUserCardGeneralsTeamPositionsAsync(string userId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        try
+        {
+            const string sql = @"
+            UPDATE user_card_generals uch
+            JOIN (
+                SELECT
+                    h.card_general_id,
+                    t.team_id,
+                    CONCAT(
+                        FLOOR(((h.rn - 1) % 100) / 10) + 1,
+                        '-',
+                        ((h.rn - 1) % 10) + 1
+                    ) AS position
+                FROM (
+                    SELECT
+                        card_general_id,
+                        ROW_NUMBER() OVER (ORDER BY card_general_id) AS rn
+                    FROM user_card_generals
+                    WHERE user_id = @userId
+                ) h
+                JOIN (
+                    SELECT
+                        team_id,
+                        ROW_NUMBER() OVER (ORDER BY team_id) AS team_rn
+                    FROM teams
+                    WHERE user_id = @userId
+                ) t
+                    ON FLOOR((h.rn - 1) / 100) + 1 = t.team_rn
+            ) x
+            ON uch.card_general_id = x.card_general_id
+            AND uch.user_id = @userId
+            SET
+                uch.team_id = x.team_id,
+                uch.position = x.position;";
+
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            await using var transaction = await connection.BeginTransactionAsync();
+
+            try
+            {
+                await using var command = new MySqlCommand(sql, connection, (MySqlTransaction)transaction);
+                command.Parameters.AddWithValue("@userId", userId);
+
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+
+                await transaction.CommitAsync();
+
+                Console.WriteLine($"Updated {rowsAffected} rows for user {userId}");
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"MySQL Error: {ex.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected Error: {ex.Message}");
+            return false;
+        }
+    }
+    public async Task<bool> UpdateUserCardAdmiralsTeamPositionsAsync(string userId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        try
+        {
+            const string sql = @"
+            UPDATE user_card_admirals uch
+            JOIN (
+                SELECT
+                    h.card_admiral_id,
+                    t.team_id,
+                    CONCAT(
+                        FLOOR(((h.rn - 1) % 100) / 10) + 1,
+                        '-',
+                        ((h.rn - 1) % 10) + 1
+                    ) AS position
+                FROM (
+                    SELECT
+                        card_admiral_id,
+                        ROW_NUMBER() OVER (ORDER BY card_admiral_id) AS rn
+                    FROM user_card_admirals
+                    WHERE user_id = @userId
+                ) h
+                JOIN (
+                    SELECT
+                        team_id,
+                        ROW_NUMBER() OVER (ORDER BY team_id) AS team_rn
+                    FROM teams
+                    WHERE user_id = @userId
+                ) t
+                    ON FLOOR((h.rn - 1) / 100) + 1 = t.team_rn
+            ) x
+            ON uch.card_admiral_id = x.card_admiral_id
+            AND uch.user_id = @userId
+            SET
+                uch.team_id = x.team_id,
+                uch.position = x.position;";
+
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            await using var transaction = await connection.BeginTransactionAsync();
+
+            try
+            {
+                await using var command = new MySqlCommand(sql, connection, (MySqlTransaction)transaction);
+                command.Parameters.AddWithValue("@userId", userId);
+
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+
+                await transaction.CommitAsync();
+
+                Console.WriteLine($"Updated {rowsAffected} rows for user {userId}");
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"MySQL Error: {ex.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected Error: {ex.Message}");
+            return false;
+        }
+    }
+    public async Task<bool> UpdateUserCardMonstersTeamPositionsAsync(string userId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        try
+        {
+            const string sql = @"
+            UPDATE user_card_monsters uch
+            JOIN (
+                SELECT
+                    h.card_monster_id,
+                    t.team_id,
+                    CONCAT(
+                        FLOOR(((h.rn - 1) % 100) / 10) + 1,
+                        '-',
+                        ((h.rn - 1) % 10) + 1
+                    ) AS position
+                FROM (
+                    SELECT
+                        card_monster_id,
+                        ROW_NUMBER() OVER (ORDER BY card_monster_id) AS rn
+                    FROM user_card_monsters
+                    WHERE user_id = @userId
+                ) h
+                JOIN (
+                    SELECT
+                        team_id,
+                        ROW_NUMBER() OVER (ORDER BY team_id) AS team_rn
+                    FROM teams
+                    WHERE user_id = @userId
+                ) t
+                    ON FLOOR((h.rn - 1) / 100) + 1 = t.team_rn
+            ) x
+            ON uch.card_monster_id = x.card_monster_id
+            AND uch.user_id = @userId
+            SET
+                uch.team_id = x.team_id,
+                uch.position = x.position;";
+
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            await using var transaction = await connection.BeginTransactionAsync();
+
+            try
+            {
+                await using var command = new MySqlCommand(sql, connection, (MySqlTransaction)transaction);
+                command.Parameters.AddWithValue("@userId", userId);
+
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+
+                await transaction.CommitAsync();
+
+                Console.WriteLine($"Updated {rowsAffected} rows for user {userId}");
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"MySQL Error: {ex.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected Error: {ex.Message}");
+            return false;
+        }
+    }
+    public async Task<bool> UpdateUserCardMilitariesTeamPositionsAsync(string userId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        try
+        {
+            const string sql = @"
+            UPDATE user_card_militaries uch
+            JOIN (
+                SELECT
+                    h.card_military_id,
+                    t.team_id,
+                    CONCAT(
+                        FLOOR(((h.rn - 1) % 100) / 10) + 1,
+                        '-',
+                        ((h.rn - 1) % 10) + 1
+                    ) AS position
+                FROM (
+                    SELECT
+                        card_military_id,
+                        ROW_NUMBER() OVER (ORDER BY card_military_id) AS rn
+                    FROM user_card_militaries
+                    WHERE user_id = @userId
+                ) h
+                JOIN (
+                    SELECT
+                        team_id,
+                        ROW_NUMBER() OVER (ORDER BY team_id) AS team_rn
+                    FROM teams
+                    WHERE user_id = @userId
+                ) t
+                    ON FLOOR((h.rn - 1) / 100) + 1 = t.team_rn
+            ) x
+            ON uch.card_military_id = x.card_military_id
+            AND uch.user_id = @userId
+            SET
+                uch.team_id = x.team_id,
+                uch.position = x.position;";
+
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            await using var transaction = await connection.BeginTransactionAsync();
+
+            try
+            {
+                await using var command = new MySqlCommand(sql, connection, (MySqlTransaction)transaction);
+                command.Parameters.AddWithValue("@userId", userId);
+
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+
+                await transaction.CommitAsync();
+
+                Console.WriteLine($"Updated {rowsAffected} rows for user {userId}");
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"MySQL Error: {ex.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected Error: {ex.Message}");
+            return false;
+        }
+    }
+    public async Task<bool> UpdateUserCardSoldiersTeamPositionsAsync(string userId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        try
+        {
+            const string sql = @"
+            UPDATE user_card_soldiers uch
+            JOIN (
+                SELECT
+                    h.card_soldier_id,
+                    t.team_id,
+                    CONCAT(
+                        FLOOR(((h.rn - 1) % 100) / 10) + 1,
+                        '-',
+                        ((h.rn - 1) % 10) + 1
+                    ) AS position
+                FROM (
+                    SELECT
+                        card_soldier_id,
+                        ROW_NUMBER() OVER (ORDER BY card_soldier_id) AS rn
+                    FROM user_card_soldiers
+                    WHERE user_id = @userId
+                ) h
+                JOIN (
+                    SELECT
+                        team_id,
+                        ROW_NUMBER() OVER (ORDER BY team_id) AS team_rn
+                    FROM teams
+                    WHERE user_id = @userId
+                ) t
+                    ON FLOOR((h.rn - 1) / 100) + 1 = t.team_rn
+            ) x
+            ON uch.card_soldier_id = x.card_soldier_id
+            AND uch.user_id = @userId
+            SET
+                uch.team_id = x.team_id,
+                uch.position = x.position;";
+
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            await using var transaction = await connection.BeginTransactionAsync();
+
+            try
+            {
+                await using var command = new MySqlCommand(sql, connection, (MySqlTransaction)transaction);
+                command.Parameters.AddWithValue("@userId", userId);
+
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+
+                await transaction.CommitAsync();
+
+                Console.WriteLine($"Updated {rowsAffected} rows for user {userId}");
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"MySQL Error: {ex.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected Error: {ex.Message}");
+            return false;
+        }
+    }
+    public async Task<bool> UpdateUserCardSpellsTeamPositionsAsync(string userId)
+    {
+        string connectionString = DatabaseConfig.ConnectionString;
+        try
+        {
+            const string sql = @"
+            UPDATE user_card_spells uch
+            JOIN (
+                SELECT
+                    h.card_spell_id,
+                    t.team_id,
+                    CONCAT(
+                        FLOOR(((h.rn - 1) % 100) / 10) + 1,
+                        '-',
+                        ((h.rn - 1) % 10) + 1
+                    ) AS position
+                FROM (
+                    SELECT
+                        card_spell_id,
+                        ROW_NUMBER() OVER (ORDER BY card_spell_id) AS rn
+                    FROM user_card_spells
+                    WHERE user_id = @userId
+                ) h
+                JOIN (
+                    SELECT
+                        team_id,
+                        ROW_NUMBER() OVER (ORDER BY team_id) AS team_rn
+                    FROM teams
+                    WHERE user_id = @userId
+                ) t
+                    ON FLOOR((h.rn - 1) / 100) + 1 = t.team_rn
+            ) x
+            ON uch.card_spell_id = x.card_spell_id
+            AND uch.user_id = @userId
+            SET
+                uch.team_id = x.team_id,
+                uch.position = x.position;";
+
+            await using var connection = new MySqlConnection(connectionString);
+            await connection.OpenAsync();
+
+            await using var transaction = await connection.BeginTransactionAsync();
+
+            try
+            {
+                await using var command = new MySqlCommand(sql, connection, (MySqlTransaction)transaction);
+                command.Parameters.AddWithValue("@userId", userId);
+
+                int rowsAffected = await command.ExecuteNonQueryAsync();
+
+                await transaction.CommitAsync();
+
+                Console.WriteLine($"Updated {rowsAffected} rows for user {userId}");
+                return true;
+            }
+            catch
+            {
+                await transaction.RollbackAsync();
+                throw;
+            }
+        }
+        catch (MySqlException ex)
+        {
+            Console.WriteLine($"MySQL Error: {ex.Message}");
+            return false;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Unexpected Error: {ex.Message}");
+            return false;
+        }
+    }
 }

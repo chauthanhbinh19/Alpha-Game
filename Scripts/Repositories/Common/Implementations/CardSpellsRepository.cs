@@ -91,7 +91,8 @@ public class CardSpellsRepository : ICardSpellsRepository
                                 'sub_type', cl.sub_type,
                                 'sub_image', cl.sub_image,
                                 'main_type', cl.main_type,
-                                'main_image', cl.main_image
+                                'main_image', cl.main_image,
+                                'movement_range', cl.movement_range
                             )
                         )
                         FROM card_spell_class chc

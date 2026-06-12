@@ -11,4 +11,13 @@ public interface ITeamsService
     Task<List<TeamEmblems>> GetUserTeamEmblemsAsync(string user_id, string team_id, int position, string cardType);
     Task<bool> InsertUserTeamEmblemsAsync(string user_id, string teamId, int position, EmblemDTO emblemDTO);
     Task<bool> DeleteUserTeamEmblemsAsync(string user_id, string teamId, int position, string cardType);
+    Task<bool> UpdateUserCardHeroesTeamPositionsAsync(string userId);
+    Task<bool> UpdateUserCardCaptainsTeamPositionsAsync(string userId);
+    Task<bool> UpdateUserCardColonelsTeamPositionsAsync(string userId);
+    Task<bool> UpdateUserCardGeneralsTeamPositionsAsync(string userId);
+    Task<bool> UpdateUserCardAdmiralsTeamPositionsAsync(string userId);
+    Task<bool> UpdateUserCardMonstersTeamPositionsAsync(string userId);
+    Task<bool> UpdateUserCardMilitariesTeamPositionsAsync(string userId);
+    Task<bool> UpdateUserCardSoldiersTeamPositionsAsync(string userId);
+    Task<bool> UpdateUserCardSpellsTeamPositionsAsync(string userId);
 }

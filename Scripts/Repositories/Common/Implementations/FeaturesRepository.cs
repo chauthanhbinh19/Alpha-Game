@@ -197,8 +197,8 @@ public class FeaturesRepository : IFeaturesRepository
                 f.code_name,
                 r.base_multiplier,
                 COALESCE(ur.universe_level, 0) AS current_level
-            FROM universe f
-            LEFT JOIN univerese r on f.id = r.id
+            FROM features f
+            LEFT JOIN universes r on f.id = r.id
             LEFT JOIN user_universes ur on r.id = ur.universe_id
             WHERE type = @type";
 

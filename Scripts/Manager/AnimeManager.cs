@@ -35,7 +35,7 @@ public class AnimeManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(AnimePanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        Transform contentPanel = transform.Find("AnimeContent/Content");
+        Transform contentPanel = transform.Find("AnimeContent/Scroll View/Viewport/Content");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
@@ -49,9 +49,9 @@ public class AnimeManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ANIME);
         TextMeshProUGUI titleText2 = transform.Find("AnimeContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.UNIVERSE);
+        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.ANIME);
 
         CreateAnimeButtonUI(1, AppDisplayConstants.Anime.BLACK_CLOVER, TextureHelper.LoadTexture2DCached(ImageConstants.Anime.BLACK_CLOVER_URL), contentPanel);
         CreateAnimeButtonUI(2, AppDisplayConstants.Anime.BLEACH, TextureHelper.LoadTexture2DCached(ImageConstants.Anime.BLEACH_URL), contentPanel);
