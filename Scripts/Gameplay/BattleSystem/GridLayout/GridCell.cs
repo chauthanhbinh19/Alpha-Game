@@ -17,7 +17,7 @@ public class GridCell : MonoBehaviour
     public Renderer MovementPlatform;
     public TextMeshProUGUI GridNumberText;
     public Transform DisplayCardPanel;
-    public CardHero OccupiedCard; // Dữ liệu quân cờ đang đứng tại đây
+    public CardBase OccupiedCard; // Dữ liệu quân cờ đang đứng tại đây
 
     private void Awake()
     {

@@ -14,7 +14,7 @@ public class BattleSpawnController : MonoBehaviour
     private Dictionary<int, GridCell> enemySlotToCellMap = new Dictionary<int, GridCell>();
 
     // Danh sách lưu trữ Runtime trong trận
-    private List<CardHero> activePlayerHeroes = new List<CardHero>();
+    private List<CardBase> activePlayerHeroes = new List<CardBase>();
     private List<CardBase> backEndBenchCards = new List<CardBase>();
 
     async void Start()
@@ -67,12 +67,12 @@ public class BattleSpawnController : MonoBehaviour
         }
     }
 
-    public void DeployTeam(List<CardHero> heroes, bool isPlayer)
+    public void DeployTeam(List<CardBase> cards, bool isPlayer)
     {
         // TỐI ƯU: Chọn đúng Dictionary map vị trí đã tạo ở Bước 1 dựa theo phe
         var slotMap = isPlayer ? playerSlotToCellMap : enemySlotToCellMap;
 
-        foreach (CardHero hero in heroes)
+        foreach (CardBase hero in cards)
         {
             // TÌM Ô CỜ TRÙNG KHỚP: Tìm trực tiếp trong slotMap bằng MainPosition (Tốc độ O(1))
             if (slotMap.TryGetValue(hero.MainPosition, out GridCell targetCell))

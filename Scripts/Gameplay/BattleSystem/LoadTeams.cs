@@ -8,7 +8,7 @@ using UnityEngine;
 // Lớp bọc kết quả trả về sau khi phân loại dữ liệu dựa trên quy ước của bạn
 public class TeamDeploymentResult
 {
-    public List<CardHero> OnFieldCards = new List<CardHero>(); // Đang trên sân (MainPosition từ 1-10)
+    public List<CardBase> OnFieldCards = new List<CardBase>(); // Đang trên sân (MainPosition từ 1-10)
     public List<CardBase> BenchCards = new List<CardBase>();   // Đang ở hàng chờ (Chỉ lưu làm dữ liệu tạm)
 }
 
