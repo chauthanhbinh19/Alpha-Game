@@ -9,7 +9,7 @@ public class BattleManager : MonoBehaviour
     private Dictionary<int, Queue<CardBase>> positionQueues = new Dictionary<int, Queue<CardBase>>();
     
     // Lưu tham chiếu đến các CardController đang hiển thị trên sân để dễ truy xuất
-    private Dictionary<int, CardController> activeCardsOnField = new Dictionary<int, CardController>();
+    // private Dictionary<int, CardController> activeCardsOnField = new Dictionary<int, CardController>();
 
     private void Awake() => Instance = this;
 
@@ -47,7 +47,7 @@ public class BattleManager : MonoBehaviour
         else
         {
             Debug.Log($"Vị trí {positionIndex} đã hết thẻ dự phòng!");
-            activeCardsOnField.Remove(positionIndex);
+            // activeCardsOnField.Remove(positionIndex);
         }
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 
@@ -153,21 +154,28 @@ public class GameDataCacheConfig
         };
 
         int total = loadingTasks.Count;
+        int completedCount = 0;
 
-        for (int i = 0; i < total; i++)
+        // Sử dụng SemaphoreSlim để tránh spam quá nhiều request cùng 1 mili-giây nếu cần (ở đây chạy thẳng luôn)
+        var tasks = loadingTasks.Select(async current =>
         {
-            var current = loadingTasks[i];
+            // Chạy task nạp dữ liệu
+            await current.task();
 
-            float progress = (float)i / total;
+            // Tăng số lượng task đã xong một cách an toàn (Thread-safe)
+            int done = Interlocked.Increment(ref completedCount);
+            float progress = (float)done / total;
 
+            // Cập nhật giao diện (Unity yêu cầu chạy trên Main Thread, dùng Task.Run nếu cần, nhưng await đảm bảo điều này)
             LoadingManager.Instance.SetProgress(
                 progress,
                 $"{Mathf.RoundToInt(progress * 100)}%",
-                LocalizationManager.Get(current.name)
+                LocalizationManager.Get(current.name) // Hiển thị tên cái vừa tải xong
             );
+        });
 
-            await current.task();
-        }
+        // Kích hoạt tất cả các tác vụ chạy song song và đợi toàn bộ hoàn thành
+        await Task.WhenAll(tasks);
 
         CacheDictionaryType();
 

@@ -4,7 +4,7 @@ using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+[DefaultExecutionOrder(-199)]
 public class MaterialManager : MonoBehaviour
 {
     public static MaterialManager Instance { get; private set; }

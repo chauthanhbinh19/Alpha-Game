@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public enum Team { Alpha, Omega }
 
-public abstract class CardBase : MonoBehaviour
+public abstract class CardBase
 {
     public string Id { get; set; }
     public string Name { get; set; }
@@ -118,6 +118,7 @@ public abstract class CardBase : MonoBehaviour
     public double CurrentNormalResistanceRate { get; set; } = 0;
     public double CurrentSkillDamageRate { get; set; } = 0;
     public double CurrentSkillResistanceRate { get; set; } = 0;
+    public int CurrentMovementPoint { get; set; } = 0;
     public string Position { get; set; }
     public int MainPosition { get; set; }
     public int SubIndex { get; set; }

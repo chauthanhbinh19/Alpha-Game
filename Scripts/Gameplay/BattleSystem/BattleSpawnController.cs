@@ -29,8 +29,8 @@ public class BattleSpawnController : MonoBehaviour
         MapSlotsToGridCells();
 
         // Bước 2: Load dữ liệu đội hình từ các Service bằng hàm Async
-        string mockUserId = "user_player_01";
-        string mockTeamId = "team_main_setup";
+        string mockUserId = "639167826246347876";
+        string mockTeamId = "1";
 
         Debug.Log("Đang tải dữ liệu đội hình từ Database...");
         TeamDeploymentResult teamData = await loadTeams.LoadAndSortTeamAsync(mockUserId, mockTeamId);
@@ -43,7 +43,7 @@ public class BattleSpawnController : MonoBehaviour
         DeployTeam(teamData.OnFieldCards, isPlayer: true);
     }
 
-    void MapSlotsToGridCells()
+    public void MapSlotsToGridCells()
     {
         List<GridCell> pCells = gridManager.playerSpawnCells;
         List<GridCell> eCells = gridManager.enemySpawnCells;
@@ -67,44 +67,46 @@ public class BattleSpawnController : MonoBehaviour
         }
     }
 
-    void DeployTeam(List<CardHero> heroes, bool isPlayer)
+    public void DeployTeam(List<CardHero> heroes, bool isPlayer)
     {
+        // TỐI ƯU: Chọn đúng Dictionary map vị trí đã tạo ở Bước 1 dựa theo phe
         var slotMap = isPlayer ? playerSlotToCellMap : enemySlotToCellMap;
 
         foreach (CardHero hero in heroes)
         {
-            // Chuyển đổi thuộc tính dữ liệu MainPosition (string) sang SlotIndex (int)
-            if (int.TryParse(hero.MainPosition, out int slotIndex))
+            // TÌM Ô CỜ TRÙNG KHỚP: Tìm trực tiếp trong slotMap bằng MainPosition (Tốc độ O(1))
+            if (slotMap.TryGetValue(hero.MainPosition, out GridCell targetCell))
             {
-                // Tìm kiếm ô cờ tương ứng với số Slot quy định
-                if (slotMap.TryGetValue(slotIndex, out GridCell targetCell))
+                // Kiểm tra xem ô này đã có ai đứng chưa để tránh chồng lên nhau
+                if (targetCell.OccupiedCard != null)
                 {
-                    // Tạo Visual hiển thị trên không gian Unity3D
-                    GameObject cardObj = Instantiate(cardVisualPrefab, targetCell.transform.position, Quaternion.identity);
-                    cardObj.name = $"{(isPlayer ? "Player" : "Enemy")}_Slot_{slotIndex}_{hero.Name}";
-
-                    CardVisual visualScript = cardObj.GetComponent<CardVisual>();
-                    if (visualScript != null)
-                    {
-                        visualScript.SetupVisual(hero); // Truyền dữ liệu CardHero vào để lấy SubImage gán cho Plane
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"Prefab {cardVisualPrefab.name} thiếu script CardVisual!");
-                    }
-
-                    // Đồng bộ gán tham chiếu vào ô cờ
-                    targetCell.OccupiedCard = hero;
-
-                    // Lưu vào list quản lý cục bộ của controller để dùng cho TurnManager sau này
-                    if (isPlayer) activePlayerHeroes.Add(hero);
-
-                    Debug.Log($"<color=green>[Spawn Thành Công]</color> {hero.Name} đặt tại Slot logic {slotIndex} (Tọa độ ô cờ: {targetCell.GridPos})");
+                    Debug.LogWarning($"Ô số {hero.MainPosition} đã bị chiếm bởi {targetCell.OccupiedCard.Name}. Không thể đặt {hero.Name} vào!");
+                    continue;
                 }
-                else
+
+                // Tạo Visual và làm con trực tiếp của displayCardPanel trên ô cờ đó
+                GameObject cardObj = Instantiate(cardVisualPrefab, targetCell.DisplayCardPanel);
+                cardObj.transform.localPosition = Vector3.zero;
+                cardObj.transform.localRotation = Quaternion.identity;
+
+                cardObj.name = $"{(isPlayer ? "Player" : "Enemy")}_Pos_{hero.MainPosition}_{hero.Name}";
+
+                CardVisual visualScript = cardObj.GetComponent<CardVisual>();
+                if (visualScript != null)
                 {
-                    Debug.LogWarning($"Dữ liệu tướng {hero.Name} yêu cầu Slot {slotIndex}, nhưng hệ thống Map không có ô cờ tương ứng!");
+                    visualScript.SetupVisual(hero);
                 }
+
+                // Đồng bộ gán ngược tham chiếu dữ liệu vào ô cờ
+                targetCell.OccupiedCard = hero;
+
+                if (isPlayer) activePlayerHeroes.Add(hero);
+
+                Debug.Log($"<color=cyan>[Khớp Vị Trí]</color> Đã đặt {hero.Name} vào ô cờ số {targetCell.MainPosition} thành công!");
+            }
+            else
+            {
+                Debug.LogWarning($"Không tìm thấy ô cờ nào có MainPosition = {hero.MainPosition} tương thích với {hero.Name} trong hệ thống Map!");
             }
         }
     }

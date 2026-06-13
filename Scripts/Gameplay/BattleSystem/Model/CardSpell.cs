@@ -124,6 +124,8 @@ public class CardSpell : CardBase
         this.CurrentSkillDamageRate = cardSpell.SkillDamageRate;
         this.CurrentSkillResistanceRate = cardSpell.SkillResistanceRate;
 
+        this.CurrentMovementPoint = cardSpell.Class.MovementPoint;
+
         // Parse position code "x-y"
         string[] parts = cardSpell.Position.Split('-');
         if (parts.Length == 2)

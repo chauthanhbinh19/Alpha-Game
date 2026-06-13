@@ -124,6 +124,8 @@ public class CardMilitary : CardBase
         this.CurrentSkillDamageRate = cardMilitary.SkillDamageRate;
         this.CurrentSkillResistanceRate = cardMilitary.SkillResistanceRate;
 
+        this.CurrentMovementPoint = cardMilitary.Class.MovementPoint;
+
         // Parse position code "x-y"
         string[] parts = cardMilitary.Position.Split('-');
         if (parts.Length == 2)

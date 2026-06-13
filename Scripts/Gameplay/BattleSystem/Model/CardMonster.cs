@@ -124,6 +124,8 @@ public class CardMonster : CardBase
         this.CurrentSkillDamageRate = cardMonster.SkillDamageRate;
         this.CurrentSkillResistanceRate = cardMonster.SkillResistanceRate;
 
+        this.CurrentMovementPoint = cardMonster.Class.MovementPoint;
+
         // Parse position code "x-y"
         string[] parts = cardMonster.Position.Split('-');
         if (parts.Length == 2)

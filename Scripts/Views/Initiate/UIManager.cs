@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-
+[DefaultExecutionOrder(-200)]
 public class UIManager : MonoBehaviour
 {
     // Singleton instance

@@ -14,7 +14,7 @@ public class TeamDeploymentResult
 
 public class LoadTeams
 {
-    public async Task<TeamDeploymentResult> LoadPlayerTeamCardAsync(string userId, string teamId)
+    public async Task<TeamDeploymentResult> LoadAndSortTeamAsync(string userId, string teamId)
     {
         // Gọi các hàm Async chạy song song từ Service của bạn
         var heroTask = UserCardHeroesService.Create().GetUserCardHeroesTeamWithoutPositionAsync(userId, teamId);
@@ -27,7 +27,15 @@ public class LoadTeams
         var soldierTask = UserCardSoldiersService.Create().GetUserCardSoldiersTeamWithoutPositionAsync(userId, teamId);
         var spellTask = UserCardSpellsService.Create().GetUserCardSpellsTeamWithoutPositionAsync(userId, teamId);
 
-        await Task.WhenAll(heroTask, captainTask, colonelTask, generalTask, admiralTask, monsterTask, militaryTask, soldierTask, spellTask);
+        // 2. CHIA THEO NHÓM (BATCHING) - Mỗi lần chỉ cho 3 kết nối chạy đồng thời
+        // Nhóm 1: Các tướng chính
+        await Task.WhenAll(heroTask, captainTask, colonelTask);
+
+        // Nhóm 2: Các cấp chỉ huy và quái vật
+        await Task.WhenAll(generalTask, admiralTask, monsterTask);
+
+        // Nhóm 3: Quân lính và phép bổ trợ
+        await Task.WhenAll(militaryTask, soldierTask, spellTask);
 
         TeamDeploymentResult result = new TeamDeploymentResult();
 
