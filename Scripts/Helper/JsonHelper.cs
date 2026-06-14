@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using UnityEngine;
 
 public static class JsonHelper
 {
@@ -113,7 +114,7 @@ public static class JsonHelper
     /// </summary>
     public static Classes DeserializeClasses(string json)
     {
-        // Trả về object rỗng nếu null
+        // Trả về object rỗng nếu chuỗi null hoặc không có dữ liệu
         if (string.IsNullOrEmpty(json) || json == "[]" || json == "[null]")
         {
             return new Classes();
@@ -121,30 +122,45 @@ public static class JsonHelper
 
         try
         {
-            // Nếu json là array thì lấy object đầu tiên
             string cleanJson = json.Trim();
 
+            // 1. Nếu MySQL trả về dạng mảng [ { ... } ] thông qua JSON_ARRAYAGG
+            // Tiến hành bóc lấy phần tử đầu tiên nằm trong cặp ngoặc nhọn { ... } đầu tiên
             if (cleanJson.StartsWith("["))
             {
-                cleanJson = cleanJson.Trim('[', ']');
-            }
+                int firstOpen = cleanJson.IndexOf('{');
+                int firstClose = cleanJson.IndexOf('}');
 
-            cleanJson = cleanJson.Trim('{', '}');
+                if (firstOpen != -1 && firstClose != -1 && firstClose > firstOpen)
+                {
+                    cleanJson = cleanJson.Substring(firstOpen + 1, firstClose - firstOpen - 1);
+                }
+                else
+                {
+                    cleanJson = cleanJson.Trim('[', ']', '{', '}');
+                }
+            }
+            else
+            {
+                cleanJson = cleanJson.Trim('{', '}');
+            }
 
             Classes c = new Classes();
 
-            // Tách từng cặp key-value
-            string[] pairs = cleanJson.Split(new string[] { "\", \"" }, StringSplitOptions.RemoveEmptyEntries);
+            // 2. Tách các thuộc tính bằng dấu phẩy ',' để không bao giờ bị sót/sai dữ liệu dạng Số (Int)
+            string[] pairs = cleanJson.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
 
             foreach (string pair in pairs)
             {
-                string cleanPair = pair.Replace("\"", "");
-                string[] kv = cleanPair.Split(new char[] { ':' }, 2);
+                // Cắt đôi ở dấu hai chấm ĐẦU TIÊN để tách biệt rõ ràng giữa Key và Value
+                // Tham số số '2' giúp bảo vệ các chuỗi chứa link ảnh (như http://...) không bị cắt nát
+                string[] kv = pair.Split(new char[] { ':' }, 2);
 
                 if (kv.Length == 2)
                 {
-                    string key = kv[0].Trim();
-                    string value = kv[1].Trim();
+                    // Làm sạch: Xóa hết dấu nháy kép thừa và khoảng trắng xung quanh của riêng Key và Value
+                    string key = kv[0].Replace("\"", "").Trim();
+                    string value = kv[1].Replace("\"", "").Trim();
 
                     switch (key)
                     {
@@ -169,26 +185,25 @@ public static class JsonHelper
                             break;
 
                         case "movement_range":
-                            // === SỬA LỖI TẠI ĐÂY: Ép kiểu từ String sang Int an toàn ===
+                            // Giờ value đã là một chuỗi số thuần túy (ví dụ: "2"), Parse chắc chắn thành công
                             if (int.TryParse(value, out int range))
                             {
-                                c.MovementRange = range; 
+                                c.MovementRange = range;
                             }
                             else
                             {
-                                c.MovementRange = 2; // Giá trị mặc định nếu parse lỗi
+                                c.MovementRange = 2; // Giá trị mặc định nếu xảy ra lỗi
                             }
                             break;
 
                         case "movement_point":
-                            // === SỬA LỖI TẠI ĐÂY: Ép kiểu từ String sang Int an toàn ===
                             if (int.TryParse(value, out int point))
                             {
-                                c.MovementPoint = point; 
+                                c.MovementPoint = point;
                             }
                             else
                             {
-                                c.MovementPoint = 4; // Giá trị mặc định nếu parse lỗi
+                                c.MovementPoint = 4; // Giá trị mặc định nếu xảy ra lỗi
                             }
                             break;
                     }
@@ -199,7 +214,7 @@ public static class JsonHelper
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"[JsonHelper Error]: {ex.Message}");
+            Debug.LogError($"[JsonHelper Manual Error]: {ex.Message}");
             return new Classes();
         }
     }

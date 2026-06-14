@@ -15,12 +15,15 @@ public class GridManager : MonoBehaviour
     public Material EmptyPositionMaterial;
     public Material PlayerPositionMaterial;
     public Material EnemyPositionMaterial;
+    public Material SelectedPositionMaterial;
 
     private Dictionary<Vector2Int, GridCell> gridDict = new Dictionary<Vector2Int, GridCell>();
 
     [Header("Spawn Positions (10 Cells Each)")]
     public List<GridCell> playerSpawnCells = new List<GridCell>();
     public List<GridCell> enemySpawnCells = new List<GridCell>();
+
+    private GridCell currentlySelectedCell;
 
     void Awake()
     {
@@ -34,7 +37,7 @@ public class GridManager : MonoBehaviour
         {
             Destroy(gameObject); // Destroy duplicate instances
         }
-        
+
         GenerateGrid();
     }
 
@@ -80,6 +83,13 @@ public class GridManager : MonoBehaviour
         {
             cell.HideMovementRange();
         }
+
+        // // Hoàn tác luôn ô cờ đang chọn về màu mặc định khi clear range
+        // if (currentlySelectedCell != null)
+        // {
+        //     currentlySelectedCell.ResetToDefaultMaterial();
+        //     currentlySelectedCell = null;
+        // }
     }
 
     public void SetupSpawnPositions(int minX, int maxX, int minZ, int maxZ)
@@ -204,28 +214,44 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public void SelectCell(GridCell targetCell)
+    {
+        // Trả ô cũ về màu mặc định (nếu có ô cũ và khác ô mới)
+        if (currentlySelectedCell != null && currentlySelectedCell != targetCell)
+        {
+            currentlySelectedCell.ResetToDefaultMaterial();
+        }
+
+        currentlySelectedCell = targetCell;
+
+        if (currentlySelectedCell != null)
+        {
+            // Đổi màu nền của ô được chọn sang màu Vàng (Selected)
+            currentlySelectedCell.ChangeRuntimeMaterial(SelectedPositionMaterial);
+        }
+    }
+
     // Hàm tìm và hiển thị vùng di chuyển theo bán kính (Dùng thuật toán BFS)
     public void ShowMovementRangeAt(Vector2Int centerPos, int range)
     {
-        // Bước 1: Xóa sạch các ô đang hiện từ trước để tránh bị đè
+        // Bước 1: Xóa sạch các ô xanh đang hiện từ trước
         ClearAllMovementRanges();
 
         if (range <= 0) return;
 
-        // Bước 2: Thuật toán loang BFS để tìm các ô trong tầm
+        // Bước 2: Thuật toán loang BFS
         Queue<Vector2Int> queue = new Queue<Vector2Int>();
-        Dictionary<Vector2Int, int> visited = new Dictionary<Vector2Int, int>(); // Lưu ô đã đi qua và khoảng cách của nó
+        Dictionary<Vector2Int, int> visited = new Dictionary<Vector2Int, int>();
 
         queue.Enqueue(centerPos);
         visited.Add(centerPos, 0);
 
-        // 4 hướng di chuyển cơ bản (Lên, Xuống, Trái, Phải)
         Vector2Int[] directions = new Vector2Int[]
         {
-            new Vector2Int(0, 1),  // Lên
-            new Vector2Int(0, -1), // Xuống
-            new Vector2Int(-1, 0), // Trái
-            new Vector2Int(1, 0)   // Phải
+        new Vector2Int(0, 1),  // Lên
+        new Vector2Int(0, -1), // Xuống
+        new Vector2Int(-1, 0), // Trái
+        new Vector2Int(1, 0)   // Phải
         };
 
         while (queue.Count > 0)
@@ -233,26 +259,24 @@ public class GridManager : MonoBehaviour
             Vector2Int current = queue.Dequeue();
             int currentDistance = visited[current];
 
-            // Nếu khoảng cách vượt quá MovementRange thì dừng loang hướng đó
             if (currentDistance >= range) continue;
 
             foreach (Vector2Int dir in directions)
             {
                 Vector2Int neighborPos = current + dir;
 
-                // Kiểm tra xem ô hàng xóm có tồn tại trên bàn cờ không
                 if (gridDict.ContainsKey(neighborPos) && !visited.ContainsKey(neighborPos))
                 {
                     GridCell neighborCell = gridDict[neighborPos];
 
-                    // Điều kiện phụ (Tùy chọn): Bạn có thể chặn không cho hiện range nếu ô đó có chướng ngại vật hoặc có tướng khác đứng
-                    // if (neighborCell.OccupiedCard != null) continue; 
-
                     visited.Add(neighborPos, currentDistance + 1);
                     queue.Enqueue(neighborPos);
 
-                    // Bật ô xanh hiển thị lên!
-                    neighborCell.ShowMovementRange();
+                    // ĐIỀU KIỆN TỐI ƯU: Chỉ hiện ô xanh nếu đó không phải là ô trung tâm đang đứng
+                    if (neighborPos != centerPos)
+                    {
+                        neighborCell.ShowMovementRange();
+                    }
                 }
             }
         }

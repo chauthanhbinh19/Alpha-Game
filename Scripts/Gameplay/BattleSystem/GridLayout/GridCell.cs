@@ -19,6 +19,8 @@ public class GridCell : MonoBehaviour
     public Transform DisplayCardPanel;
     public CardBase OccupiedCard; // Dữ liệu quân cờ đang đứng tại đây
 
+    private Material defaultMaterial;
+
     private void Awake()
     {
         if (GridNumberText != null) GridNumberText.gameObject.SetActive(false);
@@ -30,6 +32,7 @@ public class GridCell : MonoBehaviour
         if (Platform != null && defaultMat != null)
         {
             Platform.material = defaultMat;
+            defaultMaterial = defaultMat; // Ghi nhớ lại màu ô trống
         }
     }
 
@@ -43,6 +46,7 @@ public class GridCell : MonoBehaviour
         if (Platform != null && spawnMat != null)
         {
             Platform.material = spawnMat;
+            defaultMaterial = spawnMat;
         }
 
         // Hiển thị số số thứ tự 1-10
@@ -50,6 +54,30 @@ public class GridCell : MonoBehaviour
         {
             GridNumberText.gameObject.SetActive(true);
             GridNumberText.text = positionIndex.ToString();
+        }
+    }
+
+    // --- CÁC HÀM THÊM MỚI ĐỂ PHỤC VỤ CHO LOGIC CLICK ĐỔI MÀU ---
+
+    /// <summary>
+    /// Hàm đổi màu tạm thời (Ví dụ đổi sang SelectedPositionMaterial khi click)
+    /// </summary>
+    public void ChangeRuntimeMaterial(Material targetMat)
+    {
+        if (Platform != null && targetMat != null)
+        {
+            Platform.material = targetMat;
+        }
+    }
+
+    /// <summary>
+    /// Hàm khôi phục lại màu sắc ban đầu (Dù là ô trống hay ô Spawn đều trả về đúng màu gốc)
+    /// </summary>
+    public void ResetToDefaultMaterial()
+    {
+        if (Platform != null && defaultMaterial != null)
+        {
+            Platform.material = defaultMaterial;
         }
     }
 

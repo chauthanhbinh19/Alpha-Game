@@ -512,7 +512,7 @@ public class UserCardGeneralsRepository : IUserCardGeneralsRepository
             await connection.OpenAsync();
 
             string selectSQL = @"
-            SELECT 
+            SELECT  distinct
                     uc.*, 
                     c.name, 
                     c.image, 

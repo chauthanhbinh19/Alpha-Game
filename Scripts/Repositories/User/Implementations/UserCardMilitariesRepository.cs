@@ -512,7 +512,7 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
             await connection.OpenAsync();
 
             string selectSQL = @"
-            SELECT 
+            SELECT  distinct
                     uc.*, 
                     c.name, 
                     c.image, 

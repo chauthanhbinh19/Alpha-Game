@@ -56,6 +56,9 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
         if (currentCell != null)
         {
             Debug.Log($"Click vào {cardData.Name}. Vị trí ô: {currentCell.GridPosition}, Tầm đi: {moveRange}");
+
+            // --- BƯỚC THÊM MỚI: Đổi màu nền flatform của ô cờ này thành màu Selected ---
+            GridManager.Instance.SelectCell(currentCell);
             
             // Gọi GridManager xóa hết range cũ và vẽ range mới xung quanh ô này
             GridManager.Instance.ShowMovementRangeAt(currentCell.GridPosition, moveRange);
