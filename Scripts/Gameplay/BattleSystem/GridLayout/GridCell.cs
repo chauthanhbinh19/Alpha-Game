@@ -19,7 +19,7 @@ public class GridCell : MonoBehaviour
     public Transform DisplayCardPanel;
     public CardBase OccupiedCard; // Dữ liệu quân cờ đang đứng tại đây
 
-    private Material defaultMaterial;
+    private Material DefaultMaterial;
 
     private void Awake()
     {
@@ -32,7 +32,7 @@ public class GridCell : MonoBehaviour
         if (Platform != null && defaultMat != null)
         {
             Platform.material = defaultMat;
-            defaultMaterial = defaultMat; // Ghi nhớ lại màu ô trống
+            DefaultMaterial = defaultMat; // Ghi nhớ lại màu ô trống
         }
     }
 
@@ -46,7 +46,7 @@ public class GridCell : MonoBehaviour
         if (Platform != null && spawnMat != null)
         {
             Platform.material = spawnMat;
-            defaultMaterial = spawnMat;
+            DefaultMaterial = spawnMat;
         }
 
         // Hiển thị số số thứ tự 1-10
@@ -75,9 +75,9 @@ public class GridCell : MonoBehaviour
     /// </summary>
     public void ResetToDefaultMaterial()
     {
-        if (Platform != null && defaultMaterial != null)
+        if (Platform != null && DefaultMaterial != null)
         {
-            Platform.material = defaultMaterial;
+            Platform.material = DefaultMaterial;
         }
     }
 

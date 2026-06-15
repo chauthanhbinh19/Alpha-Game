@@ -72,7 +72,7 @@ public static class JsonHelper
 
         return emblems;
     }
-
+   
     /// <summary>
     /// Chuyển đổi danh sách Emblem thành chuỗi JSON chuẩn (Không dùng thư viện)
     /// </summary>

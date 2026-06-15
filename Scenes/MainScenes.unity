@@ -8829,6 +8829,7 @@ GameObject:
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
   - component: {fileID: 963194229}
+  - component: {fileID: 963194230}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -8895,7 +8896,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.46174863, y: 0, z: 0, w: 0.8870109}
-  m_LocalPosition: {x: 0, y: 35.95, z: 390.5}
+  m_LocalPosition: {x: 0, y: 36, z: -9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8918,6 +8919,22 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &963194230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ef7e63af1cf0f74dbbb5417fef95891, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keyboardSpeed: 15
+  dragSpeed: 0.5
+  bottomLeftCorner: {x: -2, y: 36, z: -10}
+  topRightCorner: {x: 2, y: 36, z: -5}
 --- !u!1 &967054507
 GameObject:
   m_ObjectHideFlags: 0
@@ -11216,7 +11233,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1296600448}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 26, z: 400}
+  m_LocalPosition: {x: 0, y: 26, z: 0}
   m_LocalScale: {x: 1.3, y: 1.3, z: 1.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -21651,7 +21668,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1955103562}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 26.1, z: 400}
+  m_LocalPosition: {x: 0, y: 26.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -23014,7 +23031,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4762281898953965245, guid: f2de5de80b238df4f9b8c1cc42d32437, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 400
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4762281898953965245, guid: f2de5de80b238df4f9b8c1cc42d32437, type: 3}
       propertyPath: m_LocalRotation.w
