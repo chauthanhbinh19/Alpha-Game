@@ -15,5 +15,6 @@ public static class AudioConstants
         public const string GEAR_SCROLL_SOUND = "GearSound";
         public const string ALERT_SOUND = "AlertSound";
         public const string REJECT_SOUND = "RejectSound";
+        public const string MOVING_SOUND = "MovingSound";
     }
 }

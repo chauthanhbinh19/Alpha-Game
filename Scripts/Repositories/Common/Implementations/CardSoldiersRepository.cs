@@ -155,7 +155,8 @@ public class CardSoldiersRepository : ICardSoldiersRepository
                                 'main_type', cl.main_type,
                                 'main_image', cl.main_image,
                                 'movement_range', cl.movement_range,
-                                'movement_point', cl.movement_point
+                                'movement_point', cl.movement_point,
+                                'attack_range', cl.attack_range
                             )
                         )
                         FROM card_soldier_class chc

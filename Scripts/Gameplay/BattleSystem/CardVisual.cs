@@ -10,7 +10,7 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
     {
         // Lấy MeshRenderer gắn trên chính tấm Plane này
         meshRenderer = GetComponent<MeshRenderer>();
-        
+
         if (meshRenderer == null)
         {
             Debug.LogError($"GameObject {gameObject.name} không có MeshRenderer! Hãy chắc chắn đây là một Plane.");
@@ -31,8 +31,8 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
         if (cardTexture != null)
         {
             meshRenderer.material.SetTexture("_MainTex", cardTexture);
-            
-            Debug.Log($"[Visual] Đã đổi ảnh thành công cho {cardData.Name} từ đường dẫn: {cardData.Image}");
+
+            // Debug.Log($"[Visual] Đã đổi ảnh thành công cho {cardData.Name} từ đường dẫn: {cardData.Image}");
         }
         else
         {
@@ -40,28 +40,38 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
         }
     }
 
-    // Hàm tự động kích hoạt khi người chơi CLICK vào Thẻ bài này
+    // Hàm tự động kích hoạt khi người chơi CLICK vào Thẻ bài
     public void OnPointerClick(PointerEventData eventData)
     {
         if (cardData == null || cardData.Class == null) return;
 
-        // Lấy số ô có thể đi từ Data
-        int moveRange = cardData.Class.MovementRange;
+        // Lấy dữ liệu di chuyển và tầm đánh từ class data
+        int movementRange = cardData.Class.MovementRange;
+        int movementPoint = cardData.CurrentMovementPoint;
+        int attackRange = cardData.Class.AttackRange; // Thuộc tính tầm đánh mới của bạn
 
-        // Tìm xem thẻ bài này đang nằm trên ô cờ (GridCell) nào
-        // Vì ở file trước bạn Instantiate cardVisual làm CON của targetCell.displayCardPanel
-        // Nên cha của cardVisual là displayCardPanel, và cha của displayCardPanel chính là GridCell
+        AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
+
+        // Tìm ô cờ chứa thẻ bài này
         GridCell currentCell = GetComponentInParent<GridCell>();
 
         if (currentCell != null)
         {
-            Debug.Log($"Click vào {cardData.Name}. Vị trí ô: {currentCell.GridPosition}, Tầm đi: {moveRange}");
+            Debug.Log($"Click vào {cardData.Name}. Mở Action Menu tại ô: {currentCell.GridPosition}");
 
-            // --- BƯỚC THÊM MỚI: Đổi màu nền flatform của ô cờ này thành màu Selected ---
-            GridManager.Instance.SelectCell(currentCell);
-            
-            // Gọi GridManager xóa hết range cũ và vẽ range mới xung quanh ô này
-            GridManager.Instance.ShowMovementRangeAt(currentCell.GridPosition, moveRange);
+            // Lấy vị trí click chuột hoặc vị trí của thẻ bài trên màn hình để đặt UI Menu
+            Vector3 clickScreenPos = eventData.position; 
+
+            // Gọi ActionMenu hiển thị lên thay vì hiển thị Grid range ngay lập tức
+            if (ActionMenuUI.Instance != null)
+            {
+                GridManager.Instance.SelectCell(currentCell);
+                ActionMenuUI.Instance.ShowMenu(currentCell, movementRange, movementPoint, attackRange, clickScreenPos, cardData);
+            }
+            else
+            {
+                Debug.LogError("Chưa đặt ActionMenuUI vào Scene hoặc chưa bật Instance!");
+            }
         }
     }
 }

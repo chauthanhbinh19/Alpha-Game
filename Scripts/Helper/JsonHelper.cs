@@ -186,9 +186,9 @@ public static class JsonHelper
 
                         case "movement_range":
                             // Giờ value đã là một chuỗi số thuần túy (ví dụ: "2"), Parse chắc chắn thành công
-                            if (int.TryParse(value, out int range))
+                            if (int.TryParse(value, out int movementRange))
                             {
-                                c.MovementRange = range;
+                                c.MovementRange = movementRange;
                             }
                             else
                             {
@@ -197,13 +197,24 @@ public static class JsonHelper
                             break;
 
                         case "movement_point":
-                            if (int.TryParse(value, out int point))
+                            if (int.TryParse(value, out int movementPoint))
                             {
-                                c.MovementPoint = point;
+                                c.MovementPoint = movementPoint;
                             }
                             else
                             {
                                 c.MovementPoint = 4; // Giá trị mặc định nếu xảy ra lỗi
+                            }
+                            break;
+
+                        case "attack_range":
+                            if (int.TryParse(value, out int attackRange))
+                            {
+                                c.AttackRange = attackRange;
+                            }
+                            else
+                            {
+                                c.AttackRange = 4; // Giá trị mặc định nếu xảy ra lỗi
                             }
                             break;
                     }
@@ -238,7 +249,8 @@ public static class JsonHelper
         jsonBuilder.Append($"\"main_type\":\"{EscapeString(c.MainType)}\",");
         jsonBuilder.Append($"\"main_image\":\"{EscapeString(c.MainImage)}\",");
         jsonBuilder.Append($"\"movement_range\":\"{c.MovementRange}\",");
-        jsonBuilder.Append($"\"movement_point\":\"{c.MovementPoint}\"");
+        jsonBuilder.Append($"\"movement_point\":\"{c.MovementPoint}\",");
+        jsonBuilder.Append($"\"attack_range\":\"{c.AttackRange}\"");
         jsonBuilder.Append("}");
 
         return jsonBuilder.ToString();

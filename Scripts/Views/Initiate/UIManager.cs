@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     public Transform LoadingPanel;
     public GameObject ItemThird;
     public GameObject StarPrefab;
+    public Transform GamePlayPanel;
 
     [Header("Font")]
     public TMP_FontAsset EuroStyleNormalFont;
@@ -110,6 +111,8 @@ public class UIManager : MonoBehaviour
                 return popupPanel;
             case "LoadingPanel":
                 return LoadingPanel;
+            case "GamePlayPanel":
+                return GamePlayPanel;
             default:
                 Debug.LogWarning($"Panel {panelName} not found.");
                 return null;
