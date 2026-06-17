@@ -100,6 +100,7 @@ public class MainMenuManager : MonoBehaviour
         Button universeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/UniverseButton").GetComponent<Button>();
         Button structureButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/StructureButton").GetComponent<Button>();
         Button animeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/AnimeButton").GetComponent<Button>();
+        Button patternButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/BuildContent/PatternButton").GetComponent<Button>();
         // Button profileButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/UserButton").GetComponent<Button>();
 
         Button missionButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/MissionContent/MissionButton").GetComponent<Button>();
@@ -380,6 +381,13 @@ public class MainMenuManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
             AnimeManager.Instance.CreateAnime();
+        });
+
+        patternButton.onClick.AddListener(async () =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            ButtonEvent.Instance.Close(MainPanel);
+            await PatternController.Instance.CreatePatternPanel();
         });
     }
     public void CreateMainPanelUserInformation(AuthResult authResult)

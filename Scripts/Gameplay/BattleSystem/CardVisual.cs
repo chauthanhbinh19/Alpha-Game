@@ -6,6 +6,13 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
     private MeshRenderer meshRenderer;
     private CardBase cardData;
 
+    // Đoạn code này đặt trong script Quản lý tương tác chuột (ví dụ: BattleManager hoặc InputHandler)
+    public enum ActionState { None, MoveMode, AttackMode }
+    public ActionState currentState = ActionState.None;
+
+    private CardBase selectedCardData;
+    private Vector2Int selectedCardPos;
+
     void Awake()
     {
         // Lấy MeshRenderer gắn trên chính tấm Plane này
@@ -40,6 +47,33 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
         }
     }
 
+    // Khi người chơi bấm vào nút "ATTACK" trên ActionMenu (như trong ảnh image_3cecc3.jpg của bạn)
+    public void OnAttackButtonClicked()
+    {
+        if (selectedCardData != null)
+        {
+            currentState = ActionState.AttackMode;
+            // Bật hiển thị tầm đánh màu đỏ xung quanh quân cờ
+            // int rangeDanh = selectedCardData.AttackRange; // Giả sử CardBase của bạn có thuộc tính AttackRange
+            // GridManager.ShowAttackRangeAt(selectedCardPos, rangeDanh, selectedCardData);
+        }
+    }
+
+    // Khi người chơi click chuột vào một ô GridCell bất kỳ trên bàn cờ trong chế độ AttackMode
+    public void HandleGridCellClick(GridCell clickedCell)
+    {
+        if (currentState == ActionState.AttackMode)
+        {
+            // Nếu click trúng ô có kẻ địch đang đứng
+            if (clickedCell.occupiedCard != null)
+            {
+                // Thực hiện tấn công
+                // gridManager.ExecuteAttack(selectedCardData, clickedCell);
+                currentState = ActionState.None;
+            }
+        }
+    }
+
     // Hàm tự động kích hoạt khi người chơi CLICK vào Thẻ bài
     public void OnPointerClick(PointerEventData eventData)
     {
@@ -60,11 +94,12 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
             Debug.Log($"Click vào {cardData.Name}. Mở Action Menu tại ô: {currentCell.GridPosition}");
 
             // Lấy vị trí click chuột hoặc vị trí của thẻ bài trên màn hình để đặt UI Menu
-            Vector3 clickScreenPos = eventData.position; 
+            Vector3 clickScreenPos = eventData.position;
 
             // Gọi ActionMenu hiển thị lên thay vì hiển thị Grid range ngay lập tức
             if (ActionMenuUI.Instance != null)
             {
+                GridManager.Instance.ClearAllMovementRanges();
                 GridManager.Instance.SelectCell(currentCell);
                 ActionMenuUI.Instance.ShowMenu(currentCell, movementRange, movementPoint, attackRange, clickScreenPos, cardData);
             }

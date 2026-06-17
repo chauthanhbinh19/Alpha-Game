@@ -68,6 +68,30 @@ public class GridManager : MonoBehaviour
         GenerateGrid();
     }
 
+    /// <summary>
+    /// Thực hiện lệnh tấn công thực tế khi người chơi click chọn mục tiêu hợp lệ
+    /// </summary>
+    public void ExecuteAttack(CardBase attacker, GridCell targetCell)
+    {
+        if (targetCell == null || targetCell.occupiedCard == null || attacker == null) return;
+
+        CardBase enemy = targetCell.occupiedCard;
+
+        // Chỉ tấn công nếu là kẻ địch (khác Type hoặc phe) [cite: 182]
+        if (!attacker.Type.Equals(enemy.Type)) 
+        {
+            UnityEngine.Debug.Log($"[Battle] {attacker.Name} bắt đầu tấn công {enemy.Name}");
+            // Sử dụng hàm tổng hợp đòn đánh thường của bạn trong Helper.txt 
+            DamageCalculator.CauseNormalAttack(attacker, enemy);
+
+            // Sau khi enemy bị trừ máu trong hàm TakeDamage()[cite: 224], tiến hành cập nhật lại UI hiển thị HP
+            // Ví dụ: targetCell.GetComponent<CardVisual>().UpdateHealthUI();
+
+            // Xóa vùng hiển thị tầm đánh sau khi kết thúc hành động
+            ClearAllMovementRanges();
+        }
+    }
+
     public void GenerateGrid()
     {
         int idCounter = 0;

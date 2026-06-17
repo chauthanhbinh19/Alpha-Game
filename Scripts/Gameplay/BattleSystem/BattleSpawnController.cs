@@ -23,44 +23,44 @@ public class BattleSpawnController : MonoBehaviour
 
     async void Start()
     {
-        if (gridManager == null)
-        {
-            Debug.LogError("Chưa kéo GridManager vào BattleSpawnController!");
-            return;
-        }
+        // if (gridManager == null)
+        // {
+        //     Debug.LogError("Chưa kéo GridManager vào BattleSpawnController!");
+        //     return;
+        // }
 
-        // Bước 1: Ánh xạ 10 ô cờ của mỗi bên thành các Slot logic từ 1 -> 10
-        MapSlotsToGridCells();
+        // // Bước 1: Ánh xạ 10 ô cờ của mỗi bên thành các Slot logic từ 1 -> 10
+        // MapSlotsToGridCells();
 
-        // Bước 2: Chuẩn bị thông tin nạp song song 2 đội hình Alpha và Omega từ DB
-        string alphaUserId = "639167826246347876"; 
-        string alphaTeamId = "1";
+        // // Bước 2: Chuẩn bị thông tin nạp song song 2 đội hình Alpha và Omega từ DB
+        // string alphaUserId = "639167826246347876"; 
+        // string alphaTeamId = "1";
 
-        string omegaUserId = "639169852484092591"; // ID của đối thủ / AI
-        string omegaTeamId = "1";
+        // string omegaUserId = "639169852484092591"; // ID của đối thủ / AI
+        // string omegaTeamId = "1";
 
-        Debug.Log("Đang tải dữ liệu đội hình Alpha và Omega từ Database...");
+        // Debug.Log("Đang tải dữ liệu đội hình Alpha và Omega từ Database...");
         
-        Task<TeamDeploymentResult> alphaLoadTask = loadTeams.LoadAndSortTeamAsync(alphaUserId, alphaTeamId);
-        Task<TeamDeploymentResult> omegaLoadTask = loadTeams.LoadAndSortTeamAsync(omegaUserId, omegaTeamId);
+        // Task<TeamDeploymentResult> alphaLoadTask = loadTeams.LoadAndSortTeamAsync(alphaUserId, alphaTeamId);
+        // Task<TeamDeploymentResult> omegaLoadTask = loadTeams.LoadAndSortTeamAsync(omegaUserId, omegaTeamId);
 
-        // Đợi cả 2 phe cùng nạp xong dữ liệu mạng
-        await Task.WhenAll(alphaLoadTask, omegaLoadTask);
+        // // Đợi cả 2 phe cùng nạp xong dữ liệu mạng
+        // await Task.WhenAll(alphaLoadTask, omegaLoadTask);
 
-        TeamDeploymentResult alphaData = alphaLoadTask.Result;
-        TeamDeploymentResult omegaData = omegaLoadTask.Result;
+        // TeamDeploymentResult alphaData = alphaLoadTask.Result;
+        // TeamDeploymentResult omegaData = omegaLoadTask.Result;
 
-        // Lưu trữ lại danh sách Bench làm dữ liệu tạm trong bộ nhớ
-        alphaBenchCards = alphaData.BenchCards;
-        omegaBenchCards = omegaData.BenchCards;
-        Debug.Log($"[Dữ liệu nền]: Đã nạp {alphaBenchCards.Count} thẻ chờ Alpha và {omegaBenchCards.Count} thẻ chờ Omega.");
+        // // Lưu trữ lại danh sách Bench làm dữ liệu tạm trong bộ nhớ
+        // alphaBenchCards = alphaData.BenchCards;
+        // omegaBenchCards = omegaData.BenchCards;
+        // Debug.Log($"[Dữ liệu nền]: Đã nạp {alphaBenchCards.Count} thẻ chờ Alpha và {omegaBenchCards.Count} thẻ chờ Omega.");
 
-        // Bước 3: Khởi tạo Visual cho các CardHero có vị trí nằm trên sân
-        // Deploy phe Ta (Alpha)
-        DeployTeam(alphaData.OnFieldCards, isAlpha: true);
+        // // Bước 3: Khởi tạo Visual cho các CardHero có vị trí nằm trên sân
+        // // Deploy phe Ta (Alpha)
+        // DeployTeam(alphaData.OnFieldCards, isAlpha: true);
 
-        // Deploy phe Địch (Omega)
-        DeployTeam(omegaData.OnFieldCards, isAlpha: false);
+        // // Deploy phe Địch (Omega)
+        // DeployTeam(omegaData.OnFieldCards, isAlpha: false);
     }
 
     public void MapSlotsToGridCells()
