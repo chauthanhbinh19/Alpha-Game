@@ -5,6 +5,7 @@ public class Skills : BaseEntity, IPowerSortable, IStats
     public string Id { get; set; }
     public string Name { get; set; }
     public string Image { get; set; }
+    public string CardId { get; set; }
     
     public double Quality { get; set; }
     public string Type { get; set; }
@@ -30,6 +31,7 @@ public class Skills : BaseEntity, IPowerSortable, IStats
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
     public List<Effects> Effects{ get; set; } = new List<Effects>();
+    public Patterns Pattern = new Patterns();
     double IPowerSortable.Power => Power;
     public Skills()
     {

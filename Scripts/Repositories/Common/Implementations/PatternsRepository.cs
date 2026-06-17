@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using MySqlConnector;
 using System.Threading.Tasks;
+using System.Linq;
 public class PatternsRepository : IPatternsRepository
 {
     public async Task<List<Patterns>> GetAllPatternsAsync()
@@ -35,11 +36,12 @@ public class PatternsRepository : IPatternsRepository
                         {
                             var pattern = new Patterns
                             {
-                                Id = reader.GetString("pattern_id"),
-                                Name = reader.GetString("pattern_name"),
+                                Id = reader.GetStringSafe("pattern_id"),
+                                Name = reader.GetStringSafe("pattern_name"),
+                                CellNumber = reader.GetIntSafe("cell_number"),
                                 Cells = new List<PatternCells>() // Khởi tạo list rỗng để tránh lỗi NullReference sau này
                             };
-                            
+
                             patternList.Add(pattern);
                         }
                     }
@@ -88,8 +90,9 @@ public class PatternsRepository : IPatternsRepository
                             {
                                 pattern = new Patterns
                                 {
-                                    Id = reader.GetString("pattern_id"),
-                                    Name = reader.GetString("pattern_name"),
+                                    Id = reader.GetStringSafe("pattern_id"),
+                                    Name = reader.GetStringSafe("pattern_name"),
+                                    CellNumber = reader.GetIntSafe("cell_number"),
                                     Cells = new List<PatternCells>()
                                 };
                             }
@@ -99,13 +102,13 @@ public class PatternsRepository : IPatternsRepository
                             {
                                 var cell = new PatternCells
                                 {
-                                    Id = reader.GetString("cell_id"),
+                                    Id = reader.GetStringSafe("cell_id"),
                                     PatternId = pattern.Id,
-                                    OffsetX = reader.GetInt32("offset_x"),
-                                    OffsetY = reader.GetInt32("offset_y"),
-                                    IsMain = reader.GetBoolean("is_main")
+                                    OffsetX = reader.GetIntSafe("offset_x"),
+                                    OffsetY = reader.GetIntSafe("offset_y"),
+                                    IsMain = reader.GetBoolSafe("is_main")
                                 };
-                                
+
                                 pattern.Cells.Add(cell);
                             }
                         }
@@ -120,5 +123,77 @@ public class PatternsRepository : IPatternsRepository
         }
 
         return pattern;
+    }
+    public async Task<List<Patterns>> GetPatternsMasterDataAsync()
+    {
+        // Dùng Dictionary tạm để gom cụm các dòng Cell về đúng Pattern của nó một cách tối ưu (O(1))
+        var patternMap = new Dictionary<string, Patterns>();
+
+        // Giữ nguyên logic sort đỉnh cao của ní: gom nhóm theo số cell (trước chữ P) rồi đến số ID (sau chữ P)
+        string query = @"
+        SELECT p.id AS pattern_id, p.name AS pattern_name, p.cell_number,
+               c.id AS cell_id, c.offset_x, c.offset_y, c.is_main
+        FROM patterns p
+        LEFT JOIN pattern_cells c ON p.id = c.pattern_id
+        ORDER BY 
+            CAST(SUBSTRING_INDEX(p.id, 'P', 1) AS UNSIGNED) ASC,
+            CAST(SUBSTRING_INDEX(p.id, 'P', -1) AS UNSIGNED) ASC;";
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        try
+        {
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            string patternId = reader.GetStringSafe("pattern_id");
+
+                            // 1. Nếu chưa có Pattern này trong Map thì khởi tạo mới
+                            if (!patternMap.TryGetValue(patternId, out var pattern))
+                            {
+                                pattern = new Patterns
+                                {
+                                    Id = patternId,
+                                    Name = reader.GetStringSafe("pattern_name"),
+                                    CellNumber = reader.GetIntSafe("cell_number"),
+                                    Cells = new List<PatternCells>() // Đảm bảo list luôn được khởi tạo
+                                };
+                                patternMap[patternId] = pattern;
+                            }
+
+                            // 2. Kiểm tra nếu dòng hiện tại có chứa thông tin Cell (tránh lỗi null do LEFT JOIN)
+                            if (!reader.IsDBNull(reader.GetOrdinal("cell_id")))
+                            {
+                                var cell = new PatternCells
+                                {
+                                    Id = reader.GetStringSafe("cell_id"),
+                                    PatternId = patternId,
+                                    OffsetX = reader.GetIntSafe("offset_x"),
+                                    OffsetY = reader.GetIntSafe("offset_y"),
+                                    IsMain = reader.GetBoolSafe("is_main") // Ní lưu ý sửa đúng tên hàm GetBoolSafe hoặc GetBooleanSafe nhé
+                                };
+
+                                pattern.Cells.Add(cell);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[PatternsRepository] Lỗi nghiêm trọng khi tải Master Data Patterns: {ex.Message}");
+            throw;
+        }
+
+        // Chuyển Dictionary thành List và trả về theo đúng thứ tự đã ORDER BY từ SQL
+        return patternMap.Values.ToList();
     }
 }

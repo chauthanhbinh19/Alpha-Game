@@ -381,9 +381,13 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
         var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
 
+        List<string> cardCaptainIds = list.Select(hero => hero.Id).ToList();
+
+        var skillsTask = UserSkillsService.Create().GetUserCardCaptainsSkillsAsync(user_id, cardCaptainIds);
+
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, hicbTask, hisnTask, animeStatsTask);
+        hidcTask, hicbTask, hisnTask, animeStatsTask, skillsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -401,6 +405,15 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         var hicbData = await hicbTask;
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
+
+        var skillData = await skillsTask;
+        foreach (var skill in skillData)
+        {
+            if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
+            {
+                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+            }
+        }
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
@@ -426,6 +439,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
             card.ApplyHICBStats(hicbData);
             card.ApplyHISNStats(hisnData);
             card.ApplyAllUserAnimes(animeStatsData);
+            card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
             card.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);
@@ -453,9 +467,13 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
         var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
 
+        List<string> cardCaptainIds = list.Select(hero => hero.Id).ToList();
+
+        var skillsTask = UserSkillsService.Create().GetUserCardCaptainsSkillsAsync(user_id, cardCaptainIds);
+
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, hicbTask, hisnTask, animeStatsTask);
+        hidcTask, hicbTask, hisnTask, animeStatsTask, skillsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -473,6 +491,15 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         var hicbData = await hicbTask;
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
+
+        var skillData = await skillsTask;
+        foreach (var skill in skillData)
+        {
+            if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
+            {
+                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+            }
+        }
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
@@ -498,6 +525,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
             card.ApplyHICBStats(hicbData);
             card.ApplyHISNStats(hisnData);
             card.ApplyAllUserAnimes(animeStatsData);
+            card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
             card.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);
@@ -525,9 +553,13 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
         var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
 
+        List<string> cardCaptainIds = list.Select(hero => hero.Id).ToList();
+
+        var skillsTask = UserSkillsService.Create().GetUserCardCaptainsSkillsAsync(user_id, cardCaptainIds);
+
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, hicbTask, hisnTask, animeStatsTask);
+        hidcTask, hicbTask, hisnTask, animeStatsTask, skillsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -545,6 +577,15 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         var hicbData = await hicbTask;
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
+
+        var skillData = await skillsTask;
+        foreach (var skill in skillData)
+        {
+            if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
+            {
+                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+            }
+        }
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
@@ -570,6 +611,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
             card.ApplyHICBStats(hicbData);
             card.ApplyHISNStats(hisnData);
             card.ApplyAllUserAnimes(animeStatsData);
+            card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
             card.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);
@@ -646,9 +688,13 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
         var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
 
+        List<string> cardCaptainIds = list.Select(hero => hero.Id).ToList();
+
+        var skillsTask = UserSkillsService.Create().GetUserCardCaptainsSkillsAsync(user_id, cardCaptainIds);
+
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, hicbTask, hisnTask, animeStatsTask);
+        hidcTask, hicbTask, hisnTask, animeStatsTask, skillsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -666,6 +712,15 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         var hicbData = await hicbTask;
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
+
+        var skillData = await skillsTask;
+        foreach (var skill in skillData)
+        {
+            if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
+            {
+                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+            }
+        }
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
@@ -691,6 +746,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
             card.ApplyHICBStats(hicbData);
             card.ApplyHISNStats(hisnData);
             card.ApplyAllUserAnimes(animeStatsData);
+            card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
             card.RecalculatePower();
         }
         return list.FirstOrDefault();
@@ -717,9 +773,13 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
         var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
 
+        List<string> cardCaptainIds = list.Select(hero => hero.Id).ToList();
+
+        var skillsTask = UserSkillsService.Create().GetUserCardCaptainsSkillsAsync(user_id, cardCaptainIds);
+
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, hicbTask, hisnTask, animeStatsTask);
+        hidcTask, hicbTask, hisnTask, animeStatsTask, skillsTask);
 
         var powerManagerData = await powerManagerTask;
         var scienceFictionData = await scienceFictionTask;
@@ -737,6 +797,15 @@ public class UserCardCaptainsService : IUserCardCaptainsService
         var hicbData = await hicbTask;
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
+
+        var skillData = await skillsTask;
+        foreach (var skill in skillData)
+        {
+            if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
+            {
+                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+            }
+        }
 
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
@@ -762,6 +831,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
             card.ApplyHICBStats(hicbData);
             card.ApplyHISNStats(hisnData);
             card.ApplyAllUserAnimes(animeStatsData);
+            card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
             card.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);

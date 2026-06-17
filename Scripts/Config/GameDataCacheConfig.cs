@@ -183,6 +183,10 @@ public class GameDataCacheConfig
         await Task.Delay(300);
         LoadingManager.Instance.HideLoading();
     }
+    public async Task LoadDataFirst()
+    {
+        await PatternsService.Create().InitializeMasterDataAsync();
+    }
     public void CacheDictionaryType()
     {
         // Cache dictionary để query nhanh

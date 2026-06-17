@@ -5,4 +5,5 @@ public interface IPatternsRepository
 {
     Task<List<Patterns>> GetAllPatternsAsync();
     Task<Patterns> GetPatternByIdAsync(string patternId);
+    Task<List<Patterns>> GetPatternsMasterDataAsync();
 }

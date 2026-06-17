@@ -20,9 +20,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                 await connection.OpenAsync();
 
                 string selectSQL = @"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description 
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description,
+                    sp.pattern_id
                 FROM skills s
                 INNER JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
                 WHERE us.user_id = @userId";
 
                 if (!string.IsNullOrEmpty(type) && type != "All")
@@ -128,7 +130,12 @@ public class UserSkillsRepository : IUserSkillsRepository
                         NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
                         SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                        Description = reader.GetStringSafe("description")
+                        Description = reader.GetStringSafe("description"),
+
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
                     };
 
                     skills.Add(skill);
@@ -595,7 +602,6 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return true;
     }
-
     public async Task<bool> UpdateSkillBreakthroughAsync(Skills skill, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
@@ -813,14 +819,13 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_heroes_skills chs
                     ON chs.skill_id = us.skill_id AND chs.skill_id = @skill_id
-                WHERE us.user_id = @userId
-                ORDER BY s.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);
@@ -893,7 +898,12 @@ public class UserSkillsRepository : IUserSkillsRepository
                         NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
                         SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                        Description = reader.GetStringSafe("description")
+                        Description = reader.GetStringSafe("description"),
+
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
                     };
 
                     skills.Add(skill);
@@ -927,14 +937,13 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_captains_skills chs
                     ON chs.skill_id = us.skill_id AND chs.card_captain_id = @card_captain_id
-                WHERE us.user_id = @userId
-                ORDER BY s.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);
@@ -1007,7 +1016,12 @@ public class UserSkillsRepository : IUserSkillsRepository
                         NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
                         SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                        Description = reader.GetStringSafe("description")
+                        Description = reader.GetStringSafe("description"),
+
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
                     };
 
                     skills.Add(skill);
@@ -1041,14 +1055,13 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_colonels_skills chs
                     ON chs.skill_id = us.skill_id AND chs.card_colonel_id = @card_colonel_id
-                WHERE us.user_id = @userId
-                ORDER BY s.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);
@@ -1121,7 +1134,12 @@ public class UserSkillsRepository : IUserSkillsRepository
                         NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
                         SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                        Description = reader.GetStringSafe("description")
+                        Description = reader.GetStringSafe("description"),
+
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
                     };
 
                     skills.Add(skill);
@@ -1155,14 +1173,13 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_generals_skills chs
                     ON chs.skill_id = us.skill_id AND chs.card_general_id = @card_general_id
-                WHERE us.user_id = @userId
-                ORDER BY s.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);
@@ -1235,7 +1252,12 @@ public class UserSkillsRepository : IUserSkillsRepository
                         NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
                         SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                        Description = reader.GetStringSafe("description")
+                        Description = reader.GetStringSafe("description"),
+
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
                     };
 
                     skills.Add(skill);
@@ -1269,14 +1291,13 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_admirals_skills chs
                     ON chs.skill_id = us.skill_id AND chs.card_admiral_id = @card_admiral_id
-                WHERE us.user_id = @userId
-                ORDER BY s.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);
@@ -1349,7 +1370,12 @@ public class UserSkillsRepository : IUserSkillsRepository
                         NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
                         SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                        Description = reader.GetStringSafe("description")
+                        Description = reader.GetStringSafe("description"),
+
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
                     };
 
                     skills.Add(skill);
@@ -1383,14 +1409,13 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_militaries_skills chs
                     ON chs.skill_id = us.skill_id AND chs.card_military_id = @card_military_id
-                WHERE us.user_id = @userId
-                ORDER BY s.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);
@@ -1463,7 +1488,12 @@ public class UserSkillsRepository : IUserSkillsRepository
                         NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
                         SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                        Description = reader.GetStringSafe("description")
+                        Description = reader.GetStringSafe("description"),
+
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
                     };
 
                     skills.Add(skill);
@@ -1497,14 +1527,13 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_monsters_skills chs
                     ON chs.skill_id = us.skill_id AND chs.card_monster_id = @card_monster_id
-                WHERE us.user_id = @userId
-                ORDER BY s.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);
@@ -1577,7 +1606,12 @@ public class UserSkillsRepository : IUserSkillsRepository
                         NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
                         SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                        Description = reader.GetStringSafe("description")
+                        Description = reader.GetStringSafe("description"),
+
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
                     };
 
                     skills.Add(skill);
@@ -1611,14 +1645,13 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_spells_skills chs 
                     ON chs.skill_id = us.skill_id AND chs.card_spell_id = @card_spell_id
-                WHERE us.user_id = @userId
-                ORDER BY s.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);
@@ -1691,7 +1724,12 @@ public class UserSkillsRepository : IUserSkillsRepository
                         NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
                         SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                        Description = reader.GetStringSafe("description")
+                        Description = reader.GetStringSafe("description"),
+
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
                     };
 
                     skills.Add(skill);
@@ -1725,14 +1763,13 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_soldiers_skills chs 
                     ON chs.skill_id = us.skill_id AND chs.card_soldier_id = @card_soldier_id
-                WHERE us.user_id = @userId
-                ORDER BY s.name REGEXP '[0-9]+$', 
-                         CAST(REGEXP_SUBSTR(s.name, '[0-9]+$') AS UNSIGNED), s.name;";
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);
@@ -1805,7 +1842,12 @@ public class UserSkillsRepository : IUserSkillsRepository
                         NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
                         SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
                         SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                        Description = reader.GetStringSafe("description")
+                        Description = reader.GetStringSafe("description"),
+
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
                     };
 
                     skills.Add(skill);
@@ -1822,6 +1864,1302 @@ public class UserSkillsRepository : IUserSkillsRepository
             {
                 await connection.CloseAsync();
             }
+        }
+
+        return skills;
+    }
+    public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string userId, List<string> cardHeroIds)
+    {
+        List<Skills> skills = new List<Skills>();
+
+        // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
+        if (cardHeroIds == null || cardHeroIds.Count == 0)
+        {
+            return skills;
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // 1. Tạo danh sách tham số dạng @heroId0, @heroId1,... động để tránh SQL Injection
+                var paramNames = new List<string>();
+                for (int i = 0; i < cardHeroIds.Count; i++)
+                {
+                    paramNames.Add($"@cardHeroId{i}");
+                }
+
+                // Nối các tên tham số lại thành chuỗi: "@heroId0, @heroId1, @heroId2"
+                string inClause = string.Join(", ", paramNames);
+
+                // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
+                // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
+                string selectSQL = $@"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_hero_id
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_heroes_skills chs 
+                    ON chs.skill_id = us.skill_id AND chs.card_hero_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId
+                GROUP BY s.id, us.skill_id";
+
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+
+                // Gán tham số userId cố định
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+
+                // Gán các tham số động từ danh sách mảng heroIds
+                for (int i = 0; i < cardHeroIds.Count; i++)
+                {
+                    selectCommand.Parameters.AddWithValue(paramNames[i], cardHeroIds[i]);
+                }
+
+                // 3. Thực thi và đọc dữ liệu
+                await using var reader = await selectCommand.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    Skills skill = new Skills
+                    {
+                        Id = reader.GetStringSafe("skill_id"),
+                        Name = reader.GetStringSafe("name"),
+                        Image = reader.GetStringSafe("image"),
+                        Rarity = reader.GetStringSafe("rare"),
+                        Quality = reader.GetDoubleSafe("quality"),
+                        Type = reader.GetStringSafe("type"),
+                        Star = reader.GetIntSafe("star"),
+                        Level = reader.GetIntSafe("level"),
+                        Position = reader.GetIntSafe("position"),
+                        SkillType = reader.GetStringSafe("skill_type"),
+                        Experience = reader.GetDoubleSafe("experience"),
+                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Power = reader.GetDoubleSafe("power"),
+                        Health = reader.GetDoubleSafe("health"),
+                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                        Speed = reader.GetDoubleSafe("speed"),
+                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                        Tenacity = reader.GetDoubleSafe("tenacity"),
+                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                        ComboRate = reader.GetDoubleSafe("combo_rate"),
+                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                        StunRate = reader.GetDoubleSafe("stun_rate"),
+                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                        Mana = reader.GetDoubleSafe("mana"),
+                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                        Description = reader.GetStringSafe("description"),
+
+                        CardId = reader.GetStringSafe("card_hero_id"),
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
+                    };
+
+                    skills.Add(skill);
+                }
+
+                // Load Effects cho toàn bộ Skills cùng một lúc
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            // block 'finally' không cần CloseAsync() thủ công nữa vì 'await using' đã tự động xử lý giải phóng kết nối một cách an toàn.
+        }
+
+        return skills;
+    }
+    public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string userId, List<string> cardCaptainIds)
+    {
+        List<Skills> skills = new List<Skills>();
+
+        // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
+        if (cardCaptainIds == null || cardCaptainIds.Count == 0)
+        {
+            return skills;
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // 1. Tạo danh sách tham số dạng @heroId0, @heroId1,... động để tránh SQL Injection
+                var paramNames = new List<string>();
+                for (int i = 0; i < cardCaptainIds.Count; i++)
+                {
+                    paramNames.Add($"@cardCaptainId{i}");
+                }
+
+                // Nối các tên tham số lại thành chuỗi: "@heroId0, @heroId1, @heroId2"
+                string inClause = string.Join(", ", paramNames);
+
+                // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
+                // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
+                string selectSQL = $@"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_captain_id
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_captains_skills chs 
+                    ON chs.skill_id = us.skill_id AND chs.card_captain_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId
+                GROUP BY s.id, us.skill_id";
+
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+
+                // Gán tham số userId cố định
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+
+                // Gán các tham số động từ danh sách mảng heroIds
+                for (int i = 0; i < cardCaptainIds.Count; i++)
+                {
+                    selectCommand.Parameters.AddWithValue(paramNames[i], cardCaptainIds[i]);
+                }
+
+                // 3. Thực thi và đọc dữ liệu
+                await using var reader = await selectCommand.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    Skills skill = new Skills
+                    {
+                        Id = reader.GetStringSafe("skill_id"),
+                        Name = reader.GetStringSafe("name"),
+                        Image = reader.GetStringSafe("image"),
+                        Rarity = reader.GetStringSafe("rare"),
+                        Quality = reader.GetDoubleSafe("quality"),
+                        Type = reader.GetStringSafe("type"),
+                        Star = reader.GetIntSafe("star"),
+                        Level = reader.GetIntSafe("level"),
+                        Position = reader.GetIntSafe("position"),
+                        SkillType = reader.GetStringSafe("skill_type"),
+                        Experience = reader.GetDoubleSafe("experience"),
+                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Power = reader.GetDoubleSafe("power"),
+                        Health = reader.GetDoubleSafe("health"),
+                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                        Speed = reader.GetDoubleSafe("speed"),
+                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                        Tenacity = reader.GetDoubleSafe("tenacity"),
+                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                        ComboRate = reader.GetDoubleSafe("combo_rate"),
+                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                        StunRate = reader.GetDoubleSafe("stun_rate"),
+                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                        Mana = reader.GetDoubleSafe("mana"),
+                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                        Description = reader.GetStringSafe("description"),
+
+                        CardId = reader.GetStringSafe("card_captain_id"),
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
+                    };
+
+                    skills.Add(skill);
+                }
+
+                // Load Effects cho toàn bộ Skills cùng một lúc
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            // block 'finally' không cần CloseAsync() thủ công nữa vì 'await using' đã tự động xử lý giải phóng kết nối một cách an toàn.
+        }
+
+        return skills;
+    }
+    public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string userId, List<string> cardColonelIds)
+    {
+        List<Skills> skills = new List<Skills>();
+
+        // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
+        if (cardColonelIds == null || cardColonelIds.Count == 0)
+        {
+            return skills;
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // 1. Tạo danh sách tham số dạng @heroId0, @heroId1,... động để tránh SQL Injection
+                var paramNames = new List<string>();
+                for (int i = 0; i < cardColonelIds.Count; i++)
+                {
+                    paramNames.Add($"@cardColonelId{i}");
+                }
+
+                // Nối các tên tham số lại thành chuỗi: "@heroId0, @heroId1, @heroId2"
+                string inClause = string.Join(", ", paramNames);
+
+                // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
+                // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
+                string selectSQL = $@"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_colonel_id
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_colonels_skills chs 
+                    ON chs.skill_id = us.skill_id AND chs.card_colonel_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId
+                GROUP BY s.id, us.skill_id";
+
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+
+                // Gán tham số userId cố định
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+
+                // Gán các tham số động từ danh sách mảng heroIds
+                for (int i = 0; i < cardColonelIds.Count; i++)
+                {
+                    selectCommand.Parameters.AddWithValue(paramNames[i], cardColonelIds[i]);
+                }
+
+                // 3. Thực thi và đọc dữ liệu
+                await using var reader = await selectCommand.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    Skills skill = new Skills
+                    {
+                        Id = reader.GetStringSafe("skill_id"),
+                        Name = reader.GetStringSafe("name"),
+                        Image = reader.GetStringSafe("image"),
+                        Rarity = reader.GetStringSafe("rare"),
+                        Quality = reader.GetDoubleSafe("quality"),
+                        Type = reader.GetStringSafe("type"),
+                        Star = reader.GetIntSafe("star"),
+                        Level = reader.GetIntSafe("level"),
+                        Position = reader.GetIntSafe("position"),
+                        SkillType = reader.GetStringSafe("skill_type"),
+                        Experience = reader.GetDoubleSafe("experience"),
+                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Power = reader.GetDoubleSafe("power"),
+                        Health = reader.GetDoubleSafe("health"),
+                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                        Speed = reader.GetDoubleSafe("speed"),
+                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                        Tenacity = reader.GetDoubleSafe("tenacity"),
+                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                        ComboRate = reader.GetDoubleSafe("combo_rate"),
+                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                        StunRate = reader.GetDoubleSafe("stun_rate"),
+                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                        Mana = reader.GetDoubleSafe("mana"),
+                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                        Description = reader.GetStringSafe("description"),
+
+                        CardId = reader.GetStringSafe("card_colonel_id"),
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
+                    };
+
+                    skills.Add(skill);
+                }
+
+                // Load Effects cho toàn bộ Skills cùng một lúc
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            // block 'finally' không cần CloseAsync() thủ công nữa vì 'await using' đã tự động xử lý giải phóng kết nối một cách an toàn.
+        }
+
+        return skills;
+    }
+    public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string userId, List<string> cardGeneralIds)
+    {
+        List<Skills> skills = new List<Skills>();
+
+        // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
+        if (cardGeneralIds == null || cardGeneralIds.Count == 0)
+        {
+            return skills;
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // 1. Tạo danh sách tham số dạng @heroId0, @heroId1,... động để tránh SQL Injection
+                var paramNames = new List<string>();
+                for (int i = 0; i < cardGeneralIds.Count; i++)
+                {
+                    paramNames.Add($"@cardGeneralId{i}");
+                }
+
+                // Nối các tên tham số lại thành chuỗi: "@heroId0, @heroId1, @heroId2"
+                string inClause = string.Join(", ", paramNames);
+
+                // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
+                // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
+                string selectSQL = $@"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_general_id
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_generals_skills chs 
+                    ON chs.skill_id = us.skill_id AND chs.card_general_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId
+                GROUP BY s.id, us.skill_id";
+
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+
+                // Gán tham số userId cố định
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+
+                // Gán các tham số động từ danh sách mảng heroIds
+                for (int i = 0; i < cardGeneralIds.Count; i++)
+                {
+                    selectCommand.Parameters.AddWithValue(paramNames[i], cardGeneralIds[i]);
+                }
+
+                // 3. Thực thi và đọc dữ liệu
+                await using var reader = await selectCommand.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    Skills skill = new Skills
+                    {
+                        Id = reader.GetStringSafe("skill_id"),
+                        Name = reader.GetStringSafe("name"),
+                        Image = reader.GetStringSafe("image"),
+                        Rarity = reader.GetStringSafe("rare"),
+                        Quality = reader.GetDoubleSafe("quality"),
+                        Type = reader.GetStringSafe("type"),
+                        Star = reader.GetIntSafe("star"),
+                        Level = reader.GetIntSafe("level"),
+                        Position = reader.GetIntSafe("position"),
+                        SkillType = reader.GetStringSafe("skill_type"),
+                        Experience = reader.GetDoubleSafe("experience"),
+                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Power = reader.GetDoubleSafe("power"),
+                        Health = reader.GetDoubleSafe("health"),
+                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                        Speed = reader.GetDoubleSafe("speed"),
+                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                        Tenacity = reader.GetDoubleSafe("tenacity"),
+                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                        ComboRate = reader.GetDoubleSafe("combo_rate"),
+                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                        StunRate = reader.GetDoubleSafe("stun_rate"),
+                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                        Mana = reader.GetDoubleSafe("mana"),
+                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                        Description = reader.GetStringSafe("description"),
+
+                        CardId = reader.GetStringSafe("card_general_id"),
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
+                    };
+
+                    skills.Add(skill);
+                }
+
+                // Load Effects cho toàn bộ Skills cùng một lúc
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            // block 'finally' không cần CloseAsync() thủ công nữa vì 'await using' đã tự động xử lý giải phóng kết nối một cách an toàn.
+        }
+
+        return skills;
+    }
+    public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string userId, List<string> cardAdmiralIds)
+    {
+        List<Skills> skills = new List<Skills>();
+
+        // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
+        if (cardAdmiralIds == null || cardAdmiralIds.Count == 0)
+        {
+            return skills;
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // 1. Tạo danh sách tham số dạng @heroId0, @heroId1,... động để tránh SQL Injection
+                var paramNames = new List<string>();
+                for (int i = 0; i < cardAdmiralIds.Count; i++)
+                {
+                    paramNames.Add($"@cardAdmiralId{i}");
+                }
+
+                // Nối các tên tham số lại thành chuỗi: "@heroId0, @heroId1, @heroId2"
+                string inClause = string.Join(", ", paramNames);
+
+                // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
+                // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
+                string selectSQL = $@"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_admiral_id
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_admirals_skills chs 
+                    ON chs.skill_id = us.skill_id AND chs.card_admiral_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId
+                GROUP BY s.id, us.skill_id";
+
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+
+                // Gán tham số userId cố định
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+
+                // Gán các tham số động từ danh sách mảng heroIds
+                for (int i = 0; i < cardAdmiralIds.Count; i++)
+                {
+                    selectCommand.Parameters.AddWithValue(paramNames[i], cardAdmiralIds[i]);
+                }
+
+                // 3. Thực thi và đọc dữ liệu
+                await using var reader = await selectCommand.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    Skills skill = new Skills
+                    {
+                        Id = reader.GetStringSafe("skill_id"),
+                        Name = reader.GetStringSafe("name"),
+                        Image = reader.GetStringSafe("image"),
+                        Rarity = reader.GetStringSafe("rare"),
+                        Quality = reader.GetDoubleSafe("quality"),
+                        Type = reader.GetStringSafe("type"),
+                        Star = reader.GetIntSafe("star"),
+                        Level = reader.GetIntSafe("level"),
+                        Position = reader.GetIntSafe("position"),
+                        SkillType = reader.GetStringSafe("skill_type"),
+                        Experience = reader.GetDoubleSafe("experience"),
+                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Power = reader.GetDoubleSafe("power"),
+                        Health = reader.GetDoubleSafe("health"),
+                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                        Speed = reader.GetDoubleSafe("speed"),
+                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                        Tenacity = reader.GetDoubleSafe("tenacity"),
+                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                        ComboRate = reader.GetDoubleSafe("combo_rate"),
+                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                        StunRate = reader.GetDoubleSafe("stun_rate"),
+                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                        Mana = reader.GetDoubleSafe("mana"),
+                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                        Description = reader.GetStringSafe("description"),
+
+                        CardId = reader.GetStringSafe("card_admiral_id"),
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
+                    };
+
+                    skills.Add(skill);
+                }
+
+                // Load Effects cho toàn bộ Skills cùng một lúc
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            // block 'finally' không cần CloseAsync() thủ công nữa vì 'await using' đã tự động xử lý giải phóng kết nối một cách an toàn.
+        }
+
+        return skills;
+    }
+    public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string userId, List<string> cardMonsterIds)
+    {
+        List<Skills> skills = new List<Skills>();
+
+        // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
+        if (cardMonsterIds == null || cardMonsterIds.Count == 0)
+        {
+            return skills;
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // 1. Tạo danh sách tham số dạng @heroId0, @heroId1,... động để tránh SQL Injection
+                var paramNames = new List<string>();
+                for (int i = 0; i < cardMonsterIds.Count; i++)
+                {
+                    paramNames.Add($"@cardMonsterId{i}");
+                }
+
+                // Nối các tên tham số lại thành chuỗi: "@heroId0, @heroId1, @heroId2"
+                string inClause = string.Join(", ", paramNames);
+
+                // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
+                // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
+                string selectSQL = $@"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_monster_id
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_monsters_skills chs 
+                    ON chs.skill_id = us.skill_id AND chs.card_monster_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId
+                GROUP BY s.id, us.skill_id";
+
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+
+                // Gán tham số userId cố định
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+
+                // Gán các tham số động từ danh sách mảng heroIds
+                for (int i = 0; i < cardMonsterIds.Count; i++)
+                {
+                    selectCommand.Parameters.AddWithValue(paramNames[i], cardMonsterIds[i]);
+                }
+
+                // 3. Thực thi và đọc dữ liệu
+                await using var reader = await selectCommand.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    Skills skill = new Skills
+                    {
+                        Id = reader.GetStringSafe("skill_id"),
+                        Name = reader.GetStringSafe("name"),
+                        Image = reader.GetStringSafe("image"),
+                        Rarity = reader.GetStringSafe("rare"),
+                        Quality = reader.GetDoubleSafe("quality"),
+                        Type = reader.GetStringSafe("type"),
+                        Star = reader.GetIntSafe("star"),
+                        Level = reader.GetIntSafe("level"),
+                        Position = reader.GetIntSafe("position"),
+                        SkillType = reader.GetStringSafe("skill_type"),
+                        Experience = reader.GetDoubleSafe("experience"),
+                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Power = reader.GetDoubleSafe("power"),
+                        Health = reader.GetDoubleSafe("health"),
+                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                        Speed = reader.GetDoubleSafe("speed"),
+                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                        Tenacity = reader.GetDoubleSafe("tenacity"),
+                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                        ComboRate = reader.GetDoubleSafe("combo_rate"),
+                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                        StunRate = reader.GetDoubleSafe("stun_rate"),
+                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                        Mana = reader.GetDoubleSafe("mana"),
+                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                        Description = reader.GetStringSafe("description"),
+
+                        CardId = reader.GetStringSafe("card_monster_id"),
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
+                    };
+
+                    skills.Add(skill);
+                }
+
+                // Load Effects cho toàn bộ Skills cùng một lúc
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            // block 'finally' không cần CloseAsync() thủ công nữa vì 'await using' đã tự động xử lý giải phóng kết nối một cách an toàn.
+        }
+
+        return skills;
+    }
+    public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string userId, List<string> cardMilitaryIds)
+    {
+        List<Skills> skills = new List<Skills>();
+
+        // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
+        if (cardMilitaryIds == null || cardMilitaryIds.Count == 0)
+        {
+            return skills;
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // 1. Tạo danh sách tham số dạng @heroId0, @heroId1,... động để tránh SQL Injection
+                var paramNames = new List<string>();
+                for (int i = 0; i < cardMilitaryIds.Count; i++)
+                {
+                    paramNames.Add($"@cardMilitaryId{i}");
+                }
+
+                // Nối các tên tham số lại thành chuỗi: "@heroId0, @heroId1, @heroId2"
+                string inClause = string.Join(", ", paramNames);
+
+                // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
+                // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
+                string selectSQL = $@"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_military_id
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_militaries_skills chs 
+                    ON chs.skill_id = us.skill_id AND chs.card_military_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId
+                GROUP BY s.id, us.skill_id";
+
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+
+                // Gán tham số userId cố định
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+
+                // Gán các tham số động từ danh sách mảng heroIds
+                for (int i = 0; i < cardMilitaryIds.Count; i++)
+                {
+                    selectCommand.Parameters.AddWithValue(paramNames[i], cardMilitaryIds[i]);
+                }
+
+                // 3. Thực thi và đọc dữ liệu
+                await using var reader = await selectCommand.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    Skills skill = new Skills
+                    {
+                        Id = reader.GetStringSafe("skill_id"),
+                        Name = reader.GetStringSafe("name"),
+                        Image = reader.GetStringSafe("image"),
+                        Rarity = reader.GetStringSafe("rare"),
+                        Quality = reader.GetDoubleSafe("quality"),
+                        Type = reader.GetStringSafe("type"),
+                        Star = reader.GetIntSafe("star"),
+                        Level = reader.GetIntSafe("level"),
+                        Position = reader.GetIntSafe("position"),
+                        SkillType = reader.GetStringSafe("skill_type"),
+                        Experience = reader.GetDoubleSafe("experience"),
+                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Power = reader.GetDoubleSafe("power"),
+                        Health = reader.GetDoubleSafe("health"),
+                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                        Speed = reader.GetDoubleSafe("speed"),
+                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                        Tenacity = reader.GetDoubleSafe("tenacity"),
+                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                        ComboRate = reader.GetDoubleSafe("combo_rate"),
+                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                        StunRate = reader.GetDoubleSafe("stun_rate"),
+                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                        Mana = reader.GetDoubleSafe("mana"),
+                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                        Description = reader.GetStringSafe("description"),
+
+                        CardId = reader.GetStringSafe("card_military_id"),
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
+                    };
+
+                    skills.Add(skill);
+                }
+
+                // Load Effects cho toàn bộ Skills cùng một lúc
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            // block 'finally' không cần CloseAsync() thủ công nữa vì 'await using' đã tự động xử lý giải phóng kết nối một cách an toàn.
+        }
+
+        return skills;
+    }
+    public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string userId, List<string> cardSpellIds)
+    {
+        List<Skills> skills = new List<Skills>();
+
+        // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
+        if (cardSpellIds == null || cardSpellIds.Count == 0)
+        {
+            return skills;
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // 1. Tạo danh sách tham số dạng @heroId0, @heroId1,... động để tránh SQL Injection
+                var paramNames = new List<string>();
+                for (int i = 0; i < cardSpellIds.Count; i++)
+                {
+                    paramNames.Add($"@cardSpellId{i}");
+                }
+
+                // Nối các tên tham số lại thành chuỗi: "@heroId0, @heroId1, @heroId2"
+                string inClause = string.Join(", ", paramNames);
+
+                // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
+                // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
+                string selectSQL = $@"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_spell_id
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_spells_skills chs 
+                    ON chs.skill_id = us.skill_id AND chs.card_spell_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId
+                GROUP BY s.id, us.skill_id";
+
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+
+                // Gán tham số userId cố định
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+
+                // Gán các tham số động từ danh sách mảng heroIds
+                for (int i = 0; i < cardSpellIds.Count; i++)
+                {
+                    selectCommand.Parameters.AddWithValue(paramNames[i], cardSpellIds[i]);
+                }
+
+                // 3. Thực thi và đọc dữ liệu
+                await using var reader = await selectCommand.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    Skills skill = new Skills
+                    {
+                        Id = reader.GetStringSafe("skill_id"),
+                        Name = reader.GetStringSafe("name"),
+                        Image = reader.GetStringSafe("image"),
+                        Rarity = reader.GetStringSafe("rare"),
+                        Quality = reader.GetDoubleSafe("quality"),
+                        Type = reader.GetStringSafe("type"),
+                        Star = reader.GetIntSafe("star"),
+                        Level = reader.GetIntSafe("level"),
+                        Position = reader.GetIntSafe("position"),
+                        SkillType = reader.GetStringSafe("skill_type"),
+                        Experience = reader.GetDoubleSafe("experience"),
+                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Power = reader.GetDoubleSafe("power"),
+                        Health = reader.GetDoubleSafe("health"),
+                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                        Speed = reader.GetDoubleSafe("speed"),
+                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                        Tenacity = reader.GetDoubleSafe("tenacity"),
+                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                        ComboRate = reader.GetDoubleSafe("combo_rate"),
+                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                        StunRate = reader.GetDoubleSafe("stun_rate"),
+                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                        Mana = reader.GetDoubleSafe("mana"),
+                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                        Description = reader.GetStringSafe("description"),
+
+                        CardId = reader.GetStringSafe("card_spell_id"),
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
+                    };
+
+                    skills.Add(skill);
+                }
+
+                // Load Effects cho toàn bộ Skills cùng một lúc
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            // block 'finally' không cần CloseAsync() thủ công nữa vì 'await using' đã tự động xử lý giải phóng kết nối một cách an toàn.
+        }
+
+        return skills;
+    }
+    public async Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string userId, List<string> cardSoldierIds)
+    {
+        List<Skills> skills = new List<Skills>();
+
+        // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
+        if (cardSoldierIds == null || cardSoldierIds.Count == 0)
+        {
+            return skills;
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                // 1. Tạo danh sách tham số dạng @heroId0, @heroId1,... động để tránh SQL Injection
+                var paramNames = new List<string>();
+                for (int i = 0; i < cardSoldierIds.Count; i++)
+                {
+                    paramNames.Add($"@cardSoldierId{i}");
+                }
+
+                // Nối các tên tham số lại thành chuỗi: "@heroId0, @heroId1, @heroId2"
+                string inClause = string.Join(", ", paramNames);
+
+                // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
+                // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
+                string selectSQL = $@"
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_soldier_id
+                FROM Skills s
+                JOIN user_skills us ON s.id = us.skill_id
+                LEFT JOIN card_soldiers_skills chs 
+                    ON chs.skill_id = us.skill_id AND chs.card_soldier_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
+                WHERE us.user_id = @userId
+                GROUP BY s.id, us.skill_id";
+
+                await using var selectCommand = new MySqlCommand(selectSQL, connection);
+
+                // Gán tham số userId cố định
+                selectCommand.Parameters.AddWithValue("@userId", userId);
+
+                // Gán các tham số động từ danh sách mảng heroIds
+                for (int i = 0; i < cardSoldierIds.Count; i++)
+                {
+                    selectCommand.Parameters.AddWithValue(paramNames[i], cardSoldierIds[i]);
+                }
+
+                // 3. Thực thi và đọc dữ liệu
+                await using var reader = await selectCommand.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    Skills skill = new Skills
+                    {
+                        Id = reader.GetStringSafe("skill_id"),
+                        Name = reader.GetStringSafe("name"),
+                        Image = reader.GetStringSafe("image"),
+                        Rarity = reader.GetStringSafe("rare"),
+                        Quality = reader.GetDoubleSafe("quality"),
+                        Type = reader.GetStringSafe("type"),
+                        Star = reader.GetIntSafe("star"),
+                        Level = reader.GetIntSafe("level"),
+                        Position = reader.GetIntSafe("position"),
+                        SkillType = reader.GetStringSafe("skill_type"),
+                        Experience = reader.GetDoubleSafe("experience"),
+                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Power = reader.GetDoubleSafe("power"),
+                        Health = reader.GetDoubleSafe("health"),
+                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
+                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
+                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
+                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
+                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
+                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
+                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
+                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
+                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
+                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
+                        Speed = reader.GetDoubleSafe("speed"),
+                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
+                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
+                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
+                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
+                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
+                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
+                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
+                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
+                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
+                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
+                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
+                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
+                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
+                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
+                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
+                        Tenacity = reader.GetDoubleSafe("tenacity"),
+                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
+                        ComboRate = reader.GetDoubleSafe("combo_rate"),
+                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
+                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
+                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
+                        StunRate = reader.GetDoubleSafe("stun_rate"),
+                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
+                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
+                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
+                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
+                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
+                        Mana = reader.GetDoubleSafe("mana"),
+                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
+                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
+                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
+                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
+                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
+                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
+                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
+                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
+                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
+                        Description = reader.GetStringSafe("description"),
+
+                        CardId = reader.GetStringSafe("card_soldier_id"),
+                        Pattern = new Patterns()
+                        {
+                            Id = reader.GetStringSafe("pattern_id")
+                        }
+                    };
+
+                    skills.Add(skill);
+                }
+
+                // Load Effects cho toàn bộ Skills cùng một lúc
+                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            // block 'finally' không cần CloseAsync() thủ công nữa vì 'await using' đã tự động xử lý giải phóng kết nối một cách an toàn.
         }
 
         return skills;

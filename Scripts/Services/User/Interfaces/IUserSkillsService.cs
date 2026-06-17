@@ -20,6 +20,15 @@ public interface IUserSkillsService
     Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, string cardId);
     Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, string cardId);
     Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string user_id, string cardId);
+    Task<List<Skills>> GetUserCardHeroesSkillsAsync(string user_id, List<string> cardHeroIds);
+    Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string user_id, List<string> cardCaptainIds);
+    Task<List<Skills>> GetUserCardColonelsSkillsAsync(string user_id, List<string> cardColonelIds);
+    Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string user_id, List<string> cardGeneralIds);
+    Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string user_id, List<string> cardAdmiralIds);
+    Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string user_id, List<string> cardMilitaryIds);
+    Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, List<string> cardMonsterIds);
+    Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, List<string> cardSpellIds);
+    Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string user_id, List<string> cardSoldierIds);
     Task<bool> InsertUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> InsertUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> InsertUserCardColonelSkillsAsync(string userId, string cardId, string skillId, int position);
