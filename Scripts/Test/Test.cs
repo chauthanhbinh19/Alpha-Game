@@ -17,7 +17,7 @@ public class Test : MonoBehaviour
     [ContextMenu("Run Initiate Async")]
     public async Task InitiateAsync()
     {
-        User.CurrentUserId = "639169852484092591";
+        User.CurrentUserId = "639167826246347876";
 
         Debug.Log("<color=yellow>Start</color>");
         List<Achievements> achievements = await AchievementsService.Create()
@@ -327,8 +327,8 @@ public class Test : MonoBehaviour
     [ContextMenu("Run Initiate Team Async")]
     public async Task InitiateTeamAsync()
     {
-        User.CurrentUserId = "639169852484092591";
-        
+        User.CurrentUserId = "639167826246347876";
+
         Debug.Log("<color=yellow>Start</color>");
         await TeamsService.Create().UpdateUserCardHeroesTeamPositionsAsync(User.CurrentUserId);
         Debug.Log("<color=cyan>Card Heroes team and position initiate successfully</color>");
@@ -351,4 +351,32 @@ public class Test : MonoBehaviour
 
         Debug.Log("<color=yellow>End</color>");
     }
+    [ContextMenu("Run Initiate Skill Async")]
+    public async Task InitiateSkillAsync()
+    {
+        User.CurrentUserId = "639169852484092591";
+
+        Debug.Log("<color=yellow>Start</color>");
+        await UserSkillsService.Create().AssignRandomSkillsToUserCardHeroesAsync(User.CurrentUserId);
+        Debug.Log("<color=cyan>Skills for user Card Heroes initiate successfully</color>");
+        await UserSkillsService.Create().AssignRandomSkillsToUserCardCaptainsAsync(User.CurrentUserId);
+        Debug.Log("<color=cyan>Skills for user Card Captains initiate successfully</color>");
+        await UserSkillsService.Create().AssignRandomSkillsToUserCardColonelsAsync(User.CurrentUserId);
+        Debug.Log("<color=cyan>Skills for user Card Colonels initiate successfully</color>");
+        await UserSkillsService.Create().AssignRandomSkillsToUserCardGeneralsAsync(User.CurrentUserId);
+        Debug.Log("<color=cyan>Skills for user Card Generals initiate successfully</color>");
+        await UserSkillsService.Create().AssignRandomSkillsToUserCardAdmiralsAsync(User.CurrentUserId);
+        Debug.Log("<color=cyan>Skills for user Card Admirals initiate successfully</color>");
+        await UserSkillsService.Create().AssignRandomSkillsToUserCardMonstersAsync(User.CurrentUserId);
+        Debug.Log("<color=cyan>Skills for user Card Monsters initiate successfully</color>");
+        await UserSkillsService.Create().AssignRandomSkillsToUserCardMilitariesAsync(User.CurrentUserId);
+        Debug.Log("<color=cyan>Skills for user Card Militaries initiate successfully</color>");
+        await UserSkillsService.Create().AssignRandomSkillsToUserCardSoldiersAsync(User.CurrentUserId);
+        Debug.Log("<color=cyan>Skills for user Card Soldiers initiate successfully</color>");
+        await UserSkillsService.Create().AssignRandomSkillsToUserCardSpellsAsync(User.CurrentUserId);
+        Debug.Log("<color=cyan>Skills for user Card Spells initiate successfully</color>");
+
+        Debug.Log("<color=yellow>End</color>");
+    }
 }
+

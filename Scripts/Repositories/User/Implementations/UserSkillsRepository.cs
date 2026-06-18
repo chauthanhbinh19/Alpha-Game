@@ -4025,4 +4025,652 @@ public class UserSkillsRepository : IUserSkillsRepository
 
         return true;
     }
+    public async Task<int> AssignRandomSkillsToUserCardHeroesAsync(string userId)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            throw new ArgumentException("User ID không được để trống.", nameof(userId));
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        // Câu lệnh SQL tối ưu hóa tốc độ cao
+        string sqlQuery = @"
+                INSERT INTO `card_heroes_skills` (
+                    `user_id`, 
+                    `card_hero_id`, 
+                    `skill_id`, 
+                    `level`, 
+                    `position`
+                )
+                WITH 
+                SelectedActive AS (
+                    SELECT `id` AS skill_id, 1 AS position
+                    FROM `skills` 
+                    WHERE `skill_type` = 'Active' 
+                    ORDER BY RAND() 
+                    LIMIT 1
+                ),
+                SelectedPassive AS (
+                    SELECT skill_id, position
+                    FROM (
+                        SELECT `id` AS skill_id,
+                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
+                        FROM `skills`
+                        WHERE `skill_type` = 'Passive'
+                    ) temp
+                    WHERE position IN (2, 3)
+                ),
+                TargetSkills AS (
+                    SELECT skill_id, position FROM SelectedActive
+                    UNION ALL
+                    SELECT skill_id, position FROM SelectedPassive
+                )
+                SELECT 
+                    uch.`user_id`,
+                    uch.`card_hero_id`,
+                    ts.`skill_id`,
+                    0 AS `level`,
+                    ts.`position`
+                FROM `user_card_heroes` uch
+                CROSS JOIN TargetSkills ts
+                WHERE uch.`user_id` = @userId
+                ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
+
+        int rowsAffected = 0;
+
+        // Sử dụng các phiên bản Async tương ứng cho Connection và Command
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            // Mở kết nối bất đồng bộ
+            await connection.OpenAsync();
+
+            using (var command = new MySqlCommand(sqlQuery, connection))
+            {
+                // Truyền tham số an toàn chống SQL Injection
+                command.Parameters.AddWithValue("@userId", userId);
+
+                // Thực thi lệnh ghi dữ liệu bất đồng bộ
+                rowsAffected = await command.ExecuteNonQueryAsync();
+            }
+        }
+
+        return rowsAffected;
+    }
+    public async Task<int> AssignRandomSkillsToUserCardCaptainsAsync(string userId)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            throw new ArgumentException("User ID không được để trống.", nameof(userId));
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        // Câu lệnh SQL tối ưu hóa tốc độ cao
+        string sqlQuery = @"
+                INSERT INTO `card_captains_skills` (
+                    `user_id`, 
+                    `card_captain_id`, 
+                    `skill_id`, 
+                    `level`, 
+                    `position`
+                )
+                WITH 
+                SelectedActive AS (
+                    SELECT `id` AS skill_id, 1 AS position
+                    FROM `skills` 
+                    WHERE `skill_type` = 'Active' 
+                    ORDER BY RAND() 
+                    LIMIT 1
+                ),
+                SelectedPassive AS (
+                    SELECT skill_id, position
+                    FROM (
+                        SELECT `id` AS skill_id,
+                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
+                        FROM `skills`
+                        WHERE `skill_type` = 'Passive'
+                    ) temp
+                    WHERE position IN (2, 3)
+                ),
+                TargetSkills AS (
+                    SELECT skill_id, position FROM SelectedActive
+                    UNION ALL
+                    SELECT skill_id, position FROM SelectedPassive
+                )
+                SELECT 
+                    uch.`user_id`,
+                    uch.`card_captain_id`,
+                    ts.`skill_id`,
+                    0 AS `level`,
+                    ts.`position`
+                FROM `user_card_captains` uch
+                CROSS JOIN TargetSkills ts
+                WHERE uch.`user_id` = @userId
+                ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
+
+        int rowsAffected = 0;
+
+        // Sử dụng các phiên bản Async tương ứng cho Connection và Command
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            // Mở kết nối bất đồng bộ
+            await connection.OpenAsync();
+
+            using (var command = new MySqlCommand(sqlQuery, connection))
+            {
+                // Truyền tham số an toàn chống SQL Injection
+                command.Parameters.AddWithValue("@userId", userId);
+
+                // Thực thi lệnh ghi dữ liệu bất đồng bộ
+                rowsAffected = await command.ExecuteNonQueryAsync();
+            }
+        }
+
+        return rowsAffected;
+    }
+    public async Task<int> AssignRandomSkillsToUserCardColonelsAsync(string userId)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            throw new ArgumentException("User ID không được để trống.", nameof(userId));
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        // Câu lệnh SQL tối ưu hóa tốc độ cao
+        string sqlQuery = @"
+                INSERT INTO `card_colonels_skills` (
+                    `user_id`, 
+                    `card_colonel_id`, 
+                    `skill_id`, 
+                    `level`, 
+                    `position`
+                )
+                WITH 
+                SelectedActive AS (
+                    SELECT `id` AS skill_id, 1 AS position
+                    FROM `skills` 
+                    WHERE `skill_type` = 'Active' 
+                    ORDER BY RAND() 
+                    LIMIT 1
+                ),
+                SelectedPassive AS (
+                    SELECT skill_id, position
+                    FROM (
+                        SELECT `id` AS skill_id,
+                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
+                        FROM `skills`
+                        WHERE `skill_type` = 'Passive'
+                    ) temp
+                    WHERE position IN (2, 3)
+                ),
+                TargetSkills AS (
+                    SELECT skill_id, position FROM SelectedActive
+                    UNION ALL
+                    SELECT skill_id, position FROM SelectedPassive
+                )
+                SELECT 
+                    uch.`user_id`,
+                    uch.`card_colonel_id`,
+                    ts.`skill_id`,
+                    0 AS `level`,
+                    ts.`position`
+                FROM `user_card_colonels` uch
+                CROSS JOIN TargetSkills ts
+                WHERE uch.`user_id` = @userId
+                ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
+
+        int rowsAffected = 0;
+
+        // Sử dụng các phiên bản Async tương ứng cho Connection và Command
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            // Mở kết nối bất đồng bộ
+            await connection.OpenAsync();
+
+            using (var command = new MySqlCommand(sqlQuery, connection))
+            {
+                // Truyền tham số an toàn chống SQL Injection
+                command.Parameters.AddWithValue("@userId", userId);
+
+                // Thực thi lệnh ghi dữ liệu bất đồng bộ
+                rowsAffected = await command.ExecuteNonQueryAsync();
+            }
+        }
+
+        return rowsAffected;
+    }
+    public async Task<int> AssignRandomSkillsToUserCardGeneralsAsync(string userId)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            throw new ArgumentException("User ID không được để trống.", nameof(userId));
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        // Câu lệnh SQL tối ưu hóa tốc độ cao
+        string sqlQuery = @"
+                INSERT INTO `card_generals_skills` (
+                    `user_id`, 
+                    `card_general_id`, 
+                    `skill_id`, 
+                    `level`, 
+                    `position`
+                )
+                WITH 
+                SelectedActive AS (
+                    SELECT `id` AS skill_id, 1 AS position
+                    FROM `skills` 
+                    WHERE `skill_type` = 'Active' 
+                    ORDER BY RAND() 
+                    LIMIT 1
+                ),
+                SelectedPassive AS (
+                    SELECT skill_id, position
+                    FROM (
+                        SELECT `id` AS skill_id,
+                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
+                        FROM `skills`
+                        WHERE `skill_type` = 'Passive'
+                    ) temp
+                    WHERE position IN (2, 3)
+                ),
+                TargetSkills AS (
+                    SELECT skill_id, position FROM SelectedActive
+                    UNION ALL
+                    SELECT skill_id, position FROM SelectedPassive
+                )
+                SELECT 
+                    uch.`user_id`,
+                    uch.`card_general_id`,
+                    ts.`skill_id`,
+                    0 AS `level`,
+                    ts.`position`
+                FROM `user_card_generals` uch
+                CROSS JOIN TargetSkills ts
+                WHERE uch.`user_id` = @userId
+                ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
+
+        int rowsAffected = 0;
+
+        // Sử dụng các phiên bản Async tương ứng cho Connection và Command
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            // Mở kết nối bất đồng bộ
+            await connection.OpenAsync();
+
+            using (var command = new MySqlCommand(sqlQuery, connection))
+            {
+                // Truyền tham số an toàn chống SQL Injection
+                command.Parameters.AddWithValue("@userId", userId);
+
+                // Thực thi lệnh ghi dữ liệu bất đồng bộ
+                rowsAffected = await command.ExecuteNonQueryAsync();
+            }
+        }
+
+        return rowsAffected;
+    }
+    public async Task<int> AssignRandomSkillsToUserCardAdmiralsAsync(string userId)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            throw new ArgumentException("User ID không được để trống.", nameof(userId));
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        // Câu lệnh SQL tối ưu hóa tốc độ cao
+        string sqlQuery = @"
+                INSERT INTO `card_admirals_skills` (
+                    `user_id`, 
+                    `card_admiral_id`, 
+                    `skill_id`, 
+                    `level`, 
+                    `position`
+                )
+                WITH 
+                SelectedActive AS (
+                    SELECT `id` AS skill_id, 1 AS position
+                    FROM `skills` 
+                    WHERE `skill_type` = 'Active' 
+                    ORDER BY RAND() 
+                    LIMIT 1
+                ),
+                SelectedPassive AS (
+                    SELECT skill_id, position
+                    FROM (
+                        SELECT `id` AS skill_id,
+                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
+                        FROM `skills`
+                        WHERE `skill_type` = 'Passive'
+                    ) temp
+                    WHERE position IN (2, 3)
+                ),
+                TargetSkills AS (
+                    SELECT skill_id, position FROM SelectedActive
+                    UNION ALL
+                    SELECT skill_id, position FROM SelectedPassive
+                )
+                SELECT 
+                    uch.`user_id`,
+                    uch.`card_admiral_id`,
+                    ts.`skill_id`,
+                    0 AS `level`,
+                    ts.`position`
+                FROM `user_card_admirals` uch
+                CROSS JOIN TargetSkills ts
+                WHERE uch.`user_id` = @userId
+                ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
+
+        int rowsAffected = 0;
+
+        // Sử dụng các phiên bản Async tương ứng cho Connection và Command
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            // Mở kết nối bất đồng bộ
+            await connection.OpenAsync();
+
+            using (var command = new MySqlCommand(sqlQuery, connection))
+            {
+                // Truyền tham số an toàn chống SQL Injection
+                command.Parameters.AddWithValue("@userId", userId);
+
+                // Thực thi lệnh ghi dữ liệu bất đồng bộ
+                rowsAffected = await command.ExecuteNonQueryAsync();
+            }
+        }
+
+        return rowsAffected;
+    }
+    public async Task<int> AssignRandomSkillsToUserCardMonstersAsync(string userId)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            throw new ArgumentException("User ID không được để trống.", nameof(userId));
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        // Câu lệnh SQL tối ưu hóa tốc độ cao
+        string sqlQuery = @"
+                INSERT INTO `card_monsters_skills` (
+                    `user_id`, 
+                    `card_monster_id`, 
+                    `skill_id`, 
+                    `level`, 
+                    `position`
+                )
+                WITH 
+                SelectedActive AS (
+                    SELECT `id` AS skill_id, 1 AS position
+                    FROM `skills` 
+                    WHERE `skill_type` = 'Active' 
+                    ORDER BY RAND() 
+                    LIMIT 1
+                ),
+                SelectedPassive AS (
+                    SELECT skill_id, position
+                    FROM (
+                        SELECT `id` AS skill_id,
+                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
+                        FROM `skills`
+                        WHERE `skill_type` = 'Passive'
+                    ) temp
+                    WHERE position IN (2, 3)
+                ),
+                TargetSkills AS (
+                    SELECT skill_id, position FROM SelectedActive
+                    UNION ALL
+                    SELECT skill_id, position FROM SelectedPassive
+                )
+                SELECT 
+                    uch.`user_id`,
+                    uch.`card_monster_id`,
+                    ts.`skill_id`,
+                    0 AS `level`,
+                    ts.`position`
+                FROM `user_card_monsters` uch
+                CROSS JOIN TargetSkills ts
+                WHERE uch.`user_id` = @userId
+                ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
+
+        int rowsAffected = 0;
+
+        // Sử dụng các phiên bản Async tương ứng cho Connection và Command
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            // Mở kết nối bất đồng bộ
+            await connection.OpenAsync();
+
+            using (var command = new MySqlCommand(sqlQuery, connection))
+            {
+                // Truyền tham số an toàn chống SQL Injection
+                command.Parameters.AddWithValue("@userId", userId);
+
+                // Thực thi lệnh ghi dữ liệu bất đồng bộ
+                rowsAffected = await command.ExecuteNonQueryAsync();
+            }
+        }
+
+        return rowsAffected;
+    }
+    public async Task<int> AssignRandomSkillsToUserCardMilitariesAsync(string userId)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            throw new ArgumentException("User ID không được để trống.", nameof(userId));
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        // Câu lệnh SQL tối ưu hóa tốc độ cao
+        string sqlQuery = @"
+                INSERT INTO `card_militaries_skills` (
+                    `user_id`, 
+                    `card_military_id`, 
+                    `skill_id`, 
+                    `level`, 
+                    `position`
+                )
+                WITH 
+                SelectedActive AS (
+                    SELECT `id` AS skill_id, 1 AS position
+                    FROM `skills` 
+                    WHERE `skill_type` = 'Active' 
+                    ORDER BY RAND() 
+                    LIMIT 1
+                ),
+                SelectedPassive AS (
+                    SELECT skill_id, position
+                    FROM (
+                        SELECT `id` AS skill_id,
+                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
+                        FROM `skills`
+                        WHERE `skill_type` = 'Passive'
+                    ) temp
+                    WHERE position IN (2, 3)
+                ),
+                TargetSkills AS (
+                    SELECT skill_id, position FROM SelectedActive
+                    UNION ALL
+                    SELECT skill_id, position FROM SelectedPassive
+                )
+                SELECT 
+                    uch.`user_id`,
+                    uch.`card_military_id`,
+                    ts.`skill_id`,
+                    0 AS `level`,
+                    ts.`position`
+                FROM `user_card_militaries` uch
+                CROSS JOIN TargetSkills ts
+                WHERE uch.`user_id` = @userId
+                ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
+
+        int rowsAffected = 0;
+
+        // Sử dụng các phiên bản Async tương ứng cho Connection và Command
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            // Mở kết nối bất đồng bộ
+            await connection.OpenAsync();
+
+            using (var command = new MySqlCommand(sqlQuery, connection))
+            {
+                // Truyền tham số an toàn chống SQL Injection
+                command.Parameters.AddWithValue("@userId", userId);
+
+                // Thực thi lệnh ghi dữ liệu bất đồng bộ
+                rowsAffected = await command.ExecuteNonQueryAsync();
+            }
+        }
+
+        return rowsAffected;
+    }
+    public async Task<int> AssignRandomSkillsToUserCardSoldiersAsync(string userId)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            throw new ArgumentException("User ID không được để trống.", nameof(userId));
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        // Câu lệnh SQL tối ưu hóa tốc độ cao
+        string sqlQuery = @"
+                INSERT INTO `card_soldiers_skills` (
+                    `user_id`, 
+                    `card_soldier_id`, 
+                    `skill_id`, 
+                    `level`, 
+                    `position`
+                )
+                WITH 
+                SelectedActive AS (
+                    SELECT `id` AS skill_id, 1 AS position
+                    FROM `skills` 
+                    WHERE `skill_type` = 'Active' 
+                    ORDER BY RAND() 
+                    LIMIT 1
+                ),
+                SelectedPassive AS (
+                    SELECT skill_id, position
+                    FROM (
+                        SELECT `id` AS skill_id,
+                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
+                        FROM `skills`
+                        WHERE `skill_type` = 'Passive'
+                    ) temp
+                    WHERE position IN (2, 3)
+                ),
+                TargetSkills AS (
+                    SELECT skill_id, position FROM SelectedActive
+                    UNION ALL
+                    SELECT skill_id, position FROM SelectedPassive
+                )
+                SELECT 
+                    uch.`user_id`,
+                    uch.`card_soldier_id`,
+                    ts.`skill_id`,
+                    0 AS `level`,
+                    ts.`position`
+                FROM `user_card_soldiers` uch
+                CROSS JOIN TargetSkills ts
+                WHERE uch.`user_id` = @userId
+                ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
+
+        int rowsAffected = 0;
+
+        // Sử dụng các phiên bản Async tương ứng cho Connection và Command
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            // Mở kết nối bất đồng bộ
+            await connection.OpenAsync();
+
+            using (var command = new MySqlCommand(sqlQuery, connection))
+            {
+                // Truyền tham số an toàn chống SQL Injection
+                command.Parameters.AddWithValue("@userId", userId);
+
+                // Thực thi lệnh ghi dữ liệu bất đồng bộ
+                rowsAffected = await command.ExecuteNonQueryAsync();
+            }
+        }
+
+        return rowsAffected;
+    }
+    public async Task<int> AssignRandomSkillsToUserCardSpellsAsync(string userId)
+    {
+        if (string.IsNullOrWhiteSpace(userId))
+        {
+            throw new ArgumentException("User ID không được để trống.", nameof(userId));
+        }
+
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        // Câu lệnh SQL tối ưu hóa tốc độ cao
+        string sqlQuery = @"
+                INSERT INTO `card_spells_skills` (
+                    `user_id`, 
+                    `card_spell_id`, 
+                    `skill_id`, 
+                    `level`, 
+                    `position`
+                )
+                WITH 
+                SelectedActive AS (
+                    SELECT `id` AS skill_id, 1 AS position
+                    FROM `skills` 
+                    WHERE `skill_type` = 'Active' 
+                    ORDER BY RAND() 
+                    LIMIT 1
+                ),
+                SelectedPassive AS (
+                    SELECT skill_id, position
+                    FROM (
+                        SELECT `id` AS skill_id,
+                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
+                        FROM `skills`
+                        WHERE `skill_type` = 'Passive'
+                    ) temp
+                    WHERE position IN (2, 3)
+                ),
+                TargetSkills AS (
+                    SELECT skill_id, position FROM SelectedActive
+                    UNION ALL
+                    SELECT skill_id, position FROM SelectedPassive
+                )
+                SELECT 
+                    uch.`user_id`,
+                    uch.`card_spell_id`,
+                    ts.`skill_id`,
+                    0 AS `level`,
+                    ts.`position`
+                FROM `user_card_spells` uch
+                CROSS JOIN TargetSkills ts
+                WHERE uch.`user_id` = @userId
+                ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
+
+        int rowsAffected = 0;
+
+        // Sử dụng các phiên bản Async tương ứng cho Connection và Command
+        using (var connection = new MySqlConnection(connectionString))
+        {
+            // Mở kết nối bất đồng bộ
+            await connection.OpenAsync();
+
+            using (var command = new MySqlCommand(sqlQuery, connection))
+            {
+                // Truyền tham số an toàn chống SQL Injection
+                command.Parameters.AddWithValue("@userId", userId);
+
+                // Thực thi lệnh ghi dữ liệu bất đồng bộ
+                rowsAffected = await command.ExecuteNonQueryAsync();
+            }
+        }
+
+        return rowsAffected;
+    }
 }

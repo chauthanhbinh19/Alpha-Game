@@ -430,4 +430,49 @@ public class UserSkillsService : IUserSkillsService
     {
         return await _userSkillsRepository.InsertOrUpdateUserSkillsBatchAsync(skills);
     }
+
+    public async Task<int> AssignRandomSkillsToUserCardHeroesAsync(string userId)
+    {
+        return await _userSkillsRepository.AssignRandomSkillsToUserCardHeroesAsync(userId);
+    }
+
+    public async Task<int> AssignRandomSkillsToUserCardCaptainsAsync(string userId)
+    {
+        return await _userSkillsRepository.AssignRandomSkillsToUserCardCaptainsAsync(userId);
+    }
+
+    public async Task<int> AssignRandomSkillsToUserCardColonelsAsync(string userId)
+    {
+        return await _userSkillsRepository.AssignRandomSkillsToUserCardColonelsAsync(userId);
+    }
+
+    public async Task<int> AssignRandomSkillsToUserCardGeneralsAsync(string userId)
+    {
+        return await _userSkillsRepository.AssignRandomSkillsToUserCardGeneralsAsync(userId);
+    }
+
+    public async Task<int> AssignRandomSkillsToUserCardAdmiralsAsync(string userId)
+    {
+        return await _userSkillsRepository.AssignRandomSkillsToUserCardAdmiralsAsync(userId);
+    }
+
+    public async Task<int> AssignRandomSkillsToUserCardMonstersAsync(string userId)
+    {
+        return await _userSkillsRepository.AssignRandomSkillsToUserCardMonstersAsync(userId);
+    }
+
+    public async Task<int> AssignRandomSkillsToUserCardMilitariesAsync(string userId)
+    {
+        return await _userSkillsRepository.AssignRandomSkillsToUserCardMilitariesAsync(userId);
+    }
+
+    public async Task<int> AssignRandomSkillsToUserCardSoldiersAsync(string userId)
+    {
+        return await _userSkillsRepository.AssignRandomSkillsToUserCardSoldiersAsync(userId);
+    }
+
+    public async Task<int> AssignRandomSkillsToUserCardSpellsAsync(string userId)
+    {
+        return await _userSkillsRepository.AssignRandomSkillsToUserCardSpellsAsync(userId);
+    }
 }

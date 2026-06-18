@@ -47,4 +47,13 @@ public interface IUserSkillsRepository
     Task<bool> DeleteUserCardMilitarySkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> DeleteUserCardSpellSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> DeleteUserCardSoldierSkillsAsync(string userId, string cardId, string skillId, int position);
+    Task<int> AssignRandomSkillsToUserCardHeroesAsync(string userId);
+    Task<int> AssignRandomSkillsToUserCardCaptainsAsync(string userId);
+    Task<int> AssignRandomSkillsToUserCardColonelsAsync(string userId);
+    Task<int> AssignRandomSkillsToUserCardGeneralsAsync(string userId);
+    Task<int> AssignRandomSkillsToUserCardAdmiralsAsync(string userId);
+    Task<int> AssignRandomSkillsToUserCardMonstersAsync(string userId);
+    Task<int> AssignRandomSkillsToUserCardMilitariesAsync(string userId);
+    Task<int> AssignRandomSkillsToUserCardSoldiersAsync(string userId);
+    Task<int> AssignRandomSkillsToUserCardSpellsAsync(string userId);
 }
