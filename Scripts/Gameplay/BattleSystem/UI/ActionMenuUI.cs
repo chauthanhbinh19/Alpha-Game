@@ -12,6 +12,9 @@ public class ActionMenuUI : MonoBehaviour
     private Button attackButton;
     private TextMeshProUGUI pointText;
     private TextMeshProUGUI movementRangeText;
+    private Transform active1Transform;
+    private Transform passive1Transform;
+    private Transform passive2Transform;
 
     public Transform GamePlayPanel;
     public GameObject GamePlayPanelPrefab;
@@ -63,10 +66,14 @@ public class ActionMenuUI : MonoBehaviour
     {
         ButtonEvent.Instance.Close(GamePlayPanel);
         GameObject currentObject = Instantiate(GamePlayPanelPrefab, GamePlayPanel);
-        moveButton = currentObject.transform.Find("BottomPanel/Group1/MovementGroup/MovementButton").GetComponent<Button>();
-        attackButton = currentObject.transform.Find("BottomPanel/Group1/AttackGroup/AttackButton").GetComponent<Button>();
+        moveButton = currentObject.transform.Find("BottomPanel/Group1/MovementButton").GetComponent<Button>();
+        attackButton = currentObject.transform.Find("BottomPanel/Group1/AttackButton").GetComponent<Button>();
         pointText = currentObject.transform.Find("BottomPanel/Group2/PointText").GetComponent<TextMeshProUGUI>();
         movementRangeText = currentObject.transform.Find("BottomPanel/Group2/MovementRangeText").GetComponent<TextMeshProUGUI>();
+
+        active1Transform = currentObject.transform.Find("BottomPanel/Group3/Active1");
+        passive1Transform = currentObject.transform.Find("BottomPanel/Group3/Passive1");
+        passive2Transform = currentObject.transform.Find("BottomPanel/Group3/Passive2");
 
         pointText.text = cardData.CurrentMovementPoint.ToString();
         movementRangeText.text = cardData.Class.MovementRange.ToString();
