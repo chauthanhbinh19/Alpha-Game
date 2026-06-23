@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseEntity
+public abstract class BaseEntity: FullAuditedEntity
 {
     public string CodeName { get; set; } = "";
     public string AvailabilityType { get; set; } = "";
@@ -61,9 +61,25 @@ public abstract class BaseEntity
     public double NormalResistanceRate { get; set; } = 0;
     public double SkillDamageRate { get; set; } = 0;
     public double SkillResistanceRate { get; set; } = 0;
+}
 
+// 1. Dành cho các bảng chỉ cần lưu vết thời gian tạo/cập nhật (Ví dụ: Nhật ký, Lịch sử giao dịch)
+public abstract class TimeStampedEntity
+{
     public DateTime CreatedAt { get; set; } = DateTime.Now;
-    public DateTime UpdatedAt { get; set; }
-    public bool IsDeleted { get; set; } = false;
+    public DateTime UpdatedAt { get; set; } = DateTime.Now; // Nên gán mặc định để tránh lỗi DateTime tối thiểu của SQL
+}
+
+// 2. Dành cho các bảng cần quản lý Trạng thái và Xóa mềm (Soft Delete)
+public abstract class StatusControlledEntity
+{
     public bool IsActive { get; set; } = true;
+    public bool IsDeleted { get; set; } = false;
+}
+
+// 3. Nếu muốn một cấu trúc đầy đủ cả 4 thuộc tính (Kế thừa từ nhóm thời gian và thêm trạng thái)
+public abstract class FullAuditedEntity : TimeStampedEntity
+{
+    public bool IsActive { get; set; } = true;
+    public bool IsDeleted { get; set; } = false;
 }

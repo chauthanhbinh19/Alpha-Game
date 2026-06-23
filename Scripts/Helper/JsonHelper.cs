@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 public static class JsonHelper
@@ -253,6 +254,183 @@ public static class JsonHelper
         jsonBuilder.Append($"\"attack_range\":\"{c.AttackRange}\"");
         jsonBuilder.Append("}");
 
+        return jsonBuilder.ToString();
+    }
+
+    /// <summary>
+    /// Chuyển đổi chuỗi JSON phẳng từ MySQL thành List<Effects> (gồm đầy đủ Object con)
+    /// </summary>
+    public static List<Effects> DeserializeEffects(string json)
+    {
+        List<Effects> effectsList = new List<Effects>();
+
+        // Kiểm tra điều kiện chuỗi rỗng của MySQL JSON
+        if (string.IsNullOrEmpty(json) || json == "[]" || json == "[null]")
+        {
+            return effectsList;
+        }
+
+        try
+        {
+            // Bước 1: Trích xuất các cụm dữ liệu nằm trong cặp dấu ngoặc nhọn { ... }
+            // Sử dụng Regex để bắt chính xác các Object JSON không bị lẫn dấu phẩy bên ngoài
+            MatchCollection matches = Regex.Matches(json, @"\{([^}]+)\}");
+
+            foreach (Match match in matches)
+            {
+                string cleanObj = match.Groups[1].Value;
+                
+                Effects effect = new Effects();
+                EffectProperty effectProperty = new EffectProperty();
+                EffectAction effectAction = new EffectAction();
+
+                // Bước 2: Tách các cặp Key-Value qua Regex để xử lý an toàn thay vì dùng Split mặc định
+                // Biểu thức này bắt cặp dạng "key":value hoặc "key":"value"
+                MatchCollection kvPairs = Regex.Matches(cleanObj, @"\""([^\""]+)\""\s*:\s*([^,]+)");
+
+                foreach (Match kv in kvPairs)
+                {
+                    string key = kv.Groups[1].Value.Trim();
+                    // Loại bỏ các ký tự bọc ngoặc kép của phần Value nếu có
+                    string value = kv.Groups[2].Value.Trim().Trim('"');
+
+                    if (value == "null") continue;
+
+                    switch (key)
+                    {
+                        // --- Thuộc tính của Effects ---
+                        case "effect_id":
+                            // Nếu ID trong DB là chuỗi (ví dụ 'EC20EP50'), hãy đổi kiểu dữ liệu Id trong Class sang string. 
+                            // Nếu ID là int, sử dụng int.TryParse.
+                            if (int.TryParse(value, out int id)) effect.Id = id;
+                            break;
+                        case "effect_name":
+                            effect.Name = value;
+                            break;
+                        case "effect_type":
+                            effect.EffectType = value;
+                            break;
+                        case "effect_description":
+                            effect.Description = value;
+                            break;
+                        case "duration":
+                            if (int.TryParse(value, out int dur)) effect.Duration = dur;
+                            break;
+                        case "value_type":
+                            effect.ValueType = value;
+                            break;
+                        case "value":
+                            if (int.TryParse(value, out int val)) effect.Value = val;
+                            break;
+                        case "scaling_factor":
+                            if (float.TryParse(value, out float scale)) effect.ScalingFactor = scale;
+                            break;
+
+                        // --- Thuộc tính của EffectProperty ---
+                        case "property_id":
+                            if (int.TryParse(value, out int pId)) effectProperty.PropertyId = pId;
+                            break;
+                        case "property_code":
+                            effectProperty.PropertyCode = value;
+                            break;
+                        case "property_name":
+                            effectProperty.PropertyName = value;
+                            break;
+                        case "property_description":
+                            effectProperty.Description = value;
+                            break;
+
+                        // --- Thuộc tính của EffectAction ---
+                        case "action_id":
+                            if (int.TryParse(value, out int aId)) effectAction.ActionId = aId;
+                            break;
+                        case "action_code":
+                            effectAction.ActionCode = value;
+                            break;
+                        case "action_name":
+                            effectAction.ActionName = value;
+                            break;
+                        case "action_description":
+                            effectAction.Description = value;
+                            break;
+                    }
+                }
+
+                // Gán các Object con vào Object Effects chính sau khi lọc xong dữ liệu của bản ghi đó
+                effect.EffectProperty = effectProperty;
+                effect.EffectAction = effectAction;
+
+                effectsList.Add(effect);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"[JsonHelper Error]: {ex.Message}");
+        }
+
+        return effectsList;
+    }
+
+    /// <summary>
+    /// Chuyển đổi List<Effects> ngược lại thành chuỗi JSON chuẩn (Không dùng thư viện)
+    /// </summary>
+    public static string SerializeEffects(List<Effects> effectsList)
+    {
+        if (effectsList == null || effectsList.Count == 0)
+        {
+            return "[]";
+        }
+
+        StringBuilder jsonBuilder = new StringBuilder();
+        jsonBuilder.Append("[");
+
+        for (int i = 0; i < effectsList.Count; i++)
+        {
+            Effects effect = effectsList[i];
+
+            jsonBuilder.Append("{");
+            jsonBuilder.Append($"\"effect_id\":{effect.Id},");
+            jsonBuilder.Append($"\"effect_name\":\"{EscapeString(effect.Name)}\",");
+            jsonBuilder.Append($"\"effect_type\":\"{EscapeString(effect.EffectType)}\",");
+            jsonBuilder.Append($"\"effect_description\":\"{EscapeString(effect.Description)}\",");
+            jsonBuilder.Append($"\"duration\":{effect.Duration},");
+            jsonBuilder.Append($"\"value_type\":\"{EscapeString(effect.ValueType)}\",");
+            jsonBuilder.Append($"\"value\":{effect.Value},");
+            jsonBuilder.Append($"\"scaling_factor\":{effect.ScalingFactor.ToString(System.Globalization.CultureInfo.InvariantCulture)},");
+
+            // Nhúng Property lồng vào bên trong
+            if (effect.EffectProperty != null)
+            {
+                jsonBuilder.Append($"\"property_id\":{effect.EffectProperty.PropertyId},");
+                jsonBuilder.Append($"\"property_code\":\"{EscapeString(effect.EffectProperty.PropertyCode)}\",");
+                jsonBuilder.Append($"\"property_name\":\"{EscapeString(effect.EffectProperty.PropertyName)}\",");
+                jsonBuilder.Append($"\"property_description\":\"{EscapeString(effect.EffectProperty.Description)}\",");
+            }
+
+            // Nhúng Action lồng vào bên trong
+            if (effect.EffectAction != null)
+            {
+                jsonBuilder.Append($"\"action_id\":{effect.EffectAction.ActionId},");
+                jsonBuilder.Append($"\"action_code\":\"{EscapeString(effect.EffectAction.ActionCode)}\",");
+                jsonBuilder.Append($"\"action_name\":\"{EscapeString(effect.EffectAction.ActionName)}\",");
+                jsonBuilder.Append($"\"action_description\":\"{EscapeString(effect.EffectAction.Description)}\"");
+            }
+
+            // Xóa dấu phẩy thừa nếu có phát sinh ở cuối
+            if (jsonBuilder[jsonBuilder.Length - 1] == ',')
+            {
+                jsonBuilder.Length--; 
+            }
+
+            jsonBuilder.Append("}");
+
+            if (i < effectsList.Count - 1)
+            {
+                jsonBuilder.Append(",");
+            }
+        }
+
+        jsonBuilder.Append("]");
         return jsonBuilder.ToString();
     }
 

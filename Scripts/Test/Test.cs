@@ -12,7 +12,7 @@ public class Test : MonoBehaviour
     public int offset = 0;
     void Start()
     {
-
+        
     }
     [ContextMenu("Run Initiate Async")]
     public async Task InitiateAsync()
@@ -377,6 +377,12 @@ public class Test : MonoBehaviour
         Debug.Log("<color=cyan>Skills for user Card Spells initiate successfully</color>");
 
         Debug.Log("<color=yellow>End</color>");
+    }
+    [ContextMenu("Run Get Skill Async")]
+    public async Task GetUserSkillsAsync()
+    {
+        User.CurrentUserId = "639167826246347876";
+        await UserSkillsService.Create().GetUserSkillsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare);
     }
 }
 

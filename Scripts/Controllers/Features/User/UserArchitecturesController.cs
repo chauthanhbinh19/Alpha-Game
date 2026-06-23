@@ -140,6 +140,8 @@ public class UserArchitecturesController : MonoBehaviour
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         image.texture = texture;
 
+        ImageManager.Instance.ChangeSizeImageByTextureScale(image, texture);
+
         TextMeshProUGUI idText = transform.Find("DictionaryCards/Name/IdText").GetComponent<TextMeshProUGUI>();
         idText.text = "ID: " + architecture.Id;
 

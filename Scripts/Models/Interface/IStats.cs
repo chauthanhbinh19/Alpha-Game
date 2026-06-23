@@ -60,8 +60,4 @@ public interface IStats
     public double NormalResistanceRate { get; set; }
     public double SkillDamageRate { get; set; }
     public double SkillResistanceRate { get; set; }
-
-    public DateTime CreatedAt { get; set; }
-    public DateTime UpdatedAt { get; set; }
-    public bool IsDeleted { get; set; }
 }

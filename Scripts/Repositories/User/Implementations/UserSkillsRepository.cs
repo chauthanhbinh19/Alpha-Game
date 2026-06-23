@@ -21,7 +21,36 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description,
-                    sp.pattern_id
+                    sp.pattern_id,
+                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM skills s
                 INNER JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
@@ -42,8 +71,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     selectSQL += " AND s.name LIKE CONCAT('%', @search, '%')";
                 }
 
-                selectSQL += @"
-                LIMIT @limit OFFSET @offset";
+                selectSQL += @" LIMIT @limit OFFSET @offset";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);
@@ -137,6 +165,23 @@ public class UserSkillsRepository : IUserSkillsRepository
                             Id = reader.GetStringSafe("pattern_id")
                         }
                     };
+
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
 
                     skills.Add(skill);
                 }
@@ -819,7 +864,36 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position, sp.pattern_id
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id,
+                       -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_heroes_skills chs
@@ -906,6 +980,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -937,7 +1027,36 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position, sp.pattern_id
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id,
+                       -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_captains_skills chs
@@ -1024,6 +1143,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -1055,7 +1190,36 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position, sp.pattern_id
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id,
+                       -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_colonels_skills chs
@@ -1142,6 +1306,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -1173,7 +1353,36 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position, sp.pattern_id
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id,
+                       -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_generals_skills chs
@@ -1260,6 +1469,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -1291,7 +1516,36 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position, sp.pattern_id
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id,
+                       -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_admirals_skills chs
@@ -1378,6 +1632,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -1409,7 +1679,36 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position, sp.pattern_id
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id,
+                       -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_militaries_skills chs
@@ -1496,6 +1795,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -1527,7 +1842,36 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position, sp.pattern_id
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id,
+                       -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_monsters_skills chs
@@ -1614,6 +1958,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -1645,7 +2005,36 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position, sp.pattern_id
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id,
+                       -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_spells_skills chs 
@@ -1732,6 +2121,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -1763,7 +2168,36 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 string selectSQL = @"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                       IFNULL(chs.position, 0) AS position, sp.pattern_id
+                       IFNULL(chs.position, 0) AS position, sp.pattern_id,
+                       -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_soldiers_skills chs 
@@ -1850,6 +2284,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -1900,7 +2350,36 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_hero_id
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_hero_id,
+                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_heroes_skills chs 
@@ -1997,6 +2476,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -2044,7 +2539,36 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_captain_id
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_captain_id,
+                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_captains_skills chs 
@@ -2141,6 +2665,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -2188,7 +2728,36 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_colonel_id
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_colonel_id,
+                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_colonels_skills chs 
@@ -2285,6 +2854,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -2332,7 +2917,36 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_general_id
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_general_id,
+                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_generals_skills chs 
@@ -2429,6 +3043,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -2476,7 +3106,36 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_admiral_id
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_admiral_id,
+                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_admirals_skills chs 
@@ -2573,6 +3232,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -2620,7 +3295,36 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_monster_id
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_monster_id,
+                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_monsters_skills chs 
@@ -2717,6 +3421,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -2764,7 +3484,36 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_military_id
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_military_id,
+                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_militaries_skills chs 
@@ -2861,6 +3610,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -2908,7 +3673,36 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_spell_id
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_spell_id,
+                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_spells_skills chs 
@@ -3005,6 +3799,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                         }
                     };
 
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
+
                     skills.Add(skill);
                 }
 
@@ -3052,7 +3862,36 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_soldier_id
+                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_soldier_id,
+                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
+                    (
+                        SELECT JSON_ARRAYAGG(
+                            JSON_OBJECT(
+                                'trigger_phase', se.trigger_phase,
+                                'trigger_condition', se.trigger_condition,
+                                'is_main_effect', se.is_main_effect,
+                                'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'effect_id', e.id,
+                                'effect_name', e.name,
+                                'effect_type', e.effect_type,
+                                'duration', e.duration,
+                                'effect_description', e.description,
+                                'value_type', epa.value_type,
+                                'value', epa.value,
+                                'scaling_factor', epa.scaling_factor,
+                                'property_code', ep.property_code,
+                                'property_name', ep.property_name,
+                                'action_code', ea.action_code,
+                                'action_name', ea.action_name
+                            )
+                        )
+                        FROM skill_effect se
+                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
+                    ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
                 LEFT JOIN card_soldiers_skills chs 
@@ -3148,6 +3987,22 @@ public class UserSkillsRepository : IUserSkillsRepository
                             Id = reader.GetStringSafe("pattern_id")
                         }
                     };
+
+                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+
+                    if (!string.IsNullOrEmpty(effectsJson))
+                    {
+                        try
+                        {
+                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
+                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
+                        }
+                        catch
+                        {
+                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
+                            skill.Effects = new List<Effects>();
+                        }
+                    }
 
                     skills.Add(skill);
                 }
