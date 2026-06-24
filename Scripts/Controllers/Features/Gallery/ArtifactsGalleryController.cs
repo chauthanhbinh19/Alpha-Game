@@ -56,9 +56,7 @@ public class ArtifactsGalleryController : MonoBehaviour
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
-            // Set size 130x180
-            RectTransform rect = image.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(130, 180);
+            ImageManager.Instance.ChangeSizeImageByTextureScale(image, texture);
 
             RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = bgTexture;

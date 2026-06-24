@@ -65,9 +65,7 @@ public class ArtworksController : MonoBehaviour
             Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
             image.texture = texture;
 
-            // Set size 200x130
-            RectTransform rect = image.GetComponent<RectTransform>();
-            rect.sizeDelta = new Vector2(200, 130);
+            ImageManager.Instance.ChangeSizeImageByTextureScale(image, texture);
 
             RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
             backgroundImage.texture = bgTexture;

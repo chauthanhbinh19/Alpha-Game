@@ -68,23 +68,7 @@ public class PlantsController : MonoBehaviour
                 Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                 image.texture = texture;
 
-                // Kích thước của RawImage (khung hiển thị)
-                RectTransform rect = image.GetComponent<RectTransform>();
-                float maxWidth = rect.rect.width;
-                float maxHeight = rect.rect.height;
-
-                // Kích thước thật của texture
-                float texWidth = texture.width;
-                float texHeight = texture.height;
-
-                // Tính scale để texture nằm gọn trong khung
-                float widthRatio = maxWidth / texWidth;
-                float heightRatio = maxHeight / texHeight;
-                float finalScale = Mathf.Min(widthRatio, heightRatio);  // scale nhỏ nhất
-
-                // Áp dụng scale theo tỉ lệ đúng
-                image.SetNativeSize();
-                image.transform.localScale = new Vector3(finalScale, finalScale, 1f);
+                ImageManager.Instance.ChangeSizeImageByTextureScale(image, texture);
 
                 RawImage backgroundImage = transform.Find("RectMask2/Background").GetComponent<RawImage>();
                 backgroundImage.texture = bgTexture;
