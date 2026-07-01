@@ -78,7 +78,7 @@ public class GridManager : MonoBehaviour
         CardBase enemy = targetCell.occupiedCard;
 
         // Chỉ tấn công nếu là kẻ địch (khác Type hoặc phe) [cite: 182]
-        if (!attacker.Type.Equals(enemy.Type)) 
+        if (!attacker.Type.Equals(enemy.Type))
         {
             UnityEngine.Debug.Log($"[Battle] {attacker.Name} bắt đầu tấn công {enemy.Name}");
             // Sử dụng hàm tổng hợp đòn đánh thường của bạn trong Helper.txt 
@@ -430,7 +430,7 @@ public class GridManager : MonoBehaviour
             // ==========================================
             // KHÔNG ĐỦ ĐIỂM HOẶC BỊ CHẶN TRÊN THỰC TẾ (Bao gồm cả trường hợp movementPoint = 0):
             // ==========================================
-            
+
             // ĐIỀU KIỆN 1: Đường ngắn nhất đến vị trí đó CÓ VẬT CẢN và Point gốc ĐỦ (manhattanDistance <= movementPoint)
             // (Nếu movementPoint = 0, điều kiện manhattanDistance <= 0 sẽ sai đối với các ô xung quanh, nên chúng sẽ không bị hiện màu Đỏ nhầm)
             if (!isShortestPathClear && manhattanDistance <= movementPoint && movementPoint > 0)
@@ -459,6 +459,10 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public GridCell GetAllCells()
+    {
+        return null;
+    }
     public GridCell GetCellAt(int x, int z)
     {
         Vector2Int pos = new Vector2Int(x, z);
@@ -746,5 +750,26 @@ public class GridManager : MonoBehaviour
                 }
             }
         }
+    }
+    
+    /// <summary>
+    /// Tìm kiếm ô cờ GridCell đang chứa dữ liệu của thẻ bài CardBase được chỉ định
+    /// </summary>
+    public GridCell GetCellOfCard(CardBase card)
+    {
+        if (card == null) return null;
+
+        // Duyệt qua tất cả các ô cờ đang được GridManager quản lý trong Dictionary
+        foreach (var cell in gridDict.Values)
+        {
+            // Nếu ô cờ đó đang có quân cờ đứng và trùng khớp dữ liệu Instance/Id với quân cờ cần tìm
+            if (cell.occupiedCard != null && cell.occupiedCard == card)
+            {
+                return cell;
+            }
+        }
+
+        Debug.LogWarning($"[GridManager] Không tìm thấy quân cờ {card.Name} trên bất kỳ ô cờ nào!");
+        return null;
     }
 }

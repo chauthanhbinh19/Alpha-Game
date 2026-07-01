@@ -85,6 +85,12 @@ public static class AppConstants
         public const string SELF = "self";
         public const string ENEMY = "enemy";
         public const string ALLY = "ally";
+        public const string CASTER = "CASTER";
+        public const string CAST_TARGET = "CAST_TARGET";
+        public const string PATTERN_ALL = "PATTERN_ALL";
+        public const string PATTERN_SPLASH = "PATTERN_SPLASH";
+        public const string ALL_ENEMIES = "ALL_ENEMIES";
+        public const string ALL_ALLIES = "ALL_ALLIES";
     }
     public static class EffectProperty
     {
@@ -138,6 +144,23 @@ public static class AppConstants
         public const string SKILL_DAMAGE_RATE = "SKILL_DAMAGE_RATE"; // Tỷ lệ sát thương từ kỹ năng
         public const string SKILL_RESISTANCE_RATE = "SKILL_RESISTANCE_RATE"; // Tỷ lệ kháng sát thương từ kỹ năng
         public const string CONTROL_STATE = "CONTROL_STATE"; // Trạng thái khống chế hành động của nhân vật
+        public static readonly List<string> AllProperties = new List<string>
+        {
+            HEALTH, PHYSICAL_ATTACK, PHYSICAL_DEFENSE, MAGICAL_ATTACK, MAGICAL_DEFENSE,
+            CHEMICAL_ATTACK, CHEMICAL_DEFENSE, ATOMIC_ATTACK, ATOMIC_DEFENSE,
+            MENTAL_ATTACK, MENTAL_DEFENSE, SPEED, CRITICAL_DAMAGE_RATE, CRITICAL_RATE,
+            CRITICAL_RESISTANCE_RATE, IGNORE_CRITICAL_RATE, PENETRATION_RATE,
+            PENETRATION_RESISTANCE_RATE, EVASION_RATE, DAMAGE_ABSORPTION_RATE,
+            IGNORE_DAMAGE_ABSORPTION_RATE, ABSORBED_DAMAGE_RATE, VITALITY_REGENERATION_RATE,
+            VITALITY_REGENERATION_RESISTANCE_RATE, ACCURACY_RATE, LIFESTEAL_RATE, MANA,
+            MANA_REGENERATION_RATE, SHIELD_STRENGTH, TENACITY, RESISTANCE_RATE,
+            COMBO_RATE, IGNORE_COMBO_RATE, COMBO_DAMAGE_RATE, COMBO_RESISTANCE_RATE,
+            STUN_RATE, IGNORE_STUN_RATE, REFLECTION_RATE, IGNORE_REFLECTION_RATE,
+            REFLECTION_DAMAGE_RATE, REFLECTION_RESISTANCE_RATE, DAMAGE_TO_DIFFERENT_FACTION_RATE,
+            RESISTANCE_TO_DIFFERENT_FACTION_RATE, DAMAGE_TO_SAME_FACTION_RATE,
+            RESISTANCE_TO_SAME_FACTION_RATE, NORMAL_DAMAGE_RATE, NORMAL_RESISTANCE_RATE,
+            SKILL_DAMAGE_RATE, SKILL_RESISTANCE_RATE, CONTROL_STATE
+        };
     }
     public static class EffectAction
     {
@@ -162,6 +185,11 @@ public static class AppConstants
         public const string LIMIT_ACTION = "LIMIT_ACTION";
         public const string DAMAGE = "DAMAGE";
         public const string HEAL = "HEAL";
+    }
+    public static class EffectPropertyAction
+    {
+        public const string PERCENTAGE = "Percentage";
+        public const string FLAT = "FLAT";
     }
     public static class Rare
     {
@@ -2105,7 +2133,7 @@ public static class AppConstants
 
         public static class CodeName
         {
-            
+
         }
     }
     public static class Upgrade

@@ -124,6 +124,7 @@ public class CardMonster : CardBase
         this.CurrentSkillDamageRate = cardMonster.SkillDamageRate;
         this.CurrentSkillResistanceRate = cardMonster.SkillResistanceRate;
 
+        this.TeamId = cardMonster.TeamId;
         this.CurrentMovementPoint = cardMonster.Class.MovementPoint;
 
         // Parse position code "x-y"

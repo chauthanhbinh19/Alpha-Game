@@ -26,6 +26,8 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
@@ -869,10 +871,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -1000,7 +1005,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1032,10 +1037,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -1163,7 +1171,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1195,10 +1203,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -1326,7 +1337,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1358,10 +1369,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -1489,7 +1503,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1521,10 +1535,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -1652,7 +1669,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1684,10 +1701,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -1815,7 +1835,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -1847,10 +1867,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -1978,7 +2001,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -2010,10 +2033,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -2141,7 +2167,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -2173,10 +2199,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -2304,7 +2333,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -2355,10 +2384,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -2496,7 +2528,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -2544,10 +2576,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -2685,7 +2720,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -2733,10 +2768,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -2874,7 +2912,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -2922,10 +2960,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -3063,7 +3104,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -3111,10 +3152,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -3252,7 +3296,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -3300,10 +3344,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -3441,7 +3488,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -3489,10 +3536,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -3630,7 +3680,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -3678,10 +3728,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -3819,7 +3872,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {
@@ -3867,10 +3920,13 @@ public class UserSkillsRepository : IUserSkillsRepository
                     (
                         SELECT JSON_ARRAYAGG(
                             JSON_OBJECT(
+                                'min_value', se.min_value,
+                                'max_value', se.max_value,
                                 'trigger_phase', se.trigger_phase,
                                 'trigger_condition', se.trigger_condition,
                                 'is_main_effect', se.is_main_effect,
                                 'is_main_pattern_cell', se.is_main_pattern_cell,
+                                'target_id', se.target_id,
                                 'effect_id', e.id,
                                 'effect_name', e.name,
                                 'effect_type', e.effect_type,
@@ -4008,7 +4064,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
-                skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
             }
             catch (MySqlException ex)
             {

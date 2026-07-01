@@ -64,6 +64,7 @@ public abstract class CardBase
     public double NormalResistanceRate { get; set; } = 0;
     public double SkillDamageRate { get; set; } = 0;
     public double SkillResistanceRate { get; set; } = 0;
+    public string TeamId { get; set; }
     public CardType CardType;
     public List<Skills> Skills { get; set; } = new List<Skills>{ };
     public List<Emblems> Emblems { get; set; } = new List<Emblems>();
@@ -123,6 +124,17 @@ public abstract class CardBase
     public int MainPosition { get; set; }
     public int SubIndex { get; set; }
     public bool IsAlive { get; set; }
+    public bool isSkillAttack { get; set; } = false;
+
+    public List<Effects> ActiveSkillEffects { get; set; } = new List<Effects>();
+    public List<Effects> PassiveEffects { get; set; } = new List<Effects>();
+    
+    // Danh sách hiệu ứng do bản thân hoặc đồng minh gán lên
+    public List<RuntimeEffectInstance> FriendlyEffects { get; set; } = new List<RuntimeEffectInstance>();
+
+    // Danh sách hiệu ứng do kẻ địch gán lên
+    public List<RuntimeEffectInstance> HostileEffects { get; set; } = new List<RuntimeEffectInstance>();
+    public HashSet<string> LockedProperties { get; set; } = new HashSet<string>();
     public Team Team;
     public bool hasActedThisturn = false;
     public GameObject damagePopupPrefab;
@@ -206,5 +218,23 @@ public abstract class CardBase
     public void EndAction()
     {
         hasActedThisturn = true;
+    }
+}
+/// <summary>
+/// Lớp bọc (Wrapper) một Effect từ DB để biến nó thành một trạng thái có số lượt (Duration) chạy trên sân
+/// </summary>
+public class RuntimeEffectInstance
+{
+    public Effects SourceEffect { get; set; } // Trỏ về dữ liệu gốc (để biết trị số Value, ActionCode, PropertyCode)
+    public int RemainingDuration { get; set; } // Số lượt hiệu lực còn lại trên ô cờ
+    public CardBase Caster { get; set; } // Người quăng hiệu ứng này (để tính damage DoT theo chỉ số caster nếu cần)
+    public bool IsActive { get; set; } // Quản lý trạng thái kích hoạt của hiệu ứng
+
+    public RuntimeEffectInstance(Effects effect, int duration, CardBase caster)
+    {
+        SourceEffect = effect;
+        RemainingDuration = duration;
+        Caster = caster;
+        IsActive = true;
     }
 }

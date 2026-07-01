@@ -124,6 +124,7 @@ public class CardMilitary : CardBase
         this.CurrentSkillDamageRate = cardMilitary.SkillDamageRate;
         this.CurrentSkillResistanceRate = cardMilitary.SkillResistanceRate;
 
+        this.TeamId = cardMilitary.TeamId;
         this.CurrentMovementPoint = cardMilitary.Class.MovementPoint;
 
         // Parse position code "x-y"

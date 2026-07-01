@@ -326,6 +326,23 @@ public static class JsonHelper
                             if (float.TryParse(value, out float scale)) effect.ScalingFactor = scale;
                             break;
 
+                        // --- Thuộc tính của SkillEffect ---
+                        case "min_value":
+                            if (int.TryParse(value, out int minValue)) effect.MinValue = minValue;
+                            break;
+                        case "max_value":
+                            if (int.TryParse(value, out int maxValue)) effect.MaxValue = maxValue;
+                            break;
+                        case "trigger_phase":
+                            effect.TriggerPhase = value;
+                            break;
+                        case "trigger_condition":
+                            effect.TriggerCondition = value;
+                            break;
+                        case "target_id":
+                            effect.Target.Id = value;
+                            break;
+
                         // --- Thuộc tính của EffectProperty ---
                         case "property_id":
                             if (int.TryParse(value, out int pId)) effectProperty.PropertyId = pId;
@@ -397,6 +414,10 @@ public static class JsonHelper
             jsonBuilder.Append($"\"value_type\":\"{EscapeString(effect.ValueType)}\",");
             jsonBuilder.Append($"\"value\":{effect.Value},");
             jsonBuilder.Append($"\"scaling_factor\":{effect.ScalingFactor.ToString(System.Globalization.CultureInfo.InvariantCulture)},");
+            jsonBuilder.Append($"\"min_value\":{effect.MinValue},");
+            jsonBuilder.Append($"\"max_value\":{effect.MaxValue},");
+            jsonBuilder.Append($"\"trigger_phase\":{effect.TriggerPhase},");
+            jsonBuilder.Append($"\"trigger_condition\":{effect.TriggerCondition},");
 
             // Nhúng Property lồng vào bên trong
             if (effect.EffectProperty != null)
@@ -413,7 +434,13 @@ public static class JsonHelper
                 jsonBuilder.Append($"\"action_id\":{effect.EffectAction.ActionId},");
                 jsonBuilder.Append($"\"action_code\":\"{EscapeString(effect.EffectAction.ActionCode)}\",");
                 jsonBuilder.Append($"\"action_name\":\"{EscapeString(effect.EffectAction.ActionName)}\",");
-                jsonBuilder.Append($"\"action_description\":\"{EscapeString(effect.EffectAction.Description)}\"");
+                jsonBuilder.Append($"\"action_description\":\"{EscapeString(effect.EffectAction.Description)}\",");
+            }
+
+            // Nhúng Target lồng vào bên trong
+            if (effect.Target != null)
+            {
+                jsonBuilder.Append($"\"target_id\":\"{EscapeString(effect.Target.Id)}\"");
             }
 
             // Xóa dấu phẩy thừa nếu có phát sinh ở cuối

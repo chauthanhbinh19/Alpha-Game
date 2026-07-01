@@ -123,7 +123,8 @@ public class CardColonel : CardBase
         this.CurrentNormalResistanceRate = cardColonel.NormalResistanceRate;
         this.CurrentSkillDamageRate = cardColonel.SkillDamageRate;
         this.CurrentSkillResistanceRate = cardColonel.SkillResistanceRate;
-
+        
+        this.TeamId = cardColonel.TeamId;
         this.CurrentMovementPoint = cardColonel.Class.MovementPoint;
 
         // Parse position code "x-y"
