@@ -18,8 +18,6 @@ public class UIManager : MonoBehaviour
     public Transform MainPanel;
     public Transform popupPanel;
     public Transform LoadingPanel;
-    public GameObject ItemThird;
-    public GameObject StarPrefab;
     public Transform GamePlayPanel;
 
     [Header("Font")]
@@ -755,61 +753,6 @@ public class UIManager : MonoBehaviour
             {
                 nextLevelText.text = nextLevel.ToString();
             }
-        }
-    }
-    public void CreateMaterialUI(List<Items> items, GameObject currentObject)
-    {
-        Transform transform = currentObject.transform;
-        Transform levelMaterialContent = transform.Find("DictionaryCards/Content/LevelPanel/ScrollViewMaterial/Viewport/Content");
-        foreach (Items item in items)
-        {
-            GameObject itemObject = Instantiate(ItemThird, levelMaterialContent);
-
-            RawImage itemImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            Texture itemTexture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(item.Image)}");
-            itemImage.texture = itemTexture;
-
-            TextMeshProUGUI itemQuantityText = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
-            itemQuantityText.text = NumberFormatterHelper.FormatNumber(item.Quantity, false);
-        }
-    }
-    public void CreateStarUI(int star, GameObject currentObject)
-    {
-        Transform transform = currentObject.transform;
-        Transform currentStar = transform.Find("DictionaryCards/Content/UpgradePanel/Level/CurrentStar");
-        Transform nextStar = transform.Find("DictionaryCards/Content/UpgradePanel/Level/NextStar");
-        int currentimageIndex = (star == 0) ? 0 : ((star - 1) % 10) + 1;
-        int currentstarIndex = (star == 0) ? 0 : (star - 1) / 10;
-        int newStar = (star + 1 > 100000) ? 0 : star + 1;
-        int nextimageIndex = (newStar == 0) ? 0 : ((newStar - 1) % 10) + 1;
-        int nextstarIndex = (newStar == 0) ? 0 : (newStar - 1) / 10;
-
-        for (int i = 0; i < currentimageIndex; i++)
-        {
-            GameObject starObject = Instantiate(StarPrefab, currentStar);
-
-            RawImage starImage = starObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            GetStarImage(starImage, currentstarIndex);
-        }
-
-        for (int i = 0; i < nextimageIndex; i++)
-        {
-            GameObject starObject = Instantiate(StarPrefab, nextStar);
-
-            RawImage starImage = starObject.transform.Find("ItemImage").GetComponent<RawImage>();
-            GetStarImage(starImage, nextstarIndex);
-        }
-
-        GridLayoutGroup currentGridLayout = currentStar.GetComponent<GridLayoutGroup>();
-        if (currentGridLayout != null)
-        {
-            currentGridLayout.cellSize = new Vector2(20, 20);
-        }
-        
-        GridLayoutGroup nextGridLayout = nextStar.GetComponent<GridLayoutGroup>();
-        if (nextGridLayout != null)
-        {
-            nextGridLayout.cellSize = new Vector2(20, 20);
         }
     }
     public void GetStarImage(RawImage starImage, int starIndex)

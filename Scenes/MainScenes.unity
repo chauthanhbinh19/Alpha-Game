@@ -2256,10 +2256,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a5a99327aef88514da11510cd0178113, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  frames: []
-  spriteSheet: {fileID: 0}
-  frameRate: 12
-  lastFrameHoldTime: 0.2
+  Frames: []
+  SpriteSheet: {fileID: 0}
+  FrameRate: 12
+  LastFrameHoldTime: 0.2
 --- !u!114 &119853877
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2272,8 +2272,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c365b080a02441d45a6dda3873a174ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  distance: 50
+  Speed: 2
+  Distance: 50
 --- !u!114 &119853878
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2286,8 +2286,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe62fffac9ecf9348b3bcaa275ac2703, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delay: 0.001
-  fadeDuration: 0.02
+  Delay: 0.001
+  FadeDuration: 0.02
 --- !u!114 &119853879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2300,8 +2300,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f03ca5406ea6b04e94251facf59deb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 200
-  duration: 0.5
+  Distance: 200
+  Duration: 0.5
 --- !u!114 &119853880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2314,8 +2314,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2166da0d8520ca4189742ca7855b2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 200
-  duration: 0.5
+  Distance: 200
+  Duration: 0.5
 --- !u!114 &119853881
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2328,8 +2328,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bc7142fd3f19e34a9e2a8804586a454, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 200
-  duration: 0.5
+  Distance: 200
+  Duration: 0.5
 --- !u!114 &119853882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2342,8 +2342,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0d2026983b69c24ba8c997243deefab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distance: 200
-  duration: 0.5
+  Distance: 200
+  Duration: 0.5
 --- !u!114 &119853883
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2356,8 +2356,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 318fc25750f494d46ac93f725ed94323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotationSpeed: 50
-  direction: -1
+  RotationSpeed: 50
+  Direction: -1
 --- !u!114 &119853884
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2370,8 +2370,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76cfbed5e6bc1c24a9f537dc7b2c8fd0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  scaleAmount: 0.1
+  Speed: 2
+  ScaleAmount: 0.1
 --- !u!114 &119853885
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2384,8 +2384,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e72ccc21b4b15694b8508cd06e2e2039, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
-  amplitudePercent: 0.1
+  Speed: 2
+  AmplitudePercent: 0.1
 --- !u!114 &119853886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2398,7 +2398,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7cada6022f4e5545a63deda95b05f46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 2
+  Speed: 2
 --- !u!1 &138525263
 GameObject:
   m_ObjectHideFlags: 0
@@ -2721,10 +2721,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1d2504a09e2325489439d7bae7cfa22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  teamsObject: {fileID: 0}
-  position_id: 
-  card_id: 
-  card_power: 0
+  TeamsObject: {fileID: 0}
+  PositionId: 
+  CardId: 
+  CardPower: 0
 --- !u!114 &193593333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6103,32 +6103,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01277e37b8b7b204d84d9b6b03cae5bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicSounds:
+  MusicSounds:
   - name: FantasyAmbient
     clip: {fileID: 8300000, guid: 96f536db840ec7649b2db5cf5e371428, type: 3}
-  sfxSounds:
+  SfXSounds:
+  - name: AlertSound
+    clip: {fileID: 8300000, guid: 687d160735a497b4298522540eba0c00, type: 3}
+  - name: AppearSound
+    clip: {fileID: 8300000, guid: 642c03a1eda730148ae61ad6de3b5bc0, type: 3}
   - name: ButtonClickSound
     clip: {fileID: 8300000, guid: 0330775fe8a89f1428dc5947a0980faa, type: 3}
+  - name: CanOpeningSound
+    clip: {fileID: 8300000, guid: 4bbab0ab1e12aea459329871c2d18b6a, type: 3}
+  - name: GearSound
+    clip: {fileID: 8300000, guid: 58bc560835857a7468bae05b0144a257, type: 3}
   - name: LevelUpSound
     clip: {fileID: 8300000, guid: 7af531f57188efb488332889c19aa7d6, type: 3}
+  - name: MovingSound
+    clip: {fileID: 8300000, guid: 626fa605252dbdb438678a198b20cc3d, type: 3}
+  - name: RejectSound
+    clip: {fileID: 8300000, guid: 27001a558b5bc6646879a654095fadf5, type: 3}
   - name: StarUpSound
     clip: {fileID: 8300000, guid: f56af7187cef45646a18fd725c76d3bd, type: 3}
   - name: SwitchClickSound
     clip: {fileID: 8300000, guid: 79cef53673df7f245be83b70d3b12247, type: 3}
-  - name: CanOpeningSound
-    clip: {fileID: 8300000, guid: 4bbab0ab1e12aea459329871c2d18b6a, type: 3}
-  - name: AppearSound
-    clip: {fileID: 8300000, guid: 642c03a1eda730148ae61ad6de3b5bc0, type: 3}
-  - name: GearSound
-    clip: {fileID: 8300000, guid: 58bc560835857a7468bae05b0144a257, type: 3}
-  - name: AlertSound
-    clip: {fileID: 8300000, guid: 687d160735a497b4298522540eba0c00, type: 3}
-  - name: RejectSound
-    clip: {fileID: 8300000, guid: 27001a558b5bc6646879a654095fadf5, type: 3}
-  - name: MovingSound
-    clip: {fileID: 8300000, guid: 626fa605252dbdb438678a198b20cc3d, type: 3}
-  musicSource: {fileID: 990023841}
-  sfxSource: {fileID: 1537485152}
+  MusicSource: {fileID: 990023841}
+  SFXSource: {fileID: 1537485152}
 --- !u!1 &560472407
 GameObject:
   m_ObjectHideFlags: 0
@@ -6657,42 +6657,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3767e886602fc64693bc009d55b8fee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 12
-  height: 12
-  cellSize: 1
-  cellPrefab: {fileID: 8450721989791504550, guid: b1c32bee42aa8994f9cf0ba73ac3b682, type: 3}
-  gridParent: {fileID: 1955103563}
-  emptyPositionMaterial: {fileID: 2100000, guid: c6bba8b84a12ec842a201a0e1546bc0e, type: 2}
-  playerPositionMaterial: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
-  enemyPositionMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
-  selectedPositionMaterial: {fileID: 2100000, guid: 30bd34ebd0110f64ebded50975243b3b, type: 2}
-  walkableRangeMaterial: {fileID: 2100000, guid: 33ff9fc8c7ea6a8469c15574f01a931d, type: 2}
-  outOfPointsMaterial: {fileID: 2100000, guid: f236b5ca2c8341d4db03e1d37981aaf2, type: 2}
-  destinationMaterial: {fileID: 2100000, guid: 09f086a2429f97949bc2297e47c7fe87, type: 2}
-  pathNodeMaterial: {fileID: 2100000, guid: ff9ac3e92ec53c54c81da50e37b93410, type: 2}
-  attackRangeMaterial: {fileID: 2100000, guid: 9885f9007e8d5e749a6e5eec4e8a22f4, type: 2}
-  playerSpawnCells:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  enemySpawnCells:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  Width: 12
+  Height: 12
+  CellSize: 1.1
+  CellPrefab: {fileID: 0}
+  GridParent: {fileID: 0}
+  EmptyPositionMaterial: {fileID: 0}
+  PlayerPositionMaterial: {fileID: 0}
+  EnemyPositionMaterial: {fileID: 0}
+  SelectedPositionMaterial: {fileID: 0}
+  WalkableRangeMaterial: {fileID: 0}
+  OutOfPointsMaterial: {fileID: 0}
+  DestinationMaterial: {fileID: 0}
+  PathNodeMaterial: {fileID: 0}
+  AttackRangeMaterial: {fileID: 0}
+  PlayerSpawnCells: []
+  EnemySpawnCells: []
 --- !u!1 &626250089
 GameObject:
   m_ObjectHideFlags: 0
@@ -8554,10 +8534,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ef7e63af1cf0f74dbbb5417fef95891, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyboardSpeed: 15
-  dragSpeed: 0.5
-  bottomLeftCorner: {x: -2, y: 36, z: -9}
-  topRightCorner: {x: 2, y: 36, z: -4}
+  KeyboardSpeed: 30
+  DragSpeed: 2
+  BottomLeftCorner: {x: -2, y: 36, z: -10}
+  TopRightCorner: {x: 2, y: 36, z: -5}
 --- !u!1 &967054507
 GameObject:
   m_ObjectHideFlags: 0
@@ -11081,8 +11061,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e5a49d22754834c81a55f6b2659463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridManager: {fileID: 622918045}
-  cardVisualPrefab: {fileID: 1227526592903495142, guid: 5abec327994203a4789df9b6b35435f1, type: 3}
+  GridManager: {fileID: 0}
+  CardVisualPrefab: {fileID: 0}
 --- !u!1 &1332984970
 GameObject:
   m_ObjectHideFlags: 0
@@ -12908,12 +12888,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GachaPanelPrefab: {fileID: 0}
-  gachaMenuPanel: {fileID: 0}
-  backgroundImage: {fileID: 0}
+  GachaMenuPanel: {fileID: 0}
+  BackgroundImage: {fileID: 0}
   GachaButtonPrefab: {fileID: 0}
-  currentObject: {fileID: 0}
-  itemBackground: {fileID: 0}
-  subBackground: {fileID: 0}
+  CurrentObject: {fileID: 0}
+  ItemBackground: {fileID: 0}
+  SubBackground: {fileID: 0}
 --- !u!114 &1455261745
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20938,15 +20918,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RootPanel: {fileID: 318610450}
-  notificationPanel: {fileID: 810530868}
+  NotificationPanel: {fileID: 810530868}
   WaitingPanel: {fileID: 1473037408}
   MainPanel: {fileID: 1481069417}
   popupPanel: {fileID: 495709220}
   LoadingPanel: {fileID: 806078345}
-  ItemThird: {fileID: 0}
-  StarPrefab: {fileID: 0}
   GamePlayPanel: {fileID: 247838755}
-  EuroStyleNormalFont: {fileID: 0}
+  EuroStyleNormalFont: {fileID: 11400000, guid: d9c6885c4b2207f45926cee0d9617cec, type: 2}
 --- !u!1 &1881260152
 GameObject:
   m_ObjectHideFlags: 0
@@ -21410,10 +21388,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7697f19e331cc745a8d19b6e60a406e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columns: 12
-  spacingX: 1
-  spacingZ: 1
-  center: 1
+  Columns: 12
+  SpacingX: 1
+  SpacingZ: 1
+  Center: 1
 --- !u!1 &1973826812
 GameObject:
   m_ObjectHideFlags: 0

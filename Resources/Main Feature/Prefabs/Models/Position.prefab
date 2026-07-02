@@ -16447,7 +16447,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5305536938370856538
 Transform:
   m_ObjectHideFlags: 0
@@ -29963,11 +29963,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a45b25b681cb574691080383c3b2251, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platform: {fileID: 2296783361432859179}
-  movementPlatform: {fileID: 3187002094165029433}
-  attackPlatform: {fileID: 6598407721985489851}
-  gridNumberText: {fileID: 4883870931903127}
-  displayCardPanel: {fileID: 3162626619236255766}
+  Platform: {fileID: 2296783361432859179}
+  MovementPlatform: {fileID: 3187002094165029433}
+  AttackPlatform: {fileID: 6598407721985489851}
+  GridNumberText: {fileID: 4883870931903127}
+  DisplayCardPanel: {fileID: 3162626619236255766}
   ParentNode: {fileID: 0}
   IsWalkableRange: 0
   IsAttackRange: 0
@@ -29983,10 +29983,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63fc6839c22f302469616c5811ef1df1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionPanel: {fileID: 2929023236940065228}
-  agreeButton: {fileID: 3630514767330461062}
-  disagreeButton: {fileID: 2752337726829717520}
-  moveSpeed: 5
+  ActionPanel: {fileID: 2929023236940065228}
+  AgreeButton: {fileID: 3630514767330461062}
+  DisagreeButton: {fileID: 2752337726829717520}
+  MoveSpeed: 5
 --- !u!114 &6136073152463505656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29999,7 +29999,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cb9d8c0d12ba3fa48bb1b1eaa3c1bb93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionPanel: {fileID: 7509251399608879343}
+  ActionPanel: {fileID: 7509251399608879343}
 --- !u!114 &703532161230123044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30012,9 +30012,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55a6340c9d6f5224a868289ba118456f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  actionPanel: {fileID: 788500945206519399}
-  agreeButton: {fileID: 6715884526117001486}
-  disagreeButton: {fileID: 9040150062706354590}
+  ActionPanel: {fileID: 788500945206519399}
+  AgreeButton: {fileID: 6715884526117001486}
+  DisagreeButton: {fileID: 9040150062706354590}
 --- !u!114 &239454253662915912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30027,12 +30027,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afbf8a75f07742a4d8eeef367409355b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageTargetPanel: {fileID: 7221628084037205837}
-  healTargetPanel: {fileID: 193065410789293740}
-  buffTargetPanel: {fileID: 6475297540316180023}
-  debuffTargetPanel: {fileID: 5554223341838534262}
-  cleanseTargetPanel: {fileID: 8423602514945453815}
-  summonTagretPanel: {fileID: 3008061076762861595}
+  DamageTargetPanel: {fileID: 7221628084037205837}
+  HealTargetPanel: {fileID: 193065410789293740}
+  BuffTargetPanel: {fileID: 6475297540316180023}
+  DebuffTargetPanel: {fileID: 5554223341838534262}
+  CleanseTargetPanel: {fileID: 8423602514945453815}
+  SummonTagretPanel: {fileID: 3008061076762861595}
 --- !u!1 &8482133104541452637
 GameObject:
   m_ObjectHideFlags: 0

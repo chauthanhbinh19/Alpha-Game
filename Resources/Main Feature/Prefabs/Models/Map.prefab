@@ -189,7 +189,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9279a293288138e489a6003cef0462be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spacing: 3.2
+  Spacing: 3
 --- !u!114 &6162430373034734264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,10 +202,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7697f19e331cc745a8d19b6e60a406e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  columns: 12
-  spacingX: 1
-  spacingZ: 1
-  center: 1
+  Columns: 12
+  SpacingX: 1
+  SpacingZ: 1
+  Center: 1
 --- !u!1001 &19549225760178352
 PrefabInstance:
   m_ObjectHideFlags: 0

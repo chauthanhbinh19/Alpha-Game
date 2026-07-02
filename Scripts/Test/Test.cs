@@ -5,11 +5,11 @@ using System.Linq;
 
 public class Test : MonoBehaviour
 {
-    public string search = "";
-    public string rare = AppConstants.Rare.ALL;
-    public string type = AppConstants.Type.ALL;
+    public string Search = "";
+    public string Rare = AppConstants.Rare.ALL;
+    public string Type = AppConstants.Type.ALL;
     public const int PAGE_SIZE = 10000;
-    public int offset = 0;
+    public int Offset = 0;
     void Start()
     {
         
@@ -21,156 +21,156 @@ public class Test : MonoBehaviour
 
         Debug.Log("<color=yellow>Start</color>");
         List<Achievements> achievements = await AchievementsService.Create()
-            .GetAchievementsAsync(search, rare, PAGE_SIZE, offset);
+            .GetAchievementsAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserAchievementsService.Create()
             .InsertOrUpdateUserAchievementsBatchAsync(achievements);
         Debug.Log("<color=cyan>Achievements initiate successfully</color>");
 
         List<Alchemies> alchemies = await AlchemiesService.Create()
-            .GetAlchemiesAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetAlchemiesAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserAlchemiesService.Create()
             .InsertOrUpdateUserAlchemiesBatchAsync(alchemies);
         Debug.Log("<color=cyan>Alchemies initiate successfully</color>");
 
         List<Architectures> architectures = await ArchitecturesService.Create()
-            .GetArchitecturesAsync(search, rare, PAGE_SIZE, offset);
+            .GetArchitecturesAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserArchitecturesService.Create()
             .InsertOrUpdateUserArchitecturesBatchAsync(architectures);
         Debug.Log("<color=cyan>Architectures initiate successfully</color>");
 
         List<Artifacts> artifacts = await ArtifactsService.Create()
-            .GetArtifactsAsync(search, rare, PAGE_SIZE, offset);
+            .GetArtifactsAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserArtifactsService.Create()
             .InsertOrUpdateUserArtifactsBatchAsync(artifacts);
         Debug.Log("<color=cyan>Artifacts initiate successfully</color>");
 
         List<Artworks> artworks = await ArtworksService.Create()
-            .GetArtworksAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetArtworksAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserArtworksService.Create()
             .InsertOrUpdateUserArtworksBatchAsync(artworks);
         Debug.Log("<color=cyan>Artworks initiate successfully</color>");
 
         List<Avatars> avatars = await AvatarsService.Create()
-            .GetAvatarsAsync(search, rare, PAGE_SIZE, offset);
+            .GetAvatarsAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserAvatarsService.Create()
             .InsertOrUpdateUserAvatarsBatchAsync(avatars);
         Debug.Log("<color=cyan>Avatars initiate successfully</color>");
 
         List<Badges> badges = await BadgesService.Create()
-            .GetBadgesAsync(search, rare, PAGE_SIZE, offset);
+            .GetBadgesAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserBadgesService.Create()
             .InsertOrUpdateUserBadgesBatchAsync(badges);
         Debug.Log("<color=cyan>Badges initiate successfully</color>");
 
         List<Beverages> beverages = await BeveragesService.Create()
-            .GetBeveragesAsync(search, rare, PAGE_SIZE, offset);
+            .GetBeveragesAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserBeveragesService.Create()
             .InsertOrUpdateUserBeveragesBatchAsync(beverages);
         Debug.Log("<color=cyan>Beverages initiate successfully</color>");
 
         List<Books> books = await BooksService.Create()
-            .GetBooksAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetBooksAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserBooksService.Create().InsertOrUpdateUserBooksBatchAsync(books);
         Debug.Log("<color=cyan>Books initiate successfully</color>");
 
         List<Borders> borders = await BordersService.Create()
-            .GetBordersAsync(search, rare, PAGE_SIZE, offset);
+            .GetBordersAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserBordersService.Create()
             .InsertOrUpdateUserBordersBatchAsync(borders);
         Debug.Log("<color=cyan>Borders initiate successfully</color>");
 
         List<Buildings> buildings = await BuildingsService.Create()
-            .GetBuildingsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetBuildingsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserBuildingsService.Create()
             .InsertOrUpdateUserBuildingsBatchAsync(buildings);
         Debug.Log("<color=cyan>Buildings initiate successfully</color>");
 
         List<CardAdmirals> cardAdmirals = await CardAdmiralsService.Create()
-            .GetCardAdmiralsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetCardAdmiralsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserCardAdmiralsService.Create()
             .InsertOrUpdateUserCardAdmiralsBatchAsync(cardAdmirals);
         Debug.Log("<color=cyan>Card Admirals initiate successfully</color>");
 
         List<CardCaptains> cardCaptains = await CardCaptainsService.Create()
-            .GetCardCaptainsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetCardCaptainsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserCardCaptainsService.Create()
             .InsertOrUpdateUserCardCaptainsBatchAsync(cardCaptains);
         Debug.Log("<color=cyan>Card Captains initiate successfully</color>");
 
         List<CardColonels> cardColonels = await CardColonelsService.Create()
-            .GetCardColonelsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetCardColonelsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserCardColonelsService.Create()
             .InsertOrUpdateUserCardColonelsBatchAsync(cardColonels);
         Debug.Log("<color=cyan>Card Colonels initiate successfully</color>");
 
         List<CardGenerals> cardGenerals = await CardGeneralsService.Create()
-            .GetCardGeneralsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetCardGeneralsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserCardGeneralsService.Create()
             .InsertOrUpdateUserCardGeneralsBatchAsync(cardGenerals);
         Debug.Log("<color=cyan>Card Generals initiate successfully</color>");
 
         List<CardHeroes> cardHeroes = await CardHeroesService.Create()
-            .GetCardHeroesAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetCardHeroesAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserCardHeroesService.Create()
             .InsertOrUpdateUserCardHeroesBatchAsync(cardHeroes);
         Debug.Log("<color=cyan>Card Heroes initiate successfully</color>");
 
         List<CardMilitaries> cardMilitaries = await CardMilitariesService.Create()
-            .GetCardMilitariesAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetCardMilitariesAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserCardMilitariesService.Create()
             .InsertOrUpdateUserCardMilitariesBatchAsync(cardMilitaries);
         Debug.Log("<color=cyan>Card Militaries initiate successfully</color>");
 
         List<CardMonsters> cardMonsters = await CardMonstersService.Create()
-            .GetCardMonstersAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetCardMonstersAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserCardMonstersService.Create()
             .InsertOrUpdateUserCardMonstersBatchAsync(cardMonsters);
         Debug.Log("<color=cyan>Card Monsters initiate successfully</color>");
 
         List<CardSpells> cardSpells = await CardSpellsService.Create()
-            .GetCardSpellsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetCardSpellsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserCardSpellsService.Create()
             .InsertOrUpdateUserCardSpellsBatchAsync(cardSpells);
         Debug.Log("<color=cyan>Card Spells initiate successfully</color>");
 
         List<CardSoldiers> cardSoldiers = await CardSoldiersService.Create()
-            .GetCardSoldiersAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetCardSoldiersAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserCardSoldiersService.Create()
             .InsertOrUpdateUserCardSoldiersBatchAsync(cardSoldiers);
         Debug.Log("<color=cyan>Card Soldiers initiate successfully</color>");
 
         List<CardLives> cardLives = await CardLivesService.Create()
-            .GetCardLivesAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetCardLivesAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserCardLivesService.Create()
             .InsertOrUpdateUserCardLivesBatchAsync(cardLives);
         Debug.Log("<color=cyan>Card Lives initiate successfully</color>");
 
         List<CollaborationEquipments> collaborationEquipments = await CollaborationEquipmentsService.Create()
-            .GetCollaborationEquipmentsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetCollaborationEquipmentsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserCollaborationEquipmentsService.Create()
             .InsertOrUpdateUserCollaborationEquipmentsBatchAsync(collaborationEquipments);
         Debug.Log("<color=cyan>Collaboration Equipments initiate successfully</color>");
 
         List<Collaborations> collaborations = await CollaborationsService.Create()
-            .GetCollaborationsAsync(search, rare, PAGE_SIZE, offset);
+            .GetCollaborationsAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserCollaborationsService.Create()
             .InsertOrUpdateUserCollaborationsBatchAsync(collaborations);
         Debug.Log("<color=cyan>Collaborations initiate successfully</color>");
 
         List<Cores> cores = await CoresService.Create()
-            .GetCoresAsync(search, rare, PAGE_SIZE, offset);
+            .GetCoresAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserCoresService.Create()
             .InsertOrUpdateUserCoresBatchAsync(cores);
         Debug.Log("<color=cyan>Cores initiate successfully</color>");
 
         List<Emojis> emojis = await EmojisService.Create()
-            .GetEmojisAsync(search, rare, PAGE_SIZE, offset);
+            .GetEmojisAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserEmojisService.Create()
             .InsertOrUpdateUserEmojisBatchAsync(emojis);
         Debug.Log("<color=cyan>Emojis initiate successfully</color>");
 
         List<Equipments> equipments = await EquipmentsService.Create()
-            .GetEquipmentsAsync(search, type, rare, 23000, offset);
+            .GetEquipmentsAsync(Search, Type, Rare, 23000, Offset);
         var equipmentsWithQuantity = equipments
             .Select(x => (data: x, quantity: 1000000d))
             .ToList();
@@ -178,139 +178,139 @@ public class Test : MonoBehaviour
         Debug.Log("<color=cyan>Equipments initiate successfully</color>");
 
         List<Fashions> fashions = await FashionsService.Create()
-            .GetFashionsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetFashionsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserFashionsService.Create()
             .InsertOrUpdateUserFashionsBatchAsync(fashions);
         Debug.Log("<color=cyan>Fashions initiate successfully</color>");
 
         List<Foods> foods = await FoodsService.Create()
-            .GetFoodsAsync(search, rare, PAGE_SIZE, offset);
+            .GetFoodsAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserFoodsService.Create()
             .InsertOrUpdateUserFoodsBatchAsync(foods);
         Debug.Log("<color=cyan>Foods initiate successfully</color>");
 
         List<Forges> forges = await ForgesService.Create()
-            .GetForgesAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetForgesAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserForgesService.Create()
             .InsertOrUpdateUserForgesBatchAsync(forges);
         Debug.Log("<color=cyan>Forges initiate successfully</color>");
 
         List<Furnitures> furnitures = await FurnituresService.Create()
-            .GetFurnituresAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetFurnituresAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserFurnituresService.Create()
             .InsertOrUpdateUserFurnituresBatchAsync(furnitures);
         Debug.Log("<color=cyan>Furnitures initiate successfully</color>");
 
         List<MagicFormationCircles> magicFormationCircles = await MagicFormationCirclesService.Create()
-            .GetMagicFormationCirclesAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetMagicFormationCirclesAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserMagicFormationCirclesService.Create()
             .InsertOrUpdateUserMagicFormationCirclesBatchAsync(magicFormationCircles);
         Debug.Log("<color=cyan>Magic Formation Circles initiate successfully</color>");
 
         List<MechaBeasts> mechaBeasts = await MechaBeastsService.Create()
-            .GetMechaBeastsAsync(search, rare, PAGE_SIZE, offset);
+            .GetMechaBeastsAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserMechaBeastsService.Create()
             .InsertOrUpdateUserMechaBeastsBatchAsync(mechaBeasts);
         Debug.Log("<color=cyan>Mecha Beasts initiate successfully</color>");
 
         List<Medals> medals = await MedalsService.Create()
-            .GetMedalsAsync(search, rare, PAGE_SIZE, offset);
+            .GetMedalsAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserMedalsService.Create()
             .InsertOrUpdateUserMedalsBatchAsync(medals);
         Debug.Log("<color=cyan>Medals initiate successfully</color>");
 
         List<Pets> pets = await PetsService.Create()
-            .GetPetsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetPetsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserPetsService.Create()
             .InsertOrUpdateUserPetsBatchAsync(pets);
         Debug.Log("<color=cyan>Pets initiate successfully</color>");
 
         List<Plants> plants = await PlantsService.Create()
-            .GetPlantsAsync(search, rare, PAGE_SIZE, offset);
+            .GetPlantsAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserPlantsService.Create()
             .InsertOrUpdateUserPlantsBatchAsync(plants);
         Debug.Log("<color=cyan>Plants initiate successfully</color>");
 
         List<Puppets> puppets = await PuppetsService.Create()
-            .GetPuppetsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetPuppetsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserPuppetsService.Create()
             .InsertOrUpdateUserPuppetsBatchAsync(puppets);
         Debug.Log("<color=cyan>Puppets initiate successfully</color>");
 
         List<Relics> relics = await RelicsService.Create()
-            .GetRelicsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetRelicsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserRelicsService.Create()
             .InsertOrUpdateUserRelicsBatchAsync(relics);
         Debug.Log("<color=cyan>Relics initiate successfully</color>");
 
         List<Robots> robots = await RobotsService.Create()
-            .GetRobotsAsync(search, rare, PAGE_SIZE, offset);
+            .GetRobotsAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserRobotsService.Create()
             .InsertOrUpdateUserRobotsBatchAsync(robots);
         Debug.Log("<color=cyan>Robots initiate successfully</color>");
 
         List<Runes> runes = await RunesService.Create()
-            .GetRunesAsync(search, rare, PAGE_SIZE, offset);
+            .GetRunesAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserRunesService.Create()
             .InsertOrUpdateUserRunesBatchAsync(runes);
         Debug.Log("<color=cyan>Runes initiate successfully</color>");
 
         List<Skills> skills = await SkillsService.Create()
-            .GetSkillsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetSkillsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserSkillsService.Create()
             .InsertOrUpdateUserSkillsBatchAsync(skills);
         Debug.Log("<color=cyan>Skills initiate successfully</color>");
 
         List<SpiritBeasts> spiritBeasts = await SpiritBeastsService.Create()
-            .GetSpiritBeastsAsync(search, rare, PAGE_SIZE, offset);
+            .GetSpiritBeastsAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserSpiritBeastsService.Create()
             .InsertOrUpdateUserSpiritBeastsBatchAsync(spiritBeasts);
         Debug.Log("<color=cyan>Spirit Beasts initiate successfully</color>");
 
         List<SpiritCards> spiritCards = await SpiritCardsService.Create()
-            .GetSpiritCardsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetSpiritCardsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserSpiritCardsService.Create()
             .InsertOrUpdateUserSpiritCardsBatchAsync(spiritCards);
         Debug.Log("<color=cyan>Spirit Cards initiate successfully</color>");
 
         List<Symbols> symbols = await SymbolsService.Create()
-            .GetSymbolsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetSymbolsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserSymbolsService.Create()
             .InsertOrUpdateUserSymbolsBatchAsync(symbols);
         Debug.Log("<color=cyan>Symbols initiate successfully</color>");
 
         List<Talismans> talismans = await TalismansService.Create()
-            .GetTalismansAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetTalismansAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserTalismansService.Create()
             .InsertOrUpdateUserTalismansBatchAsync(talismans);
         Debug.Log("<color=cyan>Talismans initiate successfully</color>");
 
         List<Technologies> technologies = await TechnologiesService.Create()
-            .GetTechnologiesAsync(search, rare, PAGE_SIZE, offset);
+            .GetTechnologiesAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserTechnologiesService.Create()
             .InsertOrUpdateUserTechnologiesBatchAsync(technologies);
         Debug.Log("<color=cyan>Technologies initiate successfully</color>");
 
         List<Titles> titles = await TitlesService.Create()
-            .GetTitlesAsync(search, rare, PAGE_SIZE, offset);
+            .GetTitlesAsync(Search, Rare, PAGE_SIZE, Offset);
         await UserTitlesService.Create()
             .InsertOrUpdateUserTitlesBatchAsync(titles);
         Debug.Log("<color=cyan>Titles initiate successfully</color>");
 
         List<Vehicles> vehicles = await VehiclesService.Create()
-            .GetVehiclesAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetVehiclesAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserVehiclesService.Create()
             .InsertOrUpdateUserVehiclesBatchAsync(vehicles);
         Debug.Log("<color=cyan>Vehicles initiate successfully</color>");
 
         List<Weapons> weapons = await WeaponsService.Create()
-            .GetWeaponsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetWeaponsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserWeaponsService.Create()
             .InsertOrUpdateUserWeaponsBatchAsync(weapons);
         Debug.Log("<color=cyan>Weapons initiate successfully</color>");
 
         List<Outfits> outfits = await OutfitsService.Create()
-            .GetOutfitsAsync(search, type, rare, PAGE_SIZE, offset);
+            .GetOutfitsAsync(Search, Type, Rare, PAGE_SIZE, Offset);
         await UserOutfitsService.Create()
             .InsertOrUpdateUserOutfitsBatchAsync(outfits);
         Debug.Log("<color=cyan>Outfits initiate successfully</color>");
@@ -382,7 +382,7 @@ public class Test : MonoBehaviour
     public async Task GetUserSkillsAsync()
     {
         User.CurrentUserId = "639167826246347876";
-        await UserSkillsService.Create().GetUserSkillsAsync(User.CurrentUserId, search, type, PAGE_SIZE, offset, rare);
+        await UserSkillsService.Create().GetUserSkillsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
     }
 }
 

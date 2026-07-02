@@ -6,8 +6,8 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
-    public Sound[] musicSounds, sfxSounds;
-    public AudioSource musicSource, sfxSource;
+    public Sound[] MusicSounds, SfXSounds;
+    public AudioSource MusicSource, SFXSource;
     private void Awake()
     {
         if (Instance == null)
@@ -22,118 +22,118 @@ public class AudioManager : MonoBehaviour
     }
     public void PlayMusic(string name)
     {
-        if (string.IsNullOrEmpty(name) || musicSource == null || musicSounds == null)
+        if (string.IsNullOrEmpty(name) || MusicSource == null || MusicSounds == null)
         {
             Debug.Log("PlayMusic: invalid input or audio source not assigned.");
             return;
         }
 
-        Sound s = Array.Find(musicSounds, x => x.name == name);
+        Sound s = Array.Find(MusicSounds, x => x.name == name);
         if (s == null)
         {
             Debug.Log("Music Not Found");
             return;
         }
 
-        musicSource.clip = s.clip;
-        musicSource.Play();
+        MusicSource.clip = s.clip;
+        MusicSource.Play();
     }
 
     public void StopMusic(string name = null)
     {
-        if (musicSource == null || !musicSource.isPlaying)
+        if (MusicSource == null || !MusicSource.isPlaying)
             return;
 
-        if (string.IsNullOrEmpty(name) || musicSource.clip == null)
+        if (string.IsNullOrEmpty(name) || MusicSource.clip == null)
         {
-            musicSource.Stop();
+            MusicSource.Stop();
             return;
         }
 
-        if (musicSounds == null)
+        if (MusicSounds == null)
         {
-            musicSource.Stop();
+            MusicSource.Stop();
             return;
         }
 
-        Sound s = Array.Find(musicSounds, x => x.name == name);
+        Sound s = Array.Find(MusicSounds, x => x.name == name);
         if (s == null)
         {
             Debug.Log("Music Not Found");
             return;
         }
 
-        if (musicSource.clip == s.clip)
+        if (MusicSource.clip == s.clip)
         {
-            musicSource.Stop();
+            MusicSource.Stop();
         }
     }
 
     public void PlaySFX(string name)
     {
-        if (string.IsNullOrEmpty(name) || sfxSource == null || sfxSounds == null)
+        if (string.IsNullOrEmpty(name) || SFXSource == null || SfXSounds == null)
         {
             Debug.Log("PlaySFX: invalid input or audio source not assigned.");
             return;
         }
 
-        Sound s = Array.Find(sfxSounds, x => x.name == name);
+        Sound s = Array.Find(SfXSounds, x => x.name == name);
         if (s == null)
         {
             Debug.Log("SFX Not Found");
             return;
         }
 
-        sfxSource.clip = s.clip;
-        if (!sfxSource.isPlaying)
-            sfxSource.Play();
+        SFXSource.clip = s.clip;
+        if (!SFXSource.isPlaying)
+            SFXSource.Play();
     }
 
     public void StopSFX(string name = null)
     {
-        if (sfxSource == null || !sfxSource.isPlaying)
+        if (SFXSource == null || !SFXSource.isPlaying)
             return;
 
-        if (string.IsNullOrEmpty(name) || sfxSource.clip == null)
+        if (string.IsNullOrEmpty(name) || SFXSource.clip == null)
         {
-            sfxSource.Stop();
+            SFXSource.Stop();
             return;
         }
 
-        if (sfxSounds == null)
+        if (SfXSounds == null)
         {
-            sfxSource.Stop();
+            SFXSource.Stop();
             return;
         }
 
-        Sound s = Array.Find(sfxSounds, x => x.name == name);
+        Sound s = Array.Find(SfXSounds, x => x.name == name);
         if (s == null)
         {
             Debug.Log("SFX Not Found");
             return;
         }
 
-        if (sfxSource.clip == s.clip)
+        if (SFXSource.clip == s.clip)
         {
-            sfxSource.Stop();
+            SFXSource.Stop();
         }
     }
 
     public void SetMusicVolume(float volume)
     {
-        if (musicSource != null)
-            musicSource.volume = Mathf.Clamp01(volume);
+        if (MusicSource != null)
+            MusicSource.volume = Mathf.Clamp01(volume);
     }
 
     public void SetSfxVolume(float volume)
     {
-        if (sfxSource != null)
-            sfxSource.volume = Mathf.Clamp01(volume);
+        if (SFXSource != null)
+            SFXSource.volume = Mathf.Clamp01(volume);
     }
 
     public void SetVoiceVolume(float volume)
     {
-        if (sfxSource != null)
-            sfxSource.volume = Mathf.Clamp01(volume);
+        if (SFXSource != null)
+            SFXSource.volume = Mathf.Clamp01(volume);
     }
 }
