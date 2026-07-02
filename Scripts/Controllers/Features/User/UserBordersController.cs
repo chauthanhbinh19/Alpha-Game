@@ -11,7 +11,7 @@ public class UserBordersController : MonoBehaviour
     private Transform MainPanel;
     private GameObject BorderButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -120,7 +120,7 @@ public class UserBordersController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.BORDER);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(border, currentObject);
     }
     public void CreateDetailsUI(Borders border, GameObject currentObject)
@@ -222,12 +222,12 @@ public class UserBordersController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Borders border)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             border,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

@@ -12,7 +12,7 @@ public class UserEquipmentsController : MonoBehaviour
     public static UserEquipmentsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -59,7 +59,7 @@ public class UserEquipmentsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.EQUIPMENT);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(equipment, currentObject);
     }
     public void CreateDetailsUI(Equipments equipment, GameObject currentObject)
@@ -161,12 +161,12 @@ public class UserEquipmentsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Equipments equipment)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             equipment,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

@@ -14,7 +14,7 @@ public class UserFashionsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject FashionButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -124,7 +124,7 @@ public class UserFashionsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.FASHION);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(fashion, currentObject);
     }
     public void CreateDetailsUI(Fashions fashion, GameObject currentObject)
@@ -226,12 +226,12 @@ public class UserFashionsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Fashions fashion)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             fashion,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

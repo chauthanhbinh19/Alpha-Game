@@ -14,7 +14,7 @@ public class UserArtworksController : MonoBehaviour
     private Transform MainPanel;
     private GameObject ArtworkButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -110,7 +110,7 @@ public class UserArtworksController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.ARTWORK);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(artwork, currentObject);
     }
     public void CreateDetailsUI(Artworks artwork, GameObject currentObject)
@@ -212,12 +212,12 @@ public class UserArtworksController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Artworks artwork)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             artwork,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

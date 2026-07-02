@@ -14,7 +14,7 @@ public class UserWeaponsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject WeaponButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserWeaponsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.WEAPON);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(weapon, currentObject);
     }
     public void CreateDetailsUI(Weapons weapon, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserWeaponsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Weapons weapon)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             weapon,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

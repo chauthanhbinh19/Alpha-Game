@@ -14,7 +14,7 @@ public class UserTechnologiesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject TechnologyButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserTechnologiesController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.TECHNOLOGY);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(technology, currentObject);
     }
     public void CreateDetailsUI(Technologies technology, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserTechnologiesController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Technologies technology)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             technology,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

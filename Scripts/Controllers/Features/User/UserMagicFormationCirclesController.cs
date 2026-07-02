@@ -14,7 +14,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject MagicFormationCircleButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -124,7 +124,7 @@ public class UserMagicFormationCirclesController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.MAGIC_FORMATION_CIRCLE);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(magicFormationCircle, currentObject);
     }
     public void CreateDetailsUI(MagicFormationCircles magicFormationCircle, GameObject currentObject)
@@ -226,12 +226,12 @@ public class UserMagicFormationCirclesController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(MagicFormationCircles magicFormationCircle)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             magicFormationCircle,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

@@ -15,7 +15,7 @@ public class UserPetsController : MonoBehaviour
     private GameObject PetButtonPrefab;
     private GameObject equipmentsPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -126,7 +126,7 @@ public class UserPetsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.PET);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(pet, currentObject);
     }
     public void CreateDetailsUI(Pets pet, GameObject currentObject)
@@ -228,12 +228,12 @@ public class UserPetsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Pets pet)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             pet,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

@@ -14,7 +14,7 @@ public class UserPlantsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject PlantButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserPlantsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.PLANT);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(plant, currentObject);
     }
     public void CreateDetailsUI(Plants plant, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserPlantsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Plants plant)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             plant,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

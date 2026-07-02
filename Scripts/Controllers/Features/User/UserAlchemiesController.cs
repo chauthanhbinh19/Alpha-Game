@@ -14,7 +14,7 @@ public class UserAlchemiesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject AlchemyButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 100000;
     private void Awake()
     {
@@ -124,7 +124,7 @@ public class UserAlchemiesController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.ALCHEMY);
         });
-        tempCurrentObject =currentObject;
+        TempCurrentObject =currentObject;
         CreateDetailsUI(alchemy, currentObject);
     }
     public void CreateDetailsUI(Alchemies alchemy, GameObject currentObject)
@@ -226,12 +226,12 @@ public class UserAlchemiesController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Alchemies alchemy)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             alchemy,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

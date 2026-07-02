@@ -2,24 +2,24 @@ using UnityEngine;
 
 public class FloatAnimation : MonoBehaviour
 {
-    public float speed = 2f;          // tốc độ
-    public float amplitudePercent = 0.1f; // biên độ % theo height
+    public float Speed = 2f;          // tốc độ
+    public float AmplitudePercent = 0.1f; // biên độ % theo height
 
-    private RectTransform rectTransform;
-    private Vector2 startPos;
-    private float amplitude;
+    private RectTransform RectTransform;
+    private Vector2 StartPosition;
+    private float Amplitude;
 
     void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
-        if (rectTransform == null) rectTransform = gameObject.AddComponent<RectTransform>();
-        startPos = rectTransform.anchoredPosition;
-        amplitude = rectTransform.rect.height * amplitudePercent;
+        RectTransform = GetComponent<RectTransform>();
+        if (RectTransform == null) RectTransform = gameObject.AddComponent<RectTransform>();
+        StartPosition = RectTransform.anchoredPosition;
+        Amplitude = RectTransform.rect.height * AmplitudePercent;
     }
 
     void Update()
     {
-        float y = Mathf.Sin(Time.time * speed) * amplitude;
-        rectTransform.anchoredPosition = startPos + new Vector2(0, y);
+        float y = Mathf.Sin(Time.time * Speed) * Amplitude;
+        RectTransform.anchoredPosition = StartPosition + new Vector2(0, y);
     }
 }

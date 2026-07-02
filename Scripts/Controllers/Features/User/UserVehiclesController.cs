@@ -14,7 +14,7 @@ public class UserVehiclesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject VehicleButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -124,7 +124,7 @@ public class UserVehiclesController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.VEHICLE);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(vehicle, currentObject);
     }
     public void CreateDetailsUI(Vehicles vehicle, GameObject currentObject)
@@ -226,12 +226,12 @@ public class UserVehiclesController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Vehicles vehicle)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             vehicle,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

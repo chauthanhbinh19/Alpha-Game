@@ -15,7 +15,7 @@ public class UserBooksController : MonoBehaviour
     private GameObject BookButtonPrefab;
     private GameObject PositionPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -177,7 +177,7 @@ public class UserBooksController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.BOOK);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(book, currentObject);
     }
     public void CreateDetailsUI(Books book, GameObject currentObject)
@@ -277,12 +277,12 @@ public class UserBooksController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Books book)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             book,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

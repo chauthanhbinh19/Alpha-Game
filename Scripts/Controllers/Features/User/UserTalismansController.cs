@@ -14,7 +14,7 @@ public class UserTalismansController : MonoBehaviour
     private Transform MainPanel;
     private GameObject TalismanButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -124,7 +124,7 @@ public class UserTalismansController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.TALISMAN);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(talisman, currentObject);
     }
     public void CreateDetailsUI(Talismans talisman, GameObject currentObject)
@@ -226,12 +226,12 @@ public class UserTalismansController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Talismans talisman)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             talisman,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

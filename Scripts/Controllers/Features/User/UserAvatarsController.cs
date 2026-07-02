@@ -11,7 +11,7 @@ public class UserAvatarsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject AvatarButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -120,7 +120,7 @@ public class UserAvatarsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.AVATAR);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(avatar, currentObject);
     }
     public void CreateDetailsUI(Avatars avatar, GameObject currentObject)
@@ -222,12 +222,12 @@ public class UserAvatarsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Avatars avatar)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             avatar,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

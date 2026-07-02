@@ -2,21 +2,21 @@ using UnityEngine;
 
 public class SwingAnimation : MonoBehaviour
 {
-    public float speed = 2f;
-    public float distance = 50f; // px
+    public float Speed = 2f;
+    public float Distance = 50f; // px
 
-    private RectTransform rectTransform;
-    private Vector2 startPos;
+    private RectTransform RectTransform;
+    private Vector2 StartPosition;
 
     void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
-        startPos = rectTransform.anchoredPosition;
+        RectTransform = GetComponent<RectTransform>();
+        StartPosition = RectTransform.anchoredPosition;
     }
 
     void Update()
     {
-        float x = Mathf.Sin(Time.time * speed) * distance;
-        rectTransform.anchoredPosition = startPos + new Vector2(x, 0);
+        float x = Mathf.Sin(Time.time * Speed) * Distance;
+        RectTransform.anchoredPosition = StartPosition + new Vector2(x, 0);
     }
 }

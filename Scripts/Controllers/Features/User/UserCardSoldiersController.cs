@@ -18,8 +18,8 @@ public class UserCardSoldiersController : MonoBehaviour
     private GameObject MainMenuDetailPanel2Prefab;
     private GameObject PopupSpiritBeastPanelPrefab;
     private GameObject EquipmentsWearingPrefab;
-    private GameObject popupSpiritBeastObject;
-    private GameObject tempCurrentObject;
+    private GameObject PopupSpiritBeastObject;
+    private GameObject TempCurrentObject;
     private GameObject SkillPanelPrefab;
     private GameObject SkillGroupPrefab;
     private GameObject Skill1Prefab;
@@ -174,7 +174,7 @@ public class UserCardSoldiersController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_SOLDIER);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(cardSoldier, currentObject);
     }
     public void CreateDetailsUI(CardSoldiers cardSoldier, GameObject currentObject)
@@ -274,12 +274,12 @@ public class UserCardSoldiersController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(CardSoldiers cardSoldier)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             cardSoldier,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

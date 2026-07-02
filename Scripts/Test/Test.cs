@@ -17,7 +17,7 @@ public class Test : MonoBehaviour
     [ContextMenu("Run Initiate Async")]
     public async Task InitiateAsync()
     {
-        User.CurrentUserId = "639167826246347876";
+        User.CurrentUserId = "639186151625575788";
 
         Debug.Log("<color=yellow>Start</color>");
         List<Achievements> achievements = await AchievementsService.Create()
@@ -327,7 +327,7 @@ public class Test : MonoBehaviour
     [ContextMenu("Run Initiate Team Async")]
     public async Task InitiateTeamAsync()
     {
-        User.CurrentUserId = "639167826246347876";
+        User.CurrentUserId = "639186151625575788";
 
         Debug.Log("<color=yellow>Start</color>");
         await TeamsService.Create().UpdateUserCardHeroesTeamPositionsAsync(User.CurrentUserId);
@@ -354,7 +354,7 @@ public class Test : MonoBehaviour
     [ContextMenu("Run Initiate Skill Async")]
     public async Task InitiateSkillAsync()
     {
-        User.CurrentUserId = "639169852484092591";
+        User.CurrentUserId = "639186151625575788";
 
         Debug.Log("<color=yellow>Start</color>");
         await UserSkillsService.Create().AssignRandomSkillsToUserCardHeroesAsync(User.CurrentUserId);

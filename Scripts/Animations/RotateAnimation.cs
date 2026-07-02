@@ -4,52 +4,52 @@ using UnityEngine;
 
 public class RotateAnimation : MonoBehaviour
 {
-    [SerializeField] private float rotationSpeed = 50f;
-    [SerializeField] private int direction = -1;
+    [SerializeField] private float RotationSpeed = 50f;
+    [SerializeField] private int Direction = -1;
 
-    private RectTransform rectTransform;
-    private bool initialized;
+    private RectTransform RectTransform;
+    private bool Initialized;
 
     private void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
+        RectTransform = GetComponent<RectTransform>();
 
         // Nếu gắn sẵn trên Prefab hoặc Inspector
-        if (rotationSpeed != 0)
+        if (RotationSpeed != 0)
         {
-            initialized = true;
+            Initialized = true;
         }
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        rectTransform = GetComponent<RectTransform>();
+        RectTransform = GetComponent<RectTransform>();
     }
 
     public void Initialize(float speed, int dir)
     {
-        rotationSpeed = speed;
-        direction = dir >= 0 ? 1 : -1;
-        initialized = true;
+        RotationSpeed = speed;
+        Direction = dir >= 0 ? 1 : -1;
+        Initialized = true;
     }
 
     public void SetSpeed(float speed)
     {
-        rotationSpeed = speed;
+        RotationSpeed = speed;
     }
 
     public void SetDirection(int dir)
     {
-        direction = dir >= 0 ? 1 : -1;
+        Direction = dir >= 0 ? 1 : -1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!initialized || rectTransform == null)
+        if (!Initialized || RectTransform == null)
             return;
             
-        rectTransform.Rotate(0f, 0f, direction * rotationSpeed * Time.deltaTime);
+        RectTransform.Rotate(0f, 0f, Direction * RotationSpeed * Time.deltaTime);
     }
 }

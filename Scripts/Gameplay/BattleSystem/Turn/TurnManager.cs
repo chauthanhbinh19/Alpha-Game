@@ -21,19 +21,19 @@ public enum TurnPhase
 public class TurnManager : MonoBehaviour
 {
     [Header("Game Loop Settings")]
-    public int currentTurnNumber = 1;
-    private BattleState currentBattleState;
-    private TurnPhase currentPhase;
+    public int CurrentTurnNumber = 1;
+    private BattleState CurrentBattleState;
+    private TurnPhase CurrentPhase;
 
     [Header("Card & Battle Reference")]
-    public List<CardBase> allCards = new List<CardBase>();
-    private Queue<CardBase> actionQueue = new Queue<CardBase>();
-    private CardBase currentActiveCard;
+    public List<CardBase> AllCards = new List<CardBase>();
+    private Queue<CardBase> ActionQueue = new Queue<CardBase>();
+    private CardBase CurrentActiveCard;
 
     void Start()
     {
         // Khởi động trận đấu
-        currentBattleState = BattleState.GameStart;
+        CurrentBattleState = BattleState.GameStart;
         HandleGameStart();
     }
 
@@ -42,7 +42,7 @@ public class TurnManager : MonoBehaviour
         Debug.Log("=== TRẬN ĐẤU KHỞI TRANH ===");
         // Khởi tạo bàn cờ 12x12, nạp dữ liệu thẻ bài...
 
-        currentBattleState = BattleState.Playing;
+        CurrentBattleState = BattleState.Playing;
         // Bắt đầu Phase đầu tiên của Turn 1
         ChangePhase(TurnPhase.StartPhase);
     }
@@ -50,12 +50,12 @@ public class TurnManager : MonoBehaviour
     // Bộ điều hướng Phase (Central Phase Controller)
     public void ChangePhase(TurnPhase newPhase)
     {
-        if (currentBattleState == BattleState.GameOver) return;
+        if (CurrentBattleState == BattleState.GameOver) return;
 
-        currentPhase = newPhase;
-        Debug.Log($"<color=yellow>=== TURN {currentTurnNumber} | PHASE: {currentPhase} ===</color>");
+        CurrentPhase = newPhase;
+        Debug.Log($"<color=yellow>=== TURN {CurrentTurnNumber} | PHASE: {CurrentPhase} ===</color>");
 
-        switch (currentPhase)
+        switch (CurrentPhase)
         {
             case TurnPhase.StartPhase:
                 StartCoroutine(HandleStartPhase());
@@ -78,7 +78,7 @@ public class TurnManager : MonoBehaviour
     private IEnumerator HandleStartPhase()
     {
         // Logic: Cộng tiền thụ động, hồi MovementPoint tối đa cho tướng từ DB
-        foreach (var card in allCards)
+        foreach (var card in AllCards)
         {
             card.hasActedThisturn = false;
             // Ví dụ hồi điểm di chuyển: card.currentRuntimeMovePoint = card.classData.movement_point;
@@ -123,15 +123,15 @@ public class TurnManager : MonoBehaviour
 
         // Lọc lấy những tướng thực sự đang có mặt trên bàn cờ để chiến đấu
         // Sắp xếp: Lực chiến cao xếp trước
-        List<CardBase> sortedList = allCards
+        List<CardBase> sortedList = AllCards
             .OrderByDescending(c => c.Power)
             .ThenBy(c => c.Team)
             .ToList();
 
-        actionQueue.Clear();
+        ActionQueue.Clear();
         foreach (var card in sortedList)
         {
-            actionQueue.Enqueue(card);
+            ActionQueue.Enqueue(card);
         }
 
         // Chạy vòng lặp hành động cho hàng đợi
@@ -140,12 +140,12 @@ public class TurnManager : MonoBehaviour
 
     private void ExecuteNextBattleAction()
     {
-        if (actionQueue.Count > 0)
+        if (ActionQueue.Count > 0)
         {
-            currentActiveCard = actionQueue.Dequeue();
-            Debug.Log($"-> Lượt hành động: {currentActiveCard.Name} (Phe {currentActiveCard.Team})");
+            CurrentActiveCard = ActionQueue.Dequeue();
+            Debug.Log($"-> Lượt hành động: {CurrentActiveCard.Name} (Phe {CurrentActiveCard.Team})");
 
-            StartCoroutine(CharacterControlRoutine(currentActiveCard));
+            StartCoroutine(CharacterControlRoutine(CurrentActiveCard));
         }
         else
         {
@@ -183,14 +183,14 @@ public class TurnManager : MonoBehaviour
         yield return new WaitForSeconds(1.5f);
 
         // Tăng số Turn lên và lặp lại vòng tuần hoàn mới
-        currentTurnNumber++;
+        CurrentTurnNumber++;
         ChangePhase(TurnPhase.StartPhase);
     }
 
     // Hàm để các class khác gọi từ ngoài vào khi game kết thúc đột ngột
     public void TriggerGameOver()
     {
-        currentBattleState = BattleState.GameOver;
+        CurrentBattleState = BattleState.GameOver;
         Debug.Log("<color=red>=== TRẬN ĐẤU KẾT THÚC ===</color>");
     }
 }

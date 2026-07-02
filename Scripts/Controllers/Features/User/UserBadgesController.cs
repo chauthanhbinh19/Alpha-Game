@@ -14,7 +14,7 @@ public class UserBadgesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject BadgeButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserBadgesController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.BADGE);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(badge, currentObject);
     }
     public void CreateDetailsUI(Badges badge, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserBadgesController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Badges badge)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             badge,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

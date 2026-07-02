@@ -17,13 +17,13 @@ public class ScienceFictionXVIManager : MonoBehaviour
     private GameObject PopupScienceFictionButtonPrefab;
     private GameObject MainScienceFictionPanelPrefab;
     private GameObject ScienceFictionItemPrefab;
-    private Transform content;
+    private Transform Content;
     private const int ITEMS_PER_PAGE = 50;
-    private int _currentPage = 0;
-    private List<KeyValuePair<string, FeatureScienceFictionDTO>> _featureList;
-    private Button nextButton;
-    private Button previousButton;
-    private TextMeshProUGUI pageText;
+    private int CurrentPage = 0;
+    private List<KeyValuePair<string, FeatureScienceFictionDTO>> FeatureList;
+    private Button NextButton;
+    private Button PreviousButton;
+    private TextMeshProUGUI PageText;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -56,7 +56,7 @@ public class ScienceFictionXVIManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(PopupScienceFictionPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        content = transform.Find("Scroll View/Viewport/Content");
+        Content = transform.Find("Scroll View/Viewport/Content");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
@@ -79,29 +79,29 @@ public class ScienceFictionXVIManager : MonoBehaviour
                 return match.Success ? int.Parse(match.Value) : 0;
             })
             .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-        _featureList = uniqueTypes.ToList();
-        _currentPage = 0;
+        FeatureList = uniqueTypes.ToList();
+        CurrentPage = 0;
         SetupPagination(currentObject);
         RenderPage();
     }
 
     private void RenderPage()
     {
-        foreach (Transform child in content)
+        foreach (Transform child in Content)
             Destroy(child.gameObject);
 
-        int start = _currentPage * ITEMS_PER_PAGE;
-        int end = Mathf.Min(start + ITEMS_PER_PAGE, _featureList.Count);
+        int start = CurrentPage * ITEMS_PER_PAGE;
+        int end = Mathf.Min(start + ITEMS_PER_PAGE, FeatureList.Count);
 
         for (int i = start; i < end; i++)
         {
-            var kvp = _featureList[i];
+            var kvp = FeatureList[i];
 
             string subtype = kvp.Key;
             int requiredLevel = kvp.Value.RequiredLevel;
             string featureId = kvp.Value.Id;
 
-            GameObject button = Instantiate(PopupScienceFictionButtonPrefab, content);
+            GameObject button = Instantiate(PopupScienceFictionButtonPrefab, Content);
 
             TextMeshProUGUI buttonText =
                 button.transform.Find("ContentText")
@@ -149,63 +149,63 @@ public class ScienceFictionXVIManager : MonoBehaviour
     private void SetupPagination(GameObject currentObject)
     {
         Transform transform = currentObject.transform;
-        nextButton = transform
+        NextButton = transform
             .Find("Pagination/Next")
             .GetComponent<Button>();
 
-        previousButton = transform
+        PreviousButton = transform
             .Find("Pagination/Previous")
             .GetComponent<Button>();
 
-        pageText = transform
+        PageText = transform
             .Find("Pagination/Page")
             .GetComponent<TextMeshProUGUI>();
 
-        nextButton.onClick.RemoveAllListeners();
-        previousButton.onClick.RemoveAllListeners();
+        NextButton.onClick.RemoveAllListeners();
+        PreviousButton.onClick.RemoveAllListeners();
 
-        nextButton.onClick.AddListener(OnNextPage);
-        previousButton.onClick.AddListener(OnPreviousPage);
+        NextButton.onClick.AddListener(OnNextPage);
+        PreviousButton.onClick.AddListener(OnPreviousPage);
 
         UpdatePageUI();
     }
 
     private int GetTotalPages()
     {
-        if (_featureList == null || _featureList.Count == 0)
+        if (FeatureList == null || FeatureList.Count == 0)
             return 1;
 
-        return Mathf.CeilToInt((float)_featureList.Count / ITEMS_PER_PAGE);
+        return Mathf.CeilToInt((float)FeatureList.Count / ITEMS_PER_PAGE);
     }
 
     private void UpdatePageUI()
     {
         int totalPages = GetTotalPages();
 
-        pageText.text = $"{_currentPage + 1} / {totalPages}";
+        PageText.text = $"{CurrentPage + 1} / {totalPages}";
 
-        previousButton.interactable = _currentPage > 0;
-        nextButton.interactable = _currentPage < totalPages - 1;
+        PreviousButton.interactable = CurrentPage > 0;
+        NextButton.interactable = CurrentPage < totalPages - 1;
     }
 
     private void OnNextPage()
     {
         int totalPages = GetTotalPages();
 
-        if (_currentPage >= totalPages - 1)
+        if (CurrentPage >= totalPages - 1)
             return;
 
-        _currentPage++;
+        CurrentPage++;
         RenderPage();
         UpdatePageUI();
     }
 
     private void OnPreviousPage()
     {
-        if (_currentPage <= 0)
+        if (CurrentPage <= 0)
             return;
 
-        _currentPage--;
+        CurrentPage--;
         RenderPage();
         UpdatePageUI();
     }

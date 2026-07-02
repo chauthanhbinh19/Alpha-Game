@@ -14,7 +14,7 @@ public class UserArtifactsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject ArtifactButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -109,7 +109,7 @@ public class UserArtifactsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.ARTIFACT);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(artifact, currentObject);
     }
     public void CreateDetailsUI(Artifacts artifact, GameObject currentObject)
@@ -211,12 +211,12 @@ public class UserArtifactsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Artifacts artifact)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             artifact,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

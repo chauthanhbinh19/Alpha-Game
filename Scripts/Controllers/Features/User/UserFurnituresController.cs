@@ -14,7 +14,7 @@ public class UserFurnituresController : MonoBehaviour
     private Transform MainPanel;
     private GameObject FurnitureButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -124,7 +124,7 @@ public class UserFurnituresController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.FURNITURE);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(furniture, currentObject);
     }
     public void CreateDetailsUI(Furnitures furniture, GameObject currentObject)
@@ -226,12 +226,12 @@ public class UserFurnituresController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Furnitures furniture)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             furniture,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

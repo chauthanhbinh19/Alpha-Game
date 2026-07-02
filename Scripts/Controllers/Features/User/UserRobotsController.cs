@@ -14,7 +14,7 @@ public class UserRobotsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject RobotButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserRobotsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.ROBOT);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(robot, currentObject);
     }
     public void CreateDetailsUI(Robots robot, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserRobotsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Robots robot)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             robot,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

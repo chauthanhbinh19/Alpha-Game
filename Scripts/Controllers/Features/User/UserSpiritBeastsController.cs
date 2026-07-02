@@ -14,7 +14,7 @@ public class UserSpiritBeastsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject SpiritBeastButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserSpiritBeastsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.SPIRIT_BEAST);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(spiritBeast, currentObject);
     }
     public void CreateDetailsUI(SpiritBeasts spiritBeast, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserSpiritBeastsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(SpiritBeasts spiritBeast)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             spiritBeast,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

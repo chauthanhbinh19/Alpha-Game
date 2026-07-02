@@ -5,51 +5,51 @@ using UnityEngine.UI;
 
 public class UISpriteAnimation : MonoBehaviour
 {
-    public Sprite[] frames; // Nếu muốn tự động, không cần kéo từng sprite
-    public Sprite spriteSheet; // Kéo sprite sheet (Multiple) vào đây
-    public float frameRate = 12f;
-    public float lastFrameHoldTime = 0.2f;
+    public Sprite[] Frames; // Nếu muốn tự động, không cần kéo từng sprite
+    public Sprite SpriteSheet; // Kéo sprite sheet (Multiple) vào đây
+    public float FrameRate = 12f;
+    public float LastFrameHoldTime = 0.2f;
 
-    private Image image;
-    private int currentFrame;
-    private float timer;
+    private Image Image;
+    private int CurrentFrame;
+    private float Timer;
 
     void Awake()
     {
-        image = GetComponent<Image>();
+        Image = GetComponent<Image>();
 
         // Nếu frames chưa có, tự động lấy từ spriteSheet
-        if ((frames == null || frames.Length == 0) && spriteSheet != null)
+        if ((Frames == null || Frames.Length == 0) && SpriteSheet != null)
         {
-            string path = UnityEditor.AssetDatabase.GetAssetPath(spriteSheet);
+            string path = UnityEditor.AssetDatabase.GetAssetPath(SpriteSheet);
             Object[] sprites = UnityEditor.AssetDatabase.LoadAllAssetsAtPath(path);
             List<Sprite> spriteList = new List<Sprite>();
             foreach (var s in sprites)
             {
-                if (s is Sprite && s != spriteSheet)
+                if (s is Sprite && s != SpriteSheet)
                     spriteList.Add((Sprite)s);
             }
-            frames = spriteList.ToArray();
+            Frames = spriteList.ToArray();
         }
     }
 
     void Update()
     {
-        if (frames == null || frames.Length == 0) return;
+        if (Frames == null || Frames.Length == 0) return;
 
-        timer += Time.deltaTime;
-        float frameTime = 1f / frameRate;
+        Timer += Time.deltaTime;
+        float frameTime = 1f / FrameRate;
         // Nếu đang ở frame cuối, giữ lâu hơn
-        if (currentFrame == frames.Length - 1)
-            frameTime = lastFrameHoldTime;
+        if (CurrentFrame == Frames.Length - 1)
+            frameTime = LastFrameHoldTime;
 
-        if (timer >= frameTime)
+        if (Timer >= frameTime)
         {
-            timer -= frameTime;
-            currentFrame++;
-            if (currentFrame >= frames.Length)
-                currentFrame = 0;
-            image.sprite = frames[currentFrame];
+            Timer -= frameTime;
+            CurrentFrame++;
+            if (CurrentFrame >= Frames.Length)
+                CurrentFrame = 0;
+            Image.sprite = Frames[CurrentFrame];
         }
     }
 }

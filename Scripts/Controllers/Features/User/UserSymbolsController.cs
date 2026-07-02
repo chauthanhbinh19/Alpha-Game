@@ -14,7 +14,7 @@ public class UserSymbolsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject SymbolButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -125,7 +125,7 @@ public class UserSymbolsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.SYMBOL);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(symbol, currentObject);
     }
     public void CreateDetailsUI(Symbols symbol, GameObject currentObject)
@@ -227,12 +227,12 @@ public class UserSymbolsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Symbols symbol)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             symbol,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

@@ -14,7 +14,7 @@ public class UserPuppetsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject PuppetButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -225,12 +225,12 @@ public class UserPuppetsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Puppets puppet)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             puppet,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

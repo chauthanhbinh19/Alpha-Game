@@ -14,7 +14,7 @@ public class UserEmojisController : MonoBehaviour
     private Transform MainPanel;
     private GameObject EmojiButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserEmojisController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.EMOJI);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(emoji, currentObject);
     }
     public void CreateDetailsUI(Emojis emoji, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserEmojisController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Emojis emoji)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             emoji,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

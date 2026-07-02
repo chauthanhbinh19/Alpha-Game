@@ -14,7 +14,7 @@ public class UserTitlesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject TitleButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserTitlesController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.TITLE);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(title, currentObject);
     }
     public void CreateDetailsUI(Titles title, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserTitlesController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Titles title)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             title,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

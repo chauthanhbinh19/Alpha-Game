@@ -14,7 +14,7 @@ public class UserMedalsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject MedalButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserMedalsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.MEDAL);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(medal, currentObject);
     }
     public void CreateDetailsUI(Medals medal, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserMedalsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Medals medal)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             medal,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

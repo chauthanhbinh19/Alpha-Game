@@ -13,7 +13,7 @@ public class UserAchievementsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject AchievementButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 100000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserAchievementsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.ACHIEVEMENT);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(achievement, currentObject);
     }
     public void CreateDetailsUI(Achievements achievement, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserAchievementsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Achievements achievement)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             achievement,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

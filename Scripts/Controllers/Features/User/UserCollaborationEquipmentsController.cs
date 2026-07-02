@@ -14,7 +14,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject CollaborationEquipmentButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.COLLABORATION_EQUIPMENT);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(collaborationEquipment, currentObject);
     }
     public void CreateDetailsUI(CollaborationEquipments collaborationEquipment, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(CollaborationEquipments colllaborationEquipment)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             colllaborationEquipment,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

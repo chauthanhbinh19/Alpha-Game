@@ -12,8 +12,8 @@ public class CardAdmiralsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject CardAdmiralButtonPrefab;
     private GameObject EquipmentShopPrefab;
-    private GameObject quantityPopupPrefab;
-    private GameObject receivedNotification;
+    private GameObject QuantityPopupPrefab;
+    private GameObject ReceivedNotification;
     private GameObject ItemPopupPrefab;
     private void Awake()
     {
@@ -39,8 +39,8 @@ public class CardAdmiralsController : MonoBehaviour
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
         CardAdmiralButtonPrefab = UIManager.Instance.Get("CardAdmiralButtonPrefab");
         EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
-        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
+        QuantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        ReceivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
     }
     public void CreateCardAdmiralsGallery(List<CardAdmirals> cardAdmirals, Transform contentPanel)
@@ -175,7 +175,7 @@ public class CardAdmiralsController : MonoBehaviour
     }
     public void GetQuantity(double originPrice, object obj, string subType, Transform popupPanel, Transform currencyPanel)
     {
-        GameObject quantityObject = Instantiate(quantityPopupPrefab, popupPanel);
+        GameObject quantityObject = Instantiate(QuantityPopupPrefab, popupPanel);
 
         Button increaseButton = quantityObject.transform.Find("IncreaseButton").GetComponent<Button>();
         Button decreaseButton = quantityObject.transform.Find("DecreaseButton").GetComponent<Button>();
@@ -339,10 +339,10 @@ public class CardAdmiralsController : MonoBehaviour
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
-                    GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
+                    GameObject ReceivedNotificationObject = Instantiate(ReceivedNotification, popupPanel);
 
-                    ButtonEvent.Instance.AddCloseEvent(receivedNotificationObject);
-                    Transform itemContent = receivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
+                    ButtonEvent.Instance.AddCloseEvent(ReceivedNotificationObject);
+                    Transform itemContent = ReceivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
                     GameObject itemObject = Instantiate(ItemPopupPrefab, itemContent);
 
                     RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();

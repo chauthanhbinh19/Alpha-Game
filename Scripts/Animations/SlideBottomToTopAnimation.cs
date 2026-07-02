@@ -2,47 +2,47 @@ using UnityEngine;
 
 public class SlideBottomToTopAnimation : MonoBehaviour
 {
-    public float distance = 200f;   // khoảng cách xuất phát từ dưới lên (px)
-    public float duration = 0.5f;   // thời gian chạy (s)
+    public float Distance = 200f;   // khoảng cách xuất phát từ dưới lên (px)
+    public float Duration = 0.5f;   // thời gian chạy (s)
 
-    private RectTransform rectTransform;
-    private Vector2 endPos;
-    private Vector2 startPos;
-    private float elapsed;
+    private RectTransform RectTransform;
+    private Vector2 EndPosition;
+    private Vector2 StartPosition;
+    private float Elapsed;
 
     void Awake()
     {
-        rectTransform = GetComponent<RectTransform>();
-        if (rectTransform == null)
-            rectTransform = gameObject.AddComponent<RectTransform>();
+        RectTransform = GetComponent<RectTransform>();
+        if (RectTransform == null)
+            RectTransform = gameObject.AddComponent<RectTransform>();
     }
 
     void OnEnable()
     {
         // Vị trí gốc (trong Editor) là điểm kết thúc
-        endPos = rectTransform.anchoredPosition;
+        EndPosition = RectTransform.anchoredPosition;
 
         // Xuất phát từ dưới
-        startPos = endPos + new Vector2(0, -distance);
+        StartPosition = EndPosition + new Vector2(0, -Distance);
 
         // Đặt object ở vị trí bắt đầu
-        rectTransform.anchoredPosition = startPos;
+        RectTransform.anchoredPosition = StartPosition;
 
         // Reset thời gian
-        elapsed = 0f;
+        Elapsed = 0f;
     }
 
     void Update()
     {
-        if (elapsed < duration)
+        if (Elapsed < Duration)
         {
-            elapsed += Time.deltaTime;
-            float t = Mathf.Clamp01(elapsed / duration);
+            Elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(Elapsed / Duration);
 
             // SmoothStep cho mượt hơn
             t = Mathf.SmoothStep(0f, 1f, t);
 
-            rectTransform.anchoredPosition = Vector2.Lerp(startPos, endPos, t);
+            RectTransform.anchoredPosition = Vector2.Lerp(StartPosition, EndPosition, t);
         }
     }
 }

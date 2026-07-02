@@ -16,25 +16,25 @@ public class UserCardMilitariesController : MonoBehaviour
     private GameObject CardMilitaryButtonPrefab;
     private GameObject PositionPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private TeamsService teamsService;
+    private TeamsService TeamsService;
     private GameObject PopupSpiritBeastPanelPrefab;
     private GameObject EquipmentsWearingPrefab;
-    private GameObject popupSpiritBeastObject;
-    private GameObject tempCurrentObject;
+    private GameObject PopupSpiritBeastObject;
+    private GameObject TempCurrentObject;
     private GameObject SkillPanelPrefab;
     private GameObject SkillGroupPrefab;
     private GameObject Skill1Prefab;
     private GameObject Skill2Prefab;
     private GameObject PopupSkillsPanelPrefab;
     private GameObject PopupSkillDetailPrefab;
-    private GameObject skillPanelObject;
+    private GameObject SkillPanelObject;
     private const int MAX_LEVEL = 10000;
     private const int PAGE_SIZE = 100;
-    private int offset;
-    private int currentPage;
-    private int totalPage;
-    private string statusToggle;
-    private string search;
+    private int Offset;
+    private int CurrentPage;
+    private int TotalPage;
+    private string StatusToggle;
+    private string Search;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -68,8 +68,8 @@ public class UserCardMilitariesController : MonoBehaviour
         Skill2Prefab = UIManager.Instance.Get("Skill2Prefab");
         PopupSkillsPanelPrefab = UIManager.Instance.Get("PopupSkillsPanelPrefab");
         PopupSkillDetailPrefab = UIManager.Instance.Get("PopupSkillDetailPrefab");
-        teamsService = TeamsService.Create();
-        search = "";
+        TeamsService = TeamsService.Create();
+        Search = "";
     }
     public void CreateUserCardMilitaries(List<CardMilitaries> cardMilitaries, Transform contentPanel)
     {
@@ -183,7 +183,7 @@ public class UserCardMilitariesController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_MILITARY);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(cardMilitary, currentObject);
     }
     public void CreateDetailsUI(CardMilitaries cardMilitary, GameObject currentObject)
@@ -283,12 +283,12 @@ public class UserCardMilitariesController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(CardMilitaries cardMilitary)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             cardMilitary,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {
@@ -346,15 +346,15 @@ public class UserCardMilitariesController : MonoBehaviour
     }
     public async Task CreateSkillPanelAsync(string cardId)
     {
-        skillPanelObject = Instantiate(SkillPanelPrefab, MainPanel);
-        Transform transform = skillPanelObject.transform;
+        SkillPanelObject = Instantiate(SkillPanelPrefab, MainPanel);
+        Transform transform = SkillPanelObject.transform;
         Transform skillGroupContent = transform.Find("DictionaryCards/SkillGroup");
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(skillPanelObject);
+            Destroy(SkillPanelObject);
         });
         homeButton.onClick.AddListener(() =>
         {
@@ -499,7 +499,7 @@ public class UserCardMilitariesController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 Destroy(skillPopupObject);
-                Destroy(skillPanelObject);
+                Destroy(SkillPanelObject);
                 if (oldSkill != null)
                 {
                     await UserSkillsService.Create().DeleteUserCardMilitarySkillsAsync(User.CurrentUserId, cardId, oldSkill.Id, position);
@@ -536,7 +536,7 @@ public class UserCardMilitariesController : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(popupSkillDetailObject);
-            Destroy(skillPanelObject);
+            Destroy(SkillPanelObject);
             await UserSkillsService.Create().DeleteUserCardMilitarySkillsAsync(User.CurrentUserId, cardId, skill.Id, position);
             await CreateSkillPanelAsync(cardId);
         });
@@ -556,8 +556,8 @@ public class UserCardMilitariesController : MonoBehaviour
         Button addButton = transform.Find("DictionaryCards/Content/SpiritBeastPanel/AddButton").GetComponent<Button>();
         Button removeButton = transform.Find("DictionaryCards/Content/SpiritBeastPanel/RemoveButton").GetComponent<Button>();
 
-        offset = 0;
-        currentPage = 1;
+        Offset = 0;
+        CurrentPage = 1;
 
         background1Image.gameObject.AddComponent<RotateAnimation>();
 
@@ -592,8 +592,8 @@ public class UserCardMilitariesController : MonoBehaviour
     }
     public async Task CreatePopupEquipmentsAsync(object data, GameObject currentObject, string statusToggle = "NOT EQUIP")
     {
-        popupSpiritBeastObject = Instantiate(PopupSpiritBeastPanelPrefab, MainPanel);
-        Transform transform = popupSpiritBeastObject.transform;
+        PopupSpiritBeastObject = Instantiate(PopupSpiritBeastPanelPrefab, MainPanel);
+        Transform transform = PopupSpiritBeastObject.transform;
         Transform contentPanel = transform.Find("Scroll View/Viewport/Content");
         Text pageText = transform.Find("Pagination/Page").GetComponent<Text>();
         Toggle toggle = transform.Find("Toggle").GetComponent<Toggle>();
@@ -601,7 +601,7 @@ public class UserCardMilitariesController : MonoBehaviour
         toggle.onValueChanged.AddListener(async (bool isOn) =>
         {
             string newStatusToggle = isOn ? "ALL" : "NOT EQUIP";
-            Destroy(popupSpiritBeastObject);
+            Destroy(PopupSpiritBeastObject);
             await CreatePopupEquipmentsAsync(data, currentObject, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
         });
         Button nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
@@ -611,15 +611,15 @@ public class UserCardMilitariesController : MonoBehaviour
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(popupSpiritBeastObject);
+            Destroy(PopupSpiritBeastObject);
         });
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
-        spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardMilitariesSpiritBeastAsync(User.CurrentUserId, PAGE_SIZE, offset, statusToggle);
+        spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardMilitariesSpiritBeastAsync(User.CurrentUserId, PAGE_SIZE, Offset, statusToggle);
 
-        int totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, search, AppConstants.Rare.ALL);
-        totalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
+        int totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, Search, AppConstants.Rare.ALL);
+        TotalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
 
-        pageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+        pageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
         CreatePopupEquipmentsUI(data, spiritBeasts, contentPanel, currentObject);
         nextButton.onClick.RemoveAllListeners();
         previousButton.onClick.RemoveAllListeners();
@@ -668,18 +668,18 @@ public class UserCardMilitariesController : MonoBehaviour
             equipButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-                Destroy(popupSpiritBeastObject);
+                Destroy(PopupSpiritBeastObject);
                 if (data is CardMilitaries cardMilitary)
                 {
                     await UserSpiritBeastsService.Create().InsertOrUpdateUserCardMilitarySpiritBeastAsync(User.CurrentUserId, cardMilitary, spiritBeast);
 
-                    RawImage spiritBeastImage = tempCurrentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
+                    RawImage spiritBeastImage = TempCurrentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
                     var userCardSpiritBeast = await UserSpiritBeastsService.Create().GetUserCardMilitarySpiritBeastAsync(User.CurrentUserId, cardMilitary);
                     string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(userCardSpiritBeast.Image);
                     Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
                     spiritBeastImage.texture = texture;
 
-                    double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -688,7 +688,7 @@ public class UserCardMilitariesController : MonoBehaviour
                     ShowCardMilitaryDetails(card, 5);
                 }
 
-                Destroy(popupSpiritBeastObject);
+                Destroy(PopupSpiritBeastObject);
             });
         }
         GridLayoutGroup gridLayout = content.GetComponent<GridLayoutGroup>();
@@ -699,37 +699,37 @@ public class UserCardMilitariesController : MonoBehaviour
     }
     public async Task ChangeNextPageAsync(object data, Text PageText, Transform content, GameObject currentObject)
     {
-        if (currentPage < totalPage)
+        if (CurrentPage < TotalPage)
         {
             ButtonEvent.Instance.Close(content);
             int totalRecord = 0;
 
-            totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, search, AppConstants.Rare.ALL);
-            totalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
-            currentPage = currentPage + 1;
-            offset = offset + PAGE_SIZE;
-            List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardMilitariesSpiritBeastAsync(User.CurrentUserId, PAGE_SIZE, offset, statusToggle);
+            totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, Search, AppConstants.Rare.ALL);
+            TotalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
+            CurrentPage = CurrentPage + 1;
+            Offset = Offset + PAGE_SIZE;
+            List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardMilitariesSpiritBeastAsync(User.CurrentUserId, PAGE_SIZE, Offset, StatusToggle);
             CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
 
-            PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+            PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
 
         }
     }
     public async Task ChangePreviousPageAsync(object data, Text PageText, Transform content, GameObject currentObject)
     {
-        if (currentPage > 1)
+        if (CurrentPage > 1)
         {
             ButtonEvent.Instance.Close(content);
             int totalRecord = 0;
 
-            totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, search, AppConstants.Rare.ALL);
-            totalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
-            currentPage = currentPage - 1;
-            offset = offset - PAGE_SIZE;
-            List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardMilitariesSpiritBeastAsync(User.CurrentUserId, PAGE_SIZE, offset, statusToggle);
+            totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, Search, AppConstants.Rare.ALL);
+            TotalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
+            CurrentPage = CurrentPage - 1;
+            Offset = Offset - PAGE_SIZE;
+            List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardMilitariesSpiritBeastAsync(User.CurrentUserId, PAGE_SIZE, Offset, StatusToggle);
             CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
 
-            PageText.text = currentPage.ToString() + "/" + totalPage.ToString();
+            PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
 
         }
     }

@@ -14,7 +14,7 @@ public class UserRelicsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject RelicButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -124,7 +124,7 @@ public class UserRelicsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.RELIC);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(relic, currentObject);
     }
     public void CreateDetailsUI(Relics relic, GameObject currentObject)
@@ -226,12 +226,12 @@ public class UserRelicsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Relics relic)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             relic,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

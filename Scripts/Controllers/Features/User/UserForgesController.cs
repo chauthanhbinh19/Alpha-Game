@@ -14,7 +14,7 @@ public class UserForgesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject ForgeButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -124,7 +124,7 @@ public class UserForgesController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.FORGE);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(forge, currentObject);
     }
     public void CreateDetailsUI(Forges forge, GameObject currentObject)
@@ -226,12 +226,12 @@ public class UserForgesController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Forges forge)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             forge,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

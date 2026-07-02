@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class StaggeredSlideAnimation : MonoBehaviour
 {
-    public float delay = 0.001f;        // thời gian trễ giữa các child
-    public float fadeDuration = 0.02f;  // thời gian fade in mỗi child
+    public float Delay = 0.001f;        // thời gian trễ giữa các child
+    public float FadeDuration = 0.02f;  // thời gian fade in mỗi child
 
-    private int currentIndex = 0;
-    private float elapsed = 0f;
-    private bool isPlaying = false;
+    private int CurrentIndex = 0;
+    private float Elapsed = 0f;
+    private bool IsPlaying = false;
 
     void OnEnable()
     {
@@ -22,20 +22,20 @@ public class StaggeredSlideAnimation : MonoBehaviour
             cg.alpha = 0f;
         }
 
-        currentIndex = 0;
-        elapsed = 0f;
-        isPlaying = true;
+        CurrentIndex = 0;
+        Elapsed = 0f;
+        IsPlaying = true;
     }
 
     void Update()
     {
-        if (!isPlaying) return;
+        if (!IsPlaying) return;
 
-        elapsed += Time.deltaTime;
+        Elapsed += Time.deltaTime;
 
-        if (currentIndex < transform.childCount)
+        if (CurrentIndex < transform.childCount)
         {
-            var child = transform.GetChild(currentIndex).gameObject;
+            var child = transform.GetChild(CurrentIndex).gameObject;
             var cg = child.GetComponent<CanvasGroup>();
 
             if (!child.activeSelf)
@@ -47,20 +47,20 @@ public class StaggeredSlideAnimation : MonoBehaviour
             // Tăng alpha dần để fade in
             if (cg.alpha < 1f)
             {
-                cg.alpha += Time.deltaTime / fadeDuration;
+                cg.alpha += Time.deltaTime / FadeDuration;
             }
 
             // Nếu đã fade đủ và đã trễ xong thì chuyển sang child tiếp theo
-            if (cg.alpha >= 1f && elapsed >= delay)
+            if (cg.alpha >= 1f && Elapsed >= Delay)
             {
-                currentIndex++;
-                elapsed = 0f;
+                CurrentIndex++;
+                Elapsed = 0f;
             }
         }
         else
         {
             // Đã xong hết
-            isPlaying = false;
+            IsPlaying = false;
         }
     }
 }

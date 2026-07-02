@@ -14,7 +14,7 @@ public class UserSpiritCardsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject SpiritCardButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserSpiritCardsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.SPIRIT_CARD);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(spiritCard, currentObject);
     }
     public void CreateDetailsUI(SpiritCards spiritCard, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserSpiritCardsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(SpiritCards spiritCard)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             spiritCard,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

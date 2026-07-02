@@ -10,10 +10,10 @@ public class ItemsController : MonoBehaviour
 {
     public static ItemsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject equipmentsPrefab;
+    private GameObject EquipmentsPrefab;
     private GameObject ItemShopButtonPrefab;
-    private GameObject quantityPopupPrefab;
-    private GameObject receivedNotification;
+    private GameObject QuantityPopupPrefab;
+    private GameObject ReceivedNotification;
     private GameObject ItemPopupPrefab;
     private void Awake()
     {
@@ -37,10 +37,10 @@ public class ItemsController : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
+        EquipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
         ItemShopButtonPrefab = UIManager.Instance.Get("ItemShopButtonPrefab");
-        quantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        receivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
+        QuantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
+        ReceivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
         ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
     }
     public async Task CreateItemsTradeAsync(List<Items> items, Currencies currency, Transform currentContent, Transform currencyPanel, Transform popupPanel)
@@ -94,7 +94,7 @@ public class ItemsController : MonoBehaviour
     }
     public void GetQuantity(double originPrice, object obj, Transform popupPanel, Currencies currency, Transform currencyPanel)
     {
-        GameObject quantityObject = Instantiate(quantityPopupPrefab, popupPanel);
+        GameObject quantityObject = Instantiate(QuantityPopupPrefab, popupPanel);
 
         Button increaseButton = quantityObject.transform.Find("IncreaseButton").GetComponent<Button>();
         Button decreaseButton = quantityObject.transform.Find("DecreaseButton").GetComponent<Button>();
@@ -235,10 +235,10 @@ public class ItemsController : MonoBehaviour
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
-                    GameObject receivedNotificationObject = Instantiate(receivedNotification, popupPanel);
+                    GameObject ReceivedNotificationObject = Instantiate(ReceivedNotification, popupPanel);
 
-                    ButtonEvent.Instance.AddCloseEvent(receivedNotificationObject);
-                    Transform itemContent = receivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
+                    ButtonEvent.Instance.AddCloseEvent(ReceivedNotificationObject);
+                    Transform itemContent = ReceivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
                     GameObject itemObject = Instantiate(ItemPopupPrefab, itemContent);
 
                     RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();

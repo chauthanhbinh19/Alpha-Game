@@ -14,7 +14,7 @@ public class UserCardLivesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject CardLifeButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -112,7 +112,7 @@ public class UserCardLivesController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_LIFE);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(cardLife, currentObject);
     }
     public void CreateDetailsUI(CardLives cardLife, GameObject currentObject)
@@ -212,12 +212,12 @@ public class UserCardLivesController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(CardLives cardLife)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             cardLife,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

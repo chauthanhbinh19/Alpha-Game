@@ -14,7 +14,7 @@ public class UserRunesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject RuneButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserRunesController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.RUNE);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(rune, currentObject);
     }
     public void CreateDetailsUI(Runes rune, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserRunesController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Runes rune)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             rune,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

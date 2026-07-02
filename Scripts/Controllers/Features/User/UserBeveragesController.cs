@@ -14,7 +14,7 @@ public class UserBeveragesController : MonoBehaviour
     private Transform MainPanel;
     private GameObject BeverageButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserBeveragesController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.BEVERAGE);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(beverage, currentObject);
     }
     public void CreateDetailsUI(Beverages beverage, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserBeveragesController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(Beverages beverage)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             beverage,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

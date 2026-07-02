@@ -14,7 +14,7 @@ public class UserMechaBeastsController : MonoBehaviour
     private Transform MainPanel;
     private GameObject MechaBeastButtonPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private GameObject tempCurrentObject;
+    private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
     private void Awake()
     {
@@ -123,7 +123,7 @@ public class UserMechaBeastsController : MonoBehaviour
             Destroy(currentObject);
             MainMenuManager.Instance.GetType(AppConstants.MainType.MECHA_BEAST);
         });
-        tempCurrentObject = currentObject;
+        TempCurrentObject = currentObject;
         CreateDetailsUI(mechaBeast, currentObject);
     }
     public void CreateDetailsUI(MechaBeasts mechaBeast, GameObject currentObject)
@@ -225,12 +225,12 @@ public class UserMechaBeastsController : MonoBehaviour
     }
     public void RefreshCurrentDetailsUI(MechaBeasts mechaBeast)
     {
-        if (tempCurrentObject == null)
+        if (TempCurrentObject == null)
             return;
 
         RefreshDetailsUI(
             mechaBeast,
-            tempCurrentObject);
+            TempCurrentObject);
     }
     private void SetupStat(Transform root, string statObjectName, string statField, string statDisplayName, double value, bool isPercent = false)
     {

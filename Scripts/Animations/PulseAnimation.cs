@@ -2,19 +2,19 @@ using UnityEngine;
 
 public class PulseAnimation : MonoBehaviour
 {
-    public float speed = 2f;
-    public float scaleAmount = 0.1f; // tỉ lệ phóng to thêm
+    public float Speed = 2f;
+    public float ScaleAmount = 0.1f; // tỉ lệ phóng to thêm
 
-    private Vector3 startScale;
+    private Vector3 StartScale;
 
     void Start()
     {
-        startScale = transform.localScale;
+        StartScale = transform.localScale;
     }
 
     void Update()
     {
-        float scale = 1 + Mathf.Sin(Time.time * speed) * scaleAmount;
-        transform.localScale = startScale * scale;
+        float scale = 1 + Mathf.Sin(Time.time * Speed) * ScaleAmount;
+        transform.localScale = StartScale * scale;
     }
 }
