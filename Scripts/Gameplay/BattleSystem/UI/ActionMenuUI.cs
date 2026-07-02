@@ -8,20 +8,20 @@ public class ActionMenuUI : MonoBehaviour
 {
     public static ActionMenuUI Instance { get; private set; }
 
-    private Button moveButton;
-    private Button attackButton;
-    private TextMeshProUGUI pointText;
-    private TextMeshProUGUI movementRangeText;
-    private Transform active1Transform;
-    private Transform passive1Transform;
-    private Transform passive2Transform;
+    private Button MoveButton;
+    private Button AttackButton;
+    private TextMeshProUGUI PointText;
+    private TextMeshProUGUI MovementRangeText;
+    private Transform Active1Transform;
+    private Transform Passive1Transform;
+    private Transform Passive2Transform;
 
     public Transform GamePlayPanel;
     public GameObject GamePlayPanelPrefab;
-    private GridCell targetCell;
-    private int movementRange;
-    private int movementPoint;
-    private int attackRange;
+    private GridCell TargetCell;
+    private int MovementRange;
+    private int MovementPoint;
+    private int AttackRange;
 
     void Awake()
     {
@@ -66,43 +66,43 @@ public class ActionMenuUI : MonoBehaviour
     {
         ButtonEvent.Instance.Close(GamePlayPanel);
         GameObject currentObject = Instantiate(GamePlayPanelPrefab, GamePlayPanel);
-        moveButton = currentObject.transform.Find("BottomPanel/Group1/MovementButton").GetComponent<Button>();
-        attackButton = currentObject.transform.Find("BottomPanel/Group1/AttackButton").GetComponent<Button>();
-        pointText = currentObject.transform.Find("BottomPanel/Group2/PointText").GetComponent<TextMeshProUGUI>();
-        movementRangeText = currentObject.transform.Find("BottomPanel/Group2/MovementRangeText").GetComponent<TextMeshProUGUI>();
+        MoveButton = currentObject.transform.Find("BottomPanel/Group1/MovementButton").GetComponent<Button>();
+        AttackButton = currentObject.transform.Find("BottomPanel/Group1/AttackButton").GetComponent<Button>();
+        PointText = currentObject.transform.Find("BottomPanel/Group2/PointText").GetComponent<TextMeshProUGUI>();
+        MovementRangeText = currentObject.transform.Find("BottomPanel/Group2/MovementRangeText").GetComponent<TextMeshProUGUI>();
 
-        active1Transform = currentObject.transform.Find("BottomPanel/Group3/Active1");
-        passive1Transform = currentObject.transform.Find("BottomPanel/Group3/Passive1");
-        passive2Transform = currentObject.transform.Find("BottomPanel/Group3/Passive2");
+        Active1Transform = currentObject.transform.Find("BottomPanel/Group3/Active1");
+        Passive1Transform = currentObject.transform.Find("BottomPanel/Group3/Passive1");
+        Passive2Transform = currentObject.transform.Find("BottomPanel/Group3/Passive2");
 
-        pointText.text = cardData.CurrentMovementPoint.ToString();
-        movementRangeText.text = cardData.Class.MovementRange.ToString();
+        PointText.text = cardData.CurrentMovementPoint.ToString();
+        MovementRangeText.text = cardData.Class.MovementRange.ToString();
 
-        this.targetCell = cell;
-        this.movementRange = movementRange;
-        this.movementPoint = movementPoint;
-        this.attackRange = attackRange;
+        this.TargetCell = cell;
+        this.MovementRange = movementRange;
+        this.MovementPoint = movementPoint;
+        this.AttackRange = attackRange;
 
         // Đặt vị trí UI hiển thị ngay tại vị trí thẻ bài trên màn hình
         transform.position = screenPosition;
         gameObject.SetActive(true);
 
         // Reset các sự kiện cũ trước khi gán sự kiện mới
-        moveButton.onClick.RemoveAllListeners();
-        attackButton.onClick.RemoveAllListeners();
+        MoveButton.onClick.RemoveAllListeners();
+        AttackButton.onClick.RemoveAllListeners();
 
         // Gán sự kiện khi click vào nút Move
-        moveButton.onClick.AddListener(OnMoveClicked);
+        MoveButton.onClick.AddListener(OnMoveClicked);
 
         // Gán sự kiện khi click vào nút Attack
-        attackButton.onClick.AddListener(OnAttackClicked);
+        AttackButton.onClick.AddListener(OnAttackClicked);
     }
 
     private void OnMoveClicked()
     {
         AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
 
-        GridManager.Instance.ShowMovementRangeAt(targetCell.GridPosition, movementRange, movementPoint);
+        GridManager.Instance.ShowMovementRangeAt(TargetCell.GridPosition, MovementRange, MovementPoint);
 
         HideMenu();
     }
@@ -111,15 +111,15 @@ public class ActionMenuUI : MonoBehaviour
     {
         AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
 
-        if (targetCell != null && targetCell.occupiedCard != null)
+        if (TargetCell != null && TargetCell.OccupiedCard != null)
         {
             // Xác định xem quân cờ đang click chọn thuộc phe ta (Player) hay phe địch
-            bool isPlayerCard = targetCell.IsPlayerSpawnCell;
+            bool isPlayerCard = TargetCell.IsPlayerSpawnCell;
 
             // Gọi hàm hiện phạm vi tấn công mới dựng bên trên
-            GridManager.Instance.ShowAttackRangeAt(targetCell.GridPosition, attackRange, isPlayerCard);
+            GridManager.Instance.ShowAttackRangeAt(TargetCell.GridPosition, AttackRange, isPlayerCard);
 
-            Debug.Log($"[ActionMenu] Đang hiển thị tầm đánh ({attackRange} ô) của quân cờ. Chặn chướng ngại vật & Đồng minh: {isPlayerCard}");
+            Debug.Log($"[ActionMenu] Đang hiển thị tầm đánh ({AttackRange} ô) của quân cờ. Chặn chướng ngại vật & Đồng minh: {isPlayerCard}");
         }
 
         HideMenu();
@@ -132,9 +132,9 @@ public class ActionMenuUI : MonoBehaviour
 
     public void UpdateMovementPoint(int currentPoint)
     {
-        if (pointText != null)
+        if (PointText != null)
         {
-            pointText.text = currentPoint.ToString();
+            PointText.text = currentPoint.ToString();
         }
     }
 }

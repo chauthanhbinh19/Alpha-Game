@@ -12,7 +12,7 @@ public class FeatureManager : MonoBehaviour
     private Transform popupPanel;
     private Button closeButton;
     private Button homeButton;
-    private TextMeshProUGUI titleText;
+    private TextMeshProUGUI TitleText;
     private Currencies currentCurrency;
 
     private void Awake()
@@ -42,7 +42,7 @@ public class FeatureManager : MonoBehaviour
         GameObject featureObject = Instantiate(FeaturePanelPrefab, MainPanel);
         Transform transform = featureObject.transform;
         Transform featureTransform = transform.Find("Scroll View/Viewport/Content");
-        titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+        TitleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         // CloseButton = featureObject.transform.Find("CloseButton").GetComponent<Button>();
         // CloseButton.onClick.AddListener(() =>
         // {
@@ -56,7 +56,7 @@ public class FeatureManager : MonoBehaviour
         //     ButtonEvent.Instance.Close(MainPanel);
         // });
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FEATURE);
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FEATURE);
         ButtonLoader.Instance.CreateFeatureButton(featureTransform);
         GetButtonEvent(featureTransform);
     }

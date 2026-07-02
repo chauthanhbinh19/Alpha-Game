@@ -12,15 +12,15 @@ public class GachaManager : MonoBehaviour
     private Transform MainPanel;
     public GameObject GachaPanelPrefab;
     private GameObject MainButtonPrefab;
-    public Transform gachaMenuPanel;
-    public RawImage backgroundImage;
+    public Transform GachaMenuPanel;
+    public RawImage BackgroundImage;
     public GameObject GachaButtonPrefab;
-    public GameObject currentObject;
-    public Texture2D itemBackground;
-    public Texture2D subBackground;
-    private string mainType;
-    private TextMeshProUGUI titleText;
-    List<Items> tickets;
+    public GameObject CurrentObject;
+    public Texture2D ItemBackground;
+    public Texture2D SubBackground;
+    private string MainType;
+    private TextMeshProUGUI TitleText;
+    List<Items> Tickets;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -51,198 +51,198 @@ public class GachaManager : MonoBehaviour
     }
     public void CreateGachaButton(Transform tempGachaMenuPanel)
     {
-        subBackground = TextureHelper.LoadTexture2DCached(ImageConstants.Flag.FLAG_INVENTORY_URL);
-        itemBackground = TextureHelper.LoadTexture2DCached(ImageConstants.Badge.BADGE_GALLERY_URL);
+        SubBackground = TextureHelper.LoadTexture2DCached(ImageConstants.Flag.FLAG_INVENTORY_URL);
+        ItemBackground = TextureHelper.LoadTexture2DCached(ImageConstants.Badge.BADGE_GALLERY_URL);
         //Gallery menu
-        CreateGachaButtonUI(1, AppDisplayConstants.Gallery.CARD_HEROES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(1, AppDisplayConstants.Gallery.CARD_HEROES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_HERO_URL), 
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL),
             tempGachaMenuPanel);
-        CreateGachaButtonUI(2, AppDisplayConstants.Gallery.BOOKS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(2, AppDisplayConstants.Gallery.BOOKS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BOOK_URL), 
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.BOOK_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(3, AppDisplayConstants.Gallery.PETS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(3, AppDisplayConstants.Gallery.PETS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PET_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.PET_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(4, AppDisplayConstants.Gallery.CARD_CAPTAINS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(4, AppDisplayConstants.Gallery.CARD_CAPTAINS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_CAPTAIN_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_CAPTAIN_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(5, AppDisplayConstants.Gallery.COLLABORATION_EQUIPMENTS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(5, AppDisplayConstants.Gallery.COLLABORATION_EQUIPMENTS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.COLLABORATION_EQUIPMENT_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_EQUIPMENT_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(6, AppDisplayConstants.Gallery.CARD_MILITARIES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(6, AppDisplayConstants.Gallery.CARD_MILITARIES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_MILITARY_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MILITARY_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(7, AppDisplayConstants.Gallery.CARD_SPELLS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(7, AppDisplayConstants.Gallery.CARD_SPELLS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SPELL_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SPELL_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(8, AppDisplayConstants.Gallery.COLLABORATIONS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(8, AppDisplayConstants.Gallery.COLLABORATIONS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.COLLABORATION_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(9, AppDisplayConstants.Gallery.CARD_MONSTERS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(9, AppDisplayConstants.Gallery.CARD_MONSTERS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_MONSTER_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MONSTER_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(10, AppDisplayConstants.Gallery.EQUIPMENTS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(10, AppDisplayConstants.Gallery.EQUIPMENTS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.EQUIPMENT_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.EQUIPMENT_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(11, AppDisplayConstants.Gallery.MEDALS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(11, AppDisplayConstants.Gallery.MEDALS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MEDAL_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.MEDAL_URL),
              tempGachaMenuPanel);
-        CreateGachaButtonUI(12, AppDisplayConstants.Gallery.SKILLS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(12, AppDisplayConstants.Gallery.SKILLS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SKILL_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.SKILL_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(13, AppDisplayConstants.Gallery.SYMBOLS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(13, AppDisplayConstants.Gallery.SYMBOLS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SYMBOL_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.SYMBOL_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(14, AppDisplayConstants.Gallery.TITLES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(14, AppDisplayConstants.Gallery.TITLES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TITLE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.TITLE_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(15, AppDisplayConstants.Gallery.MAGIC_FORMATION_CIRCLES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(15, AppDisplayConstants.Gallery.MAGIC_FORMATION_CIRCLES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MAGIC_FORMATION_CIRCLE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.MAGIC_FORMATION_CIRCLE_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(16, AppDisplayConstants.Gallery.RELICS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(16, AppDisplayConstants.Gallery.RELICS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.RELIC_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.RELIC_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(17, AppDisplayConstants.Gallery.CARD_COLONELS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(17, AppDisplayConstants.Gallery.CARD_COLONELS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_COLONEL_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_COLONEL_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(18, AppDisplayConstants.Gallery.CARD_GENERALS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(18, AppDisplayConstants.Gallery.CARD_GENERALS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_GENERAL_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_GENERAL_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(19, AppDisplayConstants.Gallery.CARD_ADMIRALS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(19, AppDisplayConstants.Gallery.CARD_ADMIRALS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_ADMIRAL_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_ADMIRAL_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(20, AppDisplayConstants.Gallery.BORDERS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(20, AppDisplayConstants.Gallery.BORDERS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BORDER_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.BORDER_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(21, AppDisplayConstants.Gallery.TALISMANS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(21, AppDisplayConstants.Gallery.TALISMANS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TALISMAN_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.TALISMAN_URL),  
             tempGachaMenuPanel);
-        CreateGachaButtonUI(22, AppDisplayConstants.Gallery.PUPPETS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(22, AppDisplayConstants.Gallery.PUPPETS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PUPPET_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.PUPPET_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(23, AppDisplayConstants.Gallery.ALCHEMIES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(23, AppDisplayConstants.Gallery.ALCHEMIES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ALCHEMY_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.ALCHEMY_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(24, AppDisplayConstants.Gallery.FORGES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(24, AppDisplayConstants.Gallery.FORGES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FORGE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.FORGE_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(25, AppDisplayConstants.Gallery.CARD_LIVES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(25, AppDisplayConstants.Gallery.CARD_LIVES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_LIFE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_LIFE_URL),
              tempGachaMenuPanel);
-        CreateGachaButtonUI(26, AppDisplayConstants.Gallery.ARTWORKS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(26, AppDisplayConstants.Gallery.ARTWORKS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARTWORK_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTWORK_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(27, AppDisplayConstants.Gallery.SPIRIT_BEASTS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(27, AppDisplayConstants.Gallery.SPIRIT_BEASTS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SPIRIT_BEAST_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_BEAST_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(28, AppDisplayConstants.Gallery.AVATARS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(28, AppDisplayConstants.Gallery.AVATARS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.AVATAR_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.AVATAR_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(29, AppDisplayConstants.Gallery.SPIRIT_CARDS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(29, AppDisplayConstants.Gallery.SPIRIT_CARDS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SPIRIT_CARD_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_CARD_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(30, AppDisplayConstants.Gallery.ACHIEVEMENTS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(30, AppDisplayConstants.Gallery.ACHIEVEMENTS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ACHIEVEMENT_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.ACHIEVEMENT_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(31, AppDisplayConstants.Gallery.ARTIFACTS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(31, AppDisplayConstants.Gallery.ARTIFACTS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARTIFACT_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTIFACT_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(32, AppDisplayConstants.Gallery.ARCHITECTURES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(32, AppDisplayConstants.Gallery.ARCHITECTURES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARCHITECTURE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARCHITECTURE_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(33, AppDisplayConstants.Gallery.TECHNOLOGIES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(33, AppDisplayConstants.Gallery.TECHNOLOGIES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TECHNOLOGY_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.TECHNOLOGY_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(34, AppDisplayConstants.Gallery.VEHICLES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(34, AppDisplayConstants.Gallery.VEHICLES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.VEHICLE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.VEHICLE_URL),
             tempGachaMenuPanel);
-        CreateGachaButtonUI(35, AppDisplayConstants.Gallery.CORES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(35, AppDisplayConstants.Gallery.CORES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CORE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CORE_URL),
             tempGachaMenuPanel);
-        CreateGachaButtonUI(36, AppDisplayConstants.Gallery.WEAPONS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(36, AppDisplayConstants.Gallery.WEAPONS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.WEAPON_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.WEAPON_URL),  
             tempGachaMenuPanel);
-        CreateGachaButtonUI(37, AppDisplayConstants.Gallery.ROBOTS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(37, AppDisplayConstants.Gallery.ROBOTS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ROBOT_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.ROBOT_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(38, AppDisplayConstants.Gallery.BADGES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(38, AppDisplayConstants.Gallery.BADGES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BADGE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.BADGE_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(39, AppDisplayConstants.Gallery.MECHA_BEASTS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(39, AppDisplayConstants.Gallery.MECHA_BEASTS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MECHA_BEAST_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.MECHA_BEAST_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(40, AppDisplayConstants.Gallery.RUNES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(40, AppDisplayConstants.Gallery.RUNES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.RUNE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.RUNE_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(41, AppDisplayConstants.Gallery.FURNITURES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(41, AppDisplayConstants.Gallery.FURNITURES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FURNITURE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.FURNITURE_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(42, AppDisplayConstants.Gallery.FOODS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(42, AppDisplayConstants.Gallery.FOODS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FOOD_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.FOOD_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(43, AppDisplayConstants.Gallery.BEVERAGES_GALLERY, itemBackground, 
+        CreateGachaButtonUI(43, AppDisplayConstants.Gallery.BEVERAGES_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BEVERAGE_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.BEVERAGE_URL),
             tempGachaMenuPanel);
-        CreateGachaButtonUI(44, AppDisplayConstants.Gallery.BUILDINGS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(44, AppDisplayConstants.Gallery.BUILDINGS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BUILDING_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.BUILDING_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(45, AppDisplayConstants.Gallery.PLANTS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(45, AppDisplayConstants.Gallery.PLANTS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PLANT_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.PLANT_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(46, AppDisplayConstants.Gallery.FASHIONS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(46, AppDisplayConstants.Gallery.FASHIONS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FASHION_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.FASHION_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(47, AppDisplayConstants.Gallery.EMOJIS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(47, AppDisplayConstants.Gallery.EMOJIS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.EMOJI_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.EMOJI_URL), 
             tempGachaMenuPanel);
-        CreateGachaButtonUI(48, AppDisplayConstants.Gallery.CARD_SOLDIERS_GALLERY, itemBackground, 
+        CreateGachaButtonUI(48, AppDisplayConstants.Gallery.CARD_SOLDIERS_GALLERY, ItemBackground, 
             TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SOLDIER_URL),
             TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SOLDIER_URL), 
             tempGachaMenuPanel);
@@ -292,7 +292,7 @@ public class GachaManager : MonoBehaviour
     }
     public void CreateGacha(Transform tempGachaMenuPanel)
     {
-        gachaMenuPanel = tempGachaMenuPanel;
+        GachaMenuPanel = tempGachaMenuPanel;
         // DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
         // UI_Blue_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Blue_Gradient_Radius_Mat_MaskPercent_70");
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
@@ -348,7 +348,7 @@ public class GachaManager : MonoBehaviour
     }
     void AssignButtonEvent(string buttonName, UnityEngine.Events.UnityAction action)
     {
-        Transform buttonTransform = gachaMenuPanel.Find(buttonName);
+        Transform buttonTransform = GachaMenuPanel.Find(buttonName);
         if (buttonTransform != null)
         {
             Button button = buttonTransform.GetComponent<Button>();
@@ -368,16 +368,16 @@ public class GachaManager : MonoBehaviour
     }
     public void GetType(string type, string typeText)
     {
-        mainType = type;
+        MainType = type;
         _ = CreateGachaManagerAsync();
-        titleText.text = LocalizationManager.Get(typeText);
+        TitleText.text = LocalizationManager.Get(typeText);
     }
     public async Task CreateGachaManagerAsync()
     {
-        currentObject = Instantiate(GachaPanelPrefab, MainPanel);
-        Transform transform = currentObject.transform;
-        backgroundImage = transform.Find("DictionaryBackground").GetComponent<RawImage>();
-        titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
+        CurrentObject = Instantiate(GachaPanelPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
+        BackgroundImage = transform.Find("DictionaryBackground").GetComponent<RawImage>();
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         Transform currencyTransform = transform.Find("DictionaryCards/Currency");
         // RawImage oneTicketImage = transform.Find("DictionaryCards/OneTicketImage").GetComponent<RawImage>();
         // RawImage tenTicketImage = transform.Find("DictionaryCards/TenTicketImage").GetComponent<RawImage>();
@@ -389,7 +389,7 @@ public class GachaManager : MonoBehaviour
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(currentObject);
+            Destroy(CurrentObject);
         });
         Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(() =>
@@ -415,324 +415,324 @@ public class GachaManager : MonoBehaviour
     {
         Transform currencyTransform = transform.Find("DictionaryCards/Currency");
         // tickets.Clear();
-        if (mainType.Equals(AppConstants.MainType.CARD_HERO))
+        if (MainType.Equals(AppConstants.MainType.CARD_HERO))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_HERO_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_HERO_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_HERO_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_HERO_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.BOOK))
+        else if (MainType.Equals(AppConstants.MainType.BOOK))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BOOK_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BOOK_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BOOK_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BOOK_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
+        else if (MainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_CAPTAIN_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_CAPTAIN_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_CAPTAIN_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_CAPTAIN_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
+        else if (MainType.Equals(AppConstants.MainType.CARD_MONSTER))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MONSTER_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MONSTER_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_MONSTER_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_MONSTER_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
+        else if (MainType.Equals(AppConstants.MainType.CARD_COLONEL))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_COLONEL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_COLONEL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_COLONEL_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_COLONEL_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
+        else if (MainType.Equals(AppConstants.MainType.CARD_GENERAL))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_GENERAL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_GENERAL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_GENERAL_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_GENERAL_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
+        else if (MainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_ADMIRAL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_ADMIRAL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_ADMIRAL_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_ADMIRAL_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
+        else if (MainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MILITARY_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MILITARY_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_MILITARY_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_MILITARY_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
+        else if (MainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SPELL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SPELL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_SPELL_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_SPELL_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
+        else if (MainType.Equals(AppConstants.MainType.COLLABORATION))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.COLLABORATION_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.COLLABORATION_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.COLLABORATION_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.COLLABORATION_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
+        else if (MainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.COLLABORATION_EQUIPMENT_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.COLLABORATION_EQUIPMENT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.COLLABORATION_EQUIPMENT_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.COLLABORATION_EQUIPMENT_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
+        else if (MainType.Equals(AppConstants.MainType.EQUIPMENT))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.EQUIPMENT_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.EQUIPMENT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.EQUIPMENT_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.EQUIPMENT_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.PET))
+        else if (MainType.Equals(AppConstants.MainType.PET))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PET_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PET_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.PET_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.PET_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.SKILL))
+        else if (MainType.Equals(AppConstants.MainType.SKILL))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SKILL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SKILL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.SKILL_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.SKILL_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.SYMBOL))
+        else if (MainType.Equals(AppConstants.MainType.SYMBOL))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SYMBOL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SYMBOL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.SYMBOL_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.SYMBOL_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.MEDAL))
+        else if (MainType.Equals(AppConstants.MainType.MEDAL))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MEDAL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MEDAL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.MEDAL_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.MEDAL_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.TITLE))
+        else if (MainType.Equals(AppConstants.MainType.TITLE))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TITLE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TITLE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.TITLE_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.TITLE_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.BORDER))
+        else if (MainType.Equals(AppConstants.MainType.BORDER))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BORDER_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BORDER_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BORDER_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BORDER_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
+        else if (MainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MAGIC_FORMATION_CIRCLE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MAGIC_FORMATION_CIRCLE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.MAGIC_FORMATION_CIRCLE_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.MAGIC_FORMATION_CIRCLE_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.RELIC))
+        else if (MainType.Equals(AppConstants.MainType.RELIC))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.RELIC_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.RELIC_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.RELIC_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.RELIC_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.TALISMAN))
+        else if (MainType.Equals(AppConstants.MainType.TALISMAN))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TALISMAN_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TALISMAN_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.TALISMAN_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.TALISMAN_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.PUPPET))
+        else if (MainType.Equals(AppConstants.MainType.PUPPET))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PUPPET_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PUPPET_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.PUPPET_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.PUPPET_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
+        else if (MainType.Equals(AppConstants.MainType.ALCHEMY))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ALCHEMY_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ALCHEMY_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ALCHEMY_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ALCHEMY_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.FORGE))
+        else if (MainType.Equals(AppConstants.MainType.FORGE))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FORGE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FORGE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.FORGE_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.FORGE_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
+        else if (MainType.Equals(AppConstants.MainType.CARD_LIFE))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_LIFE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_LIFE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_LIFE_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_LIFE_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.ARTWORK))
+        else if (MainType.Equals(AppConstants.MainType.ARTWORK))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARTWORK_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARTWORK_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ARTWORK_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ARTWORK_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
+        else if (MainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SPIRIT_BEAST_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SPIRIT_BEAST_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.SPIRIT_BEAST_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.SPIRIT_BEAST_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.AVATAR))
+        else if (MainType.Equals(AppConstants.MainType.AVATAR))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.AVATAR_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.AVATAR_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.AVATAR_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.AVATAR_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.SPIRIT_CARD))
+        else if (MainType.Equals(AppConstants.MainType.SPIRIT_CARD))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SPIRIT_CARD_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SPIRIT_CARD_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.SPIRIT_CARD_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.SPIRIT_CARD_URL);
         }
         // else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
         // {
@@ -744,203 +744,203 @@ public class GachaManager : MonoBehaviour
 
         //     CreateTicketUI(items, transform);
         // }
-        else if (mainType.Equals(AppConstants.MainType.ARTIFACT))
+        else if (MainType.Equals(AppConstants.MainType.ARTIFACT))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARTIFACT_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARTIFACT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ARTIFACT_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ARTIFACT_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
+        else if (MainType.Equals(AppConstants.MainType.ARCHITECTURE))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARCHITECTURE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARCHITECTURE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ARCHITECTURE_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ARCHITECTURE_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
+        else if (MainType.Equals(AppConstants.MainType.TECHNOLOGY))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TECHNOLOGY_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TECHNOLOGY_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.TECHNOLOGY_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.TECHNOLOGY_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.VEHICLE))
+        else if (MainType.Equals(AppConstants.MainType.VEHICLE))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.VEHICLE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.VEHICLE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.VEHICLE_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.VEHICLE_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.CORE))
+        else if (MainType.Equals(AppConstants.MainType.CORE))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CORE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CORE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CORE_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CORE_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.WEAPON))
+        else if (MainType.Equals(AppConstants.MainType.WEAPON))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.WEAPON_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.WEAPON_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.WEAPON_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.WEAPON_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.ROBOT))
+        else if (MainType.Equals(AppConstants.MainType.ROBOT))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ROBOT_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ROBOT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ROBOT_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.ROBOT_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.BADGE))
+        else if (MainType.Equals(AppConstants.MainType.BADGE))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BADGE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BADGE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BADGE_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BADGE_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
+        else if (MainType.Equals(AppConstants.MainType.MECHA_BEAST))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MECHA_BEAST_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MECHA_BEAST_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.MECHA_BEAST_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.MECHA_BEAST_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.RUNE))
+        else if (MainType.Equals(AppConstants.MainType.RUNE))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.RUNE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.RUNE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.RUNE_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.RUNE_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.FURNITURE))
+        else if (MainType.Equals(AppConstants.MainType.FURNITURE))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FURNITURE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FURNITURE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.FURNITURE_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.FURNITURE_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.FOOD))
+        else if (MainType.Equals(AppConstants.MainType.FOOD))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FOOD_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FOOD_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.FOOD_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.FOOD_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.BEVERAGE))
+        else if (MainType.Equals(AppConstants.MainType.BEVERAGE))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BEVERAGE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BEVERAGE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BEVERAGE_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BEVERAGE_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.BUILDING))
+        else if (MainType.Equals(AppConstants.MainType.BUILDING))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BUILDING_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BUILDING_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BUILDING_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.BUILDING_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.PLANT))
+        else if (MainType.Equals(AppConstants.MainType.PLANT))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PLANT_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PLANT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.PLANT_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.PLANT_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.FASHION))
+        else if (MainType.Equals(AppConstants.MainType.FASHION))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FASHION_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FASHION_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.FASHION_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.FASHION_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.EMOJI))
+        else if (MainType.Equals(AppConstants.MainType.EMOJI))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.EMOJI_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.EMOJI_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.EMOJI_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.EMOJI_URL);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_SOLDIER))
+        else if (MainType.Equals(AppConstants.MainType.CARD_SOLDIER))
         {
-            tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SOLDIER_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SOLDIER_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
-                tickets,
+                Tickets,
                 currencyTransform
             );
 
-            CreateTicketUI(tickets, transform);
-            backgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_SOLDIER_URL);
+            CreateTicketUI(Tickets, transform);
+            BackgroundImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gacha.CARD_SOLDIER_URL);
         }
         else
         {
@@ -949,199 +949,199 @@ public class GachaManager : MonoBehaviour
     }
     public async Task LoadGachaEventAsync(int rollNumber)
     {
-        if (mainType.Equals(AppConstants.MainType.CARD_HERO))
+        if (MainType.Equals(AppConstants.MainType.CARD_HERO))
         {
             await GachaCardHeroesAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.BOOK))
+        else if (MainType.Equals(AppConstants.MainType.BOOK))
         {
             await GachaBooksAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
+        else if (MainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
         {
             await GachaCardCaptainsAsync(rollNumber);   
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
+        else if (MainType.Equals(AppConstants.MainType.CARD_MONSTER))
         {
             await GachaCardMonstersAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
+        else if (MainType.Equals(AppConstants.MainType.CARD_COLONEL))
         {
             await GachaCardColonelsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
+        else if (MainType.Equals(AppConstants.MainType.CARD_GENERAL))
         {
             await GachaCardGeneralsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
+        else if (MainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
         {
             await GachaCardAdmiralsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
+        else if (MainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
             await GachaCardMilitariesAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
+        else if (MainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
             await GachaCardSpellsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
+        else if (MainType.Equals(AppConstants.MainType.COLLABORATION))
         {
             await GachaCollaborationsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
+        else if (MainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
         {
             await GachaCollaborationEquipmentsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
+        else if (MainType.Equals(AppConstants.MainType.EQUIPMENT))
         {
             await GachaEquipmentsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.PET))
+        else if (MainType.Equals(AppConstants.MainType.PET))
         {
             await GachaPetsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.SKILL))
+        else if (MainType.Equals(AppConstants.MainType.SKILL))
         {
             await GachaSkillsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.SYMBOL))
+        else if (MainType.Equals(AppConstants.MainType.SYMBOL))
         {
             await GachaSymbolsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.MEDAL))
+        else if (MainType.Equals(AppConstants.MainType.MEDAL))
         {
             await GachaMedalsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.TITLE))
+        else if (MainType.Equals(AppConstants.MainType.TITLE))
         {
             await GachaTitlesAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.BORDER))
+        else if (MainType.Equals(AppConstants.MainType.BORDER))
         {
             await GachaBordersAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
+        else if (MainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
         {
             await GachaMagicFormationCirclesAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.RELIC))
+        else if (MainType.Equals(AppConstants.MainType.RELIC))
         {
             await GachaRelicsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.TALISMAN))
+        else if (MainType.Equals(AppConstants.MainType.TALISMAN))
         {
             await GachaTalismansAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.PUPPET))
+        else if (MainType.Equals(AppConstants.MainType.PUPPET))
         {
             await GachaPuppetsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
+        else if (MainType.Equals(AppConstants.MainType.ALCHEMY))
         {
             await GachaAlchemiesAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.FORGE))
+        else if (MainType.Equals(AppConstants.MainType.FORGE))
         {
             await GachaForgesAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
+        else if (MainType.Equals(AppConstants.MainType.CARD_LIFE))
         {
             await GachaCardLivesAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.ARTWORK))
+        else if (MainType.Equals(AppConstants.MainType.ARTWORK))
         {
             await GachaArtworksAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
+        else if (MainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
         {
             await GachaSpiritBeastsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.AVATAR))
+        else if (MainType.Equals(AppConstants.MainType.AVATAR))
         {
             await GachaAvatarsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.SPIRIT_CARD))
+        else if (MainType.Equals(AppConstants.MainType.SPIRIT_CARD))
         {
             await GachaSpiritCardsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
+        else if (MainType.Equals(AppConstants.MainType.ACHIEVEMENT))
         {
             await GachaAchievementsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.ARTIFACT))
+        else if (MainType.Equals(AppConstants.MainType.ARTIFACT))
         {
             await GachaArtifactsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
+        else if (MainType.Equals(AppConstants.MainType.ARCHITECTURE))
         {
             await GachaArchitecturesAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
+        else if (MainType.Equals(AppConstants.MainType.TECHNOLOGY))
         {
             await GachaTechnologiesAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.VEHICLE))
+        else if (MainType.Equals(AppConstants.MainType.VEHICLE))
         {
             await GachaVehiclesAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.CORE))
+        else if (MainType.Equals(AppConstants.MainType.CORE))
         {
             await GachaCoresAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.WEAPON))
+        else if (MainType.Equals(AppConstants.MainType.WEAPON))
         {
             await GachaWeaponsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.ROBOT))
+        else if (MainType.Equals(AppConstants.MainType.ROBOT))
         {
             await GachaRobotsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.BADGE))
+        else if (MainType.Equals(AppConstants.MainType.BADGE))
         {
             await GachaBadgesAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
+        else if (MainType.Equals(AppConstants.MainType.MECHA_BEAST))
         {
             await GachaMechaBeastsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.RUNE))
+        else if (MainType.Equals(AppConstants.MainType.RUNE))
         {
             await GachaRunesAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.FURNITURE))
+        else if (MainType.Equals(AppConstants.MainType.FURNITURE))
         {
             await GachaFurnituresAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.FOOD))
+        else if (MainType.Equals(AppConstants.MainType.FOOD))
         {
             await GachaFoodsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.BEVERAGE))
+        else if (MainType.Equals(AppConstants.MainType.BEVERAGE))
         {
             await GachaBeveragesAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.BUILDING))
+        else if (MainType.Equals(AppConstants.MainType.BUILDING))
         {
             await GachaBuildingsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.PLANT))
+        else if (MainType.Equals(AppConstants.MainType.PLANT))
         {
             await GachaPlantsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.FASHION))
+        else if (MainType.Equals(AppConstants.MainType.FASHION))
         {
             await GachaFashionsAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.EMOJI))
+        else if (MainType.Equals(AppConstants.MainType.EMOJI))
         {
             await GachaEmojisAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_SOLDIER))
+        else if (MainType.Equals(AppConstants.MainType.CARD_SOLDIER))
         {
             await GachaCardSoldiersAsync(rollNumber);
         }
-        else if (mainType.Equals(AppConstants.MainType.OUTFIT))
+        else if (MainType.Equals(AppConstants.MainType.OUTFIT))
         {
             await GachaOutfitsAsync(rollNumber);
         }
@@ -1175,7 +1175,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -1307,7 +1307,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -1444,7 +1444,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -1578,7 +1578,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -1707,7 +1707,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -1836,7 +1836,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -1965,7 +1965,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -2094,7 +2094,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -2226,7 +2226,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -2360,7 +2360,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -2492,7 +2492,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -2629,7 +2629,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -2766,7 +2766,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -2903,7 +2903,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -3040,7 +3040,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -3177,7 +3177,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -3314,7 +3314,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -3451,7 +3451,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -3588,7 +3588,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -3725,7 +3725,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -3862,7 +3862,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -3999,7 +3999,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -4133,7 +4133,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -4262,7 +4262,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -4391,7 +4391,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -4523,7 +4523,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -4660,7 +4660,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -4794,7 +4794,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -4926,7 +4926,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -5063,7 +5063,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -5200,7 +5200,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -5334,7 +5334,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -5463,7 +5463,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -5595,7 +5595,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -5729,7 +5729,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -5861,7 +5861,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -5998,7 +5998,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -6132,7 +6132,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -6261,7 +6261,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -6393,7 +6393,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -6527,7 +6527,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -6661,7 +6661,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -6800,7 +6800,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -6939,7 +6939,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -7075,7 +7075,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -7206,7 +7206,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -7340,7 +7340,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -7479,7 +7479,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -7618,7 +7618,7 @@ public class GachaManager : MonoBehaviour
             .GetItemTypeRatesAsync();
 
         // Trừ ticket
-        foreach (Items item in tickets)
+        foreach (Items item in Tickets)
         {
             await UserItemsService.Create()
                 .InsertOrUpdateUserItemQuantityAsync(User.CurrentUserId, item, rollNumber);
@@ -7744,7 +7744,7 @@ public class GachaManager : MonoBehaviour
     }
     public void CreateSummonArea(List<GachaRewardResultDTO> rewards)
     {
-        Transform summonArea = currentObject.transform.Find("SummonArea");
+        Transform summonArea = CurrentObject.transform.Find("SummonArea");
         Transform gridLayout = summonArea.Find("GridLayout");
         summonArea.gameObject.SetActive(true);
 
@@ -7784,7 +7784,7 @@ public class GachaManager : MonoBehaviour
         TextMeshProUGUI nameText = transform.Find("NameText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI quantityText = transform.Find("QuantityText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI rareText = transform.Find("RareText").GetComponent<TextMeshProUGUI>();
-        if (mainType.Equals(AppConstants.MainType.CARD_HERO))
+        if (MainType.Equals(AppConstants.MainType.CARD_HERO))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_HERO_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_HERO_URL);
@@ -7802,7 +7802,7 @@ public class GachaManager : MonoBehaviour
                 cardImage.texture = rewardTexture;
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.BOOK))
+        else if (MainType.Equals(AppConstants.MainType.BOOK))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BOOK_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.BOOK_URL);
@@ -7820,7 +7820,7 @@ public class GachaManager : MonoBehaviour
                 cardImage.texture = rewardTexture;
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
+        else if (MainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_CAPTAIN_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_CAPTAIN_URL);
@@ -7838,7 +7838,7 @@ public class GachaManager : MonoBehaviour
                 cardImage.texture = rewardTexture;
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_MONSTER))
+        else if (MainType.Equals(AppConstants.MainType.CARD_MONSTER))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_MONSTER_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_MONSTER_URL);
@@ -7856,7 +7856,7 @@ public class GachaManager : MonoBehaviour
                 cardImage.texture = rewardTexture;
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_COLONEL))
+        else if (MainType.Equals(AppConstants.MainType.CARD_COLONEL))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_COLONEL_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_COLONEL_URL);
@@ -7874,7 +7874,7 @@ public class GachaManager : MonoBehaviour
                 cardImage.texture = rewardTexture;
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_GENERAL))
+        else if (MainType.Equals(AppConstants.MainType.CARD_GENERAL))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_GENERAL_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_GENERAL_URL);
@@ -7892,7 +7892,7 @@ public class GachaManager : MonoBehaviour
                 cardImage.texture = rewardTexture;
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
+        else if (MainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_ADMIRAL_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_ADMIRAL_URL);
@@ -7910,7 +7910,7 @@ public class GachaManager : MonoBehaviour
                 cardImage.texture = rewardTexture;
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_MILITARY))
+        else if (MainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SPELL_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SPELL_URL);
@@ -7928,7 +7928,7 @@ public class GachaManager : MonoBehaviour
                 cardImage.texture = rewardTexture;
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_SPELL))
+        else if (MainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SPELL_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SPELL_URL);
@@ -7946,7 +7946,7 @@ public class GachaManager : MonoBehaviour
                 cardImage.texture = rewardTexture;
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.COLLABORATION))
+        else if (MainType.Equals(AppConstants.MainType.COLLABORATION))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.COLLABORATION_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_URL);
@@ -7965,7 +7965,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
+        else if (MainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.COLLABORATION_EQUIPMENT_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.COLLABORATION_EQUIPMENT_URL);
@@ -7984,7 +7984,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.EQUIPMENT))
+        else if (MainType.Equals(AppConstants.MainType.EQUIPMENT))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.EQUIPMENT_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.EQUIPMENT_URL);
@@ -8003,7 +8003,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.PET))
+        else if (MainType.Equals(AppConstants.MainType.PET))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PET_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.PET_URL);
@@ -8022,7 +8022,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.SKILL))
+        else if (MainType.Equals(AppConstants.MainType.SKILL))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SKILL_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.SKILL_URL);
@@ -8041,7 +8041,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.SYMBOL))
+        else if (MainType.Equals(AppConstants.MainType.SYMBOL))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SYMBOL_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.SYMBOL_URL);
@@ -8060,7 +8060,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.MEDAL))
+        else if (MainType.Equals(AppConstants.MainType.MEDAL))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MEDAL_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.MEDAL_URL);
@@ -8079,7 +8079,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.TITLE))
+        else if (MainType.Equals(AppConstants.MainType.TITLE))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TITLE_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.TITLE_URL);
@@ -8098,7 +8098,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.BORDER))
+        else if (MainType.Equals(AppConstants.MainType.BORDER))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BORDER_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.BORDER_URL);
@@ -8117,7 +8117,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
+        else if (MainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MAGIC_FORMATION_CIRCLE_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.MAGIC_FORMATION_CIRCLE_URL);
@@ -8136,7 +8136,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.RELIC))
+        else if (MainType.Equals(AppConstants.MainType.RELIC))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.RELIC_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.RELIC_URL);
@@ -8155,7 +8155,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.TALISMAN))
+        else if (MainType.Equals(AppConstants.MainType.TALISMAN))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TALISMAN_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.TALISMAN_URL);
@@ -8174,7 +8174,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.PUPPET))
+        else if (MainType.Equals(AppConstants.MainType.PUPPET))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PUPPET_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.PUPPET_URL);
@@ -8193,7 +8193,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.ALCHEMY))
+        else if (MainType.Equals(AppConstants.MainType.ALCHEMY))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ALCHEMY_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.ALCHEMY_URL);
@@ -8212,7 +8212,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.FORGE))
+        else if (MainType.Equals(AppConstants.MainType.FORGE))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FORGE_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.FORGE_URL);
@@ -8231,7 +8231,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_LIFE))
+        else if (MainType.Equals(AppConstants.MainType.CARD_LIFE))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_LIFE_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_LIFE_URL);
@@ -8249,7 +8249,7 @@ public class GachaManager : MonoBehaviour
                 cardImage.texture = rewardTexture;
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.ARTWORK))
+        else if (MainType.Equals(AppConstants.MainType.ARTWORK))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARTWORK_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTWORK_URL);
@@ -8268,7 +8268,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
+        else if (MainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SPIRIT_BEAST_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_BEAST_URL);
@@ -8287,7 +8287,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.AVATAR))
+        else if (MainType.Equals(AppConstants.MainType.AVATAR))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.AVATAR_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.AVATAR_URL);
@@ -8306,7 +8306,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.SPIRIT_CARD))
+        else if (MainType.Equals(AppConstants.MainType.SPIRIT_CARD))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.SPIRIT_CARD_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.SPIRIT_CARD_URL);
@@ -8325,7 +8325,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
+        else if (MainType.Equals(AppConstants.MainType.ACHIEVEMENT))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ACHIEVEMENT_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.ACHIEVEMENT_URL);
@@ -8344,7 +8344,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.ARTIFACT))
+        else if (MainType.Equals(AppConstants.MainType.ARTIFACT))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARTIFACT_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARTIFACT_URL);
@@ -8363,7 +8363,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.ARCHITECTURE))
+        else if (MainType.Equals(AppConstants.MainType.ARCHITECTURE))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ARCHITECTURE_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.ARCHITECTURE_URL);
@@ -8382,7 +8382,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.TECHNOLOGY))
+        else if (MainType.Equals(AppConstants.MainType.TECHNOLOGY))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.TECHNOLOGY_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.TECHNOLOGY_URL);
@@ -8401,7 +8401,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.VEHICLE))
+        else if (MainType.Equals(AppConstants.MainType.VEHICLE))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.VEHICLE_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.VEHICLE_URL);
@@ -8420,7 +8420,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.CORE))
+        else if (MainType.Equals(AppConstants.MainType.CORE))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CORE_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.CORE_URL);
@@ -8439,7 +8439,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.WEAPON))
+        else if (MainType.Equals(AppConstants.MainType.WEAPON))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.WEAPON_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.WEAPON_URL);
@@ -8458,7 +8458,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.ROBOT))
+        else if (MainType.Equals(AppConstants.MainType.ROBOT))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.ROBOT_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.ROBOT_URL);
@@ -8477,7 +8477,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.BADGE))
+        else if (MainType.Equals(AppConstants.MainType.BADGE))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BADGE_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.BADGE_URL);
@@ -8496,7 +8496,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.MECHA_BEAST))
+        else if (MainType.Equals(AppConstants.MainType.MECHA_BEAST))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.MECHA_BEAST_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.MECHA_BEAST_URL);
@@ -8515,7 +8515,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.RUNE))
+        else if (MainType.Equals(AppConstants.MainType.RUNE))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.RUNE_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.RUNE_URL);
@@ -8534,7 +8534,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.FURNITURE))
+        else if (MainType.Equals(AppConstants.MainType.FURNITURE))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FURNITURE_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.FURNITURE_URL);
@@ -8553,7 +8553,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.FOOD))
+        else if (MainType.Equals(AppConstants.MainType.FOOD))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FOOD_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.FOOD_URL);
@@ -8572,7 +8572,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.BEVERAGE))
+        else if (MainType.Equals(AppConstants.MainType.BEVERAGE))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BEVERAGE_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.BEVERAGE_URL);
@@ -8591,7 +8591,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.BUILDING))
+        else if (MainType.Equals(AppConstants.MainType.BUILDING))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.BUILDING_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.BUILDING_URL);
@@ -8610,7 +8610,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.PLANT))
+        else if (MainType.Equals(AppConstants.MainType.PLANT))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.PLANT_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.PLANT_URL);
@@ -8629,7 +8629,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.FASHION))
+        else if (MainType.Equals(AppConstants.MainType.FASHION))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.FASHION_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.FASHION_URL);
@@ -8648,7 +8648,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.EMOJI))
+        else if (MainType.Equals(AppConstants.MainType.EMOJI))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.EMOJI_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.EMOJI_URL);
@@ -8667,7 +8667,7 @@ public class GachaManager : MonoBehaviour
                 ImageManager.Instance.ChangeSizeImageByTextureScale(itemImage, rewardTexture);
             }
         }
-        else if (mainType.Equals(AppConstants.MainType.CARD_SOLDIER))
+        else if (MainType.Equals(AppConstants.MainType.CARD_SOLDIER))
         {
             iconImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Gallery.CARD_SOLDIER_URL);
             borderImage.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Border.CARD_SOLDIER_URL);

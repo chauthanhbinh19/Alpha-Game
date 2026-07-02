@@ -5,21 +5,21 @@ using UnityEngine;
 public class BattleSpawnController : MonoBehaviour
 {
     [Header("References")]
-    public GridManager gridManager;
-    public GameObject cardVisualPrefab; // Kéo Prefab hiển thị của thẻ quân cờ vào đây
+    public GridManager GridManager;
+    public GameObject CardVisualPrefab; // Kéo Prefab hiển thị của thẻ quân cờ vào đây
 
-    private LoadTeams loadTeams = new LoadTeams();
+    private LoadTeams LoadTeams = new LoadTeams();
 
     // Hệ thống Bản đồ Map: Key = Vị trí Slot (1-10) | Value = Ô cờ trên Grid tương ứng
-    private Dictionary<int, GridCell> alphaSlotToCellMap = new Dictionary<int, GridCell>();
-    private Dictionary<int, GridCell> omegaSlotToCellMap = new Dictionary<int, GridCell>();
+    private Dictionary<int, GridCell> AlphaSlotToCellMap = new Dictionary<int, GridCell>();
+    private Dictionary<int, GridCell> OmegaSlotToCellMap = new Dictionary<int, GridCell>();
 
     // Danh sách lưu trữ Runtime trong trận theo hệ Alpha / Omega
-    private List<CardBase> activeAlphaHeroes = new List<CardBase>();
-    private List<CardBase> activeOmegaHeroes = new List<CardBase>();
+    private List<CardBase> ActiveAlphaHeroes = new List<CardBase>();
+    private List<CardBase> ActiveOmegaHeroes = new List<CardBase>();
 
-    private List<CardBase> alphaBenchCards = new List<CardBase>();
-    private List<CardBase> omegaBenchCards = new List<CardBase>();
+    private List<CardBase> AlphaBenchCards = new List<CardBase>();
+    private List<CardBase> OmegaBenchCards = new List<CardBase>();
 
     async void Start()
     {
@@ -66,8 +66,8 @@ public class BattleSpawnController : MonoBehaviour
     public void MapSlotsToGridCells()
     {
         // Vẫn lấy từ GridManager (Nếu trong GridManager bạn cũng muốn đổi tên list, hãy đổi tương ứng nhé)
-        List<GridCell> alphaCells = gridManager.playerSpawnCells; 
-        List<GridCell> omegaCells = gridManager.enemySpawnCells;
+        List<GridCell> alphaCells = GridManager.PlayerSpawnCells; 
+        List<GridCell> omegaCells = GridManager.EnemySpawnCells;
 
         // Đảm bảo GridManager đã tìm đủ ô
         if (alphaCells.Count < 10 || omegaCells.Count < 10)
@@ -78,20 +78,20 @@ public class BattleSpawnController : MonoBehaviour
         // Ánh xạ cho phe Alpha
         for (int i = 0; i < alphaCells.Count; i++)
         {
-            alphaSlotToCellMap.Add(i + 1, alphaCells[i]); // Slot 1 -> 10
+            AlphaSlotToCellMap.Add(i + 1, alphaCells[i]); // Slot 1 -> 10
         }
 
         // Ánh xạ cho phe Omega
         for (int i = 0; i < omegaCells.Count; i++)
         {
-            omegaSlotToCellMap.Add(i + 1, omegaCells[i]); // Slot 1 -> 10
+            OmegaSlotToCellMap.Add(i + 1, omegaCells[i]); // Slot 1 -> 10
         }
     }
 
     public void DeployTeam(List<CardBase> cards, bool isAlpha)
     {
         // Chọn đúng Dictionary map vị trí dựa theo phe Alpha / Omega
-        var slotMap = isAlpha ? alphaSlotToCellMap : omegaSlotToCellMap;
+        var slotMap = isAlpha ? AlphaSlotToCellMap : OmegaSlotToCellMap;
 
         foreach (CardBase hero in cards)
         {
@@ -99,14 +99,14 @@ public class BattleSpawnController : MonoBehaviour
             if (slotMap.TryGetValue(hero.MainPosition, out GridCell targetCell))
             {
                 // Kiểm tra xem ô này đã có ai đứng chưa để tránh chồng lên nhau
-                if (targetCell.occupiedCard != null)
+                if (targetCell.OccupiedCard != null)
                 {
                     // Debug.LogWarning($"Ô số {hero.MainPosition} của bên {(isAlpha ? "Alpha" : "Omega")} đã bị chiếm bởi {targetCell.occupiedCard.Name}. Không thể đặt {hero.Name} vào!");
                     continue;
                 }
 
                 // Tạo Visual và làm con trực tiếp của displayCardPanel trên ô cờ đó
-                GameObject cardObj = Instantiate(cardVisualPrefab, targetCell.displayCardPanel);
+                GameObject cardObj = Instantiate(CardVisualPrefab, targetCell.DisplayCardPanel);
 
                 cardObj.name = $"{(isAlpha ? "Alpha" : "Omega")}_Pos_{hero.MainPosition}_{hero.Name}";
 
@@ -117,16 +117,16 @@ public class BattleSpawnController : MonoBehaviour
                 }
 
                 // Đồng bộ gán ngược tham chiếu dữ liệu vào ô cờ
-                targetCell.occupiedCard = hero;
+                targetCell.OccupiedCard = hero;
 
                 // Lưu vào mảng hoạt động tương ứng của từng hệ
                 if (isAlpha)
                 {
-                    activeAlphaHeroes.Add(hero);
+                    ActiveAlphaHeroes.Add(hero);
                 }
                 else
                 {
-                    activeOmegaHeroes.Add(hero);
+                    ActiveOmegaHeroes.Add(hero);
                 }
 
                 // Debug.Log($"<color=cyan>[Spawn]</color> Đã đặt {hero.Name} vào ô cờ số {targetCell.MainPosition} của phe {(isAlpha ? "Alpha" : "Omega")} thành công!");

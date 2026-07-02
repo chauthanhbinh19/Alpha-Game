@@ -9,8 +9,8 @@ public class ProfileManager : MonoBehaviour
     public static ProfileManager Instance { get; private set; }
     private GameObject ProfilePanelPrefab;
     private GameObject EditNamePanelPrefab;
-    private GameObject profileObject;
-    private GameObject editNamePanelObject;
+    private GameObject ProfileObject;
+    private GameObject EditNamePanelObject;
     private GameObject CurrencyPanelPrefab;
     private GameObject SettingPanelPrefab;
     private GameObject SettingButtonPrefab;
@@ -55,8 +55,8 @@ public class ProfileManager : MonoBehaviour
     }
     public async Task CreateProfileAsync()
     {
-        profileObject = Instantiate(ProfilePanelPrefab, MainPanel);
-        Transform transform = profileObject.transform;
+        ProfileObject = Instantiate(ProfilePanelPrefab, MainPanel);
+        Transform transform = ProfileObject.transform;
         Transform profileTransform = transform.Find("Scroll View/Viewport/Content");
         // titleText = profileObject.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
         // CloseButton = profileObject.transform.Find("CloseButton").GetComponent<Button>();
@@ -147,8 +147,8 @@ public class ProfileManager : MonoBehaviour
     }
     public void CreateEditNamePanel()
     {
-        editNamePanelObject = Instantiate(EditNamePanelPrefab, MainPanel);
-        Transform transform = editNamePanelObject.transform;
+        EditNamePanelObject = Instantiate(EditNamePanelPrefab, MainPanel);
+        Transform transform = EditNamePanelObject.transform;
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         Button saveButton = transform.Find("SaveButton").GetComponent<Button>();
         TMP_InputField nameText = transform.Find("NameText").GetComponent<TMP_InputField>();
@@ -156,7 +156,7 @@ public class ProfileManager : MonoBehaviour
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(editNamePanelObject);
+            Destroy(EditNamePanelObject);
         });
         saveButton.onClick.AddListener(async () =>
         {
@@ -168,8 +168,8 @@ public class ProfileManager : MonoBehaviour
             {
                 warningTransform.gameObject.SetActive(false);
                 await UserService.Create().UpdateUserNameAsync(User.CurrentUserId, name);
-                Destroy(editNamePanelObject);
-                Destroy(profileObject);
+                Destroy(EditNamePanelObject);
+                Destroy(ProfileObject);
                 await CreateProfileAsync();
             }
             else

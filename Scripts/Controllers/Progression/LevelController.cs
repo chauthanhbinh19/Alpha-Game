@@ -8,7 +8,7 @@ public class LevelController : MonoBehaviour
     public static LevelController Instance { get; private set; }
     private Transform MainPanel;
     public GameObject LevelPanelPrefab;
-    private GameObject currentPanel;
+    private GameObject CurrentPanel;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -38,8 +38,8 @@ public class LevelController : MonoBehaviour
             Debug.LogWarning("Đối tượng stat không thỏa mãn điều kiện lọc!");
             return;
         }
-        currentPanel = Instantiate(LevelPanelPrefab, MainPanel);
-        Transform panelTransform = currentPanel.transform;
+        CurrentPanel = Instantiate(LevelPanelPrefab, MainPanel);
+        Transform panelTransform = CurrentPanel.transform;
 
         // --- Khởi tạo và tìm UI Components ---
         TextMeshProUGUI currentLevelText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
@@ -584,7 +584,7 @@ public class LevelController : MonoBehaviour
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(currentPanel);
+            Destroy(CurrentPanel);
         });
 
         confirmButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
@@ -648,7 +648,7 @@ public class LevelController : MonoBehaviour
 
                 await Task.Delay(500);
 
-                Destroy(currentPanel);
+                Destroy(CurrentPanel);
             }
             catch (Exception ex)
             {

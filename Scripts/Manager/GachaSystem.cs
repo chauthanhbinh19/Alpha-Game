@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 public class GachaSystem : MonoBehaviour
 {
-    private GameObject cardPrefab; // Prefab đại diện cho một thẻ bài
-    private Transform summonArea; // Khu vực hiển thị thẻ bài
-    private Texture backImage; // Mặt sau (image1.png)
-    private bool isSkipRequested = false;
-    private bool isRevealFinished = false;
+    private GameObject CardPrefab; // Prefab đại diện cho một thẻ bài
+    private Transform SummonArea; // Khu vực hiển thị thẻ bài
+    private Texture BackImage; // Mặt sau (image1.png)
+    private bool IsSkipRequested = false;
+    private bool IsRevealFinished = false;
     // private bool isSummonAreaActive = false;
 
     public void Summon(string name, string type, GameObject summonObject, int quantity, List<Items> items, Action<bool> onFinished)
     {
-        isSkipRequested = false;
-        isRevealFinished = false;
+        IsSkipRequested = false;
+        IsRevealFinished = false;
         RegisterSkip(summonObject);
         StartCoroutine(PlaySummonVideoAndSummon(name, type, summonObject, quantity, items, onFinished));
     }
@@ -42,9 +42,9 @@ public class GachaSystem : MonoBehaviour
         entry.callback.AddListener((data) =>
         {
             // 👉 Nếu chưa hiện xong → SKIP
-            if (!isRevealFinished)
+            if (!IsRevealFinished)
             {
-                isSkipRequested = true;
+                IsSkipRequested = true;
             }
             else
             {
@@ -58,11 +58,11 @@ public class GachaSystem : MonoBehaviour
 
     private void CloseSummonArea()
     {
-        if (summonArea == null) return;
+        if (SummonArea == null) return;
 
-        summonArea.gameObject.SetActive(false);
+        SummonArea.gameObject.SetActive(false);
 
-        foreach (Transform child in summonArea)
+        foreach (Transform child in SummonArea)
         {
             Destroy(child.gameObject);
         }
@@ -104,7 +104,7 @@ public class GachaSystem : MonoBehaviour
 
         while (!videoFinished)
         {
-            if (isSkipRequested)
+            if (IsSkipRequested)
             {
                 videoPlayer.Stop();
                 break;
@@ -131,12 +131,12 @@ public class GachaSystem : MonoBehaviour
         List<object> cards = await LoadSummonPoolAsync(name, type);
         if (cards == null || cards.Count == 0) return false;
 
-        backImage ??= TextureHelper.LoadTextureCached("UI/Frame_5");
+        BackImage ??= TextureHelper.LoadTextureCached("UI/Frame_5");
 
-        summonArea = area;
-        summonArea.gameObject.SetActive(true);
+        SummonArea = area;
+        SummonArea.gameObject.SetActive(true);
 
-        cardPrefab = UIManager.Instance.Get("CardsPrefab");
+        CardPrefab = UIManager.Instance.Get("CardsPrefab");
 
         var randomItems = SelectRandomItems(cards, quantity);
 
@@ -157,7 +157,7 @@ public class GachaSystem : MonoBehaviour
         // 🔹 Spawn đủ card (KHÔNG break)
         for (int i = 0; i < randomItems.Count; i++)
         {
-            GameObject cardObject = Instantiate(cardPrefab, summonArea);
+            GameObject cardObject = Instantiate(CardPrefab, SummonArea);
 
             RawImage image = cardObject.transform.Find("Image")?.GetComponent<RawImage>();
             RawImage rareBg = cardObject.transform.Find("RareBackground").GetComponent<RawImage>();
@@ -166,7 +166,7 @@ public class GachaSystem : MonoBehaviour
             rareBg.gameObject.SetActive(true);
             rare.gameObject.SetActive(true);
 
-            image.texture = backImage;
+            image.texture = BackImage;
 
             string rarePath = GetRareImagePath(randomItems[i]);
 
@@ -183,21 +183,21 @@ public class GachaSystem : MonoBehaviour
             cardData.Add((image, GetFrontImagePath(randomItems[i])));
 
             // ✅ chỉ delay khi KHÔNG skip
-            if (!isSkipRequested)
+            if (!IsSkipRequested)
             {
                 yield return new WaitForSeconds(delay);
             }
         }
 
         // 👉 SKIP → hiện full luôn (sau khi đã spawn đủ)
-        if (isSkipRequested)
+        if (IsSkipRequested)
         {
             foreach (var data in cardData)
             {
                 ShowFullCard(data.Image, data.FrontPath);
             }
 
-            isRevealFinished = true;
+            IsRevealFinished = true;
             yield break;
         }
 
@@ -206,21 +206,21 @@ public class GachaSystem : MonoBehaviour
         // 🔹 Flip từng card
         for (int i = 0; i < cardData.Count; i++)
         {
-            if (isSkipRequested)
+            if (IsSkipRequested)
             {
                 for (int j = i; j < cardData.Count; j++)
                 {
                     ShowFullCard(cardData[j].Image, cardData[j].FrontPath);
                 }
 
-                isRevealFinished = true;
+                IsRevealFinished = true;
                 yield break;
             }
 
             yield return StartCoroutine(FlipCard(cardData[i].Image, cardData[i].FrontPath));
         }
 
-        isRevealFinished = true;
+        IsRevealFinished = true;
     }
 
     private IEnumerator FlipCard(RawImage cardImage, string frontImagePath)
@@ -230,7 +230,7 @@ public class GachaSystem : MonoBehaviour
 
         while (time < duration / 2)
         {
-            if (isSkipRequested)
+            if (IsSkipRequested)
             {
                 ShowFullCard(cardImage, frontImagePath);
                 yield break;
@@ -247,7 +247,7 @@ public class GachaSystem : MonoBehaviour
         time = 0f;
         while (time < duration / 2)
         {
-            if (isSkipRequested) yield break;
+            if (IsSkipRequested) yield break;
 
             time += Time.deltaTime;
             float scaleX = Mathf.Lerp(0f, 1f, time / (duration / 2));
@@ -424,10 +424,10 @@ public class GachaSystem : MonoBehaviour
 
     private void AddCloseEvent()
     {
-        EventTrigger trigger = summonArea.gameObject.GetComponent<EventTrigger>();
+        EventTrigger trigger = SummonArea.gameObject.GetComponent<EventTrigger>();
         if (trigger == null)
         {
-            trigger = summonArea.gameObject.AddComponent<EventTrigger>();
+            trigger = SummonArea.gameObject.AddComponent<EventTrigger>();
         }
         else
         {
@@ -440,8 +440,8 @@ public class GachaSystem : MonoBehaviour
         };
         entry.callback.AddListener((data) =>
         {
-            summonArea.gameObject.SetActive(false);
-            foreach (Transform child in summonArea)
+            SummonArea.gameObject.SetActive(false);
+            foreach (Transform child in SummonArea)
             {
                 Destroy(child.gameObject);
             }

@@ -15,21 +15,21 @@ public class MysticMarketManager : MonoBehaviour
     private GameObject MysticMarketButtonPrefab;
     private GameObject MysticMarketPrefab;
     private Transform ContentPanel;
-    private Transform currentContent;
-    private Transform currencyPanel;
-    private Transform popupPanel;
-    private Button closeButton;
-    private Button homeButton;
-    private int offset;
-    private int currentPage;
-    private int totalPage;
+    private Transform CurrentContent;
+    private Transform CurrencyPanel;
+    private Transform PopupPanel;
+    private Button CloseButton;
+    private Button HomeButton;
+    private int Offset;
+    private int CurrentPage;
+    private int TotalPage;
     private const int PAGE_SIZE = 100;
     private TextMeshProUGUI PageText;
-    private Button nextButton;
-    private Button previousButton;
-    private Text titleText;
-    private List<Items> items;
-    private Currencies currentCurrency;
+    private Button NextButton;
+    private Button PreviousButton;
+    private Text TitleText;
+    private List<Items> Items;
+    private Currencies CurrentCurrency;
 
     private void Awake()
     {
@@ -50,13 +50,13 @@ public class MysticMarketManager : MonoBehaviour
     }
     public void Initialize()
     {
-        offset = 0;
-        currentPage = 1;
-        items = new List<Items>();
+        Offset = 0;
+        CurrentPage = 1;
+        Items = new List<Items>();
         MysticMarketButtonPrefab = UIManager.Instance.Get("MysticMarketButtonPrefab");
         MysticMarketManagerPrefab = UIManager.Instance.Get("MysticMarketManagerPrefab");
         MysticMarketPrefab = UIManager.Instance.Get("MysticMarketPrefab");
-        popupPanel = UIManager.Instance.GetTransform("popupPanel");
+        PopupPanel = UIManager.Instance.GetTransform("popupPanel");
     }
     public async Task CreateMysticMarketAsync(Transform panel)
     {
@@ -64,21 +64,21 @@ public class MysticMarketManager : MonoBehaviour
         GameObject mysticMarketManagerObject = Instantiate(MysticMarketManagerPrefab, ContentPanel);
         Transform transform = mysticMarketManagerObject.transform;
         Transform mysticMarketTransform = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        titleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() =>
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(mysticMarketManagerObject);
         });
-        homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        HomeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        HomeButton.onClick.AddListener( () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(ContentPanel);
         });
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MYSTIC_MARKET);
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MYSTIC_MARKET);
 
         var allCurrencies = await CurrenciesService.Create().GetCurrencyListAsync();
         var currencies = allCurrencies.Where(c => c.Name != "Diamond" && c.Name != "Gold" && c.Name != "Silver")
@@ -105,16 +105,16 @@ public class MysticMarketManager : MonoBehaviour
     }
     public async Task CreateMysticMarketItemUIAsync(Currencies currency)
     {
-        currentCurrency = currency;
+        CurrentCurrency = currency;
         GameObject mysticMarketObject = Instantiate(MysticMarketPrefab, ContentPanel);
         Transform transform = mysticMarketObject.transform;
-        currentContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CurrentContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = mysticMarketObject.transform.Find("Scroll View/Viewport/Content");
-        currencyPanel = transform.Find("DictionaryCards/Currency");
+        CurrencyPanel = transform.Find("DictionaryCards/Currency");
         PageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
-        nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
-        previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
-        titleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        NextButton = transform.Find("Pagination/Next").GetComponent<Button>();
+        PreviousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
         // CloseButton = mysticMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         // CloseButton.onClick.AddListener(() =>
         // {
@@ -127,25 +127,25 @@ public class MysticMarketManager : MonoBehaviour
         //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         //     Close(ContentPanel);
         // });
-        nextButton.onClick.AddListener(async ()=>
+        NextButton.onClick.AddListener(async ()=>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             await ChangeNextPageAsync();
         });
-        previousButton.onClick.AddListener(async ()=>
+        PreviousButton.onClick.AddListener(async ()=>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             await ChangePreviousPageAsync();
         });
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MYSTIC_MARKET);
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Market.MYSTIC_MARKET);
 
         var allItems = await ItemsService.Create().GetItemsAsync();
-        items = allItems.Where(item => item.Type.Equals(AppConstants.Market.MYSTIC_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))
+        Items = allItems.Where(item => item.Type.Equals(AppConstants.Market.MYSTIC_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
-        totalPage = Mathf.CeilToInt((float)items.Count / PAGE_SIZE);
-        currentPage = 1;
+        TotalPage = Mathf.CeilToInt((float)Items.Count / PAGE_SIZE);
+        CurrentPage = 1;
 
         await LoadCurrentPageAsync(currency);
     }
@@ -153,41 +153,41 @@ public class MysticMarketManager : MonoBehaviour
     {
         ClearAllPrefabs();
 
-        offset = (currentPage - 1) * PAGE_SIZE;
+        Offset = (CurrentPage - 1) * PAGE_SIZE;
 
-        var pagedItems = items.Skip(offset).Take(PAGE_SIZE).ToList();
+        var pagedItems = Items.Skip(Offset).Take(PAGE_SIZE).ToList();
 
-        await ItemsController.Instance.CreateItemsTradeAsync(pagedItems, currency, currentContent, currencyPanel, popupPanel);
+        await ItemsController.Instance.CreateItemsTradeAsync(pagedItems, currency, CurrentContent, CurrencyPanel, PopupPanel);
 
-        PageText.text = $"{currentPage}/{totalPage}";
+        PageText.text = $"{CurrentPage}/{TotalPage}";
     }
     public async Task ChangeNextPageAsync()
     {
-        if (currentPage < totalPage)
+        if (CurrentPage < TotalPage)
         {
-            currentPage++;
-            await LoadCurrentPageAsync(currentCurrency);
+            CurrentPage++;
+            await LoadCurrentPageAsync(CurrentCurrency);
         }
     }
     public async Task ChangePreviousPageAsync()
     {
-        if (currentPage > 1)
+        if (CurrentPage > 1)
         {
-            currentPage--;
-            await LoadCurrentPageAsync(currentCurrency);
+            CurrentPage--;
+            await LoadCurrentPageAsync(CurrentCurrency);
         }
     }
     public void ClearAllPrefabs()
     {
-        foreach (Transform child in currentContent)
+        foreach (Transform child in CurrentContent)
         {
             Destroy(child.gameObject);
         }
     }
     public void Close(Transform content)
     {
-        offset = 0;
-        currentPage = 1;
+        Offset = 0;
+        CurrentPage = 1;
         foreach (Transform child in content)
         {
             Destroy(child.gameObject);

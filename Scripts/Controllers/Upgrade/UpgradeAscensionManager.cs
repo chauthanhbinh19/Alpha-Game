@@ -17,8 +17,8 @@ public class UpgradeAscensionManager : MonoBehaviour
     private GameObject PopupUpgradeButtonPrefab;
     private GameObject MainUpgradePanelPrefab;
     private GameObject UpgradeItemPrefab;
-    private Transform content;
-    private FeatureUpgradeDTO feature;
+    private Transform Content;
+    private FeatureUpgradeDTO FeatureUpgradeDTO;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -51,7 +51,7 @@ public class UpgradeAscensionManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(MainUpgradePanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        content = transform.Find("Scroll View/Viewport/Content");
+        Content = transform.Find("Scroll View/Viewport/Content");
         Transform leftSideContent = transform.Find("LeftSideContent");
         Transform rightSideContent = transform.Find("RightSideContent");
         TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
@@ -69,11 +69,11 @@ public class UpgradeAscensionManager : MonoBehaviour
 
         });
 
-        feature = (await FeaturesService.Create().GetUpgradeFeaturesByTypeAsync(AppConstants.Upgrade.UPGRADE_ASCENSION, stat))
+        FeatureUpgradeDTO = (await FeaturesService.Create().GetUpgradeFeaturesByTypeAsync(AppConstants.Upgrade.UPGRADE_ASCENSION, stat))
                 .Values
                 .FirstOrDefault();
 
-        await CreateMainUpgradePanelAsync(feature.Id, feature.CodeName, stat);
+        await CreateMainUpgradePanelAsync(FeatureUpgradeDTO.Id, FeatureUpgradeDTO.CodeName, stat);
     }
     public async Task CreateMainUpgradePanelAsync(string featureId, string featureName, IStats stat)
     {

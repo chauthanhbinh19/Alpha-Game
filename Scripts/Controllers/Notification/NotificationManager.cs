@@ -8,7 +8,7 @@ public class NotificationManager : MonoBehaviour
 {
     public static NotificationManager Instance { get; private set; }
     private GameObject NotificationPrefab; // Prefab chứa thông báo
-    private Transform notificationPanel; 
+    private Transform NotificationPanel; 
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -28,13 +28,13 @@ public class NotificationManager : MonoBehaviour
     }
     public void Initialize()
     {
-        notificationPanel = UIManager.Instance.GetTransform("notificationPanel");
+        NotificationPanel = UIManager.Instance.GetTransform("notificationPanel");
         NotificationPrefab = UIManager.Instance.Get("NotificationPrefab");
     }
     public void ShowNotification(string message)
     {
         // Tạo thông báo từ prefab
-        GameObject notification = Instantiate(NotificationPrefab, notificationPanel);
+        GameObject notification = Instantiate(NotificationPrefab, NotificationPanel);
         
         // Đặt thông báo ở giữa màn hình
         RectTransform rectTransform = notification.GetComponent<RectTransform>();

@@ -7,11 +7,11 @@ public class LoadingManager : MonoBehaviour
     public static LoadingManager Instance { get; private set; }
     public Transform LoadingPanel;
     public GameObject LoadingProcessPanelPrefab;
-    private GameObject currentLoadingObject;
+    private GameObject CurrentLoadingObject;
 
-    private Slider loadingSlider;
-    private TextMeshProUGUI loadingText;
-    private TextMeshProUGUI contentText;
+    private Slider LoadingSlider;
+    private TextMeshProUGUI LoadingText;
+    private TextMeshProUGUI ContentText;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -36,36 +36,36 @@ public class LoadingManager : MonoBehaviour
     }
     public void ShowLoading()
     {
-        currentLoadingObject = Instantiate(LoadingProcessPanelPrefab, LoadingPanel);
-        loadingSlider = currentLoadingObject.transform.Find("Slider").GetComponent<Slider>();
-        loadingText = currentLoadingObject.transform.Find("LoadingText").GetComponent<TextMeshProUGUI>();
-        contentText = currentLoadingObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+        CurrentLoadingObject = Instantiate(LoadingProcessPanelPrefab, LoadingPanel);
+        LoadingSlider = CurrentLoadingObject.transform.Find("Slider").GetComponent<Slider>();
+        LoadingText = CurrentLoadingObject.transform.Find("LoadingText").GetComponent<TextMeshProUGUI>();
+        ContentText = CurrentLoadingObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
 
-        loadingSlider.value = 0;
+        LoadingSlider.value = 0;
     }
     public void SetProgress(float value, string percentText = "", string loadingContent = "")
     {
         // Slider
-        if (loadingSlider != null)
+        if (LoadingSlider != null)
         {
-            loadingSlider.value = value;
+            LoadingSlider.value = value;
         }
 
         // Hiển thị %
-        if (loadingText != null)
+        if (LoadingText != null)
         {
             int percent = Mathf.RoundToInt(value * 100f);
-            loadingText.text = $"{percent}%";
+            LoadingText.text = $"{percent}%";
         }
 
         // Nội dung đang load
-        if (contentText != null)
+        if (ContentText != null)
         {
-            contentText.text = $"Loading {percentText} {loadingContent}...";
+            ContentText.text = $"Loading {percentText} {loadingContent}...";
         }
     }
     public void HideLoading()
     {
-        Destroy(currentLoadingObject);
+        Destroy(CurrentLoadingObject);
     }
 }

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 public class MaterialManager : MonoBehaviour
 {
     public static MaterialManager Instance { get; private set; }
-    private Dictionary<string, Material> materialDict;
+    private Dictionary<string, Material> MaterialDict;
     
     private void Awake()
     {
@@ -27,7 +27,7 @@ public class MaterialManager : MonoBehaviour
     
     private void LoadAllPrefabs()
     {
-        materialDict = new Dictionary<string, Material>();
+        MaterialDict = new Dictionary<string, Material>();
 
         // Load toàn bộ prefab trong thư mục Resources/UI/MainMenu/
         List<Material> materials = new List<Material>();
@@ -58,14 +58,14 @@ public class MaterialManager : MonoBehaviour
         foreach (var material in materials)
         {
             // Key = tên prefab
-            materialDict[material.name] = material;
+            MaterialDict[material.name] = material;
             // Debug.Log($"Loaded: {material.name}");
         }
     }
 
     public Material Get(string prefabName)
     {
-        if (materialDict.TryGetValue(prefabName, out var material))
+        if (MaterialDict.TryGetValue(prefabName, out var material))
         {
             // Debug.Log("Material OK");
             return material;

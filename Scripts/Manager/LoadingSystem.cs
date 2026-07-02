@@ -5,7 +5,7 @@ public class LoadingSystem : MonoBehaviour
 {
     private Transform LoadingPanel;
     private GameObject LoadingPanelPrefab;
-    private float deltaTime = 0.35f;
+    private float DeltaTime = 0.35f;
     // Start is called before the first frame update
     void Start()
     {
@@ -50,12 +50,12 @@ public class LoadingSystem : MonoBehaviour
     RectTransform topLeftDecoration, RectTransform topRightDecoration, GameObject loadingObject)
     {
         // Chạy leftBackground & rightBackground CÙNG LÚC
-        Coroutine leftMove = StartCoroutine(MoveUI(leftBg, -500, deltaTime));
-        Coroutine rightMove = StartCoroutine(MoveUI(rightBg, 500, deltaTime));
-        Coroutine bottomLeftMove = StartCoroutine(MoveUI(bottomLeftDecoration, -570, deltaTime));
-        Coroutine bottomRightMove = StartCoroutine(MoveUI(bottomRightDecoration, 560, deltaTime));
-        Coroutine topLeftMove = StartCoroutine(MoveUI(topLeftDecoration, -570, deltaTime));
-        Coroutine topRightMove = StartCoroutine(MoveUI(topRightDecoration, 560, deltaTime));
+        Coroutine leftMove = StartCoroutine(MoveUI(leftBg, -500, DeltaTime));
+        Coroutine rightMove = StartCoroutine(MoveUI(rightBg, 500, DeltaTime));
+        Coroutine bottomLeftMove = StartCoroutine(MoveUI(bottomLeftDecoration, -570, DeltaTime));
+        Coroutine bottomRightMove = StartCoroutine(MoveUI(bottomRightDecoration, 560, DeltaTime));
+        Coroutine topLeftMove = StartCoroutine(MoveUI(topLeftDecoration, -570, DeltaTime));
+        Coroutine topRightMove = StartCoroutine(MoveUI(topRightDecoration, 560, DeltaTime));
 
         // Đợi cả 2 hoàn thành trước khi tiếp tục
         yield return leftMove;
@@ -66,8 +66,8 @@ public class LoadingSystem : MonoBehaviour
         yield return topRightMove;
 
         // Sau đó, chạy leftPathBackground & rightPathBackground CÙNG LÚC
-        Coroutine leftPathMove = StartCoroutine(MoveUI(leftPath, -56, deltaTime));
-        Coroutine rightPathMove = StartCoroutine(MoveUI(rightPath, 68, deltaTime));
+        Coroutine leftPathMove = StartCoroutine(MoveUI(leftPath, -56, DeltaTime));
+        Coroutine rightPathMove = StartCoroutine(MoveUI(rightPath, 68, DeltaTime));
 
         // Đợi cả 2 hoàn thành
         yield return leftPathMove;
@@ -78,27 +78,27 @@ public class LoadingSystem : MonoBehaviour
         circle.gameObject.SetActive(true);
         leftPath.gameObject.SetActive(false);
         rightPath.gameObject.SetActive(false);
-        Coroutine circleRotate = StartCoroutine(RotateUI(circle, 360, deltaTime));
+        Coroutine circleRotate = StartCoroutine(RotateUI(circle, 360, DeltaTime));
         yield return circleRotate;
         circle.gameObject.SetActive(false);
         leftPath.gameObject.SetActive(true);
         rightPath.gameObject.SetActive(true);
 
         // Sau đó, chạy leftPathBackground & rightPathBackground CÙNG LÚC
-        leftPathMove = StartCoroutine(MoveUI(leftPath, -1600, deltaTime));
-        rightPathMove = StartCoroutine(MoveUI(rightPath, 1600, deltaTime));
+        leftPathMove = StartCoroutine(MoveUI(leftPath, -1600, DeltaTime));
+        rightPathMove = StartCoroutine(MoveUI(rightPath, 1600, DeltaTime));
 
         // Đợi cả 2 hoàn thành
         yield return leftPathMove;
         yield return rightPathMove;
 
         // Chạy leftBackground & rightBackground CÙNG LÚC
-        leftMove = StartCoroutine(MoveUI(leftBg, -1600, deltaTime));
-        rightMove = StartCoroutine(MoveUI(rightBg, 1600, deltaTime));
-        bottomLeftMove = StartCoroutine(MoveUI(bottomLeftDecoration, -1600, deltaTime));
-        bottomRightMove = StartCoroutine(MoveUI(bottomRightDecoration, 1600, deltaTime));
-        topLeftMove = StartCoroutine(MoveUI(topLeftDecoration, -1600, deltaTime));
-        topRightMove = StartCoroutine(MoveUI(topRightDecoration, 1600, deltaTime));
+        leftMove = StartCoroutine(MoveUI(leftBg, -1600, DeltaTime));
+        rightMove = StartCoroutine(MoveUI(rightBg, 1600, DeltaTime));
+        bottomLeftMove = StartCoroutine(MoveUI(bottomLeftDecoration, -1600, DeltaTime));
+        bottomRightMove = StartCoroutine(MoveUI(bottomRightDecoration, 1600, DeltaTime));
+        topLeftMove = StartCoroutine(MoveUI(topLeftDecoration, -1600, DeltaTime));
+        topRightMove = StartCoroutine(MoveUI(topRightDecoration, 1600, DeltaTime));
 
         // Đợi cả 2 hoàn thành trước khi tiếp tục
         yield return leftMove;

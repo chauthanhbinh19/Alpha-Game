@@ -13,34 +13,34 @@ public class GridCell : MonoBehaviour
     public bool IsPlayerSpawnCell { get; private set; } // Phân biệt ô này của Player hay Enemy
 
     [Header("UI Components")]
-    public Renderer platform;
-    public Renderer movementPlatform;
-    public Renderer attackPlatform;
-    public TextMeshProUGUI gridNumberText;
-    public Transform displayCardPanel;
-    public CardBase occupiedCard; // Dữ liệu quân cờ đang đứng tại đây
+    public Renderer Platform;
+    public Renderer MovementPlatform;
+    public Renderer AttackPlatform;
+    public TextMeshProUGUI GridNumberText;
+    public Transform DisplayCardPanel;
+    public CardBase OccupiedCard; // Dữ liệu quân cờ đang đứng tại đây
 
     // Biến phụ trợ cho Pathfinding
     [HideInInspector] public GridCell ParentNode;
 
-    private Material defaultMaterial;
+    private Material DefaultMaterial;
     // Lưu trạng thái hiện tại của ô hiển thị tầm
-    private Material currentRangeMaterial;
+    private Material CurrentRangeMaterial;
     public bool IsWalkableRange = false;
     public bool IsAttackRange =false;
 
     private void Awake()
     {
-        if (gridNumberText != null) gridNumberText.gameObject.SetActive(false);
+        if (GridNumberText != null) GridNumberText.gameObject.SetActive(false);
     }
 
     // Hàm thiết lập Material mặc định ban đầu
     public void SetDefaultMaterial(Material defaultMat)
     {
-        if (platform != null && defaultMat != null)
+        if (Platform != null && defaultMat != null)
         {
-            platform.material = defaultMat;
-            defaultMaterial = defaultMat; // Ghi nhớ lại màu ô trống
+            Platform.material = defaultMat;
+            DefaultMaterial = defaultMat; // Ghi nhớ lại màu ô trống
         }
     }
 
@@ -51,17 +51,17 @@ public class GridCell : MonoBehaviour
         IsPlayerSpawnCell = isPlayer;
 
         // Đổi màu sắc ô Spawn
-        if (platform != null && spawnMat != null)
+        if (Platform != null && spawnMat != null)
         {
-            platform.material = spawnMat;
-            defaultMaterial = spawnMat;
+            Platform.material = spawnMat;
+            DefaultMaterial = spawnMat;
         }
 
         // Hiển thị số số thứ tự 1-10
-        if (gridNumberText != null)
+        if (GridNumberText != null)
         {
-            gridNumberText.gameObject.SetActive(true);
-            gridNumberText.text = positionIndex.ToString();
+            GridNumberText.gameObject.SetActive(true);
+            GridNumberText.text = positionIndex.ToString();
         }
     }
 
@@ -72,9 +72,9 @@ public class GridCell : MonoBehaviour
     /// </summary>
     public void ChangeRuntimeMaterial(Material targetMat)
     {
-        if (platform != null && targetMat != null)
+        if (Platform != null && targetMat != null)
         {
-            platform.material = targetMat;
+            Platform.material = targetMat;
         }
     }
 
@@ -83,9 +83,9 @@ public class GridCell : MonoBehaviour
     /// </summary>
     public void ResetToDefaultMaterial()
     {
-        if (platform != null && defaultMaterial != null)
+        if (Platform != null && DefaultMaterial != null)
         {
-            platform.material = defaultMaterial;
+            Platform.material = DefaultMaterial;
         }
     }
 
@@ -110,21 +110,21 @@ public class GridCell : MonoBehaviour
 
     public void ShowMovementRange(Material rangeMat, bool isWalkableRange)
     {
-        if (movementPlatform != null)
+        if (MovementPlatform != null)
         {
-            movementPlatform.gameObject.SetActive(true);
-            movementPlatform.material = rangeMat; // Đổi màu xanh hoặc màu cảnh báo thiếu điểm
-            currentRangeMaterial = rangeMat;
+            MovementPlatform.gameObject.SetActive(true);
+            MovementPlatform.material = rangeMat; // Đổi màu xanh hoặc màu cảnh báo thiếu điểm
+            CurrentRangeMaterial = rangeMat;
             IsWalkableRange = isWalkableRange;
         }
     }
 
     public void HideMovementRange()
     {
-        if (movementPlatform != null)
+        if (MovementPlatform != null)
         {
-            movementPlatform.gameObject.SetActive(false);
-            currentRangeMaterial = null;
+            MovementPlatform.gameObject.SetActive(false);
+            CurrentRangeMaterial = null;
         }
 
         MovementWarningUI cellUI = GetComponent<MovementWarningUI>();
@@ -139,29 +139,29 @@ public class GridCell : MonoBehaviour
     // Đổi màu riêng cho ô ĐÍCH ĐẾN (Destination)
     public void SetAsDestination(Material destMat)
     {
-        if (movementPlatform != null)
+        if (MovementPlatform != null)
         {
-            movementPlatform.gameObject.SetActive(true);
-            movementPlatform.material = destMat;
+            MovementPlatform.gameObject.SetActive(true);
+            MovementPlatform.material = destMat;
         }
     }
 
     // Đổi màu riêng cho các ô TRUNG GIAN trên đường đi
     public void SetAsPathNode(Material pathMat)
     {
-        if (movementPlatform != null)
+        if (MovementPlatform != null)
         {
-            movementPlatform.gameObject.SetActive(true);
-            movementPlatform.material = pathMat;
+            MovementPlatform.gameObject.SetActive(true);
+            MovementPlatform.material = pathMat;
         }
     }
 
     // Khôi phục lại màu loang ban đầu (dùng khi hủy lộ trình hoặc vẽ lại đường mới)
     public void ResetToRangeMaterial()
     {
-        if (movementPlatform != null && currentRangeMaterial != null)
+        if (MovementPlatform != null && CurrentRangeMaterial != null)
         {
-            movementPlatform.material = currentRangeMaterial;
+            MovementPlatform.material = CurrentRangeMaterial;
         }
     }
     /// <summary>
@@ -169,27 +169,27 @@ public class GridCell : MonoBehaviour
     /// </summary>
     public void SetPlatformMaterial(Material newMat)
     {
-        if (platform != null && newMat != null)
+        if (Platform != null && newMat != null)
         {
-            platform.material = newMat;
+            Platform.material = newMat;
         }
     }
 
     public void ShowAttackRange(Material attackMat)
     {
-        if (attackPlatform != null)
+        if (AttackPlatform != null)
         {
-            attackPlatform.gameObject.SetActive(true);
-            attackPlatform.material = attackMat;
+            AttackPlatform.gameObject.SetActive(true);
+            AttackPlatform.material = attackMat;
             IsAttackRange = true;
         }
     }
 
     public void HideAttackRange()
     {
-        if (attackPlatform != null)
+        if (AttackPlatform != null)
         {
-            attackPlatform.gameObject.SetActive(false);
+            AttackPlatform.gameObject.SetActive(false);
         }
         IsAttackRange = false;
     }

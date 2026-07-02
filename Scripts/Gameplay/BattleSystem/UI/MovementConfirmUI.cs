@@ -9,23 +9,23 @@ public class MovementConfirmUI : MonoBehaviour
     public static MovementConfirmUI Instance { get; private set; }
 
     [Header("UI Components")]
-    public GameObject actionPanel; // Khung chứa 2 nút bấm
-    public Button agreeButton;
-    public Button disagreeButton;
+    public GameObject ActionPanel; // Khung chứa 2 nút bấm
+    public Button AgreeButton;
+    public Button DisagreeButton;
 
     [Header("Settings")]
-    public float moveSpeed = 5f; // Tốc độ di chuyển của CardVisual
+    public float MoveSpeed = 5f; // Tốc độ di chuyển của CardVisual
 
     void Start()
     {
         // Khi mới sinh ra game, ẩn hết panel đi
-        if (actionPanel != null) actionPanel.SetActive(false);
+        if (ActionPanel != null) ActionPanel.SetActive(false);
 
         // Gán sự kiện cho nút bấm
-        agreeButton.onClick.RemoveAllListeners();
-        disagreeButton.onClick.RemoveAllListeners();
-        agreeButton.onClick.AddListener(OnAgreePressed);
-        disagreeButton.onClick.AddListener(OnDisagreePressed);
+        AgreeButton.onClick.RemoveAllListeners();
+        DisagreeButton.onClick.RemoveAllListeners();
+        AgreeButton.onClick.AddListener(OnAgreePressed);
+        DisagreeButton.onClick.AddListener(OnDisagreePressed);
     }
 
     // --- HÀM THÊM MỚI QUAN TRỌNG ---
@@ -44,7 +44,7 @@ public class MovementConfirmUI : MonoBehaviour
             Instance = this;
         }
 
-        if (actionPanel != null) actionPanel.SetActive(state);
+        if (ActionPanel != null) ActionPanel.SetActive(state);
     }
 
     void OnAgreePressed()
@@ -70,10 +70,10 @@ public class MovementConfirmUI : MonoBehaviour
         GridCell startCell = path[0];
         GridCell destinationCell = path[path.Count - 1];
 
-        CardBase cardData = startCell.occupiedCard;
+        CardBase cardData = startCell.OccupiedCard;
         if (cardData == null) yield break;
 
-        CardVisual cardVisual = startCell.displayCardPanel.GetComponentInChildren<CardVisual>();
+        CardVisual cardVisual = startCell.DisplayCardPanel.GetComponentInChildren<CardVisual>();
         if (cardVisual == null) yield break;
 
         Transform cardTransform = cardVisual.transform;
@@ -82,7 +82,7 @@ public class MovementConfirmUI : MonoBehaviour
         cardTransform.SetParent(GridManager.Instance.transform, true);
 
         // Cập nhật logic: Ô cũ không còn tướng đứng nữa
-        startCell.occupiedCard = null;
+        startCell.OccupiedCard = null;
 
         int moveCost = path.Count - 1;
 
@@ -105,7 +105,7 @@ public class MovementConfirmUI : MonoBehaviour
 
             while (Vector3.Distance(cardTransform.position, targetPos) > 0.02f)
             {
-                cardTransform.position = Vector3.MoveTowards(cardTransform.position, targetPos, moveSpeed * Time.deltaTime);
+                cardTransform.position = Vector3.MoveTowards(cardTransform.position, targetPos, MoveSpeed * Time.deltaTime);
                 yield return null;
             }
             cardTransform.position = targetPos;
@@ -128,10 +128,10 @@ public class MovementConfirmUI : MonoBehaviour
         // 3. --- SAU KHI ĐI ĐẾN ĐÍCH CUỐI CÙNG THÀNH CÔNG ---
 
         // Gán dữ liệu quân cờ vào ô mới
-        destinationCell.occupiedCard = cardData;
+        destinationCell.OccupiedCard = cardData;
 
         // Đổi cha của CardVisual sang panel hiển thị của ô đích mới
-        cardTransform.SetParent(destinationCell.displayCardPanel);
+        cardTransform.SetParent(destinationCell.DisplayCardPanel);
         cardTransform.localPosition = Vector3.zero;
         cardTransform.localRotation = Quaternion.identity;
 
@@ -141,8 +141,8 @@ public class MovementConfirmUI : MonoBehaviour
 
         // --- BƯỚC THÊM MỚI THEO YÊU CẦU CỦA BẠN ---
         // Đổi màu nền tấm nền chính (platform) của các ô
-        startCell.SetPlatformMaterial(GridManager.Instance.emptyPositionMaterial);       // Ô cũ thành trống
-        destinationCell.SetPlatformMaterial(GridManager.Instance.selectedPositionMaterial); // Ô mới thành được chọn
+        startCell.SetPlatformMaterial(GridManager.Instance.EmptyPositionMaterial);       // Ô cũ thành trống
+        destinationCell.SetPlatformMaterial(GridManager.Instance.SelectedPositionMaterial); // Ô mới thành được chọn
 
         // Cập nhật lại ô đang chọn hiện tại trong GridManager là ô đích này
         GridManager.Instance.SetOriginCell(destinationCell);

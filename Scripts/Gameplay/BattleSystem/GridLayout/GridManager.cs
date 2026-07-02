@@ -7,49 +7,49 @@ public class GridManager : MonoBehaviour
 {
     public static GridManager Instance { get; private set; }
     [Header("Grid Settings")]
-    public int width = 12;
-    public int height = 12;
-    public float cellSize = 1.1f;
-    public GameObject cellPrefab;
-    public Transform gridParent;
+    public int Width = 12;
+    public int Height = 12;
+    public float CellSize = 1.1f;
+    public GameObject CellPrefab;
+    public Transform GridParent;
 
     [Header("Materials")]
-    public Material emptyPositionMaterial;
-    public Material playerPositionMaterial;
-    public Material enemyPositionMaterial;
-    public Material selectedPositionMaterial;
+    public Material EmptyPositionMaterial;
+    public Material PlayerPositionMaterial;
+    public Material EnemyPositionMaterial;
+    public Material SelectedPositionMaterial;
 
     [Header("New Movement Range Materials")]
     [Tooltip("Màu dành cho các ô CÓ THỂ đi tới đầu lượt này (Đủ điểm)")]
-    public Material walkableRangeMaterial;
+    public Material WalkableRangeMaterial;
 
     [Tooltip("Màu dành cho các ô nằm trong tầm di chuyển gốc nhưng do vướng vật cản/đi vòng nên KHÔNG ĐỦ điểm tới")]
-    public Material outOfPointsMaterial;
+    public Material OutOfPointsMaterial;
 
     [Header("Pathfinding Materials")]
     [Tooltip("Màu dành cho ô Đích đến cuối cùng")]
-    public Material destinationMaterial;
+    public Material DestinationMaterial;
     [Tooltip("Màu dành cho các ô Trung gian nằm trên đường đi")]
-    public Material pathNodeMaterial;
+    public Material PathNodeMaterial;
 
     [Header("Attack Range Materials")]
     [Tooltip("Màu dành cho các ô nằm trong phạm vi tấn công")]
-    public Material attackRangeMaterial;
+    public Material AttackRangeMaterial;
 
-    private Dictionary<Vector2Int, GridCell> gridDict = new Dictionary<Vector2Int, GridCell>();
+    private Dictionary<Vector2Int, GridCell> GridDict = new Dictionary<Vector2Int, GridCell>();
 
     // Lưu trữ danh sách đường đi hiện tại để di chuyển hoặc xóa
-    private List<GridCell> currentCalculatedPath = new List<GridCell>();
-    private GridCell currentlySelectedCell;
-    private GridCell targetDestinationCell; // Ô đích được chọn
+    private List<GridCell> CurrentCalculatedPath = new List<GridCell>();
+    private GridCell CurrentlySelectedCell;
+    private GridCell TargetDestinationCell; // Ô đích được chọn
     // Các hàm tương tác phục vụ nút bấm UI
-    public List<GridCell> GetCurrentPath() => currentCalculatedPath;
-    public void ClearCurrentPathData() => currentCalculatedPath.Clear();
+    public List<GridCell> GetCurrentPath() => CurrentCalculatedPath;
+    public void ClearCurrentPathData() => CurrentCalculatedPath.Clear();
 
 
     [Header("Spawn Positions (10 Cells Each)")]
-    public List<GridCell> playerSpawnCells = new List<GridCell>();
-    public List<GridCell> enemySpawnCells = new List<GridCell>();
+    public List<GridCell> PlayerSpawnCells = new List<GridCell>();
+    public List<GridCell> EnemySpawnCells = new List<GridCell>();
 
 
     void Awake()
@@ -73,9 +73,9 @@ public class GridManager : MonoBehaviour
     /// </summary>
     public void ExecuteAttack(CardBase attacker, GridCell targetCell)
     {
-        if (targetCell == null || targetCell.occupiedCard == null || attacker == null) return;
+        if (targetCell == null || targetCell.OccupiedCard == null || attacker == null) return;
 
-        CardBase enemy = targetCell.occupiedCard;
+        CardBase enemy = targetCell.OccupiedCard;
 
         // Chỉ tấn công nếu là kẻ địch (khác Type hoặc phe) [cite: 182]
         if (!attacker.Type.Equals(enemy.Type))
@@ -95,18 +95,18 @@ public class GridManager : MonoBehaviour
     public void GenerateGrid()
     {
         int idCounter = 0;
-        int minX = -width / 2;
-        int maxX = width / 2;
-        int minZ = -height / 2;
-        int maxZ = height / 2;
+        int minX = -Width / 2;
+        int maxX = Width / 2;
+        int minZ = -Height / 2;
+        int maxZ = Height / 2;
 
         for (int x = minX; x < maxX; x++)
         {
             for (int z = minZ; z < maxZ; z++)
             {
-                GameObject newCellObj = Instantiate(cellPrefab, gridParent);
+                GameObject newCellObj = Instantiate(CellPrefab, GridParent);
                 newCellObj.name = $"Cell ({x}, {z})";
-                newCellObj.transform.localPosition = new Vector3(x * cellSize, 0, z * cellSize);
+                newCellObj.transform.localPosition = new Vector3(x * CellSize, 0, z * CellSize);
                 newCellObj.transform.localRotation = Quaternion.identity;
 
                 GridCell cellScript = newCellObj.GetComponent<GridCell>();
@@ -115,9 +115,9 @@ public class GridManager : MonoBehaviour
                 cellScript.Setup(idCounter, gridPosition); // Giữ nguyên hàm Setup cũ của bạn
 
                 // --- BƯỚC 1: TẤT CẢ 144 Ô ĐỀU ĐƯỢC GÁN MATERIAL TRỐNG ---
-                cellScript.SetDefaultMaterial(emptyPositionMaterial);
+                cellScript.SetDefaultMaterial(EmptyPositionMaterial);
 
-                gridDict.Add(gridPosition, cellScript);
+                GridDict.Add(gridPosition, cellScript);
                 idCounter++;
             }
         }
@@ -130,7 +130,7 @@ public class GridManager : MonoBehaviour
     // Hàm xóa hiển thị range của TẤT CẢ các ô trên bàn cờ
     public void ClearAllMovementRanges()
     {
-        foreach (var cell in gridDict.Values)
+        foreach (var cell in GridDict.Values)
         {
             cell.HideMovementRange();
             cell.HideAttackRange();
@@ -146,8 +146,8 @@ public class GridManager : MonoBehaviour
 
     public void SetupSpawnPositions(int minX, int maxX, int minZ, int maxZ)
     {
-        playerSpawnCells.Clear();
-        enemySpawnCells.Clear();
+        PlayerSpawnCells.Clear();
+        EnemySpawnCells.Clear();
 
         // Giữ nguyên dải ô chính giữa theo trục Z (từ trái sang phải màn hình)
         int startZ = minZ + 1; // -5
@@ -165,8 +165,8 @@ public class GridManager : MonoBehaviour
             GridCell pCell = GetCellAt(playerXRow, z);
             if (pCell != null && playerIndex <= 10)
             {
-                pCell.SetAsSpawnCell(playerIndex, isPlayer: true, playerPositionMaterial);
-                playerSpawnCells.Add(pCell);
+                pCell.SetAsSpawnCell(playerIndex, isPlayer: true, PlayerPositionMaterial);
+                PlayerSpawnCells.Add(pCell);
                 playerIndex++;
             }
 
@@ -175,8 +175,8 @@ public class GridManager : MonoBehaviour
             GridCell eCell = GetCellAt(enemyXRow, z);
             if (eCell != null && enemyIndex <= 10)
             {
-                eCell.SetAsSpawnCell(enemyIndex, isPlayer: false, enemyPositionMaterial);
-                enemySpawnCells.Add(eCell);
+                eCell.SetAsSpawnCell(enemyIndex, isPlayer: false, EnemyPositionMaterial);
+                EnemySpawnCells.Add(eCell);
                 enemyIndex++;
             }
         }
@@ -184,8 +184,8 @@ public class GridManager : MonoBehaviour
 
     public void SetupRandomDoubleRowSpawnPositions(int minX, int maxX, int minZ, int maxZ)
     {
-        playerSpawnCells.Clear();
-        enemySpawnCells.Clear();
+        PlayerSpawnCells.Clear();
+        EnemySpawnCells.Clear();
 
         // Giới hạn trục Z để chừa 2 ô biên ngoài cùng (trái/phải màn hình) tương tự như cũ
         int startZ = minZ + 1; // -5
@@ -237,8 +237,8 @@ public class GridManager : MonoBehaviour
             GridCell cell = potentialPlayerCells[i];
             int playerIndex = i + 1; // Số từ 1 -> 10
 
-            cell.SetAsSpawnCell(playerIndex, isPlayer: true, playerPositionMaterial);
-            playerSpawnCells.Add(cell);
+            cell.SetAsSpawnCell(playerIndex, isPlayer: true, PlayerPositionMaterial);
+            PlayerSpawnCells.Add(cell);
         }
 
         // Cấu hình ngẫu nhiên cho Enemy
@@ -248,8 +248,8 @@ public class GridManager : MonoBehaviour
             GridCell cell = potentialEnemyCells[i];
             int enemyIndex = i + 1; // Số từ 1 -> 10
 
-            cell.SetAsSpawnCell(enemyIndex, isPlayer: false, enemyPositionMaterial);
-            enemySpawnCells.Add(cell);
+            cell.SetAsSpawnCell(enemyIndex, isPlayer: false, EnemyPositionMaterial);
+            EnemySpawnCells.Add(cell);
         }
     }
 
@@ -269,17 +269,17 @@ public class GridManager : MonoBehaviour
     public void SelectCell(GridCell targetCell)
     {
         // Trả ô cũ về màu mặc định (nếu có ô cũ và khác ô mới)
-        if (currentlySelectedCell != null && currentlySelectedCell != targetCell)
+        if (CurrentlySelectedCell != null && CurrentlySelectedCell != targetCell)
         {
-            currentlySelectedCell.ResetToDefaultMaterial();
+            CurrentlySelectedCell.ResetToDefaultMaterial();
         }
 
-        currentlySelectedCell = targetCell;
+        CurrentlySelectedCell = targetCell;
 
-        if (currentlySelectedCell != null)
+        if (CurrentlySelectedCell != null)
         {
             // Đổi màu nền của ô được chọn sang màu Vàng (Selected)
-            currentlySelectedCell.ChangeRuntimeMaterial(selectedPositionMaterial);
+            CurrentlySelectedCell.ChangeRuntimeMaterial(SelectedPositionMaterial);
         }
     }
 
@@ -317,9 +317,9 @@ public class GridManager : MonoBehaviour
             // Nếu chưa tới đích mà ô dọc đường thẳng đã bị chặn hoặc có quân cờ đứng chiếm chỗ
             if (current != end)
             {
-                if (gridDict.TryGetValue(current, out GridCell stepCell))
+                if (GridDict.TryGetValue(current, out GridCell stepCell))
                 {
-                    if (!stepCell.IsWalkable || stepCell.occupiedCard != null)
+                    if (!stepCell.IsWalkable || stepCell.OccupiedCard != null)
                     {
                         return false; // Phát hiện có vật cản chặn trên đường ngắn nhất
                     }
@@ -366,11 +366,11 @@ public class GridManager : MonoBehaviour
                 {
                     Vector2Int nextPos = currentPos + dir;
 
-                    if (!gridDict.TryGetValue(nextPos, out GridCell nextCell))
+                    if (!GridDict.TryGetValue(nextPos, out GridCell nextCell))
                         continue;
 
                     // Né chướng ngại vật hoặc ô có card khác đứng chiếm chỗ
-                    if (!nextCell.IsWalkable || nextCell.occupiedCard != null)
+                    if (!nextCell.IsWalkable || nextCell.OccupiedCard != null)
                         continue;
 
                     int nextDistance = currentDistance + 1;
@@ -385,7 +385,7 @@ public class GridManager : MonoBehaviour
         }
 
         // Bước 2: Duyệt danh sách toàn lưới và phân loại hiển thị dựa trên maxRange và movementPoint
-        foreach (var pair in gridDict)
+        foreach (var pair in GridDict)
         {
             GridCell cell = pair.Value;
 
@@ -423,7 +423,7 @@ public class GridManager : MonoBehaviour
             // ==========================================
             if (hasRealPath && realDistance <= movementPoint && movementPoint > 0)
             {
-                cell.ShowMovementRange(walkableRangeMaterial, true);
+                cell.ShowMovementRange(WalkableRangeMaterial, true);
                 continue;
             }
 
@@ -435,7 +435,7 @@ public class GridManager : MonoBehaviour
             // (Nếu movementPoint = 0, điều kiện manhattanDistance <= 0 sẽ sai đối với các ô xung quanh, nên chúng sẽ không bị hiện màu Đỏ nhầm)
             if (!isShortestPathClear && manhattanDistance <= movementPoint && movementPoint > 0)
             {
-                cell.ShowMovementRange(outOfPointsMaterial, false);
+                cell.ShowMovementRange(OutOfPointsMaterial, false);
             }
             // ĐIỀU KIỆN 2: Ô nằm trong phạm vi maxRange (manhattanDistance <= maxRange) nhưng điểm di chuyển không đủ (movementPoint < thực tế hoặc bằng 0)
             // VÀ đường thẳng ngắn nhất không bị vật cản chặn
@@ -466,7 +466,7 @@ public class GridManager : MonoBehaviour
     public GridCell GetCellAt(int x, int z)
     {
         Vector2Int pos = new Vector2Int(x, z);
-        if (gridDict.TryGetValue(pos, out GridCell cell))
+        if (GridDict.TryGetValue(pos, out GridCell cell))
         {
             return cell;
         }
@@ -478,11 +478,11 @@ public class GridManager : MonoBehaviour
     /// </summary>
     public void HandleCardClick(GridCell cardCell, int maxRange)
     {
-        if (cardCell == null || cardCell.occupiedCard == null) return;
+        if (cardCell == null || cardCell.OccupiedCard == null) return;
 
         // Lưu ô đang chọn làm ô xuất phát
         SelectCell(cardCell);
-        currentlySelectedCell = cardCell;
+        CurrentlySelectedCell = cardCell;
 
         // Hiển thị vùng di chuyển dựa trên vị trí quân cờ và tầm đi (maxRange)
         // ShowMovementRangeAt(cardCell.GridPosition, maxRange);
@@ -495,17 +495,17 @@ public class GridManager : MonoBehaviour
     {
         List<GridCell> path = new List<GridCell>();
 
-        if (!gridDict.ContainsKey(startPos) || !gridDict.ContainsKey(endPos)) return path;
+        if (!GridDict.ContainsKey(startPos) || !GridDict.ContainsKey(endPos)) return path;
 
-        GridCell startCell = gridDict[startPos];
-        GridCell endCell = gridDict[endPos];
+        GridCell startCell = GridDict[startPos];
+        GridCell endCell = GridDict[endPos];
 
         // Chạy lại một vòng BFS ngầm hoặc tận dụng để gán ParentNode cho các ô
         // Để đơn giản và chính xác nhất, ta chạy BFS từ startPos để thiết lập liên kết dòng họ (Parent)
         Queue<GridCell> queue = new Queue<GridCell>();
         HashSet<GridCell> visited = new HashSet<GridCell>();
 
-        foreach (var cell in gridDict.Values) cell.ParentNode = null; // Reset vết cũ
+        foreach (var cell in GridDict.Values) cell.ParentNode = null; // Reset vết cũ
 
         queue.Enqueue(startCell);
         visited.Add(startCell);
@@ -521,10 +521,10 @@ public class GridManager : MonoBehaviour
             foreach (Vector2Int dir in directions)
             {
                 Vector2Int nextPos = current.GridPosition + dir;
-                if (gridDict.TryGetValue(nextPos, out GridCell neighbor))
+                if (GridDict.TryGetValue(nextPos, out GridCell neighbor))
                 {
                     // Chỉ đi qua các ô Walkable, không bị chặn và NẰM TRONG VÙNG ĐI ĐƯỢC (Đã check ở hàm show range)
-                    if (!visited.Contains(neighbor) && neighbor.IsWalkable && neighbor.occupiedCard == null && neighbor.IsWalkableRange)
+                    if (!visited.Contains(neighbor) && neighbor.IsWalkable && neighbor.OccupiedCard == null && neighbor.IsWalkableRange)
                     {
                         neighbor.ParentNode = current;
                         visited.Add(neighbor);
@@ -554,28 +554,28 @@ public class GridManager : MonoBehaviour
     /// </summary>
     public void HandleCellClick(GridCell clickedCell)
     {
-        if (currentlySelectedCell == null) return; // Chưa chọn tướng xuất phát thì không làm gì cả
+        if (CurrentlySelectedCell == null) return; // Chưa chọn tướng xuất phát thì không làm gì cả
 
         // Lấy dữ liệu quân cờ đang chọn để biết tầm đi gốc
-        CardBase selectedCard = currentlySelectedCell.occupiedCard;
+        CardBase selectedCard = CurrentlySelectedCell.OccupiedCard;
         if (selectedCard == null || selectedCard.Class == null) return;
         int maxMoveRange = selectedCard.Class.MovementRange;
 
         // ================= TRƯỜNG HỢP 1: CLICK VÀO Ô TRONG TẦM DI CHUYỂN HỢP LỆ =================
         if (clickedCell.IsWalkableRange)
         {
-            if (currentCalculatedPath != null && currentCalculatedPath.Count > 0)
+            if (CurrentCalculatedPath != null && CurrentCalculatedPath.Count > 0)
             {
                 HighlightPath(false);
             }
 
-            targetDestinationCell = clickedCell;
-            currentCalculatedPath = FindPath(currentlySelectedCell.GridPosition, targetDestinationCell.GridPosition);
+            TargetDestinationCell = clickedCell;
+            CurrentCalculatedPath = FindPath(CurrentlySelectedCell.GridPosition, TargetDestinationCell.GridPosition);
 
-            if (currentCalculatedPath.Count > 0)
+            if (CurrentCalculatedPath.Count > 0)
             {
                 HighlightPath(true);
-                MovementConfirmUI cellUI = targetDestinationCell.GetComponent<MovementConfirmUI>();
+                MovementConfirmUI cellUI = TargetDestinationCell.GetComponent<MovementConfirmUI>();
                 if (cellUI != null)
                 {
                     cellUI.ShowUI(true);
@@ -585,17 +585,17 @@ public class GridManager : MonoBehaviour
         // ================= TRƯỜNG HỢP 2: CLICK VÀO Ô TRONG TẦM TẤN CÔNG =================
         else if (clickedCell.IsAttackRange)
         {
-            if (clickedCell.occupiedCard != null && clickedCell.IsPlayerSpawnCell != currentlySelectedCell.IsPlayerSpawnCell)
+            if (clickedCell.OccupiedCard != null && clickedCell.IsPlayerSpawnCell != CurrentlySelectedCell.IsPlayerSpawnCell)
             {
                 AttackConfirmUI attackUI = clickedCell.GetComponent<AttackConfirmUI>();
                 if (attackUI != null)
                 {
-                    attackUI.ShowUI(true, currentlySelectedCell, clickedCell);
+                    attackUI.ShowUI(true, CurrentlySelectedCell, clickedCell);
                 }
             }
         }
         // ================= TRƯỜNG HỢP 3: KHÔNG ĐỦ ĐIỂM (HIỂN THỊ MÀU ĐỎ OUT OF POINT) =================
-        else if (clickedCell.movementPlatform != null && clickedCell.movementPlatform.gameObject.activeSelf && clickedCell.movementPlatform.material == outOfPointsMaterial)
+        else if (clickedCell.MovementPlatform != null && clickedCell.MovementPlatform.gameObject.activeSelf && clickedCell.MovementPlatform.material == OutOfPointsMaterial)
         {
             HandleOutOfPointClick(clickedCell);
         }
@@ -603,7 +603,7 @@ public class GridManager : MonoBehaviour
         else
         {
             // Tính khoảng cách ngắn nhất lý tưởng tuyệt đối (bỏ qua mọi vật cản)
-            int absoluteDist = GetAbsoluteDistance(currentlySelectedCell.GridPosition, clickedCell.GridPosition);
+            int absoluteDist = GetAbsoluteDistance(CurrentlySelectedCell.GridPosition, clickedCell.GridPosition);
 
             // Nếu khoảng cách lý tưởng nằm trong tầm đi gốc của Card, chứng tỏ dọc đường đi có vật cản/card khác chặn
             if (absoluteDist <= maxMoveRange)
@@ -644,23 +644,23 @@ public class GridManager : MonoBehaviour
     /// </summary>
     public void HighlightPath(bool state)
     {
-        if (currentCalculatedPath.Count == 0) return;
+        if (CurrentCalculatedPath.Count == 0) return;
 
-        for (int i = 0; i < currentCalculatedPath.Count; i++)
+        for (int i = 0; i < CurrentCalculatedPath.Count; i++)
         {
-            GridCell cell = currentCalculatedPath[i];
+            GridCell cell = CurrentCalculatedPath[i];
 
             if (state)
             {
-                if (i == currentCalculatedPath.Count - 1)
+                if (i == CurrentCalculatedPath.Count - 1)
                 {
                     // Ô cuối cùng -> Đổi sang màu ĐÍCH ĐẾN (Destination)
-                    cell.SetAsDestination(destinationMaterial);
+                    cell.SetAsDestination(DestinationMaterial);
                 }
                 else if (i > 0) // i = 0 là ô gốc tướng đang đứng, không cần đổi
                 {
                     // Các ô ở giữa -> Đổi sang màu TRUNG GIAN (Path)
-                    cell.SetAsPathNode(pathNodeMaterial);
+                    cell.SetAsPathNode(PathNodeMaterial);
                 }
             }
             else
@@ -670,7 +670,7 @@ public class GridManager : MonoBehaviour
             }
         }
 
-        if (!state) currentCalculatedPath.Clear();
+        if (!state) CurrentCalculatedPath.Clear();
     }
 
     /// <summary>
@@ -678,7 +678,7 @@ public class GridManager : MonoBehaviour
     /// </summary>
     public void SetOriginCell(GridCell newOrigin)
     {
-        currentlySelectedCell = newOrigin;
+        CurrentlySelectedCell = newOrigin;
     }
 
     // --- HÀM THÊM MỚI CHUYÊN DỤNG CHO ATTACK ---
@@ -719,7 +719,7 @@ public class GridManager : MonoBehaviour
                 Vector2Int neighborPos = currentPos + dir;
 
                 // Kiểm tra ô hàng xóm tồn tại trên lưới không
-                if (gridDict.TryGetValue(neighborPos, out GridCell neighborCell))
+                if (GridDict.TryGetValue(neighborPos, out GridCell neighborCell))
                 {
                     if (visited.Contains(neighborPos)) continue;
 
@@ -728,7 +728,7 @@ public class GridManager : MonoBehaviour
                     if (!neighborCell.IsWalkable) continue;
 
                     // 2. Nếu có quân cờ đang đứng, kiểm tra xem có phải ĐỒNG MINH không
-                    if (neighborCell.occupiedCard != null)
+                    if (neighborCell.OccupiedCard != null)
                     {
                         // SỬA TẠI ĐÂY: Dựa vào thuộc tính IsPlayerSpawnCell của chính ô đó để nhận diện phe
                         // Nếu ô đó là ô của Player (IsPlayerSpawnCell == true) và người đang đánh cũng là Player -> ĐỒNG MINH -> CHẶN
@@ -745,7 +745,7 @@ public class GridManager : MonoBehaviour
                     // Sơn màu hiển thị tầm đánh đỏ lên ô này (Ngoại trừ ô gốc của bản thân)
                     if (neighborPos != centerPos)
                     {
-                        neighborCell.ShowAttackRange(attackRangeMaterial);
+                        neighborCell.ShowAttackRange(AttackRangeMaterial);
                     }
                 }
             }
@@ -760,10 +760,10 @@ public class GridManager : MonoBehaviour
         if (card == null) return null;
 
         // Duyệt qua tất cả các ô cờ đang được GridManager quản lý trong Dictionary
-        foreach (var cell in gridDict.Values)
+        foreach (var cell in GridDict.Values)
         {
             // Nếu ô cờ đó đang có quân cờ đứng và trùng khớp dữ liệu Instance/Id với quân cờ cần tìm
-            if (cell.occupiedCard != null && cell.occupiedCard == card)
+            if (cell.OccupiedCard != null && cell.OccupiedCard == card)
             {
                 return cell;
             }

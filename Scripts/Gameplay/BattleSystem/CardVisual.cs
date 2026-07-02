@@ -3,22 +3,22 @@ using UnityEngine.EventSystems;
 
 public class CardVisual : MonoBehaviour, IPointerClickHandler
 {
-    private MeshRenderer meshRenderer;
-    private CardBase cardData;
+    private MeshRenderer MeshRenderer;
+    private CardBase CardData;
 
     // Đoạn code này đặt trong script Quản lý tương tác chuột (ví dụ: BattleManager hoặc InputHandler)
     public enum ActionState { None, MoveMode, AttackMode }
-    public ActionState currentState = ActionState.None;
+    public ActionState CurrentState = ActionState.None;
 
-    private CardBase selectedCardData;
-    private Vector2Int selectedCardPos;
+    private CardBase SelectedCardData;
+    private Vector2Int SelectedCardPos;
 
     void Awake()
     {
         // Lấy MeshRenderer gắn trên chính tấm Plane này
-        meshRenderer = GetComponent<MeshRenderer>();
+        MeshRenderer = GetComponent<MeshRenderer>();
 
-        if (meshRenderer == null)
+        if (MeshRenderer == null)
         {
             Debug.LogError($"GameObject {gameObject.name} không có MeshRenderer! Hãy chắc chắn đây là một Plane.");
         }
@@ -29,15 +29,15 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
     /// </summary>
     public void SetupVisual(CardBase cardData)
     {
-        if (cardData == null || meshRenderer == null) return;
+        if (cardData == null || MeshRenderer == null) return;
 
-        this.cardData = cardData;
+        this.CardData = cardData;
 
         Texture2D cardTexture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(cardData.Image));
 
         if (cardTexture != null)
         {
-            meshRenderer.material.SetTexture("_MainTex", cardTexture);
+            MeshRenderer.material.SetTexture("_MainTex", cardTexture);
 
             // Debug.Log($"[Visual] Đã đổi ảnh thành công cho {cardData.Name} từ đường dẫn: {cardData.Image}");
         }
@@ -50,9 +50,9 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
     // Khi người chơi bấm vào nút "ATTACK" trên ActionMenu (như trong ảnh image_3cecc3.jpg của bạn)
     public void OnAttackButtonClicked()
     {
-        if (selectedCardData != null)
+        if (SelectedCardData != null)
         {
-            currentState = ActionState.AttackMode;
+            CurrentState = ActionState.AttackMode;
             // Bật hiển thị tầm đánh màu đỏ xung quanh quân cờ
             // int rangeDanh = selectedCardData.AttackRange; // Giả sử CardBase của bạn có thuộc tính AttackRange
             // GridManager.ShowAttackRangeAt(selectedCardPos, rangeDanh, selectedCardData);
@@ -62,14 +62,14 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
     // Khi người chơi click chuột vào một ô GridCell bất kỳ trên bàn cờ trong chế độ AttackMode
     public void HandleGridCellClick(GridCell clickedCell)
     {
-        if (currentState == ActionState.AttackMode)
+        if (CurrentState == ActionState.AttackMode)
         {
             // Nếu click trúng ô có kẻ địch đang đứng
-            if (clickedCell.occupiedCard != null)
+            if (clickedCell.OccupiedCard != null)
             {
                 // Thực hiện tấn công
                 // gridManager.ExecuteAttack(selectedCardData, clickedCell);
-                currentState = ActionState.None;
+                CurrentState = ActionState.None;
             }
         }
     }
@@ -77,12 +77,12 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
     // Hàm tự động kích hoạt khi người chơi CLICK vào Thẻ bài
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (cardData == null || cardData.Class == null) return;
+        if (CardData == null || CardData.Class == null) return;
 
         // Lấy dữ liệu di chuyển và tầm đánh từ class data
-        int movementRange = cardData.Class.MovementRange;
-        int movementPoint = cardData.CurrentMovementPoint;
-        int attackRange = cardData.Class.AttackRange; // Thuộc tính tầm đánh mới của bạn
+        int movementRange = CardData.Class.MovementRange;
+        int movementPoint = CardData.CurrentMovementPoint;
+        int attackRange = CardData.Class.AttackRange; // Thuộc tính tầm đánh mới của bạn
 
         AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
 
@@ -91,7 +91,7 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
 
         if (currentCell != null)
         {
-            Debug.Log($"Click vào {cardData.Name}. Mở Action Menu tại ô: {currentCell.GridPosition}");
+            Debug.Log($"Click vào {CardData.Name}. Mở Action Menu tại ô: {currentCell.GridPosition}");
 
             // Lấy vị trí click chuột hoặc vị trí của thẻ bài trên màn hình để đặt UI Menu
             Vector3 clickScreenPos = eventData.position;
@@ -101,7 +101,7 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
             {
                 GridManager.Instance.ClearAllMovementRanges();
                 GridManager.Instance.SelectCell(currentCell);
-                ActionMenuUI.Instance.ShowMenu(currentCell, movementRange, movementPoint, attackRange, clickScreenPos, cardData);
+                ActionMenuUI.Instance.ShowMenu(currentCell, movementRange, movementPoint, attackRange, clickScreenPos, CardData);
             }
             else
             {

@@ -9,8 +9,8 @@ public class ArenaManager : MonoBehaviour
     private GameObject ArenaButtonPrefab;
     private GameObject ArenaDetailsPanelPrefab;
     private GameObject ArenaSlotPrefab;
-    private GameObject currentObject;
-    private Texture2D itemBackground;
+    private GameObject CurrentObject;
+    private Texture2D ItemBackground;
     public static ArenaManager Instance { get; private set; }
     private void Awake()
     {
@@ -43,7 +43,7 @@ public class ArenaManager : MonoBehaviour
         var uniqueMode = await ArenaService.Create().GetUniqueTypesAsync();
         foreach (var type in uniqueMode)
         {
-            CreateArenaButtonUI(type, itemBackground, TextureHelper.LoadTexture2DCached($"UI/Button/Arena/{type}"), arenaMenuPanel);
+            CreateArenaButtonUI(type, ItemBackground, TextureHelper.LoadTexture2DCached($"UI/Button/Arena/{type}"), arenaMenuPanel);
         }
         CreateArenaButton(arenaMenuPanel);
         arenaMenuPanel.gameObject.AddComponent<StaggeredSlideAnimation>();
@@ -89,8 +89,8 @@ public class ArenaManager : MonoBehaviour
     }
     public async Task CreateArenaDetailsAsync(string type)
     {
-        currentObject = Instantiate(ArenaDetailsPanelPrefab, MainPanel);
-        Transform transform = currentObject.transform;
+        CurrentObject = Instantiate(ArenaDetailsPanelPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
         RawImage avatarImage = transform.Find("DictionaryCards/AvatarImage").GetComponent<RawImage>();
         RawImage borderImage = transform.Find("DictionaryCards/BorderImage").GetComponent<RawImage>();
         Transform arenaSlotGroup = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
@@ -110,7 +110,7 @@ public class ArenaManager : MonoBehaviour
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(currentObject);
+            Destroy(CurrentObject);
         });
 
         // Arena arena = new Arena();

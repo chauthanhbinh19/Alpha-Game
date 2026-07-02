@@ -8,23 +8,23 @@ public class AttackConfirmUI : MonoBehaviour
     public static AttackConfirmUI Instance { get; private set; }
 
     [Header("UI Components")]
-    public GameObject actionPanel; // Khung chứa 2 nút bấm (Đồng ý / Hủy)
-    public Button agreeButton;
-    public Button disagreeButton;
+    public GameObject ActionPanel; // Khung chứa 2 nút bấm (Đồng ý / Hủy)
+    public Button AgreeButton;
+    public Button DisagreeButton;
 
-    private GridCell attackerCell; // Ô của quân ta (Người tấn công)
-    private GridCell targetCell;   // Ô của quân địch (Mục tiêu bị tấn công)
+    private GridCell AttackerCell; // Ô của quân ta (Người tấn công)
+    private GridCell TargetCell;   // Ô của quân địch (Mục tiêu bị tấn công)
 
     void Start()
     {
         // Ẩn panel khi mới vào game
-        if (actionPanel != null) actionPanel.SetActive(false);
+        if (ActionPanel != null) ActionPanel.SetActive(false);
 
         // Gán sự kiện cho nút bấm
-        agreeButton.onClick.RemoveAllListeners();
-        disagreeButton.onClick.RemoveAllListeners();
-        agreeButton.onClick.AddListener(OnAgreePressed);
-        disagreeButton.onClick.AddListener(OnDisagreePressed);
+        AgreeButton.onClick.RemoveAllListeners();
+        DisagreeButton.onClick.RemoveAllListeners();
+        AgreeButton.onClick.AddListener(OnAgreePressed);
+        DisagreeButton.onClick.AddListener(OnDisagreePressed);
     }
 
     /// <summary>
@@ -42,21 +42,21 @@ public class AttackConfirmUI : MonoBehaviour
             Instance = this;
 
             // Lưu lại thông tin 2 ô cờ tham gia trận đánh
-            this.attackerCell = attacker;
-            this.targetCell = target;
+            this.AttackerCell = attacker;
+            this.TargetCell = target;
         }
 
-        if (actionPanel != null) actionPanel.SetActive(state);
+        if (ActionPanel != null) ActionPanel.SetActive(state);
     }
 
     void OnAgreePressed()
     {
         ShowUI(false);
 
-        if (attackerCell != null && targetCell != null)
+        if (AttackerCell != null && TargetCell != null)
         {
             // Kích hoạt tiến trình xử lý trận đánh
-            StartCoroutine(ExecuteAttackRoutine(attackerCell, targetCell));
+            StartCoroutine(ExecuteAttackRoutine(AttackerCell, TargetCell));
         }
     }
 
@@ -69,8 +69,8 @@ public class AttackConfirmUI : MonoBehaviour
 
     IEnumerator ExecuteAttackRoutine(GridCell attacker, GridCell target)
     {
-        CardBase attackerCard = attacker.occupiedCard;
-        CardBase targetCard = target.occupiedCard;
+        CardBase attackerCard = attacker.OccupiedCard;
+        CardBase targetCard = target.OccupiedCard;
 
         if (attackerCard == null || targetCard == null) yield break;
 

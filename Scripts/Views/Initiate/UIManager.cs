@@ -13,7 +13,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Panels")]
     public Transform RootPanel;
-    public Transform notificationPanel;
+    public Transform NotificationPanel;
     public Transform WaitingPanel;
     public Transform MainPanel;
     public Transform popupPanel;
@@ -24,7 +24,7 @@ public class UIManager : MonoBehaviour
 
     [Header("Font")]
     public TMP_FontAsset EuroStyleNormalFont;
-    private Dictionary<string, GameObject> prefabDict;
+    private Dictionary<string, GameObject> PrefabDict;
 
     private void Awake()
     {
@@ -42,7 +42,7 @@ public class UIManager : MonoBehaviour
     }
     private void LoadAllPrefabs()
     {
-        prefabDict = new Dictionary<string, GameObject>();
+        PrefabDict = new Dictionary<string, GameObject>();
 
         // Load toàn bộ prefab trong thư mục Resources/UI/MainMenu/
         List<GameObject> prefabs = new List<GameObject>();
@@ -81,13 +81,13 @@ public class UIManager : MonoBehaviour
         foreach (var prefab in prefabs)
         {
             // Key = tên prefab
-            prefabDict[prefab.name] = prefab;
+            PrefabDict[prefab.name] = prefab;
             // Debug.Log($"Loaded: {prefab.name}");
         }
     }
     public GameObject Get(string prefabName)
     {
-        if (prefabDict.TryGetValue(prefabName, out var prefab))
+        if (PrefabDict.TryGetValue(prefabName, out var prefab))
         {
             // Debug.Log(prefabName);
             return prefab;
@@ -107,7 +107,7 @@ public class UIManager : MonoBehaviour
             case "WaitingPanel":
                 return WaitingPanel;
             case "notificationPanel":
-                return notificationPanel;
+                return NotificationPanel;
             case "popupPanel":
                 return popupPanel;
             case "LoadingPanel":

@@ -51,13 +51,13 @@ public static class CombatTargetSelector
         switch (targetId.ToUpper())
         {
             case "CASTER":
-                if (casterCell != null && casterCell.occupiedCard != null)
-                    targetList.Add(casterCell.occupiedCard);
+                if (casterCell != null && casterCell.OccupiedCard != null)
+                    targetList.Add(casterCell.OccupiedCard);
                 break;
 
             case "CAST_TARGET":
-                if (castTargetCell != null && castTargetCell.occupiedCard != null)
-                    targetList.Add(castTargetCell.occupiedCard);
+                if (castTargetCell != null && castTargetCell.OccupiedCard != null)
+                    targetList.Add(castTargetCell.OccupiedCard);
                 break;
 
             case "PATTERN_ALL":
@@ -65,8 +65,8 @@ public static class CombatTargetSelector
                 List<GridCell> allPatternCells = GetCellsInPattern(castTargetCell, skillPattern);
                 foreach (var cell in allPatternCells)
                 {
-                    if (cell.occupiedCard != null)
-                        targetList.Add(cell.occupiedCard);
+                    if (cell.OccupiedCard != null)
+                        targetList.Add(cell.OccupiedCard);
                 }
                 break;
 
@@ -82,8 +82,8 @@ public static class CombatTargetSelector
                     // Nếu trùng đúng vị trí tâm (0,0), bỏ qua không tính sát thương lan (Splash)
                     if (currentOffsetX == 0 && currentOffsetY == 0) continue;
 
-                    if (cell.occupiedCard != null)
-                        targetList.Add(cell.occupiedCard);
+                    if (cell.OccupiedCard != null)
+                        targetList.Add(cell.OccupiedCard);
                 }
                 break;
 

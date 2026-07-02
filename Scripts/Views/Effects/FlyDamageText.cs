@@ -16,43 +16,43 @@ public enum DamageTextType
 public class FlyDamageText : MonoBehaviour
 {
     [Header("Text Settings")]
-    public TextMeshProUGUI damageText;
-    public DamageTextType damageTextType = DamageTextType.Physical;
-    public bool isHealing;
+    public TextMeshProUGUI DamageText;
+    public DamageTextType DamageTextType = DamageTextType.Physical;
+    public bool IsHealing;
 
     [Header("Animation Settings")]
-    public float duration = 1f;
-    public float floatDistance = 2.5f;
-    public float popupFactor = 1f;
-    public Vector2 randomRange = new Vector2(0.5f, 0.5f);
+    public float Duration = 1f;
+    public float FloatDistance = 2.5f;
+    public float PopupFactor = 1f;
+    public Vector2 RandomRange = new Vector2(0.5f, 0.5f);
 
     private void Awake()
     {
-        if (damageText == null)
+        if (DamageText == null)
         {
-            damageText = GetComponentInChildren<TextMeshProUGUI>();
+            DamageText = GetComponentInChildren<TextMeshProUGUI>();
         }
     }
 
     public void Init(double damage, DamageTextType type, bool healing = false, float factor = 1f)
     {
-        if (damageText == null)
+        if (DamageText == null)
         {
-            damageText = GetComponentInChildren<TextMeshProUGUI>();
-            if (damageText == null)
+            DamageText = GetComponentInChildren<TextMeshProUGUI>();
+            if (DamageText == null)
             {
                 Debug.LogWarning("FlyDamageText: no TextMeshProUGUI found in children.");
                 return;
             }
         }
 
-        damageTextType = type;
-        isHealing = healing;
-        popupFactor = factor;
+        DamageTextType = type;
+        IsHealing = healing;
+        PopupFactor = factor;
 
-        damageText.text = FormatDamage(damage, healing);
-        damageText.colorGradient = GetGradientForType(type);
-        damageText.alpha = 1f;
+        DamageText.text = FormatDamage(damage, healing);
+        DamageText.colorGradient = GetGradientForType(type);
+        DamageText.alpha = 1f;
 
         SetupStartPosition();
         StartCoroutine(AnimatePopup());
@@ -86,12 +86,12 @@ public class FlyDamageText : MonoBehaviour
         Vector3 worldUp = Camera.main != null ? Camera.main.transform.up : Vector3.up;
         Vector3 parentSpaceUp = transform.parent != null ? transform.parent.InverseTransformDirection(worldUp) : worldUp;
         Vector3 randomOffset = new Vector3(
-            UnityEngine.Random.Range(-randomRange.x, randomRange.x),
+            UnityEngine.Random.Range(-RandomRange.x, RandomRange.x),
             0f,
-            UnityEngine.Random.Range(-randomRange.y, randomRange.y)
+            UnityEngine.Random.Range(-RandomRange.y, RandomRange.y)
         );
 
-        float height = 0.5f + popupFactor * floatDistance * 0.25f;
+        float height = 0.5f + PopupFactor * FloatDistance * 0.25f;
         transform.localPosition = parentSpaceUp * height + randomOffset;
     }
 
@@ -99,16 +99,16 @@ public class FlyDamageText : MonoBehaviour
     {
         float elapsed = 0f;
         Vector3 startPosition = transform.localPosition;
-        Vector3 endPosition = startPosition + Vector3.up * floatDistance;
+        Vector3 endPosition = startPosition + Vector3.up * FloatDistance;
 
-        while (elapsed < duration)
+        while (elapsed < Duration)
         {
-            float t = elapsed / duration;
+            float t = elapsed / Duration;
             transform.localPosition = Vector3.Lerp(startPosition, endPosition, t);
 
-            if (damageText != null)
+            if (DamageText != null)
             {
-                damageText.alpha = Mathf.Lerp(1f, 0f, t);
+                DamageText.alpha = Mathf.Lerp(1f, 0f, t);
             }
 
             elapsed += Time.deltaTime;

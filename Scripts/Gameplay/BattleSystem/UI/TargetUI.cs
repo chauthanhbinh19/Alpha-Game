@@ -6,22 +6,22 @@ public class TargetUI : MonoBehaviour
     public static TargetUI Instance { get; private set; }
 
     [Header("UI Components")]
-    public GameObject damageTargetPanel;
-    public GameObject healTargetPanel;
-    public GameObject buffTargetPanel;
-    public GameObject debuffTargetPanel;
-    public GameObject cleanseTargetPanel;
-    public GameObject summonTagretPanel;
+    public GameObject DamageTargetPanel;
+    public GameObject HealTargetPanel;
+    public GameObject BuffTargetPanel;
+    public GameObject DebuffTargetPanel;
+    public GameObject CleanseTargetPanel;
+    public GameObject SummonTagretPanel;
 
     void Awake()
     {
         Instance = this;
-        if (damageTargetPanel != null) damageTargetPanel.SetActive(false);
-        if (healTargetPanel != null) healTargetPanel.SetActive(false);
-        if (buffTargetPanel != null) buffTargetPanel.SetActive(false);
-        if (debuffTargetPanel != null) debuffTargetPanel.SetActive(false);
-        if (cleanseTargetPanel != null) cleanseTargetPanel.SetActive(false);
-        if (summonTagretPanel != null) summonTagretPanel.SetActive(false);
+        if (DamageTargetPanel != null) DamageTargetPanel.SetActive(false);
+        if (HealTargetPanel != null) HealTargetPanel.SetActive(false);
+        if (BuffTargetPanel != null) BuffTargetPanel.SetActive(false);
+        if (DebuffTargetPanel != null) DebuffTargetPanel.SetActive(false);
+        if (CleanseTargetPanel != null) CleanseTargetPanel.SetActive(false);
+        if (SummonTagretPanel != null) SummonTagretPanel.SetActive(false);
     }
 
     void Start()
@@ -35,85 +35,85 @@ public class TargetUI : MonoBehaviour
 
     public void ShowDamageTargetPanelUI(string message = "")
     {
-        if (damageTargetPanel != null)
+        if (DamageTargetPanel != null)
         {
-            damageTargetPanel.SetActive(true);
+            DamageTargetPanel.SetActive(true);
             // Debug.Log($"[Warning UI] Hiển thị cảnh báo di chuyển: {message}");
         }
     }
 
     public void ShowHealTargetPanelUI(string message = "")
     {
-        if (healTargetPanel != null)
+        if (HealTargetPanel != null)
         {
-            healTargetPanel.SetActive(true);
+            HealTargetPanel.SetActive(true);
             // Debug.Log($"[Warning UI] Hiển thị cảnh báo di chuyển: {message}");
         }
     }
 
     public void ShowBuffTargetPanelUI(string message = "")
     {
-        if (buffTargetPanel != null)
+        if (BuffTargetPanel != null)
         {
-            buffTargetPanel.SetActive(true);
+            BuffTargetPanel.SetActive(true);
             // Debug.Log($"[Warning UI] Hiển thị cảnh báo di chuyển: {message}");
         }
     }
 
     public void ShowDebuffTargetPanelUI(string message = "")
     {
-        if (debuffTargetPanel != null)
+        if (DebuffTargetPanel != null)
         {
-            debuffTargetPanel.SetActive(true);
+            DebuffTargetPanel.SetActive(true);
             // Debug.Log($"[Warning UI] Hiển thị cảnh báo di chuyển: {message}");
         }
     }
 
     public void ShowCleanseTargetPanelUI(string message = "")
     {
-        if (cleanseTargetPanel != null)
+        if (CleanseTargetPanel != null)
         {
-            cleanseTargetPanel.SetActive(true);
+            CleanseTargetPanel.SetActive(true);
             // Debug.Log($"[Warning UI] Hiển thị cảnh báo di chuyển: {message}");
         }
     }
 
     public void ShowSummonTargetPanelUI(string message = "")
     {
-        if (summonTagretPanel != null)
+        if (SummonTagretPanel != null)
         {
-            summonTagretPanel.SetActive(true);
+            SummonTagretPanel.SetActive(true);
             // Debug.Log($"[Warning UI] Hiển thị cảnh báo di chuyển: {message}");
         }
     }
 
     public void HideDamageTargetPanelUI()
     {
-        if (damageTargetPanel != null) damageTargetPanel.SetActive(false);
+        if (DamageTargetPanel != null) DamageTargetPanel.SetActive(false);
     }
 
     public void HideHealTargetPanelUI()
     {
-        if (healTargetPanel != null) healTargetPanel.SetActive(false);
+        if (HealTargetPanel != null) HealTargetPanel.SetActive(false);
     }
 
     public void HideBuffTargetPanelUI()
     {
-        if (buffTargetPanel != null) buffTargetPanel.SetActive(false);
+        if (BuffTargetPanel != null) BuffTargetPanel.SetActive(false);
     }
 
     public void HideDebuffTargetPanelUI()
     {
-        if (debuffTargetPanel != null) debuffTargetPanel.SetActive(false);
+        if (DebuffTargetPanel != null) DebuffTargetPanel.SetActive(false);
     }
 
     public void HideCleanseTargetPanelUI()
     {
-        if (cleanseTargetPanel != null) cleanseTargetPanel.SetActive(false);
+        if (CleanseTargetPanel != null) CleanseTargetPanel.SetActive(false);
     }
 
     public void HideSummonTargetPanelUI()
     {
-        if (summonTagretPanel != null) summonTagretPanel.SetActive(false);
+        if (SummonTagretPanel != null) SummonTagretPanel.SetActive(false);
     }
 }

@@ -15,21 +15,21 @@ public class RareMarketManager : MonoBehaviour
     private GameObject RareMarketButtonPrefab;
     private GameObject RareMarketPrefab;
     private Transform ContentPanel;
-    private Transform currentContent;
-    private Transform currencyPanel;
-    private Transform popupPanel;
-    private Button closeButton;
-    private Button homeButton;
-    private int offset;
-    private int currentPage;
-    private int totalPage;
+    private Transform CurrentContent;
+    private Transform CurrencyPanel;
+    private Transform PopupPanel;
+    private Button CloseButton;
+    private Button HomeButton;
+    private int Offset;
+    private int CurrentPage;
+    private int TotalPage;
     private const int PAGE_SIZe = 100;
     private TextMeshProUGUI PageText;
-    private Button nextButton;
-    private Button previousButton;
-    private Text titleText;
-    private List<Items> items;
-    private Currencies currentCurrency;
+    private Button NextButton;
+    private Button PreviousButton;
+    private Text TitleText;
+    private List<Items> Items;
+    private Currencies CurrentCurrency;
 
     private void Awake()
     {
@@ -51,13 +51,13 @@ public class RareMarketManager : MonoBehaviour
     }
     public void Initialize()
     {
-        offset = 0;
-        currentPage = 1;
-        items = new List<Items>();
+        Offset = 0;
+        CurrentPage = 1;
+        Items = new List<Items>();
         RareMarketButtonPrefab = UIManager.Instance.Get("RareMarketButtonPrefab");
         RareMarketManagerPrefab = UIManager.Instance.Get("RareMarketManagerPrefab");
         RareMarketPrefab = UIManager.Instance.Get("RareMarketPrefab");
-        popupPanel = UIManager.Instance.GetTransform("popupPanel");
+        PopupPanel = UIManager.Instance.GetTransform("popupPanel");
     }
     public async Task CreateRareMarketAsync(Transform panel)
     {
@@ -65,21 +65,21 @@ public class RareMarketManager : MonoBehaviour
         GameObject rareMarketManagerObject = Instantiate(RareMarketManagerPrefab, ContentPanel);
         Transform transform = rareMarketManagerObject.transform;
         Transform rareMarketTransform = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
-        titleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
-        closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() =>
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
+        CloseButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(rareMarketManagerObject);
         });
-        homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        HomeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
+        HomeButton.onClick.AddListener( () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Close(ContentPanel);
         });
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.RARE_MARKET);
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Market.RARE_MARKET);
 
         var allCurrencies = await CurrenciesService.Create().GetCurrencyListAsync();
         var currencies = allCurrencies.Where(c => c.Name != "Diamond" && c.Name != "Gold" && c.Name != "Silver")
@@ -106,16 +106,16 @@ public class RareMarketManager : MonoBehaviour
     }
     public async Task CreateRareMarketItemUIAsync(Currencies currency)
     {
-        currentCurrency = currency;
+        CurrentCurrency = currency;
         GameObject rareMarketObject = Instantiate(RareMarketPrefab, ContentPanel);
         Transform transform = rareMarketObject.transform;
-        currentContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
+        CurrentContent = transform.Find("DictionaryCards/Scroll View/Viewport/Content");
         // TabButtonPanel = RareMarketObject.transform.Find("Scroll View/Viewport/Content");
-        currencyPanel = transform.Find("DictionaryCards/Currency");
+        CurrencyPanel = transform.Find("DictionaryCards/Currency");
         PageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
-        nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
-        previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
-        titleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
+        NextButton = transform.Find("Pagination/Next").GetComponent<Button>();
+        PreviousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
+        TitleText = transform.Find("DictionaryCards/Title").GetComponent<Text>();
         // CloseButton = RareMarketObject.transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         // CloseButton.onClick.AddListener(() =>
         // {
@@ -128,25 +128,25 @@ public class RareMarketManager : MonoBehaviour
         //     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
         //     Close(ContentPanel);
         // });
-        nextButton.onClick.AddListener(async ()=>
+        NextButton.onClick.AddListener(async ()=>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             await ChangeNextPageAsync();
         });
-        previousButton.onClick.AddListener(async ()=>
+        PreviousButton.onClick.AddListener(async ()=>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
             await ChangePreviousPageAsync();
         });
 
-        titleText.text = LocalizationManager.Get(AppDisplayConstants.Market.RARE_MARKET);
+        TitleText.text = LocalizationManager.Get(AppDisplayConstants.Market.RARE_MARKET);
 
         var allItems = await ItemsService.Create().GetItemsAsync();
-        items = allItems.Where(item => item.Type.Equals(AppConstants.Market.RARE_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))
+        Items = allItems.Where(item => item.Type.Equals(AppConstants.Market.RARE_MATERIAL_ITEM, StringComparison.OrdinalIgnoreCase))
             .ToList();
 
-        totalPage = Mathf.CeilToInt((float)items.Count / PAGE_SIZe);
-        currentPage = 1;
+        TotalPage = Mathf.CeilToInt((float)Items.Count / PAGE_SIZe);
+        CurrentPage = 1;
 
         await LoadCurrentPageAsync(currency);
     }
@@ -154,41 +154,41 @@ public class RareMarketManager : MonoBehaviour
     {
         ClearAllPrefabs();
 
-        offset = (currentPage - 1) * PAGE_SIZe;
+        Offset = (CurrentPage - 1) * PAGE_SIZe;
 
-        var pagedItems = items.Skip(offset).Take(PAGE_SIZe).ToList();
+        var pagedItems = Items.Skip(Offset).Take(PAGE_SIZe).ToList();
 
-        await ItemsController.Instance.CreateItemsTradeAsync(pagedItems, currency, currentContent, currencyPanel, popupPanel);
+        await ItemsController.Instance.CreateItemsTradeAsync(pagedItems, currency, CurrentContent, CurrencyPanel, PopupPanel);
 
-        PageText.text = $"{currentPage}/{totalPage}";
+        PageText.text = $"{CurrentPage}/{TotalPage}";
     }
     public async Task ChangeNextPageAsync()
     {
-        if (currentPage < totalPage)
+        if (CurrentPage < TotalPage)
         {
-            currentPage++;
-            await LoadCurrentPageAsync(currentCurrency);
+            CurrentPage++;
+            await LoadCurrentPageAsync(CurrentCurrency);
         }
     }
     public async Task ChangePreviousPageAsync()
     {
-        if (currentPage > 1)
+        if (CurrentPage > 1)
         {
-            currentPage--;
-            await LoadCurrentPageAsync(currentCurrency);
+            CurrentPage--;
+            await LoadCurrentPageAsync(CurrentCurrency);
         }
     }
     public void ClearAllPrefabs()
     {
-        foreach (Transform child in currentContent)
+        foreach (Transform child in CurrentContent)
         {
             Destroy(child.gameObject);
         }
     }
     public void Close(Transform content)
     {
-        offset = 0;
-        currentPage = 1;
+        Offset = 0;
+        CurrentPage = 1;
         foreach (Transform child in content)
         {
             Destroy(child.gameObject);

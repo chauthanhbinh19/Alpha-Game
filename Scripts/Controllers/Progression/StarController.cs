@@ -8,7 +8,7 @@ public class StarController : MonoBehaviour
     public static StarController Instance { get; private set; }
     private Transform MainPanel;
     public GameObject StarPanelPrefab;
-    private GameObject currentPanel;
+    private GameObject CurrentPanel;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -39,8 +39,8 @@ public class StarController : MonoBehaviour
             return;
         }
 
-        currentPanel = Instantiate(StarPanelPrefab, MainPanel);
-        Transform panelTransform = currentPanel.transform;
+        CurrentPanel = Instantiate(StarPanelPrefab, MainPanel);
+        Transform panelTransform = CurrentPanel.transform;
 
         Transform currentStarTransform = panelTransform.Find("CurrentStarGridLayout");
         Transform nextStarTransform = panelTransform.Find("NextStarGridLayout");
@@ -530,7 +530,7 @@ public class StarController : MonoBehaviour
 
         closeButton.onClick.AddListener(() =>
         {
-            Destroy(currentPanel);
+            Destroy(CurrentPanel);
         });
 
         confirmButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
@@ -578,7 +578,7 @@ public class StarController : MonoBehaviour
 
                 await Task.Delay(500);
 
-                Destroy(currentPanel);
+                Destroy(CurrentPanel);
             }
             catch (Exception ex)
             {

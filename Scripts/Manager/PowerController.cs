@@ -7,8 +7,8 @@ public class PowerController : MonoBehaviour
 {
     public static PowerController Instance { get; private set; }
     private GameObject PowerPrefab;
-    private GameObject powerObject;
-    private Transform popupPanel;
+    private GameObject PowerObject;
+    private Transform PopupPanel;
     private const double COUNT_DURATION = 1;
     private Coroutine countCoroutine;
     private void Awake()
@@ -30,14 +30,14 @@ public class PowerController : MonoBehaviour
     public void Initialize()
     {
         PowerPrefab = UIManager.Instance.Get("PowerPrefab");
-        popupPanel = UIManager.Instance.GetTransform("popupPanel");
+        PopupPanel = UIManager.Instance.GetTransform("popupPanel");
     }
     public void ShowPower(double currentPower, double nextPower, int status)
     {
         Canvas.ForceUpdateCanvases(); // Cập nhật Canvas ngay lập tức
         // Destroy(powerObject);
-        powerObject = Instantiate(PowerPrefab, popupPanel);
-        Transform transform = powerObject.transform;
+        PowerObject = Instantiate(PowerPrefab, PopupPanel);
+        Transform transform = PowerObject.transform;
         TextMeshProUGUI currentPowerText = transform.Find("CurrentPowerText").GetComponent<TextMeshProUGUI>();
         currentPowerText.text = currentPower.ToString();
 
@@ -54,7 +54,7 @@ public class PowerController : MonoBehaviour
         }
 
         countCoroutine = StartCoroutine(CountTo(currentPower, nextPower, currentPowerText, status));
-        StartCoroutine(HandlePowerDisplay(powerObject, nextPowerText, 2f)); // Hiển thị trong 1 giây
+        StartCoroutine(HandlePowerDisplay(PowerObject, nextPowerText, 2f)); // Hiển thị trong 1 giây
     }
     private IEnumerator HandlePowerDisplay(GameObject powerObject, TextMeshProUGUI nextPowerText, float duration)
     {

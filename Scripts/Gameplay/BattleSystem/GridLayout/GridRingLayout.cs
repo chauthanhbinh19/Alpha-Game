@@ -5,9 +5,9 @@ using UnityEngine;
 public class GridRingLayout : MonoBehaviour
 {
     [Header("Layout Settings")]
-    public float spacing = 3f;
+    public float Spacing = 3f;
 
-    private List<Transform> children = new List<Transform>();
+    private List<Transform> Children = new List<Transform>();
 
     void Update()
     {
@@ -29,18 +29,18 @@ public class GridRingLayout : MonoBehaviour
     // =========================
     void Rebuild()
     {
-        children.Clear();
+        Children.Clear();
 
         foreach (Transform child in transform)
         {
             if (child.gameObject.activeSelf)
-                children.Add(child);
+                Children.Add(child);
         }
 
-        for (int i = 0; i < children.Count; i++)
+        for (int i = 0; i < Children.Count; i++)
         {
             Vector2Int pos = GetRingPosition(i);
-            children[i].localPosition = new Vector3(pos.x * spacing, 0, pos.y * spacing);
+            Children[i].localPosition = new Vector3(pos.x * Spacing, 0, pos.y * Spacing);
         }
     }
 
