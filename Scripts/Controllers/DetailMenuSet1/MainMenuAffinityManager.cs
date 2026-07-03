@@ -11,16 +11,16 @@ public class MainMenuAffinityManager : MonoBehaviour
     private Transform MainPanel;
     private Transform MateriralPanel;
     private GameObject MainMenuAffinityPanelPrefab;
-    private GameObject currentObject;
+    private GameObject CurrentObject;
     private GameObject ItemPopupPrefab;
-    private RawImage mainImage;
-    private TextMeshProUGUI mainLevelText;
-    private Button upLevelButton;
-    private Button upMaxLevelButton;
-    private string mainType = "Affinity";
-    private List<Items> itemsList;
-    TeamsService teamsService;
-    UserItemsService userItemsService;
+    private RawImage MainImage;
+    private TextMeshProUGUI MainLevelText;
+    private Button UpLevelButton;
+    private Button UpMaxLevelButton;
+    private string MainType = "Affinity";
+    private List<Items> ItemsList;
+    TeamsService TeamsService;
+    UserItemsService UserItemsService;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,21 +32,21 @@ public class MainMenuAffinityManager : MonoBehaviour
         MainMenuAffinityPanelPrefab = UIManager.Instance.Get("MainMenuAffinityPanelPrefab");
         ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
         // List<Items> itemsList = new List<Items>();
-        teamsService = TeamsService.Create();
-        userItemsService = UserItemsService.Create();
+        TeamsService = TeamsService.Create();
+        UserItemsService = UserItemsService.Create();
     }
     public void CreateMainMenuAffinityManager(object data)
     {
-        currentObject = Instantiate(MainMenuAffinityPanelPrefab, MainPanel);
-        Transform transform = currentObject.transform;
+        CurrentObject = Instantiate(MainMenuAffinityPanelPrefab, MainPanel);
+        Transform transform = CurrentObject.transform;
         MateriralPanel = transform.Find("DictionaryCards/SetGroup/Viewport/Content");
-        mainImage = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
-        mainLevelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
+        MainImage = transform.Find("DictionaryCards/CardImage").GetComponent<RawImage>();
+        MainLevelText = transform.Find("DictionaryCards/LevelText").GetComponent<TextMeshProUGUI>();
         // SlotPanel = transform.Find("DictionaryCards/Slot");
         TextMeshProUGUI titleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainMenuSet1.AFFINITY);
-        upLevelButton = transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
-        upMaxLevelButton = transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
+        UpLevelButton = transform.Find("DictionaryCards/UpLevelButton").GetComponent<Button>();
+        UpMaxLevelButton = transform.Find("DictionaryCards/UpMaxLevelButton").GetComponent<Button>();
         Button closeButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         Button homeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
         homeButton.onClick.AddListener(() =>
@@ -57,7 +57,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         closeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(currentObject);
+            Destroy(CurrentObject);
         });
 
         RawImage background = transform.Find("DictionaryBackground").GetComponent<RawImage>();
@@ -136,20 +136,20 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public async Task CreateCardHeroesEquipmentsAsync(CardHeroes cardHero)
     {
-        Rank rank = await UserCardHeroesRankService.Create().GetCardHeroRankAsync(mainType, cardHero.Id);
+        Rank rank = await UserCardHeroesRankService.Create().GetCardHeroRankAsync(MainType, cardHero.Id);
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardHero.Image)}");
-        mainImage.texture = texture;
-        mainLevelText.text = rank.Level.ToString();
+        MainImage.texture = texture;
+        MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        upLevelButton.onClick.RemoveAllListeners();
-        upMaxLevelButton.onClick.RemoveAllListeners();
-        upLevelButton.onClick.AddListener(async () =>
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -160,7 +160,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -210,7 +210,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -219,21 +219,21 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardHero, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardHero, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             await CreateCardHeroesEquipmentsAsync(cardHero);
         });
-        upMaxLevelButton.onClick.AddListener(async () =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -243,7 +243,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -285,7 +285,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -294,8 +294,8 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardHero, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardHero, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -306,19 +306,19 @@ public class MainMenuAffinityManager : MonoBehaviour
     public async Task CreateBooksEquipmentsAsync(Books book)
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(book.Image)}");
-        mainImage.texture = texture;
-        Rank rank = await UserBooksRankService.Create().GetBookRankAsync(mainType, book.Id);
-        mainLevelText.text = rank.Level.ToString();
+        MainImage.texture = texture;
+        Rank rank = await UserBooksRankService.Create().GetBookRankAsync(MainType, book.Id);
+        MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        upLevelButton.onClick.RemoveAllListeners();
-        upMaxLevelButton.onClick.RemoveAllListeners();
-        upLevelButton.onClick.AddListener(async () =>
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -329,7 +329,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -379,7 +379,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -388,21 +388,21 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(book, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(book, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             await CreateBooksEquipmentsAsync(book);
         });
-        upMaxLevelButton.onClick.AddListener(async () =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -412,7 +412,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -454,7 +454,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -463,8 +463,8 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(book, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(book, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -475,19 +475,19 @@ public class MainMenuAffinityManager : MonoBehaviour
     public async Task CreateCardCaptainsEquipmentsAsync(CardCaptains cardCaptain)
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardCaptain.Image)}");
-        mainImage.texture = texture;
-        Rank rank = await UserCardCaptainsRankService.Create().GetCardCaptainRankAsync(mainType, cardCaptain.Id);
-        mainLevelText.text = rank.Level.ToString();
+        MainImage.texture = texture;
+        Rank rank = await UserCardCaptainsRankService.Create().GetCardCaptainRankAsync(MainType, cardCaptain.Id);
+        MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        upLevelButton.onClick.RemoveAllListeners();
-        upMaxLevelButton.onClick.RemoveAllListeners();
-        upLevelButton.onClick.AddListener(async () =>
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -498,7 +498,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -548,7 +548,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -557,21 +557,21 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardCaptain, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardCaptain, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             await CreateCardCaptainsEquipmentsAsync(cardCaptain);
         });
-        upMaxLevelButton.onClick.AddListener(async () =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -581,7 +581,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -623,7 +623,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -632,8 +632,8 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardCaptain, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardCaptain, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -644,19 +644,19 @@ public class MainMenuAffinityManager : MonoBehaviour
     public async Task CreatePetsEquipmentsAsync(Pets pet)
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(pet.Image)}");
-        mainImage.texture = texture;
-        Rank rank = await UserPetsRankService.Create().GetPetRankAsync(mainType, pet.Id);
-        mainLevelText.text = rank.Level.ToString();
+        MainImage.texture = texture;
+        Rank rank = await UserPetsRankService.Create().GetPetRankAsync(MainType, pet.Id);
+        MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        upLevelButton.onClick.RemoveAllListeners();
-        upMaxLevelButton.onClick.RemoveAllListeners();
-        upLevelButton.onClick.AddListener(async () =>
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -667,7 +667,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -717,7 +717,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -726,21 +726,21 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(pet, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(pet, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             await CreatePetsEquipmentsAsync(pet);
         });
-        upMaxLevelButton.onClick.AddListener(async () =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -750,7 +750,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -792,7 +792,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -801,8 +801,8 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(pet, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(pet, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -813,19 +813,19 @@ public class MainMenuAffinityManager : MonoBehaviour
     public async Task CreateCardMilitaryEquipmentsAsync(CardMilitaries cardMilitary)
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardMilitary.Image)}");
-        mainImage.texture = texture;
-        Rank rank = await UserCardMilitariesRankService.Create().GetCardMilitaryRankAsync(mainType, cardMilitary.Id);
-        mainLevelText.text = rank.Level.ToString();
+        MainImage.texture = texture;
+        Rank rank = await UserCardMilitariesRankService.Create().GetCardMilitaryRankAsync(MainType, cardMilitary.Id);
+        MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        upLevelButton.onClick.RemoveAllListeners();
-        upMaxLevelButton.onClick.RemoveAllListeners();
-        upLevelButton.onClick.AddListener(async () =>
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -836,7 +836,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -886,7 +886,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -895,21 +895,21 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardMilitary, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardMilitary, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             await CreateCardMilitaryEquipmentsAsync(cardMilitary);
         });
-        upMaxLevelButton.onClick.AddListener(async () =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -919,7 +919,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -961,7 +961,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -970,8 +970,8 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardMilitary, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardMilitary, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -982,19 +982,19 @@ public class MainMenuAffinityManager : MonoBehaviour
     public async Task CreateCardSpellEquipmentsAsync(CardSpells cardSpell)
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardSpell.Image)}");
-        mainImage.texture = texture;
-        Rank rank = await UserCardSpellsRankService.Create().GetCardSpellRankAsync(mainType, cardSpell.Id);
-        mainLevelText.text = rank.Level.ToString();
+        MainImage.texture = texture;
+        Rank rank = await UserCardSpellsRankService.Create().GetCardSpellRankAsync(MainType, cardSpell.Id);
+        MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        upLevelButton.onClick.RemoveAllListeners();
-        upMaxLevelButton.onClick.RemoveAllListeners();
-        upLevelButton.onClick.AddListener(async () =>
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -1005,7 +1005,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -1055,7 +1055,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1064,21 +1064,21 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardSpell, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardSpell, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             await CreateCardSpellEquipmentsAsync(cardSpell);
         });
-        upMaxLevelButton.onClick.AddListener(async () =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -1088,7 +1088,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -1130,7 +1130,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1139,8 +1139,8 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardSpell, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardSpell, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1151,19 +1151,19 @@ public class MainMenuAffinityManager : MonoBehaviour
     public async Task CreateCardMonstersEquipmentsAsync(CardMonsters cardMonster)
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardMonster.Image)}");
-        mainImage.texture = texture;
-        Rank rank = await UserCardMonstersRankService.Create().GetCardMonsterRankAsync(mainType, cardMonster.Id);
-        mainLevelText.text = rank.Level.ToString();
+        MainImage.texture = texture;
+        Rank rank = await UserCardMonstersRankService.Create().GetCardMonsterRankAsync(MainType, cardMonster.Id);
+        MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        upLevelButton.onClick.RemoveAllListeners();
-        upMaxLevelButton.onClick.RemoveAllListeners();
-        upLevelButton.onClick.AddListener(async () =>
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -1174,7 +1174,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -1224,7 +1224,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1233,21 +1233,21 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardMonster, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardMonster, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             await CreateCardMonstersEquipmentsAsync(cardMonster);
         });
-        upMaxLevelButton.onClick.AddListener(async () =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -1257,7 +1257,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -1299,7 +1299,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1309,8 +1309,8 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
 
-            await UpLevelAsync(cardMonster, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardMonster, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1321,19 +1321,19 @@ public class MainMenuAffinityManager : MonoBehaviour
     public async Task CreateCardColonelsEquipmentsAsync(CardColonels cardColonel)
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardColonel.Image)}");
-        mainImage.texture = texture;
-        Rank rank = await UserCardColonelsRankService.Create().GetCardColonelRankAsync(mainType, cardColonel.Id);
-        mainLevelText.text = rank.Level.ToString();
+        MainImage.texture = texture;
+        Rank rank = await UserCardColonelsRankService.Create().GetCardColonelRankAsync(MainType, cardColonel.Id);
+        MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        upLevelButton.onClick.RemoveAllListeners();
-        upMaxLevelButton.onClick.RemoveAllListeners();
-        upLevelButton.onClick.AddListener(async () =>
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -1344,7 +1344,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -1394,7 +1394,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1403,21 +1403,21 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardColonel, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardColonel, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             await CreateCardColonelsEquipmentsAsync(cardColonel);
         });
-        upMaxLevelButton.onClick.AddListener(async () =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -1427,7 +1427,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -1469,7 +1469,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1478,8 +1478,8 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardColonel, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardColonel, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1490,19 +1490,19 @@ public class MainMenuAffinityManager : MonoBehaviour
     public async Task CreateCardGeneralsEquipmentsAsync(CardGenerals cardGeneral)
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardGeneral.Image)}");
-        mainImage.texture = texture;
-        Rank rank = await UserCardGeneralsRankService.Create().GetCardGeneralRankAsync(mainType, cardGeneral.Id);
-        mainLevelText.text = rank.Level.ToString();
+        MainImage.texture = texture;
+        Rank rank = await UserCardGeneralsRankService.Create().GetCardGeneralRankAsync(MainType, cardGeneral.Id);
+        MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        upLevelButton.onClick.RemoveAllListeners();
-        upMaxLevelButton.onClick.RemoveAllListeners();
-        upLevelButton.onClick.AddListener(async () =>
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -1513,7 +1513,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -1563,7 +1563,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1572,21 +1572,21 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardGeneral, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardGeneral, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             await CreateCardGeneralsEquipmentsAsync(cardGeneral);
         });
-        upMaxLevelButton.onClick.AddListener(async () =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -1596,7 +1596,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -1638,7 +1638,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1647,8 +1647,8 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardGeneral, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardGeneral, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1659,19 +1659,19 @@ public class MainMenuAffinityManager : MonoBehaviour
     public async Task CreateCardAdmiralsEquipmentsAsync(CardAdmirals cardAdmiral)
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardAdmiral.Image)}");
-        mainImage.texture = texture;
-        Rank rank = await UserCardAdmiralsRankService.Create().GetCardAdmiralRankAsync(mainType, cardAdmiral.Id);
-        mainLevelText.text = rank.Level.ToString();
+        MainImage.texture = texture;
+        Rank rank = await UserCardAdmiralsRankService.Create().GetCardAdmiralRankAsync(MainType, cardAdmiral.Id);
+        MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        upLevelButton.onClick.RemoveAllListeners();
-        upMaxLevelButton.onClick.RemoveAllListeners();
-        upLevelButton.onClick.AddListener(async () =>
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -1682,7 +1682,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -1732,7 +1732,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1741,21 +1741,21 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardAdmiral, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardAdmiral, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
         });
-        upMaxLevelButton.onClick.AddListener(async () =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -1765,7 +1765,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -1807,7 +1807,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1816,8 +1816,8 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardAdmiral, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardAdmiral, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1828,19 +1828,19 @@ public class MainMenuAffinityManager : MonoBehaviour
     public async Task CreateCardSoldiersEquipmentsAsync(CardSoldiers cardSoldier)
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardSoldier.Image)}");
-        mainImage.texture = texture;
-        Rank rank = await UserCardAdmiralsRankService.Create().GetCardAdmiralRankAsync(mainType, cardSoldier.Id);
-        mainLevelText.text = rank.Level.ToString();
+        MainImage.texture = texture;
+        Rank rank = await UserCardAdmiralsRankService.Create().GetCardAdmiralRankAsync(MainType, cardSoldier.Id);
+        MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
-        upLevelButton.onClick.RemoveAllListeners();
-        upMaxLevelButton.onClick.RemoveAllListeners();
-        upLevelButton.onClick.AddListener(async () =>
+        UpLevelButton.onClick.RemoveAllListeners();
+        UpMaxLevelButton.onClick.RemoveAllListeners();
+        UpLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -1851,7 +1851,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào quantity
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -1901,7 +1901,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1910,21 +1910,21 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
             
-            await UpLevelAsync(cardSoldier, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardSoldier, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
 
             await CreateCardSoldiersEquipmentsAsync(cardSoldier);
         });
-        upMaxLevelButton.onClick.AddListener(async () =>
+        UpMaxLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
 
             Dictionary<string, Features> feature = new Dictionary<string, Features>();
-            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(mainType);
-            rank.Id = feature[mainType].Id;
+            feature = await FeaturesService.Create().GetFeaturesByTypeAsync(MainType);
+            rank.Id = feature[MainType].Id;
 
             if (rank.Level >= 100000)
                 return; // Nếu đã đạt giới hạn, không nâng cấp nữa
@@ -1934,7 +1934,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             List<(Items item, int usedQuantity)> usedItems = new List<(Items, int)>(); // Lưu vật phẩm + số lượng đã sử dụng
 
             // Tính tổng exp từ vật phẩm dựa vào số lượng còn lại
-            foreach (var item in itemsList)
+            foreach (var item in ItemsList)
             {
                 double itemExp = ItemHelper.GetItemExp(item.Name);
                 double availableQuantity = item.Quantity;
@@ -1976,7 +1976,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await userItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1985,8 +1985,8 @@ public class MainMenuAffinityManager : MonoBehaviour
 
             // Cập nhật sức mạnh đội hình
 
-            await UpLevelAsync(cardSoldier, newRank, mainType);
-            double newPower = await teamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            await UpLevelAsync(cardSoldier, newRank, MainType);
+            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1998,9 +1998,9 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Close(MateriralPanel);
         Items items = new Items();
-        itemsList = new List<Items>();
-        itemsList = await userItemsService.GetItemForRankAsync("Affinity");
-        foreach (Items item in itemsList)
+        ItemsList = new List<Items>();
+        ItemsList = await UserItemsService.GetItemForRankAsync("Affinity");
+        foreach (Items item in ItemsList)
         {
             GameObject itemObject = Instantiate(ItemPopupPrefab, MateriralPanel);
 

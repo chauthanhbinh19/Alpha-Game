@@ -22,7 +22,7 @@ public class MainMenuOmnivoryManager : MonoBehaviour
     private Transform content;
     private const int ITEMS_PER_PAGE = 50;
     private int _currentPage = 0;
-    private List<KeyValuePair<string, FeatureRankDTO>> _featureList;
+    private List<KeyValuePair<string, FeatureRankDTO>> FeatureList;
     private IStats _stat;
     private Button nextButton;
     private Button previousButton;
@@ -82,7 +82,7 @@ public class MainMenuOmnivoryManager : MonoBehaviour
                 return match.Success ? int.Parse(match.Value) : 0;
             })
             .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
-        _featureList = uniqueTypes.ToList();
+        FeatureList = uniqueTypes.ToList();
         _currentPage = 0;
         _stat = stat;
         SetupPagination(currentObject);
@@ -95,11 +95,11 @@ public class MainMenuOmnivoryManager : MonoBehaviour
             Destroy(child.gameObject);
 
         int start = _currentPage * ITEMS_PER_PAGE;
-        int end = Mathf.Min(start + ITEMS_PER_PAGE, _featureList.Count);
+        int end = Mathf.Min(start + ITEMS_PER_PAGE, FeatureList.Count);
 
         for (int i = start; i < end; i++)
         {
-            var kvp = _featureList[i];
+            var kvp = FeatureList[i];
 
             string subtype = kvp.Key;
             int requiredLevel = kvp.Value.RequiredLevel;
@@ -176,10 +176,10 @@ public class MainMenuOmnivoryManager : MonoBehaviour
 
     private int GetTotalPages()
     {
-        if (_featureList == null || _featureList.Count == 0)
+        if (FeatureList == null || FeatureList.Count == 0)
             return 1;
 
-        return Mathf.CeilToInt((float)_featureList.Count / ITEMS_PER_PAGE);
+        return Mathf.CeilToInt((float)FeatureList.Count / ITEMS_PER_PAGE);
     }
 
     private void UpdatePageUI()
