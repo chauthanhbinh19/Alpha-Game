@@ -82,9 +82,9 @@ public static class AppConstants
     }
     public static class Target
     {
-        public const string SELF = "self";
-        public const string ENEMY = "enemy";
-        public const string ALLY = "ally";
+        public const string SELF = "SELF";
+        public const string ENEMY = "ENEMY";
+        public const string ALLY = "ALLY";
         public const string CASTER = "CASTER";
         public const string CAST_TARGET = "CAST_TARGET";
         public const string PATTERN_ALL = "PATTERN_ALL";
