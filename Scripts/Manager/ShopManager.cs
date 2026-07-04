@@ -22,13 +22,11 @@ public class ShopManager : MonoBehaviour
     private RawImage SecondDecorationImage;
     private Button CloseButton;
     private Button HomeButton;
+    private PaginationManager PaginationManager;
     private int Offset = 0;
     private int CurrentPage = 1;
-    private int TotalPage;
+    private int TotalItems;
     private const int PAGE_SIZE = 100;
-    private TextMeshProUGUI PageText;
-    private Button NextButton;
-    private Button PreviousButton;
     private string MainType;
     private string Type;
     private TextMeshProUGUI TitleText;
@@ -224,7 +222,7 @@ public class ShopManager : MonoBehaviour
     public void GetType(string type)
     {
         MainType = type; // Gán giá trị cho mainType
-        _=GetButtonTypeAsync(); // Gọi hàm xử lý
+        _ = GetButtonTypeAsync(); // Gọi hàm xử lý
         TitleText.text = LocalizationManager.Get(type); // Cập nhật tiêu đề
     }
     public async Task GetButtonTypeAsync()
@@ -237,9 +235,6 @@ public class ShopManager : MonoBehaviour
         CurrencyPanel = transform.Find("DictionaryCards/Currency");
         FirstDecorationImage = transform.Find("DictionaryCards/FirstDecorationImage").GetComponent<RawImage>();
         SecondDecorationImage = transform.Find("DictionaryCards/SecondDecorationImage").GetComponent<RawImage>();
-        PageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
-        NextButton = transform.Find("Pagination/Next").GetComponent<Button>();
-        PreviousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
         TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
         CloseButton = transform.Find("DictionaryCards/CloseButton").GetComponent<Button>();
         CloseButton.onClick.AddListener(() =>
@@ -256,16 +251,8 @@ public class ShopManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
             await HomeManager.Instance.CreateHomePanelAsync();
         });
-        NextButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            ChangeNextPage();
-        });
-        PreviousButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            ChangePreviousPage();
-        });
+
+        PaginationManager = transform.Find("PaginationPanelPrefab").GetComponent<PaginationManager>();
 
         // Transform CurrencyPanel = transform.Find("DictionaryCards/Currency");
         // 
@@ -296,7 +283,7 @@ public class ShopManager : MonoBehaviour
                 {
                     Type = subtype;
                     ButtonLoader.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-                    _=LoadCurrentPageAsync();
+                    _ = LoadCurrentPageAsync();
 
                 }
                 else
@@ -307,9 +294,8 @@ public class ShopManager : MonoBehaviour
         }
         else
         {
-            _=LoadCurrentPageAsync();
+            _ = LoadCurrentPageAsync();
         }
-
     }
     void OnButtonClick(GameObject clickedButton, string type)
     {
@@ -329,7 +315,7 @@ public class ShopManager : MonoBehaviour
         Offset = 0;
         ButtonEvent.Instance.Close(CurrentContent);
         ButtonLoader.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-        _=LoadCurrentPageAsync();
+        _ = LoadCurrentPageAsync();
     }
     public async Task LoadCurrentPageAsync()
     {
@@ -863,33 +849,35 @@ public class ShopManager : MonoBehaviour
 
             totalRecord = await OutfitsService.Create().GetOutfitsWithPriceCountAsync(Type);
         }
-        TotalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
-        PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
-    }
-    public void ChangeNextPage()
-    {
-        if (CurrentPage < TotalPage)
+
+        TotalItems = totalRecord;
+
+        if (PaginationManager != null)
         {
-            ButtonEvent.Instance.Close(CurrentContent);
-            CurrentPage = CurrentPage + 1;
-            Offset = Offset + PAGE_SIZE;
-            _=LoadCurrentPageAsync();
+            // Tạm thời gỡ sự kiện để việc Init không kích hoạt ngược lại hàm Load lần nữa
+            PaginationManager.OnPageChanged -= OnPageSelected;
 
-            PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
+            // Vẽ lại dải nút số dựa trên TotalItems mới sau khi đã Lọc/Search
+            // Luôn ép về Trang 1 vì mỗi lần Search/Filter là tính lại từ đầu
+            PaginationManager.InitPagination(TotalItems, PAGE_SIZE, CurrentPage);
 
+            // Đăng ký lại sự kiện sau khi Init đã hoàn tất sạch sẽ
+            PaginationManager.OnPageChanged += OnPageSelected;
         }
     }
-    public void ChangePreviousPage()
+    private void OnPageSelected(int pageNumber)
     {
-        if (CurrentPage > 1)
+        CurrentPage = pageNumber;
+        Offset = (CurrentPage - 1) * PAGE_SIZE;
+        _ = LoadCurrentPageAsync();
+    }
+
+    private void OnDestroy()
+    {
+        // Luôn luôn hủy đăng ký sự kiện khi Object bị xóa để tránh lỗi bộ nhớ
+        if (PaginationManager != null)
         {
-            ButtonEvent.Instance.Close(CurrentContent);
-            CurrentPage = CurrentPage - 1;
-            Offset = Offset - PAGE_SIZE;
-            _=LoadCurrentPageAsync();
-
-            PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
-
+            PaginationManager.OnPageChanged -= OnPageSelected;
         }
     }
 

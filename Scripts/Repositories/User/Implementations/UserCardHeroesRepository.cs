@@ -21,45 +21,45 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
 
             string selectSQL = @"
             SELECT 
-                    uc.*, 
-                    c.name, 
-                    c.image, 
-                    c.type, 
-                    c.description, 
-                    COALESCE(t.team_number, 0) AS team_number,
-                    (
-                        SELECT JSON_ARRAYAGG(
-                            JSON_OBJECT(
-                                'id', e.id,
-                                'name', e.name,
-                                'image', e.image,
-                                'type', e.type
-                            )
+                uc.*, 
+                c.name, 
+                c.image, 
+                c.type, 
+                c.description, 
+                COALESCE(t.team_number, 0) AS team_number,
+                (
+                    SELECT JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                            'id', e.id,
+                            'name', e.name,
+                            'image', e.image,
+                            'type', e.type
                         )
-                        FROM card_hero_emblem che
-                        JOIN emblems e ON che.emblem_id = e.id
-                        WHERE che.card_hero_id = c.id
-                    ) AS emblems_json,
-                    (
-                        SELECT JSON_ARRAYAGG(
-                            JSON_OBJECT(
-                                'id', cl.id,
-                                'sub_type', cl.sub_type,
-                                'sub_image', cl.sub_image,
-                                'main_type', cl.main_type,
-                                'main_image', cl.main_image,
-                                'movement_range', cl.movement_range,
-                                'movement_point', cl.movement_point,
-                                'attack_range', cl.attack_range
-                            )
+                    )
+                    FROM card_hero_emblem che
+                    JOIN emblems e ON che.emblem_id = e.id
+                    WHERE che.card_hero_id = c.id
+                ) AS emblems_json,
+                (
+                    SELECT JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                            'id', cl.id,
+                            'sub_type', cl.sub_type,
+                            'sub_image', cl.sub_image,
+                            'main_type', cl.main_type,
+                            'main_image', cl.main_image,
+                            'movement_range', cl.movement_range,
+                            'movement_point', cl.movement_point,
+                            'attack_range', cl.attack_range
                         )
-                        FROM card_hero_class chc
-                        JOIN classes cl ON chc.class_id = cl.id
-                        WHERE chc.card_hero_id = c.id
-                    ) AS classes_json
-                FROM user_card_heroes uc
-                LEFT JOIN card_heroes c ON c.id = uc.card_hero_id 
-                LEFT JOIN teams t ON t.team_id = uc.team_id
+                    )
+                    FROM card_hero_class chc
+                    JOIN classes cl ON chc.class_id = cl.id
+                    WHERE chc.card_hero_id = c.id
+                ) AS classes_json
+            FROM user_card_heroes uc
+            LEFT JOIN card_heroes c ON c.id = uc.card_hero_id 
+            LEFT JOIN teams t ON t.team_id = uc.team_id
             WHERE uc.user_id = @userId 
         ";
             if (!string.IsNullOrEmpty(type) && type != "All")

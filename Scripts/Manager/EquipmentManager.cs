@@ -33,13 +33,16 @@ public class EquipmentManager : MonoBehaviour
     private GameObject CardsPrefab;
     private GameObject ReceivedNotificationPanelPrefab;
     private GameObject ItemPopupPrefab;
+    private PaginationManager PaginationManager;
     private int Offset = 0;
     private int CurrentPage = 1;
     private int TotalPage;
+    private int TotalItems;
     private const int PAGE_SIZE = 100;
     private int Count = 1;
     private string Search = "";
-    // private string type;
+    private string Status;
+    private string Type;
     private string Rare = AppConstants.Rare.ALL;
     private GameObject CurrentObject;
     public static EquipmentManager Instance { get; private set; }
@@ -152,7 +155,7 @@ public class EquipmentManager : MonoBehaviour
     {
         GameObject equipmentObject = Instantiate(EquipmentPanelPrefab, MainPanel);
 
-        Text Title = equipmentObject.transform.Find("Title").GetComponent<Text>();
+        TextMeshProUGUI Title = equipmentObject.transform.Find("Title").GetComponent<TextMeshProUGUI>();
         Title.text = LocalizationManager.Get(type);
 
         RawImage Image = equipmentObject.transform.Find("Background").GetComponent<RawImage>();
@@ -160,7 +163,17 @@ public class EquipmentManager : MonoBehaviour
         Texture texture = TextureHelper.LoadTextureCached($"UI/Background1/{image}");
         Image.texture = texture;
         Button closeButton = equipmentObject.transform.Find("CloseButton").GetComponent<Button>();
-        closeButton.onClick.AddListener(() => OnClose());
+        closeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            OnClose();
+        });
+        Button homeButton = equipmentObject.transform.Find("HomeButton").GetComponent<Button>();
+        homeButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+            Close(MainPanel);
+        });
 
         Transform gridLayout = equipmentObject.transform.Find("GridLayout");
         if (gridLayout != null)
@@ -169,18 +182,21 @@ public class EquipmentManager : MonoBehaviour
             bagButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
+                Type = type;
                 await GetBagAsync(type);
             });
             Button shopButton = gridLayout.transform.Find("Shop").GetComponent<Button>();
             shopButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
+                Type = type;
                 await GetShopAsync(type);
             });
             Button enhancementButton = gridLayout.transform.Find("Enhancement").GetComponent<Button>();
             enhancementButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
+                Type = type;
                 await GetEnhancementAsync(type);
             });
             Button missionButton = gridLayout.transform.Find("Mission").GetComponent<Button>();
@@ -445,13 +461,13 @@ public class EquipmentManager : MonoBehaviour
             nextButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-                _=ChangeNextPageAsync(1, pageText, content, type);
+                _ = ChangeNextPageAsync(1, pageText, content, type);
             });
             Button previousButton = button.transform.Find("Previous").GetComponent<Button>();
             previousButton.onClick.AddListener(() =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-                _=ChangePreviousPageAsync(1, pageText, content, type);
+                _ = ChangePreviousPageAsync(1, pageText, content, type);
             });
         }
 
@@ -471,7 +487,7 @@ public class EquipmentManager : MonoBehaviour
         Transform DictionaryPanel = CurrentObject.transform.Find("DictionaryCards");
         if (DictionaryPanel != null)
         {
-            TextMeshProUGUI titleText = DictionaryPanel.transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
+            TextMeshProUGUI titleText = DictionaryPanel.transform.Find("Title").GetComponent<TextMeshProUGUI>();
             titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SHOP);
             Transform content = DictionaryPanel.Find("Scroll View/Viewport/Content");
             Button closeButton = DictionaryPanel.transform.Find("CloseButton").GetComponent<Button>();
@@ -491,25 +507,9 @@ public class EquipmentManager : MonoBehaviour
             });
         }
 
-        Transform button = CurrentObject.transform.Find("Pagination");
-        if (button != null)
-        {
-            Transform content = DictionaryPanel.Find("Scroll View/Viewport/Content");
-            TextMeshProUGUI pageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
-            pageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
-            Button nextButton = button.transform.Find("Next").GetComponent<Button>();
-            nextButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-                _=ChangeNextPageAsync(2, pageText, content, type);
-            });
-            Button previousButton = button.transform.Find("Previous").GetComponent<Button>();
-            previousButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-                _=ChangePreviousPageAsync(2, pageText, content, type);
-            });
-        }
+        PaginationManager = CurrentObject.transform.Find("PaginationPanelPrefab").GetComponent<PaginationManager>();
+        await LoadCurrentPageAsync();
+
         Transform CurrencyPanel = CurrentObject.transform.Find("DictionaryCards/Currency");
         await FindObjectOfType<CurrenciesManager>().GetEquipmentsCurrencyAsync(type, CurrencyPanel);
     }
@@ -544,9 +544,9 @@ public class EquipmentManager : MonoBehaviour
             TextMeshProUGUI pageText = button.transform.Find("Page").GetComponent<TextMeshProUGUI>();
             pageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
             Button nextButton = button.transform.Find("Next").GetComponent<Button>();
-            nextButton.onClick.AddListener(() => _=ChangeNextPageAsync(3, pageText, content, type));
+            nextButton.onClick.AddListener(() => _ = ChangeNextPageAsync(3, pageText, content, type));
             Button previousButton = button.transform.Find("Previous").GetComponent<Button>();
-            previousButton.onClick.AddListener(() => _=ChangePreviousPageAsync(3, pageText, content, type));
+            previousButton.onClick.AddListener(() => _ = ChangePreviousPageAsync(3, pageText, content, type));
         }
     }
     // public async Task GetCampaignAsync(string type)
@@ -592,6 +592,32 @@ public class EquipmentManager : MonoBehaviour
     //     currencies = await currencyService.GetUserCurrencyAsync(User.CurrentUserId);
     //     FindObjectOfType<CurrenciesManager>().GetMainCurrency(currencies, CurrencyPanel);
     // }
+    public async Task LoadCurrentPageAsync()
+    {
+        int totalRecord = 0;
+        if (true)
+        {
+            var equipmentsService = EquipmentsService.Create();
+            totalRecord = await equipmentsService.GetEquipmentsCountAsync(Search, Type, Rare);
+            List<Equipments> equipments = await equipmentsService.GetEquipmentsWithCurrencyAsync(Type, PAGE_SIZE, Offset);
+            CreateEquipmentsShop(equipments, Type);
+        }
+
+        TotalItems = totalRecord;
+
+        if (PaginationManager != null)
+        {
+            // Tạm thời gỡ sự kiện để việc Init không kích hoạt ngược lại hàm Load lần nữa
+            PaginationManager.OnPageChanged -= OnPageSelected;
+
+            // Vẽ lại dải nút số dựa trên TotalItems mới sau khi đã Lọc/Search
+            // Luôn ép về Trang 1 vì mỗi lần Search/Filter là tính lại từ đầu
+            PaginationManager.InitPagination(TotalItems, PAGE_SIZE, CurrentPage);
+
+            // Đăng ký lại sự kiện sau khi Init đã hoàn tất sạch sẽ
+            PaginationManager.OnPageChanged += OnPageSelected;
+        }
+    }
     public async Task ChangeNextPageAsync(int status, TextMeshProUGUI PageText, Transform content, string subType)
     {
         if (CurrentPage < TotalPage)
@@ -697,7 +723,7 @@ public class EquipmentManager : MonoBehaviour
         var equipmentsGalleryService = EquipmentsGalleryService.Create();
         var userCurrencyService = UserCurrenciesService.Create();
         Currencies currency = await userCurrencyService.GetUserEquipmentsPriceAsync(type, equipments.Id);
-        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(currency.Image);;
+        string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(currency.Image); ;
         Texture currencyTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         currencyImage.texture = currencyTexture;
 
@@ -842,9 +868,24 @@ public class EquipmentManager : MonoBehaviour
         };
         entry.callback.AddListener((data) =>
         {
-           Destroy(obj);
+            Destroy(obj);
         });
         trigger.triggers.Add(entry);
+    }
+    private void OnPageSelected(int pageNumber)
+    {
+        CurrentPage = pageNumber;
+        Offset = (CurrentPage - 1) * PAGE_SIZE;
+        _ = LoadCurrentPageAsync();
+    }
+
+    private void OnDestroy()
+    {
+        // Luôn luôn hủy đăng ký sự kiện khi Object bị xóa để tránh lỗi bộ nhớ
+        if (PaginationManager != null)
+        {
+            PaginationManager.OnPageChanged -= OnPageSelected;
+        }
     }
     public void PopupCampaignDetail(CampaignDetail campaignDetail)
     {

@@ -21,6 +21,7 @@ public class MainMenuManager : MonoBehaviour
     private Button HomeButton;
     private Transform RightScrollViewContentPanel;
     private Transform LeftScrollViewContentPanel;
+    private PaginationManager PaginationManager;
 
     private Transform PositionPanel;
     private GameObject CurrentObject;
@@ -28,11 +29,8 @@ public class MainMenuManager : MonoBehaviour
     //Variable for pagination
     private int Offset = 0;
     private int CurrentPage = 1;
-    private int TotalPage;
+    private int TotalItems;
     private const int PAGE_SIZE = 100;
-    private TextMeshProUGUI PageText;
-    private Button NextButton;
-    private Button PreviousButton;
     private string MainType;
     private TextMeshProUGUI TitleText;
     private string Search = "";
@@ -582,9 +580,6 @@ public class MainMenuManager : MonoBehaviour
             DictionaryContentPanel = transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
             RightScrollViewContentPanel = transform.Find("RightScrollView/Viewport/Content");
             LeftScrollViewContentPanel = transform.Find("Scroll View/Viewport/ButtonContent");
-            PageText = transform.Find("Pagination/Page").GetComponent<TextMeshProUGUI>();
-            NextButton = transform.Find("Pagination/Next").GetComponent<Button>();
-            PreviousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
             TitleText = transform.Find("DictionaryCards/Title").GetComponent<TextMeshProUGUI>();
             TMP_Dropdown rareDropdown = transform.Find("DictionaryCards/InputGroup/RareDropdown").GetComponent<TMP_Dropdown>();
             TMP_Dropdown typeDropdown = transform.Find("DictionaryCards/InputGroup/TypeDropdown").GetComponent<TMP_Dropdown>();
@@ -604,16 +599,6 @@ public class MainMenuManager : MonoBehaviour
                 Close(MainPanel);
 
             });
-            NextButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-                ChangeNextPage();
-            });
-            PreviousButton.onClick.AddListener(() =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-                ChangePreviousPage();
-            });
 
             Image topBackgroundImage = transform.Find("DictionaryCards/TitleGroup/TopBackground").GetComponent<Image>();
             topBackgroundImage.material = UI_Red_Gradient_Radius_Mat_MaskPercent_70;
@@ -621,6 +606,8 @@ public class MainMenuManager : MonoBehaviour
             subTitleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.INVENTORY);
 
             // CurrencyPanel = transform.Find("DictionaryCards/Currency");
+            PaginationManager = transform.Find("PaginationPanelPrefab").GetComponent<PaginationManager>();
+
 
             // List<Currencies> currencies = new List<Currencies>();
             // currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(User.CurrentUserId);
@@ -687,7 +674,7 @@ public class MainMenuManager : MonoBehaviour
                 typeDropdown.RefreshShownValue();
             }
 
-            _ = LoadCurrentPageAsync();
+            await LoadCurrentPageAsync();
         }
         LoadAnimation();
     }
@@ -1141,8 +1128,20 @@ public class MainMenuManager : MonoBehaviour
 
         if (listCount > 0)
         {
-            TotalPage = PageHelper.CalculateTotalPages(totalRecord, PAGE_SIZE);
-            PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
+            TotalItems = totalRecord;
+        }
+
+        if (PaginationManager != null)
+        {
+            // Tạm thời gỡ sự kiện để việc Init không kích hoạt ngược lại hàm Load lần nữa
+            PaginationManager.OnPageChanged -= OnPageSelected;
+
+            // Vẽ lại dải nút số dựa trên TotalItems mới sau khi đã Lọc/Search
+            // Luôn ép về Trang 1 vì mỗi lần Search/Filter là tính lại từ đầu
+            PaginationManager.InitPagination(TotalItems, PAGE_SIZE, CurrentPage);
+
+            // Đăng ký lại sự kiện sau khi Init đã hoàn tất sạch sẽ
+            PaginationManager.OnPageChanged += OnPageSelected;
         }
     }
     public void ClearAllPrefabs()
@@ -1171,32 +1170,6 @@ public class MainMenuManager : MonoBehaviour
             Destroy(child.gameObject);
         }
     }
-    public void ChangeNextPage()
-    {
-        if (CurrentPage < TotalPage)
-        {
-            ClearAllPrefabs();
-            CurrentPage = CurrentPage + 1;
-            Offset = Offset + PAGE_SIZE;
-            _ = LoadCurrentPageAsync();
-
-            PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
-
-        }
-    }
-    public void ChangePreviousPage()
-    {
-        if (CurrentPage > 1)
-        {
-            ClearAllPrefabs();
-            CurrentPage = CurrentPage - 1;
-            Offset = Offset - PAGE_SIZE;
-            _ = LoadCurrentPageAsync();
-
-            PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
-
-        }
-    }
     public void ClosePanel()
     {
         ClearAllButton();
@@ -1211,6 +1184,23 @@ public class MainMenuManager : MonoBehaviour
         foreach (Transform child in content)
         {
             Destroy(child.gameObject);
+        }
+    }
+
+    // Hàm hứng sự kiện click nút phân trang
+    private void OnPageSelected(int pageNumber)
+    {
+        CurrentPage = pageNumber;
+        Offset = (CurrentPage - 1) * PAGE_SIZE;
+        _ = LoadCurrentPageAsync();
+    }
+
+    private void OnDestroy()
+    {
+        // Luôn luôn hủy đăng ký sự kiện khi Object bị xóa để tránh lỗi bộ nhớ
+        if (PaginationManager != null)
+        {
+            PaginationManager.OnPageChanged -= OnPageSelected;
         }
     }
     public void LoadAnimation()
