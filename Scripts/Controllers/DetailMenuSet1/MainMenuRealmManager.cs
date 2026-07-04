@@ -20,9 +20,9 @@ public class MainMenuRealmManager : MonoBehaviour
     private GameObject RankItemPrefab;
     private Transform content;
     private const int ITEMS_PER_PAGE = 50;
-    private int _currentPage = 0;
+    private int CurrentPage = 0;
     private List<KeyValuePair<string, FeatureRankDTO>> FeatureList;
-    private IStats _stat;
+    private IStats Stat;
     private Button nextButton;
     private Button previousButton;
     private TextMeshProUGUI pageText;
@@ -82,8 +82,8 @@ public class MainMenuRealmManager : MonoBehaviour
             })
             .ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
         FeatureList = uniqueTypes.ToList();
-        _currentPage = 0;
-        _stat = stat;
+        CurrentPage = 0;
+        Stat = stat;
         SetupPagination(currentObject);
         RenderPage();
     }
@@ -93,7 +93,7 @@ public class MainMenuRealmManager : MonoBehaviour
         foreach (Transform child in content)
             Destroy(child.gameObject);
 
-        int start = _currentPage * ITEMS_PER_PAGE;
+        int start = CurrentPage * ITEMS_PER_PAGE;
         int end = Mathf.Min(start + ITEMS_PER_PAGE, FeatureList.Count);
 
         for (int i = start; i < end; i++)
@@ -185,30 +185,30 @@ public class MainMenuRealmManager : MonoBehaviour
     {
         int totalPages = GetTotalPages();
 
-        pageText.text = $"{_currentPage + 1} / {totalPages}";
+        pageText.text = $"{CurrentPage + 1} / {totalPages}";
 
-        previousButton.interactable = _currentPage > 0;
-        nextButton.interactable = _currentPage < totalPages - 1;
+        previousButton.interactable = CurrentPage > 0;
+        nextButton.interactable = CurrentPage < totalPages - 1;
     }
 
     private void OnNextPage()
     {
         int totalPages = GetTotalPages();
 
-        if (_currentPage >= totalPages - 1)
+        if (CurrentPage >= totalPages - 1)
             return;
 
-        _currentPage++;
+        CurrentPage++;
         RenderPage();
         UpdatePageUI();
     }
 
     private void OnPreviousPage()
     {
-        if (_currentPage <= 0)
+        if (CurrentPage <= 0)
             return;
 
-        _currentPage--;
+        CurrentPage--;
         RenderPage();
         UpdatePageUI();
     }
@@ -507,7 +507,7 @@ public class MainMenuRealmManager : MonoBehaviour
                 if (result.Success)
                 {
                     userRank = EnhanceHelper.EnhanceRanks(userRank, result.UpgradedLevels, rank.BaseMultiplier);
-                    await UserRanksService.Create().InsertOrUpdateUserRanksAsync(User.CurrentUserId, userRank, featureId, _stat);
+                    await UserRanksService.Create().InsertOrUpdateUserRanksAsync(User.CurrentUserId, userRank, featureId, Stat);
 
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

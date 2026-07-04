@@ -516,7 +516,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
 
         _ = CreateSetButtonAsync(data);
     }
-    async Task OnButtonClickAsync(GameObject clickedButton, object data, string type)
+    public async Task OnButtonClickAsync(GameObject clickedButton, object data, string type)
     {
         foreach (Transform child in TabButtonPanel)
         {
@@ -625,7 +625,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
         }
     }
-    async Task OnSetButtonClickAsync(GameObject clickedButton, object data, string type)
+    public async Task OnSetButtonClickAsync(GameObject clickedButton, object data, string type)
     {
         foreach (Transform child in SetPanel)
         {
