@@ -18,14 +18,12 @@ public class MainMenuPufferElectroManager : MonoBehaviour
     private GameObject PopupRankButtonPrefab;
     private GameObject MainRankPanelPrefab;
     private GameObject RankItemPrefab;
-    private Transform content;
+    private Transform Content;
     private const int ITEMS_PER_PAGE = 50;
     private int CurrentPage = 0;
     private List<KeyValuePair<string, FeatureRankDTO>> FeatureList;
     private IStats Stat;
-    private Button nextButton;
-    private Button previousButton;
-    private TextMeshProUGUI pageText;
+    private PaginationManager PaginationManager;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -58,7 +56,7 @@ public class MainMenuPufferElectroManager : MonoBehaviour
     {
         GameObject currentObject = Instantiate(PopupRankPanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        content = transform.Find("Scroll View/Viewport/Content");
+        Content = transform.Find("Scroll View/Viewport/Content");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {
@@ -90,127 +88,119 @@ public class MainMenuPufferElectroManager : MonoBehaviour
 
     private void RenderPage()
     {
-        foreach (Transform child in content)
+        // 1. Dọn dẹp các Prefab UI cũ ở trang trước
+        foreach (Transform child in Content)
             Destroy(child.gameObject);
 
+        if (FeatureList == null || FeatureList.Count == 0) return;
+
+        // 2. Tính toán dải Index phân trang Client-side
         int start = CurrentPage * ITEMS_PER_PAGE;
         int end = Mathf.Min(start + ITEMS_PER_PAGE, FeatureList.Count);
+
+        int userLevel = User.CurrentUserLevel; // Cache level để tránh gọi Property nhiều lần trong vòng lặp
 
         for (int i = start; i < end; i++)
         {
             var kvp = FeatureList[i];
 
-            string subtype = kvp.Key;
-            int requiredLevel = kvp.Value.RequiredLevel;
-            string featureId = kvp.Value.Id;
+            // Tạo bản copy của giá trị để tránh lỗi bộ nhớ Closure trong Lambda Listener
+            string currentSubtype = kvp.Key;
+            int currentRequiredLevel = kvp.Value.RequiredLevel;
+            string currentFeatureId = kvp.Value.Id;
+            int displayIndex = i + 1;
+            bool isLocked = currentRequiredLevel > userLevel;
 
-            GameObject button = Instantiate(PopupRankButtonPrefab, content);
+            // Sinh đối tượng Prefab nút bấm
+            GameObject button = Instantiate(PopupRankButtonPrefab, Content);
+            Transform btnTransform = button.transform; // Cache transform của button
 
-            TextMeshProUGUI buttonText =
-                button.transform.Find("ContentText")
-                .GetComponentInChildren<TextMeshProUGUI>();
+            // 3. Tối ưu tìm kiếm và gán Text (Dùng chuỗi format thay vì Replace trùng lặp)
+            string processedText = currentSubtype.Replace("_", " ");
 
-            buttonText.text = subtype.Replace("_", " ");
+            TextMeshProUGUI buttonText = btnTransform.Find("ContentText")?.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText != null) buttonText.text = processedText;
 
-            TextMeshProUGUI buttonText2 =
-                button.transform.Find("MainTitleText")
-                .GetComponentInChildren<TextMeshProUGUI>();
+            TextMeshProUGUI buttonText2 = btnTransform.Find("MainTitleText")?.GetComponentInChildren<TextMeshProUGUI>();
+            if (buttonText2 != null) buttonText2.text = processedText;
 
-            buttonText2.text = subtype.Replace("_", " ");
+            TextMeshProUGUI quantityText = btnTransform.Find("QuantityText")?.GetComponentInChildren<TextMeshProUGUI>();
+            if (quantityText != null) quantityText.text = displayIndex.ToString();
 
-            TextMeshProUGUI quantityText =
-                button.transform.Find("QuantityText")
-                .GetComponentInChildren<TextMeshProUGUI>();
-
-            quantityText.text = (i + 1).ToString();
-
-            bool isLocked = requiredLevel > User.CurrentUserLevel;
-
-            Transform warningLevel = button.transform.Find("WarningLevel");
+            // 4. Xử lý trạng thái khóa/mở khóa cấp độ
+            Transform warningLevel = btnTransform.Find("WarningLevel");
             if (warningLevel != null)
             {
                 warningLevel.gameObject.SetActive(isLocked);
-                TextMeshProUGUI levelText = button.transform.Find("WarningLevel/LevelText").GetComponent<TextMeshProUGUI>();
-                levelText.text = requiredLevel.ToString();
-            }
-
-            Button btn = button.GetComponent<Button>();
-            btn.onClick.AddListener(async () =>
-            {
                 if (isLocked)
                 {
-                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
-                    return;
+                    TextMeshProUGUI levelText = warningLevel.Find("LevelText")?.GetComponent<TextMeshProUGUI>();
+                    if (levelText != null) levelText.text = currentRequiredLevel.ToString();
                 }
+            }
 
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CreateMainRankPanelAsync(featureId, subtype);
-            });
+            // 5. Gán sự kiện click chuột an toàn (Safe Event Binding)
+            Button btn = button.GetComponent<Button>();
+            if (btn != null)
+            {
+                btn.onClick.RemoveAllListeners(); // Đảm bảo sạch listener
+                btn.onClick.AddListener(async () =>
+                {
+                    if (isLocked)
+                    {
+                        AudioManager.Instance.PlaySFX(AudioConstants.SFX.REJECT_SOUND);
+                        return;
+                    }
+
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+                    await CreateMainRankPanelAsync(currentFeatureId, currentSubtype);
+                });
+            }
         }
     }
 
     private void SetupPagination(GameObject currentObject)
     {
-        Transform transform = currentObject.transform;
-        nextButton = transform
-            .Find("Pagination/Next")
-            .GetComponent<Button>();
+        PaginationManager = currentObject.transform.Find("PaginationPanelPrefab")?.GetComponent<PaginationManager>();
 
-        previousButton = transform
-            .Find("Pagination/Previous")
-            .GetComponent<Button>();
+        if (PaginationManager != null)
+        {
+            PaginationManager.OnPageChanged -= OnPageSelected;
+            PaginationManager.OnPageChanged += OnPageSelected;
 
-        pageText = transform
-            .Find("Pagination/Page")
-            .GetComponent<TextMeshProUGUI>();
+            // Vẽ dải nút số phân trang trên UI
+            PaginationManager.InitPagination(FeatureList.Count, ITEMS_PER_PAGE, CurrentPage + 1);
 
-        nextButton.onClick.RemoveAllListeners();
-        previousButton.onClick.RemoveAllListeners();
-
-        nextButton.onClick.AddListener(OnNextPage);
-        previousButton.onClick.AddListener(OnPreviousPage);
-
-        UpdatePageUI();
+            // QUAN TRỌNG: Vẽ luôn dữ liệu trang hiện tại lên khung Content khi vừa setup xong
+            RenderPage();
+        }
+        else
+        {
+            Debug.LogError("Không tìm thấy component PaginationManager trong 'Pagination'!");
+        }
     }
 
-    private int GetTotalPages()
+    private void OnPageSelected(int pageNumber)
     {
-        if (FeatureList == null || FeatureList.Count == 0)
-            return 1;
-
-        return Mathf.CeilToInt((float)FeatureList.Count / ITEMS_PER_PAGE);
-    }
-
-    private void UpdatePageUI()
-    {
-        int totalPages = GetTotalPages();
-
-        pageText.text = $"{CurrentPage + 1} / {totalPages}";
-
-        previousButton.interactable = CurrentPage > 0;
-        nextButton.interactable = CurrentPage < totalPages - 1;
-    }
-
-    private void OnNextPage()
-    {
-        int totalPages = GetTotalPages();
-
-        if (CurrentPage >= totalPages - 1)
-            return;
-
-        CurrentPage++;
+        CurrentPage = pageNumber - 1;
         RenderPage();
-        UpdatePageUI();
     }
 
-    private void OnPreviousPage()
+    private void ResetOrUpdatePagination()
     {
-        if (CurrentPage <= 0)
-            return;
+        if (PaginationManager != null)
+        {
+            PaginationManager.OnPageChanged -= OnPageSelected;
 
-        CurrentPage--;
-        RenderPage();
-        UpdatePageUI();
+            CurrentPage = 0;
+
+            PaginationManager.InitPagination(FeatureList.Count, ITEMS_PER_PAGE, 1);
+
+            // Vẽ lại dữ liệu của Trang 1 sau khi thực hiện filter/search thành công
+            RenderPage();
+
+            PaginationManager.OnPageChanged += OnPageSelected;
+        }
     }
 
     public async Task CreateMainRankPanelAsync(string featureId, string featureName)
