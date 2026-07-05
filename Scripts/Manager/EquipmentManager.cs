@@ -183,6 +183,7 @@ public class EquipmentManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 Type = type;
+                Status = "BAG";
                 await GetBagAsync(type);
             });
             Button shopButton = gridLayout.transform.Find("Shop").GetComponent<Button>();
@@ -190,6 +191,7 @@ public class EquipmentManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
                 Type = type;
+                Status = "SHOP";
                 await GetShopAsync(type);
             });
             Button enhancementButton = gridLayout.transform.Find("Enhancement").GetComponent<Button>();
@@ -595,7 +597,14 @@ public class EquipmentManager : MonoBehaviour
     public async Task LoadCurrentPageAsync()
     {
         int totalRecord = 0;
-        if (true)
+        if (Status.Equals("BAG"))
+        {
+            var userEquipmentsService = UserEquipmentsService.Create();
+            totalRecord = await userEquipmentsService.GetUserEquipmentsCountAsync(User.CurrentUserId, Search, Type, Rare);
+            List<Equipments> equipments = await userEquipmentsService.GetUserEquipmentsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
+            CreateEquipmentsBag(equipments, Type);
+        }
+        else if (Status.Equals("SHOP"))
         {
             var equipmentsService = EquipmentsService.Create();
             totalRecord = await equipmentsService.GetEquipmentsCountAsync(Search, Type, Rare);
