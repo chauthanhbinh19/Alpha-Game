@@ -37,6 +37,8 @@ public class GridManager : MonoBehaviour
     public Material AttackRangeMaterial;
 
     private Dictionary<Vector2Int, GridCell> GridDict = new Dictionary<Vector2Int, GridCell>();
+    private bool isGridReady;
+    private System.Action onGridReadyCallback;
 
     // Lưu trữ danh sách đường đi hiện tại để di chuyển hoặc xóa
     private List<GridCell> CurrentCalculatedPath = new List<GridCell>();
@@ -64,8 +66,37 @@ public class GridManager : MonoBehaviour
         {
             Destroy(gameObject); // Destroy duplicate instances
         }
+    }
 
-        GenerateGrid();
+    public bool IsGridReady()
+    {
+        return isGridReady;
+    }
+
+    public void InitializeGridAsync(System.Action onComplete)
+    {
+        if (isGridReady)
+        {
+            onComplete?.Invoke();
+            return;
+        }
+
+        onGridReadyCallback = onComplete;
+        if (GridDict.Count == 0 && GridParent != null)
+        {
+            GenerateGrid();
+        }
+        else if (GridDict.Count > 0)
+        {
+            FinishGridInitialization();
+        }
+    }
+
+    private void FinishGridInitialization()
+    {
+        isGridReady = true;
+        onGridReadyCallback?.Invoke();
+        onGridReadyCallback = null;
     }
 
     /// <summary>
@@ -81,11 +112,25 @@ public class GridManager : MonoBehaviour
         if (!attacker.Type.Equals(enemy.Type))
         {
             UnityEngine.Debug.Log($"[Battle] {attacker.Name} bắt đầu tấn công {enemy.Name}");
-            // Sử dụng hàm tổng hợp đòn đánh thường của bạn trong Helper.txt 
-            DamageCalculator.CauseNormalAttack(attacker, enemy);
 
-            // Sau khi enemy bị trừ máu trong hàm TakeDamage()[cite: 224], tiến hành cập nhật lại UI hiển thị HP
-            // Ví dụ: targetCell.GetComponent<CardVisual>().UpdateHealthUI();
+            Effects attackEffect = new Effects
+            {
+                Id = 0,
+                Name = "Normal Attack",
+                Description = "Đòn tấn công thường của quân bài.",
+                EffectAction = new EffectAction
+                {
+                    ActionCode = AppConstants.EffectAction.DAMAGE,
+                    ActionName = "DAMAGE",
+                    Description = "Gây sát thương theo thông số tấn công.",
+                    ActionId = 0
+                },
+                TriggerPhase = "MAIN",
+                TriggerCondition = AppConstants.TriggerCondition.ON_ATTACK,
+                Target = new Targets { Id = "CAST_TARGET" }
+            };
+
+            CombatEffectProcessor.ApplyEffects(new List<Effects> { attackEffect }, attacker, enemy);
 
             // Xóa vùng hiển thị tầm đánh sau khi kết thúc hành động
             ClearAllMovementRanges();
@@ -125,6 +170,7 @@ public class GridManager : MonoBehaviour
         // Sau khi tạo xong 12x12, tiến hành ghi đè màu cho các ô Spawn
         // SetupSpawnPositions(minX, maxX, minZ, maxZ);
         SetupRandomDoubleRowSpawnPositions(minX, maxX, minZ, maxZ);
+        FinishGridInitialization();
     }
 
     // Hàm xóa hiển thị range của TẤT CẢ các ô trên bàn cờ
@@ -771,5 +817,39 @@ public class GridManager : MonoBehaviour
 
         Debug.LogWarning($"[GridManager] Không tìm thấy quân cờ {card.Name} trên bất kỳ ô cờ nào!");
         return null;
+    }
+
+    public void SpawnDamagePopup(CardBase target, double amount, DamageTextType type = DamageTextType.Default, bool healing = false, float factor = 1f)
+    {
+        if (target == null || amount == 0) return;
+
+        GameObject prefab = UIManager.Instance?.Get("FlyTextPrefab");
+        if (prefab == null)
+        {
+            Debug.LogWarning("[GridManager] Không tìm thấy FlyTextPrefab từ UIManager.");
+            return;
+        }
+
+        Transform spawnParent = null;
+        GridCell targetCell = GetCellOfCard(target);
+        if (targetCell != null)
+        {
+            spawnParent = targetCell.DamagePopupAnchor != null ? targetCell.DamagePopupAnchor : targetCell.transform;
+        }
+        else
+        {
+            spawnParent = GridParent != null ? GridParent : transform;
+        }
+
+        GameObject popupObj = Instantiate(prefab, spawnParent);
+        FlyDamageText flyDamageText = popupObj.GetComponent<FlyDamageText>();
+        if (flyDamageText != null)
+        {
+            flyDamageText.Init(amount, type, healing, factor);
+        }
+        else
+        {
+            Debug.LogWarning("[GridManager] FlyTextPrefab không có component FlyDamageText.");
+        }
     }
 }

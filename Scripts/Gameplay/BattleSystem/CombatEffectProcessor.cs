@@ -50,7 +50,7 @@ public static class CombatEffectProcessor
             }
         }
 
-        foreach (var effect in effectsList)
+        foreach (var effect in sortedEffects)
         {
             ExecuteActionLogic(effect, caster, target);
         }
@@ -3609,22 +3609,45 @@ public static class CombatEffectProcessor
     {
         if (effect == null || target == null || caster == null) return;
 
+        DamageCalculator.AttackOutcome totalOutcome = new DamageCalculator.AttackOutcome
+        {
+            Damage = 0,
+            IsHit = false,
+            IsCrit = false,
+            IsMiss = true
+        };
+
         if (caster.isSkillAttack)
         {
-            DamageCalculator.CausePhysicalSkillAttack(caster, target);
-            DamageCalculator.CauseMagicalSkillAttack(caster, target);
-            DamageCalculator.CauseChemicalSkillAttack(caster, target);
-            DamageCalculator.CauseAtomicSkillAttack(caster, target);
-            DamageCalculator.CauseMentalSkillAttack(caster, target);
+            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CausePhysicalSkillAttack(caster, target));
+            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMagicalSkillAttack(caster, target));
+            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseChemicalSkillAttack(caster, target));
+            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseAtomicSkillAttack(caster, target));
+            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMentalSkillAttack(caster, target));
         }
         else
         {
-            DamageCalculator.CausePhysicalNormalAttack(caster, target);
-            DamageCalculator.CauseMagicalNormalAttack(caster, target);
-            DamageCalculator.CauseChemicalNormalAttack(caster, target);
-            DamageCalculator.CauseAtomicNormalAttack(caster, target);
-            DamageCalculator.CauseMentalNormalAttack(caster, target);
+            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CausePhysicalNormalAttack(caster, target));
+            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMagicalNormalAttack(caster, target));
+            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseChemicalNormalAttack(caster, target));
+            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseAtomicNormalAttack(caster, target));
+            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMentalNormalAttack(caster, target));
         }
+
+        if (totalOutcome.Damage > 0)
+        {
+            GridManager.Instance?.SpawnDamagePopup(target, totalOutcome.Damage, DamageTextType.Default, false, 1f);
+        }
+
+        CombatEngagementEngine.Instance?.HandleAttackOutcome(caster, target, totalOutcome, string.IsNullOrWhiteSpace(effect.TriggerPhase) ? "MAIN" : effect.TriggerPhase.ToUpper());
+    }
+
+    private static void CombineAttackOutcomes(ref DamageCalculator.AttackOutcome aggregate, DamageCalculator.AttackOutcome next)
+    {
+        aggregate.Damage += next.Damage;
+        aggregate.IsHit |= next.IsHit;
+        aggregate.IsCrit |= next.IsCrit;
+        aggregate.IsMiss &= next.IsMiss;
     }
 
     private static void ExecuteHeal(Effects effect, CardBase caster, CardBase target)
@@ -3641,6 +3664,13 @@ public static class CombatEffectProcessor
         double randomValue = rand.Next((int)effect.MinValue, (int)effect.MaxValue + 1);
         double healAmount = randomValue * (totalDamage / 100.0);
         target.CurrentHealth = target.CurrentHealth + healAmount;
+
+        if (healAmount > 0)
+        {
+            GridManager.Instance?.SpawnDamagePopup(target, healAmount, DamageTextType.Default, true, 1f);
+        }
+
+        CombatEngagementEngine.Instance?.HandleHealOutcome(caster, target, string.IsNullOrWhiteSpace(effect.TriggerPhase) ? "MAIN" : effect.TriggerPhase.ToUpper());
     }
 
     private static void ExecuteLimitAction(Effects effect, CardBase target)

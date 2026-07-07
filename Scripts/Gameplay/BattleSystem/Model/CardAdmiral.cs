@@ -68,6 +68,7 @@ public class CardAdmiral : CardBase
         this.SkillDamageRate = cardAdmiral.SkillDamageRate;
         this.SkillResistanceRate = cardAdmiral.SkillResistanceRate;
         this.Position = cardAdmiral.Position;
+        this.ParsePosition(cardAdmiral.Position);
         this.IsAlive = true;
         this.Skills = cardAdmiral.Skills;
         this.CardType = CardType.CardAdmiral;

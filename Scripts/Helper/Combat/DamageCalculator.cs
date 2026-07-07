@@ -2,91 +2,182 @@ using System;
 
 public static class DamageCalculator
 {
-    public static void CauseNormalAttack(CardBase playerCard, CardBase enemyCard)
+    public struct AttackOutcome
     {
-        CausePhysicalNormalAttack(playerCard, enemyCard);
-        CauseMagicalNormalAttack(playerCard, enemyCard);
-        CauseChemicalNormalAttack(playerCard, enemyCard);
-        CauseAtomicNormalAttack(playerCard, enemyCard);
-        CauseMentalNormalAttack(playerCard, enemyCard);
+        public double Damage;
+        public bool IsHit;
+        public bool IsCrit;
+        public bool IsMiss;
     }
 
-    public static void CauseSkillAttack(CardBase playerCard, CardBase enemyCard)
+    public static AttackOutcome CauseNormalAttack(CardBase playerCard, CardBase enemyCard)
     {
-        CausePhysicalSkillAttack(playerCard, enemyCard);
-        CauseMagicalSkillAttack(playerCard, enemyCard);
-        CauseChemicalSkillAttack(playerCard, enemyCard);
-        CauseAtomicSkillAttack(playerCard, enemyCard);
-        CauseMentalSkillAttack(playerCard, enemyCard);
+        AttackOutcome result = new AttackOutcome { Damage = 0, IsHit = false, IsCrit = false, IsMiss = true };
+
+        var physical = CausePhysicalNormalAttack(playerCard, enemyCard);
+        var magical = CauseMagicalNormalAttack(playerCard, enemyCard);
+        var chemical = CauseChemicalNormalAttack(playerCard, enemyCard);
+        var atomic = CauseAtomicNormalAttack(playerCard, enemyCard);
+        var mental = CauseMentalNormalAttack(playerCard, enemyCard);
+
+        CombineAttackOutcomes(result, physical, ref result);
+        CombineAttackOutcomes(result, magical, ref result);
+        CombineAttackOutcomes(result, chemical, ref result);
+        CombineAttackOutcomes(result, atomic, ref result);
+        CombineAttackOutcomes(result, mental, ref result);
+
+        return result;
     }
 
-    public static void CausePhysicalNormalAttack(CardBase playerCard, CardBase enemyCard)
+    public static AttackOutcome CauseSkillAttack(CardBase playerCard, CardBase enemyCard)
     {
-        double damage = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Physical);
-        enemyCard.TakeDamage(damage);
+        AttackOutcome result = new AttackOutcome { Damage = 0, IsHit = false, IsCrit = false, IsMiss = true };
+
+        var physical = CausePhysicalSkillAttack(playerCard, enemyCard);
+        var magical = CauseMagicalSkillAttack(playerCard, enemyCard);
+        var chemical = CauseChemicalSkillAttack(playerCard, enemyCard);
+        var atomic = CauseAtomicSkillAttack(playerCard, enemyCard);
+        var mental = CauseMentalSkillAttack(playerCard, enemyCard);
+
+        CombineAttackOutcomes(result, physical, ref result);
+        CombineAttackOutcomes(result, magical, ref result);
+        CombineAttackOutcomes(result, chemical, ref result);
+        CombineAttackOutcomes(result, atomic, ref result);
+        CombineAttackOutcomes(result, mental, ref result);
+
+        return result;
     }
 
-    public static void CauseMagicalNormalAttack(CardBase playerCard, CardBase enemyCard)
+    private static void CombineAttackOutcomes(AttackOutcome previous, AttackOutcome next, ref AttackOutcome result)
     {
-        double damage = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Magical);
-        enemyCard.TakeDamage(damage);
+        result.Damage = previous.Damage + next.Damage;
+        result.IsHit = previous.IsHit || next.IsHit;
+        result.IsCrit = previous.IsCrit || next.IsCrit;
+        result.IsMiss = previous.IsMiss && next.IsMiss;
     }
 
-    public static void CauseChemicalNormalAttack(CardBase playerCard, CardBase enemyCard)
+    public static AttackOutcome CausePhysicalNormalAttack(CardBase playerCard, CardBase enemyCard)
     {
-        double damage = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Chemical);
-        enemyCard.TakeDamage(damage);
+        var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Physical);
+        if (outcome.Damage > 0)
+        {
+            enemyCard.TakeDamage(outcome.Damage);
+        }
+
+        return outcome;
     }
 
-    public static void CauseAtomicNormalAttack(CardBase playerCard, CardBase enemyCard)
+    public static AttackOutcome CauseMagicalNormalAttack(CardBase playerCard, CardBase enemyCard)
     {
-        double damage = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Atomic);
-        enemyCard.TakeDamage(damage);
+        var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Magical);
+        if (outcome.Damage > 0)
+        {
+            enemyCard.TakeDamage(outcome.Damage);
+        }
+
+        return outcome;
     }
 
-    public static void CauseMentalNormalAttack(CardBase playerCard, CardBase enemyCard)
+    public static AttackOutcome CauseChemicalNormalAttack(CardBase playerCard, CardBase enemyCard)
     {
-        double damage = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Mental);
-        enemyCard.TakeDamage(damage);
+        var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Chemical);
+        if (outcome.Damage > 0)
+        {
+            enemyCard.TakeDamage(outcome.Damage);
+        }
+
+        return outcome;
     }
 
-    public static void CausePhysicalSkillAttack(CardBase playerCard, CardBase enemyCard)
+    public static AttackOutcome CauseAtomicNormalAttack(CardBase playerCard, CardBase enemyCard)
     {
-        double damage = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Physical);
-        enemyCard.TakeDamage(damage);
+        var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Atomic);
+        if (outcome.Damage > 0)
+        {
+            enemyCard.TakeDamage(outcome.Damage);
+        }
+
+        return outcome;
     }
 
-    public static void CauseMagicalSkillAttack(CardBase playerCard, CardBase enemyCard)
+    public static AttackOutcome CauseMentalNormalAttack(CardBase playerCard, CardBase enemyCard)
     {
-        double damage = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Magical);
-        enemyCard.TakeDamage(damage);
+        var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Normal, AttackElement.Mental);
+        if (outcome.Damage > 0)
+        {
+            enemyCard.TakeDamage(outcome.Damage);
+        }
+
+        return outcome;
     }
 
-    public static void CauseChemicalSkillAttack(CardBase playerCard, CardBase enemyCard)
+    public static AttackOutcome CausePhysicalSkillAttack(CardBase playerCard, CardBase enemyCard)
     {
-        double damage = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Chemical);
-        enemyCard.TakeDamage(damage);
+        var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Physical);
+        if (outcome.Damage > 0)
+        {
+            enemyCard.TakeDamage(outcome.Damage);
+        }
+
+        return outcome;
     }
 
-    public static void CauseAtomicSkillAttack(CardBase playerCard, CardBase enemyCard)
+    public static AttackOutcome CauseMagicalSkillAttack(CardBase playerCard, CardBase enemyCard)
     {
-        double damage = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Atomic);
-        enemyCard.TakeDamage(damage);
+        var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Magical);
+        if (outcome.Damage > 0)
+        {
+            enemyCard.TakeDamage(outcome.Damage);
+        }
+
+        return outcome;
     }
 
-    public static void CauseMentalSkillAttack(CardBase playerCard, CardBase enemyCard)
+    public static AttackOutcome CauseChemicalSkillAttack(CardBase playerCard, CardBase enemyCard)
     {
-        double damage = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Mental);
-        enemyCard.TakeDamage(damage);
+        var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Chemical);
+        if (outcome.Damage > 0)
+        {
+            enemyCard.TakeDamage(outcome.Damage);
+        }
+
+        return outcome;
     }
 
-    public static double CalculateDamage(CardBase playerCard, CardBase enemyCard, AttackType attackType, AttackElement attackElement)
+    public static AttackOutcome CauseAtomicSkillAttack(CardBase playerCard, CardBase enemyCard)
     {
+        var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Atomic);
+        if (outcome.Damage > 0)
+        {
+            enemyCard.TakeDamage(outcome.Damage);
+        }
+
+        return outcome;
+    }
+
+    public static AttackOutcome CauseMentalSkillAttack(CardBase playerCard, CardBase enemyCard)
+    {
+        var outcome = CalculateDamage(playerCard, enemyCard, AttackType.Skill, AttackElement.Mental);
+        if (outcome.Damage > 0)
+        {
+            enemyCard.TakeDamage(outcome.Damage);
+        }
+
+        return outcome;
+    }
+
+    public static AttackOutcome CalculateDamage(CardBase playerCard, CardBase enemyCard, AttackType attackType, AttackElement attackElement)
+    {
+        AttackOutcome result = new AttackOutcome { Damage = 0, IsHit = false, IsCrit = false, IsMiss = true };
+
         // Kiểm tra có đánh trúng không
         if (!AccuracyCalculator.IsAttackHit(playerCard, enemyCard))
         {
-            return 0;
+            return result;
         }
+
+        result.IsHit = true;
+        result.IsMiss = false;
 
         double enemyDefense = 0;
         double playerAttack = 0;
@@ -114,8 +205,9 @@ public static class DamageCalculator
                 playerAttack = playerCard.MentalAttack;
                 break;
         }
+
         // Áp dụng xuyên giáp nếu có
-        double effectiveDefense = PenetrationCalculator.ApplyDefenseWithPenetration(playerCard, enemyCard, enemyDefense); // bỏ qua % giáp
+        double effectiveDefense = PenetrationCalculator.ApplyDefenseWithPenetration(playerCard, enemyCard, enemyDefense);
 
         // Công thức tính damage theo tỉ lệ attack / (attack + defense)
         double ratio = (playerAttack + effectiveDefense) > 0 ? playerAttack / (playerAttack + effectiveDefense) : 0;
@@ -124,13 +216,9 @@ public static class DamageCalculator
         // Áp dụng hiệu ứng đánh thường
         baseDamage = NormalCalculator.ApplyDamageToNormal(playerCard, attackType, baseDamage);
         baseDamage = NormalCalculator.ApplyResistanceToNormal(enemyCard, attackType, baseDamage);
-        // Áp dụng hiệu ứng đánh thường
+        // Áp dụng hiệu ứng kỹ năng
         baseDamage = SkillCalculator.ApplyDamageToSkill(playerCard, attackType, baseDamage);
         baseDamage = SkillCalculator.ApplyResistanceToSkill(enemyCard, attackType, baseDamage);
-
-        // Debug.Log("Attack " + attack);
-        // Debug.Log("ratio " + ratio);
-        // Debug.Log(baseDamage);
 
         // Áp dụng hiệu ứng khác phe
         baseDamage = DifferentFactionCalculator.ApplyDamageToDifferentFaction(playerCard, enemyCard, baseDamage);
@@ -147,24 +235,25 @@ public static class DamageCalculator
         // Nếu chí mạng
         if (CriticalCalculator.IsCriticalHit(playerCard, enemyCard))
         {
+            result.IsCrit = true;
             baseDamage = CriticalCalculator.ApplyCriticalDamage(playerCard, enemyCard, baseDamage);
         }
 
         // Áp dụng kháng sát thương
         baseDamage = ResistanceCalculator.ApplyResistance(playerCard, baseDamage);
         // Áp dụng hấp thụ sát thương
-        if(AbsorptionCalculator.IsAbsorptionHit(playerCard, enemyCard))
+        if (AbsorptionCalculator.IsAbsorptionHit(playerCard, enemyCard))
         {
             baseDamage = AbsorptionCalculator.ApplyDamageAbsorption(playerCard, baseDamage);
         }
-        
+
         double flooredDamage = Math.Floor(baseDamage);
         if (playerAttack > 0 && flooredDamage < 1)
         {
-            return 1;
+            flooredDamage = 1;
         }
 
-        return Math.Max(0, flooredDamage);
+        result.Damage = Math.Max(0, flooredDamage);
+        return result;
     }
-
 }

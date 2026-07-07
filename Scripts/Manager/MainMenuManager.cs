@@ -75,6 +75,23 @@ public class MainMenuManager : MonoBehaviour
         // ButtonLoader.Instance.CreateMainButton(currentObject);
         // GetMainButtonEvent();
 
+        Button startButton = transform.Find("MainNavigation/StartButton").GetComponent<Button>();
+        startButton.onClick.RemoveAllListeners();
+        startButton.onClick.AddListener(() =>
+        {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
+
+            BattleSpawnController battleSpawnController = FindObjectOfType<BattleSpawnController>();
+            if (battleSpawnController != null)
+            {
+                battleSpawnController.StartBattle("639186151469501545", "639186151625575788");
+            }
+            else
+            {
+                Debug.LogWarning("[MainMenuManager] BattleSpawnController not found in scene.");
+            }
+        });
+
         Transform content = transform.Find("MainPanel/MainButtonGroup/SecondCircleImage");
         // Button homeButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/HomeButton").GetComponent<Button>();
         Button eventButton = transform.Find("MainNavigation/Scroll View/Viewport/Content/PlayContent/EventButton").GetComponent<Button>();

@@ -68,6 +68,7 @@ public class CardSoldier : CardBase
         this.SkillDamageRate = cardSoldier.SkillDamageRate;
         this.SkillResistanceRate = cardSoldier.SkillResistanceRate;
         this.Position = cardSoldier.Position;
+        this.ParsePosition(cardSoldier.Position);
         this.IsAlive = true;
         this.Skills = cardSoldier.Skills;
         this.CardType = CardType.CardSoldier;

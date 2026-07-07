@@ -88,8 +88,7 @@ public class MovementConfirmUI : MonoBehaviour
 
         if (cardData.CurrentMovementPoint < moveCost)
         {
-            Debug.LogWarning(
-                $"Không đủ điểm di chuyển. Cần {moveCost}, hiện có {cardData.CurrentMovementPoint}");
+            Debug.LogWarning($"Không đủ điểm di chuyển. Cần {moveCost}, hiện có {cardData.CurrentMovementPoint}");
 
             yield break;
         }
@@ -121,7 +120,7 @@ public class MovementConfirmUI : MonoBehaviour
                 }
 
                 // Log ra màn hình console để bạn dễ dàng debug kiểm tra điểm
-                Debug.Log($"[Movement] {cardData.Name} di chuyển vào ô {nextCell.GridPosition}. Điểm di chuyển còn lại: {cardData.CurrentMovementPoint}");
+                // Debug.Log($"[Movement] {cardData.Name} di chuyển vào ô {nextCell.GridPosition}. Điểm di chuyển còn lại: {cardData.CurrentMovementPoint}");
             }
         }
 

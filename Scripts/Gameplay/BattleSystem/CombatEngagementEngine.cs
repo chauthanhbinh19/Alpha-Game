@@ -19,22 +19,88 @@ public class CombatEngagementEngine : MonoBehaviour
         {
             if (effect.TriggerPhase.ToUpper() != "MAIN") continue;
 
-            // 2. SỬA TẠI ĐÂY: Truyền cấu trúc dữ liệu động skillPattern vào thay vì patternId dạng string
+            // 2. Lấy mục tiêu chịu ảnh hưởng dựa trên target_id / Skill Pattern
             List<CardBase> targets = CombatTargetSelector.GetAffectedTargets(effect.Target.Id, casterCell, castTargetCell, skillPattern);
 
             // 3. Áp dụng hiệu ứng chủ động lên từng mục tiêu
             foreach (var target in targets)
             {
-                // CombatEffectProcessor.ApplyEffect(effect, caster, target);
-
-                // --- MÓC NỐI KÍCH HOẠT BỊ ĐỘNG (PASSIVE TRIGGERS) ---
-                // Sau khi dính hiệu ứng chủ động, lập tức kiểm tra nội tại 'ON_HIT' (Bị đánh) của nạn nhân
-                TriggerPassiveEffects(target, caster, "MAIN", "ON_HIT");
+                CombatEffectProcessor.ApplyEffects(new List<Effects> { effect }, caster, target);
             }
         }
 
-        // Sau khi kết thúc loạt chiêu chủ động, kích hoạt nội tại 'ON_ATTACK' (Khi tấn công xong) của bản thân
-        TriggerPassiveEffects(caster, null, "MAIN", "ON_ATTACK");
+        // 4. Kích hoạt nội tại ON_ATTACK cho caster sau khi kỹ năng chủ động kết thúc
+        TriggerPassiveEffects(caster, null, "MAIN", AppConstants.TriggerCondition.ON_ATTACK);
+    }
+
+    public void HandleAttackOutcome(CardBase attacker, CardBase target, DamageCalculator.AttackOutcome attackOutcome, string phase = "MAIN")
+    {
+        if (attacker == null || target == null)
+        {
+            return;
+        }
+
+        // Người tấn công kích hoạt ON_ATTACK khi bắt đầu hành động tấn công
+        TriggerPassiveEffects(attacker, target, phase, AppConstants.TriggerCondition.ON_ATTACK);
+        TriggerAllyEvent(attacker, phase, AppConstants.TriggerCondition.ON_ALLY_ATTACK);
+
+        // Mục tiêu bị nhắm đến luôn kích hoạt ON_BE_ATTACKED
+        TriggerPassiveEffects(target, attacker, phase, AppConstants.TriggerCondition.ON_BE_ATTACKED);
+
+        if (attackOutcome.IsMiss)
+        {
+            TriggerPassiveEffects(attacker, target, phase, AppConstants.TriggerCondition.ON_MISS);
+            TriggerPassiveEffects(target, attacker, phase, AppConstants.TriggerCondition.ON_DODGE);
+        }
+
+        if (attackOutcome.IsHit)
+        {
+            TriggerPassiveEffects(attacker, target, phase, AppConstants.TriggerCondition.ON_HIT);
+            TriggerPassiveEffects(target, attacker, phase, AppConstants.TriggerCondition.ON_BE_HIT);
+            TriggerAllyEvent(target, phase, AppConstants.TriggerCondition.ON_ALLY_BE_HIT);
+
+            if (attackOutcome.IsCrit)
+            {
+                TriggerPassiveEffects(attacker, target, phase, AppConstants.TriggerCondition.ON_CRIT);
+                TriggerPassiveEffects(target, attacker, phase, AppConstants.TriggerCondition.ON_BE_CRIT);
+            }
+        }
+
+        if (attackOutcome.Damage > 0 && !target.IsAlive)
+        {
+            TriggerPassiveEffects(attacker, target, phase, AppConstants.TriggerCondition.ON_KILL);
+            TriggerPassiveEffects(target, attacker, phase, AppConstants.TriggerCondition.ON_DEATH);
+            TriggerAllyEvent(target, phase, AppConstants.TriggerCondition.ON_ALLY_DEATH);
+        }
+    }
+
+    public void HandleHealOutcome(CardBase caster, CardBase target, string phase = "MAIN")
+    {
+        if (caster == null || target == null) return;
+
+        TriggerPassiveEffects(caster, target, phase, AppConstants.TriggerCondition.ON_HEAL);
+        TriggerPassiveEffects(target, caster, phase, AppConstants.TriggerCondition.ON_BE_HEALED);
+        TriggerPassiveEffects(caster, target, phase, AppConstants.TriggerCondition.ON_ALLY);
+
+        if (!string.IsNullOrWhiteSpace(caster.TeamId) && caster.TeamId == target.TeamId && caster.Id != target.Id)
+        {
+            TriggerPassiveEffects(caster, target, phase, AppConstants.TriggerCondition.ON_ALLY_HEAL);
+        }
+    }
+
+    private void TriggerAllyEvent(CardBase source, string phase, string triggerCondition)
+    {
+        if (source == null || string.IsNullOrWhiteSpace(triggerCondition)) return;
+        if (TurnManager.Instance == null) return;
+
+        foreach (CardBase card in TurnManager.Instance.AllCards)
+        {
+            if (card == null || card == source || !card.IsAlive) continue;
+            if (!string.IsNullOrWhiteSpace(card.TeamId) && card.TeamId == source.TeamId)
+            {
+                TriggerPassiveEffects(card, source, phase, triggerCondition);
+            }
+        }
     }
 
     /// <summary>
@@ -63,7 +129,7 @@ public class CombatEngagementEngine : MonoBehaviour
 
                 foreach (var pTarget in passiveTargets)
                 {
-                    // CombatEffectProcessor.ApplyEffect(passEffect, owner, pTarget);
+                    CombatEffectProcessor.ApplyEffects(new List<Effects> { passEffect }, owner, pTarget);
                 }
             }
         }

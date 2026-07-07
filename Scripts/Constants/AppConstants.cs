@@ -191,6 +191,39 @@ public static class AppConstants
         public const string PERCENTAGE = "Percentage";
         public const string FLAT = "FLAT";
     }
+    public static class TriggerCondition
+    {
+        public const string ON_ATTACK = "ON_ATTACK";
+        public const string ON_HIT = "ON_HIT";
+        public const string ON_CRIT = "ON_CRIT";
+        public const string ON_MISS = "ON_MISS";
+        public const string ON_BE_ATTACKED = "ON_BE_ATTACKED";
+        public const string ON_BE_HIT = "ON_BE_HIT";
+        public const string ON_DODGE = "ON_DODGE";
+        public const string ON_BLOCK = "ON_BLOCK";
+        public const string ON_BE_CRIT = "ON_BE_CRIT";
+        public const string ON_KILL = "ON_KILL";
+        public const string ON_DEATH = "ON_DEATH";
+        public const string ON_HP_BELOW_X = "ON_HP_BELOW_X";
+        public const string ON_HP_ABOVE_X = "ON_HP_ABOVE_X";
+        public const string ON_REVIVE = "ON_REVIVE";
+        public const string ON_HEAL = "ON_HEAL";
+        public const string ON_BE_HEALED = "ON_BE_HEALED";
+        public const string ON_BUFF_GAIN = "ON_BUFF_GAIN";
+        public const string ON_BUFF_REMOVE = "ON_BUFF_REMOVE";
+        public const string ON_DEBUFF_GAIN = "ON_DEBUFF_GAIN";
+        public const string ON_DEBUFF_REMOVE = "ON_DEBUFF_REMOVE";
+        public const string ON_ALLY = "ON_ALLY";
+        public const string ON_ALLY_ATTACK = "ON_ALLY_ATTACK";
+        public const string ON_ALLY_BE_HIT = "ON_ALLY_BE_HIT";
+        public const string ON_ALLY_HEAL = "ON_ALLY_HEAL";
+        public const string ON_ALLY_DEATH = "ON_ALLY_DEATH";
+        public const string ON_BATTLE_START = "ON_BATTLE_START";
+        public const string ON_ROUND_START = "ON_ROUND_START";
+        public const string ON_ROUND_END = "ON_ROUND_END";
+        public const string ON_TURN_START = "ON_TURN_START";
+        public const string ON_TURN_END = "ON_TURN_END";
+    }
     public static class Rare
     {
         public const string NONE = "None";

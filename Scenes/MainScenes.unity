@@ -3860,10 +3860,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ee1d41fea47a1141b75afa629312481, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  search: 
-  rare: All
-  type: All
-  offset: 0
+  Search: 
+  Rare: All
+  Type: All
+  Offset: 0
 --- !u!1 &364890001
 GameObject:
   m_ObjectHideFlags: 0
@@ -6519,6 +6519,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GamePlayPanel: {fileID: 0}
   GamePlayPanelPrefab: {fileID: 0}
+  PhasePrefab: {fileID: 0}
+  PhaseIcons: []
 --- !u!1 &606194597
 GameObject:
   m_ObjectHideFlags: 0
@@ -6660,17 +6662,17 @@ MonoBehaviour:
   Width: 12
   Height: 12
   CellSize: 1.1
-  CellPrefab: {fileID: 0}
-  GridParent: {fileID: 0}
-  EmptyPositionMaterial: {fileID: 0}
-  PlayerPositionMaterial: {fileID: 0}
-  EnemyPositionMaterial: {fileID: 0}
-  SelectedPositionMaterial: {fileID: 0}
-  WalkableRangeMaterial: {fileID: 0}
-  OutOfPointsMaterial: {fileID: 0}
-  DestinationMaterial: {fileID: 0}
-  PathNodeMaterial: {fileID: 0}
-  AttackRangeMaterial: {fileID: 0}
+  CellPrefab: {fileID: 8450721989791504550, guid: b1c32bee42aa8994f9cf0ba73ac3b682, type: 3}
+  GridParent: {fileID: 1955103563}
+  EmptyPositionMaterial: {fileID: 2100000, guid: c6bba8b84a12ec842a201a0e1546bc0e, type: 2}
+  PlayerPositionMaterial: {fileID: 2100000, guid: c92b6af367fd2c343a062d13a3ee35a8, type: 2}
+  EnemyPositionMaterial: {fileID: 2100000, guid: 08c511b26a82a6948a8b7153ca5cd90c, type: 2}
+  SelectedPositionMaterial: {fileID: 2100000, guid: 30bd34ebd0110f64ebded50975243b3b, type: 2}
+  WalkableRangeMaterial: {fileID: 2100000, guid: 33ff9fc8c7ea6a8469c15574f01a931d, type: 2}
+  OutOfPointsMaterial: {fileID: 2100000, guid: f236b5ca2c8341d4db03e1d37981aaf2, type: 2}
+  DestinationMaterial: {fileID: 2100000, guid: 09f086a2429f97949bc2297e47c7fe87, type: 2}
+  PathNodeMaterial: {fileID: 2100000, guid: ff9ac3e92ec53c54c81da50e37b93410, type: 2}
+  AttackRangeMaterial: {fileID: 2100000, guid: 9885f9007e8d5e749a6e5eec4e8a22f4, type: 2}
   PlayerSpawnCells: []
   EnemySpawnCells: []
 --- !u!1 &626250089
@@ -8537,7 +8539,7 @@ MonoBehaviour:
   KeyboardSpeed: 30
   DragSpeed: 2
   BottomLeftCorner: {x: -2, y: 36, z: -10}
-  TopRightCorner: {x: 2, y: 36, z: -5}
+  TopRightCorner: {x: 2, y: 36, z: -3}
 --- !u!1 &967054507
 GameObject:
   m_ObjectHideFlags: 0
@@ -11061,8 +11063,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93e5a49d22754834c81a55f6b2659463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GridManager: {fileID: 0}
-  CardVisualPrefab: {fileID: 0}
+  GridManager: {fileID: 622918045}
+  CardVisualPrefab: {fileID: 1227526592903495142, guid: 5abec327994203a4789df9b6b35435f1, type: 3}
 --- !u!1 &1332984970
 GameObject:
   m_ObjectHideFlags: 0

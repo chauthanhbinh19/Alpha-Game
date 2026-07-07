@@ -126,6 +126,29 @@ public abstract class CardBase
     public bool IsAlive { get; set; }
     public bool isSkillAttack { get; set; } = false;
 
+    protected void ParsePosition(string position)
+    {
+        Position = position;
+        MainPosition = 0;
+        SubIndex = 0;
+
+        if (string.IsNullOrWhiteSpace(position))
+        {
+            return;
+        }
+
+        string[] parts = position.Split('-');
+        if (parts.Length >= 1 && int.TryParse(parts[0].Trim(), out int mainPosition))
+        {
+            MainPosition = mainPosition;
+        }
+
+        if (parts.Length >= 2 && int.TryParse(parts[1].Trim(), out int subIndex))
+        {
+            SubIndex = subIndex;
+        }
+    }
+
     public List<Effects> ActiveSkillEffects { get; set; } = new List<Effects>();
     public List<Effects> PassiveEffects { get; set; } = new List<Effects>();
     
@@ -137,7 +160,6 @@ public abstract class CardBase
     public HashSet<string> LockedProperties { get; set; } = new HashSet<string>();
     public Team Team;
     public bool hasActedThisturn = false;
-    public GameObject damagePopupPrefab;
     public HealthBar healthBar;
     public abstract void Initialize(object data);
     public virtual void PerformAction(PlayerController opponent)

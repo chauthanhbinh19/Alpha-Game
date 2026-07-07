@@ -39,15 +39,32 @@ public class LoadTeams
 
         TeamDeploymentResult result = new TeamDeploymentResult();
 
-        // PHÂN LOẠI CARD HERO
-        if (heroTask.Result != null)
-        {
-            foreach (var entity in heroTask.Result)
-            {
-                CardHero card = new CardHero();
-                card.Initialize(entity); // Hàm nạp từ thực thể DB của bạn
+        AddCardsToResult(heroTask.Result, () => new CardHero(), result);
+        AddCardsToResult(captainTask.Result, () => new CardCaptain(), result);
+        AddCardsToResult(colonelTask.Result, () => new CardColonel(), result);
+        AddCardsToResult(generalTask.Result, () => new CardGeneral(), result);
+        AddCardsToResult(admiralTask.Result, () => new CardAdmiral(), result);
+        AddCardsToResult(militaryTask.Result, () => new CardMilitary(), result);
+        AddCardsToResult(monsterTask.Result, () => new CardMonster(), result);
+        AddCardsToResult(soldierTask.Result, () => new CardSoldier(), result);
+        AddCardsToResult(spellTask.Result, () => new CardSpell(), result);
 
-                // Kiểm tra trực tiếp nếu MainPosition là số nguyên từ 1 đến 10
+        return result;
+    }
+    private void AddCardsToResult<TSource>(IEnumerable<TSource> entities, System.Func<CardBase> cardFactory, TeamDeploymentResult result)
+    {
+        if (entities == null)
+        {
+            return;
+        }
+
+        foreach (var entity in entities)
+        {
+            try
+            {
+                CardBase card = cardFactory();
+                card.Initialize(entity);
+
                 if (card.MainPosition >= 1 && card.MainPosition <= 10)
                 {
                     result.OnFieldCards.Add(card);
@@ -55,22 +72,19 @@ public class LoadTeams
                 else
                 {
                     result.BenchCards.Add(card);
+                    if (!string.IsNullOrWhiteSpace(card.Position))
+                    {
+                        Debug.LogWarning($"[LoadTeams] Card '{card.Name}' position '{card.Position}' could not be mapped to a valid field slot.");
+                    }
                 }
             }
+            catch (System.Exception ex)
+            {
+                Debug.LogError($"[LoadTeams] Failed to initialize card of type {typeof(TSource).Name}: {ex.Message}");
+            }
         }
-
-        // CÁC LOẠI CARD KHÁC: Tạm thời gom hết vào hàng chờ nền theo yêu cầu
-        if (captainTask.Result != null) foreach (var e in captainTask.Result) { var c = new CardCaptain(); c.Initialize(e); result.BenchCards.Add(c); }
-        if (colonelTask.Result != null) foreach (var e in colonelTask.Result) { var c = new CardColonel(); c.Initialize(e); result.BenchCards.Add(c); }
-        if (generalTask.Result != null) foreach (var e in generalTask.Result) { var c = new CardGeneral(); c.Initialize(e); result.BenchCards.Add(c); }
-        if (admiralTask.Result != null) foreach (var e in admiralTask.Result) { var c = new CardAdmiral(); c.Initialize(e); result.BenchCards.Add(c); }
-        if (militaryTask.Result != null) foreach (var e in militaryTask.Result) { var c = new CardMilitary(); c.Initialize(e); result.BenchCards.Add(c); }
-        if (monsterTask.Result != null) foreach (var e in monsterTask.Result) { var c = new CardMonster(); c.Initialize(e); result.BenchCards.Add(c); }
-        if (soldierTask.Result != null) foreach (var e in soldierTask.Result) { var c = new CardSoldier(); c.Initialize(e); result.BenchCards.Add(c); }
-        if (spellTask.Result != null) foreach (var e in spellTask.Result) { var c = new CardSpell(); c.Initialize(e); result.BenchCards.Add(c); }
-
-        return result;
     }
+
     // Hàm hỗ trợ: Chuyển đổi CardPenalty List sang Dictionary để tra cứu nhanh O(1)
 
 }

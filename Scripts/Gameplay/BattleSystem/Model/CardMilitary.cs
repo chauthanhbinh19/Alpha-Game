@@ -68,6 +68,7 @@ public class CardMilitary : CardBase
         this.SkillDamageRate = cardMilitary.SkillDamageRate;
         this.SkillResistanceRate = cardMilitary.SkillResistanceRate;
         this.Position = cardMilitary.Position;
+        this.ParsePosition(cardMilitary.Position);
         this.IsAlive = true;
         this.Skills = cardMilitary.Skills;
         this.CardType = CardType.CardMilitary;

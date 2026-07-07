@@ -68,6 +68,7 @@ public class CardMonster : CardBase
         this.SkillDamageRate = cardMonster.SkillDamageRate;
         this.SkillResistanceRate = cardMonster.SkillResistanceRate;
         this.Position = cardMonster.Position;
+        this.ParsePosition(cardMonster.Position);
         this.IsAlive = true;
         this.Skills = cardMonster.Skills;
         this.CardType = CardType.CardMonster;

@@ -1,0 +1,70 @@
+# ==============================================================================
+# SKILL TRIGGER CONDITIONS SPECIFICATION
+# AUTHOR: GAME DESIGN & DEVELOPMENT TEAM
+# DESCRIPTION: STANDARDIZED TRIGGER CONDITIONS FOR THE 'skill_effect' TABLE.
+#              ALL VALUES ARE UPPERCASE AND CATEGORIZED BY LOGICAL GROUPS.
+# ==============================================================================
+
+# I. NHÓM HÀNH ĐỘNG TẤN CÔNG (OFFENSIVE ACTIONS)
+# ------------------------------------------------------------------------------
+# KÍCH HOẠT KHI NHÂN VẬT SỞ HỮU CHỦ ĐỘNG THỰC HIỆN CÁC HÀNH VI TẤN CÔNG ĐỐI THỦ.
+
+ON_ATTACK: KÍCH HOẠT KHI BẮT ĐẦU THỰC HIỆN ĐÒN TẤN CÔNG (CHƯA TÍNH SÁT THƯƠNG).
+ON_HIT: KÍCH HOẠT KHI ĐÒN TẤN CÔNG TRÚNG ĐÍCH VÀ GÂY SÁT THƯƠNG THÀNH CÔNG.
+ON_CRIT: KÍCH HOẠT KHI ĐÒN TẤN CÔNG ĐẠT TỶ LỆ CHÍ MẠNG (CRITICAL HIT).
+ON_KILL: KÍCH HOẠT KHI ĐÒN TẤN CÔNG KẾT LIỄU ĐƯỢC MỤC TIÊU.
+ON_MISS: KÍCH HOẠT KHI ĐÒN TẤN CÔNG BỊ HỤT HOẶC BỊ ĐỐI THỦ NÉ ĐƯỢC.
+
+
+# II. NHÓM BỊ ĐỘNG / CHỊU ĐÒN (DEFENSIVE / REACTIVE ACTIONS)
+# ------------------------------------------------------------------------------
+# KÍCH HOẠT KHI NHÂN VẬT LÀ NẠN NHÂN HOẶC NHẬN TÁC ĐỘNG BẤT LỢI TỪ BÊN NGOÀI.
+
+ON_BE_ATTACKED: KÍCH HOẠT KHI BỊ KẺ ĐỊCH NHẮM MỤC TIÊU TẤN CÔNG.
+ON_BE_HIT: KÍCH HOẠT KHI BỊ DÍNH ĐÒN VÀ PHẢI NHẬN SÁT THƯƠNG.
+ON_DODGE: KÍCH HOẠT KHI NÉ THÀNH CÔNG MỘT ĐÒN TẤN CÔNG TỪ KẺ ĐỊCH.
+ON_BLOCK: KÍCH HOẠT KHI ĐỠ HOẶC ĐỠ ĐÒN BẰNG KHIÊN THÀNH CÔNG.
+ON_BE_CRIT: KÍCH HOẠT KHI BỊ TRÚNG ĐÒN CHÍ MẠNG TỪ ĐỐI THỦ.
+
+
+# III. NHÓM TRẠNG THÁI MÁU & SINH TỬ (HP & SURVIVAL STATES)
+# ------------------------------------------------------------------------------
+# KÍCH HOẠT DỰA TRÊN NGƯỠNG MÁU HOẶC SỰ THAY ĐỔI TRẠNG THÁI SỐNG CHẾT CỦA BẢN THÂN.
+
+ON_HP_BELOW_X: KÍCH HOẠT KHI LƯỢNG MÁU (HP) GIẢM XUỐNG DƯỚI MỘT NGƯỠNG % NHẤT ĐỊNH.
+ON_HP_ABOVE_X: KÍCH HOẠT KHI LƯỢNG MÁU (HP) DUY TRÌ TRÊN MỘT NGƯỠNG % NHẤT ĐỊNH.
+ON_DEATH: KÍCH HOẠT KHI NHÂN VẬT BỊ HẾT MÁU VÀ CHẾT.
+ON_REVIVE: KÍCH HOẠT KHI NHÂN VẬT ĐƯỢC HỒI SINH TRỞ LẠI TRẬN ĐẤU.
+
+
+# IV. NHÓM HỖ TRỢ & TRẠNG THÁI (HEAL & BUFF / DEBUFF)
+# ------------------------------------------------------------------------------
+# KÍCH HOẠT LIÊN QUAN ĐẾN TRỊ LIỆU HOẶC THAY ĐỔI CÁC HIỆU ỨNG TRÊN NGƯỜI.
+
+ON_HEAL: KÍCH HOẠT KHI NHÂN VẬT CHỦ ĐỘNG THỰC HIỆN HỒI MÁU CHO BẢN THÂN HOẶC ĐỒNG ĐỘI.
+ON_BE_HEALED: KÍCH HOẠT KHI NHÂN VẬT ĐƯỢC NHẬN HỒI MÁU TỪ BẤT KỲ NGUỒN NÀO.
+ON_BUFF_GAIN: KÍCH HOẠT KHI NHÂN VẬT NHẬN THÊM MỘT HIỆU ỨNG CÓ LỢI (BUFF).
+ON_BUFF_REMOVE: KÍCH HOẠT KHI MỘT HIỆU ỨNG CÓ LỢI BỊ HẾT THỜI GIAN HOẶC BỊ XÓA BỎ.
+ON_DEBUFF_GAIN: KÍCH HOẠT KHI NHÂN VẬT BỊ DÍNH MỘT HIỆU ỨNG BẤT LỢI (DEBUFF).
+ON_DEBUFF_REMOVE: KÍCH HOẠT KHI MỘT HIỆU ỨNG BẤT LỢI BỊ HẾT THỜI GIAN HOẶC ĐƯỢC GIẢI ĐỘC/XÓA BỎ.
+
+
+# V. NHÓM TƯƠNG TÁC ĐỒNG ĐỘI (ALLY INTERACTIONS)
+# ------------------------------------------------------------------------------
+# KÍCH HOẠT DỰA TRÊN HÀNH ĐỘNG HOẶC TRẠNG THÁI CỦA CÁC ĐỒNG ĐỘI TRONG ĐỘI HÌNH.
+
+ON_ALLY_ATTACK: KÍCH HOẠT KHI CÓ ĐỒNG ĐỘI TRONG ĐỘI HÌNH THỰC HIỆN TẤN CÔNG.
+ON_ALLY_BE_HIT: KÍCH HOẠT KHI CÓ ĐỒNG ĐỘI TRONG ĐỘI HÌNH BỊ TRÚNG ĐÒN.
+ON_ALLY_HEAL: KÍCH HOẠT KHI CÓ ĐỒNG ĐỘI TRONG ĐỘI HÌNH THỰC HIỆN HỒI MÁU.
+ON_ALLY_DEATH: KÍCH HOẠT KHI CÓ MỘT ĐỒNG ĐỘI TRONG ĐỘI HÌNH BỊ CHẾT.
+
+
+# VI. NHÓM LƯỢT ĐẤU & GIAI ĐOẠN (TURN & PHASE BASED)
+# ------------------------------------------------------------------------------
+# KÍCH HOẠT DỰA TRÊN VÒNG TUẦN HOÀN CỦA TRẬN ĐẤU (BỔ TRỢ CHO TRIGGER_PHASE).
+
+ON_BATTLE_START: KÍCH HOẠT DUY NHẤT MỘT LẦN KHI TRẬN ĐẤU CHÍNH THỨC BẮT ĐẦU.
+ON_ROUND_START: KÍCH HOẠT KHI BẮT ĐẦU MỘT VÒNG ĐẤU MỚI (ROUND CHỨA NHIỀU LƯỢT CỦA CÁC NHÂN VẬT).
+ON_ROUND_END: KÍCH HOẠT KHI KẾT THÚC MỘT VÒNG ĐẤU.
+ON_TURN_START: KÍCH HOẠT KHI BẮT ĐẦU LƯỢT HÀNH ĐỘNG CỦA CHÍNH NHÂN VẬT ĐÓ.
+ON_TURN_END: KÍCH HOẠT KHI KẾT THÚC LƯỢT HÀNH ĐỘNG CỦA CHÍNH NHÂN VẬT ĐÓ.

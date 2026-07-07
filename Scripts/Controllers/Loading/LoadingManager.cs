@@ -36,36 +36,69 @@ public class LoadingManager : MonoBehaviour
     }
     public void ShowLoading()
     {
-        CurrentLoadingObject = Instantiate(LoadingProcessPanelPrefab, LoadingPanel);
-        LoadingSlider = CurrentLoadingObject.transform.Find("Slider").GetComponent<Slider>();
-        LoadingText = CurrentLoadingObject.transform.Find("LoadingText").GetComponent<TextMeshProUGUI>();
-        ContentText = CurrentLoadingObject.transform.Find("ContentText").GetComponent<TextMeshProUGUI>();
+        if (LoadingProcessPanelPrefab == null || LoadingPanel == null)
+        {
+            Debug.LogWarning("[LoadingManager] LoadingProcessPanelPrefab hoặc LoadingPanel chưa được gán.");
+            return;
+        }
 
-        LoadingSlider.value = 0;
+        // Clear any old loading UI first
+        if (CurrentLoadingObject != null)
+        {
+            Destroy(CurrentLoadingObject);
+            CurrentLoadingObject = null;
+        }
+
+        foreach (Transform child in LoadingPanel)
+        {
+            Destroy(child.gameObject);
+        }
+
+        CurrentLoadingObject = Instantiate(LoadingProcessPanelPrefab, LoadingPanel);
+        LoadingSlider = CurrentLoadingObject.transform.Find("Slider")?.GetComponent<Slider>();
+        LoadingText = CurrentLoadingObject.transform.Find("LoadingText")?.GetComponent<TextMeshProUGUI>();
+        ContentText = CurrentLoadingObject.transform.Find("ContentText")?.GetComponent<TextMeshProUGUI>();
+
+        if (LoadingSlider != null)
+        {
+            LoadingSlider.value = 0;
+        }
     }
+
     public void SetProgress(float value, string percentText = "", string loadingContent = "")
     {
-        // Slider
         if (LoadingSlider != null)
         {
             LoadingSlider.value = value;
         }
 
-        // Hiển thị %
         if (LoadingText != null)
         {
             int percent = Mathf.RoundToInt(value * 100f);
             LoadingText.text = $"{percent}%";
         }
 
-        // Nội dung đang load
         if (ContentText != null)
         {
             ContentText.text = $"Loading {percentText} {loadingContent}...";
         }
     }
+
     public void HideLoading()
     {
-        Destroy(CurrentLoadingObject);
+        if (CurrentLoadingObject != null)
+        {
+            Destroy(CurrentLoadingObject);
+            CurrentLoadingObject = null;
+        }
+
+        if (LoadingSlider != null)
+        {
+            LoadingSlider.value = 0;
+            LoadingSlider = null;
+        }
+
+        LoadingText = null;
+        ContentText = null;
     }
 }

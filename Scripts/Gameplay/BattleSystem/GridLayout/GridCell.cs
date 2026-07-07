@@ -18,6 +18,7 @@ public class GridCell : MonoBehaviour
     public Renderer AttackPlatform;
     public TextMeshProUGUI GridNumberText;
     public Transform DisplayCardPanel;
+    public Transform DamagePopupAnchor;
     public CardBase OccupiedCard; // Dữ liệu quân cờ đang đứng tại đây
 
     // Biến phụ trợ cho Pathfinding

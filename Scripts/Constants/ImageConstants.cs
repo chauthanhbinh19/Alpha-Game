@@ -1,5 +1,16 @@
 public static class ImageConstants
 {
+    public static class Phase
+    {
+        public const string START_PHASE_URL = "UI/Icon/start";
+        public const string PREPARATION_PHASE_URL = "UI/Icon/preparation";
+        public const string SHOPPING_PHASE_URL = "UI/Icon/shopping";
+        public const string BATTLE_PHASE_URL = "UI/Icon/battle";
+        public const string BOSS_PHASE_URL = "UI/Icon/boss";
+        public const string REWARD_PHASE_URL = "UI/Icon/reward";
+        public const string END_PHASE_URL = "UI/Icon/end";
+        public const string CUSTOM_PHASE_URL = "UI/Icon/custom";
+    }
     public static class Badge
     {
         public const string BADGE_INVENTORY_URL = "UI/Background4/Badge/Badge_Inventory";
