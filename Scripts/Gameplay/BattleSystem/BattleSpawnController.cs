@@ -173,8 +173,8 @@ public class BattleSpawnController : MonoBehaviour
             TeamDeploymentResult omegaData = omegaTask.Result;
 
             Debug.Log($"[BattleSpawnController] Loaded battle teams: Alpha on-field={alphaData?.OnFieldCards?.Count ?? 0}, Alpha bench={alphaData?.BenchCards?.Count ?? 0}, Omega on-field={omegaData?.OnFieldCards?.Count ?? 0}, Omega bench={omegaData?.BenchCards?.Count ?? 0}");
-            LogTeamDeploymentDetails(alphaData, "Alpha");
-            LogTeamDeploymentDetails(omegaData, "Omega");
+            // LogTeamDeploymentDetails(alphaData, "Alpha");
+            // LogTeamDeploymentDetails(omegaData, "Omega");
 
             if (LoadingManager.Instance != null)
             {
@@ -372,7 +372,7 @@ public class BattleSpawnController : MonoBehaviour
                 continue;
             }
 
-            Debug.Log($"[BattleSpawnController] Deploying {(isAlpha ? "Alpha" : "Omega")} hero '{hero.Name}' pos={hero.MainPosition} rawPosition='{hero.Position}'");
+            // Debug.Log($"[BattleSpawnController] Deploying {(isAlpha ? "Alpha" : "Omega")} hero '{hero.Name}' pos={hero.MainPosition} rawPosition='{hero.Position}'");
 
             if (hero.MainPosition < 1 || hero.MainPosition > 10)
             {
@@ -425,7 +425,7 @@ public class BattleSpawnController : MonoBehaviour
                     ActiveOmegaHeroes.Add(hero);
                 }
 
-                Debug.Log($"[BattleSpawnController] Spawned {hero.Name} into {(isAlpha ? "Alpha" : "Omega")} cell #{hero.MainPosition}.");
+                // Debug.Log($"[BattleSpawnController] Spawned {hero.Name} into {(isAlpha ? "Alpha" : "Omega")} cell #{hero.MainPosition}.");
             }
             else
             {

@@ -6519,6 +6519,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   GamePlayPanel: {fileID: 0}
   GamePlayPanelPrefab: {fileID: 0}
+  SkillPrefab: {fileID: 0}
   PhasePrefab: {fileID: 0}
   PhaseIcons: []
 --- !u!1 &606194597
@@ -8474,7 +8475,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 50
   field of view: 35
   orthographic: 0
   orthographic size: 5
@@ -8538,6 +8539,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   KeyboardSpeed: 30
   DragSpeed: 2
+  HeightChangeSpeed: 15
+  MinHeight: 28
+  MaxHeight: 36
   BottomLeftCorner: {x: -2, y: 36, z: -10}
   TopRightCorner: {x: 2, y: 36, z: -3}
 --- !u!1 &967054507

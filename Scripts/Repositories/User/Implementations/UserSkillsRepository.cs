@@ -2379,7 +2379,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_hero_id,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_hero_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
                         SELECT JSON_ARRAYAGG(
@@ -2414,11 +2414,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                     ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
-                LEFT JOIN card_heroes_skills chs 
+                JOIN card_heroes_skills chs 
                     ON chs.skill_id = us.skill_id AND chs.card_hero_id IN ({inClause})
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
                 WHERE us.user_id = @userId
-                GROUP BY s.id, us.skill_id";
+                GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_hero_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
@@ -2445,7 +2445,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Type = reader.GetStringSafe("type"),
                         Star = reader.GetIntSafe("star"),
                         Level = reader.GetIntSafe("level"),
-                        Position = reader.GetIntSafe("position"),
+                        Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
                         Quantity = reader.GetDoubleSafe("quantity"),
@@ -2571,7 +2571,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_captain_id,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_captain_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
                         SELECT JSON_ARRAYAGG(
@@ -2606,11 +2606,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                     ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
-                LEFT JOIN card_captains_skills chs 
+                JOIN card_captains_skills chs 
                     ON chs.skill_id = us.skill_id AND chs.card_captain_id IN ({inClause})
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
                 WHERE us.user_id = @userId
-                GROUP BY s.id, us.skill_id";
+                GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_captain_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
@@ -2637,7 +2637,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Type = reader.GetStringSafe("type"),
                         Star = reader.GetIntSafe("star"),
                         Level = reader.GetIntSafe("level"),
-                        Position = reader.GetIntSafe("position"),
+                        Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
                         Quantity = reader.GetDoubleSafe("quantity"),
@@ -2763,7 +2763,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_colonel_id,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_colonel_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
                         SELECT JSON_ARRAYAGG(
@@ -2798,11 +2798,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                     ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
-                LEFT JOIN card_colonels_skills chs 
+                JOIN card_colonels_skills chs 
                     ON chs.skill_id = us.skill_id AND chs.card_colonel_id IN ({inClause})
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
                 WHERE us.user_id = @userId
-                GROUP BY s.id, us.skill_id";
+                GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_colonel_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
@@ -2829,7 +2829,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Type = reader.GetStringSafe("type"),
                         Star = reader.GetIntSafe("star"),
                         Level = reader.GetIntSafe("level"),
-                        Position = reader.GetIntSafe("position"),
+                        Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
                         Quantity = reader.GetDoubleSafe("quantity"),
@@ -2955,7 +2955,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_general_id,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_general_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
                         SELECT JSON_ARRAYAGG(
@@ -2990,11 +2990,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                     ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
-                LEFT JOIN card_generals_skills chs 
+                JOIN card_generals_skills chs 
                     ON chs.skill_id = us.skill_id AND chs.card_general_id IN ({inClause})
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
                 WHERE us.user_id = @userId
-                GROUP BY s.id, us.skill_id";
+                GROUP BY s.id, us., sp.pattern_id, chs.card_general_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
@@ -3021,7 +3021,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Type = reader.GetStringSafe("type"),
                         Star = reader.GetIntSafe("star"),
                         Level = reader.GetIntSafe("level"),
-                        Position = reader.GetIntSafe("position"),
+                        Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
                         Quantity = reader.GetDoubleSafe("quantity"),
@@ -3147,7 +3147,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_admiral_id,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_admiral_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
                         SELECT JSON_ARRAYAGG(
@@ -3182,11 +3182,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                     ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
-                LEFT JOIN card_admirals_skills chs 
+                JOIN card_admirals_skills chs 
                     ON chs.skill_id = us.skill_id AND chs.card_admiral_id IN ({inClause})
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
                 WHERE us.user_id = @userId
-                GROUP BY s.id, us.skill_id";
+                GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_admiral_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
@@ -3213,7 +3213,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Type = reader.GetStringSafe("type"),
                         Star = reader.GetIntSafe("star"),
                         Level = reader.GetIntSafe("level"),
-                        Position = reader.GetIntSafe("position"),
+                        Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
                         Quantity = reader.GetDoubleSafe("quantity"),
@@ -3339,7 +3339,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_monster_id,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_monster_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
                         SELECT JSON_ARRAYAGG(
@@ -3374,11 +3374,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                     ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
-                LEFT JOIN card_monsters_skills chs 
+                JOIN card_monsters_skills chs 
                     ON chs.skill_id = us.skill_id AND chs.card_monster_id IN ({inClause})
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
                 WHERE us.user_id = @userId
-                GROUP BY s.id, us.skill_id";
+                GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_monster_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
@@ -3405,7 +3405,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Type = reader.GetStringSafe("type"),
                         Star = reader.GetIntSafe("star"),
                         Level = reader.GetIntSafe("level"),
-                        Position = reader.GetIntSafe("position"),
+                        Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
                         Quantity = reader.GetDoubleSafe("quantity"),
@@ -3531,7 +3531,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_military_id,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_military_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
                         SELECT JSON_ARRAYAGG(
@@ -3566,11 +3566,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                     ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
-                LEFT JOIN card_militaries_skills chs 
+                JOIN card_militaries_skills chs 
                     ON chs.skill_id = us.skill_id AND chs.card_military_id IN ({inClause})
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
                 WHERE us.user_id = @userId
-                GROUP BY s.id, us.skill_id";
+                GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_military_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
@@ -3597,7 +3597,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Type = reader.GetStringSafe("type"),
                         Star = reader.GetIntSafe("star"),
                         Level = reader.GetIntSafe("level"),
-                        Position = reader.GetIntSafe("position"),
+                        Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
                         Quantity = reader.GetDoubleSafe("quantity"),
@@ -3723,7 +3723,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_spell_id,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_spell_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
                         SELECT JSON_ARRAYAGG(
@@ -3758,11 +3758,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                     ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
-                LEFT JOIN card_spells_skills chs 
+                JOIN card_spells_skills chs 
                     ON chs.skill_id = us.skill_id AND chs.card_spell_id IN ({inClause})
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
                 WHERE us.user_id = @userId
-                GROUP BY s.id, us.skill_id";
+                GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_spell_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
@@ -3789,7 +3789,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Type = reader.GetStringSafe("type"),
                         Star = reader.GetIntSafe("star"),
                         Level = reader.GetIntSafe("level"),
-                        Position = reader.GetIntSafe("position"),
+                        Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
                         Quantity = reader.GetDoubleSafe("quantity"),
@@ -3915,7 +3915,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
                 SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
-                    MAX(IFNULL(chs.position, 0)) AS position, sp.pattern_id, chs.card_soldier_id,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_soldier_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
                         SELECT JSON_ARRAYAGG(
@@ -3950,11 +3950,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                     ) AS skill_effects_json
                 FROM Skills s
                 JOIN user_skills us ON s.id = us.skill_id
-                LEFT JOIN card_soldiers_skills chs 
+                JOIN card_soldiers_skills chs 
                     ON chs.skill_id = us.skill_id AND chs.card_soldier_id IN ({inClause})
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
                 WHERE us.user_id = @userId
-                GROUP BY s.id, us.skill_id";
+                GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_soldier_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
@@ -3981,7 +3981,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Type = reader.GetStringSafe("type"),
                         Star = reader.GetIntSafe("star"),
                         Level = reader.GetIntSafe("level"),
-                        Position = reader.GetIntSafe("position"),
+                        Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
                         Quantity = reader.GetDoubleSafe("quantity"),
@@ -4954,37 +4954,43 @@ public class UserSkillsRepository : IUserSkillsRepository
                     `level`, 
                     `position`
                 )
-                WITH 
-                SelectedActive AS (
-                    SELECT `id` AS skill_id, 1 AS position
-                    FROM `skills` 
-                    WHERE `skill_type` = 'Active' 
-                    ORDER BY RAND() 
-                    LIMIT 1
+                WITH RankedSkills AS (
+                    -- Bước 1: Xáo trộn và đánh số thứ tự độc lập cho TỪNG cặp (type, skill_type)
+                    SELECT 
+                        `id` AS skill_id,
+                        `type`,
+                        `skill_type`,
+                        ROW_NUMBER() OVER (
+                            PARTITION BY `type`, `skill_type` 
+                            ORDER BY RAND()
+                        ) AS type_rn
+                    FROM `skills`
                 ),
-                SelectedPassive AS (
-                    SELECT skill_id, position
-                    FROM (
-                        SELECT `id` AS skill_id,
-                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
-                        FROM `skills`
-                        WHERE `skill_type` = 'Passive'
-                    ) temp
-                    WHERE position IN (2, 3)
-                ),
-                TargetSkills AS (
-                    SELECT skill_id, position FROM SelectedActive
-                    UNION ALL
-                    SELECT skill_id, position FROM SelectedPassive
+                TargetPool AS (
+                    -- Bước 2: Lọc lấy chiêu ngẫu nhiên đầu tiên của Active và 2 chiêu đầu tiên của Passive theo từng hệ type
+                    SELECT 
+                        skill_id,
+                        `type`,
+                        `skill_type`,
+                        CASE 
+                            WHEN `skill_type` = 'Active' THEN 1
+                            WHEN `skill_type` = 'Passive' THEN type_rn + 1
+                        END AS `position`
+                    FROM RankedSkills
+                    WHERE 
+                        (`skill_type` = 'Active' AND type_rn = 1)
+                        OR 
+                        (`skill_type` = 'Passive' AND type_rn IN (1, 2))
                 )
+                -- Bước 3: Nhân bản danh sách kỹ năng đa dạng này cho các Card Hero của User
                 SELECT 
                     uch.`user_id`,
                     uch.`card_hero_id`,
-                    ts.`skill_id`,
+                    tp.`skill_id`,
                     0 AS `level`,
-                    ts.`position`
+                    tp.`position`
                 FROM `user_card_heroes` uch
-                CROSS JOIN TargetSkills ts
+                CROSS JOIN TargetPool tp
                 WHERE uch.`user_id` = @userId
                 ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
@@ -5026,37 +5032,43 @@ public class UserSkillsRepository : IUserSkillsRepository
                     `level`, 
                     `position`
                 )
-                WITH 
-                SelectedActive AS (
-                    SELECT `id` AS skill_id, 1 AS position
-                    FROM `skills` 
-                    WHERE `skill_type` = 'Active' 
-                    ORDER BY RAND() 
-                    LIMIT 1
+                WITH RankedSkills AS (
+                    -- Bước 1: Xáo trộn và đánh số thứ tự độc lập cho TỪNG cặp (type, skill_type)
+                    SELECT 
+                        `id` AS skill_id,
+                        `type`,
+                        `skill_type`,
+                        ROW_NUMBER() OVER (
+                            PARTITION BY `type`, `skill_type` 
+                            ORDER BY RAND()
+                        ) AS type_rn
+                    FROM `skills`
                 ),
-                SelectedPassive AS (
-                    SELECT skill_id, position
-                    FROM (
-                        SELECT `id` AS skill_id,
-                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
-                        FROM `skills`
-                        WHERE `skill_type` = 'Passive'
-                    ) temp
-                    WHERE position IN (2, 3)
-                ),
-                TargetSkills AS (
-                    SELECT skill_id, position FROM SelectedActive
-                    UNION ALL
-                    SELECT skill_id, position FROM SelectedPassive
+                TargetPool AS (
+                    -- Bước 2: Lọc lấy chiêu ngẫu nhiên đầu tiên của Active và 2 chiêu đầu tiên của Passive theo từng hệ type
+                    SELECT 
+                        skill_id,
+                        `type`,
+                        `skill_type`,
+                        CASE 
+                            WHEN `skill_type` = 'Active' THEN 1
+                            WHEN `skill_type` = 'Passive' THEN type_rn + 1
+                        END AS `position`
+                    FROM RankedSkills
+                    WHERE 
+                        (`skill_type` = 'Active' AND type_rn = 1)
+                        OR 
+                        (`skill_type` = 'Passive' AND type_rn IN (1, 2))
                 )
+                -- Bước 3: Nhân bản danh sách kỹ năng đa dạng này cho các Card Hero của User
                 SELECT 
                     uch.`user_id`,
                     uch.`card_captain_id`,
-                    ts.`skill_id`,
+                    tp.`skill_id`,
                     0 AS `level`,
-                    ts.`position`
+                    tp.`position`
                 FROM `user_card_captains` uch
-                CROSS JOIN TargetSkills ts
+                CROSS JOIN TargetPool tp
                 WHERE uch.`user_id` = @userId
                 ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
@@ -5098,37 +5110,43 @@ public class UserSkillsRepository : IUserSkillsRepository
                     `level`, 
                     `position`
                 )
-                WITH 
-                SelectedActive AS (
-                    SELECT `id` AS skill_id, 1 AS position
-                    FROM `skills` 
-                    WHERE `skill_type` = 'Active' 
-                    ORDER BY RAND() 
-                    LIMIT 1
+                WITH RankedSkills AS (
+                    -- Bước 1: Xáo trộn và đánh số thứ tự độc lập cho TỪNG cặp (type, skill_type)
+                    SELECT 
+                        `id` AS skill_id,
+                        `type`,
+                        `skill_type`,
+                        ROW_NUMBER() OVER (
+                            PARTITION BY `type`, `skill_type` 
+                            ORDER BY RAND()
+                        ) AS type_rn
+                    FROM `skills`
                 ),
-                SelectedPassive AS (
-                    SELECT skill_id, position
-                    FROM (
-                        SELECT `id` AS skill_id,
-                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
-                        FROM `skills`
-                        WHERE `skill_type` = 'Passive'
-                    ) temp
-                    WHERE position IN (2, 3)
-                ),
-                TargetSkills AS (
-                    SELECT skill_id, position FROM SelectedActive
-                    UNION ALL
-                    SELECT skill_id, position FROM SelectedPassive
+                TargetPool AS (
+                    -- Bước 2: Lọc lấy chiêu ngẫu nhiên đầu tiên của Active và 2 chiêu đầu tiên của Passive theo từng hệ type
+                    SELECT 
+                        skill_id,
+                        `type`,
+                        `skill_type`,
+                        CASE 
+                            WHEN `skill_type` = 'Active' THEN 1
+                            WHEN `skill_type` = 'Passive' THEN type_rn + 1
+                        END AS `position`
+                    FROM RankedSkills
+                    WHERE 
+                        (`skill_type` = 'Active' AND type_rn = 1)
+                        OR 
+                        (`skill_type` = 'Passive' AND type_rn IN (1, 2))
                 )
+                -- Bước 3: Nhân bản danh sách kỹ năng đa dạng này cho các Card Hero của User
                 SELECT 
                     uch.`user_id`,
                     uch.`card_colonel_id`,
-                    ts.`skill_id`,
+                    tp.`skill_id`,
                     0 AS `level`,
-                    ts.`position`
+                    tp.`position`
                 FROM `user_card_colonels` uch
-                CROSS JOIN TargetSkills ts
+                CROSS JOIN TargetPool tp
                 WHERE uch.`user_id` = @userId
                 ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
@@ -5170,37 +5188,43 @@ public class UserSkillsRepository : IUserSkillsRepository
                     `level`, 
                     `position`
                 )
-                WITH 
-                SelectedActive AS (
-                    SELECT `id` AS skill_id, 1 AS position
-                    FROM `skills` 
-                    WHERE `skill_type` = 'Active' 
-                    ORDER BY RAND() 
-                    LIMIT 1
+                WITH RankedSkills AS (
+                    -- Bước 1: Xáo trộn và đánh số thứ tự độc lập cho TỪNG cặp (type, skill_type)
+                    SELECT 
+                        `id` AS skill_id,
+                        `type`,
+                        `skill_type`,
+                        ROW_NUMBER() OVER (
+                            PARTITION BY `type`, `skill_type` 
+                            ORDER BY RAND()
+                        ) AS type_rn
+                    FROM `skills`
                 ),
-                SelectedPassive AS (
-                    SELECT skill_id, position
-                    FROM (
-                        SELECT `id` AS skill_id,
-                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
-                        FROM `skills`
-                        WHERE `skill_type` = 'Passive'
-                    ) temp
-                    WHERE position IN (2, 3)
-                ),
-                TargetSkills AS (
-                    SELECT skill_id, position FROM SelectedActive
-                    UNION ALL
-                    SELECT skill_id, position FROM SelectedPassive
+                TargetPool AS (
+                    -- Bước 2: Lọc lấy chiêu ngẫu nhiên đầu tiên của Active và 2 chiêu đầu tiên của Passive theo từng hệ type
+                    SELECT 
+                        skill_id,
+                        `type`,
+                        `skill_type`,
+                        CASE 
+                            WHEN `skill_type` = 'Active' THEN 1
+                            WHEN `skill_type` = 'Passive' THEN type_rn + 1
+                        END AS `position`
+                    FROM RankedSkills
+                    WHERE 
+                        (`skill_type` = 'Active' AND type_rn = 1)
+                        OR 
+                        (`skill_type` = 'Passive' AND type_rn IN (1, 2))
                 )
+                -- Bước 3: Nhân bản danh sách kỹ năng đa dạng này cho các Card Hero của User
                 SELECT 
                     uch.`user_id`,
                     uch.`card_general_id`,
-                    ts.`skill_id`,
+                    tp.`skill_id`,
                     0 AS `level`,
-                    ts.`position`
+                    tp.`position`
                 FROM `user_card_generals` uch
-                CROSS JOIN TargetSkills ts
+                CROSS JOIN TargetPool tp
                 WHERE uch.`user_id` = @userId
                 ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
@@ -5242,37 +5266,43 @@ public class UserSkillsRepository : IUserSkillsRepository
                     `level`, 
                     `position`
                 )
-                WITH 
-                SelectedActive AS (
-                    SELECT `id` AS skill_id, 1 AS position
-                    FROM `skills` 
-                    WHERE `skill_type` = 'Active' 
-                    ORDER BY RAND() 
-                    LIMIT 1
+                WITH RankedSkills AS (
+                    -- Bước 1: Xáo trộn và đánh số thứ tự độc lập cho TỪNG cặp (type, skill_type)
+                    SELECT 
+                        `id` AS skill_id,
+                        `type`,
+                        `skill_type`,
+                        ROW_NUMBER() OVER (
+                            PARTITION BY `type`, `skill_type` 
+                            ORDER BY RAND()
+                        ) AS type_rn
+                    FROM `skills`
                 ),
-                SelectedPassive AS (
-                    SELECT skill_id, position
-                    FROM (
-                        SELECT `id` AS skill_id,
-                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
-                        FROM `skills`
-                        WHERE `skill_type` = 'Passive'
-                    ) temp
-                    WHERE position IN (2, 3)
-                ),
-                TargetSkills AS (
-                    SELECT skill_id, position FROM SelectedActive
-                    UNION ALL
-                    SELECT skill_id, position FROM SelectedPassive
+                TargetPool AS (
+                    -- Bước 2: Lọc lấy chiêu ngẫu nhiên đầu tiên của Active và 2 chiêu đầu tiên của Passive theo từng hệ type
+                    SELECT 
+                        skill_id,
+                        `type`,
+                        `skill_type`,
+                        CASE 
+                            WHEN `skill_type` = 'Active' THEN 1
+                            WHEN `skill_type` = 'Passive' THEN type_rn + 1
+                        END AS `position`
+                    FROM RankedSkills
+                    WHERE 
+                        (`skill_type` = 'Active' AND type_rn = 1)
+                        OR 
+                        (`skill_type` = 'Passive' AND type_rn IN (1, 2))
                 )
+                -- Bước 3: Nhân bản danh sách kỹ năng đa dạng này cho các Card Hero của User
                 SELECT 
                     uch.`user_id`,
                     uch.`card_admiral_id`,
-                    ts.`skill_id`,
+                    tp.`skill_id`,
                     0 AS `level`,
-                    ts.`position`
+                    tp.`position`
                 FROM `user_card_admirals` uch
-                CROSS JOIN TargetSkills ts
+                CROSS JOIN TargetPool tp
                 WHERE uch.`user_id` = @userId
                 ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
@@ -5314,37 +5344,43 @@ public class UserSkillsRepository : IUserSkillsRepository
                     `level`, 
                     `position`
                 )
-                WITH 
-                SelectedActive AS (
-                    SELECT `id` AS skill_id, 1 AS position
-                    FROM `skills` 
-                    WHERE `skill_type` = 'Active' 
-                    ORDER BY RAND() 
-                    LIMIT 1
+                WITH RankedSkills AS (
+                    -- Bước 1: Xáo trộn và đánh số thứ tự độc lập cho TỪNG cặp (type, skill_type)
+                    SELECT 
+                        `id` AS skill_id,
+                        `type`,
+                        `skill_type`,
+                        ROW_NUMBER() OVER (
+                            PARTITION BY `type`, `skill_type` 
+                            ORDER BY RAND()
+                        ) AS type_rn
+                    FROM `skills`
                 ),
-                SelectedPassive AS (
-                    SELECT skill_id, position
-                    FROM (
-                        SELECT `id` AS skill_id,
-                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
-                        FROM `skills`
-                        WHERE `skill_type` = 'Passive'
-                    ) temp
-                    WHERE position IN (2, 3)
-                ),
-                TargetSkills AS (
-                    SELECT skill_id, position FROM SelectedActive
-                    UNION ALL
-                    SELECT skill_id, position FROM SelectedPassive
+                TargetPool AS (
+                    -- Bước 2: Lọc lấy chiêu ngẫu nhiên đầu tiên của Active và 2 chiêu đầu tiên của Passive theo từng hệ type
+                    SELECT 
+                        skill_id,
+                        `type`,
+                        `skill_type`,
+                        CASE 
+                            WHEN `skill_type` = 'Active' THEN 1
+                            WHEN `skill_type` = 'Passive' THEN type_rn + 1
+                        END AS `position`
+                    FROM RankedSkills
+                    WHERE 
+                        (`skill_type` = 'Active' AND type_rn = 1)
+                        OR 
+                        (`skill_type` = 'Passive' AND type_rn IN (1, 2))
                 )
+                -- Bước 3: Nhân bản danh sách kỹ năng đa dạng này cho các Card Hero của User
                 SELECT 
                     uch.`user_id`,
                     uch.`card_monster_id`,
-                    ts.`skill_id`,
+                    tp.`skill_id`,
                     0 AS `level`,
-                    ts.`position`
+                    tp.`position`
                 FROM `user_card_monsters` uch
-                CROSS JOIN TargetSkills ts
+                CROSS JOIN TargetPool tp
                 WHERE uch.`user_id` = @userId
                 ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
@@ -5386,37 +5422,43 @@ public class UserSkillsRepository : IUserSkillsRepository
                     `level`, 
                     `position`
                 )
-                WITH 
-                SelectedActive AS (
-                    SELECT `id` AS skill_id, 1 AS position
-                    FROM `skills` 
-                    WHERE `skill_type` = 'Active' 
-                    ORDER BY RAND() 
-                    LIMIT 1
+                WITH RankedSkills AS (
+                    -- Bước 1: Xáo trộn và đánh số thứ tự độc lập cho TỪNG cặp (type, skill_type)
+                    SELECT 
+                        `id` AS skill_id,
+                        `type`,
+                        `skill_type`,
+                        ROW_NUMBER() OVER (
+                            PARTITION BY `type`, `skill_type` 
+                            ORDER BY RAND()
+                        ) AS type_rn
+                    FROM `skills`
                 ),
-                SelectedPassive AS (
-                    SELECT skill_id, position
-                    FROM (
-                        SELECT `id` AS skill_id,
-                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
-                        FROM `skills`
-                        WHERE `skill_type` = 'Passive'
-                    ) temp
-                    WHERE position IN (2, 3)
-                ),
-                TargetSkills AS (
-                    SELECT skill_id, position FROM SelectedActive
-                    UNION ALL
-                    SELECT skill_id, position FROM SelectedPassive
+                TargetPool AS (
+                    -- Bước 2: Lọc lấy chiêu ngẫu nhiên đầu tiên của Active và 2 chiêu đầu tiên của Passive theo từng hệ type
+                    SELECT 
+                        skill_id,
+                        `type`,
+                        `skill_type`,
+                        CASE 
+                            WHEN `skill_type` = 'Active' THEN 1
+                            WHEN `skill_type` = 'Passive' THEN type_rn + 1
+                        END AS `position`
+                    FROM RankedSkills
+                    WHERE 
+                        (`skill_type` = 'Active' AND type_rn = 1)
+                        OR 
+                        (`skill_type` = 'Passive' AND type_rn IN (1, 2))
                 )
+                -- Bước 3: Nhân bản danh sách kỹ năng đa dạng này cho các Card Hero của User
                 SELECT 
                     uch.`user_id`,
                     uch.`card_military_id`,
-                    ts.`skill_id`,
+                    tp.`skill_id`,
                     0 AS `level`,
-                    ts.`position`
+                    tp.`position`
                 FROM `user_card_militaries` uch
-                CROSS JOIN TargetSkills ts
+                CROSS JOIN TargetPool tp
                 WHERE uch.`user_id` = @userId
                 ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
@@ -5458,37 +5500,43 @@ public class UserSkillsRepository : IUserSkillsRepository
                     `level`, 
                     `position`
                 )
-                WITH 
-                SelectedActive AS (
-                    SELECT `id` AS skill_id, 1 AS position
-                    FROM `skills` 
-                    WHERE `skill_type` = 'Active' 
-                    ORDER BY RAND() 
-                    LIMIT 1
+                WITH RankedSkills AS (
+                    -- Bước 1: Xáo trộn và đánh số thứ tự độc lập cho TỪNG cặp (type, skill_type)
+                    SELECT 
+                        `id` AS skill_id,
+                        `type`,
+                        `skill_type`,
+                        ROW_NUMBER() OVER (
+                            PARTITION BY `type`, `skill_type` 
+                            ORDER BY RAND()
+                        ) AS type_rn
+                    FROM `skills`
                 ),
-                SelectedPassive AS (
-                    SELECT skill_id, position
-                    FROM (
-                        SELECT `id` AS skill_id,
-                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
-                        FROM `skills`
-                        WHERE `skill_type` = 'Passive'
-                    ) temp
-                    WHERE position IN (2, 3)
-                ),
-                TargetSkills AS (
-                    SELECT skill_id, position FROM SelectedActive
-                    UNION ALL
-                    SELECT skill_id, position FROM SelectedPassive
+                TargetPool AS (
+                    -- Bước 2: Lọc lấy chiêu ngẫu nhiên đầu tiên của Active và 2 chiêu đầu tiên của Passive theo từng hệ type
+                    SELECT 
+                        skill_id,
+                        `type`,
+                        `skill_type`,
+                        CASE 
+                            WHEN `skill_type` = 'Active' THEN 1
+                            WHEN `skill_type` = 'Passive' THEN type_rn + 1
+                        END AS `position`
+                    FROM RankedSkills
+                    WHERE 
+                        (`skill_type` = 'Active' AND type_rn = 1)
+                        OR 
+                        (`skill_type` = 'Passive' AND type_rn IN (1, 2))
                 )
+                -- Bước 3: Nhân bản danh sách kỹ năng đa dạng này cho các Card Hero của User
                 SELECT 
                     uch.`user_id`,
                     uch.`card_soldier_id`,
-                    ts.`skill_id`,
+                    tp.`skill_id`,
                     0 AS `level`,
-                    ts.`position`
+                    tp.`position`
                 FROM `user_card_soldiers` uch
-                CROSS JOIN TargetSkills ts
+                CROSS JOIN TargetPool tp
                 WHERE uch.`user_id` = @userId
                 ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 
@@ -5530,37 +5578,43 @@ public class UserSkillsRepository : IUserSkillsRepository
                     `level`, 
                     `position`
                 )
-                WITH 
-                SelectedActive AS (
-                    SELECT `id` AS skill_id, 1 AS position
-                    FROM `skills` 
-                    WHERE `skill_type` = 'Active' 
-                    ORDER BY RAND() 
-                    LIMIT 1
+                WITH RankedSkills AS (
+                    -- Bước 1: Xáo trộn và đánh số thứ tự độc lập cho TỪNG cặp (type, skill_type)
+                    SELECT 
+                        `id` AS skill_id,
+                        `type`,
+                        `skill_type`,
+                        ROW_NUMBER() OVER (
+                            PARTITION BY `type`, `skill_type` 
+                            ORDER BY RAND()
+                        ) AS type_rn
+                    FROM `skills`
                 ),
-                SelectedPassive AS (
-                    SELECT skill_id, position
-                    FROM (
-                        SELECT `id` AS skill_id,
-                               ROW_NUMBER() OVER (ORDER BY RAND()) + 1 AS position
-                        FROM `skills`
-                        WHERE `skill_type` = 'Passive'
-                    ) temp
-                    WHERE position IN (2, 3)
-                ),
-                TargetSkills AS (
-                    SELECT skill_id, position FROM SelectedActive
-                    UNION ALL
-                    SELECT skill_id, position FROM SelectedPassive
+                TargetPool AS (
+                    -- Bước 2: Lọc lấy chiêu ngẫu nhiên đầu tiên của Active và 2 chiêu đầu tiên của Passive theo từng hệ type
+                    SELECT 
+                        skill_id,
+                        `type`,
+                        `skill_type`,
+                        CASE 
+                            WHEN `skill_type` = 'Active' THEN 1
+                            WHEN `skill_type` = 'Passive' THEN type_rn + 1
+                        END AS `position`
+                    FROM RankedSkills
+                    WHERE 
+                        (`skill_type` = 'Active' AND type_rn = 1)
+                        OR 
+                        (`skill_type` = 'Passive' AND type_rn IN (1, 2))
                 )
+                -- Bước 3: Nhân bản danh sách kỹ năng đa dạng này cho các Card Hero của User
                 SELECT 
                     uch.`user_id`,
                     uch.`card_spell_id`,
-                    ts.`skill_id`,
+                    tp.`skill_id`,
                     0 AS `level`,
-                    ts.`position`
+                    tp.`position`
                 FROM `user_card_spells` uch
-                CROSS JOIN TargetSkills ts
+                CROSS JOIN TargetPool tp
                 WHERE uch.`user_id` = @userId
                 ON DUPLICATE KEY UPDATE `updated_at` = CURRENT_TIMESTAMP;";
 

@@ -13,6 +13,8 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
     public Slider ManaSlider;
     public Slider ShieldSlider;
     public TextMeshProUGUI HealthRatioText;
+    public TextMeshProUGUI ManaRatioText;
+    public TextMeshProUGUI ShieldRatioText;
 
     // Đoạn code này đặt trong script Quản lý tương tác chuột (ví dụ: BattleManager hoặc InputHandler)
     public enum ActionState { None, MoveMode, AttackMode }
@@ -115,8 +117,20 @@ public class CardVisual : MonoBehaviour, IPointerClickHandler
 
         if (HealthRatioText != null)
         {
-            string multiplierText = CardData.Health > 0 ? $"x{(CardData.CurrentHealth / CardData.Health):0.##}" : "x0";
+            string multiplierText = CardData.Health > 0 ? $"{(CardData.CurrentHealth / CardData.Health):0.##}" : "0";
             HealthRatioText.text = $"x{multiplierText}";
+        }
+
+        if (ManaRatioText != null)
+        {
+            string multiplierText = CardData.Mana > 0 ? $"{(CardData.CurrentMana / CardData.Mana):0.##}" : "0";
+            ManaRatioText.text = $"x{multiplierText}";
+        }
+
+        if (ShieldRatioText != null)
+        {
+            string multiplierText = CardData.ShieldStrength > 0 ? $"{(CardData.CurrentShieldStrength / CardData.ShieldStrength):0.##}" : "0";
+            ShieldRatioText.text = $"x{multiplierText}";
         }
     }
 

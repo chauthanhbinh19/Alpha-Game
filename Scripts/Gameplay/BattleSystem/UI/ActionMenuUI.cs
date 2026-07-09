@@ -23,9 +23,14 @@ public class ActionMenuUI : MonoBehaviour
     private Transform Active1Transform;
     private Transform Passive1Transform;
     private Transform Passive2Transform;
+    private Button Active1TabButton;
+    private Button Passive1TabButton;
+    private Button Passive2TabButton;
 
     public Transform GamePlayPanel;
     public GameObject GamePlayPanelPrefab;
+    public GameObject SkillPrefab;
+    private CardBase CardData;
     private GridCell TargetCell;
     private int MovementRange;
     private int MovementPoint;
@@ -94,6 +99,7 @@ public class ActionMenuUI : MonoBehaviour
 
         GamePlayPanel = UIManager.Instance.GetTransform("GamePlayPanel");
         GamePlayPanelPrefab = UIManager.Instance.Get("GamePlayPanelPrefab");
+        SkillPrefab = UIManager.Instance.Get("SkillPrefab");
 
         // ĐOẠN KIỂM TRA BẮT LỖI NGAY TỪ ĐẦU LƯỢT:
         if (GamePlayPanel == null)
@@ -108,45 +114,193 @@ public class ActionMenuUI : MonoBehaviour
     public void ShowMenu(GridCell cell, int movementRange, int movementPoint, int attackRange, Vector3 screenPosition, CardBase cardData)
     {
         GameObject currentObject = CreateGamePlayPanelObject();
-        if (currentObject == null)
-        {
-            return;
-        }
+        if (currentObject == null) return;
 
+        CardData = cardData;
         CurrentGamePlayPanelObject = currentObject;
+
+        // 1. Ánh xạ các thành phần UI cơ bản
         MoveButton = currentObject.transform.Find("BottomPanel/Group1/MovementButton").GetComponent<Button>();
         AttackButton = currentObject.transform.Find("BottomPanel/Group1/AttackButton").GetComponent<Button>();
         PointText = currentObject.transform.Find("BottomPanel/Group2/PointText").GetComponent<TextMeshProUGUI>();
         MovementRangeText = currentObject.transform.Find("BottomPanel/Group2/MovementRangeText").GetComponent<TextMeshProUGUI>();
 
+        // Điểm lưu ý: Hãy chắc chắn trên Hierarchy các Object Active1, Passive1 nằm trong Group3 như đường dẫn này
         Active1Transform = currentObject.transform.Find("BottomPanel/Group3/Active1");
         Passive1Transform = currentObject.transform.Find("BottomPanel/Group3/Passive1");
         Passive2Transform = currentObject.transform.Find("BottomPanel/Group3/Passive2");
 
+        // 2. Thiết lập cấu hình hệ thống Tab nút bấm
+        SetupSkillTabs(currentObject.transform);
+
         BindPhaseTimeline(currentObject.transform);
         BuildPhaseTimelineFromCurrentTurn();
 
-        PointText.text = cardData.CurrentMovementPoint.ToString();
-        MovementRangeText.text = cardData.Class.MovementRange.ToString();
+        PointText.text = CardData.CurrentMovementPoint.ToString();
+        MovementRangeText.text = CardData.Class.MovementRange.ToString();
 
         this.TargetCell = cell;
         this.MovementRange = movementRange;
         this.MovementPoint = movementPoint;
         this.AttackRange = attackRange;
 
-        // Đặt vị trí UI hiển thị ngay tại vị trí thẻ bài trên màn hình
         transform.position = screenPosition;
         gameObject.SetActive(true);
 
-        // Reset các sự kiện cũ trước khi gán sự kiện mới
+        // Reset & Gán sự kiện cho nút Di chuyển / Tấn công
         MoveButton.onClick.RemoveAllListeners();
         AttackButton.onClick.RemoveAllListeners();
-
-        // Gán sự kiện khi click vào nút Move
         MoveButton.onClick.AddListener(OnMoveClicked);
-
-        // Gán sự kiện khi click vào nút Attack
         AttackButton.onClick.AddListener(OnAttackClicked);
+
+        // SỬA LỖI LOGIC: Mặc định tự động kích hoạt Tab Active 1 (Position = 1) khi vừa hiện Menu
+        if (Active1TabButton != null)
+        {
+            OnSkillTabClicked(Active1TabButton, Active1Transform, 1);
+        }
+    }
+
+    private void SetupSkillTabs(Transform root)
+    {
+        // SỬA LỖI ĐƯỜNG DẪN: Tìm chính xác Group1 nằm trong BottomPanel để treo SkillTabs vào
+        Transform bottomPanel = root.Find("BottomPanel");
+        Transform group1 = bottomPanel != null ? bottomPanel.Find("Group1") : null;
+        if (group1 == null)
+        {
+            Debug.LogError("Không tìm thấy BottomPanel/Group1 để khởi tạo SkillTabs!");
+            return;
+        }
+
+        Transform tabsParent = group1.Find("SkillTabs");
+        if (tabsParent == null)
+        {
+            GameObject tabsObject = new GameObject("SkillTabs", typeof(RectTransform));
+            tabsObject.transform.SetParent(group1, false);
+            tabsParent = tabsObject.transform;
+        }
+
+        // Tạo hoặc tìm các nút dựa theo cấu trúc
+        Active1TabButton = GetOrCreateTabButton(tabsParent, "Active1SkillButton", "Active 1");
+        Passive1TabButton = GetOrCreateTabButton(tabsParent, "Passive1SkillButton", "Passive 1");
+        Passive2TabButton = GetOrCreateTabButton(tabsParent, "Passive2SkillButton", "Passive 2");
+
+        // Làm sạch sự kiện cũ để tránh trùng lặp khi gọi lại hàm nhiều lần
+        Active1TabButton.onClick.RemoveAllListeners();
+        Passive1TabButton.onClick.RemoveAllListeners();
+        Passive2TabButton.onClick.RemoveAllListeners();
+
+        // Gán sự kiện Click chuẩn hóa đúng Position theo yêu cầu của bạn
+        Active1TabButton.onClick.AddListener(() => OnSkillTabClicked(Active1TabButton, Active1Transform, 1));
+        Passive1TabButton.onClick.AddListener(() => OnSkillTabClicked(Passive1TabButton, Passive1Transform, 2));
+        Passive2TabButton.onClick.AddListener(() => OnSkillTabClicked(Passive2TabButton, Passive2Transform, 3));
+    }
+
+    private void OnSkillTabClicked(Button clicked, Transform targetGroup, int position)
+    {
+        // 1. Cập nhật lại kích thước chiều rộng (Nút được chọn rộng 150, nút còn lại thu về 10)
+        SetTabWidthsForClicked(clicked);
+
+        // 2. SỬA LỖI LOGIC: Tắt toàn bộ các Group nội dung trước để tránh hiển thị đè đố chữ
+        if (Active1Transform != null) Active1Transform.gameObject.SetActive(false);
+        if (Passive1Transform != null) Passive1Transform.gameObject.SetActive(false);
+        if (Passive2Transform != null) Passive2Transform.gameObject.SetActive(false);
+
+        // 3. Làm sạch dữ liệu Prefab cũ trong các khay chứa dữ liệu
+        ClearSkillPrefabs(Active1Transform);
+        ClearSkillPrefabs(Passive1Transform);
+        ClearSkillPrefabs(Passive2Transform);
+
+        // 4. Kích hoạt và nạp dữ liệu mới cho khay chứa được lựa chọn
+        if (targetGroup != null)
+        {
+            targetGroup.gameObject.SetActive(true);
+            PopulateSkillPrefabs(targetGroup, position);
+        }
+    }
+
+    private Button GetOrCreateTabButton(Transform parent, string name, string label)
+    {
+        Transform transform = parent.Find(name);
+        if (transform != null)
+        {
+            Button existing = transform.GetComponent<Button>();
+            if (existing != null) return existing;
+        }
+
+        GameObject buttonObject = new GameObject(name, typeof(RectTransform), typeof(CanvasRenderer), typeof(Image), typeof(Button));
+        buttonObject.transform.SetParent(parent, false);
+        RectTransform rectTransform = buttonObject.GetComponent<RectTransform>();
+        rectTransform.sizeDelta = new Vector2(10f, 30f);
+
+        Image image = buttonObject.GetComponent<Image>();
+        image.color = Color.white * 0.9f;
+
+        GameObject txtObj = new GameObject("Text", typeof(RectTransform));
+        txtObj.transform.SetParent(buttonObject.transform, false);
+        RectTransform txtRt = txtObj.GetComponent<RectTransform>();
+        txtRt.anchorMin = Vector2.zero; txtRt.anchorMax = Vector2.one; txtRt.offsetMin = Vector2.zero; txtRt.offsetMax = Vector2.zero;
+        TextMeshProUGUI tmp = txtObj.AddComponent<TextMeshProUGUI>();
+        tmp.text = label;
+        tmp.fontSize = 18;
+        tmp.alignment = TextAlignmentOptions.Center;
+        tmp.color = Color.black;
+
+        return buttonObject.GetComponent<Button>();
+    }
+
+    private void SetTabWidthsForClicked(Button clicked)
+    {
+        float large = 150f;
+        float small = 10f;
+
+        SetRectWidth(Active1TabButton, clicked == Active1TabButton ? large : small);
+        SetRectWidth(Passive1TabButton, clicked == Passive1TabButton ? large : small);
+        SetRectWidth(Passive2TabButton, clicked == Passive2TabButton ? large : small);
+    }
+
+    private void SetRectWidth(Button button, float width)
+    {
+        if (button == null) return;
+        RectTransform image = button.transform.Find("Background").GetComponent<RectTransform>();
+        if (image != null)
+        {
+            image.sizeDelta = new Vector2(width, image.sizeDelta.y);
+        }
+    }
+
+    private void SetTabWidths(float activeWidth, float passiveWidth)
+    {
+        SetRectWidth(Active1TabButton, activeWidth);
+        SetRectWidth(Passive1TabButton, passiveWidth);
+        SetRectWidth(Passive2TabButton, passiveWidth);
+    }
+
+    private void ClearSkillPrefabs(Transform group)
+    {
+        if (group == null) return;
+        if (group != null)
+        {
+            foreach (Transform child in group)
+            {
+                Destroy(child.gameObject);
+            }
+        }
+    }
+
+    private void PopulateSkillPrefabs(Transform group, int position = 1)
+    {
+        if (group == null) return;
+
+        // Create a few sample RawImage prefabs as skill icons
+        foreach (Skills skill in CardData.Skills)
+        {
+            if (skill.Position == position)
+            {
+                GameObject iconObject = Instantiate(SkillPrefab, group);
+                RawImage rawImage = iconObject.transform.Find("Image").GetComponent<RawImage>();
+                rawImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(skill.Image));
+            }
+        }
     }
 
     public void ShowBattleTimeline()
