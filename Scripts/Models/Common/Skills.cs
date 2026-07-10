@@ -30,6 +30,7 @@ public class Skills : BaseEntity, IPowerSortable, IStats
     public double PercentAllMentalAttack { get; set; }
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
+    public SkillSubTypes SkillSubType { get; set; }
     public List<Effects> Effects{ get; set; } = new List<Effects>();
     public Patterns Pattern = new Patterns();
     double IPowerSortable.Power => Power;

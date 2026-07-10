@@ -10,6 +10,7 @@ public class Test : MonoBehaviour
     public string Type = AppConstants.Type.ALL;
     public const int PAGE_SIZE = 10000;
     public int Offset = 0;
+    public string userId;
     void Start()
     {
         
@@ -17,7 +18,7 @@ public class Test : MonoBehaviour
     [ContextMenu("Run Initiate Async")]
     public async Task InitiateAsync()
     {
-        User.CurrentUserId = "639186151625575788";
+        User.CurrentUserId = userId;
 
         Debug.Log("<color=yellow>Start</color>");
         List<Achievements> achievements = await AchievementsService.Create()
@@ -327,7 +328,7 @@ public class Test : MonoBehaviour
     [ContextMenu("Run Initiate Team Async")]
     public async Task InitiateTeamAsync()
     {
-        User.CurrentUserId = "639186151625575788";
+        User.CurrentUserId = userId;
 
         Debug.Log("<color=yellow>Start</color>");
         await TeamsService.Create().UpdateUserCardHeroesTeamPositionsAsync(User.CurrentUserId);
@@ -354,7 +355,7 @@ public class Test : MonoBehaviour
     [ContextMenu("Run Initiate Skill Async")]
     public async Task InitiateSkillAsync()
     {
-        User.CurrentUserId = "639186151625575788";
+        User.CurrentUserId = userId;
 
         Debug.Log("<color=yellow>Start</color>");
         await UserSkillsService.Create().AssignRandomSkillsToUserCardHeroesAsync(User.CurrentUserId);
@@ -378,7 +379,6 @@ public class Test : MonoBehaviour
 
         Debug.Log("<color=yellow>End</color>");
     }
-    [ContextMenu("Run Get Skill Async")]
     public async Task GetUserSkillsAsync()
     {
         User.CurrentUserId = "639167826246347876";

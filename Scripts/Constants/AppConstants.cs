@@ -92,6 +92,16 @@ public static class AppConstants
         public const string ALL_ENEMIES = "ALL_ENEMIES";
         public const string ALL_ALLIES = "ALL_ALLIES";
     }
+    public static class SkillType
+    {
+        public const string DAMAGE = "DAMAGE";
+        public const string HEAL = "HEAL";
+        public const string BUFF = "BUFF";
+        public const string DEBUFF = "DEBUFF";
+        public const string SUMMON = "SUMMON";
+        public const string CONTROL = "CONTROL";
+        public const string CLEANSE = "CLEANSE";
+    }
     public static class EffectProperty
     {
         public const string HEALTH = "HEALTH"; // Lượng máu hiện tại hoặc tối đa của nhân vật
@@ -2461,5 +2471,190 @@ public static class AppConstants
         public const string SCIENCE_FICTION_XVIII = "Science Fiction XVIII";
         public const string SCIENCE_FICTION_XIX = "Science Fiction XIX";
         public const string SCIENCE_FICTION_XX = "Science Fiction XX";
+    }
+    public static class Transform
+    {
+        public const string MAIN_PANEL = "MainPanel";
+    }
+    public static class Prefab
+    {
+        public static class Anime
+        {
+            public const string ANIME_PANEL_PREFAB = "AnimePanelPrefab";
+            public const string ANIME_BUTTON_PREFAB = "AnimeButtonPrefab";
+            public const string POPUP_ANIME_PANEL_PREFAB = "PopupAnimePanelPrefab";
+            public const string POPUP_ANIME_QUANTITY_PANEL_PREFAB = "PopupAnimeQuantityPanelPrefab";
+            public const string POPUP_ANIME_BUTTON_PREFAB = "PopupAnimeButtonPrefab";
+            public const string MAIN_ANIME_PANEL_PREFAB = "MainAnimePanelPrefab";
+            public const string ANIME_ITEM_PREFAB = "AnimeItemPrefab";
+        }
+        public static class Archive
+        {
+            public const string ARCHIVE_PANEL_PREFAB = "ArchivePanelPrefab";
+            public const string ARCHIVE_BUTTON_PREFAB = "ArchiveButtonPrefab";
+            public const string POPUP_ARCHIVE_PANEL_PREFAB = "PopupArchivePanelPrefab";
+            public const string POPUP_ARCHIVE_QUANTITY_PANEL_PREFAB = "PopupArchiveQuantityPanelPrefab";
+            public const string POPUP_ARCHIVE_BUTTON_PREFAB = "PopupArchiveButtonPrefab";
+            public const string MAIN_ARCHIVE_PANEL_PREFAB = "MainArchivePanelPrefab";
+            public const string ARCHIVE_ITEM_PREFAB = "ArchiveItemPrefab";
+        }
+        public static class Component
+        {
+            
+        }
+        public static class General
+        {
+            
+        }
+        public static class HICA
+        {
+            public const string HICA_PANEL_PREFAB = "HICAPanelPrefab";
+            public const string HICA_BUTTON_PREFAB = "HICAButtonPrefab";
+            public const string POPUP_HICA_PANEL_PREFAB = "PopupHICAPanelPrefab";
+            public const string POPUP_HICA_QUANTITY_PANEL_PREFAB = "PopupHICAQuantityPanelPrefab";
+            public const string POPUP_HICA_BUTTON_PREFAB = "PopupHICAButtonPrefab";
+            public const string MAIN_HICA_PANEL_PREFAB = "MainHICAPanelPrefab";
+            public const string HICA_ITEM_PREFAB = "HICAItemPrefab";
+        }
+        public static class HICB
+        {
+            public const string HICB_PANEL_PREFAB = "HICBPanelPrefab";
+            public const string HICB_BUTTON_PREFAB = "HICBButtonPrefab";
+            public const string POPUP_HICB_PANEL_PREFAB = "PopupHICBPanelPrefab";
+            public const string POPUP_HICB_QUANTITY_PANEL_PREFAB = "PopupHICBQuantityPanelPrefab";
+            public const string POPUP_HICB_BUTTON_PREFAB = "PopupHICBButtonPrefab";
+            public const string MAIN_HICB_PANEL_PREFAB = "MainHICBPanelPrefab";
+            public const string HICB_ITEM_PREFAB = "HICBItemPrefab";
+        }
+        public static class HIDC
+        {
+            public const string HIDC_PANEL_PREFAB = "HIDCPanelPrefab";
+            public const string HIDC_BUTTON_PREFAB = "HIDCButtonPrefab";
+            public const string POPUP_HIDC_PANEL_PREFAB = "PopupHIDCPanelPrefab";
+            public const string POPUP_HIDC_QUANTITY_PANEL_PREFAB = "PopupHIDCQuantityPanelPrefab";
+            public const string POPUP_HIDC_BUTTON_PREFAB = "PopupHIDCButtonPrefab";
+            public const string MAIN_HIDC_PANEL_PREFAB = "MainHIDCPanelPrefab";
+            public const string HIDC_ITEM_PREFAB = "HIDCItemPrefab";
+        }
+        public static class HIEN
+        {
+            public const string HIEN_PANEL_PREFAB = "HIENPanelPrefab";
+            public const string HIEN_BUTTON_PREFAB = "HIENButtonPrefab";
+            public const string POPUP_HIEN_PANEL_PREFAB = "PopupHIENPanelPrefab";
+            public const string POPUP_HIEN_QUANTITY_PANEL_PREFAB = "PopupHIENQuantityPanelPrefab";
+            public const string POPUP_HIEN_BUTTON_PREFAB = "PopupHIENButtonPrefab";
+            public const string MAIN_HIEN_PANEL_PREFAB = "MainHIENPanelPrefab";
+            public const string HIEN_ITEM_PREFAB = "HIENItemPrefab";
+        }
+        public static class HIHN
+        {
+            public const string HIHN_PANEL_PREFAB = "HIHNPanelPrefab";
+            public const string HIHN_BUTTON_PREFAB = "HIHNButtonPrefab";
+            public const string POPUP_HIHN_PANEL_PREFAB = "PopupHIHNPanelPrefab";
+            public const string POPUP_HIHN_QUANTITY_PANEL_PREFAB = "PopupHIHNQuantityPanelPrefab";
+            public const string POPUP_HIHN_BUTTON_PREFAB = "PopupHIHNButtonPrefab";
+            public const string MAIN_HIHN_PANEL_PREFAB = "MainHIHNPanelPrefab";
+            public const string HIHN_ITEM_PREFAB = "HIHNItemPrefab";
+        }
+        public static class HIIN
+        {
+            public const string HIIN_PANEL_PREFAB = "HIINPanelPrefab";
+            public const string HIIN_BUTTON_PREFAB = "HIINButtonPrefab";
+            public const string POPUP_HIIN_PANEL_PREFAB = "PopupHIINPanelPrefab";
+            public const string POPUP_HIIN_QUANTITY_PANEL_PREFAB = "PopupHIINQuantityPanelPrefab";
+            public const string POPUP_HIIN_BUTTON_PREFAB = "PopupHIINButtonPrefab";
+            public const string MAIN_HIIN_PANEL_PREFAB = "MainHIINPanelPrefab";
+            public const string HIIN_ITEM_PREFAB = "HIINItemPrefab";
+        }
+        public static class HIRN
+        {
+            public const string HIRN_PANEL_PREFAB = "HIRNPanelPrefab";
+            public const string HIRN_BUTTON_PREFAB = "HIRNButtonPrefab";
+            public const string POPUP_HIRN_PANEL_PREFAB = "PopupHIRNPanelPrefab";
+            public const string POPUP_HIRN_QUANTITY_PANEL_PREFAB = "PopupHIRNQuantityPanelPrefab";
+            public const string POPUP_HIRN_BUTTON_PREFAB = "PopupHIRNButtonPrefab";
+            public const string MAIN_HIRN_PANEL_PREFAB = "MainHIRNPanelPrefab";
+            public const string HIRN_ITEM_PREFAB = "HIRNItemPrefab";
+        }
+        public static class HISN
+        {
+            public const string HISN_PANEL_PREFAB = "HISNPanelPrefab";
+            public const string HISN_BUTTON_PREFAB = "HISNButtonPrefab";
+            public const string POPUP_HISN_PANEL_PREFAB = "PopupHISNPanelPrefab";
+            public const string POPUP_HISN_QUANTITY_PANEL_PREFAB = "PopupHISNQuantityPanelPrefab";
+            public const string POPUP_HISN_BUTTON_PREFAB = "PopupHISNButtonPrefab";
+            public const string MAIN_HISN_PANEL_PREFAB = "MainHISNPanelPrefab";
+            public const string HISN_ITEM_PREFAB = "HISNItemPrefab";
+        }
+        public static class HITN
+        {
+            public const string HITN_PANEL_PREFAB = "HITNPanelPrefab";
+            public const string HITN_BUTTON_PREFAB = "HITNButtonPrefab";
+            public const string POPUP_HITN_PANEL_PREFAB = "PopupHITNPanelPrefab";
+            public const string POPUP_HITN_QUANTITY_PANEL_PREFAB = "PopupHITNQuantityPanelPrefab";
+            public const string POPUP_HITN_BUTTON_PREFAB = "PopupHITNButtonPrefab";
+            public const string MAIN_HITN_PANEL_PREFAB = "MainHITNPanelPrefab";
+            public const string HITN_ITEM_PREFAB = "HITNItemPrefab";
+        }
+        public static class SSWN
+        {
+            public const string SSWN_PANEL_PREFAB = "SSWNPanelPrefab";
+            public const string SSWN_BUTTON_PREFAB = "SSWNButtonPrefab";
+            public const string POPUP_SSWN_PANEL_PREFAB = "PopupSSWNPanelPrefab";
+            public const string POPUP_SSWN_QUANTITY_PANEL_PREFAB = "PopupSSWNQuantityPanelPrefab";
+            public const string POPUP_SSWN_BUTTON_PREFAB = "PopupSSWNButtonPrefab";
+            public const string MAIN_SSWN_PANEL_PREFAB = "MainSSWNPanelPrefab";
+            public const string SSWN_ITEM_PREFAB = "SSWNItemPrefab";
+        }
+        public static class Market
+        {
+            
+        }
+        public static class Master
+        {
+            
+        }
+        public static class Module
+        {
+            
+        }
+        public static class Progression
+        {
+            
+        }
+        public static class Research
+        {
+            public const string RESEARCH_PANEL_PREFAB = "ResearchPanelPrefab";
+            public const string RESEARCH_BUTTON_PREFAB = "ResearchButtonPrefab";
+            public const string POPUP_RESEARCH_PANEL_PREFAB = "PopupResearchPanelPrefab";
+            public const string POPUP_RESEARCH_QUANTITY_PANEL_PREFAB = "PopupResearchQuantityPanelPrefab";
+            public const string POPUP_RESEARCH_BUTTON_PREFAB = "PopupResearchButtonPrefab";
+            public const string MAIN_RESEARCH_PANEL_PREFAB = "MainResearchPanelPrefab";
+            public const string RESEARCH_ITEM_PREFAB = "ResearchItemPrefab";
+        }
+        public static class ScienceFiction
+        {
+            public const string SCIENCE_FICTION_PANEL_PREFAB = "ScienceFictionPanelPrefab";
+            public const string SCIENCE_FICTION_BUTTON_PREFAB = "ScienceFictionButtonPrefab";
+            public const string POPUP_SCIENCE_FICTION_PANEL_PREFAB = "PopupScienceFictionPanelPrefab";
+            public const string POPUP_SCIENCE_FICTION_QUANTITY_PANEL_PREFAB = "PopupScienceFictionQuantityPanelPrefab";
+            public const string POPUP_SCIENCE_FICTION_BUTTON_PREFAB = "PopupScienceFictionButtonPrefab";
+            public const string MAIN_SCIENCE_FICTION_PANEL_PREFAB = "MainScienceFictionPanelPrefab";
+            public const string SCIENCE_FICTION_ITEM_PREFAB = "ScienceFictionItemPrefab";
+        }
+        public static class Universe
+        {
+            public const string UNIVERSE_PANEL_PREFAB = "UniversePanelPrefab";
+            public const string UNIVERSE_BUTTON_PREFAB = "UniverseButtonPrefab";
+            public const string POPUP_UNIVERSE_PANEL_PREFAB = "PopupUniversePanelPrefab";
+            public const string POPUP_UNIVERSE_QUANTITY_PANEL_PREFAB = "PopupUniverseQuantityPanelPrefab";
+            public const string POPUP_UNIVERSE_BUTTON_PREFAB = "PopupUniverseButtonPrefab";
+            public const string MAIN_UNIVERSE_PANEL_PREFAB = "MainUniversePanelPrefab";
+            public const string UNIVERSE_ITEM_PREFAB = "UniverseItemPrefab";
+        }
+        public static class Upgrade
+        {
+            
+        }
     }
 }

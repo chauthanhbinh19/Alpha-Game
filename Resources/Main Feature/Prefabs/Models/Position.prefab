@@ -9954,7 +9954,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &927985707453066551
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9962,7 +9962,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2929023236940065228}
-  m_LocalRotation: {x: -0.5, y: 0, z: 0, w: 0.8660254}
+  m_LocalRotation: {x: -0.258819, y: 0, z: 0, w: 0.9659259}
   m_LocalPosition: {x: 0, y: 0, z: -0.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -9972,7 +9972,7 @@ RectTransform:
   - {fileID: 2530906628179389624}
   m_Father: {fileID: 1708457620743952421}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -60, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -30, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
@@ -29968,6 +29968,7 @@ MonoBehaviour:
   AttackPlatform: {fileID: 6598407721985489851}
   GridNumberText: {fileID: 4883870931903127}
   DisplayCardPanel: {fileID: 3162626619236255766}
+  DamagePopupAnchor: {fileID: 0}
   ParentNode: {fileID: 0}
   IsWalkableRange: 0
   IsAttackRange: 0
@@ -30033,6 +30034,7 @@ MonoBehaviour:
   DebuffTargetPanel: {fileID: 5554223341838534262}
   CleanseTargetPanel: {fileID: 8423602514945453815}
   SummonTagretPanel: {fileID: 3008061076762861595}
+  ControlTargetPanel: {fileID: 0}
 --- !u!1 &8482133104541452637
 GameObject:
   m_ObjectHideFlags: 0

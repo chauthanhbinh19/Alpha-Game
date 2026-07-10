@@ -41,14 +41,14 @@ public class HICAVIIIManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        HICAPanelPrefab = UIManager.Instance.Get("HICAPanelPrefab");
-        HICAButtonPrefab = UIManager.Instance.Get("HICAButtonPrefab");
-        PopupHICAPanelPrefab = UIManager.Instance.Get("PopupHICAPanelPrefab");
-        PopupHICAQuantityPanelPrefab = UIManager.Instance.Get("PopupHICAQuantityPanelPrefab");
-        PopupHICAButtonPrefab = UIManager.Instance.Get("PopupHICAButtonPrefab");
-        MainHICAPanelPrefab = UIManager.Instance.Get("MainHICAPanelPrefab");
-        HICAItemPrefab = UIManager.Instance.Get("HICAItemPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        HICAPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HICA.HICA_PANEL_PREFAB);
+        HICAButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HICA.HICA_BUTTON_PREFAB);
+        PopupHICAPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HICA.POPUP_HICA_PANEL_PREFAB);
+        PopupHICAQuantityPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HICA.POPUP_HICA_QUANTITY_PANEL_PREFAB);
+        PopupHICAButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HICA.POPUP_HICA_BUTTON_PREFAB);
+        MainHICAPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HICA.MAIN_HICA_PANEL_PREFAB);
+        HICAItemPrefab = UIManager.Instance.Get(AppConstants.Prefab.HICA.HICA_ITEM_PREFAB);
     }
     public async Task CreateHICAVIIIManagerAsync()
     {

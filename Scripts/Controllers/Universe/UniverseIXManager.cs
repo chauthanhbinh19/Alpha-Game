@@ -41,14 +41,14 @@ public class UniverseIXManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        UniversePanelPrefab = UIManager.Instance.Get("UniversePanelPrefab");
-        UniverseButtonPrefab = UIManager.Instance.Get("UniverseButtonPrefab");
-        PopupUniversePanelPrefab = UIManager.Instance.Get("PopupUniversePanelPrefab");
-        PopupUniverseQuantityPanelPrefab = UIManager.Instance.Get("PopupUniverseQuantityPanelPrefab");
-        PopupUniverseButtonPrefab = UIManager.Instance.Get("PopupUniverseButtonPrefab");
-        MainUniversePanelPrefab = UIManager.Instance.Get("MainUniversePanelPrefab");
-        UniverseItemPrefab = UIManager.Instance.Get("UniverseItemPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        UniversePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Universe.UNIVERSE_PANEL_PREFAB);
+        UniverseButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Universe.UNIVERSE_BUTTON_PREFAB);
+        PopupUniversePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Universe.POPUP_UNIVERSE_PANEL_PREFAB);
+        PopupUniverseQuantityPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Universe.POPUP_UNIVERSE_QUANTITY_PANEL_PREFAB);
+        PopupUniverseButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Universe.POPUP_UNIVERSE_BUTTON_PREFAB);
+        MainUniversePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Universe.MAIN_UNIVERSE_PANEL_PREFAB);
+        UniverseItemPrefab = UIManager.Instance.Get(AppConstants.Prefab.Universe.UNIVERSE_ITEM_PREFAB);
     }
     public async Task CreateUniverseIXManagerAsync()
     {

@@ -41,14 +41,14 @@ public class DemonSlayerManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        AnimePanelPrefab = UIManager.Instance.Get("AnimePanelPrefab");
-        AnimeButtonPrefab = UIManager.Instance.Get("AnimeButtonPrefab");
-        PopupAnimePanelPrefab = UIManager.Instance.Get("PopupAnimePanelPrefab");
-        PopupAnimeQuantityPanelPrefab = UIManager.Instance.Get("PopupAnimeQuantityPanelPrefab");
-        PopupAnimeButtonPrefab = UIManager.Instance.Get("PopupAnimeButtonPrefab");
-        MainAnimePanelPrefab = UIManager.Instance.Get("MainAnimePanelPrefab");
-        AnimeItemPrefab = UIManager.Instance.Get("AnimeItemPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        AnimePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.ANIME_PANEL_PREFAB);
+        AnimeButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.ANIME_BUTTON_PREFAB);
+        PopupAnimePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.POPUP_ANIME_PANEL_PREFAB);
+        PopupAnimeQuantityPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.POPUP_ANIME_QUANTITY_PANEL_PREFAB);
+        PopupAnimeButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.POPUP_ANIME_BUTTON_PREFAB);
+        MainAnimePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.MAIN_ANIME_PANEL_PREFAB);
+        AnimeItemPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.ANIME_ITEM_PREFAB);
     }
     public async Task CreateAnimeManagerAsync()
     {

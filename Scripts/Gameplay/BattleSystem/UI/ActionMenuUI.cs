@@ -130,6 +130,10 @@ public class ActionMenuUI : MonoBehaviour
         Passive1Transform = currentObject.transform.Find("BottomPanel/Group3/Passive1");
         Passive2Transform = currentObject.transform.Find("BottomPanel/Group3/Passive2");
 
+        ClearSkillPrefabs(Active1Transform);
+        ClearSkillPrefabs(Passive1Transform);
+        ClearSkillPrefabs(Passive2Transform);
+
         // 2. Thiết lập cấu hình hệ thống Tab nút bấm
         SetupSkillTabs(currentObject.transform);
 
@@ -291,14 +295,104 @@ public class ActionMenuUI : MonoBehaviour
     {
         if (group == null) return;
 
-        // Create a few sample RawImage prefabs as skill icons
+        // 1. Tạo một danh sách cục bộ để lưu nhanh các GameObject được sinh ra trong Group này
+        List<GameObject> spawnedPrefabs = new List<GameObject>();
+
         foreach (Skills skill in CardData.Skills)
         {
             if (skill.Position == position)
             {
                 GameObject iconObject = Instantiate(SkillPrefab, group);
+                spawnedPrefabs.Add(iconObject); // Lưu lại để tí nữa reset chéo trạng thái
+
+                // Set hình ảnh cho skill như cũ
                 RawImage rawImage = iconObject.transform.Find("Image").GetComponent<RawImage>();
-                rawImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(skill.Image));
+                if (rawImage != null)
+                {
+                    rawImage.texture = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(skill.Image));
+                }
+
+                // Trạng thái ban đầu khi mới load: Hiện Dec1, Ẩn Dec2
+                Transform dec1 = iconObject.transform.Find("Decoration1");
+                Transform dec2 = iconObject.transform.Find("Decoration2");
+                if (dec1 != null) dec1.gameObject.SetActive(true);
+                if (dec2 != null) dec2.gameObject.SetActive(false);
+
+                // 2. Lấy component Button có sẵn của Prefab để bắt sự kiện click
+                Button button = iconObject.GetComponent<Button>();
+                if (button == null) button = iconObject.AddComponent<Button>(); // Đề phòng prefab chưa có sẵn Button
+
+                // Xóa các sự kiện cũ nếu có để tránh kích hoạt trùng lặp
+                button.onClick.RemoveAllListeners();
+
+                // 3. Sử dụng Lambda diễn giải logic click trực tiếp tại đây luôn
+                button.onClick.AddListener(() =>
+                {
+                    // 1. Cập nhật trạng thái đóng/mở chéo giữa các skill như cũ
+                    foreach (GameObject item in spawnedPrefabs)
+                    {
+                        Transform itemDec1 = item.transform.Find("Decoration1");
+                        Transform itemDec2 = item.transform.Find("Decoration2");
+
+                        if (item == iconObject)
+                        {
+                            // Đối với thằng vừa được Click vào: Dec2 = true, Dec1 = false
+                            if (itemDec1 != null) itemDec1.gameObject.SetActive(false);
+                            if (itemDec2 != null) itemDec2.gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            // Đối với tất cả những thằng còn lại trong nhóm: Dec1 = true, Dec2 = false
+                            if (itemDec1 != null) itemDec1.gameObject.SetActive(true);
+                            if (itemDec2 != null) itemDec2.gameObject.SetActive(false);
+                        }
+                    }
+
+                    // 2. TÍNH NĂNG MỚI: Gọi GridManager hiển thị vùng Target kĩ năng lên bàn cờ
+                    if (GridManager.Instance != null)
+                    {
+                        // Giả sử 'currentCardCell' là GridCell mà quân cờ hiện tại của bạn đang đứng trên Grid.
+                        // Giả sử 'skill' có biến '.Range' và '.SkillType' hoặc '.EffectAction.ActionCode' từ database gửi về.
+
+                        // Ví dụ minh họa lệnh gọi:
+                        GridCell currentRealCell = GridManager.Instance.GetCellOfCard(CardData);
+
+                        if (currentRealCell != null)
+                        {
+                            GridManager.Instance.ShowSkillAttackRange(
+                                currentRealCell.GridPosition,
+                                AttackRange,
+                                skill.SkillSubType.SubTypeCode,
+                                currentRealCell.IsPlayerSpawnCell
+                            );
+                        }
+                    }
+
+                    // 3. Tìm CloseButton bên trong Decoration2 của chính thằng vừa click để dọn dẹp khi đóng
+                    if (dec2 != null)
+                    {
+                        Transform closeButtonTransform = dec2.Find("CloseButton");
+                        if (closeButtonTransform != null)
+                        {
+                            Button closeButton = closeButtonTransform.GetComponent<Button>();
+                            if (closeButton == null) closeButton = closeButtonTransform.gameObject.AddComponent<Button>();
+
+                            closeButton.onClick.RemoveAllListeners();
+                            closeButton.onClick.AddListener(() =>
+                            {
+                                // Khi click CloseButton: Trả chính iconObject này về trạng thái mặc định
+                                if (dec1 != null) dec1.gameObject.SetActive(true);
+                                if (dec2 != null) dec2.gameObject.SetActive(false);
+
+                                // ĐỒNG THỜI: Xóa sạch các vùng màu đỏ và TargetUI đang hiển thị trên bàn cờ
+                                if (GridManager.Instance != null)
+                                {
+                                    GridManager.Instance.ClearAllMovementRanges();
+                                }
+                            });
+                        }
+                    }
+                });
             }
         }
     }
@@ -325,12 +419,11 @@ public class ActionMenuUI : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-
     private void OnMoveClicked()
     {
         AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-
-        GridManager.Instance.ShowMovementRangeAt(TargetCell.GridPosition, MovementRange, MovementPoint);
+        GridCell currentRealCell = GridManager.Instance.GetCellOfCard(CardData);
+        GridManager.Instance.ShowMovementRangeAt(currentRealCell.GridPosition, MovementRange, MovementPoint);
 
         HideMenu();
     }
@@ -339,15 +432,25 @@ public class ActionMenuUI : MonoBehaviour
     {
         AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
 
-        if (TargetCell != null && TargetCell.OccupiedCard != null)
+        // LẤY Ô CỜ THỰC TẾ MỚI NHẤT MÀ QUÂN CỜ ĐANG ĐỨNG
+        GridCell currentRealCell = GridManager.Instance.GetCellOfCard(CardData);
+
+        if (currentRealCell != null)
         {
-            // Xác định xem quân cờ đang click chọn thuộc phe ta (Player) hay phe địch
+            // RESET LẠI TargetCell THÀNH VỊ TRÍ MỚI NHẤT
+            TargetCell = currentRealCell;
+
+            // Xác định xem quân cờ đang chọn thuộc phe ta (Player) hay phe địch
             bool isPlayerCard = TargetCell.IsPlayerSpawnCell;
 
-            // Gọi hàm hiện phạm vi tấn công mới dựng bên trên
+            // Gọi hàm hiện phạm vi tấn công dựa theo ô cờ thực tế mới cập nhật
             GridManager.Instance.ShowAttackRangeAt(TargetCell.GridPosition, AttackRange, isPlayerCard);
 
-            Debug.Log($"[ActionMenu] Đang hiển thị tầm đánh ({AttackRange} ô) của quân cờ. Chặn chướng ngại vật & Đồng minh: {isPlayerCard}");
+            Debug.Log($"[ActionMenu] Đang hiển thị tầm đánh ({AttackRange} ô) của quân cờ tại vị trí MỚI {TargetCell.GridPosition}. Phe Player: {isPlayerCard}");
+        }
+        else
+        {
+            Debug.LogWarning("[ActionMenu] Không tìm thấy ô cờ thực tế của quân cờ để hiển thị tầm đánh!");
         }
 
         HideMenu();

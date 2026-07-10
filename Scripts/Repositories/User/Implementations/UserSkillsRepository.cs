@@ -2378,7 +2378,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
                     MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_hero_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -2505,6 +2505,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Pattern = new Patterns()
                         {
                             Id = reader.GetStringSafe("pattern_id")
+                        },
+                        SkillSubType = new SkillSubTypes
+                        {
+                            SubTypeCode = reader.GetStringSafe("skill_sub_type")
                         }
                     };
 
@@ -2570,7 +2574,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
                     MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_captain_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -2697,6 +2701,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Pattern = new Patterns()
                         {
                             Id = reader.GetStringSafe("pattern_id")
+                        },
+                        SkillSubType = new SkillSubTypes
+                        {
+                            SubTypeCode = reader.GetStringSafe("skill_sub_type")
                         }
                     };
 
@@ -2762,7 +2770,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
                     MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_colonel_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -2889,6 +2897,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Pattern = new Patterns()
                         {
                             Id = reader.GetStringSafe("pattern_id")
+                        },
+                        SkillSubType = new SkillSubTypes
+                        {
+                            SubTypeCode = reader.GetStringSafe("skill_sub_type")
                         }
                     };
 
@@ -2954,7 +2966,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
                     MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_general_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -2994,7 +3006,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                     ON chs.skill_id = us.skill_id AND chs.card_general_id IN ({inClause})
                 LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
                 WHERE us.user_id = @userId
-                GROUP BY s.id, us., sp.pattern_id, chs.card_general_id;";
+                GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_general_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
 
@@ -3081,6 +3093,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Pattern = new Patterns()
                         {
                             Id = reader.GetStringSafe("pattern_id")
+                        },
+                        SkillSubType = new SkillSubTypes
+                        {
+                            SubTypeCode = reader.GetStringSafe("skill_sub_type")
                         }
                     };
 
@@ -3146,7 +3162,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
                     MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_admiral_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -3273,6 +3289,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Pattern = new Patterns()
                         {
                             Id = reader.GetStringSafe("pattern_id")
+                        },
+                        SkillSubType = new SkillSubTypes
+                        {
+                            SubTypeCode = reader.GetStringSafe("skill_sub_type")
                         }
                     };
 
@@ -3338,7 +3358,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
                     MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_monster_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -3465,6 +3485,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Pattern = new Patterns()
                         {
                             Id = reader.GetStringSafe("pattern_id")
+                        },
+                        SkillSubType = new SkillSubTypes
+                        {
+                            SubTypeCode = reader.GetStringSafe("skill_sub_type")
                         }
                     };
 
@@ -3530,7 +3554,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
                     MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_military_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -3657,6 +3681,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Pattern = new Patterns()
                         {
                             Id = reader.GetStringSafe("pattern_id")
+                        },
+                        SkillSubType = new SkillSubTypes
+                        {
+                            SubTypeCode = reader.GetStringSafe("skill_sub_type")
                         }
                     };
 
@@ -3722,7 +3750,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
                     MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_spell_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -3849,6 +3877,10 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Pattern = new Patterns()
                         {
                             Id = reader.GetStringSafe("pattern_id")
+                        },
+                        SkillSubType = new SkillSubTypes
+                        {
+                            SubTypeCode = reader.GetStringSafe("skill_sub_type")
                         }
                     };
 
@@ -3914,7 +3946,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, 
+                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
                     MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_soldier_id,
                     -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
                     (
@@ -4041,6 +4073,11 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Pattern = new Patterns()
                         {
                             Id = reader.GetStringSafe("pattern_id")
+                        },
+
+                        SkillSubType = new SkillSubTypes
+                        {
+                            SubTypeCode = reader.GetStringSafe("skill_sub_type")
                         }
                     };
 

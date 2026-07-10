@@ -41,14 +41,14 @@ public class ScienceFictionXManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ScienceFictionPanelPrefab = UIManager.Instance.Get("ScienceFictionPanelPrefab");
-        ScienceFictionButtonPrefab = UIManager.Instance.Get("ScienceFictionButtonPrefab");
-        PopupScienceFictionPanelPrefab = UIManager.Instance.Get("PopupScienceFictionPanelPrefab");
-        PopupScienceFictionQuantityPanelPrefab = UIManager.Instance.Get("PopupScienceFictionQuantityPanelPrefab");
-        PopupScienceFictionButtonPrefab = UIManager.Instance.Get("PopupScienceFictionButtonPrefab");
-        MainScienceFictionPanelPrefab = UIManager.Instance.Get("MainScienceFictionPanelPrefab");
-        ScienceFictionItemPrefab = UIManager.Instance.Get("ScienceFictionItemPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        ScienceFictionPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.SCIENCE_FICTION_PANEL_PREFAB);
+        ScienceFictionButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.SCIENCE_FICTION_BUTTON_PREFAB);
+        PopupScienceFictionPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.POPUP_SCIENCE_FICTION_PANEL_PREFAB);
+        PopupScienceFictionQuantityPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.POPUP_SCIENCE_FICTION_QUANTITY_PANEL_PREFAB);
+        PopupScienceFictionButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.POPUP_SCIENCE_FICTION_BUTTON_PREFAB);
+        MainScienceFictionPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.MAIN_SCIENCE_FICTION_PANEL_PREFAB);
+        ScienceFictionItemPrefab = UIManager.Instance.Get(AppConstants.Prefab.ScienceFiction.SCIENCE_FICTION_ITEM_PREFAB);
     }
     public async Task CreateScienceFictionXManagerAsync()
     {

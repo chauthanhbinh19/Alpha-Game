@@ -12,6 +12,7 @@ public class TargetUI : MonoBehaviour
     public GameObject DebuffTargetPanel;
     public GameObject CleanseTargetPanel;
     public GameObject SummonTagretPanel;
+    public GameObject ControlTargetPanel;
 
     void Awake()
     {
@@ -22,6 +23,7 @@ public class TargetUI : MonoBehaviour
         if (DebuffTargetPanel != null) DebuffTargetPanel.SetActive(false);
         if (CleanseTargetPanel != null) CleanseTargetPanel.SetActive(false);
         if (SummonTagretPanel != null) SummonTagretPanel.SetActive(false);
+        if (ControlTargetPanel != null) ControlTargetPanel.SetActive(false);
     }
 
     void Start()
@@ -87,6 +89,15 @@ public class TargetUI : MonoBehaviour
         }
     }
 
+    public void ShowControlTargetPanelUI(string message = "")
+    {
+        if (ControlTargetPanel != null)
+        {
+            ControlTargetPanel.SetActive(true);
+            // Debug.Log($"[Warning UI] Hiển thị cảnh báo di chuyển: {message}");
+        }
+    }
+
     public void HideDamageTargetPanelUI()
     {
         if (DamageTargetPanel != null) DamageTargetPanel.SetActive(false);
@@ -115,5 +126,10 @@ public class TargetUI : MonoBehaviour
     public void HideSummonTargetPanelUI()
     {
         if (SummonTagretPanel != null) SummonTagretPanel.SetActive(false);
+    }
+
+    public void HideControlTargetPanelUI()
+    {
+        if (ControlTargetPanel != null) ControlTargetPanel.SetActive(false);
     }
 }

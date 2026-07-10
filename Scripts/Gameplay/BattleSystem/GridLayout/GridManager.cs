@@ -180,6 +180,19 @@ public class GridManager : MonoBehaviour
         {
             cell.HideMovementRange();
             cell.HideAttackRange();
+
+            // Tắt sạch các Target UI đang mở trên ô celer
+            TargetUI cellTargetUI = cell.GetComponent<TargetUI>();
+            if (cellTargetUI != null)
+            {
+                cellTargetUI.HideDamageTargetPanelUI();
+                cellTargetUI.HideHealTargetPanelUI();
+                cellTargetUI.HideBuffTargetPanelUI();
+                cellTargetUI.HideDebuffTargetPanelUI();
+                cellTargetUI.HideCleanseTargetPanelUI();
+                cellTargetUI.HideSummonTargetPanelUI();
+                cellTargetUI.HideControlTargetPanelUI();
+            }
         }
 
         // // Hoàn tác luôn ô cờ đang chọn về màu mặc định khi clear range
@@ -797,7 +810,118 @@ public class GridManager : MonoBehaviour
             }
         }
     }
-    
+
+    /// <summary>
+    /// Hiển thị tầm đánh và các Panel TargetUI tương ứng cho từng ô dựa theo loại Skill được click.
+    /// </summary>
+    /// <param name="centerPos">Vị trí quân cờ ra chiêu</param>
+    /// <param name="attackRange">Tầm xa của skill</param>
+    /// <param name="skillSubType">Mã loại skill (DAMAGE, HEAL, BUFF, DEBUFF, CLEANSE, CONTROL, SUMMON...)</param>
+    /// <param name="isPlayerOwner">Quân cờ ra chiêu thuộc phe Player (true) hay Enemy (false)</param>
+    public void ShowSkillAttackRange(Vector2Int centerPos, int attackRange, string skillSubType, bool isPlayerOwner)
+    {
+        // 1. Dọn dẹp sạch các hiển thị cũ (vùng di chuyển, tầm đánh thường...)
+        ClearAllMovementRanges();
+        if (attackRange <= 0) return;
+
+        // Xác định mục tiêu hướng tới của Skill
+        bool targetIsEnemy = (skillSubType == "DAMAGE" || skillSubType == "DEBUFF" || skillSubType == "CONTROL");
+        bool targetIsAlly = (skillSubType == "HEAL" || skillSubType == "BUFF" || skillSubType == "CLEANSE");
+
+        // Thuật toán BFS loang tìm phạm vi ô trong tầm skill
+        Queue<KeyValuePair<Vector2Int, int>> queue = new Queue<KeyValuePair<Vector2Int, int>>();
+        HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
+
+        queue.Enqueue(new KeyValuePair<Vector2Int, int>(centerPos, attackRange));
+        visited.Add(centerPos);
+
+        Vector2Int[] directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
+
+        while (queue.Count > 0)
+        {
+            var currentData = queue.Dequeue();
+            Vector2Int currentPos = currentData.Key;
+            int remainingRange = currentData.Value;
+
+            if (remainingRange <= 0) continue;
+
+            foreach (Vector2Int dir in directions)
+            {
+                Vector2Int neighborPos = currentPos + dir;
+
+                if (GridDict.TryGetValue(neighborPos, out GridCell neighborCell))
+                {
+                    if (visited.Contains(neighborPos)) continue;
+
+                    // Không loang qua chướng ngại vật cứng
+                    if (!neighborCell.IsWalkable) continue;
+
+                    visited.Add(neighborPos);
+                    queue.Enqueue(new KeyValuePair<Vector2Int, int>(neighborPos, remainingRange - 1));
+
+                    // Bỏ qua ô gốc của bản thân, chỉ xét các ô xung quanh
+                    if (neighborPos == centerPos) continue;
+
+                    // Sơn nền đỏ hiển thị tầm đánh kỹ năng chung cho người chơi dễ nhìn
+                    neighborCell.ShowAttackRange(AttackRangeMaterial);
+
+                    // --- LOGIC PHÂN LOẠI PHE ĐỂ HIỂN THỊ TARGET UI TRÊN Ô CỜ ---
+                    TargetUI cellTargetUI = neighborCell.GetComponent<TargetUI>();
+                    if (cellTargetUI == null) continue;
+
+                    // Kiểm tra xem ô hàng xóm này có quân cờ nào đang đứng không
+                    if (neighborCell.OccupiedCard != null)
+                    {
+                        // Xác định phe của quân cờ đang đứng trên ô này bằng thuộc tính IsPlayerSpawnCell của ô
+                        bool isTargetCellPlayer = neighborCell.IsPlayerSpawnCell;
+
+                        if (targetIsEnemy)
+                        {
+                            // SKILL HẠI: Chỉ hiện UI nếu quân cờ trên ô ĐỐI LẬP phe với người ra chiêu (Kẻ địch)
+                            if (isTargetCellPlayer != isPlayerOwner)
+                            {
+                                TriggerTargetUI(cellTargetUI, skillSubType);
+                            }
+                        }
+                        else if (targetIsAlly)
+                        {
+                            // SKILL LỢI: Chỉ hiện UI nếu quân cờ trên ô CÙNG phe với người ra chiêu (Đồng minh)
+                            if (isTargetCellPlayer == isPlayerOwner)
+                            {
+                                TriggerTargetUI(cellTargetUI, skillSubType);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Trường hợp đặc biệt: Skill SUMMON (Triệu hồi) thường nhắm vào các ô TRỐNG
+                        if (skillSubType == AppConstants.SkillType.SUMMON)
+                        {
+                            cellTargetUI.ShowSummonTargetPanelUI();
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Hàm phụ trợ kích hoạt chính xác Panel UI tương ứng trên TargetUI của ô cờ
+    /// </summary>
+    private void TriggerTargetUI(TargetUI targetUI, string skillSubType)
+    {
+        switch (skillSubType)
+        {
+            case AppConstants.SkillType.DAMAGE: targetUI.ShowDamageTargetPanelUI(); break;
+            case AppConstants.SkillType.HEAL: targetUI.ShowHealTargetPanelUI(); break;
+            case AppConstants.SkillType.BUFF: targetUI.ShowBuffTargetPanelUI(); break;
+            case AppConstants.SkillType.DEBUFF: targetUI.ShowDebuffTargetPanelUI(); break;
+            case AppConstants.SkillType.CLEANSE: targetUI.ShowCleanseTargetPanelUI(); break;
+            case AppConstants.SkillType.CONTROL: targetUI.ShowControlTargetPanelUI(); break;
+            case AppConstants.SkillType.SUMMON: targetUI.ShowSummonTargetPanelUI(); break;
+        }
+    }
+
     /// <summary>
     /// Tìm kiếm ô cờ GridCell đang chứa dữ liệu của thẻ bài CardBase được chỉ định
     /// </summary>
