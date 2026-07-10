@@ -32,7 +32,7 @@ public class UserItemsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
         ItemSecondButtonPrefab = UIManager.Instance.Get("ItemSecondButtonPrefab");
     }

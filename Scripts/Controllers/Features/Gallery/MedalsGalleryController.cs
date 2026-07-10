@@ -32,8 +32,8 @@ public class MedalsGalleryController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MedalBlockButtonPrefab = UIManager.Instance.Get("MedalBlockButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        MedalBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MEDAL_BLOCK_BUTTON_PREFAB);
     }
     public void CreateMedalsGallery(List<Medals> medals, Transform contentPanel)
     {

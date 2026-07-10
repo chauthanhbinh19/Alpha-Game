@@ -33,7 +33,7 @@ public class TrainsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         TrainButtonPrefab = UIManager.Instance.Get("TrainButtonPrefab");
         TrainPanelPrefab = UIManager.Instance.Get("TrainPanelPrefab");
     }

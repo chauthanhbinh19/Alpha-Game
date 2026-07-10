@@ -36,9 +36,9 @@ public class UserAchievementsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        AchievementButtonPrefab = UIManager.Instance.Get("AchievementButtonPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        AchievementButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ACHIEVEMENT_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserAchievements(List<Achievements> achievements, Transform contentPanel)
     {

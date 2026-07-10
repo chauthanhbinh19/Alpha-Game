@@ -57,15 +57,15 @@ public class MainMenuManager : MonoBehaviour
 
     public void Initialize()
     {
-        RootPanel = UIManager.Instance.GetTransform("RootPanel");
-        MainPanelPrefab = UIManager.Instance.Get("MainPanelPrefab");
-        PopupButtonPanelPrefab = UIManager.Instance.Get("PopupButtonPanelPrefab");
+        RootPanel = UIManager.Instance.GetTransform(AppConstants.Transform.ROOT_PANEL);
+        MainPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_PANEL_PREFAB);
+        PopupButtonPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POPUP_BUTTON_PANEL_PREFAB);
         // mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
-        DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
+        DictionaryPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.DICTIONARY_PANEL_PREFAB);
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        PopupMenuPanelPrefab = UIManager.Instance.Get("PopupMenuPanelPrefab");
-        ArenaPanelPrefab = UIManager.Instance.Get("ArenaPanelPrefab");
-        MasterBoardPanelPrefab = UIManager.Instance.Get("MasterBoardPanelPrefab");
+        PopupMenuPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POPUP_MENU_PANEL_PREFAB);
+        ArenaPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Arena.ARENA_PANEL_PREFAB);
+        MasterBoardPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.MASTER_BOARD_PANEL_PREFAB);
         UI_Red_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Red_Gradient_Radius_Mat_MaskPercent_70");
     }
     public void CreateMainPanel()

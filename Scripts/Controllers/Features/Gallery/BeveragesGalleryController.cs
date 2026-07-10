@@ -32,8 +32,8 @@ public class BeveragesGalleryController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        BeverageBlockButtonPrefab = UIManager.Instance.Get("BeverageBlockButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        BeverageBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.BEVERAGE_BLOCK_BUTTON_PREFAB);
     }
     public void CreateBeveragesGallery(List<Beverages> beverages, Transform contentPanel)
     {

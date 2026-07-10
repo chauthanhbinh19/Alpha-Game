@@ -32,8 +32,8 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        CollaborationEquipmentBlockButtonPrefab = UIManager.Instance.Get("CollaborationEquipmentBlockButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        CollaborationEquipmentBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.COLLABORATION_EQUIPMENT_BLOCK_BUTTON_PREFAB);
     }
     public void CreateCollaborationEquipmentsGallery(List<CollaborationEquipments> collaborationEquipments, Transform contentPanel)
     {

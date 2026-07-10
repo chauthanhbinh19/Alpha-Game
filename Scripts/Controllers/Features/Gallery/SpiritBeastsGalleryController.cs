@@ -32,8 +32,8 @@ public class SpiritBeastsGalleryController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        SpiritBeastBlockButtonPrefab = UIManager.Instance.Get("SpiritBeastBlockButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        SpiritBeastBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.SPIRIT_BEAST_BLOCK_BUTTON_PREFAB);
     }
     public void CreateSpiritBeastsGallery(List<SpiritBeasts> spiritBeasts, Transform contentPanel)
     {

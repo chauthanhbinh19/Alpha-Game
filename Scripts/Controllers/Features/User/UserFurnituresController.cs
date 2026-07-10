@@ -37,9 +37,9 @@ public class UserFurnituresController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        FurnitureButtonPrefab = UIManager.Instance.Get("FurnitureButtonPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        FurnitureButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.FURNITURE_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserFurnitures(List<Furnitures> furnitures, Transform contentPanel)
     {

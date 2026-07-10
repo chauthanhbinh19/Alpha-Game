@@ -10,7 +10,7 @@ public class ItemsController : MonoBehaviour
 {
     public static ItemsController Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject EquipmentsPrefab;
+    private GameObject EquipmentFirstPrefab;
     private GameObject ItemShopButtonPrefab;
     private GameObject QuantityPopupPrefab;
     private GameObject ReceivedNotification;
@@ -36,12 +36,12 @@ public class ItemsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        EquipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        EquipmentFirstPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENT_FIRST_PREFAB);
         ItemShopButtonPrefab = UIManager.Instance.Get("ItemShopButtonPrefab");
-        QuantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        ReceivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
-        ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
+        QuantityPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Shop.QUANTITY_POPUP_PREFAB);
+        ReceivedNotification = UIManager.Instance.Get(AppConstants.Prefab.General.RECEIVED_NOTIFICATION_PANEL_PREFAB);
+        ItemPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ITEM_POPUP_PREFAB);
     }
     public async Task CreateItemsTradeAsync(List<Items> items, Currencies currency, Transform currentContent, Transform currencyPanel, Transform popupPanel)
     {

@@ -32,8 +32,8 @@ public class EmojisGalleryController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        EmojiBlockButtonPrefab = UIManager.Instance.Get("EmojiBlockButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        EmojiBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.EMOJI_BLOCK_BUTTON_PREFAB);
     }
     public void CreateEmojisGallery(List<Emojis> emojis, Transform contentPanel)
     {

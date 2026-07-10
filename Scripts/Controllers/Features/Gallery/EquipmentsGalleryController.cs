@@ -31,8 +31,8 @@ public class EquipmentsGalleryController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        EquipmentBlockButtonPrefab = UIManager.Instance.Get("EquipmentBlockButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        EquipmentBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.EQUIPMENT_BLOCK_BUTTON_PREFAB);
     }
     public void CreateEquipmentsGallery(List<Equipments> equipments, Transform contentPanel)
     {

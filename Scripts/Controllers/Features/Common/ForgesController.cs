@@ -36,12 +36,12 @@ public class ForgesController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ForgeButtonPrefab = UIManager.Instance.Get("ForgeButtonPrefab");
-        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
-        QuantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        ReceivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
-        ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        ForgeButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.FORGE_BUTTON_PREFAB);
+        EquipmentShopPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENT_SHOP_PREFAB);
+        QuantityPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Shop.QUANTITY_POPUP_PREFAB);
+        ReceivedNotification = UIManager.Instance.Get(AppConstants.Prefab.General.RECEIVED_NOTIFICATION_PANEL_PREFAB);
+        ItemPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ITEM_POPUP_PREFAB);
     }
     public void CreateForgesGallery(List<Forges> forges, Transform contentPanel)
     {

@@ -29,7 +29,7 @@ public class HomeManager : MonoBehaviour
     }
     public void Initialize()
     {
-        HomePanelPrefab = UIManager.Instance.Get("HomePanelPrefab");
+        HomePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.HOME_PANEL_PREFAB);
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
     }
     public async Task CreateHomePanelAsync()

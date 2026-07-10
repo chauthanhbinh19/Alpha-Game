@@ -31,8 +31,8 @@ public class CardMilitariesGalleryController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        CardMilitaryBlockButtonPrefab = UIManager.Instance.Get("CardMilitaryBlockButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        CardMilitaryBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.CARD_MILITARY_BLOCK_BUTTON_PREFAB);
     }
     public void CreateCardMilitariesGallery(List<CardMilitaries> cardMilitaries, Transform contentPanel)
     {

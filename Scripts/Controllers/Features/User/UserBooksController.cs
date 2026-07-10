@@ -38,10 +38,10 @@ public class UserBooksController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        BookButtonPrefab = UIManager.Instance.Get("BookButtonPrefab");
-        PositionPrefab = UIManager.Instance.Get("PositionPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        BookButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.BOOK_BUTTON_PREFAB);
+        PositionPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POSITION_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserBooks(List<Books> books, Transform contentPanel)
     {

@@ -37,9 +37,9 @@ public class UserArtworksController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ArtworkButtonPrefab = UIManager.Instance.Get("ArtworkButtonPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        ArtworkButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ARTWORK_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserArtworks(List<Artworks> artworks, Transform contentPanel)
     {

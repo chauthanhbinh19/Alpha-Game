@@ -34,9 +34,9 @@ public class UserAvatarsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        AvatarButtonPrefab = UIManager.Instance.Get("AvatarButtonPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        AvatarButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.AVATAR_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserAvatars(List<Avatars> avatars, Transform contentPanel)
     {

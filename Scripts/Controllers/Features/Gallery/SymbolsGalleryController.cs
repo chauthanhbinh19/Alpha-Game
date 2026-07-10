@@ -32,8 +32,8 @@ public class SymbolsGalleryController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        SymbolBlockButtonPrefab = UIManager.Instance.Get("SymbolBlockButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        SymbolBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.SYMBOL_BLOCK_BUTTON_PREFAB);
     }
     public void CreateSymbolsGallery(List<Symbols> symbols, Transform contentPanel)
     {

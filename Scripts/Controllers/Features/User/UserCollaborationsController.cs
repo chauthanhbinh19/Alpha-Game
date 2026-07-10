@@ -37,9 +37,9 @@ public class UserCollaborationsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        CollaborationButtonPrefab = UIManager.Instance.Get("CollaborationButtonPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        CollaborationButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.COLLABORATION_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserCollaborations(List<Collaborations> collaborations, Transform contentPanel)
     {

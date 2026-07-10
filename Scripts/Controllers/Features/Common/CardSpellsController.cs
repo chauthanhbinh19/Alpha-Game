@@ -36,12 +36,12 @@ public class CardSpellsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        CardSpellButtonPrefab = UIManager.Instance.Get("CardSpellButtonPrefab");
-        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
-        QuantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        ReceivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
-        ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        CardSpellButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.CARD_SPELL_BUTTON_PREFAB);
+        EquipmentShopPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENT_SHOP_PREFAB);
+        QuantityPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Shop.QUANTITY_POPUP_PREFAB);
+        ReceivedNotification = UIManager.Instance.Get(AppConstants.Prefab.General.RECEIVED_NOTIFICATION_PANEL_PREFAB);
+        ItemPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ITEM_POPUP_PREFAB);
     }
     public void CreateCardSpellsGallery(List<CardSpells> cardSpells, Transform contentPanel)
     {

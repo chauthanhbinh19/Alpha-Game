@@ -33,7 +33,7 @@ public class CitiesController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         CityButtonPrefab = UIManager.Instance.Get("CityButtonPrefab");
         CityPanelPrefab = UIManager.Instance.Get("CityPanelPrefab");
     }

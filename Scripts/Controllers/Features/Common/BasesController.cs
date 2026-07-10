@@ -33,7 +33,7 @@ public class BasesController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         BaseButtonPrefab = UIManager.Instance.Get("BaseButtonPrefab");
         BasePanelPrefab = UIManager.Instance.Get("BasePanelPrefab");
     }

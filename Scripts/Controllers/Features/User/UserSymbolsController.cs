@@ -37,9 +37,9 @@ public class UserSymbolsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        SymbolButtonPrefab = UIManager.Instance.Get("SymbolButtonPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        SymbolButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.SYMBOL_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserSymbols(List<Symbols> symbols, Transform contentPanel)
     {

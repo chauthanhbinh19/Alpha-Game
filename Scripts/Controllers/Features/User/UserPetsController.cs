@@ -13,7 +13,7 @@ public class UserPetsController : MonoBehaviour
     public static UserPetsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject PetButtonPrefab;
-    private GameObject equipmentsPrefab;
+    private GameObject EquipmentFirstPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
     private GameObject TempCurrentObject;
     private const int MAX_LEVEL = 10000;
@@ -38,10 +38,10 @@ public class UserPetsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        PetButtonPrefab = UIManager.Instance.Get("PetButtonPrefab");
-        equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        PetButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.PET_BUTTON_PREFAB);
+        EquipmentFirstPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENT_FIRST_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserPets(List<Pets> pets, Transform contentPanel)
     {

@@ -2474,7 +2474,9 @@ public static class AppConstants
     }
     public static class Transform
     {
+        public const string ROOT_PANEL = "RootPanel";
         public const string MAIN_PANEL = "MainPanel";
+        public const string WAITING_PANEL = "WaitingPanel";
         public const string NOTIFICATION_PANEL = "NotificationPanel";
         public const string POPUP_PANEL = "PopupPanel";
         public const string LOADING_PANEL = "LoadingPanel";
@@ -2503,22 +2505,188 @@ public static class AppConstants
         }
         public static class Arena
         {
+            public const string ARENA_PANEL_PREFAB = "ArenaPanelPrefab";
             public const string ARENA_BUTTON_PREFAB = "ArenaButtonPrefab";
             public const string ARENA_DETAIL_PANEL_PREFAB = "ArenaDetailPanelPrefab";
             public const string ARENA_SLOT_PREFAB = "ArenaSlotPrefab";
         }
         public static class Component
         {
+            public const string ADVANCED_BUTTON_PREFAB = "AdvancedButtonPrefab";
+            public const string ADVANCED_SUB_BUTTON_PREFAB = "AdvancedSubButtonPrefab";
+            public const string CARD_SELECT_BUTTON_PREFAB = "CardSelectButtonPrefab";
+            public const string CARDS_SECOND_PREFAB = "CardsSecondPrefab";
+            public const string CARD_THIRD_PREFAB = "CardThirdPrefab";
+            public const string FEATURE_BUTTON_PREFAB = "FeatureButtonPrefab";
             public const string MAIN_BUTTON_PREFAB = "MainButtonPrefab";
             public const string COLLECTION_BUTTON_PREFAB = "CollectionButtonPrefab";
             public const string GALLERY_BUTTON_PREFAB = "GalleryButtonPrefab";
+            public const string GACHA_BUTTON_PREFAB = "GachaButtonPrefab";
+            public const string TAB_BUTTON_PREFAB = "TabButtonPrefab";
+            public const string ITEM_POPUP_PREFAB = "ItemPopupPrefab";
+            public const string ITEM_PREFAB = "ItemPrefab";
+            public const string SETTING_BUTTON_PREFAB = "SettingButtonPrefab";
+            public const string LANGUAGE_BUTTON_PREFAB = "LanguageButtonPrefab";
+            public const string NEWS_BUTTON_PREFAB = "NewsButtonPrefab";
+            public const string EMBLEM_BUTTON_PREFAB = "EmblemButtonPrefab";
+            public const string RARE_BUTTON_PREFAB = "RareButtonPrefab";
+            public const string TYPE_BUTTON_PREFAB = "TypeButtonPrefab";
+            public const string STRUCTURE_BUTTON_PREFAB = "StructureButtonPrefab";
+            public const string SUMMON_TAB_BUTTON_PREFAB = "SummonTabButtonPrefab";
+
+            public const string ACHIEVEMENT_BUTTON_PREFAB = "AchievementButtonPrefab";
+            public const string ACHIEVEMENT_BLOCK_BUTTON_PREFAB = "AchievementBlockButtonPrefab";
+            public const string CARD_HERO_BUTTON_PREFAB = "Card HeroButtonPrefab";
+            public const string CARD_HERO_BLOCK_BUTTON_PREFAB = "Card HeroBlockButtonPrefab";
+            public const string ALCHEMY_BUTTON_PREFAB = "AlchemyButtonPrefab";
+            public const string ALCHEMY_BLOCK_BUTTON_PREFAB = "AlchemyBlockButtonPrefab";
+            public const string AVATAR_BUTTON_PREFAB = "AvatarButtonPrefab";
+            public const string AVATAR_BLOCK_BUTTON_PREFAB = "AvatarBlockButtonPrefab";
+            public const string BORDER_BUTTON_PREFAB = "BorderButtonPrefab";
+            public const string BORDER_BLOCK_BUTTON_PREFAB = "BorderBlockButtonPrefab";
+            public const string BOOK_BUTTON_PREFAB = "BookButtonPrefab";
+            public const string BOOK_BLOCK_BUTTON_PREFAB = "BookBlockButtonPrefab";
+            public const string CARD_ADMIRAL_BUTTON_PREFAB = "Card AdmiralButtonPrefab";
+            public const string CARD_ADMIRAL_BLOCK_BUTTON_PREFAB = "Card AdmiralBlockButtonPrefab";
+            public const string CARD_CAPTAIN_BUTTON_PREFAB = "Card CaptainButtonPrefab";
+            public const string CARD_CAPTAIN_BLOCK_BUTTON_PREFAB = "Card CaptainBlockButtonPrefab";
+            public const string CARD_COLONEL_BUTTON_PREFAB = "Card ColonelButtonPrefab";
+            public const string CARD_COLONEL_BLOCK_BUTTON_PREFAB = "Card ColonelBlockButtonPrefab";
+            public const string CARD_GENERAL_BUTTON_PREFAB = "Card GeneralButtonPrefab";
+            public const string CARD_GENERAL_BLOCK_BUTTON_PREFAB = "Card GeneralBlockButtonPrefab";
+            public const string CARD_LIFE_BUTTON_PREFAB = "Card LifeButtonPrefab";
+            public const string CARD_LIFE_BLOCK_BUTTON_PREFAB = "Card LifeBlockButtonPrefab";
+            public const string CARD_MILITARY_BUTTON_PREFAB = "Card MilitaryButtonPrefab";
+            public const string CARD_MILITARY_BLOCK_BUTTON_PREFAB = "Card MilitaryBlockButtonPrefab";
+            public const string CARD_MONSTER_BUTTON_PREFAB = "Card MonsterButtonPrefab";
+            public const string CARD_MONSTER_BLOCK_BUTTON_PREFAB = "Card MonsterBlockButtonPrefab";
+            public const string CARD_SPELL_BUTTON_PREFAB = "Card SpellButtonPrefab";
+            public const string CARD_SPELL_BLOCK_BUTTON_PREFAB = "Card SpellBlockButtonPrefab";
+            public const string CARD_SOLDIER_BUTTON_PREFAB = "Card SoldierButtonPrefab";
+            public const string CARD_SOLDIER_BLOCK_BUTTON_PREFAB = "Card SoldierBlockButtonPrefab";
+            public const string COLLABORATION_EQUIPMENT_BUTTON_PREFAB = "Collaboration EquipmentButtonPrefab";
+            public const string COLLABORATION_EQUIPMENT_BLOCK_BUTTON_PREFAB = "Collaboration EquipmentBlockButtonPrefab";
+            public const string COLLABORATION_BUTTON_PREFAB = "CollaborationButtonPrefab";
+            public const string COLLABORATION_BLOCK_BUTTON_PREFAB = "CollaborationBlockButtonPrefab";
+            public const string EQUIPMENT_BUTTON_PREFAB = "EquipmentButtonPrefab";
+            public const string EQUIPMENT_BLOCK_BUTTON_PREFAB = "EquipmentBlockButtonPrefab";
+            public const string FORGE_BUTTON_PREFAB = "ForgeButtonPrefab";
+            public const string FORGE_BLOCK_BUTTON_PREFAB = "ForgeBlockButtonPrefab";
+            public const string MAGIC_FORMATION_CIRCLE_BUTTON_PREFAB = "Magic Formation CircleButtonPrefab";
+            public const string MAGIC_FORMATION_CIRCLE_BLOCK_BUTTON_PREFAB = "Magic Formation CircleBlockButtonPrefab";
+            public const string MEDAL_BUTTON_PREFAB = "MedalButtonPrefab";
+            public const string MEDAL_BLOCK_BUTTON_PREFAB = "MedalBlockButtonPrefab";
+            public const string PET_BUTTON_PREFAB = "PetButtonPrefab";
+            public const string PET_BLOCK_BUTTON_PREFAB = "PetBlockButtonPrefab";
+            public const string PUPPET_BUTTON_PREFAB = "PuppetButtonPrefab";
+            public const string PUPPET_BLOCK_BUTTON_PREFAB = "PuppetBlockButtonPrefab";
+            public const string RELIC_BUTTON_PREFAB = "RelicButtonPrefab";
+            public const string RELIC_BLOCK_BUTTON_PREFAB = "RelicBlockButtonPrefab";
+            public const string SKILL_BUTTON_PREFAB = "SkillButtonPrefab";
+            public const string SKILL_BLOCK_BUTTON_PREFAB = "SkillBlockButtonPrefab";
+            public const string SYMBOL_BUTTON_PREFAB = "SymbolButtonPrefab";
+            public const string SYMBOL_BLOCK_BUTTON_PREFAB = "SymbolBlockButtonPrefab";
+            public const string TALISMAN_BUTTON_PREFAB = "TalismanButtonPrefab";
+            public const string TALISMAN_BLOCK_BUTTON_PREFAB = "TalismanBlockButtonPrefab";
+            public const string TITLE_BUTTON_PREFAB = "TitleButtonPrefab";
+            public const string TITLE_BLOCK_BUTTON_PREFAB = "TitleBlockButtonPrefab";
+            public const string ITEM_BUTTON_PREFAB = "ItemButtonPrefab";
+            public const string ITEM_BLOCK_BUTTON_PREFAB = "ItemBlockButtonPrefab";
+            public const string ARTWORK_BUTTON_PREFAB = "ArtworkButtonPrefab";
+            public const string ARTWORK_BLOCK_BUTTON_PREFAB = "ArtworkBlockButtonPrefab";
+            public const string SPIRIT_BEAST_BUTTON_PREFAB = "Spirit BeastButtonPrefab";
+            public const string SPIRIT_BEAST_BLOCK_BUTTON_PREFAB = "Spirit BeastBlockButtonPrefab";
+            public const string SPIRIT_CARD_BUTTON_PREFAB = "Spirit CardButtonPrefab";
+            public const string SPIRIT_CARD_BLOCK_BUTTON_PREFAB = "Spirit CardBlockButtonPrefab";
+            public const string ARCHITECTURE_BUTTON_PREFAB = "ArchitectureButtonPrefab";
+            public const string ARCHITECTURE_BLOCK_BUTTON_PREFAB = "ArchitectureBlockButtonPrefab";
+            public const string TECHNOLOGY_BUTTON_PREFAB = "TechnologyButtonPrefab";
+            public const string TECHNOLOGY_BLOCK_BUTTON_PREFAB = "TechnologyBlockButtonPrefab";
+            public const string VEHICLE_BUTTON_PREFAB = "VehicleButtonPrefab";
+            public const string VEHICLE_BLOCK_BUTTON_PREFAB = "VehicleBlockButtonPrefab";
+            public const string ARTIFACT_BUTTON_PREFAB = "ArtifactButtonPrefab";
+            public const string ARTIFACT_BLOCK_BUTTON_PREFAB = "ArtifactBlockButtonPrefab";
+            public const string CORE_BUTTON_PREFAB = "CoreButtonPrefab";
+            public const string CORE_BLOCK_BUTTON_PREFAB = "CoreBlockButtonPrefab";
+            public const string WEAPON_BUTTON_PREFAB = "WeaponButtonPrefab";
+            public const string WEAPON_BLOCK_BUTTON_PREFAB = "WeaponBlockButtonPrefab";
+            public const string ROBOT_BUTTON_PREFAB = "RobotButtonPrefab";
+            public const string ROBOT_BLOCK_BUTTON_PREFAB = "RobotBlockButtonPrefab";
+            public const string BADGE_BUTTON_PREFAB = "BadgeButtonPrefab";
+            public const string BADGE_BLOCK_BUTTON_PREFAB = "BadgeBlockButtonPrefab";
+            public const string MECHA_BEAST_BUTTON_PREFAB = "Mecha BeastButtonPrefab";
+            public const string MECHA_BEAST_BLOCK_BUTTON_PREFAB = "Mecha BeastBlockButtonPrefab";
+            public const string RUNE_BUTTON_PREFAB = "RuneButtonPrefab";
+            public const string RUNE_BLOCK_BUTTON_PREFAB = "RuneBlockButtonPrefab";
+            public const string FURNITURE_BUTTON_PREFAB = "FurnitureButtonPrefab";
+            public const string FURNITURE_BLOCK_BUTTON_PREFAB = "FurnitureBlockButtonPrefab";
+            public const string FOOD_BUTTON_PREFAB = "FoodButtonPrefab";
+            public const string FOOD_BLOCK_BUTTON_PREFAB = "FoodBlockButtonPrefab";
+            public const string BEVERAGE_BUTTON_PREFAB = "BeverageButtonPrefab";
+            public const string BEVERAGE_BLOCK_BUTTON_PREFAB = "BeverageBlockButtonPrefab";
+            public const string BUILDING_BUTTON_PREFAB = "BuildingButtonPrefab";
+            public const string BUILDING_BLOCK_BUTTON_PREFAB = "BuildingBlockButtonPrefab";
+            public const string PLANT_BUTTON_PREFAB = "PlantButtonPrefab";
+            public const string PLANT_BLOCK_BUTTON_PREFAB = "PlantBlockButtonPrefab";
+            public const string FASHION_BUTTON_PREFAB = "FashionButtonPrefab";
+            public const string FASHION_BLOCK_BUTTON_PREFAB = "FashionBlockButtonPrefab";
+            public const string EMOJI_BUTTON_PREFAB = "EmojiButtonPrefab";
+            public const string EMOJI_BLOCK_BUTTON_PREFAB = "EmojiBlockButtonPrefab";
+            public const string OUTFIT_BUTTON_PREFAB = "OutfitButtonPrefab";
+            public const string OUTFIT_BLOCK_BUTTON_PREFAB = "OutfitBlockButtonPrefab";
+        }
+        public static class Equipment
+        {
+            public const string a = "Equipment";
+            public const string EQUIPMENT_FIRST_PREFAB = "EquipmentFirstPrefab";
+            public const string EQUIPMENT_PANEL_PREFAB = "EquipmentPanelPrefab";
+            public const string EQUIPMENT_POWER = "EquipmentPower";
+            public const string EQUIPMENT_PREFAB = "EquipmentPrefab";
+            public const string EQUIPMENT_SECOND_PREFAB = "EquipmentSecondPrefab";
+            public const string EQUIPMENT_SHOP_PREFAB = "EquipmentShopPrefab";
+            public const string EQUIPMENTS_WEARING_PREFAB = "EquipmentsWearingPrefab";
+            public const string POPUP_EQUIPMENTS_PANEL_PREFAB = "PopupEquipmentsPanelPrefab";
         }
         public static class General
         {
+            public const string GACHA_PANEL_PREFAB = "GachaPanelPrefab";
+            public const string HOME_PANEL_PREFAB = "HomePanelPrefab";
+            public const string MAIN_PANEL_PREFAB = "MainPanelPrefab";
+            public const string CURRENCY_PANEL_PREFAB = "CurrencyPanelPrefab";
+            public const string EDIT_NAME_PANEL_PREFAB = "EditNamePanelPrefab";
+            public const string LOADING_PANEL_PREFAB = "LoadingPanelPrefab";
+            public const string RECEIVED_NOTIFICATION_PANEL_PREFAB = "ReceivedNotificationPanelPrefab";
             public const string POWER_PREFAB = "PowerPrefab";
+            public const string POPUP_MENU_PANEL_PREFAB = "PopupMenuPanelPrefab";
+            public const string POPUP_BUTTON_PANEL_PREFAB = "PopupButtonPanelPrefab";
+            public const string POPUP_STATS_PANEL_PREFAB = "PopupStatsPanelPrefab";
+            public const string POPUP_STRUCTURE_BUTTON_PANEL_PREFAB = "PopupStructureButtonPanelPrefab";
+            public const string POPUP_TEAM_FIRST_PANEL_PREFAB = "PopupTeamFirstPanelPrefab";
+            public const string POPUP_TEAM_SECOND_PANEL_PREFAB = "PopupTeamSecondPanelPrefab";
+            public const string POPUP_WARNING_PANEL_PREFAB = "PopupWarningPanelPrefab";
+            public const string POPUP_TEAM_EMBLEM_PANEL_PREFAB = "PopupTeamEmblemPanelPrefab";
+            public const string POPUP_CARD_PANEL_PREFAB = "PopupCardPanelPrefab";
+            public const string TEAM_TYPE_PREFAB = "TeamTypePrefab";
+            public const string POSITION_PREFAB = "PositionPrefab";
+            public const string TEAMS_PANEL_PREFAB = "TeamsPanelPrefab";
+            public const string TEAMS_POSITION_PREFAB = "TeamsPositionPrefab";
+            public const string TEAMS_SLOT_FIRST_PREFAB = "TeamSlotFirstPrefab";
+            public const string TEAMS_SLOT_SECOND_PREFAB = "TeamSlotSecondPrefab";
             public const string DICTIONARY_PANEL_PREFAB = "DictionaryPanelPrefab";
             public const string LOADING_PROCESS_PANEL_PREFAB = "LoadingProcessPanelPrefab";
+            public const string MAIN_MENU_PANEL_PREFAB = "MainMenuPanelPrefab";
+            public const string MAIN_MENU_DETAIL_PANEL_PREFAB = "MainMenuDetailPanelPrefab";
+            public const string MAIN_MENU_DETAIL_PANEL_2_PREFAB = "MainMenuDetailPanel2Prefab";
+            public const string MAIN_MENU_SHOP_PANEL_PREFAB = "MainMenuShopPanelPrefab";
+            public const string MAIN_MENU_ENHANCEMENT_PANEL_PREFAB = "MainMenuEnhancementPanelPrefab";
+            public const string MAIN_MENU_CAMPAIGN_PANEL = "MainMenuCampaignPanel";
+            public const string ELEMENT_DETAILS_PREFAB = "ElementDetailsPrefab";
+            public const string MASTER_BOARD_PANEL_PREFAB = "MasterBoardPanelPrefab";
+            public const string NEWS_PANEL_PREFAB = "NewsPanelPrefab";
             public const string NOTIFICATION_PREFAB = "NotificationPrefab";
+            public const string PROFILE_PANEL_PREFAB = "ProfilePanelPrefab";
+            public const string SETTING_PANEL_PREFAB = "SettingPanelPrefab";
+            public const string SUMMON_PANEL_PREFAB = "SummonPanelPrefab";
         }
         public static class HICA
         {
@@ -2620,6 +2788,15 @@ public static class AppConstants
             public const string MAIN_SSWN_PANEL_PREFAB = "MainSSWNPanelPrefab";
             public const string SSWN_ITEM_PREFAB = "SSWNItemPrefab";
         }
+        public static class Skill
+        {
+            public const string SKILL_PANEL_PREFAB = "SkillPanelPrefab";
+            public const string SKILL_GROUP_PREFAB = "SkillGroupPrefab";
+            public const string SKILL_1_PREFAB = "Skill1Prefab";
+            public const string SKILL_2_PREFAB = "Skill2Prefab";
+            public const string POPUP_SKILLS_PANEL_PREFAB = "PopupSkillsPanelPrefab";
+            public const string POPUP_SKILL_DETAIL_PREFAB = "PopupSkillDetailPrefab";
+        }
         public static class Market
         {
             public const string LEGENDARY_MARKET_BUTTON_PREFAB = "LegendaryMarketButtonPrefab";
@@ -2696,6 +2873,13 @@ public static class AppConstants
             public const string POPUP_SCIENCE_FICTION_BUTTON_PREFAB = "PopupScienceFictionButtonPrefab";
             public const string MAIN_SCIENCE_FICTION_PANEL_PREFAB = "MainScienceFictionPanelPrefab";
             public const string SCIENCE_FICTION_ITEM_PREFAB = "ScienceFictionItemPrefab";
+        }
+        public static class Shop
+        {
+            public const string QUANTITY_POPUP_PREFAB = "QuantityPopupPrefab";
+            public const string SHOP_BUTTON_PREFAB = "ShopButtonPrefab";
+            public const string SHOP_MANAGER_PREFAB = "ShopManagerPrefab";
+            public const string SHOP_PREFAB = "ShopPrefab";
         }
         public static class Universe
         {

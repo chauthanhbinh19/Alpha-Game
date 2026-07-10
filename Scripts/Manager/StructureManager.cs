@@ -28,8 +28,8 @@ public class StructureManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        PopupStructureButtonPanelPrefab = UIManager.Instance.Get("PopupStructureButtonPanelPrefab");
-        StructureButtonPrefab = UIManager.Instance.Get("StructureButtonPrefab");
+        PopupStructureButtonPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POPUP_STRUCTURE_BUTTON_PANEL_PREFAB);
+        StructureButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.STRUCTURE_BUTTON_PREFAB);
     }
     public void CreateStructure()
     {

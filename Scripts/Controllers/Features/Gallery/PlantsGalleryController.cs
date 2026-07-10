@@ -32,8 +32,8 @@ public class PlantsGalleryController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        PlantBlockButtonPrefab = UIManager.Instance.Get("PlantBlockButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        PlantBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.PLANT_BLOCK_BUTTON_PREFAB);
     }
     public void CreatePlantsGallery(List<Plants> plants, Transform contentPanel)
     {

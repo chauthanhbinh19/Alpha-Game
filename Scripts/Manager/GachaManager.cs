@@ -41,8 +41,8 @@ public class GachaManager : MonoBehaviour
     public void Initialize()
     {
         MainButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MAIN_BUTTON_PREFAB);
-        GachaPanelPrefab = UIManager.Instance.Get("GachaPanelPrefab");
-        GachaButtonPrefab = UIManager.Instance.Get("GachaButtonPrefab");
+        GachaPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.GACHA_PANEL_PREFAB);
+        GachaButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.GACHA_BUTTON_PREFAB);
         // AdvancedButtonPrefab = UIManager.Instance.Get("AdvancedButtonPrefab");
         // AdvancedSubButtonPrefab = UIManager.Instance.Get("AdvancedSubButtonPrefab");
         // PopupMenuPanelPrefab = UIManager.Instance.Get("PopupMenuPanelPrefab");

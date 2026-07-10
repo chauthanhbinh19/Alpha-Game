@@ -36,12 +36,12 @@ public class MagicFormationCirclesController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MagicFormationCircleButtonPrefab = UIManager.Instance.Get("MagicFormationCircleButtonPrefab");
-        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
-        QuantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        ReceivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
-        ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        MagicFormationCircleButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MAGIC_FORMATION_CIRCLE_BUTTON_PREFAB);
+        EquipmentShopPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENT_SHOP_PREFAB);
+        QuantityPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Shop.QUANTITY_POPUP_PREFAB);
+        ReceivedNotification = UIManager.Instance.Get(AppConstants.Prefab.General.RECEIVED_NOTIFICATION_PANEL_PREFAB);
+        ItemPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ITEM_POPUP_PREFAB);
     }
     public void CreateMagicFormationCirclesGallery(List<MagicFormationCircles> magicFormationCircles, Transform contentPanel)
     {

@@ -38,8 +38,8 @@ public class MasterBoardController : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        TypeButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.TYPE_BUTTON_PREFAB);
         MasterBoardNodePrefab = UIManager.Instance.Get("MasterBoardNodePrefab");
         MasterBoardPopupPrefab = UIManager.Instance.Get("MasterBoardPopupPrefab");
 

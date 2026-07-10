@@ -33,7 +33,7 @@ public class WorldsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         WorldButtonPrefab = UIManager.Instance.Get("WorldButtonPrefab");
         WorldPanelPrefab = UIManager.Instance.Get("WorldPanelPrefab");
     }

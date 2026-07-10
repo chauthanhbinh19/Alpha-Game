@@ -37,9 +37,9 @@ public class UserSpiritBeastsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        SpiritBeastButtonPrefab = UIManager.Instance.Get("SpiritBeastButtonPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        SpiritBeastButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.SPIRIT_BEAST_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserSpiritBeasts(List<SpiritBeasts> spiritBeasts, Transform contentPanel)
     {

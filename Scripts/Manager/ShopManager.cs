@@ -52,13 +52,13 @@ public class ShopManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        ShopButtonPrefab = UIManager.Instance.Get("ShopButtonPrefab");
-        ShopManagerPrefab = UIManager.Instance.Get("ShopManagerPrefab");
-        ShopPrefab = UIManager.Instance.Get("ShopPrefab");
-        TypeButtonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
-        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
-        PopupPanel = UIManager.Instance.GetTransform("popupPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        ShopButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Shop.SHOP_BUTTON_PREFAB);
+        ShopManagerPrefab = UIManager.Instance.Get(AppConstants.Prefab.Shop.SHOP_MANAGER_PREFAB);
+        ShopPrefab = UIManager.Instance.Get(AppConstants.Prefab.Shop.SHOP_PREFAB);
+        TypeButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.TAB_BUTTON_PREFAB);
+        EquipmentShopPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENT_SHOP_PREFAB);
+        PopupPanel = UIManager.Instance.GetTransform(AppConstants.Transform.POPUP_PANEL);
     }
     void AssignButtonEvent(string buttonName, Transform panel, UnityEngine.Events.UnityAction action)
     {

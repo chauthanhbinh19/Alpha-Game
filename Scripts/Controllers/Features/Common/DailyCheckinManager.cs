@@ -11,11 +11,11 @@ public class DailyCheckinManager : MonoBehaviour
     public static DailyCheckinManager Instance { get; private set; }
     private Transform MainPanel;
     private Transform TabButtonPanel;
-    private GameObject buttonPrefab;
+    private GameObject TypeButtonPrefab;
     private GameObject DailyCheckinPanelPrefab;
     private GameObject DailyCheckinComponentPrefab;
     private Transform DailyCheckinPanel;
-    private string mainType;
+    private string MainType;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -37,8 +37,8 @@ public class DailyCheckinManager : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        buttonPrefab = UIManager.Instance.Get("TypeButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        TypeButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.TYPE_BUTTON_PREFAB);
         DailyCheckinPanelPrefab = UIManager.Instance.Get("DailyCheckinPanelPrefab");
         DailyCheckinComponentPrefab = UIManager.Instance.Get("DailyCheckinComponentPrefab");
     }
@@ -178,7 +178,7 @@ public class DailyCheckinManager : MonoBehaviour
             foreach (var uniqueType in uniqueTypes)
             {
                 string subType = uniqueType;
-                GameObject button = Instantiate(buttonPrefab, TabButtonPanel);
+                GameObject button = Instantiate(TypeButtonPrefab, TabButtonPanel);
 
                 TextMeshProUGUI buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
                 buttonText.text = uniqueType.Replace("_", " ");
@@ -192,9 +192,9 @@ public class DailyCheckinManager : MonoBehaviour
 
                 if (index == 0)
                 {
-                    mainType = uniqueType;
+                    MainType = uniqueType;
                     UIManager.Instance.ChangeButtonBackground(button, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-                    if (mainType.Equals("daily_checkin"))
+                    if (MainType.Equals("daily_checkin"))
                     {
                         List<UserDailyCheckin> userDailyCheckins = await UserDailyCheckinService.Create().GetUserDailyCheckinAsync(User.CurrentUserId);
                         _=CheckObjectTypeAsync(userDailyCheckins);
@@ -221,9 +221,9 @@ public class DailyCheckinManager : MonoBehaviour
             }
         }
 
-        mainType = type;
+        MainType = type;
         UIManager.Instance.ChangeButtonBackground(clickedButton, ImageConstants.Button.TAB_BUTTON_AFTER_CLICK_URL);
-        if (mainType.Equals("daily_checkin"))
+        if (MainType.Equals("daily_checkin"))
         {
             List<UserDailyCheckin> userDailyCheckins = await UserDailyCheckinService.Create().GetUserDailyCheckinAsync(User.CurrentUserId);
             _=CheckObjectTypeAsync(userDailyCheckins);

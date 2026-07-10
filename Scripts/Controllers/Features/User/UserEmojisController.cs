@@ -37,9 +37,9 @@ public class UserEmojisController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        EmojiButtonPrefab = UIManager.Instance.Get("EmojiButtonPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        EmojiButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.EMOJI_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserEmojis(List<Emojis> emojis, Transform contentPanel)
     {

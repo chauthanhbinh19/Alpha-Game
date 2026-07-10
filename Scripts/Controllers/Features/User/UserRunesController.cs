@@ -37,9 +37,9 @@ public class UserRunesController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        RuneButtonPrefab = UIManager.Instance.Get("RuneButtonPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        RuneButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.RUNE_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserRunes(List<Runes> runes, Transform contentPanel)
     {

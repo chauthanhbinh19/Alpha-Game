@@ -32,8 +32,8 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MagicFormationCircleBlockButtonPrefab = UIManager.Instance.Get("MagicFormationCircleBlockButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        MagicFormationCircleBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MAGIC_FORMATION_CIRCLE_BLOCK_BUTTON_PREFAB);
     }
     public void CreateMagicFormationCirclesGallery(List<MagicFormationCircles> magicFormationCircles, Transform contentPanel)
     {

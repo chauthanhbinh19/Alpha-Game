@@ -90,21 +90,21 @@ public class TeamsManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
-        CardThirdPrefab = UIManager.Instance.Get("CardThirdPrefab");
-        PopupTeamFirstPrefab = UIManager.Instance.Get("PopupTeamFirstPanelPrefab");
-        PopupTeamSecondPrefab = UIManager.Instance.Get("PopupTeamSecondPanelPrefab");
-        TeamsPanelPrefab = UIManager.Instance.Get("TeamsPanelPrefab");
-        TeamsPositionPrefab = UIManager.Instance.Get("TeamsPositionPrefab");
-        TeamTypePrefab = UIManager.Instance.Get("TeamTypePrefab");
-        TeamSlotFirstPrefab = UIManager.Instance.Get("TeamSlotFirstPrefab");
-        TeamSlotSecondPrefab = UIManager.Instance.Get("TeamSlotSecondPrefab");
-        PopupCardPanelPrefab = UIManager.Instance.Get("PopupCardPanelPrefab");
-        CardSelectButtonPrefab = UIManager.Instance.Get("CardSelectButtonPrefab");
-        PopupWarningPanelPrefab = UIManager.Instance.Get("PopupWarningPanelPrefab");
-        PopupTeamEmblemPanelPrefab = UIManager.Instance.Get("PopupTeamEmblemPanelPrefab");
-        EmblemButtonPrefab = UIManager.Instance.Get("EmblemButtonPrefab");
-        RareButtonPrefab = UIManager.Instance.Get("RareButtonPrefab");
-        PositionPrefab = UIManager.Instance.Get("PositionPrefab");
+        CardThirdPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.CARD_THIRD_PREFAB);
+        PopupTeamFirstPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POPUP_TEAM_FIRST_PANEL_PREFAB);
+        PopupTeamSecondPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POPUP_TEAM_SECOND_PANEL_PREFAB);
+        TeamsPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.TEAMS_PANEL_PREFAB);
+        TeamsPositionPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.TEAMS_POSITION_PREFAB);
+        TeamTypePrefab = UIManager.Instance.Get(AppConstants.Prefab.General.TEAM_TYPE_PREFAB);
+        TeamSlotFirstPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.TEAMS_SLOT_FIRST_PREFAB);
+        TeamSlotSecondPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.TEAMS_SLOT_SECOND_PREFAB);
+        PopupCardPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POPUP_CARD_PANEL_PREFAB);
+        CardSelectButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.CARD_SELECT_BUTTON_PREFAB);
+        PopupWarningPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POPUP_WARNING_PANEL_PREFAB);
+        PopupTeamEmblemPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POPUP_TEAM_EMBLEM_PANEL_PREFAB);
+        EmblemButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.EMBLEM_BUTTON_PREFAB);
+        RareButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.RARE_BUTTON_PREFAB);
+        PositionPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POSITION_PREFAB);
 
         UserCardHeroesService = UserCardHeroesService.Create();
         UserCardCaptainsService = UserCardCaptainsService.Create();

@@ -33,7 +33,7 @@ public class EmployeesController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         EmployeeButtonPrefab = UIManager.Instance.Get("EmployeeButtonPrefab");
         EmployeePanelPrefab = UIManager.Instance.Get("EmployeePanelPrefab");
     }

@@ -39,13 +39,13 @@ public class ButtonLoader : MonoBehaviour
 
     public void Initialize()
     {
-        MainButtonPrefab = UIManager.Instance.Get("MainButtonPrefab");
-        TabButtonPrefab = UIManager.Instance.Get("TabButtonPrefab");
-        AdvancedButtonPrefab = UIManager.Instance.Get("AdvancedButtonPrefab");
-        AdvancedSubButtonPrefab = UIManager.Instance.Get("AdvancedSubButtonPrefab");
-        PopupMenuPanelPrefab = UIManager.Instance.Get("PopupMenuPanelPrefab");
-        FeatureButtonPrefab = UIManager.Instance.Get("FeatureButtonPrefab");
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MAIN_BUTTON_PREFAB);
+        TabButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.TAB_BUTTON_PREFAB);
+        AdvancedButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ADVANCED_BUTTON_PREFAB);
+        AdvancedSubButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ADVANCED_SUB_BUTTON_PREFAB);
+        PopupMenuPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POPUP_MENU_PANEL_PREFAB);
+        FeatureButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.FEATURE_BUTTON_PREFAB);
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
     }
     public void CreateInventoryButton(GameObject popupButtonObject)
     {

@@ -37,9 +37,9 @@ public class UserPuppetsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        PuppetButtonPrefab = UIManager.Instance.Get("PuppetButtonPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        PuppetButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.PUPPET_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserPuppets(List<Puppets> puppets, Transform contentPanel)
     {

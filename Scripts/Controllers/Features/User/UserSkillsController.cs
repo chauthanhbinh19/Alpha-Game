@@ -37,9 +37,9 @@ public class UserSkillsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        SkillButtonPrefab = UIManager.Instance.Get("SkillButtonPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        SkillButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.SKILL_BUTTON_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
     }
     public void CreateUserSkills(List<Skills> skills, Transform contentPanel)
     {

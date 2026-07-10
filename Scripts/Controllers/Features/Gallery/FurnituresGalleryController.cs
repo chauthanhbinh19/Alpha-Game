@@ -32,8 +32,8 @@ public class FurnituresGalleryController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        FurnitureBlockButtonPrefab = UIManager.Instance.Get("FurnitureBlockButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        FurnitureBlockButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.FURNITURE_BLOCK_BUTTON_PREFAB);
     }
     public void CreateFurnituresGallery(List<Furnitures> furnitures, Transform contentPanel)
     {

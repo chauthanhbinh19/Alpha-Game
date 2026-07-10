@@ -11,7 +11,7 @@ public class PetsController : MonoBehaviour
     public static PetsController Instance { get; private set; }
     private Transform MainPanel;
     private GameObject PetButtonPrefab;
-    private GameObject equipmentsPrefab;
+    private GameObject EquipmentFirstPrefab;
     private GameObject EquipmentShopPrefab;
     private GameObject QuantityPopupPrefab;
     private GameObject ReceivedNotification;
@@ -37,13 +37,13 @@ public class PetsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        PetButtonPrefab = UIManager.Instance.Get("PetButtonPrefab");
-        equipmentsPrefab = UIManager.Instance.Get("EquipmentFirstPrefab");
-        EquipmentShopPrefab = UIManager.Instance.Get("EquipmentShopPrefab");
-        QuantityPopupPrefab = UIManager.Instance.Get("QuantityPopupPrefab");
-        ReceivedNotification = UIManager.Instance.Get("ReceivedNotificationPanelPrefab");
-        ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        PetButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.PET_BUTTON_PREFAB);
+        EquipmentFirstPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENT_FIRST_PREFAB);
+        EquipmentShopPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENT_SHOP_PREFAB);
+        QuantityPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Shop.QUANTITY_POPUP_PREFAB);
+        ReceivedNotification = UIManager.Instance.Get(AppConstants.Prefab.General.RECEIVED_NOTIFICATION_PANEL_PREFAB);
+        ItemPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ITEM_POPUP_PREFAB);
     }
     public void CreatePetsGallery(List<Pets> pets, Transform contentPanel)
     {

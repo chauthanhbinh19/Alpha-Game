@@ -56,18 +56,18 @@ public class UserCardAdmiralsController : MonoBehaviour
 
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        CardAdmiralButtonPrefab = UIManager.Instance.Get("CardAdmiralButtonPrefab");
-        PositionPrefab = UIManager.Instance.Get("PositionPrefab");
-        MainMenuDetailPanel2Prefab = UIManager.Instance.Get("MainMenuDetailPanel2Prefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        CardAdmiralButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.CARD_ADMIRAL_BUTTON_PREFAB);
+        PositionPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.POSITION_PREFAB);
+        MainMenuDetailPanel2Prefab = UIManager.Instance.Get(AppConstants.Prefab.General.MAIN_MENU_DETAIL_PANEL_2_PREFAB);
         PopupSpiritBeastPanelPrefab = UIManager.Instance.Get("PopupSpiritBeastPanelPrefab");
-        EquipmentsWearingPrefab = UIManager.Instance.Get("EquipmentsWearingPrefab");
-        SkillPanelPrefab = UIManager.Instance.Get("SkillPanelPrefab");
-        SkillGroupPrefab = UIManager.Instance.Get("SkillGroupPrefab");
-        Skill1Prefab = UIManager.Instance.Get("Skill1Prefab");
-        Skill2Prefab = UIManager.Instance.Get("Skill2Prefab");
-        PopupSkillsPanelPrefab = UIManager.Instance.Get("PopupSkillsPanelPrefab");
-        PopupSkillDetailPrefab = UIManager.Instance.Get("PopupSkillDetailPrefab");
+        EquipmentsWearingPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENTS_WEARING_PREFAB);
+        SkillPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.SKILL_PANEL_PREFAB);
+        SkillGroupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.SKILL_GROUP_PREFAB);
+        Skill1Prefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.SKILL_1_PREFAB);
+        Skill2Prefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.SKILL_2_PREFAB);
+        PopupSkillsPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.POPUP_SKILLS_PANEL_PREFAB);
+        PopupSkillDetailPrefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.POPUP_SKILL_DETAIL_PREFAB);
         TeamsService = TeamsService.Create();
         Search ="";
     }
