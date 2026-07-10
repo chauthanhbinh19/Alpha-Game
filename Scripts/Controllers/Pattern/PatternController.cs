@@ -39,11 +39,11 @@ public class PatternController : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        PatternPanelPrefab = UIManager.Instance.Get("PatternPanelPrefab");
-        PatternDetailPanelPrefab = UIManager.Instance.Get("PatternDetailPanelPrefab");
-        PatternButtonPrefab = UIManager.Instance.Get("PatternButtonPrefab");
-        PatternCellPrefab = UIManager.Instance.Get("PatternCellPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        PatternPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Pattern.PATTERN_PANEL_PREFAB);
+        PatternDetailPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Pattern.PATTERN_DETAIL_PANEL_PREFAB);
+        PatternButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Pattern.PATTERN_BUTTON_PREFAB);
+        PatternCellPrefab = UIManager.Instance.Get(AppConstants.Prefab.Pattern.PATTERN_CELL_PREFAB);
     }
     public async Task CreatePatternPanel()
     {

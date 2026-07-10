@@ -27,9 +27,9 @@ public class UniverseManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        UniversePanelPrefab = UIManager.Instance.Get("UniversePanelPrefab");
-        UniverseButtonPrefab = UIManager.Instance.Get("UniverseButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        UniversePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Universe.UNIVERSE_PANEL_PREFAB);
+        UniverseButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Universe.UNIVERSE_BUTTON_PREFAB);
     }
     public void CreateUniverse()
     {

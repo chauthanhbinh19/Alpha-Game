@@ -2475,6 +2475,9 @@ public static class AppConstants
     public static class Transform
     {
         public const string MAIN_PANEL = "MainPanel";
+        public const string NOTIFICATION_PANEL = "NotificationPanel";
+        public const string POPUP_PANEL = "PopupPanel";
+        public const string LOADING_PANEL = "LoadingPanel";
     }
     public static class Prefab
     {
@@ -2498,13 +2501,24 @@ public static class AppConstants
             public const string MAIN_ARCHIVE_PANEL_PREFAB = "MainArchivePanelPrefab";
             public const string ARCHIVE_ITEM_PREFAB = "ArchiveItemPrefab";
         }
+        public static class Arena
+        {
+            public const string ARENA_BUTTON_PREFAB = "ArenaButtonPrefab";
+            public const string ARENA_DETAIL_PANEL_PREFAB = "ArenaDetailPanelPrefab";
+            public const string ARENA_SLOT_PREFAB = "ArenaSlotPrefab";
+        }
         public static class Component
         {
-            
+            public const string MAIN_BUTTON_PREFAB = "MainButtonPrefab";
+            public const string COLLECTION_BUTTON_PREFAB = "CollectionButtonPrefab";
+            public const string GALLERY_BUTTON_PREFAB = "GalleryButtonPrefab";
         }
         public static class General
         {
-            
+            public const string POWER_PREFAB = "PowerPrefab";
+            public const string DICTIONARY_PANEL_PREFAB = "DictionaryPanelPrefab";
+            public const string LOADING_PROCESS_PANEL_PREFAB = "LoadingProcessPanelPrefab";
+            public const string NOTIFICATION_PREFAB = "NotificationPrefab";
         }
         public static class HICA
         {
@@ -2608,19 +2622,60 @@ public static class AppConstants
         }
         public static class Market
         {
-            
+            public const string LEGENDARY_MARKET_BUTTON_PREFAB = "LegendaryMarketButtonPrefab";
+            public const string LEGENDARY_MARKET_MANAGER_PREFAB = "LegendaryMarketManagerPrefab";
+            public const string LEGENDARY_MARKET_PREFAB = "LegendaryMarketPrefab";
+            public const string MYSTIC_MARKET_BUTTON_PREFAB = "MysticMarketButtonPrefab";
+            public const string MYSTIC_MARKET_MANAGER_PREFAB = "MysticMarketManagerPrefab";
+            public const string MYSTIC_MARKET_PREFAB = "MysticMarketPrefab";
+            public const string RARE_MARKET_BUTTON_PREFAB = "RareMarketButtonPrefab";
+            public const string RARE_MARKET_MANAGER_PREFAB = "RareMarketManagerPrefab";
+            public const string RARE_MARKET_PREFAB = "RareMarketPrefab";
+            public const string ULTRA_RARE_MARKET_BUTTON_PREFAB = "UltraRareMarketButtonPrefab";
+            public const string ULTRA_RARE_MARKET_MANAGER_PREFAB = "UltraRareMarketManagerPrefab";
+            public const string ULTRA_RARE_MARKET_PREFAB = "UltraRareMarketPrefab";
         }
         public static class Master
         {
-            
+            public const string MASTER_PANEL_PREFAB = "MasterPanelPrefab";
+            public const string MASTER_BUTTON_PREFAB = "MasterButtonPrefab";
+            public const string POPUP_MASTER_PANEL_PREFAB = "PopupMasterPanelPrefab";
+            public const string POPUP_MASTER_QUANTITY_PANEL_PREFAB = "PopupMasterQuantityPanelPrefab";
+            public const string POPUP_MASTER_BUTTON_PREFAB = "PopupMasterButtonPrefab";
+            public const string MAIN_MASTER_PANEL_PREFAB = "MainMasterPanelPrefab";
+            public const string MASTER_ITEM_PREFAB = "MasterItemPrefab";
         }
         public static class Module
         {
-            
+            public const string MODULE_PANEL_PREFAB = "ModulePanelPrefab";
+            public const string MODULE_BUTTON_PREFAB = "ModuleButtonPrefab";
+            public const string POPUP_MODULE_PANEL_PREFAB = "PopupModulePanelPrefab";
+            public const string POPUP_MODULE_QUANTITY_PANEL_PREFAB = "PopupModuleQuantityPanelPrefab";
+            public const string POPUP_MODULE_BUTTON_PREFAB = "PopupModuleButtonPrefab";
+            public const string MAIN_MODULE_PANEL_PREFAB = "MainModulePanelPrefab";
+            public const string MODULE_ITEM_PREFAB = "ModuleItemPrefab";
+        }
+        public static class Pattern
+        {
+            public const string PATTERN_PANEL_PREFAB = "PatternPanelPrefab";
+            public const string PATTERN_DETAIL_PANEL_PREFAB = "PatternDetailPanelPrefab";
+            public const string PATTERN_BUTTON_PREFAB = "PatternButtonPrefab";
+            public const string PATTERN_CELL_PREFAB = "PatternCellPrefab";
         }
         public static class Progression
         {
-            
+            public const string LEVEL_PANEL_PREFAB = "LevelPanelPrefab";
+            public const string STAR_PANEL_PREFAB = "StarPanelPrefab";
+        }
+        public static class Rank
+        {
+            public const string RANK_PANEL_PREFAB = "RankPanelPrefab";
+            public const string RANK_BUTTON_PREFAB = "RankButtonPrefab";
+            public const string POPUP_RANK_PANEL_PREFAB = "PopupRankPanelPrefab";
+            public const string POPUP_RANK_QUANTITY_PANEL_PREFAB = "PopupRankQuantityPanelPrefab";
+            public const string POPUP_RANK_BUTTON_PREFAB = "PopupRankButtonPrefab";
+            public const string MAIN_RANK_PANEL_PREFAB = "MainRankPanelPrefab";
+            public const string RANK_ITEM_PREFAB = "RankItemPrefab";
         }
         public static class Research
         {
@@ -2654,7 +2709,13 @@ public static class AppConstants
         }
         public static class Upgrade
         {
-            
+            public const string UPGRADE_PANEL_PREFAB = "UpgradePanelPrefab";
+            public const string UPGRADE_BUTTON_PREFAB = "UpgradeButtonPrefab";
+            public const string POPUP_UPGRADE_PANEL_PREFAB = "PopupUpgradePanelPrefab";
+            public const string POPUP_UPGRADE_QUANTITY_PANEL_PREFAB = "PopupUpgradeQuantityPanelPrefab";
+            public const string POPUP_UPGRADE_BUTTON_PREFAB = "PopupUpgradeButtonPrefab";
+            public const string MAIN_UPGRADE_PANEL_PREFAB = "MainUpgradePanelPrefab";
+            public const string UPGRADE_ITEM_PREFAB = "UpgradeItemPrefab";
         }
     }
 }

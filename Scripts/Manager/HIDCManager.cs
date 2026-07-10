@@ -27,9 +27,9 @@ public class HIDCManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        HIDCPanelPrefab = UIManager.Instance.Get("HIDCPanelPrefab");
-        HIDCButtonPrefab = UIManager.Instance.Get("HIDCButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        HIDCPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIDC.HIDC_PANEL_PREFAB);
+        HIDCButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIDC.HIDC_BUTTON_PREFAB);
     }
     public void CreateHIDC()
     {

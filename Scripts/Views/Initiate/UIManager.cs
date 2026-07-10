@@ -104,9 +104,9 @@ public class UIManager : MonoBehaviour
                 return MainPanel;
             case "WaitingPanel":
                 return WaitingPanel;
-            case "notificationPanel":
+            case "NotificationPanel":
                 return NotificationPanel;
-            case "popupPanel":
+            case "PopupPanel":
                 return popupPanel;
             case "LoadingPanel":
                 return LoadingPanel;

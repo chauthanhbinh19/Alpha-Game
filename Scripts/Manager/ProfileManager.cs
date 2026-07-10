@@ -42,7 +42,7 @@ public class ProfileManager : MonoBehaviour
     public void Initialize()
     {
         WaitingPanel = UIManager.Instance.GetTransform("WaitingPanel");
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         RootPanel = UIManager.Instance.GetTransform("RootPanel");
         ProfilePanelPrefab = UIManager.Instance.Get("ProfilePanelPrefab");
         EditNamePanelPrefab = UIManager.Instance.Get("EditNamePanelPrefab");

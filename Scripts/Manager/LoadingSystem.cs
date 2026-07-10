@@ -13,7 +13,7 @@ public class LoadingSystem : MonoBehaviour
     }
     public void Initialize()
     {
-        LoadingPanel = UIManager.Instance.GetTransform("LoadingPanel");
+        LoadingPanel = UIManager.Instance.GetTransform(AppConstants.Transform.LOADING_PANEL);
         LoadingPanelPrefab = UIManager.Instance.Get("LoadingPanelPrefab");
     }
     public void Loading(Transform firstPanel, Transform secondPanel)

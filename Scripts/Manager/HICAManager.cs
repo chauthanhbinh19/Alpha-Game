@@ -27,9 +27,9 @@ public class HICAManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        HICAPanelPrefab = UIManager.Instance.Get("HICAPanelPrefab");
-        HICAButtonPrefab = UIManager.Instance.Get("HICAButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        HICAPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HICA.HICA_PANEL_PREFAB);
+        HICAButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HICA.HICA_BUTTON_PREFAB);
     }
     public void CreateHICA()
     {

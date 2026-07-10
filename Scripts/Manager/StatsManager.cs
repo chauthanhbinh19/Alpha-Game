@@ -26,7 +26,7 @@ public class StatsManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         PopupStatsPanelPrefab = UIManager.Instance.Get("PopupStatsPanelPrefab");
     }
     public void CreateStatsManager(IStats stat)

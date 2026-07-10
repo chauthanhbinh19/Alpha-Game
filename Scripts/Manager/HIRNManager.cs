@@ -27,9 +27,9 @@ public class HIRNManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        HIRNPanelPrefab = UIManager.Instance.Get("HIRNPanelPrefab");
-        HIRNButtonPrefab = UIManager.Instance.Get("HIRNButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        HIRNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIRN.HIRN_PANEL_PREFAB);
+        HIRNButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HIRN.HIRN_BUTTON_PREFAB);
     }
     public void CreateHIRN()
     {

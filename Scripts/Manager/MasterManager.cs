@@ -27,15 +27,15 @@ public class MasterManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        UniversePanelPrefab = UIManager.Instance.Get("UniversePanelPrefab");
-        UniverseButtonPrefab = UIManager.Instance.Get("UniverseButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        UniversePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.MASTER_PANEL_PREFAB);
+        UniverseButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.MASTER_PANEL_PREFAB);
     }
     public void CreateUniverse()
     {
         GameObject currentObject = Instantiate(UniversePanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        Transform contentPanel = transform.Find("UniverseContent/Content");
+        Transform contentPanel = transform.Find("MasterContent/Content");
         Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
         closeButton.onClick.AddListener(() =>
         {

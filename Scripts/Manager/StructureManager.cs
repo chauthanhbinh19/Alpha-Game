@@ -27,7 +27,7 @@ public class StructureManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         PopupStructureButtonPanelPrefab = UIManager.Instance.Get("PopupStructureButtonPanelPrefab");
         StructureButtonPrefab = UIManager.Instance.Get("StructureButtonPrefab");
     }

@@ -27,9 +27,9 @@ public class AnimeManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        AnimePanelPrefab = UIManager.Instance.Get("AnimePanelPrefab");
-        AnimeButtonPrefab = UIManager.Instance.Get("AnimeButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        AnimePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.ANIME_PANEL_PREFAB);
+        AnimeButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Anime.ANIME_BUTTON_PREFAB);
     }
     public void CreateAnime()
     {

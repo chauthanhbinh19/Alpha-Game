@@ -43,14 +43,14 @@ public class MainMenuSpaceManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        RankPanelPrefab = UIManager.Instance.Get("RankPanelPrefab");
-        RankButtonPrefab = UIManager.Instance.Get("RankButtonPrefab");
-        PopupRankPanelPrefab = UIManager.Instance.Get("PopupRankPanelPrefab");
-        PopupRankQuantityPanelPrefab = UIManager.Instance.Get("PopupRankQuantityPanelPrefab");
-        PopupRankButtonPrefab = UIManager.Instance.Get("PopupRankButtonPrefab");
-        MainRankPanelPrefab = UIManager.Instance.Get("MainRankPanelPrefab");
-        RankItemPrefab = UIManager.Instance.Get("RankItemPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        RankPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Rank.RANK_PANEL_PREFAB);
+        RankButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Rank.RANK_BUTTON_PREFAB);
+        PopupRankPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Rank.POPUP_RANK_PANEL_PREFAB);
+        PopupRankQuantityPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Rank.POPUP_RANK_QUANTITY_PANEL_PREFAB);
+        PopupRankButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Rank.POPUP_RANK_BUTTON_PREFAB);
+        MainRankPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Rank.MAIN_RANK_PANEL_PREFAB);
+        RankItemPrefab = UIManager.Instance.Get(AppConstants.Prefab.Rank.RANK_ITEM_PREFAB);
     }
     public async Task CreateMainMenuSpaceManagerAsync(IStats stat)
     {

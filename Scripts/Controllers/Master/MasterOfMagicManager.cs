@@ -43,14 +43,14 @@ public class MasterOfMagicManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        MasterPanelPrefab = UIManager.Instance.Get("MasterPanelPrefab");
-        MasterButtonPrefab = UIManager.Instance.Get("MasterButtonPrefab");
-        PopupMasterPanelPrefab = UIManager.Instance.Get("PopupMasterPanelPrefab");
-        PopupMasterQuantityPanelPrefab = UIManager.Instance.Get("PopupMasterQuantityPanelPrefab");
-        PopupMasterButtonPrefab = UIManager.Instance.Get("PopupMasterButtonPrefab");
-        MainMasterPanelPrefab = UIManager.Instance.Get("MainMasterPanelPrefab");
-        MasterItemPrefab = UIManager.Instance.Get("MasterItemPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        MasterPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.MASTER_PANEL_PREFAB);
+        MasterButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.MASTER_BUTTON_PREFAB);
+        PopupMasterPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.POPUP_MASTER_PANEL_PREFAB);
+        PopupMasterQuantityPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.POPUP_MASTER_QUANTITY_PANEL_PREFAB);
+        PopupMasterButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.POPUP_MASTER_BUTTON_PREFAB);
+        MainMasterPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.MAIN_MASTER_PANEL_PREFAB);
+        MasterItemPrefab = UIManager.Instance.Get(AppConstants.Prefab.Master.MASTER_ITEM_PREFAB);
     }
     public async Task CreateMasterOfMagicManagerAsync(IStats stat)
     {

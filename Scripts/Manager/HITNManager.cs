@@ -27,9 +27,9 @@ public class HITNManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        HITNPanelPrefab = UIManager.Instance.Get("HITNPanelPrefab");
-        HITNButtonPrefab = UIManager.Instance.Get("HITNButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        HITNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HITN.HITN_PANEL_PREFAB);
+        HITNButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HITN.HITN_BUTTON_PREFAB);
     }
     public void CreateHITN()
     {

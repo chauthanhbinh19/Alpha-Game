@@ -115,7 +115,7 @@ public class EquipmentManager : MonoBehaviour
     {
         // type = AppConstants.Type.ALL;
         EquipmentMenuPanel = tempEquipmentMenuPanel.gameObject;
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         ItemsPrefab = UIManager.Instance.Get("ItemPrefab");
         MainMenuPanelPrefab = UIManager.Instance.Get("MainMenuPanelPrefab");
         MainMenuShopPanelPrefab = UIManager.Instance.Get("MainMenuShopPanelPrefab");

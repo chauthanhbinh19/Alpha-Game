@@ -49,7 +49,7 @@ public class GalleryManager : MonoBehaviour
     }
     public void Initialize()
     {
-        GalleryButtonPrefab = UIManager.Instance.Get("GalleryButtonPrefab");
+        GalleryButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.GALLERY_BUTTON_PREFAB);
     }
     public void CreateGalleryButton(Transform tempGalleryMenuPanel)
     {
@@ -298,9 +298,9 @@ public class GalleryManager : MonoBehaviour
     public void CreateGallery(Transform tempGalleryMenuPanel)
     {
         GalleryMenuPanel = tempGalleryMenuPanel;
-        DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
+        DictionaryPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.DICTIONARY_PANEL_PREFAB);
         UI_Blue_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Blue_Gradient_Radius_Mat_MaskPercent_70");
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
 
         AssignButtonEvent("Button_1", () => GetType(AppConstants.MainType.CARD_HERO));
         AssignButtonEvent("Button_2", () => GetType(AppConstants.MainType.BOOK));

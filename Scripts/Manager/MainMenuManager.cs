@@ -62,7 +62,7 @@ public class MainMenuManager : MonoBehaviour
         PopupButtonPanelPrefab = UIManager.Instance.Get("PopupButtonPanelPrefab");
         // mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
         DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         PopupMenuPanelPrefab = UIManager.Instance.Get("PopupMenuPanelPrefab");
         ArenaPanelPrefab = UIManager.Instance.Get("ArenaPanelPrefab");
         MasterBoardPanelPrefab = UIManager.Instance.Get("MasterBoardPanelPrefab");

@@ -27,9 +27,9 @@ public class UpgradeManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        UpgradePanelPrefab = UIManager.Instance.Get("UpgradePanelPrefab");
-        UpgradeButtonPrefab = UIManager.Instance.Get("UpgradeButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        UpgradePanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Upgrade.UPGRADE_PANEL_PREFAB);
+        UpgradeButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Upgrade.UPGRADE_BUTTON_PREFAB);
     }
     public void CreateUpgrade(IStats stat)
     {

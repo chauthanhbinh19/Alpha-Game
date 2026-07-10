@@ -31,8 +31,8 @@ public class LoadingManager : MonoBehaviour
     }
     public void Initialize()
     {
-        LoadingPanel = UIManager.Instance.GetTransform("LoadingPanel");
-        LoadingProcessPanelPrefab = UIManager.Instance.Get("LoadingProcessPanelPrefab");
+        LoadingPanel = UIManager.Instance.GetTransform(AppConstants.Transform.LOADING_PANEL);
+        LoadingProcessPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.LOADING_PROCESS_PANEL_PREFAB);
     }
     public void ShowLoading()
     {

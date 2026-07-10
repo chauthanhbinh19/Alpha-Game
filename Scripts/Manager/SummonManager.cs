@@ -55,7 +55,7 @@ public class SummonManager : MonoBehaviour
     {
         // mainMenuCampaignPanel = UIManager.Instance.GetTransform("mainMenuCampaignPanel");
         SummonTabButtonPrefab = UIManager.Instance.Get("SummonTabButtonPrefab");
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         SummonPanelPrefab = UIManager.Instance.Get("SummonPanelPrefab");
         EuroStyleNormalFont = UIManager.Instance.GetTMPFontAsset("EuroStyleNormalFont");
     }

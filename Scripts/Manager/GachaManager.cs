@@ -40,14 +40,14 @@ public class GachaManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainButtonPrefab = UIManager.Instance.Get("MainButtonPrefab");
+        MainButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MAIN_BUTTON_PREFAB);
         GachaPanelPrefab = UIManager.Instance.Get("GachaPanelPrefab");
         GachaButtonPrefab = UIManager.Instance.Get("GachaButtonPrefab");
         // AdvancedButtonPrefab = UIManager.Instance.Get("AdvancedButtonPrefab");
         // AdvancedSubButtonPrefab = UIManager.Instance.Get("AdvancedSubButtonPrefab");
         // PopupMenuPanelPrefab = UIManager.Instance.Get("PopupMenuPanelPrefab");
         // FeatureButtonPrefab = UIManager.Instance.Get("FeatureButtonPrefab");
-        // MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        // MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
     }
     public void CreateGachaButton(Transform tempGachaMenuPanel)
     {
@@ -295,7 +295,7 @@ public class GachaManager : MonoBehaviour
         GachaMenuPanel = tempGachaMenuPanel;
         // DictionaryPanelPrefab = UIManager.Instance.Get("DictionaryPanelPrefab");
         // UI_Blue_Gradient_Radius_Mat_MaskPercent_70 = MaterialManager.Instance.Get("UI_Blue_Gradient_Radius_Mat_MaskPercent_70");
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
 
         AssignButtonEvent("Button_1", () => GetType(AppConstants.MainType.CARD_HERO, AppDisplayConstants.Gacha.CARD_HEROES_GACHA));
         AssignButtonEvent("Button_2", () => GetType(AppConstants.MainType.BOOK, AppDisplayConstants.Gacha.BOOKS_GACHA));

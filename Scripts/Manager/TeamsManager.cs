@@ -89,7 +89,7 @@ public class TeamsManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         CardThirdPrefab = UIManager.Instance.Get("CardThirdPrefab");
         PopupTeamFirstPrefab = UIManager.Instance.Get("PopupTeamFirstPanelPrefab");
         PopupTeamSecondPrefab = UIManager.Instance.Get("PopupTeamSecondPanelPrefab");

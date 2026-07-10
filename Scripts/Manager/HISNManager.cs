@@ -27,9 +27,9 @@ public class HISNManager : MonoBehaviour
     }
     public void Initialize()
     {
-        MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        HISNPanelPrefab = UIManager.Instance.Get("HISNPanelPrefab");
-        HISNButtonPrefab = UIManager.Instance.Get("HISNButtonPrefab");
+        MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
+        HISNPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.HISN.HISN_PANEL_PREFAB);
+        HISNButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.HISN.HISN_BUTTON_PREFAB);
     }
     public void CreateHISN()
     {
