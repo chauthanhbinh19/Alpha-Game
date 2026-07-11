@@ -60,6 +60,7 @@ public class ActionMenuUI : MonoBehaviour
         {
             Destroy(gameObject); // Destroy duplicate instances
         }
+        InitializePhaseIconsFromConstants();
     }
 
     void Start()
@@ -107,6 +108,39 @@ public class ActionMenuUI : MonoBehaviour
 
         if (GamePlayPanelPrefab == null)
             Debug.LogError("[ActionMenuUI Error] Không tìm thấy Prefab 'GamePlayPanelPrefab' từ UIManager! Hãy kiểm tra lại Key trong UIManager.");
+    }
+
+    private void InitializePhaseIconsFromConstants()
+    {
+        // Xóa dữ liệu cũ phòng hờ cấu hình lỗi trong Inspector
+        PhaseIcons.Clear();
+
+        // Nạp từng cặp (Loại Phase - Texture tương ứng từ đường dẫn ImageConstants)
+        AddPhaseIcon(BattlePhaseType.Start, ImageConstants.Phase.START_PHASE_URL);
+        AddPhaseIcon(BattlePhaseType.Preparation, ImageConstants.Phase.PREPARATION_PHASE_URL);
+        AddPhaseIcon(BattlePhaseType.Shopping, ImageConstants.Phase.SHOPPING_PHASE_URL);
+        AddPhaseIcon(BattlePhaseType.Battle, ImageConstants.Phase.BATTLE_PHASE_URL);
+        AddPhaseIcon(BattlePhaseType.Boss, ImageConstants.Phase.BOSS_PHASE_URL);
+        AddPhaseIcon(BattlePhaseType.Reward, ImageConstants.Phase.REWARD_PHASE_URL);
+        AddPhaseIcon(BattlePhaseType.End, ImageConstants.Phase.END_PHASE_URL);
+        AddPhaseIcon(BattlePhaseType.Custom, ImageConstants.Phase.CUSTOM_PHASE_URL);
+    }
+
+    private void AddPhaseIcon(BattlePhaseType type, string resourcePath)
+    {
+        Texture tex = Resources.Load<Texture>(resourcePath);
+        if (tex != null)
+        {
+            PhaseIcons.Add(new BattlePhaseIcon
+            {
+                PhaseType = type,
+                Texture = tex
+            });
+        }
+        else
+        {
+            Debug.LogWarning($"[ActionMenuUI] Không tìm thấy ảnh Phase tại đường dẫn Resources: {resourcePath}");
+        }
     }
     /// <summary>
     /// Hiển thị Menu lựa chọn tại vị trí của Cell vừa click
@@ -664,10 +698,13 @@ public class ActionMenuUI : MonoBehaviour
 
     private void SetupPhaseItemVisual(GameObject item, BattlePhaseDefinition phase)
     {
+        if (item == null || phase == null) return;
+
         RawImage image = item.GetComponent<RawImage>();
         if (image != null)
         {
-            image.texture = GetPhaseTexture(phase);
+            // SỬA LỖI: Truyền phase.PhaseType (Enum) thay vì truyền đối tượng phase
+            image.texture = GetPhaseTexture(phase.PhaseType);
         }
 
         TextMeshProUGUI text = item.GetComponentInChildren<TextMeshProUGUI>(true);
@@ -688,7 +725,8 @@ public class ActionMenuUI : MonoBehaviour
 
         if (CurrentPhaseImage != null)
         {
-            CurrentPhaseImage.texture = GetPhaseTexture(phase);
+            // SỬA LỖI: Truyền phase.PhaseType (Enum) thay vì truyền đối tượng phase
+            CurrentPhaseImage.texture = GetPhaseTexture(phase.PhaseType);
             CurrentPhaseImage.enabled = true;
         }
 
@@ -751,20 +789,46 @@ public class ActionMenuUI : MonoBehaviour
         }
     }
 
-    private Texture GetPhaseTexture(BattlePhaseDefinition phase)
+    // Hàm lấy Texture động từ Resources bằng cách sử dụng các hằng số trong ImageConstants
+    private Texture GetPhaseTexture(BattlePhaseType type)
     {
-        if (phase != null)
+        string resourcePath = string.Empty;
+
+        switch (type)
         {
-            foreach (BattlePhaseIcon icon in PhaseIcons)
-            {
-                if (icon != null && icon.PhaseType == phase.PhaseType && icon.Texture != null)
-                {
-                    return icon.Texture;
-                }
-            }
+            case BattlePhaseType.Start:
+                resourcePath = ImageConstants.Phase.START_PHASE_URL;
+                break;
+            case BattlePhaseType.Preparation:
+                resourcePath = ImageConstants.Phase.PREPARATION_PHASE_URL;
+                break;
+            case BattlePhaseType.Shopping:
+                resourcePath = ImageConstants.Phase.SHOPPING_PHASE_URL;
+                break;
+            case BattlePhaseType.Battle:
+                resourcePath = ImageConstants.Phase.BATTLE_PHASE_URL;
+                break;
+            case BattlePhaseType.Boss:
+                resourcePath = ImageConstants.Phase.BOSS_PHASE_URL;
+                break;
+            case BattlePhaseType.Reward:
+                resourcePath = ImageConstants.Phase.REWARD_PHASE_URL;
+                break;
+            case BattlePhaseType.End:
+                resourcePath = ImageConstants.Phase.END_PHASE_URL;
+                break;
+            case BattlePhaseType.Custom:
+            default:
+                resourcePath = ImageConstants.Phase.CUSTOM_PHASE_URL;
+                break;
         }
 
-        return DefaultPhaseTexture;
+        // Tiến hành Load Texture từ thư mục Resources bằng hàm Helper hoặc Resources.Load trực tiếp
+        // Nếu bạn có class TextureHelper riêng thì xài: TextureHelper.LoadTexture2DCached(resourcePath)
+        Texture loadedTexture = Resources.Load<Texture>(resourcePath);
+
+        // Nếu không tìm thấy ảnh theo đường dẫn hằng số, trả về ảnh mặc định phòng hờ lỗi
+        return loadedTexture != null ? loadedTexture : DefaultPhaseTexture;
     }
 
     private string GetPhaseDisplayText(BattlePhaseDefinition phase)

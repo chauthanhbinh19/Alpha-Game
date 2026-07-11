@@ -149,12 +149,12 @@ public class GridManager : MonoBehaviour
         {
             for (int z = minZ; z < maxZ; z++)
             {
-                GameObject newCellObj = Instantiate(CellPrefab, GridParent);
-                newCellObj.name = $"Cell ({x}, {z})";
-                newCellObj.transform.localPosition = new Vector3(x * CellSize, 0, z * CellSize);
-                newCellObj.transform.localRotation = Quaternion.identity;
+                GameObject newCellObject = Instantiate(CellPrefab, GridParent);
+                newCellObject.name = $"Cell ({x}, {z})";
+                newCellObject.transform.localPosition = new Vector3(x * CellSize, 0, z * CellSize);
+                newCellObject.transform.localRotation = Quaternion.identity;
 
-                GridCell cellScript = newCellObj.GetComponent<GridCell>();
+                GridCell cellScript = newCellObject.GetComponent<GridCell>();
                 Vector2Int gridPosition = new Vector2Int(x, z);
 
                 cellScript.Setup(idCounter, gridPosition); // Giữ nguyên hàm Setup cũ của bạn
@@ -169,7 +169,7 @@ public class GridManager : MonoBehaviour
 
         // Sau khi tạo xong 12x12, tiến hành ghi đè màu cho các ô Spawn
         // SetupSpawnPositions(minX, maxX, minZ, maxZ);
-        SetupRandomDoubleRowSpawnPositions(minX, maxX, minZ, maxZ);
+        SetupCenteredDoubleRowSpawnPositions(minX, maxX, minZ, maxZ);
         FinishGridInitialization();
     }
 
@@ -312,6 +312,94 @@ public class GridManager : MonoBehaviour
         }
     }
 
+    public void SetupCenteredDoubleRowSpawnPositions(int minX, int maxX, int minZ, int maxZ)
+    {
+        PlayerSpawnCells.Clear();
+        EnemySpawnCells.Clear();
+
+        // Với Width = 12, Height = 12: 
+        // minX = -6, maxX = 6 | minZ = -6, maxZ = 6
+        // Vòng lặp chạy từ min cho đến < max (tức là từ -6 đến 5)
+
+        // ------------------------------------------------------------------
+        // BƯỚC 1: XÁC ĐỊNH DÒNG X THEO HỆ TỌA ĐỘ ĐỐI XỨNG (NÉ X = -1 VÀ X = 0)
+        // ------------------------------------------------------------------
+        // Phe Player (Phía trên - vùng chỉ số X dương)
+        int playerRow1X = 2;  // Hàng chứa vị trí 1 -> 5
+        int playerRow2X = 3;  // Hàng chứa vị trí 6 -> 10
+
+        // Phe Enemy (Phía dưới - vùng chỉ số X âm)
+        int enemyRow1X = -3; // Hàng chứa vị trí 1 -> 5
+        int enemyRow2X = -4; // Hàng chứa vị trí 6 -> 10
+
+
+        // ------------------------------------------------------------------
+        // BƯỚC 2: CẤU HÌNH CỘT Z XEN KẼ (CÁCH NHAU 1 Ô NGANG)
+        // Các ô Z: -4, -2, 0, 2, 4 cách nhau đúng 1 ô trống ở giữa và căn giữa sàn (-6 đến 5)
+        // ------------------------------------------------------------------
+        int[] activeZColumns = new int[] { -4, -2, 0, 2, 4 };
+
+
+        // ------------------------------------------------------------------
+        // BƯỚC 3: ĐẶT VỊ TRÍ PHE PLAYER (X DƯƠNG)
+        // ------------------------------------------------------------------
+        // Hàng 1 (Vị trí 1 đến 5)
+        for (int i = 0; i < activeZColumns.Length; i++)
+        {
+            int z = activeZColumns[i];
+            GridCell cell = GetCellAt(playerRow1X, z);
+            if (cell != null)
+            {
+                int playerIndex = i + 1; // 1, 2, 3, 4, 5
+                cell.SetAsSpawnCell(playerIndex, isPlayer: true, PlayerPositionMaterial);
+                PlayerSpawnCells.Add(cell);
+            }
+        }
+
+        // Hàng 2 (Vị trí 6 đến 10)
+        for (int i = 0; i < activeZColumns.Length; i++)
+        {
+            int z = activeZColumns[i];
+            GridCell cell = GetCellAt(playerRow2X, z);
+            if (cell != null)
+            {
+                int playerIndex = i + 6; // 6, 7, 8, 9, 10
+                cell.SetAsSpawnCell(playerIndex, isPlayer: true, PlayerPositionMaterial);
+                PlayerSpawnCells.Add(cell);
+            }
+        }
+
+
+        // ------------------------------------------------------------------
+        // BƯỚC 4: ĐẶT VỊ TRÍ PHE ENEMY (X ÂM)
+        // ------------------------------------------------------------------
+        // Hàng 1 (Vị trí 1 đến 5)
+        for (int i = 0; i < activeZColumns.Length; i++)
+        {
+            int z = activeZColumns[i];
+            GridCell cell = GetCellAt(enemyRow1X, z);
+            if (cell != null)
+            {
+                int enemyIndex = i + 1; // 1, 2, 3, 4, 5
+                cell.SetAsSpawnCell(enemyIndex, isPlayer: false, EnemyPositionMaterial);
+                EnemySpawnCells.Add(cell);
+            }
+        }
+
+        // Hàng 2 (Vị trí 6 đến 10)
+        for (int i = 0; i < activeZColumns.Length; i++)
+        {
+            int z = activeZColumns[i];
+            GridCell cell = GetCellAt(enemyRow2X, z);
+            if (cell != null)
+            {
+                int enemyIndex = i + 6; // 6, 7, 8, 9, 10
+                cell.SetAsSpawnCell(enemyIndex, isPlayer: false, EnemyPositionMaterial);
+                EnemySpawnCells.Add(cell);
+            }
+        }
+    }
+    
     // Hàm phụ trợ dùng để trộn bài / trộn list ngẫu nhiên cực chuẩn
     private void ShuffleList<T>(List<T> list)
     {
@@ -522,6 +610,7 @@ public class GridManager : MonoBehaviour
     {
         return null;
     }
+    
     public GridCell GetCellAt(int x, int z)
     {
         Vector2Int pos = new Vector2Int(x, z);

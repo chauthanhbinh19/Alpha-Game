@@ -93,6 +93,7 @@ public class TurnManager : MonoBehaviour
     {
         Instance = this;
         EnsureDefaultTurnPlans();
+        InitializeDefaultTurns();
     }
 
     private void Start()
@@ -101,6 +102,42 @@ public class TurnManager : MonoBehaviour
         {
             StartBattle();
         }
+    }
+
+    private void InitializeDefaultTurns()
+    {
+        TurnPlans.Clear();
+
+        // --- TURN 1, 2, 3, 4 ---
+        for (int t = 1; t <= 4; t++)
+        {
+            TurnPlans.Add(new BattleTurnDefinition
+            {
+                TurnNumber = t,
+                Phases = new List<BattlePhaseDefinition>
+            {
+                new BattlePhaseDefinition { PhaseType = BattlePhaseType.Start, PhaseName = "Start" },
+                new BattlePhaseDefinition { PhaseType = BattlePhaseType.Preparation, PhaseName = "Preparation" },
+                new BattlePhaseDefinition { PhaseType = BattlePhaseType.Battle, PhaseName = "Battle" },
+                new BattlePhaseDefinition { PhaseType = BattlePhaseType.End, PhaseName = "End" }
+            }
+            });
+        }
+
+        // --- TURN 5 (Có thêm Boss và Reward) ---
+        TurnPlans.Add(new BattleTurnDefinition
+        {
+            TurnNumber = 5,
+            Phases = new List<BattlePhaseDefinition>
+        {
+            new BattlePhaseDefinition { PhaseType = BattlePhaseType.Start, PhaseName = "Start" },
+            new BattlePhaseDefinition { PhaseType = BattlePhaseType.Preparation, PhaseName = "Preparation" },
+            new BattlePhaseDefinition { PhaseType = BattlePhaseType.Battle, PhaseName = "Battle" },
+            new BattlePhaseDefinition { PhaseType = BattlePhaseType.Boss, PhaseName = "Boss" },
+            new BattlePhaseDefinition { PhaseType = BattlePhaseType.End, PhaseName = "End" },
+            new BattlePhaseDefinition { PhaseType = BattlePhaseType.Reward, PhaseName = "Reward" }
+        }
+        });
     }
 
     public void StartBattle()
