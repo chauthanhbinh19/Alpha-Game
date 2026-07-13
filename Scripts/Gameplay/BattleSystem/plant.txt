@@ -59,12 +59,59 @@ ON_ALLY_HEAL: KÍCH HOẠT KHI CÓ ĐỒNG ĐỘI TRONG ĐỘI HÌNH THỰC HI�
 ON_ALLY_DEATH: KÍCH HOẠT KHI CÓ MỘT ĐỒNG ĐỘI TRONG ĐỘI HÌNH BỊ CHẾT.
 
 
-# VI. NHÓM LƯỢT ĐẤU & GIAI ĐOẠN (TURN & PHASE BASED)
-# ------------------------------------------------------------------------------
-# KÍCH HOẠT DỰA TRÊN VÒNG TUẦN HOÀN CỦA TRẬN ĐẤU (BỔ TRỢ CHO TRIGGER_PHASE).
+INSERT INTO `effect_action` (`action_id`, `action_code`, `action_name`, `description`) VALUES
+('EC1', 'INCREASE', 'Increase', 'Tăng giá trị property.'),
+('EC2', 'DECREASE', 'Decrease', 'Giảm giá trị property.'),
+('EC3', 'RESTORE', 'Restore', 'Hồi phục giá trị property.'),
+('EC4', 'LOCK', 'Lock', 'Khóa hoặc vô hiệu hóa property.'),
+('EC5', 'BREAK', 'Break', 'Phá hoặc xóa trạng thái liên quan đến property.'),
+('EC6', 'CONVERT', 'Convert', 'Chuyển đổi sang property khác, đổi ngẫu nhiên sau property khác.'),
+('EC7', 'PREVENT', 'Prevent', 'Ngăn không cho thay đổi property.'),
+('EC8', 'SET', 'Set', 'Đặt property thành giá trị cố định, ví dụ: 0.'),
+('EC9', 'IMMUNITY', 'Immunity', 'Tạo trạng thái miễn nhiễm tác động vào property.'),
+('EC10', 'STEAL', 'Steal', 'Lấy property từ mục tiêu và cộng vào bản thân.'),
+('EC11', 'COPY', 'Copy', 'Sao chép property từ mục tiêu sang bản thân.'),
+('EC12', 'TRANSFER', 'Transfer', 'Chuyển property từ mục tiêu A sang mục tiêu B.'),
+('EC13', 'REVERSE', 'Reverse', 'Đảo ngược trạng thái property.'),
+('EC14', 'REFLECT', 'Reflect', 'Phản lại tác động vào property.'),
+('EC15', 'APPLY', 'Apply', 'Áp dụng trạng thái khống chế hoặc hiệu ứng vào mục tiêu.'),
+('EC16', 'REMOVE', 'Remove', 'Gỡ bỏ trạng thái khống chế hoặc hiệu ứng khỏi mục tiêu.'),
+('EC17', 'EXTEND', 'Extend', 'Kéo dài thời gian trạng thái khống chế hoặc hiệu ứng.'),
+('EC18', 'SHORTEN', 'Shorten', 'Giảm thời gian trạng thái khống chế hoặc hiệu ứng.'),
+('EC19', 'LIMIT_ACTION', 'Limit Action', 'Giới hạn một hoặc nhiều loại hành động của mục tiêu.'),
+('EC20', 'DAMAGE', 'Damage', 'Gây sát thương dựa trên giá trị property hoặc công thức tính.'),
+('EC21', 'HEAL', 'Heal', 'Hồi máu dựa trên giá trị property hoặc công thức tính.');
 
-ON_BATTLE_START: KÍCH HOẠT DUY NHẤT MỘT LẦN KHI TRẬN ĐẤU CHÍNH THỨC BẮT ĐẦU.
-ON_ROUND_START: KÍCH HOẠT KHI BẮT ĐẦU MỘT VÒNG ĐẤU MỚI (ROUND CHỨA NHIỀU LƯỢT CỦA CÁC NHÂN VẬT).
-ON_ROUND_END: KÍCH HOẠT KHI KẾT THÚC MỘT VÒNG ĐẤU.
-ON_TURN_START: KÍCH HOẠT KHI BẮT ĐẦU LƯỢT HÀNH ĐỘNG CỦA CHÍNH NHÂN VẬT ĐÓ.
-ON_TURN_END: KÍCH HOẠT KHI KẾT THÚC LƯỢT HÀNH ĐỘNG CỦA CHÍNH NHÂN VẬT ĐÓ.
+
+INSERT INTO `targets` (`id`, `name`, `description`) 
+VALUES
+('PATTERN_MAIN', 'Ô chính (Main)', 'Chỉ áp dụng lên mục tiêu nằm ở ô chính (Main) của Pattern.'),
+('PATTERN_SPLASH', 'Các ô phụ (Splash)', 'Chỉ áp dụng lên các mục tiêu nằm ở các ô phụ (Splash) của Pattern, không bao gồm ô chính.'),
+('PATTERN_ALL', 'Toàn bộ Pattern', 'Áp dụng lên tất cả mục tiêu trong Pattern, bao gồm cả ô chính (Main) và các ô phụ (Splash).')
+AS new_data 
+ON DUPLICATE KEY UPDATE 
+    `name` = new_data.`name`, 
+    `description` = new_data.`description`,
+    `is_active` = TRUE;
+
+
+CREATE TABLE skill_effect(
+	skill_id VARCHAR(32),
+    effect_id VARCHAR(32),
+	min_value DECIMAL(10,2) DEFAULT 0,  -- giá trị tối thiểu của hiệu ứng
+	max_value DECIMAL(10,2) DEFAULT 0,  -- giá trị tối đa của hiệu ứng
+	trigger_phase VARCHAR(50) NOT NULL,     -- thời điểm kích hoạt hiệu ứng: start, main, end
+	trigger_condition VARCHAR(255) DEFAULT NULL, -- điều kiện đặc biệt (vd: "on_hit", "on_attack", "on_turn_end", "on_turn_start", "on_death", "on_ally_heal", ...)
+    is_stackable BOOLEAN DEFAULT FALSE,
+    is_removable BOOLEAN DEFAULT FALSE,
+    target_id VARCHAR(32) NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    is_active BOOLEAN DEFAULT TRUE,
+    primary key (skill_id, effect_id),
+    FOREIGN KEY (skill_id) REFERENCES skills(id) ON DELETE CASCADE,
+    FOREIGN KEY (effect_id) REFERENCES effects(id) ON DELETE CASCADE,
+    FOREIGN KEY (target_id) REFERENCES targets(id) ON DELETE CASCADE
+);
+

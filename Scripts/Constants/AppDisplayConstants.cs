@@ -720,6 +720,7 @@ public static class AppDisplayConstants
         public const string ARCHIVE_XXXIII = "Archive.ArchiveXXXIII";
         public const string ARCHIVE_XXXIV = "Archive.ArchiveXXXIV";
         public const string ARCHIVE_XXXV = "Archive.ArchiveXXXV";
+        public const string ARCHIVE_XXXVI = "Archive.ArchiveXXXVI";
     }
     public static class Universe
     {

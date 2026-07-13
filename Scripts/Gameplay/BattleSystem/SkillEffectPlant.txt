@@ -1,0 +1,497 @@
+-- ====================================================================
+-- Skill - skill_type = "Active" - skill_sub_type = "DAMAGE" (Bắt buộc theo công thức dưới)
+-- ====================================================================
+
+-- ====================================================================
+-- NHÓM 1
+-- ====================================================================
+
+1. Effect có id EC20EP50 có action_id = EC20 (Damage)
+2. Effect có id EC20EP51 có action_id = EC20 (Damage)
+3. Effect có id EC20EP52 có action_id = EC20 (Damage)
+4. Effect có id EC20EP53 có action_id = EC20 (Damage)
+5. Effect có id EC20EP54 có action_id = EC20 (Damage)
+6. Effect có id EC5EP1 đến EC5EP49 (Random không trùng) có action_id = EC5 (Break)
+7. Effect có id EC5EP1 đến EC5EP49 (Random không trùng) có action_id = EC5 (Break)
+8. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+9. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+10. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+
+-- ====================================================================
+-- NHÓM 2
+-- ====================================================================
+
+1. Effect có id EC20EP50 có action_id = EC20 (Damage)
+2. Effect có id EC20EP51 có action_id = EC20 (Damage)
+3. Effect có id EC20EP52 có action_id = EC20 (Damage)
+4. Effect có id EC20EP53 có action_id = EC20 (Damage)
+5. Effect có id EC20EP54 có action_id = EC20 (Damage)
+6. Effect có id EC10EP1 đến EC10EP49 (Random không trùng) có action_id = EC10 (Steal)
+7. Effect có id EC10EP1 đến EC10EP49 (Random không trùng) có action_id = EC10 (Steal)
+8. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+9. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+10. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+
+-- ====================================================================
+-- NHÓM 3
+-- ====================================================================
+
+1. Effect có id EC20EP50 có action_id = EC20 (Damage)
+2. Effect có id EC20EP51 có action_id = EC20 (Damage)
+3. Effect có id EC20EP52 có action_id = EC20 (Damage)
+4. Effect có id EC20EP53 có action_id = EC20 (Damage)
+5. Effect có id EC20EP54 có action_id = EC20 (Damage)
+6. Effect có id EC11EP1 đến EC11EP49 (Random không trùng) có action_id = EC11 (Copy)
+7. Effect có id EC11EP1 đến EC11EP49 (Random không trùng) có action_id = EC11 (Copy)
+8. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+9. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+10. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+
+-- ====================================================================
+-- Skill - skill_type = "Passive" - skill_sub_type = "DAMAGE" (Bắt buộc theo công thức dưới)
+-- ====================================================================
+
+-- ====================================================================
+-- NHÓM 1
+-- ====================================================================
+
+1. Effect có id EC20EP50 có action_id = EC20 (Damage)
+2. Effect có id EC20EP51 có action_id = EC20 (Damage)
+3. Effect có id EC20EP52 có action_id = EC20 (Damage)
+4. Effect có id EC20EP53 có action_id = EC20 (Damage)
+5. Effect có id EC20EP54 có action_id = EC20 (Damage)
+6. Effect có id EC4EP1 đến EC4EP49 (Random không trùng) có action_id = EC4 (Lock)
+7. Effect có id EC4EP1 đến EC4EP49 (Random không trùng) có action_id = EC4 (Lock)
+8. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+9. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+10. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+
+-- ====================================================================
+-- NHÓM 2
+-- ====================================================================
+
+1. Effect có id EC20EP50 có action_id = EC20 (Damage)
+2. Effect có id EC20EP51 có action_id = EC20 (Damage)
+3. Effect có id EC20EP52 có action_id = EC20 (Damage)
+4. Effect có id EC20EP53 có action_id = EC20 (Damage)
+5. Effect có id EC20EP54 có action_id = EC20 (Damage)
+6. Effect có id EC7EP1 đến EC7EP49 (Random không trùng) có action_id = EC7 (Prevent)
+7. Effect có id EC7EP1 đến EC7EP49 (Random không trùng) có action_id = EC7 (Prevent)
+8. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+9. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+10. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+
+-- ====================================================================
+-- NHÓM 3
+-- ====================================================================
+
+1. Effect có id EC20EP50 có action_id = EC20 (Damage)
+2. Effect có id EC20EP51 có action_id = EC20 (Damage)
+3. Effect có id EC20EP52 có action_id = EC20 (Damage)
+4. Effect có id EC20EP53 có action_id = EC20 (Damage)
+5. Effect có id EC20EP54 có action_id = EC20 (Damage)
+6. Effect có id EC18EP1 đến EC18EP49 (Random không trùng) có action_id = EC18 (Shorten)
+7. Effect có id EC18EP1 đến EC18EP49 (Random không trùng) có action_id = EC18 (Shorten)
+8. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+9. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+10. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+
+
+-- ====================================================================
+-- Skill - skill_type = "Active" - skill_sub_type = "HEAL" (Bắt buộc theo công thức dưới)
+-- ====================================================================
+
+-- ====================================================================
+-- NHÓM 1
+-- ====================================================================
+
+1. Effect có id EC21EP50 có action_id = EC21 (Heal)
+2. Effect có id EC21EP51 có action_id = EC21 (Heal)
+3. Effect có id EC21EP52 có action_id = EC21 (Heal)
+4. Effect có id EC21EP53 có action_id = EC21 (Heal)
+5. Effect có id EC21EP54 có action_id = EC21 (Heal)
+6. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+7. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+8. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+9. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+10. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+
+-- ====================================================================
+-- NHÓM 2
+-- ====================================================================
+
+1. Effect có id EC21EP50 có action_id = EC21 (Heal)
+2. Effect có id EC21EP51 có action_id = EC21 (Heal)
+3. Effect có id EC21EP52 có action_id = EC21 (Heal)
+4. Effect có id EC21EP53 có action_id = EC21 (Heal)
+5. Effect có id EC21EP54 có action_id = EC21 (Heal)
+6. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+7. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+8. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+9. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+10. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+
+-- ====================================================================
+-- NHÓM 3
+-- ====================================================================
+
+1. Effect có id EC21EP50 có action_id = EC21 (Heal)
+2. Effect có id EC21EP51 có action_id = EC21 (Heal)
+3. Effect có id EC21EP52 có action_id = EC21 (Heal)
+4. Effect có id EC21EP53 có action_id = EC21 (Heal)
+5. Effect có id EC21EP54 có action_id = EC21 (Heal)
+6. Effect có id EC12EP1 đến EC12EP49 (Random không trùng) có action_id = EC12 (Transfer)
+7. Effect có id EC12EP1 đến EC12EP49 (Random không trùng) có action_id = EC12 (Transfer)
+8. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+9. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+10. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+
+
+-- ====================================================================
+-- Skill - skill_type = "Passive" - skill_sub_type = "HEAL" (Bắt buộc theo công thức dưới)
+-- ====================================================================
+
+-- ====================================================================
+-- NHÓM 1
+-- ====================================================================
+
+1. Effect có id EC21EP50 có action_id = EC21 (Heal)
+2. Effect có id EC21EP51 có action_id = EC21 (Heal)
+3. Effect có id EC21EP52 có action_id = EC21 (Heal)
+4. Effect có id EC21EP53 có action_id = EC21 (Heal)
+5. Effect có id EC21EP54 có action_id = EC21 (Heal)
+6. Effect có id EC13EP1 đến EC13EP49 (Random không trùng) có action_id = EC13 (Reverse)
+7. Effect có id EC13EP1 đến EC13EP49 (Random không trùng) có action_id = EC13 (Reverse)
+8. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+9. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+10. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+
+-- ====================================================================
+-- NHÓM 2
+-- ====================================================================
+
+1. Effect có id EC21EP50 có action_id = EC21 (Heal)
+2. Effect có id EC21EP51 có action_id = EC21 (Heal)
+3. Effect có id EC21EP52 có action_id = EC21 (Heal)
+4. Effect có id EC21EP53 có action_id = EC21 (Heal)
+5. Effect có id EC21EP54 có action_id = EC21 (Heal)
+6. Effect có id EC14EP1 đến EC14EP49 (Random không trùng) có action_id = EC14 (Reflect)
+7. Effect có id EC14EP1 đến EC14EP49 (Random không trùng) có action_id = EC14 (Reflect)
+8. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+9. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+10. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+
+-- ====================================================================
+-- NHÓM 3
+-- ====================================================================
+
+1. Effect có id EC21EP50 có action_id = EC21 (Heal)
+2. Effect có id EC21EP51 có action_id = EC21 (Heal)
+3. Effect có id EC21EP52 có action_id = EC21 (Heal)
+4. Effect có id EC21EP53 có action_id = EC21 (Heal)
+5. Effect có id EC21EP54 có action_id = EC21 (Heal)
+6. Effect có id EC17EP1 đến EC17EP49 (Random không trùng) có action_id = EC17 (Extend)
+7. Effect có id EC17EP1 đến EC17EP49 (Random không trùng) có action_id = EC17 (Extend)
+8. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+9. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+10. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+
+
+-- ====================================================================
+-- Skill - skill_type = "Active" - skill_sub_type = "BUFF" (Bắt buộc theo công thức dưới)
+-- ====================================================================
+
+-- ====================================================================
+-- NHÓM 1
+-- ====================================================================
+
+1. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+2. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+3. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+4. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+5. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+6. Effect có id EC17EP1 đến EC17EP49 (Random không trùng) có action_id = EC17 (Extend)
+7. Effect có id EC17EP1 đến EC17EP49 (Random không trùng) có action_id = EC17 (Extend)
+8. Effect có id EC13EP1 đến EC13EP49 (Random không trùng) có action_id = EC13 (Reverse)
+9. Effect có id EC13EP1 đến EC13EP49 (Random không trùng) có action_id = EC13 (Reverse)
+10. Effect có id EC9EP1 đến EC9EP49 (Random không trùng) có action_id = EC9 (Immunity)
+
+-- ====================================================================
+-- NHÓM 2
+-- ====================================================================
+
+1. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+2. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+3. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+4. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+5. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+6. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+7. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+8. Effect có id EC14EP1 đến EC14EP49 (Random không trùng) có action_id = EC14 (Reflect)
+9. Effect có id EC14EP1 đến EC14EP49 (Random không trùng) có action_id = EC14 (Reflect)
+10. Effect có id EC9EP1 đến EC9EP49 (Random không trùng) có action_id = EC9 (Immunity)
+
+-- ====================================================================
+-- NHÓM 3
+-- ====================================================================
+
+1. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+2. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+3. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+4. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+5. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+6. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+7. Effect có id EC7EP1 đến EC7EP49 (Random không trùng) có action_id = EC7 (Prevent)
+8. Effect có id EC18EP1 đến EC18EP49 (Random không trùng) có action_id = EC18 (Shorten)
+9. Effect có id EC4EP1 đến EC4EP49 (Random không trùng) có action_id = EC4 (Lock)
+10. Effect có id EC8EP1 đến EC8EP49 (Random không trùng) có action_id = EC8 (Set)
+
+
+-- ====================================================================
+-- Skill - skill_type = "Passive" - skill_sub_type = "BUFF" (Bắt buộc theo công thức dưới)
+-- ====================================================================
+
+-- ====================================================================
+-- NHÓM 1
+-- ====================================================================
+
+1. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+2. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+3. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+4. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+5. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+6. Effect có id EC17EP1 đến EC17EP49 (Random không trùng) có action_id = EC17 (Extend)
+7. Effect có id EC17EP1 đến EC17EP49 (Random không trùng) có action_id = EC17 (Extend)
+8. Effect có id EC13EP1 đến EC13EP49 (Random không trùng) có action_id = EC13 (Reverse)
+9. Effect có id EC13EP1 đến EC13EP49 (Random không trùng) có action_id = EC13 (Reverse)
+10. Effect có id EC9EP1 đến EC9EP49 (Random không trùng) có action_id = EC9 (Immunity)
+
+-- ====================================================================
+-- NHÓM 2
+-- ====================================================================
+
+1. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+2. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+3. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+4. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+5. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+6. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+7. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+8. Effect có id EC14EP1 đến EC14EP49 (Random không trùng) có action_id = EC14 (Reflect)
+9. Effect có id EC14EP1 đến EC14EP49 (Random không trùng) có action_id = EC14 (Reflect)
+10. Effect có id EC9EP1 đến EC9EP49 (Random không trùng) có action_id = EC9 (Immunity)
+
+-- ====================================================================
+-- NHÓM 3
+-- ====================================================================
+
+1. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+2. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+3. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+4. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+5. Effect có id EC1EP1 đến EC1EP49 (Random không trùng) có action_id = EC1 (Increase)
+6. Effect có id EC7EP1 đến EC7EP49 (Random không trùng) có action_id = EC7 (Prevent)
+7. Effect có id EC7EP1 đến EC7EP49 (Random không trùng) có action_id = EC7 (Prevent)
+8. Effect có id EC13EP1 đến EC13EP49 (Random không trùng) có action_id = EC13 (Reverse)
+9. Effect có id EC17EP1 đến EC17EP49 (Random không trùng) có action_id = EC17 (Extend)
+10. Effect có id EC8EP1 đến EC8EP49 (Random không trùng) có action_id = EC8 (Set)
+
+
+-- ====================================================================
+-- Skill - skill_type = "Active" - skill_sub_type = "DEBUFF" (Bắt buộc theo công thức dưới)
+-- ====================================================================
+
+-- ====================================================================
+-- NHÓM 1
+-- ====================================================================
+
+1. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+2. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+3. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+4. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+5. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+6. Effect có id EC4EP1 đến EC4EP49 (Random không trùng) có action_id = EC4 (Lock)
+7. Effect có id EC7EP1 đến EC7EP49 (Random không trùng) có action_id = EC7 (Prevent)
+8. Effect có id EC13EP1 đến EC13EP49 (Random không trùng) có action_id = EC13 (Reverse)
+9. Effect có id EC18EP1 đến EC18EP49 (Random không trùng) có action_id = EC18 (Shorten)
+10. Effect có id EC8EP1 đến EC8EP49 (Random không trùng) có action_id = EC8 (Set)
+
+-- ====================================================================
+-- NHÓM 2
+-- ====================================================================
+
+1. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+2. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+3. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+4. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+5. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+6. Effect có id EC5EP1 đến EC5EP49 (Random không trùng) có action_id = EC5 (Break)
+7. Effect có id EC4EP1 đến EC4EP49 (Random không trùng) có action_id = EC4 (Lock)
+8. Effect có id EC7EP1 đến EC7EP49 (Random không trùng) có action_id = EC7 (Prevent)
+9. Effect có id EC10EP1 đến EC10EP49 (Random không trùng) có action_id = EC10 (Steal)
+10. Effect có id EC8EP1 đến EC8EP49 (Random không trùng) có action_id = EC8 (Set)
+
+-- ====================================================================
+-- NHÓM 3
+-- ====================================================================
+
+1. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+2. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+3. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+4. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+5. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+6. Effect có id EC15EP1 đến EC15EP49 (Random không trùng) có action_id = EC15 (Apply)
+7. Effect có id EC17EP1 đến EC17EP49 (Random không trùng) có action_id = EC17 (Extend)
+8. Effect có id EC4EP1 đến EC4EP49 (Random không trùng) có action_id = EC4 (Lock)
+9. Effect có id EC12EP1 đến EC12EP49 (Random không trùng) có action_id = EC12 (Transfer)
+10. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+
+
+-- ====================================================================
+-- Skill - skill_type = "Passive" - skill_sub_type = "DEBUFF" (Bắt buộc theo công thức dưới)
+-- ====================================================================
+
+-- ====================================================================
+-- NHÓM 1
+-- ====================================================================
+
+1. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+2. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+3. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+4. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+5. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+6. Effect có id EC4EP1 đến EC4EP49 (Random không trùng) có action_id = EC4 (Lock)
+7. Effect có id EC7EP1 đến EC7EP49 (Random không trùng) có action_id = EC7 (Prevent)
+8. Effect có id EC13EP1 đến EC13EP49 (Random không trùng) có action_id = EC13 (Reverse)
+9. Effect có id EC18EP1 đến EC18EP49 (Random không trùng) có action_id = EC18 (Shorten)
+10. Effect có id EC8EP1 đến EC8EP49 (Random không trùng) có action_id = EC8 (Set)
+
+-- ====================================================================
+-- NHÓM 2
+-- ====================================================================
+
+1. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+2. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+3. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+4. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+5. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+6. Effect có id EC5EP1 đến EC5EP49 (Random không trùng) có action_id = EC5 (Break)
+7. Effect có id EC4EP1 đến EC4EP49 (Random không trùng) có action_id = EC4 (Lock)
+8. Effect có id EC7EP1 đến EC7EP49 (Random không trùng) có action_id = EC7 (Prevent)
+9. Effect có id EC10EP1 đến EC10EP49 (Random không trùng) có action_id = EC10 (Steal)
+10. Effect có id EC8EP1 đến EC8EP49 (Random không trùng) có action_id = EC8 (Set)
+
+-- ====================================================================
+-- NHÓM 3
+-- ====================================================================
+
+1. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+2. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+3. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+4. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+5. Effect có id EC2EP1 đến EC2EP49 (Random không trùng) có action_id = EC2 (Decrease)
+6. Effect có id EC15EP1 đến EC15EP49 (Random không trùng) có action_id = EC15 (Apply)
+7. Effect có id EC17EP1 đến EC17EP49 (Random không trùng) có action_id = EC17 (Extend)
+8. Effect có id EC4EP1 đến EC4EP49 (Random không trùng) có action_id = EC4 (Lock)
+9. Effect có id EC12EP1 đến EC12EP49 (Random không trùng) có action_id = EC12 (Transfer)
+10. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+
+
+-- ====================================================================
+-- Skill - skill_type = "Active" - skill_sub_type = "CLEANSE" (Bắt buộc theo công thức dưới)
+-- ====================================================================
+
+-- ====================================================================
+-- NHÓM 1
+-- ====================================================================
+
+1. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+2. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+3. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+4. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+5. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+6. Effect có id EC16EP1 đến EC16EP49 (Random không trùng) có action_id = EC16 (Remove)
+7. Effect có id EC16EP1 đến EC16EP49 (Random không trùng) có action_id = EC16 (Remove)
+8. Effect có id EC9EP1 đến EC9EP49 (Random không trùng) có action_id = EC9 (Immunity)
+9. Effect có id EC13EP1 đến EC13EP49 (Random không trùng) có action_id = EC13 (Reverse)
+10. Effect có id EC18EP1 đến EC18EP49 (Random không trùng) có action_id = EC18 (Shorten)
+
+-- ====================================================================
+-- NHÓM 2
+-- ====================================================================
+
+1. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+2. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+3. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+4. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+5. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+6. Effect có id EC16EP1 đến EC16EP49 (Random không trùng) có action_id = EC16 (Remove)
+7. Effect có id EC16EP1 đến EC16EP49 (Random không trùng) có action_id = EC16 (Remove)
+8. Effect có id EC7EP1 đến EC7EP49 (Random không trùng) có action_id = EC7 (Prevent)
+9. Effect có id EC8EP1 đến EC8EP49 (Random không trùng) có action_id = EC8 (Set)
+10. Effect có id EC17EP1 đến EC17EP49 (Random không trùng) có action_id = EC17 (Extend)
+
+-- ====================================================================
+-- NHÓM 3
+-- ====================================================================
+
+1. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+2. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+3. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+4. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+5. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+6. Effect có id EC16EP1 đến EC16EP49 (Random không trùng) có action_id = EC16 (Remove)
+7. Effect có id EC16EP1 đến EC16EP49 (Random không trùng) có action_id = EC16 (Remove)
+8. Effect có id EC4EP1 đến EC4EP49 (Random không trùng) có action_id = EC4 (Lock)
+9. Effect có id EC7EP1 đến EC7EP49 (Random không trùng) có action_id = EC7 (Prevent)
+10. Effect có id EC18EP1 đến EC18EP49 (Random không trùng) có action_id = EC18 (Shorten)
+
+
+-- ====================================================================
+-- Skill - skill_type = "Passive" - skill_sub_type = "CLEANSE" (Bắt buộc theo công thức dưới)
+-- ====================================================================
+
+-- ====================================================================
+-- NHÓM 1
+-- ====================================================================
+
+1. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+2. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+3. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+4. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+5. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+6. Effect có id EC16EP1 đến EC16EP49 (Random không trùng) có action_id = EC16 (Remove)
+7. Effect có id EC16EP1 đến EC16EP49 (Random không trùng) có action_id = EC16 (Remove)
+8. Effect có id EC9EP1 đến EC9EP49 (Random không trùng) có action_id = EC9 (Immunity)
+9. Effect có id EC13EP1 đến EC13EP49 (Random không trùng) có action_id = EC13 (Reverse)
+10. Effect có id EC18EP1 đến EC18EP49 (Random không trùng) có action_id = EC18 (Shorten)
+
+-- ====================================================================
+-- NHÓM 2
+-- ====================================================================
+
+1. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+2. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+3. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+4. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+5. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+6. Effect có id EC16EP1 đến EC16EP49 (Random không trùng) có action_id = EC16 (Remove)
+7. Effect có id EC16EP1 đến EC16EP49 (Random không trùng) có action_id = EC16 (Remove)
+8. Effect có id EC7EP1 đến EC7EP49 (Random không trùng) có action_id = EC7 (Prevent)
+9. Effect có id EC8EP1 đến EC8EP49 (Random không trùng) có action_id = EC8 (Set)
+10. Effect có id EC17EP1 đến EC17EP49 (Random không trùng) có action_id = EC17 (Extend)
+
+-- ====================================================================
+-- NHÓM 3
+-- ====================================================================
+
+1. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+2. Effect có id EC3EP1 đến EC3EP49 (Random không trùng) có action_id = EC3 (Restore)
+3. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+4. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+5. Effect có id EC6EP1 đến EC6EP49 (Random không trùng) có action_id = EC6 (Convert)
+6. Effect có id EC16EP1 đến EC16EP49 (Random không trùng) có action_id = EC16 (Remove)
+7. Effect có id EC16EP1 đến EC16EP49 (Random không trùng) có action_id = EC16 (Remove)
+8. Effect có id EC4EP1 đến EC4EP49 (Random không trùng) có action_id = EC4 (Lock)
+9. Effect có id EC7EP1 đến EC7EP49 (Random không trùng) có action_id = EC7 (Prevent)
+10. Effect có id EC18EP1 đến EC18EP49 (Random không trùng) có action_id = EC18 (Shorten)

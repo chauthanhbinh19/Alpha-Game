@@ -12,6 +12,8 @@ public class Effects
     public double MaxValue { get; set; }
     public string TriggerPhase { get; set; }
     public string TriggerCondition { get; set; }
+    public bool IsStackable { get; set; }
+    public bool IsRemovable { get; set; }
     public EffectProperty EffectProperty { get; set; } = new EffectProperty();
     public EffectAction EffectAction{ get; set; } = new EffectAction();
     public Targets Target { get; set; } = new Targets();

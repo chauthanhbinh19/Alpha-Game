@@ -86,11 +86,9 @@ public static class AppConstants
         public const string ENEMY = "ENEMY";
         public const string ALLY = "ALLY";
         public const string CASTER = "CASTER";
-        public const string CAST_TARGET = "CAST_TARGET";
+        public const string PATTERN_MAIN = "PATTERN_MAIN";
         public const string PATTERN_ALL = "PATTERN_ALL";
         public const string PATTERN_SPLASH = "PATTERN_SPLASH";
-        public const string ALL_ENEMIES = "ALL_ENEMIES";
-        public const string ALL_ALLIES = "ALL_ALLIES";
     }
     public static class SkillType
     {
@@ -228,11 +226,6 @@ public static class AppConstants
         public const string ON_ALLY_BE_HIT = "ON_ALLY_BE_HIT";
         public const string ON_ALLY_HEAL = "ON_ALLY_HEAL";
         public const string ON_ALLY_DEATH = "ON_ALLY_DEATH";
-        public const string ON_BATTLE_START = "ON_BATTLE_START";
-        public const string ON_ROUND_START = "ON_ROUND_START";
-        public const string ON_ROUND_END = "ON_ROUND_END";
-        public const string ON_TURN_START = "ON_TURN_START";
-        public const string ON_TURN_END = "ON_TURN_END";
     }
     public static class Rare
     {
@@ -2022,6 +2015,7 @@ public static class AppConstants
         public const string ARCHIVE_XXXIII = "Archive XXXIII";
         public const string ARCHIVE_XXXIV = "Archive XXXIV";
         public const string ARCHIVE_XXXV = "Archive XXXV";
+        public const string ARCHIVE_XXXVI = "Archive XXXVI";
     }
     public static class Universe
     {

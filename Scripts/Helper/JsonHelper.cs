@@ -339,6 +339,12 @@ public static class JsonHelper
                         case "trigger_condition":
                             effect.TriggerCondition = value;
                             break;
+                        case "is_stackable":
+                            if (bool.TryParse(value, out bool isStackableValue)) effect.IsStackable = isStackableValue;
+                            break;
+                        case "is_removable":
+                            if (bool.TryParse(value, out bool isRemovableValue)) effect.IsRemovable = isRemovableValue;
+                            break;
                         case "target_id":
                             effect.Target.Id = value;
                             break;
@@ -418,6 +424,8 @@ public static class JsonHelper
             jsonBuilder.Append($"\"max_value\":{effect.MaxValue},");
             jsonBuilder.Append($"\"trigger_phase\":{effect.TriggerPhase},");
             jsonBuilder.Append($"\"trigger_condition\":{effect.TriggerCondition},");
+            jsonBuilder.Append($"\"is_stackable\":{effect.IsStackable},");
+            jsonBuilder.Append($"\"is_removable\":{effect.IsRemovable},");
 
             // Nhúng Property lồng vào bên trong
             if (effect.EffectProperty != null)

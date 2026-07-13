@@ -150,7 +150,7 @@ public class TurnManager : MonoBehaviour
         CurrentTurnNumber = Mathf.Max(1, CurrentTurnNumber);
         CurrentPhase = null;
         CurrentBattleState = BattleState.GameStart;
-        TriggerPassiveEffects("START", AppConstants.TriggerCondition.ON_BATTLE_START);
+        // TriggerPassiveEffects("START", AppConstants.TriggerCondition.ON_BATTLE_START);
         battleLoopCoroutine = StartCoroutine(BattleLoop());
     }
 
@@ -231,7 +231,7 @@ public class TurnManager : MonoBehaviour
             }
 
             Debug.Log($"<color=yellow>=== TURN {CurrentTurnNumber} END ===</color>");
-            TriggerPassiveEffects("END", AppConstants.TriggerCondition.ON_TURN_END);
+            // TriggerPassiveEffects("END", AppConstants.TriggerCondition.ON_TURN_END);
             CurrentTurnNumber++;
         }
     }
