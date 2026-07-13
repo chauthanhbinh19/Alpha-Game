@@ -87,6 +87,7 @@ public class ArchiveManager : MonoBehaviour
         CreateArchiveButtonUI(32, AppDisplayConstants.Archive.ARCHIVE_XXXII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXII_URL), contentPanel);
         CreateArchiveButtonUI(33, AppDisplayConstants.Archive.ARCHIVE_XXXIII, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXIII_URL), contentPanel);
         CreateArchiveButtonUI(34, AppDisplayConstants.Archive.ARCHIVE_XXXIV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXIV_URL), contentPanel);
+        CreateArchiveButtonUI(35, AppDisplayConstants.Archive.ARCHIVE_XXXV, TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_XXXV_URL), contentPanel);
 
         CreateArchiveButtonEvent(contentPanel);
     }
@@ -156,5 +157,6 @@ public class ArchiveManager : MonoBehaviour
         ButtonEvent.Instance.AssignButtonEvent("Button_32", panel, async () => await ArchiveXXXIIManager.Instance.CreateArchiveXXXIIManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_33", panel, async () => await ArchiveXXXIIIManager.Instance.CreateArchiveXXXIIIManagerAsync());
         ButtonEvent.Instance.AssignButtonEvent("Button_34", panel, async () => await ArchiveXXXIVManager.Instance.CreateArchiveXXXIVManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_35", panel, async () => await ArchiveXXXVManager.Instance.CreateArchiveXXXVManagerAsync());
     }
 }

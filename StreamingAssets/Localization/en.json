@@ -593,6 +593,7 @@
   { "key": "Archive.ArchiveXXXII", "value": "Archive XXXII" },
   { "key": "Archive.ArchiveXXXIII", "value": "Archive XXXIII" },
   { "key": "Archive.ArchiveXXXIV", "value": "Archive XXXIV" },
+  { "key": "Archive.ArchiveXXXV", "value": "Archive XXXV" },
 
   { "key": "Universe.UniverseI", "value": "Universe I" },
   { "key": "Universe.UniverseII", "value": "Universe II" },

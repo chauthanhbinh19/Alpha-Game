@@ -732,6 +732,7 @@ public static class ImageConstants
         public const string ARCHIVE_XXXII_URL = "UI/Rank_Research/Archive XXXII";
         public const string ARCHIVE_XXXIII_URL = "UI/Rank_Research/Archive XXXIII";
         public const string ARCHIVE_XXXIV_URL = "UI/Rank_Research/Archive XXXIV";
+        public const string ARCHIVE_XXXV_URL = "UI/Rank_Research/Archive XXXV";
 
         public const string ARCHIVE_I_BACKGROUND_URL = "UI/Background1/Background_V1_283";
         public const string ARCHIVE_II_BACKGROUND_URL = "UI/Background1/Background_V1_284";
@@ -767,6 +768,7 @@ public static class ImageConstants
         public const string ARCHIVE_XXXII_BACKGROUND_URL = "UI/Background1/Background_V1_314";
         public const string ARCHIVE_XXXIII_BACKGROUND_URL = "UI/Background1/Background_V1_315";
         public const string ARCHIVE_XXXIV_BACKGROUND_URL = "UI/Background1/Background_V1_316";
+        public const string ARCHIVE_XXXV_BACKGROUND_URL = "UI/Background1/Background_V1_317";
     }
     public static class Universe
     {
