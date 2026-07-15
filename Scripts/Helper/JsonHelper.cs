@@ -4,6 +4,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 
 public class FlatEffectArrayWrapper
@@ -18,67 +19,47 @@ public static class JsonHelper
     /// </summary>
     public static List<Emblems> DeserializeEmblems(string json)
     {
-        List<Emblems> emblems = new List<Emblems>();
+        List<Emblems> emblemsList = new List<Emblems>();
 
-        // Kiểm tra các trường hợp chuỗi rỗng hoặc rỗng theo kiểu JSON của MySQL
-        if (string.IsNullOrEmpty(json) || json == "[]" || json == "[null]")
+        // 1. Kiểm tra nhanh chuỗi rỗng từ MySQL
+        if (string.IsNullOrEmpty(json)) return emblemsList;
+
+        json = json.Trim();
+        if (json == "[]" || json == "[null]" || json == "")
         {
-            return emblems;
+            return emblemsList;
         }
 
         try
         {
-            // Loại bỏ dấu ngoặc vuông ở 2 đầu chuỗi
-            string cleanJson = json.Trim('[', ']');
+            // 2. Sử dụng Newtonsoft để parse thẳng mảng JSON thành List DTO
+            // Tự động bỏ qua lỗi null thừa từ JSON_ARRAYAGG
+            List<FlatEmblemDTO> dtoList = JsonConvert.DeserializeObject<List<FlatEmblemDTO>>(json);
 
-            // Tách chuỗi thành từng object emblem riêng biệt bằng cụm "}, {"
-            string[] objectStrings = cleanJson.Split(new string[] { "}, {" }, StringSplitOptions.RemoveEmptyEntries);
+            if (dtoList == null) return emblemsList;
 
-            foreach (string objStr in objectStrings)
+            foreach (var dto in dtoList)
             {
-                string cleanObj = objStr.Trim('{', '}');
-                Emblems e = new Emblems();
+                if (dto == null) continue;
 
-                // Tách từng cặp key-value bằng dấu phẩy
-                string[] pairs = cleanObj.Split(new string[] { "\", \"" }, StringSplitOptions.RemoveEmptyEntries);
-
-                foreach (string pair in pairs)
+                // 3. Ánh xạ trực tiếp sang đối tượng Emblems thực tế của game
+                Emblems e = new Emblems
                 {
-                    string cleanPair = pair.Replace("\"", ""); // Bỏ hết dấu ngoặc kép
-                    string[] kv = cleanPair.Split(new char[] { ':' }, 2); // Tách key và value
+                    Id = dto.id,
+                    Name = dto.name,
+                    Image = dto.image,
+                    Type = dto.type
+                };
 
-                    if (kv.Length == 2)
-                    {
-                        string key = kv[0].Trim();
-                        string value = kv[1].Trim();
-
-                        switch (key)
-                        {
-                            case "id":
-                                e.Id = value;
-                                break;
-                            case "name":
-                                e.Name = value;
-                                break;
-                            case "image":
-                                e.Image = value;
-                                break;
-                            case "type":
-                                e.Type = value;
-                                break;
-                        }
-                    }
-                }
-
-                emblems.Add(e);
+                emblemsList.Add(e);
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"[JsonHelper Error]: {ex.Message}");
+            Debug.LogError($"[Deserialize Emblems Error]: {ex.Message}\n{ex.StackTrace}");
         }
 
-        return emblems;
+        return emblemsList;
     }
 
     /// <summary>
@@ -91,30 +72,35 @@ public static class JsonHelper
             return "[]";
         }
 
-        StringBuilder jsonBuilder = new StringBuilder();
-        jsonBuilder.Append("[");
-
-        for (int i = 0; i < emblems.Count; i++)
+        try
         {
-            Emblems e = emblems[i];
+            // 1. Ánh xạ danh sách Emblems thực tế sang danh sách FlatEmblemDTO trung gian
+            List<FlatEmblemDTO> dtoList = new List<FlatEmblemDTO>();
 
-            // Xây dựng chuỗi JSON thô: {"id":"1","name":"Hero A","image":"img.png","type":"Type A"}
-            jsonBuilder.Append("{");
-            jsonBuilder.Append($"\"id\":\"{EscapeString(e.Id)}\",");
-            jsonBuilder.Append($"\"name\":\"{EscapeString(e.Name)}\",");
-            jsonBuilder.Append($"\"image\":\"{EscapeString(e.Image)}\",");
-            jsonBuilder.Append($"\"type\":\"{EscapeString(e.Type)}\"");
-            jsonBuilder.Append("}");
-
-            // Nếu không phải phần tử cuối cùng thì thêm dấu phẩy
-            if (i < emblems.Count - 1)
+            foreach (var e in emblems)
             {
-                jsonBuilder.Append(",");
-            }
-        }
+                if (e == null) continue;
 
-        jsonBuilder.Append("]");
-        return jsonBuilder.ToString();
+                FlatEmblemDTO dto = new FlatEmblemDTO
+                {
+                    id = e.Id,
+                    name = e.Name,
+                    image = e.Image,
+                    type = e.Type
+                };
+
+                dtoList.Add(dto);
+            }
+
+            // 2. Chuyển đổi List DTO thành chuỗi JSON chuẩn chỉ trong một nốt nhạc
+            // Sử dụng Formatting.None để chuỗi JSON nhẹ nhất, tối ưu khi lưu xuống Database MySQL
+            return JsonConvert.SerializeObject(dtoList, Formatting.None);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[Serialize Emblems Error]: {ex.Message}\n{ex.StackTrace}");
+            return "[]";
+        }
     }
 
     /// <summary>
@@ -123,117 +109,57 @@ public static class JsonHelper
     public static Classes DeserializeClasses(string json)
     {
         // Trả về object rỗng nếu chuỗi null hoặc không có dữ liệu
-        if (string.IsNullOrEmpty(json) || json == "[]" || json == "[null]")
+        if (string.IsNullOrEmpty(json)) return new Classes();
+
+        string cleanJson = json.Trim();
+        if (cleanJson == "[]" || cleanJson == "[null]" || cleanJson == "")
         {
             return new Classes();
         }
 
         try
         {
-            string cleanJson = json.Trim();
+            FlatClassDTO dto = null;
 
-            // 1. Nếu MySQL trả về dạng mảng [ { ... } ] thông qua JSON_ARRAYAGG
-            // Tiến hành bóc lấy phần tử đầu tiên nằm trong cặp ngoặc nhọn { ... } đầu tiên
-            if (cleanJson.StartsWith("["))
+            // 1. Phân tích cú pháp JSON bằng JToken để tự động xử lý cả dạng mảng lẫn object lẻ
+            JToken token = JToken.Parse(cleanJson);
+
+            if (token is JArray array)
             {
-                int firstOpen = cleanJson.IndexOf('{');
-                int firstClose = cleanJson.IndexOf('}');
-
-                if (firstOpen != -1 && firstClose != -1 && firstClose > firstOpen)
+                // Nếu MySQL trả về dạng mảng, bóc lấy phần tử đầu tiên hợp lệ
+                if (array.Count > 0 && array[0].Type != JTokenType.Null)
                 {
-                    cleanJson = cleanJson.Substring(firstOpen + 1, firstClose - firstOpen - 1);
-                }
-                else
-                {
-                    cleanJson = cleanJson.Trim('[', ']', '{', '}');
+                    dto = array[0].ToObject<FlatClassDTO>();
                 }
             }
-            else
+            else if (token is JObject obj)
             {
-                cleanJson = cleanJson.Trim('{', '}');
+                // Nếu là đối tượng lẻ, parse trực tiếp luôn
+                dto = obj.ToObject<FlatClassDTO>();
             }
 
-            Classes c = new Classes();
+            if (dto == null) return new Classes();
 
-            // 2. Tách các thuộc tính bằng dấu phẩy ',' để không bao giờ bị sót/sai dữ liệu dạng Số (Int)
-            string[] pairs = cleanJson.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (string pair in pairs)
+            // 2. Ánh xạ dữ liệu từ DTO sang class Classes thực tế của game
+            Classes c = new Classes
             {
-                // Cắt đôi ở dấu hai chấm ĐẦU TIÊN để tách biệt rõ ràng giữa Key và Value
-                // Tham số số '2' giúp bảo vệ các chuỗi chứa link ảnh (như http://...) không bị cắt nát
-                string[] kv = pair.Split(new char[] { ':' }, 2);
+                Id = dto.id,
+                SubType = dto.sub_type,
+                SubImage = dto.sub_image,
+                MainType = dto.main_type,
+                MainImage = dto.main_image,
 
-                if (kv.Length == 2)
-                {
-                    // Làm sạch: Xóa hết dấu nháy kép thừa và khoảng trắng xung quanh của riêng Key và Value
-                    string key = kv[0].Replace("\"", "").Trim();
-                    string value = kv[1].Replace("\"", "").Trim();
-
-                    switch (key)
-                    {
-                        case "id":
-                            c.Id = value;
-                            break;
-
-                        case "sub_type":
-                            c.SubType = value;
-                            break;
-
-                        case "sub_image":
-                            c.SubImage = value;
-                            break;
-
-                        case "main_type":
-                            c.MainType = value;
-                            break;
-
-                        case "main_image":
-                            c.MainImage = value;
-                            break;
-
-                        case "movement_range":
-                            // Giờ value đã là một chuỗi số thuần túy (ví dụ: "2"), Parse chắc chắn thành công
-                            if (int.TryParse(value, out int movementRange))
-                            {
-                                c.MovementRange = movementRange;
-                            }
-                            else
-                            {
-                                c.MovementRange = 2; // Giá trị mặc định nếu xảy ra lỗi
-                            }
-                            break;
-
-                        case "movement_point":
-                            if (int.TryParse(value, out int movementPoint))
-                            {
-                                c.MovementPoint = movementPoint;
-                            }
-                            else
-                            {
-                                c.MovementPoint = 4; // Giá trị mặc định nếu xảy ra lỗi
-                            }
-                            break;
-
-                        case "attack_range":
-                            if (int.TryParse(value, out int attackRange))
-                            {
-                                c.AttackRange = attackRange;
-                            }
-                            else
-                            {
-                                c.AttackRange = 4; // Giá trị mặc định nếu xảy ra lỗi
-                            }
-                            break;
-                    }
-                }
-            }
+                // Sử dụng toán tử ?? để gán giá trị mặc định nếu trường đó bị null hoặc không tồn tại
+                MovementRange = dto.movement_range ?? 2,
+                MovementPoint = dto.movement_point ?? 4,
+                AttackRange = dto.attack_range ?? 4
+            };
 
             return c;
         }
         catch (Exception ex)
         {
-            Debug.LogError($"[JsonHelper Manual Error]: {ex.Message}");
+            Debug.LogError($"[Deserialize Classes Error]: {ex.Message}\n{ex.StackTrace}");
             return new Classes();
         }
     }
@@ -248,20 +174,30 @@ public static class JsonHelper
             return "{}";
         }
 
-        StringBuilder jsonBuilder = new StringBuilder();
+        try
+        {
+            // 1. Ánh xạ từ đối tượng Classes của game sang FlatClassDTO trung gian
+            FlatClassDTO dto = new FlatClassDTO
+            {
+                id = c.Id,
+                sub_type = c.SubType,
+                sub_image = c.SubImage,
+                main_type = c.MainType,
+                main_image = c.MainImage,
+                movement_range = c.MovementRange,
+                movement_point = c.MovementPoint,
+                attack_range = c.AttackRange
+            };
 
-        jsonBuilder.Append("{");
-        jsonBuilder.Append($"\"id\":\"{EscapeString(c.Id)}\",");
-        jsonBuilder.Append($"\"sub_type\":\"{EscapeString(c.SubType)}\",");
-        jsonBuilder.Append($"\"sub_image\":\"{EscapeString(c.SubImage)}\",");
-        jsonBuilder.Append($"\"main_type\":\"{EscapeString(c.MainType)}\",");
-        jsonBuilder.Append($"\"main_image\":\"{EscapeString(c.MainImage)}\",");
-        jsonBuilder.Append($"\"movement_range\":\"{c.MovementRange}\",");
-        jsonBuilder.Append($"\"movement_point\":\"{c.MovementPoint}\",");
-        jsonBuilder.Append($"\"attack_range\":\"{c.AttackRange}\"");
-        jsonBuilder.Append("}");
-
-        return jsonBuilder.ToString();
+            // 2. Serialize DTO thành chuỗi JSON chuẩn chỉ trong 1 dòng
+            // Sử dụng Formatting.None để chuỗi JSON gọn nhất khi lưu vào Database
+            return JsonConvert.SerializeObject(dto, Formatting.None);
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[Serialize Classes Error]: {ex.Message}\n{ex.StackTrace}");
+            return "{}";
+        }
     }
 
     /// <summary>
@@ -491,69 +427,61 @@ public static class JsonHelper
             return "[]";
         }
 
-        StringBuilder jsonBuilder = new StringBuilder();
-        jsonBuilder.Append("[");
-
-        for (int i = 0; i < effectsList.Count; i++)
+        try
         {
-            Effects effect = effectsList[i];
+            // 1. Ánh xạ ngược danh sách Effects thành danh sách Flat (giống cấu trúc MySQL nhận vào)
+            List<FlatEffectDTO> dtoList = new List<FlatEffectDTO>();
 
-            jsonBuilder.Append("{");
-            jsonBuilder.Append($"\"effect_id\":{effect.Id},");
-            jsonBuilder.Append($"\"effect_name\":\"{EscapeString(effect.Name)}\",");
-            jsonBuilder.Append($"\"effect_type\":\"{EscapeString(effect.EffectType)}\",");
-            jsonBuilder.Append($"\"effect_description\":\"{EscapeString(effect.Description)}\",");
-            jsonBuilder.Append($"\"duration\":{effect.Duration},");
-            jsonBuilder.Append($"\"value_type\":\"{EscapeString(effect.ValueType)}\",");
-            jsonBuilder.Append($"\"value\":{effect.Value},");
-            jsonBuilder.Append($"\"scaling_factor\":{effect.ScalingFactor.ToString(System.Globalization.CultureInfo.InvariantCulture)},");
-            jsonBuilder.Append($"\"min_value\":{effect.MinValue},");
-            jsonBuilder.Append($"\"max_value\":{effect.MaxValue},");
-            jsonBuilder.Append($"\"trigger_phase\":{effect.TriggerPhase},");
-            jsonBuilder.Append($"\"trigger_condition\":{effect.TriggerCondition},");
-            jsonBuilder.Append($"\"is_stackable\":{effect.IsStackable},");
-            jsonBuilder.Append($"\"is_removable\":{effect.IsRemovable},");
-
-            // Nhúng Property lồng vào bên trong
-            if (effect.EffectProperty != null)
+            foreach (var effect in effectsList)
             {
-                jsonBuilder.Append($"\"property_id\":{effect.EffectProperty.PropertyId},");
-                jsonBuilder.Append($"\"property_code\":\"{EscapeString(effect.EffectProperty.PropertyCode)}\",");
-                jsonBuilder.Append($"\"property_name\":\"{EscapeString(effect.EffectProperty.PropertyName)}\",");
-                jsonBuilder.Append($"\"property_description\":\"{EscapeString(effect.EffectProperty.Description)}\",");
+                if (effect == null) continue;
+
+                FlatEffectDTO dto = new FlatEffectDTO
+                {
+                    effect_id = effect.Id,
+                    effect_name = effect.Name,
+                    effect_type = effect.EffectType,
+                    effect_description = effect.Description,
+                    duration = effect.Duration,
+                    value_type = effect.ValueType,
+                    value = effect.Value,
+                    scaling_factor = effect.ScalingFactor,
+                    min_value = effect.MinValue,
+                    max_value = effect.MaxValue,
+                    trigger_phase = effect.TriggerPhase,
+                    trigger_condition = effect.TriggerCondition,
+
+                    // Nếu FlatEffectDTO khai báo là int thì ép (effect.IsStackable ? 1 : 0), 
+                    // còn nếu đã đổi sang bool thì chỉ cần gán thẳng!
+                    is_stackable = effect.IsStackable ? 1 : 0,
+                    is_removable = effect.IsRemovable ? 1 : 0,
+
+                    // Lấy thông tin từ các nested object nếu có
+                    target_id = effect.Target?.Id,
+
+                    property_id = effect.EffectProperty != null ? effect.EffectProperty.PropertyId : "",
+                    property_code = effect.EffectProperty?.PropertyCode,
+                    property_name = effect.EffectProperty?.PropertyName,
+                    property_description = effect.EffectProperty?.Description,
+
+                    action_id = effect.EffectAction != null ? effect.EffectAction.ActionId : "",
+                    action_code = effect.EffectAction?.ActionCode,
+                    action_name = effect.EffectAction?.ActionName,
+                    action_description = effect.EffectAction?.Description
+                };
+
+                dtoList.Add(dto);
             }
 
-            // Nhúng Action lồng vào bên trong
-            if (effect.EffectAction != null)
-            {
-                jsonBuilder.Append($"\"action_id\":{effect.EffectAction.ActionId},");
-                jsonBuilder.Append($"\"action_code\":\"{EscapeString(effect.EffectAction.ActionCode)}\",");
-                jsonBuilder.Append($"\"action_name\":\"{EscapeString(effect.EffectAction.ActionName)}\",");
-                jsonBuilder.Append($"\"action_description\":\"{EscapeString(effect.EffectAction.Description)}\",");
-            }
-
-            // Nhúng Target lồng vào bên trong
-            if (effect.Target != null)
-            {
-                jsonBuilder.Append($"\"target_id\":\"{EscapeString(effect.Target.Id)}\"");
-            }
-
-            // Xóa dấu phẩy thừa nếu có phát sinh ở cuối
-            if (jsonBuilder[jsonBuilder.Length - 1] == ',')
-            {
-                jsonBuilder.Length--;
-            }
-
-            jsonBuilder.Append("}");
-
-            if (i < effectsList.Count - 1)
-            {
-                jsonBuilder.Append(",");
-            }
+            // 2. Chuyển list DTO thành chuỗi JSON cực nhanh với Newtonsoft
+            // Bạn có thể bỏ qua Formatting.None nếu muốn nén JSON gọn nhất để gửi lên DB/Server.
+            return JsonConvert.SerializeObject(dtoList, Formatting.None);
         }
-
-        jsonBuilder.Append("]");
-        return jsonBuilder.ToString();
+        catch (Exception ex)
+        {
+            Debug.LogError($"[Serialize Error]: {ex.Message}");
+            return "[]";
+        }
     }
 
     /// <summary>
