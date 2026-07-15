@@ -42,7 +42,7 @@ public class CombatEngagementEngine : MonoBehaviour
 
         // Người tấn công kích hoạt ON_ATTACK khi bắt đầu hành động tấn công
         TriggerPassiveEffects(attacker, target, phase, AppConstants.TriggerCondition.ON_ATTACK);
-        TriggerAllyEvent(attacker, phase, AppConstants.TriggerCondition.ON_ALLY_ATTACK);
+        // TriggerAllyEvent(attacker, phase, AppConstants.TriggerCondition.ON_ALLY_ATTACK);
 
         // Mục tiêu bị nhắm đến luôn kích hoạt ON_BE_ATTACKED
         TriggerPassiveEffects(target, attacker, phase, AppConstants.TriggerCondition.ON_BE_ATTACKED);
@@ -57,7 +57,7 @@ public class CombatEngagementEngine : MonoBehaviour
         {
             TriggerPassiveEffects(attacker, target, phase, AppConstants.TriggerCondition.ON_HIT);
             TriggerPassiveEffects(target, attacker, phase, AppConstants.TriggerCondition.ON_BE_HIT);
-            TriggerAllyEvent(target, phase, AppConstants.TriggerCondition.ON_ALLY_BE_HIT);
+            // TriggerAllyEvent(target, phase, AppConstants.TriggerCondition.ON_ALLY_BE_HIT);
 
             if (attackOutcome.IsCrit)
             {
@@ -70,7 +70,7 @@ public class CombatEngagementEngine : MonoBehaviour
         {
             TriggerPassiveEffects(attacker, target, phase, AppConstants.TriggerCondition.ON_KILL);
             TriggerPassiveEffects(target, attacker, phase, AppConstants.TriggerCondition.ON_DEATH);
-            TriggerAllyEvent(target, phase, AppConstants.TriggerCondition.ON_ALLY_DEATH);
+            // TriggerAllyEvent(target, phase, AppConstants.TriggerCondition.ON_ALLY_DEATH);
         }
     }
 
@@ -80,11 +80,11 @@ public class CombatEngagementEngine : MonoBehaviour
 
         TriggerPassiveEffects(caster, target, phase, AppConstants.TriggerCondition.ON_HEAL);
         TriggerPassiveEffects(target, caster, phase, AppConstants.TriggerCondition.ON_BE_HEALED);
-        TriggerPassiveEffects(caster, target, phase, AppConstants.TriggerCondition.ON_ALLY);
+        // TriggerPassiveEffects(caster, target, phase, AppConstants.TriggerCondition.ON_ALLY);
 
         if (!string.IsNullOrWhiteSpace(caster.TeamId) && caster.TeamId == target.TeamId && caster.Id != target.Id)
         {
-            TriggerPassiveEffects(caster, target, phase, AppConstants.TriggerCondition.ON_ALLY_HEAL);
+            // TriggerPassiveEffects(caster, target, phase, AppConstants.TriggerCondition.ON_ALLY_HEAL);
         }
     }
 

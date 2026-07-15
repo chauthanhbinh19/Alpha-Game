@@ -9,19 +9,17 @@ public static class MySqlDataReaderExtensions
     {
         try
         {
-            if (reader.IsDBNull(column)) return 0d;
+            // 1. Tìm vị trí index của cột từ tên chuỗi (Chỉ tìm 1 lần)
+            int ordinal = reader.GetOrdinal(column); 
 
-            object value = reader[column];
-            return Convert.ToDouble(value);
+            if (reader.IsDBNull(ordinal)) return 0d;
+
+            // 2. Đọc trực tiếp double từ RAM mà KHÔNG BỊ BOXING (không tạo rác object)
+            return reader.GetDouble(ordinal); 
         }
         catch (Exception ex)
         {
-            Debug.LogError(
-                $"GetDoubleSafe FAILED | Column: {column} | " +
-                $"Value: {reader[column]} | " +
-                $"RuntimeType: {reader[column]?.GetType()} | " +
-                $"Message: {ex.Message}"
-            );
+            UnityEngine.Debug.LogError($"GetDoubleSafe FAILED | Column: {column} | Message: {ex.Message}");
             throw;
         }
     }
@@ -30,19 +28,15 @@ public static class MySqlDataReaderExtensions
     {
         try
         {
-            if (reader.IsDBNull(column)) return 0;
+            int ordinal = reader.GetOrdinal(column);
+            if (reader.IsDBNull(ordinal)) return 0;
 
-            object value = reader[column];
-            return Convert.ToInt32(value);
+            // Đọc trực tiếp kiểu int32, cực kỳ nhanh
+            return reader.GetInt32(ordinal);
         }
         catch (Exception ex)
         {
-            Debug.LogError(
-                $"GetIntSafe FAILED | Column: {column} | " +
-                $"Value: {reader[column]} | " +
-                $"RuntimeType: {reader[column]?.GetType()} | " +
-                $"Message: {ex.Message}"
-            );
+            UnityEngine.Debug.LogError($"GetIntSafe FAILED | Column: {column} | Message: {ex.Message}");
             throw;
         }
     }
@@ -51,19 +45,14 @@ public static class MySqlDataReaderExtensions
     {
         try
         {
-            if (reader.IsDBNull(column)) return 0L;
+            int ordinal = reader.GetOrdinal(column);
+            if (reader.IsDBNull(ordinal)) return 0L;
 
-            object value = reader[column];
-            return Convert.ToInt64(value);
+            return reader.GetInt64(ordinal);
         }
         catch (Exception ex)
         {
-            Debug.LogError(
-                $"GetLongSafe FAILED | Column: {column} | " +
-                $"Value: {reader[column]} | " +
-                $"RuntimeType: {reader[column]?.GetType()} | " +
-                $"Message: {ex.Message}"
-            );
+            UnityEngine.Debug.LogError($"GetLongSafe FAILED | Column: {column} | Message: {ex.Message}");
             throw;
         }
     }
@@ -72,19 +61,14 @@ public static class MySqlDataReaderExtensions
     {
         try
         {
-            if (reader.IsDBNull(column)) return false;
+            int ordinal = reader.GetOrdinal(column);
+            if (reader.IsDBNull(ordinal)) return false;
 
-            object value = reader[column];
-            return Convert.ToBoolean(value);
+            return reader.GetBoolean(ordinal);
         }
         catch (Exception ex)
         {
-            Debug.LogError(
-                $"GetBoolSafe FAILED | Column: {column} | " +
-                $"Value: {reader[column]} | " +
-                $"RuntimeType: {reader[column]?.GetType()} | " +
-                $"Message: {ex.Message}"
-            );
+            UnityEngine.Debug.LogError($"GetBoolSafe FAILED | Column: {column} | Message: {ex.Message}");
             throw;
         }
     }
@@ -93,16 +77,14 @@ public static class MySqlDataReaderExtensions
     {
         try
         {
-            if (reader.IsDBNull(column)) return null;
+            int ordinal = reader.GetOrdinal(column);
+            if (reader.IsDBNull(ordinal)) return null;
 
-            return reader[column].ToString();
+            return reader.GetString(ordinal);
         }
         catch (Exception ex)
         {
-            Debug.LogError(
-                $"GetStringSafe FAILED | Column: {column} | " +
-                $"Message: {ex.Message}"
-            );
+            UnityEngine.Debug.LogError($"GetStringSafe FAILED | Column: {column} | Message: {ex.Message}");
             throw;
         }
     }

@@ -13,7 +13,7 @@ public class Skills : BaseEntity, IPowerSortable, IStats
     public int TempStar { get; set; }
     public int Position { get; set; }
     public string SkillType { get; set; }
-    public double Quantity { get; set; }
+    public int Quantity { get; set; }
     public string Description { get; set; }
     public string Status { get; set; }
     public string TargetType { get; set; }

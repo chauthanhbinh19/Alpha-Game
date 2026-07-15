@@ -397,7 +397,7 @@ public class ActionMenuUI : MonoBehaviour
                                 currentRealCell.GridPosition,
                                 AttackRange,
                                 skill.SkillSubType.SubTypeCode,
-                                currentRealCell.IsPlayerSpawnCell
+                                CardData
                             );
                         }
                     }

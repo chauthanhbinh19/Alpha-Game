@@ -77,7 +77,7 @@ public class UserRelicsRepository : IUserRelicsRepository
                                 Star = reader.GetIntSafe("star"),
                                 Level = reader.GetIntSafe("level"),
                                 Experience = reader.GetDoubleSafe("experience"),
-                                Quantity = reader.GetDoubleSafe("quantity"),
+                                Quantity = reader.GetIntSafe("quantity"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),

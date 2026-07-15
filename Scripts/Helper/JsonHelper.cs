@@ -3,6 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using Newtonsoft.Json;
+
+
+public class FlatEffectArrayWrapper
+{
+    public List<FlatEffectDTO> items;
+}
 
 public static class JsonHelper
 {
@@ -73,7 +80,7 @@ public static class JsonHelper
 
         return emblems;
     }
-   
+
     /// <summary>
     /// Chuyển đổi danh sách Emblem thành chuỗi JSON chuẩn (Không dùng thư viện)
     /// </summary>
@@ -260,140 +267,220 @@ public static class JsonHelper
     /// <summary>
     /// Chuyển đổi chuỗi JSON phẳng từ MySQL thành List<Effects> (gồm đầy đủ Object con)
     /// </summary>
+    // public static List<Effects> DeserializeEffects(string json)
+    // {
+    //     List<Effects> effectsList = new List<Effects>();
+
+    //     // Kiểm tra điều kiện chuỗi rỗng của MySQL JSON
+    //     if (string.IsNullOrEmpty(json) || json == "[]" || json == "[null]")
+    //     {
+    //         return effectsList;
+    //     }
+
+    //     try
+    //     {
+    //         // Bước 1: Trích xuất các cụm dữ liệu nằm trong cặp dấu ngoặc nhọn { ... }
+    //         // Sử dụng Regex để bắt chính xác các Object JSON không bị lẫn dấu phẩy bên ngoài
+    //         MatchCollection matches = Regex.Matches(json, @"\{([^}]+)\}");
+
+    //         foreach (Match match in matches)
+    //         {
+    //             string cleanObj = match.Groups[1].Value;
+
+    //             Effects effect = new Effects();
+    //             EffectProperty effectProperty = new EffectProperty();
+    //             EffectAction effectAction = new EffectAction();
+
+    //             // Bước 2: Tách các cặp Key-Value qua Regex để xử lý an toàn thay vì dùng Split mặc định
+    //             // Biểu thức này bắt cặp dạng "key":value hoặc "key":"value"
+    //             MatchCollection kvPairs = Regex.Matches(cleanObj, @"\""([^\""]+)\""\s*:\s*([^,]+)");
+
+    //             foreach (Match kv in kvPairs)
+    //             {
+    //                 string key = kv.Groups[1].Value.Trim();
+    //                 // Loại bỏ các ký tự bọc ngoặc kép của phần Value nếu có
+    //                 string value = kv.Groups[2].Value.Trim().Trim('"');
+
+    //                 if (value == "null") continue;
+
+    //                 switch (key)
+    //                 {
+    //                     // --- Thuộc tính của Effects ---
+    //                     case "effect_id":
+    //                         // Nếu ID trong DB là chuỗi (ví dụ 'EC20EP50'), hãy đổi kiểu dữ liệu Id trong Class sang string. 
+    //                         // Nếu ID là int, sử dụng int.TryParse.
+    //                         if (int.TryParse(value, out int id)) effect.Id = id;
+    //                         break;
+    //                     case "effect_name":
+    //                         effect.Name = value;
+    //                         break;
+    //                     case "effect_type":
+    //                         effect.EffectType = value;
+    //                         break;
+    //                     case "effect_description":
+    //                         effect.Description = value;
+    //                         break;
+    //                     case "duration":
+    //                         if (int.TryParse(value, out int dur)) effect.Duration = dur;
+    //                         break;
+    //                     case "value_type":
+    //                         effect.ValueType = value;
+    //                         break;
+    //                     case "value":
+    //                         if (int.TryParse(value, out int val)) effect.Value = val;
+    //                         break;
+    //                     case "scaling_factor":
+    //                         if (float.TryParse(value, out float scale)) effect.ScalingFactor = scale;
+    //                         break;
+
+    //                     // --- Thuộc tính của SkillEffect ---
+    //                     case "min_value":
+    //                         if (int.TryParse(value, out int minValue)) effect.MinValue = minValue;
+    //                         break;
+    //                     case "max_value":
+    //                         if (int.TryParse(value, out int maxValue)) effect.MaxValue = maxValue;
+    //                         break;
+    //                     case "trigger_phase":
+    //                         effect.TriggerPhase = value;
+    //                         break;
+    //                     case "trigger_condition":
+    //                         effect.TriggerCondition = value;
+    //                         break;
+    //                     case "is_stackable":
+    //                         if (bool.TryParse(value, out bool isStackableValue)) effect.IsStackable = isStackableValue;
+    //                         break;
+    //                     case "is_removable":
+    //                         if (bool.TryParse(value, out bool isRemovableValue)) effect.IsRemovable = isRemovableValue;
+    //                         break;
+    //                     case "target_id":
+    //                         effect.Target.Id = value;
+    //                         break;
+
+    //                     // --- Thuộc tính của EffectProperty ---
+    //                     case "property_id":
+    //                         if (int.TryParse(value, out int pId)) effectProperty.PropertyId = pId;
+    //                         break;
+    //                     case "property_code":
+    //                         effectProperty.PropertyCode = value;
+    //                         break;
+    //                     case "property_name":
+    //                         effectProperty.PropertyName = value;
+    //                         break;
+    //                     case "property_description":
+    //                         effectProperty.Description = value;
+    //                         break;
+
+    //                     // --- Thuộc tính của EffectAction ---
+    //                     case "action_id":
+    //                         if (int.TryParse(value, out int aId)) effectAction.ActionId = aId;
+    //                         break;
+    //                     case "action_code":
+    //                         effectAction.ActionCode = value;
+    //                         break;
+    //                     case "action_name":
+    //                         effectAction.ActionName = value;
+    //                         break;
+    //                     case "action_description":
+    //                         effectAction.Description = value;
+    //                         break;
+    //                 }
+    //             }
+
+    //             // Gán các Object con vào Object Effects chính sau khi lọc xong dữ liệu của bản ghi đó
+    //             effect.EffectProperty = effectProperty;
+    //             effect.EffectAction = effectAction;
+
+    //             effectsList.Add(effect);
+    //         }
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Console.WriteLine($"[JsonHelper Error]: {ex.Message}");
+    //     }
+
+    //     return effectsList;
+    // }
+
     public static List<Effects> DeserializeEffects(string json)
     {
         List<Effects> effectsList = new List<Effects>();
 
-        // Kiểm tra điều kiện chuỗi rỗng của MySQL JSON
-        if (string.IsNullOrEmpty(json) || json == "[]" || json == "[null]")
+        // 1. Kiểm tra nhanh chuỗi rỗng từ MySQL
+        if (string.IsNullOrEmpty(json)) return effectsList;
+
+        json = json.Trim();
+        if (json == "[]" || json == "[null]" || json == "")
         {
             return effectsList;
         }
 
         try
         {
-            // Bước 1: Trích xuất các cụm dữ liệu nằm trong cặp dấu ngoặc nhọn { ... }
-            // Sử dụng Regex để bắt chính xác các Object JSON không bị lẫn dấu phẩy bên ngoài
-            MatchCollection matches = Regex.Matches(json, @"\{([^}]+)\}");
+            // 2. Sử dụng Newtonsoft.Json để parse thẳng mảng JSON sang List<FlatEffectDTO>
+            // Không cần bọc chuỗi "items", không cần class Wrapper trung gian nữa!
+            List<FlatEffectDTO> dtoList = JsonConvert.DeserializeObject<List<FlatEffectDTO>>(json);
 
-            foreach (Match match in matches)
+            if (dtoList == null) return effectsList;
+
+            foreach (var dto in dtoList)
             {
-                string cleanObj = match.Groups[1].Value;
-                
-                Effects effect = new Effects();
-                EffectProperty effectProperty = new EffectProperty();
-                EffectAction effectAction = new EffectAction();
+                if (dto == null) continue;
 
-                // Bước 2: Tách các cặp Key-Value qua Regex để xử lý an toàn thay vì dùng Split mặc định
-                // Biểu thức này bắt cặp dạng "key":value hoặc "key":"value"
-                MatchCollection kvPairs = Regex.Matches(cleanObj, @"\""([^\""]+)\""\s*:\s*([^,]+)");
-
-                foreach (Match kv in kvPairs)
+                // 3. Khởi tạo và ánh xạ trực tiếp sang đối tượng Effects
+                Effects effect = new Effects
                 {
-                    string key = kv.Groups[1].Value.Trim();
-                    // Loại bỏ các ký tự bọc ngoặc kép của phần Value nếu có
-                    string value = kv.Groups[2].Value.Trim().Trim('"');
+                    // Newtonsoft tự động xử lý ép kiểu int -> string hoặc int -> int mượt mà
+                    Id = dto.effect_id,
+                    Name = dto.effect_name,
+                    EffectType = dto.effect_type,
+                    Description = dto.effect_description,
+                    Duration = dto.duration,
+                    ValueType = dto.value_type,
+                    Value = dto.value,
+                    ScalingFactor = dto.scaling_factor,
+                    MinValue = dto.min_value,
+                    MaxValue = dto.max_value,
+                    TriggerPhase = dto.trigger_phase,
+                    TriggerCondition = dto.trigger_condition,
 
-                    if (value == "null") continue;
+                    // Newtonsoft tự chuyển đổi số 1/0 từ MySQL sang true/false nếu FlatEffectDTO của bạn khai báo là bool!
+                    IsStackable = dto.is_stackable == 1,
+                    IsRemovable = dto.is_removable == 1
+                };
 
-                    switch (key)
-                    {
-                        // --- Thuộc tính của Effects ---
-                        case "effect_id":
-                            // Nếu ID trong DB là chuỗi (ví dụ 'EC20EP50'), hãy đổi kiểu dữ liệu Id trong Class sang string. 
-                            // Nếu ID là int, sử dụng int.TryParse.
-                            if (int.TryParse(value, out int id)) effect.Id = id;
-                            break;
-                        case "effect_name":
-                            effect.Name = value;
-                            break;
-                        case "effect_type":
-                            effect.EffectType = value;
-                            break;
-                        case "effect_description":
-                            effect.Description = value;
-                            break;
-                        case "duration":
-                            if (int.TryParse(value, out int dur)) effect.Duration = dur;
-                            break;
-                        case "value_type":
-                            effect.ValueType = value;
-                            break;
-                        case "value":
-                            if (int.TryParse(value, out int val)) effect.Value = val;
-                            break;
-                        case "scaling_factor":
-                            if (float.TryParse(value, out float scale)) effect.ScalingFactor = scale;
-                            break;
+                // 4. Khởi tạo an toàn các nested class (đối tượng con lồng nhau)
+                effect.Target = new Targets()
+                {
+                    Id = dto.target_id
+                };
 
-                        // --- Thuộc tính của SkillEffect ---
-                        case "min_value":
-                            if (int.TryParse(value, out int minValue)) effect.MinValue = minValue;
-                            break;
-                        case "max_value":
-                            if (int.TryParse(value, out int maxValue)) effect.MaxValue = maxValue;
-                            break;
-                        case "trigger_phase":
-                            effect.TriggerPhase = value;
-                            break;
-                        case "trigger_condition":
-                            effect.TriggerCondition = value;
-                            break;
-                        case "is_stackable":
-                            if (bool.TryParse(value, out bool isStackableValue)) effect.IsStackable = isStackableValue;
-                            break;
-                        case "is_removable":
-                            if (bool.TryParse(value, out bool isRemovableValue)) effect.IsRemovable = isRemovableValue;
-                            break;
-                        case "target_id":
-                            effect.Target.Id = value;
-                            break;
+                effect.EffectProperty = new EffectProperty
+                {
+                    PropertyId = dto.property_id,
+                    PropertyCode = dto.property_code,
+                    PropertyName = dto.property_name,
+                    Description = dto.property_description
+                };
 
-                        // --- Thuộc tính của EffectProperty ---
-                        case "property_id":
-                            if (int.TryParse(value, out int pId)) effectProperty.PropertyId = pId;
-                            break;
-                        case "property_code":
-                            effectProperty.PropertyCode = value;
-                            break;
-                        case "property_name":
-                            effectProperty.PropertyName = value;
-                            break;
-                        case "property_description":
-                            effectProperty.Description = value;
-                            break;
-
-                        // --- Thuộc tính của EffectAction ---
-                        case "action_id":
-                            if (int.TryParse(value, out int aId)) effectAction.ActionId = aId;
-                            break;
-                        case "action_code":
-                            effectAction.ActionCode = value;
-                            break;
-                        case "action_name":
-                            effectAction.ActionName = value;
-                            break;
-                        case "action_description":
-                            effectAction.Description = value;
-                            break;
-                    }
-                }
-
-                // Gán các Object con vào Object Effects chính sau khi lọc xong dữ liệu của bản ghi đó
-                effect.EffectProperty = effectProperty;
-                effect.EffectAction = effectAction;
+                effect.EffectAction = new EffectAction
+                {
+                    ActionId = dto.action_id,
+                    ActionCode = dto.action_code,
+                    ActionName = dto.action_name,
+                    Description = dto.action_description
+                };
 
                 effectsList.Add(effect);
             }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"[JsonHelper Error]: {ex.Message}");
+            // Newtonsoft cung cấp StackTrace rất rõ ràng khi parse lỗi (ví dụ lỗi sai định dạng ở dòng nào, cột nào)
+            Debug.LogError($"[Newtonsoft.Json Error]: {ex.Message}\n{ex.StackTrace}");
         }
 
         return effectsList;
     }
-
     /// <summary>
     /// Chuyển đổi List<Effects> ngược lại thành chuỗi JSON chuẩn (Không dùng thư viện)
     /// </summary>
@@ -454,7 +541,7 @@ public static class JsonHelper
             // Xóa dấu phẩy thừa nếu có phát sinh ở cuối
             if (jsonBuilder[jsonBuilder.Length - 1] == ',')
             {
-                jsonBuilder.Length--; 
+                jsonBuilder.Length--;
             }
 
             jsonBuilder.Append("}");

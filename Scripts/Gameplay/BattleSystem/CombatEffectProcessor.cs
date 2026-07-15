@@ -3619,27 +3619,59 @@ public static class CombatEffectProcessor
 
         if (caster.isSkillAttack)
         {
-            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CausePhysicalSkillAttack(caster, target));
-            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMagicalSkillAttack(caster, target));
-            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseChemicalSkillAttack(caster, target));
-            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseAtomicSkillAttack(caster, target));
-            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMentalSkillAttack(caster, target));
+            switch (effect.EffectProperty.PropertyCode)
+            {
+                case AppConstants.EffectProperty.PHYSICAL:
+                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CausePhysicalSkillAttack(caster, target));
+                    break;
+                case AppConstants.EffectProperty.MAGICAL:
+                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMagicalSkillAttack(caster, target));
+                    break;
+                case AppConstants.EffectProperty.CHEMICAL:
+                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseChemicalSkillAttack(caster, target));
+                    break;
+                case AppConstants.EffectProperty.ATOMIC:
+                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseAtomicSkillAttack(caster, target));
+                    break;
+                case AppConstants.EffectProperty.MENTAL:
+                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMentalSkillAttack(caster, target));
+                    break;
+                default:
+                    break;
+            }
         }
         else
         {
-            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CausePhysicalNormalAttack(caster, target));
-            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMagicalNormalAttack(caster, target));
-            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseChemicalNormalAttack(caster, target));
-            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseAtomicNormalAttack(caster, target));
-            CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMentalNormalAttack(caster, target));
+            switch (effect.EffectProperty.PropertyCode)
+            {
+                case AppConstants.EffectProperty.PHYSICAL:
+                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CausePhysicalNormalAttack(caster, target));
+                    break;
+                case AppConstants.EffectProperty.MAGICAL:
+                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMagicalNormalAttack(caster, target));
+                    break;
+                case AppConstants.EffectProperty.CHEMICAL:
+                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseChemicalNormalAttack(caster, target));
+                    break;
+                case AppConstants.EffectProperty.ATOMIC:
+                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseAtomicNormalAttack(caster, target));
+                    break;
+                case AppConstants.EffectProperty.MENTAL:
+                    CombineAttackOutcomes(ref totalOutcome, DamageCalculator.CauseMentalNormalAttack(caster, target));
+                    break;
+                default:
+                    break;
+            }
         }
 
         if (totalOutcome.Damage > 0)
         {
+            float value = UnityEngine.Random.Range((float)effect.MinValue, (float)effect.MaxValue + 1);
+            totalOutcome.Damage = totalOutcome.Damage * value / 100;
             GridManager.Instance?.SpawnDamagePopup(target, totalOutcome.Damage, DamageTextType.Default, false, 1f);
         }
 
-        CombatEngagementEngine.Instance?.HandleAttackOutcome(caster, target, totalOutcome, string.IsNullOrWhiteSpace(effect.TriggerPhase) ? "MAIN" : effect.TriggerPhase.ToUpper());
+        // CombatEngagementEngine.Instance?.HandleAttackOutcome(caster, target, totalOutcome, string.IsNullOrWhiteSpace(effect.TriggerPhase) ? "MAIN" : effect.TriggerPhase.ToUpper());
     }
 
     private static void CombineAttackOutcomes(ref DamageCalculator.AttackOutcome aggregate, DamageCalculator.AttackOutcome next)
@@ -3653,30 +3685,44 @@ public static class CombatEffectProcessor
     private static void ExecuteHeal(Effects effect, CardBase caster, CardBase target)
     {
         if (effect == null || target == null || caster == null) return;
-        double totalDamage = caster.CurrentPhysicalAttack
-                           + caster.CurrentMagicalAttack
-                           + caster.CurrentChemicalAttack
-                           + caster.CurrentAtomicAttack
-                           + caster.CurrentMentalAttack;
-        totalDamage = totalDamage / 5;
 
-        System.Random rand = new System.Random();
-        double randomValue = rand.Next((int)effect.MinValue, (int)effect.MaxValue + 1);
-        double healAmount = randomValue * (totalDamage / 100.0);
-        target.CurrentHealth = target.CurrentHealth + healAmount;
+        double healAmount = 0;
+
+        switch (effect.EffectProperty.PropertyCode)
+        {
+            case AppConstants.EffectProperty.PHYSICAL:
+                healAmount = HealCalculator.CausePhysicalSkillAttack(caster, target);
+                break;
+            case AppConstants.EffectProperty.MAGICAL:
+                healAmount = HealCalculator.CauseMagicalSkillAttack(caster, target);
+                break;
+            case AppConstants.EffectProperty.CHEMICAL:
+                healAmount = HealCalculator.CauseChemicalSkillAttack(caster, target);
+                break;
+            case AppConstants.EffectProperty.ATOMIC:
+                healAmount = HealCalculator.CauseAtomicSkillAttack(caster, target);
+                break;
+            case AppConstants.EffectProperty.MENTAL:
+                healAmount = HealCalculator.CauseMentalSkillAttack(caster, target);
+                break;
+            default:
+                break;
+        }
 
         if (healAmount > 0)
         {
+            float value = UnityEngine.Random.Range((float)effect.MinValue, (float)effect.MaxValue + 1);
+            healAmount = healAmount * value / 100;
             GridManager.Instance?.SpawnDamagePopup(target, healAmount, DamageTextType.Default, true, 1f);
         }
 
-        CombatEngagementEngine.Instance?.HandleHealOutcome(caster, target, string.IsNullOrWhiteSpace(effect.TriggerPhase) ? "MAIN" : effect.TriggerPhase.ToUpper());
+        // CombatEngagementEngine.Instance?.HandleHealOutcome(caster, target, string.IsNullOrWhiteSpace(effect.TriggerPhase) ? "MAIN" : effect.TriggerPhase.ToUpper());
     }
 
     private static void ExecuteLimitAction(Effects effect, CardBase target)
     {
         // Hạn chế hành động (Cấm đánh thường, hoặc cấm dùng Active Skill)
-        Debug.Log($"🚫 {target.Name} dính trạng thái LIMIT_ACTION.");
+        Debug.Log($"{target.Name} dính trạng thái LIMIT_ACTION.");
     }
 
     /// <summary>

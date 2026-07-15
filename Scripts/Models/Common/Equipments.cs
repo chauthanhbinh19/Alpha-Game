@@ -9,7 +9,7 @@ public class Equipments : BaseEntity, IPowerSortable, IStats
     public int CurrentStar { get; set; }
     public int TempStar { get; set; }
     public string Set { get; set; }
-    public double Quantity { get; set; }
+    public int Quantity { get; set; }
     public int Block { get; set; }
     public double SpecialHealth { get; set; }
     public double SpecialPhysicalAttack { get; set; }

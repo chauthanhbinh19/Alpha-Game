@@ -115,7 +115,7 @@ public class GridManager : MonoBehaviour
 
             Effects attackEffect = new Effects
             {
-                Id = 0,
+                Id = "",
                 Name = "Normal Attack",
                 Description = "Đòn tấn công thường của quân bài.",
                 EffectAction = new EffectAction
@@ -123,7 +123,7 @@ public class GridManager : MonoBehaviour
                     ActionCode = AppConstants.EffectAction.DAMAGE,
                     ActionName = "DAMAGE",
                     Description = "Gây sát thương theo thông số tấn công.",
-                    ActionId = 0
+                    ActionId = ""
                 },
                 TriggerPhase = "MAIN",
                 TriggerCondition = AppConstants.TriggerCondition.ON_ATTACK,
@@ -399,7 +399,7 @@ public class GridManager : MonoBehaviour
             }
         }
     }
-    
+
     // Hàm phụ trợ dùng để trộn bài / trộn list ngẫu nhiên cực chuẩn
     private void ShuffleList<T>(List<T> list)
     {
@@ -610,7 +610,7 @@ public class GridManager : MonoBehaviour
     {
         return null;
     }
-    
+
     public GridCell GetCellAt(int x, int z)
     {
         Vector2Int pos = new Vector2Int(x, z);
@@ -907,15 +907,18 @@ public class GridManager : MonoBehaviour
     /// <param name="attackRange">Tầm xa của skill</param>
     /// <param name="skillSubType">Mã loại skill (DAMAGE, HEAL, BUFF, DEBUFF, CLEANSE, CONTROL, SUMMON...)</param>
     /// <param name="isPlayerOwner">Quân cờ ra chiêu thuộc phe Player (true) hay Enemy (false)</param>
-    public void ShowSkillAttackRange(Vector2Int centerPos, int attackRange, string skillSubType, bool isPlayerOwner)
+    public void ShowSkillAttackRange(Vector2Int centerPos, int attackRange, string skillSubType, CardBase caster)
     {
         // 1. Dọn dẹp sạch các hiển thị cũ (vùng di chuyển, tầm đánh thường...)
         ClearAllMovementRanges();
-        if (attackRange <= 0) return;
+        if (attackRange <= 0 || caster == null) return;
 
         // Xác định mục tiêu hướng tới của Skill
-        bool targetIsEnemy = (skillSubType == "DAMAGE" || skillSubType == "DEBUFF" || skillSubType == "CONTROL");
-        bool targetIsAlly = (skillSubType == "HEAL" || skillSubType == "BUFF" || skillSubType == "CLEANSE");
+        bool targetIsEnemy = (skillSubType == AppConstants.SkillType.DAMAGE || skillSubType == AppConstants.SkillType.DEBUFF || skillSubType == AppConstants.SkillType.CONTROL);
+        bool targetIsAlly = (skillSubType == AppConstants.SkillType.HEAL || skillSubType == AppConstants.SkillType.BUFF || skillSubType == AppConstants.SkillType.CLEANSE);
+
+        // Lấy trực tiếp Team của quân cờ ra chiêu làm chuẩn
+        Team casterTeam = caster.Team;
 
         // Thuật toán BFS loang tìm phạm vi ô trong tầm skill
         Queue<KeyValuePair<Vector2Int, int>> queue = new Queue<KeyValuePair<Vector2Int, int>>();
@@ -961,21 +964,21 @@ public class GridManager : MonoBehaviour
                     // Kiểm tra xem ô hàng xóm này có quân cờ nào đang đứng không
                     if (neighborCell.OccupiedCard != null)
                     {
-                        // Xác định phe của quân cờ đang đứng trên ô này bằng thuộc tính IsPlayerSpawnCell của ô
-                        bool isTargetCellPlayer = neighborCell.IsPlayerSpawnCell;
+                        // Lấy trực tiếp Team của quân cờ đang đứng trên ô này
+                        Team targetCardTeam = neighborCell.OccupiedCard.Team;
 
                         if (targetIsEnemy)
                         {
-                            // SKILL HẠI: Chỉ hiện UI nếu quân cờ trên ô ĐỐI LẬP phe với người ra chiêu (Kẻ địch)
-                            if (isTargetCellPlayer != isPlayerOwner)
+                            // SKILL HẠI (DAMAGE, DEBUFF, CONTROL): Hiện UI nếu mục tiêu KHÁC phe với người ra chiêu
+                            if (targetCardTeam != casterTeam)
                             {
                                 TriggerTargetUI(cellTargetUI, skillSubType);
                             }
                         }
                         else if (targetIsAlly)
                         {
-                            // SKILL LỢI: Chỉ hiện UI nếu quân cờ trên ô CÙNG phe với người ra chiêu (Đồng minh)
-                            if (isTargetCellPlayer == isPlayerOwner)
+                            // SKILL LỢI (HEAL, BUFF, CLEANSE): Hiện UI nếu mục tiêu CÙNG phe với người ra chiêu
+                            if (targetCardTeam == casterTeam)
                             {
                                 TriggerTargetUI(cellTargetUI, skillSubType);
                             }

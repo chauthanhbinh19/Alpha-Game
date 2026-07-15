@@ -61,7 +61,7 @@ public class UserItemsRepository : IUserItemsRepository
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Type = reader.GetStringSafe("type"),
-                                Quantity = reader.GetDoubleSafe("quantity")
+                                Quantity = reader.GetIntSafe("quantity")
                             };
 
                             items.Add(item);
@@ -166,9 +166,7 @@ public class UserItemsRepository : IUserItemsRepository
                             items.Id = reader.GetStringSafe("itemId");
                             items.Name = reader["itemName"]?.ToString() ?? string.Empty;
                             items.Image = reader["itemImage"]?.ToString() ?? string.Empty;
-                            items.Quantity = reader["quantity"] != DBNull.Value
-                                             ? Convert.ToDouble(reader["quantity"])
-                                             : 0;
+                            items.Quantity = reader.GetIntSafe("quantity");
                         }
                     }
                 }
@@ -216,9 +214,7 @@ public class UserItemsRepository : IUserItemsRepository
                             items.Name = reader["itemName"]?.ToString() ?? string.Empty;
                             items.CodeName = reader["itemCodeName"]?.ToString() ?? string.Empty;
                             items.Image = reader["itemImage"]?.ToString() ?? string.Empty;
-                            items.Quantity = reader["quantity"] != DBNull.Value
-                                             ? Convert.ToDouble(reader["quantity"])
-                                             : 0;
+                            items.Quantity = reader.GetIntSafe("quantity");
                         }
                     }
                 }
@@ -280,7 +276,7 @@ public class UserItemsRepository : IUserItemsRepository
                                 Name = reader["itemName"]?.ToString() ?? "",
                                 CodeName = reader["itemCodeName"]?.ToString() ?? "",
                                 Image = reader["itemImage"]?.ToString() ?? "",
-                                Quantity = Convert.ToDouble(reader["quantity"]),
+                                Quantity = reader.GetIntSafe("quantity"),
                                 ExperienceValue = Convert.ToDouble(reader["experience_value"])
                             };
                         }
@@ -331,7 +327,7 @@ public class UserItemsRepository : IUserItemsRepository
                     else
                     {
                         // Cập nhật số lượng item đã tồn tại
-                        item.Quantity = quantity;
+                        item.Quantity = (int)quantity;
                         await UpdateUserItemQuantityAsync(item); // Giả sử bạn đã có phiên bản async
                     }
                 }

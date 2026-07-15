@@ -66,7 +66,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                                 Star = reader.GetIntSafe("star"),
                                 Level = reader.GetIntSafe("level"),
                                 Experience = reader.GetDoubleSafe("experience"),
-                                Quantity = reader.GetDoubleSafe("quantity"),
+                                Quantity = reader.GetIntSafe("quantity"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -175,7 +175,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                                 Star = reader.GetIntSafe("star"),
                                 Level = reader.GetIntSafe("level"),
                                 Experience = reader.GetDoubleSafe("experience"),
-                                Quantity = reader.GetDoubleSafe("quantity"),
+                                Quantity = reader.GetIntSafe("quantity"),
                                 Power = reader.GetDoubleSafe("power"),
                                 Health = reader.GetDoubleSafe("health"),
                                 PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -295,7 +295,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             Star = reader.GetIntSafe("star"),
                             Level = reader.GetIntSafe("level"),
                             Experience = reader.GetDoubleSafe("experience"),
-                            Quantity = reader.GetDoubleSafe("quantity"),
+                            Quantity = reader.GetIntSafe("quantity"),
                             Power = reader.GetDoubleSafe("power"),
                             Health = reader.GetDoubleSafe("health"),
                             PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -451,7 +451,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
                             spiritBeast.Experience = reader.GetDoubleSafe("experience");
-                            spiritBeast.Quantity = reader.GetDoubleSafe("quantity");
+                            spiritBeast.Quantity = reader.GetIntSafe("quantity");
                             spiritBeast.Power = reader.GetDoubleSafe("power");
                             spiritBeast.Health = reader.GetDoubleSafe("health");
                             spiritBeast.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
@@ -569,7 +569,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
                             spiritBeast.Experience = reader.GetDoubleSafe("experience");
-                            spiritBeast.Quantity = reader.GetDoubleSafe("quantity");
+                            spiritBeast.Quantity = reader.GetIntSafe("quantity");
                             spiritBeast.Power = reader.GetDoubleSafe("power");
                             spiritBeast.Health = reader.GetDoubleSafe("health");
                             spiritBeast.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
@@ -686,7 +686,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     spiritBeast.Star = reader.GetIntSafe("star");
                     spiritBeast.Level = reader.GetIntSafe("level");
                     spiritBeast.Experience = reader.GetDoubleSafe("experience");
-                    spiritBeast.Quantity = reader.GetDoubleSafe("quantity");
+                    spiritBeast.Quantity = reader.GetIntSafe("quantity");
                     spiritBeast.Power = reader.GetDoubleSafe("power");
                     spiritBeast.Health = reader.GetDoubleSafe("health");
                     spiritBeast.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
@@ -802,7 +802,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
                             spiritBeast.Experience = reader.GetDoubleSafe("experience");
-                            spiritBeast.Quantity = reader.GetDoubleSafe("quantity");
+                            spiritBeast.Quantity = reader.GetIntSafe("quantity");
                             spiritBeast.Power = reader.GetDoubleSafe("power");
                             spiritBeast.Health = reader.GetDoubleSafe("health");
                             spiritBeast.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
@@ -920,7 +920,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
                             spiritBeast.Experience = reader.GetDoubleSafe("experience");
-                            spiritBeast.Quantity = reader.GetDoubleSafe("quantity");
+                            spiritBeast.Quantity = reader.GetIntSafe("quantity");
                             spiritBeast.Power = reader.GetDoubleSafe("power");
                             spiritBeast.Health = reader.GetDoubleSafe("health");
                             spiritBeast.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
@@ -1038,7 +1038,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
                             spiritBeast.Experience = reader.GetDoubleSafe("experience");
-                            spiritBeast.Quantity = reader.GetDoubleSafe("quantity");
+                            spiritBeast.Quantity = reader.GetIntSafe("quantity");
                             spiritBeast.Power = reader.GetDoubleSafe("power");
                             spiritBeast.Health = reader.GetDoubleSafe("health");
                             spiritBeast.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
@@ -1156,7 +1156,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
                             spiritBeast.Experience = reader.GetDoubleSafe("experience");
-                            spiritBeast.Quantity = reader.GetDoubleSafe("quantity");
+                            spiritBeast.Quantity = reader.GetIntSafe("quantity");
                             spiritBeast.Power = reader.GetDoubleSafe("power");
                             spiritBeast.Health = reader.GetDoubleSafe("health");
                             spiritBeast.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
@@ -1274,7 +1274,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
                             spiritBeast.Experience = reader.GetDoubleSafe("experience");
-                            spiritBeast.Quantity = reader.GetDoubleSafe("quantity");
+                            spiritBeast.Quantity = reader.GetIntSafe("quantity");
                             spiritBeast.Power = reader.GetDoubleSafe("power");
                             spiritBeast.Health = reader.GetDoubleSafe("health");
                             spiritBeast.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
@@ -1392,7 +1392,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                             spiritBeast.Star = reader.GetIntSafe("star");
                             spiritBeast.Level = reader.GetIntSafe("level");
                             spiritBeast.Experience = reader.GetDoubleSafe("experience");
-                            spiritBeast.Quantity = reader.GetDoubleSafe("quantity");
+                            spiritBeast.Quantity = reader.GetIntSafe("quantity");
                             spiritBeast.Power = reader.GetDoubleSafe("power");
                             spiritBeast.Health = reader.GetDoubleSafe("health");
                             spiritBeast.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
@@ -2592,7 +2592,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
                     Experience = reader.GetDoubleSafe("experience"),
-                    Quantity = reader.GetDoubleSafe("quantity"),
+                    Quantity = reader.GetIntSafe("quantity"),
                     Power = reader.GetDoubleSafe("power"),
                     Health = reader.GetDoubleSafe("health"),
                     PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2706,7 +2706,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
                     Experience = reader.GetDoubleSafe("experience"),
-                    Quantity = reader.GetDoubleSafe("quantity"),
+                    Quantity = reader.GetIntSafe("quantity"),
                     Power = reader.GetDoubleSafe("power"),
                     Health = reader.GetDoubleSafe("health"),
                     PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2820,7 +2820,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
                     Experience = reader.GetDoubleSafe("experience"),
-                    Quantity = reader.GetDoubleSafe("quantity"),
+                    Quantity = reader.GetIntSafe("quantity"),
                     Power = reader.GetDoubleSafe("power"),
                     Health = reader.GetDoubleSafe("health"),
                     PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2934,7 +2934,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
                     Experience = reader.GetDoubleSafe("experience"),
-                    Quantity = reader.GetDoubleSafe("quantity"),
+                    Quantity = reader.GetIntSafe("quantity"),
                     Power = reader.GetDoubleSafe("power"),
                     Health = reader.GetDoubleSafe("health"),
                     PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3048,7 +3048,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
                     Experience = reader.GetDoubleSafe("experience"),
-                    Quantity = reader.GetDoubleSafe("quantity"),
+                    Quantity = reader.GetIntSafe("quantity"),
                     Power = reader.GetDoubleSafe("power"),
                     Health = reader.GetDoubleSafe("health"),
                     PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3162,7 +3162,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
                     Experience = reader.GetDoubleSafe("experience"),
-                    Quantity = reader.GetDoubleSafe("quantity"),
+                    Quantity = reader.GetIntSafe("quantity"),
                     Power = reader.GetDoubleSafe("power"),
                     Health = reader.GetDoubleSafe("health"),
                     PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3276,7 +3276,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
                     Experience = reader.GetDoubleSafe("experience"),
-                    Quantity = reader.GetDoubleSafe("quantity"),
+                    Quantity = reader.GetIntSafe("quantity"),
                     Power = reader.GetDoubleSafe("power"),
                     Health = reader.GetDoubleSafe("health"),
                     PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3390,7 +3390,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
                     Experience = reader.GetDoubleSafe("experience"),
-                    Quantity = reader.GetDoubleSafe("quantity"),
+                    Quantity = reader.GetIntSafe("quantity"),
                     Power = reader.GetDoubleSafe("power"),
                     Health = reader.GetDoubleSafe("health"),
                     PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3504,7 +3504,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                     Star = reader.GetIntSafe("star"),
                     Level = reader.GetIntSafe("level"),
                     Experience = reader.GetDoubleSafe("experience"),
-                    Quantity = reader.GetDoubleSafe("quantity"),
+                    Quantity = reader.GetIntSafe("quantity"),
                     Power = reader.GetDoubleSafe("power"),
                     Health = reader.GetDoubleSafe("health"),
                     PhysicalAttack = reader.GetDoubleSafe("physical_attack"),

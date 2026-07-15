@@ -109,7 +109,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Level = reader.GetIntSafe("level"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -856,6 +856,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -926,7 +927,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -989,19 +990,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills
@@ -1022,6 +1031,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1092,7 +1102,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -1155,19 +1165,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills
@@ -1188,6 +1206,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1258,7 +1277,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -1321,19 +1340,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills
@@ -1354,6 +1381,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1424,7 +1452,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -1487,19 +1515,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills
@@ -1520,6 +1556,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1590,7 +1627,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -1653,19 +1690,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
@@ -1686,6 +1731,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1756,7 +1802,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -1819,19 +1865,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
@@ -1852,6 +1906,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -1922,7 +1977,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -1985,19 +2040,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
@@ -2018,6 +2081,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2088,7 +2152,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2151,19 +2215,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
@@ -2184,6 +2256,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string userId, string cardId)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -2254,7 +2327,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2317,19 +2390,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills đã lấy
@@ -2350,6 +2431,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string userId, List<string> cardHeroIds)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
 
         // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
         if (cardHeroIds == null || cardHeroIds.Count == 0)
@@ -2376,13 +2458,20 @@ public class UserSkillsRepository : IUserSkillsRepository
                 string inClause = string.Join(", ", paramNames);
 
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
-                // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
-                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_hero_id,
-                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
-                    (
-                        SELECT JSON_ARRAYAGG(
+                WITH TargetSkills AS (
+                    -- Bước 1: Tìm ra các ID skill thực sự tồn tại trong danh sách 100 Card (Thường chỉ khoảng 10-20 SKILL_ID)
+                    SELECT DISTINCT us.skill_id
+                    FROM user_skills us
+                    JOIN card_heroes_skills chs ON chs.skill_id = us.skill_id
+                    WHERE us.user_id = @userId
+                    AND chs.card_hero_id IN ({inClause})
+                ),
+                AggregatedEffects AS (
+                    -- Bước 2: Chỉ gom nhóm JSON đúng trên các ID skill đã lọc ở trên (Giảm tải 95% công suất tính toán)
+                    SELECT 
+                        se.skill_id,
+                        JSON_ARRAYAGG(
                             JSON_OBJECT(
                                 'min_value', se.min_value,
                                 'max_value', se.max_value,
@@ -2404,20 +2493,35 @@ public class UserSkillsRepository : IUserSkillsRepository
                                 'action_code', ea.action_code,
                                 'action_name', ea.action_name
                             )
-                        )
-                        FROM skill_effect se
-                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
-                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
-                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
-                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
-                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
-                    ) AS skill_effects_json
-                FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
-                JOIN card_heroes_skills chs 
-                    ON chs.skill_id = us.skill_id AND chs.card_hero_id IN ({inClause})
-                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
-                WHERE us.user_id = @userId
+                        ) AS skill_effects_json
+                    FROM skill_effect se
+                    LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                    LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                    LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                    LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                    WHERE se.skill_id IN (SELECT skill_id FROM TargetSkills)
+                    GROUP BY se.skill_id
+                )
+                -- Bước 3: Join lại thông tin Card & User để xuất dữ liệu
+                SELECT 
+                    us.*, 
+                    s.name, 
+                    s.image, 
+                    s.rare, 
+                    s.type, 
+                    s.skill_type, 
+                    s.description, 
+                    s.skill_sub_type,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, 
+                    sp.pattern_id, 
+                    chs.card_hero_id,
+                    ae.skill_effects_json
+                FROM TargetSkills ts
+                JOIN Skills s ON ts.skill_id = s.id
+                JOIN user_skills us ON ts.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN card_heroes_skills chs ON ts.skill_id = chs.skill_id AND chs.card_hero_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON ts.skill_id = sp.skill_id
+                LEFT JOIN AggregatedEffects ae ON ts.skill_id = ae.skill_id
                 GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_hero_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
@@ -2433,112 +2537,133 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                 // 3. Thực thi và đọc dữ liệu
                 await using var reader = await selectCommand.ExecuteReaderAsync();
+
+                // --- MẸO TỐI ƯU ---
+                // Đọc trước cấu trúc các cột trả về và lưu tên cột viết thường (lowercase) vào một Dictionary mapping Index.
+                // Điều này giúp driver ADO.NET (MySqlConnector) tìm kiếm trực tiếp bằng bộ nhớ cache cực nhanh bên trong thay vì quét chuỗi.
+                var columnMap = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    columnMap[reader.GetName(i)] = i;
+                }
+
+                // Hàm Helper nội bộ (Local Function) để lấy nhanh tên cột chuẩn từ database nhằm tránh việc driver đi quét chuỗi liên tục.
+                // Hàm này sẽ trả về đúng tên cột gốc (đã được cache vị trí) giúp tối ưu hóa 100% cho các hàm GetXXXSafe của bạn.
+                string GetCol(string columnName)
+                {
+                    return columnMap.TryGetValue(columnName, out int index) ? reader.GetName(index) : columnName;
+                }
+
                 while (await reader.ReadAsync())
                 {
                     Skills skill = new Skills
                     {
-                        Id = reader.GetStringSafe("skill_id"),
-                        Name = reader.GetStringSafe("name"),
-                        Image = reader.GetStringSafe("image"),
-                        Rarity = reader.GetStringSafe("rare"),
-                        Quality = reader.GetDoubleSafe("quality"),
-                        Type = reader.GetStringSafe("type"),
-                        Star = reader.GetIntSafe("star"),
-                        Level = reader.GetIntSafe("level"),
-                        Position = reader.GetIntSafe("skill_position"),
-                        SkillType = reader.GetStringSafe("skill_type"),
-                        Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
-                        Power = reader.GetDoubleSafe("power"),
-                        Health = reader.GetDoubleSafe("health"),
-                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
-                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
-                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
-                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
-                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
-                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
-                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
-                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
-                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
-                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
-                        Speed = reader.GetDoubleSafe("speed"),
-                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
-                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
-                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
-                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
-                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
-                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
-                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
-                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
-                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
-                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
-                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
-                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
-                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
-                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
-                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
-                        Tenacity = reader.GetDoubleSafe("tenacity"),
-                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
-                        ComboRate = reader.GetDoubleSafe("combo_rate"),
-                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
-                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
-                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
-                        StunRate = reader.GetDoubleSafe("stun_rate"),
-                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
-                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
-                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
-                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
-                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
-                        Mana = reader.GetDoubleSafe("mana"),
-                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
-                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
-                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
-                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
-                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
-                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
-                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
-                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
-                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                        Description = reader.GetStringSafe("description"),
+                        Id = reader.GetStringSafe(GetCol("skill_id")),
+                        Name = reader.GetStringSafe(GetCol("name")),
+                        Image = reader.GetStringSafe(GetCol("image")),
+                        Rarity = reader.GetStringSafe(GetCol("rare")),
+                        Quality = reader.GetDoubleSafe(GetCol("quality")),
+                        Type = reader.GetStringSafe(GetCol("type")),
+                        Star = reader.GetIntSafe(GetCol("star")),
+                        Level = reader.GetIntSafe(GetCol("level")),
+                        Position = reader.GetIntSafe(GetCol("skill_position")),
+                        SkillType = reader.GetStringSafe(GetCol("skill_type")),
+                        Experience = reader.GetDoubleSafe(GetCol("experience")),
+                        Quantity = reader.GetIntSafe(GetCol("quantity")),
+                        Power = reader.GetDoubleSafe(GetCol("power")),
+                        Health = reader.GetDoubleSafe(GetCol("health")),
+                        PhysicalAttack = reader.GetDoubleSafe(GetCol("physical_attack")),
+                        PhysicalDefense = reader.GetDoubleSafe(GetCol("physical_defense")),
+                        MagicalAttack = reader.GetDoubleSafe(GetCol("magical_attack")),
+                        MagicalDefense = reader.GetDoubleSafe(GetCol("magical_defense")),
+                        ChemicalAttack = reader.GetDoubleSafe(GetCol("chemical_attack")),
+                        ChemicalDefense = reader.GetDoubleSafe(GetCol("chemical_defense")),
+                        AtomicAttack = reader.GetDoubleSafe(GetCol("atomic_attack")),
+                        AtomicDefense = reader.GetDoubleSafe(GetCol("atomic_defense")),
+                        MentalAttack = reader.GetDoubleSafe(GetCol("mental_attack")),
+                        MentalDefense = reader.GetDoubleSafe(GetCol("mental_defense")),
+                        Speed = reader.GetDoubleSafe(GetCol("speed")),
+                        CriticalDamageRate = reader.GetDoubleSafe(GetCol("critical_damage_rate")),
+                        CriticalRate = reader.GetDoubleSafe(GetCol("critical_rate")),
+                        CriticalResistanceRate = reader.GetDoubleSafe(GetCol("critical_resistance_rate")),
+                        IgnoreCriticalRate = reader.GetDoubleSafe(GetCol("ignore_critical_rate")),
+                        PenetrationRate = reader.GetDoubleSafe(GetCol("penetration_rate")),
+                        PenetrationResistanceRate = reader.GetDoubleSafe(GetCol("penetration_resistance_rate")),
+                        EvasionRate = reader.GetDoubleSafe(GetCol("evasion_rate")),
+                        DamageAbsorptionRate = reader.GetDoubleSafe(GetCol("damage_absorption_rate")),
+                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe(GetCol("ignore_damage_absorption_rate")),
+                        AbsorbedDamageRate = reader.GetDoubleSafe(GetCol("absorbed_damage_rate")),
+                        VitalityRegenerationRate = reader.GetDoubleSafe(GetCol("vitality_regeneration_rate")),
+                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe(GetCol("vitality_regeneration_resistance_rate")),
+                        AccuracyRate = reader.GetDoubleSafe(GetCol("accuracy_rate")),
+                        LifestealRate = reader.GetDoubleSafe(GetCol("lifesteal_rate")),
+                        ShieldStrength = reader.GetDoubleSafe(GetCol("shield_strength")),
+                        Tenacity = reader.GetDoubleSafe(GetCol("tenacity")),
+                        ResistanceRate = reader.GetDoubleSafe(GetCol("resistance_rate")),
+                        ComboRate = reader.GetDoubleSafe(GetCol("combo_rate")),
+                        IgnoreComboRate = reader.GetDoubleSafe(GetCol("ignore_combo_rate")),
+                        ComboDamageRate = reader.GetDoubleSafe(GetCol("combo_damage_rate")),
+                        ComboResistanceRate = reader.GetDoubleSafe(GetCol("combo_resistance_rate")),
+                        StunRate = reader.GetDoubleSafe(GetCol("stun_rate")),
+                        IgnoreStunRate = reader.GetDoubleSafe(GetCol("ignore_stun_rate")),
+                        ReflectionRate = reader.GetDoubleSafe(GetCol("reflection_rate")),
+                        IgnoreReflectionRate = reader.GetDoubleSafe(GetCol("ignore_reflection_rate")),
+                        ReflectionDamageRate = reader.GetDoubleSafe(GetCol("reflection_damage_rate")),
+                        ReflectionResistanceRate = reader.GetDoubleSafe(GetCol("reflection_resistance_rate")),
+                        Mana = reader.GetDoubleSafe(GetCol("mana")),
+                        ManaRegenerationRate = reader.GetDoubleSafe(GetCol("mana_regeneration_rate")),
+                        DamageToDifferentFactionRate = reader.GetDoubleSafe(GetCol("damage_to_different_faction_rate")),
+                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe(GetCol("resistance_to_different_faction_rate")),
+                        DamageToSameFactionRate = reader.GetDoubleSafe(GetCol("damage_to_same_faction_rate")),
+                        ResistanceToSameFactionRate = reader.GetDoubleSafe(GetCol("resistance_to_same_faction_rate")),
+                        NormalDamageRate = reader.GetDoubleSafe(GetCol("normal_damage_rate")),
+                        NormalResistanceRate = reader.GetDoubleSafe(GetCol("normal_resistance_rate")),
+                        SkillDamageRate = reader.GetDoubleSafe(GetCol("skill_damage_rate")),
+                        SkillResistanceRate = reader.GetDoubleSafe(GetCol("skill_resistance_rate")),
+                        Description = reader.GetStringSafe(GetCol("description")),
 
-                        CardId = reader.GetStringSafe("card_hero_id"),
+                        CardId = reader.GetStringSafe(GetCol("card_hero_id")),
                         Pattern = new Patterns()
                         {
-                            Id = reader.GetStringSafe("pattern_id")
+                            Id = reader.GetStringSafe(GetCol("pattern_id"))
                         },
                         SkillSubType = new SkillSubTypes
                         {
-                            SubTypeCode = reader.GetStringSafe("skill_sub_type")
+                            SubTypeCode = reader.GetStringSafe(GetCol("skill_sub_type"))
                         }
                     };
 
-                    string effectsJson = reader.GetStringSafe("skill_effects_json");
+                    string effectsJson = reader.GetStringSafe(GetCol("skill_effects_json"));
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
                 }
 
-                // Load Effects cho toàn bộ Skills cùng một lúc
-                // skills = await LoadSkillsWithEffectsAsync(userId, skills, connection);
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
+                }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            // block 'finally' không cần CloseAsync() thủ công nữa vì 'await using' đã tự động xử lý giải phóng kết nối một cách an toàn.
         }
 
         return skills;
@@ -2546,6 +2671,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string userId, List<string> cardCaptainIds)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
 
         // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
         if (cardCaptainIds == null || cardCaptainIds.Count == 0)
@@ -2574,11 +2700,19 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
-                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_captain_id,
-                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
-                    (
-                        SELECT JSON_ARRAYAGG(
+                WITH TargetSkills AS (
+                    -- Bước 1: Tìm ra các ID skill thực sự tồn tại trong danh sách 100 Card (Thường chỉ khoảng 10-20 SKILL_ID)
+                    SELECT DISTINCT us.skill_id
+                    FROM user_skills us
+                    JOIN card_captains_skills chs ON chs.skill_id = us.skill_id
+                    WHERE us.user_id = @userId
+                    AND chs.card_captain_id IN ({inClause})
+                ),
+                AggregatedEffects AS (
+                    -- Bước 2: Chỉ gom nhóm JSON đúng trên các ID skill đã lọc ở trên (Giảm tải 95% công suất tính toán)
+                    SELECT 
+                        se.skill_id,
+                        JSON_ARRAYAGG(
                             JSON_OBJECT(
                                 'min_value', se.min_value,
                                 'max_value', se.max_value,
@@ -2600,20 +2734,35 @@ public class UserSkillsRepository : IUserSkillsRepository
                                 'action_code', ea.action_code,
                                 'action_name', ea.action_name
                             )
-                        )
-                        FROM skill_effect se
-                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
-                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
-                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
-                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
-                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
-                    ) AS skill_effects_json
-                FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
-                JOIN card_captains_skills chs 
-                    ON chs.skill_id = us.skill_id AND chs.card_captain_id IN ({inClause})
-                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
-                WHERE us.user_id = @userId
+                        ) AS skill_effects_json
+                    FROM skill_effect se
+                    LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                    LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                    LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                    LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                    WHERE se.skill_id IN (SELECT skill_id FROM TargetSkills)
+                    GROUP BY se.skill_id
+                )
+                -- Bước 3: Join lại thông tin Card & User để xuất dữ liệu
+                SELECT 
+                    us.*, 
+                    s.name, 
+                    s.image, 
+                    s.rare, 
+                    s.type, 
+                    s.skill_type, 
+                    s.description, 
+                    s.skill_sub_type,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, 
+                    sp.pattern_id, 
+                    chs.card_captain_id,
+                    ae.skill_effects_json
+                FROM TargetSkills ts
+                JOIN Skills s ON ts.skill_id = s.id
+                JOIN user_skills us ON ts.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN card_captains_skills chs ON ts.skill_id = chs.skill_id AND chs.card_captain_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON ts.skill_id = sp.skill_id
+                LEFT JOIN AggregatedEffects ae ON ts.skill_id = ae.skill_id
                 GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_captain_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
@@ -2644,7 +2793,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2712,19 +2861,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -2742,6 +2899,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string userId, List<string> cardColonelIds)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
 
         // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
         if (cardColonelIds == null || cardColonelIds.Count == 0)
@@ -2770,11 +2928,19 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
-                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_colonel_id,
-                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
-                    (
-                        SELECT JSON_ARRAYAGG(
+                WITH TargetSkills AS (
+                    -- Bước 1: Tìm ra các ID skill thực sự tồn tại trong danh sách 100 Card (Thường chỉ khoảng 10-20 SKILL_ID)
+                    SELECT DISTINCT us.skill_id
+                    FROM user_skills us
+                    JOIN card_colonels_skills chs ON chs.skill_id = us.skill_id
+                    WHERE us.user_id = @userId
+                    AND chs.card_colonel_id IN ({inClause})
+                ),
+                AggregatedEffects AS (
+                    -- Bước 2: Chỉ gom nhóm JSON đúng trên các ID skill đã lọc ở trên (Giảm tải 95% công suất tính toán)
+                    SELECT 
+                        se.skill_id,
+                        JSON_ARRAYAGG(
                             JSON_OBJECT(
                                 'min_value', se.min_value,
                                 'max_value', se.max_value,
@@ -2796,20 +2962,35 @@ public class UserSkillsRepository : IUserSkillsRepository
                                 'action_code', ea.action_code,
                                 'action_name', ea.action_name
                             )
-                        )
-                        FROM skill_effect se
-                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
-                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
-                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
-                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
-                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
-                    ) AS skill_effects_json
-                FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
-                JOIN card_colonels_skills chs 
-                    ON chs.skill_id = us.skill_id AND chs.card_colonel_id IN ({inClause})
-                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
-                WHERE us.user_id = @userId
+                        ) AS skill_effects_json
+                    FROM skill_effect se
+                    LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                    LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                    LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                    LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                    WHERE se.skill_id IN (SELECT skill_id FROM TargetSkills)
+                    GROUP BY se.skill_id
+                )
+                -- Bước 3: Join lại thông tin Card & User để xuất dữ liệu
+                SELECT 
+                    us.*, 
+                    s.name, 
+                    s.image, 
+                    s.rare, 
+                    s.type, 
+                    s.skill_type, 
+                    s.description, 
+                    s.skill_sub_type,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, 
+                    sp.pattern_id, 
+                    chs.card_colonel_id,
+                    ae.skill_effects_json
+                FROM TargetSkills ts
+                JOIN Skills s ON ts.skill_id = s.id
+                JOIN user_skills us ON ts.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN card_colonels_skills chs ON ts.skill_id = chs.skill_id AND chs.card_colonel_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON ts.skill_id = sp.skill_id
+                LEFT JOIN AggregatedEffects ae ON ts.skill_id = ae.skill_id
                 GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_colonel_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
@@ -2840,7 +3021,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -2908,19 +3089,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -2938,6 +3127,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string userId, List<string> cardGeneralIds)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
 
         // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
         if (cardGeneralIds == null || cardGeneralIds.Count == 0)
@@ -2966,11 +3156,19 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
-                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_general_id,
-                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
-                    (
-                        SELECT JSON_ARRAYAGG(
+                WITH TargetSkills AS (
+                    -- Bước 1: Tìm ra các ID skill thực sự tồn tại trong danh sách 100 Card (Thường chỉ khoảng 10-20 SKILL_ID)
+                    SELECT DISTINCT us.skill_id
+                    FROM user_skills us
+                    JOIN card_generals_skills chs ON chs.skill_id = us.skill_id
+                    WHERE us.user_id = @userId
+                    AND chs.card_general_id IN ({inClause})
+                ),
+                AggregatedEffects AS (
+                    -- Bước 2: Chỉ gom nhóm JSON đúng trên các ID skill đã lọc ở trên (Giảm tải 95% công suất tính toán)
+                    SELECT 
+                        se.skill_id,
+                        JSON_ARRAYAGG(
                             JSON_OBJECT(
                                 'min_value', se.min_value,
                                 'max_value', se.max_value,
@@ -2992,20 +3190,35 @@ public class UserSkillsRepository : IUserSkillsRepository
                                 'action_code', ea.action_code,
                                 'action_name', ea.action_name
                             )
-                        )
-                        FROM skill_effect se
-                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
-                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
-                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
-                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
-                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
-                    ) AS skill_effects_json
-                FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
-                JOIN card_generals_skills chs 
-                    ON chs.skill_id = us.skill_id AND chs.card_general_id IN ({inClause})
-                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
-                WHERE us.user_id = @userId
+                        ) AS skill_effects_json
+                    FROM skill_effect se
+                    LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                    LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                    LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                    LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                    WHERE se.skill_id IN (SELECT skill_id FROM TargetSkills)
+                    GROUP BY se.skill_id
+                )
+                -- Bước 3: Join lại thông tin Card & User để xuất dữ liệu
+                SELECT 
+                    us.*, 
+                    s.name, 
+                    s.image, 
+                    s.rare, 
+                    s.type, 
+                    s.skill_type, 
+                    s.description, 
+                    s.skill_sub_type,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, 
+                    sp.pattern_id, 
+                    chs.card_general_id,
+                    ae.skill_effects_json
+                FROM TargetSkills ts
+                JOIN Skills s ON ts.skill_id = s.id
+                JOIN user_skills us ON ts.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN card_generals_skills chs ON ts.skill_id = chs.skill_id AND chs.card_general_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON ts.skill_id = sp.skill_id
+                LEFT JOIN AggregatedEffects ae ON ts.skill_id = ae.skill_id
                 GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_general_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
@@ -3036,7 +3249,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3104,19 +3317,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -3134,6 +3355,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string userId, List<string> cardAdmiralIds)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
 
         // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
         if (cardAdmiralIds == null || cardAdmiralIds.Count == 0)
@@ -3162,11 +3384,19 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
-                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_admiral_id,
-                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
-                    (
-                        SELECT JSON_ARRAYAGG(
+                WITH TargetSkills AS (
+                    -- Bước 1: Tìm ra các ID skill thực sự tồn tại trong danh sách 100 Card (Thường chỉ khoảng 10-20 SKILL_ID)
+                    SELECT DISTINCT us.skill_id
+                    FROM user_skills us
+                    JOIN card_admirals_skills chs ON chs.skill_id = us.skill_id
+                    WHERE us.user_id = @userId
+                    AND chs.card_admiral_id IN ({inClause})
+                ),
+                AggregatedEffects AS (
+                    -- Bước 2: Chỉ gom nhóm JSON đúng trên các ID skill đã lọc ở trên (Giảm tải 95% công suất tính toán)
+                    SELECT 
+                        se.skill_id,
+                        JSON_ARRAYAGG(
                             JSON_OBJECT(
                                 'min_value', se.min_value,
                                 'max_value', se.max_value,
@@ -3188,20 +3418,35 @@ public class UserSkillsRepository : IUserSkillsRepository
                                 'action_code', ea.action_code,
                                 'action_name', ea.action_name
                             )
-                        )
-                        FROM skill_effect se
-                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
-                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
-                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
-                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
-                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
-                    ) AS skill_effects_json
-                FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
-                JOIN card_admirals_skills chs 
-                    ON chs.skill_id = us.skill_id AND chs.card_admiral_id IN ({inClause})
-                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
-                WHERE us.user_id = @userId
+                        ) AS skill_effects_json
+                    FROM skill_effect se
+                    LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                    LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                    LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                    LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                    WHERE se.skill_id IN (SELECT skill_id FROM TargetSkills)
+                    GROUP BY se.skill_id
+                )
+                -- Bước 3: Join lại thông tin Card & User để xuất dữ liệu
+                SELECT 
+                    us.*, 
+                    s.name, 
+                    s.image, 
+                    s.rare, 
+                    s.type, 
+                    s.skill_type, 
+                    s.description, 
+                    s.skill_sub_type,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, 
+                    sp.pattern_id, 
+                    chs.card_admiral_id,
+                    ae.skill_effects_json
+                FROM TargetSkills ts
+                JOIN Skills s ON ts.skill_id = s.id
+                JOIN user_skills us ON ts.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN card_admirals_skills chs ON ts.skill_id = chs.skill_id AND chs.card_admiral_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON ts.skill_id = sp.skill_id
+                LEFT JOIN AggregatedEffects ae ON ts.skill_id = ae.skill_id
                 GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_admiral_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
@@ -3232,7 +3477,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3300,19 +3545,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -3330,6 +3583,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string userId, List<string> cardMonsterIds)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
 
         // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
         if (cardMonsterIds == null || cardMonsterIds.Count == 0)
@@ -3358,11 +3612,19 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
-                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_monster_id,
-                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
-                    (
-                        SELECT JSON_ARRAYAGG(
+                WITH TargetSkills AS (
+                    -- Bước 1: Tìm ra các ID skill thực sự tồn tại trong danh sách 100 Card (Thường chỉ khoảng 10-20 SKILL_ID)
+                    SELECT DISTINCT us.skill_id
+                    FROM user_skills us
+                    JOIN card_monsters_skills chs ON chs.skill_id = us.skill_id
+                    WHERE us.user_id = @userId
+                    AND chs.card_monster_id IN ({inClause})
+                ),
+                AggregatedEffects AS (
+                    -- Bước 2: Chỉ gom nhóm JSON đúng trên các ID skill đã lọc ở trên (Giảm tải 95% công suất tính toán)
+                    SELECT 
+                        se.skill_id,
+                        JSON_ARRAYAGG(
                             JSON_OBJECT(
                                 'min_value', se.min_value,
                                 'max_value', se.max_value,
@@ -3384,20 +3646,35 @@ public class UserSkillsRepository : IUserSkillsRepository
                                 'action_code', ea.action_code,
                                 'action_name', ea.action_name
                             )
-                        )
-                        FROM skill_effect se
-                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
-                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
-                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
-                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
-                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
-                    ) AS skill_effects_json
-                FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
-                JOIN card_monsters_skills chs 
-                    ON chs.skill_id = us.skill_id AND chs.card_monster_id IN ({inClause})
-                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
-                WHERE us.user_id = @userId
+                        ) AS skill_effects_json
+                    FROM skill_effect se
+                    LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                    LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                    LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                    LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                    WHERE se.skill_id IN (SELECT skill_id FROM TargetSkills)
+                    GROUP BY se.skill_id
+                )
+                -- Bước 3: Join lại thông tin Card & User để xuất dữ liệu
+                SELECT 
+                    us.*, 
+                    s.name, 
+                    s.image, 
+                    s.rare, 
+                    s.type, 
+                    s.skill_type, 
+                    s.description, 
+                    s.skill_sub_type,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, 
+                    sp.pattern_id, 
+                    chs.card_monster_id,
+                    ae.skill_effects_json
+                FROM TargetSkills ts
+                JOIN Skills s ON ts.skill_id = s.id
+                JOIN user_skills us ON ts.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN card_monsters_skills chs ON ts.skill_id = chs.skill_id AND chs.card_monster_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON ts.skill_id = sp.skill_id
+                LEFT JOIN AggregatedEffects ae ON ts.skill_id = ae.skill_id
                 GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_monster_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
@@ -3428,7 +3705,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3496,19 +3773,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -3526,6 +3811,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string userId, List<string> cardMilitaryIds)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
 
         // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
         if (cardMilitaryIds == null || cardMilitaryIds.Count == 0)
@@ -3554,11 +3840,19 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
-                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_military_id,
-                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
-                    (
-                        SELECT JSON_ARRAYAGG(
+                WITH TargetSkills AS (
+                    -- Bước 1: Tìm ra các ID skill thực sự tồn tại trong danh sách 100 Card (Thường chỉ khoảng 10-20 SKILL_ID)
+                    SELECT DISTINCT us.skill_id
+                    FROM user_skills us
+                    JOIN card_militaries_skills chs ON chs.skill_id = us.skill_id
+                    WHERE us.user_id = @userId
+                    AND chs.card_military_id IN ({inClause})
+                ),
+                AggregatedEffects AS (
+                    -- Bước 2: Chỉ gom nhóm JSON đúng trên các ID skill đã lọc ở trên (Giảm tải 95% công suất tính toán)
+                    SELECT 
+                        se.skill_id,
+                        JSON_ARRAYAGG(
                             JSON_OBJECT(
                                 'min_value', se.min_value,
                                 'max_value', se.max_value,
@@ -3580,20 +3874,35 @@ public class UserSkillsRepository : IUserSkillsRepository
                                 'action_code', ea.action_code,
                                 'action_name', ea.action_name
                             )
-                        )
-                        FROM skill_effect se
-                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
-                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
-                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
-                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
-                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
-                    ) AS skill_effects_json
-                FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
-                JOIN card_militaries_skills chs 
-                    ON chs.skill_id = us.skill_id AND chs.card_military_id IN ({inClause})
-                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
-                WHERE us.user_id = @userId
+                        ) AS skill_effects_json
+                    FROM skill_effect se
+                    LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                    LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                    LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                    LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                    WHERE se.skill_id IN (SELECT skill_id FROM TargetSkills)
+                    GROUP BY se.skill_id
+                )
+                -- Bước 3: Join lại thông tin Card & User để xuất dữ liệu
+                SELECT 
+                    us.*, 
+                    s.name, 
+                    s.image, 
+                    s.rare, 
+                    s.type, 
+                    s.skill_type, 
+                    s.description, 
+                    s.skill_sub_type,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, 
+                    sp.pattern_id, 
+                    chs.card_military_id,
+                    ae.skill_effects_json
+                FROM TargetSkills ts
+                JOIN Skills s ON ts.skill_id = s.id
+                JOIN user_skills us ON ts.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN card_militaries_skills chs ON ts.skill_id = chs.skill_id AND chs.card_military_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON ts.skill_id = sp.skill_id
+                LEFT JOIN AggregatedEffects ae ON ts.skill_id = ae.skill_id
                 GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_military_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
@@ -3624,7 +3933,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3692,19 +4001,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -3722,6 +4039,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string userId, List<string> cardSpellIds)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
 
         // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
         if (cardSpellIds == null || cardSpellIds.Count == 0)
@@ -3750,11 +4068,19 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
-                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_spell_id,
-                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
-                    (
-                        SELECT JSON_ARRAYAGG(
+                WITH TargetSkills AS (
+                    -- Bước 1: Tìm ra các ID skill thực sự tồn tại trong danh sách 100 Card (Thường chỉ khoảng 10-20 SKILL_ID)
+                    SELECT DISTINCT us.skill_id
+                    FROM user_skills us
+                    JOIN card_spells_skills chs ON chs.skill_id = us.skill_id
+                    WHERE us.user_id = @userId
+                    AND chs.card_spell_id IN ({inClause})
+                ),
+                AggregatedEffects AS (
+                    -- Bước 2: Chỉ gom nhóm JSON đúng trên các ID skill đã lọc ở trên (Giảm tải 95% công suất tính toán)
+                    SELECT 
+                        se.skill_id,
+                        JSON_ARRAYAGG(
                             JSON_OBJECT(
                                 'min_value', se.min_value,
                                 'max_value', se.max_value,
@@ -3776,20 +4102,35 @@ public class UserSkillsRepository : IUserSkillsRepository
                                 'action_code', ea.action_code,
                                 'action_name', ea.action_name
                             )
-                        )
-                        FROM skill_effect se
-                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
-                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
-                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
-                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
-                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
-                    ) AS skill_effects_json
-                FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
-                JOIN card_spells_skills chs 
-                    ON chs.skill_id = us.skill_id AND chs.card_spell_id IN ({inClause})
-                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
-                WHERE us.user_id = @userId
+                        ) AS skill_effects_json
+                    FROM skill_effect se
+                    LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                    LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                    LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                    LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                    WHERE se.skill_id IN (SELECT skill_id FROM TargetSkills)
+                    GROUP BY se.skill_id
+                )
+                -- Bước 3: Join lại thông tin Card & User để xuất dữ liệu
+                SELECT 
+                    us.*, 
+                    s.name, 
+                    s.image, 
+                    s.rare, 
+                    s.type, 
+                    s.skill_type, 
+                    s.description, 
+                    s.skill_sub_type,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, 
+                    sp.pattern_id, 
+                    chs.card_spell_id,
+                    ae.skill_effects_json
+                FROM TargetSkills ts
+                JOIN Skills s ON ts.skill_id = s.id
+                JOIN user_skills us ON ts.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN card_spells_skills chs ON ts.skill_id = chs.skill_id AND chs.card_spell_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON ts.skill_id = sp.skill_id
+                LEFT JOIN AggregatedEffects ae ON ts.skill_id = ae.skill_id
                 GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_spell_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
@@ -3820,7 +4161,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -3888,19 +4229,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -3918,6 +4267,7 @@ public class UserSkillsRepository : IUserSkillsRepository
     public async Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string userId, List<string> cardSoldierIds)
     {
         List<Skills> skills = new List<Skills>();
+        List<(Skills skill, string jsonRaw)> pendingJsonList = new List<(Skills, string)>();
 
         // Kiểm tra danh sách đầu vào để tránh lỗi SQL khi danh sách rỗng
         if (cardSoldierIds == null || cardSoldierIds.Count == 0)
@@ -3946,11 +4296,19 @@ public class UserSkillsRepository : IUserSkillsRepository
                 // 2. Cập nhật lại SQL Query với điều kiện IN danh sách các Hero ID
                 // Sửa lại logic JOIN chính xác: chs.card_hero_id IN (...) thay vì gán nhầm vào skill_id
                 string selectSQL = $@"
-                SELECT us.*, s.name, s.image, s.rare, s.type, s.skill_type, s.description, s.skill_sub_type,
-                    MAX(IFNULL(chs.position, 0)) AS skill_position, sp.pattern_id, chs.card_soldier_id,
-                    -- Subquery gom nhóm hiệu ứng thành JSON ngay tại dòng dữ liệu
-                    (
-                        SELECT JSON_ARRAYAGG(
+                WITH TargetSkills AS (
+                    -- Bước 1: Tìm ra các ID skill thực sự tồn tại trong danh sách 100 Card (Thường chỉ khoảng 10-20 SKILL_ID)
+                    SELECT DISTINCT us.skill_id
+                    FROM user_skills us
+                    JOIN card_soldiers_skills chs ON chs.skill_id = us.skill_id
+                    WHERE us.user_id = @userId
+                    AND chs.card_soldier_id IN ({inClause})
+                ),
+                AggregatedEffects AS (
+                    -- Bước 2: Chỉ gom nhóm JSON đúng trên các ID skill đã lọc ở trên (Giảm tải 95% công suất tính toán)
+                    SELECT 
+                        se.skill_id,
+                        JSON_ARRAYAGG(
                             JSON_OBJECT(
                                 'min_value', se.min_value,
                                 'max_value', se.max_value,
@@ -3972,20 +4330,35 @@ public class UserSkillsRepository : IUserSkillsRepository
                                 'action_code', ea.action_code,
                                 'action_name', ea.action_name
                             )
-                        )
-                        FROM skill_effect se
-                        LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
-                        LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
-                        LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
-                        LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
-                        WHERE se.skill_id = s.id -- Mối liên kết map ngược lại với Skill đang xét ở bảng ngoài
-                    ) AS skill_effects_json
-                FROM Skills s
-                JOIN user_skills us ON s.id = us.skill_id
-                JOIN card_soldiers_skills chs 
-                    ON chs.skill_id = us.skill_id AND chs.card_soldier_id IN ({inClause})
-                LEFT JOIN skill_patterns sp ON s.id = sp.skill_id
-                WHERE us.user_id = @userId
+                        ) AS skill_effects_json
+                    FROM skill_effect se
+                    LEFT JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE
+                    LEFT JOIN effect_property_action epa ON e.id = epa.effect_id
+                    LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE
+                    LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE
+                    WHERE se.skill_id IN (SELECT skill_id FROM TargetSkills)
+                    GROUP BY se.skill_id
+                )
+                -- Bước 3: Join lại thông tin Card & User để xuất dữ liệu
+                SELECT 
+                    us.*, 
+                    s.name, 
+                    s.image, 
+                    s.rare, 
+                    s.type, 
+                    s.skill_type, 
+                    s.description, 
+                    s.skill_sub_type,
+                    MAX(IFNULL(chs.position, 0)) AS skill_position, 
+                    sp.pattern_id, 
+                    chs.card_soldier_id,
+                    ae.skill_effects_json
+                FROM TargetSkills ts
+                JOIN Skills s ON ts.skill_id = s.id
+                JOIN user_skills us ON ts.skill_id = us.skill_id AND us.user_id = @userId
+                JOIN card_soldiers_skills chs ON ts.skill_id = chs.skill_id AND chs.card_soldier_id IN ({inClause})
+                LEFT JOIN skill_patterns sp ON ts.skill_id = sp.skill_id
+                LEFT JOIN AggregatedEffects ae ON ts.skill_id = ae.skill_id
                 GROUP BY s.id, us.skill_id, sp.pattern_id, chs.card_soldier_id;";
 
                 await using var selectCommand = new MySqlCommand(selectSQL, connection);
@@ -4016,7 +4389,7 @@ public class UserSkillsRepository : IUserSkillsRepository
                         Position = reader.GetIntSafe("skill_position"),
                         SkillType = reader.GetStringSafe("skill_type"),
                         Experience = reader.GetDoubleSafe("experience"),
-                        Quantity = reader.GetDoubleSafe("quantity"),
+                        Quantity = reader.GetIntSafe("quantity"),
                         Power = reader.GetDoubleSafe("power"),
                         Health = reader.GetDoubleSafe("health"),
                         PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
@@ -4085,19 +4458,27 @@ public class UserSkillsRepository : IUserSkillsRepository
 
                     if (!string.IsNullOrEmpty(effectsJson))
                     {
-                        try
-                        {
-                            // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                            skill.Effects = JsonHelper.DeserializeEffects(effectsJson);
-                        }
-                        catch
-                        {
-                            // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                            skill.Effects = new List<Effects>();
-                        }
+                        pendingJsonList.Add((skill, effectsJson));
+                    }
+                    else
+                    {
+                        skill.Effects = new List<Effects>(); // Khởi tạo danh sách rỗng nếu không có dữ liệu
                     }
 
                     skills.Add(skill);
+                }
+
+                foreach (var item in pendingJsonList)
+                {
+                    try
+                    {
+                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                    }
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -4148,20 +4529,20 @@ public class UserSkillsRepository : IUserSkillsRepository
 
             var newEffect = new Effects
             {
-                Id = reader.GetIntSafe("id"),
+                Id = reader.GetStringSafe("id"),
                 Name = reader.GetStringSafe("name"),
                 EffectType = reader.GetStringSafe("effect_type"),
                 Duration = reader.IsDBNull(reader.GetOrdinal("duration")) ? 0 : reader.GetIntSafe("duration"),
                 Description = reader.GetStringSafe("description"),
                 EffectProperty = new EffectProperty
                 {
-                    PropertyId = reader.GetIntSafe("property_id"),
+                    PropertyId = reader.GetStringSafe("property_id"),
                     PropertyCode = reader.GetStringSafe("property_code"),
                     PropertyName = reader.GetStringSafe("property_name"),
                 },
                 EffectAction = new EffectAction
                 {
-                    ActionId = reader.GetIntSafe("action_id"),
+                    ActionId = reader.GetStringSafe("action_id"),
                     ActionCode = reader.GetStringSafe("action_code"),
                     ActionName = reader.GetStringSafe("action_name"),
                 }

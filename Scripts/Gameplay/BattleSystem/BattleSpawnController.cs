@@ -366,6 +366,8 @@ public class BattleSpawnController : MonoBehaviour
                 continue;
             }
 
+            hero.Team = isAlpha ? Team.Alpha : Team.Omega;
+
             if (hero.MainPosition < 1 || hero.MainPosition > 10)
             {
                 Debug.LogWarning($"[BattleSpawnController] {hero.Name} có MainPosition không hợp lệ: {hero.MainPosition} (raw: '{hero.Position}')");

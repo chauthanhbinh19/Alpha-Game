@@ -152,6 +152,11 @@ public static class AppConstants
         public const string SKILL_DAMAGE_RATE = "SKILL_DAMAGE_RATE"; // Tỷ lệ sát thương từ kỹ năng
         public const string SKILL_RESISTANCE_RATE = "SKILL_RESISTANCE_RATE"; // Tỷ lệ kháng sát thương từ kỹ năng
         public const string CONTROL_STATE = "CONTROL_STATE"; // Trạng thái khống chế hành động của nhân vật
+        public const string PHYSICAL = "PHYSICAL";
+        public const string MAGICAL = "MAGICAL";
+        public const string CHEMICAL = "CHEMICAL";
+        public const string ATOMIC = "ATOMIC";
+        public const string MENTAL = "MENTAL";
         public static readonly List<string> AllProperties = new List<string>
         {
             HEALTH, PHYSICAL_ATTACK, PHYSICAL_DEFENSE, MAGICAL_ATTACK, MAGICAL_DEFENSE,
@@ -212,8 +217,6 @@ public static class AppConstants
         public const string ON_BE_CRIT = "ON_BE_CRIT";
         public const string ON_KILL = "ON_KILL";
         public const string ON_DEATH = "ON_DEATH";
-        public const string ON_HP_BELOW_X = "ON_HP_BELOW_X";
-        public const string ON_HP_ABOVE_X = "ON_HP_ABOVE_X";
         public const string ON_REVIVE = "ON_REVIVE";
         public const string ON_HEAL = "ON_HEAL";
         public const string ON_BE_HEALED = "ON_BE_HEALED";
@@ -221,11 +224,6 @@ public static class AppConstants
         public const string ON_BUFF_REMOVE = "ON_BUFF_REMOVE";
         public const string ON_DEBUFF_GAIN = "ON_DEBUFF_GAIN";
         public const string ON_DEBUFF_REMOVE = "ON_DEBUFF_REMOVE";
-        public const string ON_ALLY = "ON_ALLY";
-        public const string ON_ALLY_ATTACK = "ON_ALLY_ATTACK";
-        public const string ON_ALLY_BE_HIT = "ON_ALLY_BE_HIT";
-        public const string ON_ALLY_HEAL = "ON_ALLY_HEAL";
-        public const string ON_ALLY_DEATH = "ON_ALLY_DEATH";
     }
     public static class Rare
     {

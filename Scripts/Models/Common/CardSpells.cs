@@ -10,7 +10,7 @@ public class CardSpells : BaseEntity, IPowerSortable, ICard, IStats
     public string Type { get; set; }
     public int CurrentStar { get; set; }
     public int TempStar { get; set; }
-    public double Quantity { get; set; }
+    public int Quantity { get; set; }
     public bool Block { get; set; }
     public string Position { get; set; }
     public string Description { get; set; }

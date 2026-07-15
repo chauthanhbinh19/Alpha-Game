@@ -7,7 +7,7 @@ public class Collaborations : BaseEntity, IPowerSortable, IStats
     public double Quality { get; set; }
     public int CurrentStar { get; set; }
     public int TempStar { get; set; }
-    public double Quantity { get; set; }
+    public int Quantity { get; set; }
     public string Description { get; set; }
     public string Status { get; set; }
     public double PercentAllHealth { get; set; }

@@ -40,7 +40,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                             string image = reader.GetStringSafe("image");
                             string name = reader.GetStringSafe("name");
                             string currencyId = reader.GetStringSafe("currency_id");
-                            double quantity = reader.GetDoubleSafe("quantity");
+                            int quantity = reader.GetIntSafe("quantity");
 
                             currencies.Add(new Currencies
                             {
@@ -96,7 +96,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Quantity = reader.GetDoubleSafe("quantity")
+                                Quantity = reader.GetIntSafe("quantity")
                             };
                         }
                     }
@@ -145,7 +145,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Quantity = reader.GetDoubleSafe("quantity")
+                                Quantity = reader.GetIntSafe("quantity")
                             };
                         }
                     }
@@ -272,7 +272,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Quantity = reader.GetDoubleSafe("quantity"),
+                                Quantity = reader.GetIntSafe("quantity"),
                             };
                             currencies.Add(currency);
                         }
@@ -323,7 +323,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Quantity = reader.GetDoubleSafe("price"), // price lưu vào Quantity
+                                Quantity = reader.GetIntSafe("price"), // price lưu vào Quantity
                             };
                         }
                     }
@@ -373,7 +373,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("id"),
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
-                                Quantity = reader.GetDoubleSafe("quantity")
+                                Quantity = reader.GetIntSafe("quantity")
                             };
                         }
                     }
@@ -422,7 +422,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -471,7 +471,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -520,7 +520,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -569,7 +569,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -618,7 +618,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -667,7 +667,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -716,7 +716,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -765,7 +765,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -814,7 +814,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -863,7 +863,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -912,7 +912,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -961,7 +961,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1010,7 +1010,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1059,7 +1059,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1108,7 +1108,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1157,7 +1157,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1206,7 +1206,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1255,7 +1255,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1304,7 +1304,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1353,7 +1353,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1402,7 +1402,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1451,7 +1451,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1500,7 +1500,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1549,7 +1549,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1598,7 +1598,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1647,7 +1647,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1696,7 +1696,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1745,7 +1745,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1794,7 +1794,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1843,7 +1843,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1892,7 +1892,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1941,7 +1941,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -1990,7 +1990,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2039,7 +2039,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2088,7 +2088,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2137,7 +2137,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2186,7 +2186,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2235,7 +2235,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2284,7 +2284,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2333,7 +2333,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2382,7 +2382,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2431,7 +2431,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2480,7 +2480,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2529,7 +2529,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2578,7 +2578,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2627,7 +2627,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2676,7 +2676,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }
@@ -2725,7 +2725,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                                 Id = reader.GetStringSafe("currency_id"),
                                 Name = reader.GetStringSafe("currency_name"),
                                 Image = reader.GetStringSafe("currency_image"),
-                                Quantity = reader.GetDoubleSafe("trade_price")
+                                Quantity = reader.GetIntSafe("trade_price")
                             };
                         }
                     }

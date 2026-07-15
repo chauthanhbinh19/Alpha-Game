@@ -1146,7 +1146,7 @@ public class UserPetsRepository : IUserPetsRepository
                                 Star = reader.GetIntSafe("star"),
                                 Level = reader.GetIntSafe("level"),
                                 Experience = reader.GetDoubleSafe("experience"),
-                                Quantity = reader.GetDoubleSafe("quantity"),
+                                Quantity = reader.GetIntSafe("quantity"),
                                 TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetStringSafe("team_id"),
                                 Position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetStringSafe("position"),
                                 Power = reader.GetDoubleSafe("power"),

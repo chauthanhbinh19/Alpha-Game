@@ -9,7 +9,7 @@ public interface IStats
     public int Level { get; set; }
     public double Experience { get; set; }
     public double Quality { get; set; }
-    public double Quantity { get; set; }
+    public int Quantity { get; set; }
     public double Power { get; set; }
     public double Health { get; set; }
     public double PhysicalAttack { get; set; }

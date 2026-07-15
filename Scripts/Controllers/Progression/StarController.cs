@@ -64,7 +64,7 @@ public class StarController : MonoBehaviour
         int currentStar = stat.Star;
         int targetStar = currentStar;
 
-        long currentMaterialCount = 0;
+        int currentMaterialCount = 0;
 
         string texturePath =
             ImageHelper.RemoveImageExtension("UI/Icon/storage");
@@ -130,7 +130,7 @@ public class StarController : MonoBehaviour
             targetStar = tempStar;
         }
 
-        long CalculateMaxMaterialsNeeded()
+        int CalculateMaxMaterialsNeeded()
         {
             double total = 0;
 
@@ -139,7 +139,7 @@ public class StarController : MonoBehaviour
                 total += starRule(star);
             }
 
-            return (long)Math.Ceiling(total);
+            return (int)Math.Ceiling(total);
         }
 
         void RefreshUI()
@@ -190,7 +190,7 @@ public class StarController : MonoBehaviour
             }
         }
 
-        void ChangeMaterialCount(long amount)
+        void ChangeMaterialCount(int amount)
         {
             currentMaterialCount += amount;
 
@@ -199,7 +199,7 @@ public class StarController : MonoBehaviour
                     0,
                     Math.Min(
                         currentMaterialCount,
-                        (long)stat.Quantity));
+                        stat.Quantity));
 
             CalculateStarFromMaterials(
                 currentMaterialCount);
@@ -209,13 +209,13 @@ public class StarController : MonoBehaviour
 
         void SetMaxMaterialCount()
         {
-            long maxNeed =
+            int maxNeed =
                 CalculateMaxMaterialsNeeded();
 
             currentMaterialCount =
                 Math.Min(
                     maxNeed,
-                    (long)stat.Quantity);
+                    stat.Quantity);
 
             CalculateStarFromMaterials(
                 currentMaterialCount);
@@ -227,7 +227,7 @@ public class StarController : MonoBehaviour
         quantitySlider.onValueChanged.AddListener(value =>
         {
             currentMaterialCount =
-                (long)Math.Round(value);
+                (int)Math.Round(value);
 
             CalculateStarFromMaterials(
                 currentMaterialCount);
