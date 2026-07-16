@@ -10,7 +10,7 @@ public interface IUserCardHeroesService
     Task<List<CardHeroes>> GetSkillsAsync(string user_id, List<CardHeroes> CardHeroesList);
     Task<List<CardHeroes>> GetUserCardHeroesAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<List<CardHeroes>> GetUserCardHeroesTeamAsync(string user_id, string teamId, string position);
-    Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string user_id, string teamId);
+    Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null);
     Task<Dictionary<string, int>> GetUniqueCardHeroesTypesTeamAsync(string teamId);
     Task<bool> UpdateTeamCardHeroAsync(string team_id, string position, string card_id);
     Task<int> GetUserCardHeroesCountAsync(string user_id, string search, string type, string rare);

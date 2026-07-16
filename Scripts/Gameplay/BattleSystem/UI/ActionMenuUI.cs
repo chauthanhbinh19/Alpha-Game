@@ -362,6 +362,7 @@ public class ActionMenuUI : MonoBehaviour
                 // 3. Sử dụng Lambda diễn giải logic click trực tiếp tại đây luôn
                 button.onClick.AddListener(() =>
                 {
+                    AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     // 1. Cập nhật trạng thái đóng/mở chéo giữa các skill như cũ
                     foreach (GameObject item in spawnedPrefabs)
                     {
@@ -414,6 +415,7 @@ public class ActionMenuUI : MonoBehaviour
                             closeButton.onClick.RemoveAllListeners();
                             closeButton.onClick.AddListener(() =>
                             {
+                                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                                 // Khi click CloseButton: Trả chính iconObject này về trạng thái mặc định
                                 if (dec1 != null) dec1.gameObject.SetActive(true);
                                 if (dec2 != null) dec2.gameObject.SetActive(false);
@@ -480,7 +482,7 @@ public class ActionMenuUI : MonoBehaviour
             // Gọi hàm hiện phạm vi tấn công dựa theo ô cờ thực tế mới cập nhật
             GridManager.Instance.ShowAttackRangeAt(TargetCell.GridPosition, AttackRange, isPlayerCard);
 
-            Debug.Log($"[ActionMenu] Đang hiển thị tầm đánh ({AttackRange} ô) của quân cờ tại vị trí MỚI {TargetCell.GridPosition}. Phe Player: {isPlayerCard}");
+            // Debug.Log($"[ActionMenu] Đang hiển thị tầm đánh ({AttackRange} ô) của quân cờ tại vị trí MỚI {TargetCell.GridPosition}. Phe Player: {isPlayerCard}");
         }
         else
         {

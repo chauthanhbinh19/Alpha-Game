@@ -33,7 +33,7 @@ public class CameraController : MonoBehaviour
         MaxZ = Mathf.Max(BottomLeftCorner.z, TopRightCorner.z);
 
         // Debug để bạn kiểm tra xem biên nhận đúng chưa
-        Debug.Log($"[Cam Bounds] Đã thiết lập hình vuông giới hạn: X ({MinX} -> {MaxX}), Z ({MinZ} -> {MaxZ}) | Y ({MinHeight} -> {MaxHeight})");
+        // Debug.Log($"[Cam Bounds] Đã thiết lập hình vuông giới hạn: X ({MinX} -> {MaxX}), Z ({MinZ} -> {MaxZ}) | Y ({MinHeight} -> {MaxHeight})");
     }
 
     void Update()

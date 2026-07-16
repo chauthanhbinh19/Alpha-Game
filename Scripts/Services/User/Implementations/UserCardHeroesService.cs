@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -348,8 +350,8 @@ public class UserCardHeroesService : IUserCardHeroesService
         }
         return cardHeroes;
     }
-    
-    
+
+
     public async Task<List<CardHeroes>> GetSkillsAsync(string user_id, List<CardHeroes> CardHeroesList)
     {
         foreach (CardHeroes cardHeroes in CardHeroesList)
@@ -532,51 +534,14 @@ public class UserCardHeroesService : IUserCardHeroesService
         return list;
     }
 
-    public async Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string user_id, string teamId)
+    public async Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null)
     {
         List<CardHeroes> list = await _userCardHeroesRepository.GetUserCardHeroesTeamWithoutPositionAsync(user_id, teamId);
 
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(user_id);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(user_id);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(user_id);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(user_id);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(user_id);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(user_id);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(user_id);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
-
         List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
+        // list = list.Take(10).ToList();
 
         var skillsTask = UserSkillsService.Create().GetUserCardHeroesSkillsAsync(user_id, cardHeroIds);
-
-        await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
-        universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, hicbTask, animeStatsTask, skillsTask);
-
-        var powerManagerData = await powerManagerTask;
-        var scienceFictionData = await scienceFictionTask;
-        var researchData = await researchTask;
-        var archiveData = await archiveTask;
-        var universeData = await universeTask;
-        var hiinData = await hiinTask;
-        var sswnData = await sswnTask;
-        var hitnData = await hitnTask;
-        var hihnData = await hihnTask;
-        var hienData = await hienTask;
-        var hicaData = await hicaTask;
-        var hirnData = await hirnTask;
-        var hidcData = await hidcTask;
-        var hicbData = await hicbTask;
-        var hisnData = await hisnTask;
-        var animeStatsData = await animeStatsTask;
 
         var skillData = await skillsTask;
         foreach (var skill in skillData)
@@ -587,6 +552,12 @@ public class UserCardHeroesService : IUserCardHeroesService
             }
         }
 
+        UserStatsContextDTO context = sharedContext;
+        if (context == null)
+        {
+            context = await UserStatsService.Create().GetUserStatsContextAsync(user_id);
+        }
+
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         // list = await GetAllEquipmentPowerAsync(user_id, list);
@@ -595,28 +566,120 @@ public class UserCardHeroesService : IUserCardHeroesService
         // list = await GetSkillsAsync(user_id, list);
         foreach (var card in list)
         {
-            card.ApplyPowerStats(powerManagerData);
-            card.ApplyScienceFictionStats(scienceFictionData);
-            card.ApplyResearchStats(researchData);
-            card.ApplyArchiveStats(archiveData);
-            card.ApplyUniverseStats(universeData);
-            card.ApplyHIINStats(hiinData);
-            card.ApplySSWNStats(sswnData);
-            card.ApplyHITNStats(hitnData);
-            card.ApplyHIHNStats(hihnData);
-            card.ApplyHIENStats(hienData);
-            card.ApplyHICAStats(hicaData);
-            card.ApplyHIRNStats(hirnData);
-            card.ApplyHIDCStats(hidcData);
-            card.ApplyHICBStats(hicbData);
-            card.ApplyHISNStats(hisnData);
-            card.ApplyAllUserAnimes(animeStatsData);
+            card.ApplyPowerStats(context.PowerManagerData);
+            card.ApplyScienceFictionStats(context.ScienceFictionData);
+            card.ApplyResearchStats(context.ResearchData);
+            card.ApplyArchiveStats(context.ArchiveData);
+            card.ApplyUniverseStats(context.UniverseData);
+            card.ApplyHIINStats(context.HiinData);
+            card.ApplySSWNStats(context.SswnData);
+            card.ApplyHITNStats(context.HitnData);
+            card.ApplyHIHNStats(context.HihnData);
+            card.ApplyHIENStats(context.HienData);
+            card.ApplyHICAStats(context.HicaData);
+            card.ApplyHIRNStats(context.HirnData);
+            card.ApplyHIDCStats(context.HidcData);
+            card.ApplyHICBStats(context.HicbData);
+            card.ApplyHISNStats(context.HisnData);
+            card.ApplyAllUserAnimes(context.AnimeStatsData);
             card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
             card.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);
         return list;
     }
+
+    // public async Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null)
+    // {
+    //     // 1. Đo thời gian lấy danh sách Hero gốc từ DB
+    //     var swRepo = Stopwatch.StartNew();
+    //     List<CardHeroes> list = await _userCardHeroesRepository.GetUserCardHeroesTeamWithoutPositionAsync(user_id, teamId);
+    //     swRepo.Stop();
+    //     UnityEngine.Debug.Log($"[Timer] _userCardHeroesRepository: {swRepo.ElapsedMilliseconds} ms");
+
+    //     List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
+
+    //     // Khởi tạo các Stopwatch riêng biệt cho từng Task bất đồng bộ
+    //     var swSkills = new Stopwatch();
+
+    //     // Hàm local hỗ trợ đo đạc và tự động bắn log lên Unity Console
+    //     async Task<T> MeasureTask<T>(Func<Task<T>> taskFunc, Stopwatch sw, string taskName)
+    //     {
+    //         sw.Start();
+    //         try
+    //         {
+    //             return await taskFunc();
+    //         }
+    //         finally
+    //         {
+    //             sw.Stop();
+    //             UnityEngine.Debug.Log($"[Timer] {taskName}: {sw.ElapsedMilliseconds} ms");
+    //         }
+    //     }
+
+    //     // Lấy danh sách kỹ năng dựa theo Id Hero
+    //     var skillsTask = MeasureTask(() => UserSkillsService.Create().GetUserCardHeroesSkillsAsync(user_id, cardHeroIds), swSkills, "SkillsFetch");
+
+    //     // Đợi tất cả hoàn thành cùng nhau
+    //     var swTotalParallel = Stopwatch.StartNew();
+    //     await Task.WhenAll(skillsTask);
+    //     swTotalParallel.Stop();
+    //     UnityEngine.Debug.LogWarning($"--- [Timer] Tổng thời gian chờ xử lý song song (WhenAll): {swTotalParallel.ElapsedMilliseconds} ms ---");
+
+    //     // Lấy kết quả trả về từ các Task
+    //     var skillData = await skillsTask;
+
+    //     // 2. Đo thời gian xử lý Cache dữ liệu Patterns
+    //     var swCache = Stopwatch.StartNew();
+    //     foreach (var skill in skillData)
+    //     {
+    //         if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
+    //         {
+    //             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+    //         }
+    //     }
+
+    //     UserStatsContextDTO context = sharedContext;
+    //     if (context == null)
+    //     {
+    //         context = await UserStatsService.Create().GetUserStatsContextAsync(user_id);
+    //     }
+
+    //     swCache.Stop();
+    //     UnityEngine.Debug.Log($"[Timer] Pattern Cache Mapping: {swCache.ElapsedMilliseconds} ms");
+
+    //     // 3. Đo thời gian xử lý logic tính toán Chỉ số sức mạnh & Sắp xếp
+    //     var swCalculations = Stopwatch.StartNew();
+    //     list = QualityEvaluatorHelper.GetQualityPower(list);
+
+    //     foreach (var card in list)
+    //     {
+    //         card.ApplyPowerStats(context.PowerManagerData);
+    //         card.ApplyScienceFictionStats(context.ScienceFictionData);
+    //         card.ApplyResearchStats(context.ResearchData);
+    //         card.ApplyArchiveStats(context.ArchiveData);
+    //         card.ApplyUniverseStats(context.UniverseData);
+    //         card.ApplyHIINStats(context.HiinData);
+    //         card.ApplySSWNStats(context.SswnData);
+    //         card.ApplyHITNStats(context.HitnData);
+    //         card.ApplyHIHNStats(context.HihnData);
+    //         card.ApplyHIENStats(context.HienData);
+    //         card.ApplyHICAStats(context.HicaData);
+    //         card.ApplyHIRNStats(context.HirnData);
+    //         card.ApplyHIDCStats(context.HidcData);
+    //         card.ApplyHICBStats(context.HicbData);
+    //         card.ApplyHISNStats(context.HisnData);
+    //         card.ApplyAllUserAnimes(context.AnimeStatsData);
+    //         card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
+    //         card.RecalculatePower();
+    //     }
+    //     ListSortHelper.SortByPower(list);
+    //     swCalculations.Stop();
+
+    //     UnityEngine.Debug.Log($"[Timer] Calculate Power & Sort (CPU): {swCalculations.ElapsedMilliseconds} ms");
+
+    //     return list;
+    // }
 
     public async Task<Dictionary<string, int>> GetUniqueCardHeroesTypesTeamAsync(string teamId)
     {

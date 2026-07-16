@@ -9,7 +9,7 @@ public interface IUserCardSoldiersService
     Task<List<CardSoldiers>> GetSkillsAsync(string user_id, List<CardSoldiers> CardSoldiersList);
     Task<List<CardSoldiers>> GetUserCardSoldiersAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<List<CardSoldiers>> GetUserCardSoldiersTeamAsync(string user_id, string teamId, string position);
-    Task<List<CardSoldiers>> GetUserCardSoldiersTeamWithoutPositionAsync(string user_id, string teamId);
+    Task<List<CardSoldiers>> GetUserCardSoldiersTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null);
     Task<Dictionary<string, int>> GetUniqueCardSoldiersTypesTeamAsync(string teamId);
     Task<bool> UpdateTeamCardSoldierAsync(string team_id, string position, string card_id);
     Task<int> GetUserCardSoldiersCountAsync(string user_id, string search, string type, string rare);

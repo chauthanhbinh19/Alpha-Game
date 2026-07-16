@@ -48,4 +48,8 @@ public class Skills : BaseEntity, IPowerSortable, IStats
         PercentAllMentalAttack = -1;
         PercentAllMentalDefense = -1;
     }
+    public Skills Clone()
+    {
+        return (Skills)this.MemberwiseClone();
+    }
 }

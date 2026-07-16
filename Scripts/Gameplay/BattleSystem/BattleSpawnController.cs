@@ -106,7 +106,7 @@ public class BattleSpawnController : MonoBehaviour
         if (!GridManager.IsGridReady())
         {
             prepareScheduled = true;
-            Debug.Log("[BattleSpawnController] Grid chưa sẵn sàng, đang chờ khởi tạo trước khi chuẩn bị sân đấu...");
+            // Debug.Log("[BattleSpawnController] Grid chưa sẵn sàng, đang chờ khởi tạo trước khi chuẩn bị sân đấu...");
             GridManager.InitializeGridAsync(() =>
             {
                 // After grid initialization, continue loading teams and deploying
@@ -172,7 +172,7 @@ public class BattleSpawnController : MonoBehaviour
             TeamDeploymentResult alphaData = alphaTask.Result;
             TeamDeploymentResult omegaData = omegaTask.Result;
 
-            Debug.Log($"[BattleSpawnController] Loaded battle teams: Alpha on-field={alphaData?.OnFieldCards?.Count ?? 0}, Alpha bench={alphaData?.BenchCards?.Count ?? 0}, Omega on-field={omegaData?.OnFieldCards?.Count ?? 0}, Omega bench={omegaData?.BenchCards?.Count ?? 0}");
+            // Debug.Log($"[BattleSpawnController] Loaded battle teams: Alpha on-field={alphaData?.OnFieldCards?.Count ?? 0}, Alpha bench={alphaData?.BenchCards?.Count ?? 0}, Omega on-field={omegaData?.OnFieldCards?.Count ?? 0}, Omega bench={omegaData?.BenchCards?.Count ?? 0}");
             // LogTeamDeploymentDetails(alphaData, "Alpha");
             // LogTeamDeploymentDetails(omegaData, "Omega");
 
@@ -217,7 +217,7 @@ public class BattleSpawnController : MonoBehaviour
                 ActionMenuUI.Instance.ShowBattleTimeline();
             }
 
-            Debug.Log("[BattleSpawnController] Teams loaded and deployed to battlefield.");
+            // Debug.Log("[BattleSpawnController] Teams loaded and deployed to battlefield.");
         }
         catch (System.Exception ex)
         {

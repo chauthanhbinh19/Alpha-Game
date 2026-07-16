@@ -302,15 +302,16 @@ public class TeamsManager : MonoBehaviour
         // List<CardMonsters> cardMonsterList = await taskCardMonster;
         // List<CardMilitaries> cardMilitaryList = await taskCardMilitary;
         // List<CardSpells> cardSpellList = await taskCardSpell;
+        UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
 
-        List<CardHeroes> cardHeroList = await UserCardHeroesService.GetUserCardHeroesTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
-        List<CardCaptains> cardCaptainList = await UserCardCaptainsService.GetUserCardCaptainsTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
-        List<CardColonels> cardColonelList = await UserCardColonelsService.GetUserCardColonelsTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
-        List<CardGenerals> cardGeneralList = await UserCardGeneralsService.GetUserCardGeneralsTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
-        List<CardAdmirals> cardAdmiralList = await UserCardAdmiralsService.GetUserCardAdmiralsTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
-        List<CardMonsters> cardMonsterList = await UserCardMonstersService.GetUserCardMonstersTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
-        List<CardMilitaries> cardMilitaryList = await UserCardMilitariesService.GetUserCardMilitariesTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
-        List<CardSpells> cardSpellList = await UserCardSpellsService.GetUserCardSpellsTeamWithoutPositionAsync(User.CurrentUserId, TeamId);
+        List<CardHeroes> cardHeroList = await UserCardHeroesService.GetUserCardHeroesTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
+        List<CardCaptains> cardCaptainList = await UserCardCaptainsService.GetUserCardCaptainsTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
+        List<CardColonels> cardColonelList = await UserCardColonelsService.GetUserCardColonelsTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
+        List<CardGenerals> cardGeneralList = await UserCardGeneralsService.GetUserCardGeneralsTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
+        List<CardAdmirals> cardAdmiralList = await UserCardAdmiralsService.GetUserCardAdmiralsTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
+        List<CardMonsters> cardMonsterList = await UserCardMonstersService.GetUserCardMonstersTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
+        List<CardMilitaries> cardMilitaryList = await UserCardMilitariesService.GetUserCardMilitariesTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
+        List<CardSpells> cardSpellList = await UserCardSpellsService.GetUserCardSpellsTeamWithoutPositionAsync(User.CurrentUserId, TeamId, sharedContext);
 
         for (int i = 1; i <= 10; i++)
         {

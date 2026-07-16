@@ -29,6 +29,7 @@ public interface IUserSkillsService
     Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, List<string> cardMonsterIds);
     Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, List<string> cardSpellIds);
     Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string user_id, List<string> cardSoldierIds);
+    Task<List<Skills>> GetUserCardsSkillsAsync(string userId, List<string> allCardIds);
     Task<bool> InsertUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> InsertUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> InsertUserCardColonelSkillsAsync(string userId, string cardId, string skillId, int position);

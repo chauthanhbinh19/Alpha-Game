@@ -29,6 +29,7 @@ public interface IUserSkillsRepository
     Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, List<string> cardMonsterIds);
     Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, List<string> cardSpellIds);
     Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string user_id, List<string> cardSoldierIds);
+    Task<List<Skills>> GetUserCardsSkillsAsync(string userId, List<string> allCardIds);
     Task<bool> InsertUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> InsertUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> InsertUserCardColonelSkillsAsync(string userId, string cardId, string skillId, int position);
@@ -56,4 +57,5 @@ public interface IUserSkillsRepository
     Task<int> AssignRandomSkillsToUserCardMilitariesAsync(string userId);
     Task<int> AssignRandomSkillsToUserCardSoldiersAsync(string userId);
     Task<int> AssignRandomSkillsToUserCardSpellsAsync(string userId);
+    Task<int> AssignRandomSkillsInternalAsync(string userId, string userCardTable, string targetSkillTable, string cardIdColumn);
 }

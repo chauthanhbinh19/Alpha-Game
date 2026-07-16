@@ -7,7 +7,7 @@ public class FlatEffectDTO
     public int duration;
     public string value_type;
     public int value;
-    public float scaling_factor;
+    public double scaling_factor;
 
     public double min_value;
     public double max_value;

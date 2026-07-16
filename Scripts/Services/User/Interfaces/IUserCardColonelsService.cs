@@ -10,7 +10,7 @@ public interface IUseCardColonelsService
     Task<List<CardColonels>> GetSkillsAsync(string user_id, List<CardColonels> CardColonelsList);
     Task<List<CardColonels>> GetUserCardColonelsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<List<CardColonels>> GetUserCardColonelsTeamAsync(string user_id, string teamId, string position);
-    Task<List<CardColonels>> GetUserCardColonelsTeamWithoutPositionAsync(string user_id, string teamId);
+    Task<List<CardColonels>> GetUserCardColonelsTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null);
     Task<Dictionary<string, int>> GetUniqueCardColonelsTypesTeamAsync(string teamId);
     Task<bool> UpdateTeamCardColonelAsync(string team_id, string position, string card_id);
     Task<int> GetUserCardColonelsCountAsync(string user_id, string search, string type, string rare);

@@ -7,7 +7,7 @@ public class Effects
     public int Duration { get; set; }
     public string ValueType { get; set; }
     public int Value { get; set; }
-    public float ScalingFactor { get; set; }
+    public double ScalingFactor { get; set; }
     public double MinValue { get; set; }
     public double MaxValue { get; set; }
     public string TriggerPhase { get; set; }

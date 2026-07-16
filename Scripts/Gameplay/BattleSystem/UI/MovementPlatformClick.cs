@@ -16,7 +16,7 @@ public class MovementPlatformClick : MonoBehaviour, IPointerClickHandler
         // Khi GameObject này activeSelf = true và có Collider, EventSystem mới nhận diện được cú click
         if (ParentCell != null)
         {
-            Debug.Log($"Click trực tiếp trúng nền di chuyển của ô {ParentCell.GridPosition}");
+            // Debug.Log($"Click trực tiếp trúng nền di chuyển của ô {ParentCell.GridPosition}");
             GridManager.Instance.HandleCellClick(ParentCell);
         }
     }
