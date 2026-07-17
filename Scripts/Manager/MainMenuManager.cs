@@ -703,7 +703,8 @@ public class MainMenuManager : MonoBehaviour
         ButtonEvent.Instance.Close(DictionaryContentPanel);
         if (MainType.Equals(AppConstants.MainType.CARD_HERO))
         {
-            List<CardHeroes> cardHeroes = await UserCardHeroesService.Create().GetUserCardHeroesAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
+            UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
+            List<CardHeroes> cardHeroes = await UserCardHeroesService.Create().GetUserCardHeroesAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare, sharedContext);
             Close(DictionaryContentPanel);
             UserCardHeroesController.Instance.CreateUserCardHeroes(cardHeroes, DictionaryContentPanel);
             listCount = cardHeroes.Count;
@@ -721,7 +722,8 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
         {
-            List<CardCaptains> cardCaptains = await UserCardCaptainsService.Create().GetUserCardCaptainsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
+            UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
+            List<CardCaptains> cardCaptains = await UserCardCaptainsService.Create().GetUserCardCaptainsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare, sharedContext);
             Close(DictionaryContentPanel);
             UserCardCaptainsController.Instance.CreateUserCardCaptains(cardCaptains, DictionaryContentPanel);
             listCount = cardCaptains.Count;
@@ -775,7 +777,8 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
-            List<CardMilitaries> cardMilitaries = await UserCardMilitariesService.Create().GetUserCardMilitariesAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
+            UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
+            List<CardMilitaries> cardMilitaries = await UserCardMilitariesService.Create().GetUserCardMilitariesAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare, sharedContext);
             Close(DictionaryContentPanel);
             UserCardMilitariesController.Instance.CreateUserCardMilitaries(cardMilitaries, DictionaryContentPanel);
             listCount = cardMilitaries.Count;
@@ -784,7 +787,8 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
-            List<CardSpells> cardSpells = await UserCardSpellsService.Create().GetUserCardSpellsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
+            UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
+            List<CardSpells> cardSpells = await UserCardSpellsService.Create().GetUserCardSpellsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare, sharedContext);
             Close(DictionaryContentPanel);
             UserCardSpellsController.Instance.CreateUserCardSpells(cardSpells, DictionaryContentPanel);
             listCount = cardSpells.Count;
@@ -838,7 +842,8 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_MONSTER))
         {
-            List<CardMonsters> cardMonsters = await UserCardMonstersService.Create().GetUserCardMonstersAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
+            UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
+            List<CardMonsters> cardMonsters = await UserCardMonstersService.Create().GetUserCardMonstersAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare, sharedContext);
             Close(DictionaryContentPanel);
             UserCardMonstersController.Instance.CreateUserCardMonsters(cardMonsters, DictionaryContentPanel);
             listCount = cardMonsters.Count;
@@ -847,7 +852,8 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_COLONEL))
         {
-            List<CardColonels> cardColonels = await UserCardColonelsService.Create().GetUserCardColonelsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
+            UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
+            List<CardColonels> cardColonels = await UserCardColonelsService.Create().GetUserCardColonelsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare, sharedContext);
             Close(DictionaryContentPanel);
             UserCardColonelsController.Instance.CreateUserCardColonels(cardColonels, DictionaryContentPanel);
             listCount = cardColonels.Count;
@@ -856,7 +862,8 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_GENERAL))
         {
-            List<CardGenerals> cardGenerals = await UserCardGeneralsService.Create().GetUserCardGeneralsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
+            UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
+            List<CardGenerals> cardGenerals = await UserCardGeneralsService.Create().GetUserCardGeneralsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare, sharedContext);
             Close(DictionaryContentPanel);
             UserCardGeneralsController.Instance.CreateUserCardGenerals(cardGenerals, DictionaryContentPanel);
             listCount = cardGenerals.Count;
@@ -865,7 +872,8 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
         {
-            List<CardAdmirals> cardAdmirals = await UserCardAdmiralsService.Create().GetUserCardAdmiralsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
+            UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
+            List<CardAdmirals> cardAdmirals = await UserCardAdmiralsService.Create().GetUserCardAdmiralsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare, sharedContext);
             Close(DictionaryContentPanel);
             UserCardAdmiralsController.Instance.CreateUserCardAdmirals(cardAdmirals, DictionaryContentPanel);
             listCount = cardAdmirals.Count;
@@ -1126,7 +1134,8 @@ public class MainMenuManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_SOLDIER))
         {
-            List<CardSoldiers> cardSoldiers = await UserCardSoldiersService.Create().GetUserCardSoldiersAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
+            UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
+            List<CardSoldiers> cardSoldiers = await UserCardSoldiersService.Create().GetUserCardSoldiersAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare ,sharedContext);
             Close(DictionaryContentPanel);
             UserCardSoldiersController.Instance.CreateUserCardSoldiers(cardSoldiers, DictionaryContentPanel);
             listCount = cardSoldiers.Count;

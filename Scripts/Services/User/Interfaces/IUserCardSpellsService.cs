@@ -8,8 +8,8 @@ public interface IUserCardSpellsService
     Task<List<CardSpells>> GetAllMasterPowerAsync(string user_id, List<CardSpells> CardSpellList);
     Task<List<CardSpells>> GetAllSpiritBeastPowerAsync(string user_id, List<CardSpells> cardSpells);
     Task<List<CardSpells>> GetSkillsAsync(string user_id, List<CardSpells> CardSpellList);
-    Task<List<CardSpells>> GetUserCardSpellsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<List<CardSpells>> GetUserCardSpellsTeamAsync(string user_id, string teamId, string position);
+    Task<List<CardSpells>> GetUserCardSpellsAsync(string user_id, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
+    Task<List<CardSpells>> GetUserCardSpellsTeamAsync(string user_id, string teamId, string position, UserStatsContextDTO sharedContext = null);
     Task<List<CardSpells>> GetUserCardSpellsTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null);
     Task<Dictionary<string, int>> GetUniqueCardSpellsTypesTeamAsync(string teamId);
     Task<bool> UpdateTeamCardSpellAsync(string team_id, string position, string card_id);
@@ -21,6 +21,6 @@ public interface IUserCardSpellsService
     Task<bool> UpdateCardSpellLevelAsync(CardSpells cardSpell);
     Task<bool> UpdateCardSpellStarAsync(CardSpells cardSpell);
     Task<bool> UpdateCardSpellBreakthroughAsync(CardSpells cardSpell, int star, double quantity);
-    Task<CardSpells> GetUserCardSpellByIdAsync(string user_id, string Id);
-    Task<List<CardSpells>> GetAllUserCardSpellsInTeamAsync(string user_id);
+    Task<CardSpells> GetUserCardSpellByIdAsync(string user_id, string Id, UserStatsContextDTO sharedContext = null);
+    Task<List<CardSpells>> GetAllUserCardSpellsInTeamAsync(string user_id, UserStatsContextDTO sharedContext = null);
 }

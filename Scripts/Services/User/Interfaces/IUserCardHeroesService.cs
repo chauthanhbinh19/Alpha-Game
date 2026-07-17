@@ -8,8 +8,8 @@ public interface IUserCardHeroesService
     Task<List<CardHeroes>> GetAllMasterPowerAsync(string user_id, List<CardHeroes> CardHeroesList);
     Task<List<CardHeroes>> GetAllSpiritBeastPowerAsync(string user_id, List<CardHeroes> cardHeroes);
     Task<List<CardHeroes>> GetSkillsAsync(string user_id, List<CardHeroes> CardHeroesList);
-    Task<List<CardHeroes>> GetUserCardHeroesAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<List<CardHeroes>> GetUserCardHeroesTeamAsync(string user_id, string teamId, string position);
+    Task<List<CardHeroes>> GetUserCardHeroesAsync(string user_id, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
+    Task<List<CardHeroes>> GetUserCardHeroesTeamAsync(string user_id, string teamId, string position, UserStatsContextDTO sharedContext = null);
     Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null);
     Task<Dictionary<string, int>> GetUniqueCardHeroesTypesTeamAsync(string teamId);
     Task<bool> UpdateTeamCardHeroAsync(string team_id, string position, string card_id);
@@ -21,6 +21,6 @@ public interface IUserCardHeroesService
     Task<bool> UpdateCardHeroLevelAsync(CardHeroes cardHero);
     Task<bool> UpdateCardHeroStarAsync(CardHeroes cardHero);
     Task<bool> UpdateCardHeroBreakthroughAsync(CardHeroes cardHero, int star, double quantity);
-    Task<CardHeroes> GetUserCardHeroByIdAsync(string user_id, string Id);
-    Task<List<CardHeroes>> GetAllUserCardHeroesInTeamAsync(string user_id);
+    Task<CardHeroes> GetUserCardHeroByIdAsync(string user_id, string Id, UserStatsContextDTO sharedContext = null);
+    Task<List<CardHeroes>> GetAllUserCardHeroesInTeamAsync(string user_id, UserStatsContextDTO sharedContext = null);
 }

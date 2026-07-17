@@ -8,8 +8,8 @@ public interface IUserCardMilitariesService
     Task<List<CardMilitaries>> GetAllMasterPowerAsync(string user_id, List<CardMilitaries> CardMilitaryList);
     Task<List<CardMilitaries>> GetAllSpiritBeastPowerAsync(string user_id, List<CardMilitaries> cardMilitaries);
     Task<List<CardMilitaries>> GetSkillsAsync(string user_id, List<CardMilitaries> CardMilitaryList);
-    Task<List<CardMilitaries>> GetUserCardMilitariesAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<List<CardMilitaries>> GetUserCardMilitariesTeamAsync(string user_id, string teamId, string position);
+    Task<List<CardMilitaries>> GetUserCardMilitariesAsync(string user_id, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
+    Task<List<CardMilitaries>> GetUserCardMilitariesTeamAsync(string user_id, string teamId, string position, UserStatsContextDTO sharedContext = null);
     Task<List<CardMilitaries>> GetUserCardMilitariesTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null);
     Task<Dictionary<string, int>> GetUniqueCardMilitariesTypesTeamAsync(string teamId);
     Task<bool> UpdateTeamCardMilitaryAsync(string team_id, string position, string card_id);
@@ -21,6 +21,6 @@ public interface IUserCardMilitariesService
     Task<bool> UpdateCardMilitaryLevelAsync(CardMilitaries cardMilitary);
     Task<bool> UpdateCardMilitaryStarAsync(CardMilitaries cardMilitary);
     Task<bool> UpdateCardMilitaryBreakthroughAsync(CardMilitaries cardMilitary, int star, double quantity);
-    Task<CardMilitaries> GetUserCardMilitaryByIdAsync(string user_id, string Id);
-    Task<List<CardMilitaries>> GetAllUserCardMilitariesInTeamAsync(string user_id);
+    Task<CardMilitaries> GetUserCardMilitaryByIdAsync(string user_id, string Id, UserStatsContextDTO sharedContext = null);
+    Task<List<CardMilitaries>> GetAllUserCardMilitariesInTeamAsync(string user_id, UserStatsContextDTO sharedContext = null);
 }

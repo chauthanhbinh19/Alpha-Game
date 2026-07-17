@@ -8,8 +8,8 @@ public interface IUseCardColonelsService
     Task<List<CardColonels>> GetAllMasterPowerAsync(string user_id, List<CardColonels> CardColonelsList);
     Task<List<CardColonels>> GetAllSpiritBeastPowerAsync(string user_id, List<CardColonels> cardColonels);
     Task<List<CardColonels>> GetSkillsAsync(string user_id, List<CardColonels> CardColonelsList);
-    Task<List<CardColonels>> GetUserCardColonelsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<List<CardColonels>> GetUserCardColonelsTeamAsync(string user_id, string teamId, string position);
+    Task<List<CardColonels>> GetUserCardColonelsAsync(string user_id, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
+    Task<List<CardColonels>> GetUserCardColonelsTeamAsync(string user_id, string teamId, string position, UserStatsContextDTO sharedContext = null);
     Task<List<CardColonels>> GetUserCardColonelsTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null);
     Task<Dictionary<string, int>> GetUniqueCardColonelsTypesTeamAsync(string teamId);
     Task<bool> UpdateTeamCardColonelAsync(string team_id, string position, string card_id);
@@ -21,6 +21,6 @@ public interface IUseCardColonelsService
     Task<bool> UpdateCardColonelLevelAsync(CardColonels cardColonel);
     Task<bool> UpdateCardColonelStarAsync(CardColonels cardColonel);
     Task<bool> UpdateCardColonelBreakthroughAsync(CardColonels cardColonel, int star, double quantity);
-    Task<CardColonels> GetUserCardColonelByIdAsync(string user_id, string Id);
-    Task<List<CardColonels>> GetAllUserCardColonelsInTeamAsync(string user_id);
+    Task<CardColonels> GetUserCardColonelByIdAsync(string user_id, string Id, UserStatsContextDTO sharedContext = null);
+    Task<List<CardColonels>> GetAllUserCardColonelsInTeamAsync(string user_id, UserStatsContextDTO sharedContext = null);
 }

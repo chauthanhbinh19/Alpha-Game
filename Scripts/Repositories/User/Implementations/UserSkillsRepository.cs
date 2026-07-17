@@ -2756,17 +2756,26 @@ public class UserSkillsRepository : IUserSkillsRepository
                     skills.Add(skill);
                 }
 
-                foreach (var item in pendingJsonList)
+                // Đóng reader sớm để giải phóng tài nguyên mạng trước khi CPU thực hiện giải mã JSON
+                await reader.CloseAsync();
+
+                // ==========================================
+                // TỐI ƯU HÓA: GIẢI MÃ JSON SONG SONG BẰNG JSONHELPER CỦA BẠN
+                // ==========================================
+                if (pendingJsonList.Count > 0)
                 {
-                    try
+                    Parallel.ForEach(pendingJsonList, item =>
                     {
-                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
-                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
-                    }
+                        try
+                        {
+                            item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                            item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                        }
+                    });
                 }
             }
             catch (MySqlException ex)
@@ -3092,17 +3101,26 @@ public class UserSkillsRepository : IUserSkillsRepository
                     skills.Add(skill);
                 }
 
-                foreach (var item in pendingJsonList)
+                // Đóng reader sớm để giải phóng tài nguyên mạng trước khi CPU thực hiện giải mã JSON
+                await reader.CloseAsync();
+
+                // ==========================================
+                // TỐI ƯU HÓA: GIẢI MÃ JSON SONG SONG BẰNG JSONHELPER CỦA BẠN
+                // ==========================================
+                if (pendingJsonList.Count > 0)
                 {
-                    try
+                    Parallel.ForEach(pendingJsonList, item =>
                     {
-                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
-                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
-                    }
+                        try
+                        {
+                            item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                            item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                        }
+                    });
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -3432,17 +3450,26 @@ public class UserSkillsRepository : IUserSkillsRepository
                     skills.Add(skill);
                 }
 
-                foreach (var item in pendingJsonList)
+                // Đóng reader sớm để giải phóng tài nguyên mạng trước khi CPU thực hiện giải mã JSON
+                await reader.CloseAsync();
+
+                // ==========================================
+                // TỐI ƯU HÓA: GIẢI MÃ JSON SONG SONG BẰNG JSONHELPER CỦA BẠN
+                // ==========================================
+                if (pendingJsonList.Count > 0)
                 {
-                    try
+                    Parallel.ForEach(pendingJsonList, item =>
                     {
-                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
-                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
-                    }
+                        try
+                        {
+                            item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                            item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                        }
+                    });
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -3772,17 +3799,26 @@ public class UserSkillsRepository : IUserSkillsRepository
                     skills.Add(skill);
                 }
 
-                foreach (var item in pendingJsonList)
+                // Đóng reader sớm để giải phóng tài nguyên mạng trước khi CPU thực hiện giải mã JSON
+                await reader.CloseAsync();
+
+                // ==========================================
+                // TỐI ƯU HÓA: GIẢI MÃ JSON SONG SONG BẰNG JSONHELPER CỦA BẠN
+                // ==========================================
+                if (pendingJsonList.Count > 0)
                 {
-                    try
+                    Parallel.ForEach(pendingJsonList, item =>
                     {
-                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
-                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
-                    }
+                        try
+                        {
+                            item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                            item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                        }
+                    });
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -4112,17 +4148,26 @@ public class UserSkillsRepository : IUserSkillsRepository
                     skills.Add(skill);
                 }
 
-                foreach (var item in pendingJsonList)
+                // Đóng reader sớm để giải phóng tài nguyên mạng trước khi CPU thực hiện giải mã JSON
+                await reader.CloseAsync();
+
+                // ==========================================
+                // TỐI ƯU HÓA: GIẢI MÃ JSON SONG SONG BẰNG JSONHELPER CỦA BẠN
+                // ==========================================
+                if (pendingJsonList.Count > 0)
                 {
-                    try
+                    Parallel.ForEach(pendingJsonList, item =>
                     {
-                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
-                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
-                    }
+                        try
+                        {
+                            item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                            item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                        }
+                    });
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -4452,17 +4497,26 @@ public class UserSkillsRepository : IUserSkillsRepository
                     skills.Add(skill);
                 }
 
-                foreach (var item in pendingJsonList)
+                // Đóng reader sớm để giải phóng tài nguyên mạng trước khi CPU thực hiện giải mã JSON
+                await reader.CloseAsync();
+
+                // ==========================================
+                // TỐI ƯU HÓA: GIẢI MÃ JSON SONG SONG BẰNG JSONHELPER CỦA BẠN
+                // ==========================================
+                if (pendingJsonList.Count > 0)
                 {
-                    try
+                    Parallel.ForEach(pendingJsonList, item =>
                     {
-                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
-                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
-                    }
+                        try
+                        {
+                            item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                            item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                        }
+                    });
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -4792,17 +4846,26 @@ public class UserSkillsRepository : IUserSkillsRepository
                     skills.Add(skill);
                 }
 
-                foreach (var item in pendingJsonList)
+                // Đóng reader sớm để giải phóng tài nguyên mạng trước khi CPU thực hiện giải mã JSON
+                await reader.CloseAsync();
+
+                // ==========================================
+                // TỐI ƯU HÓA: GIẢI MÃ JSON SONG SONG BẰNG JSONHELPER CỦA BẠN
+                // ==========================================
+                if (pendingJsonList.Count > 0)
                 {
-                    try
+                    Parallel.ForEach(pendingJsonList, item =>
                     {
-                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
-                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
-                    }
+                        try
+                        {
+                            item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                            item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                        }
+                    });
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -5132,17 +5195,26 @@ public class UserSkillsRepository : IUserSkillsRepository
                     skills.Add(skill);
                 }
 
-                foreach (var item in pendingJsonList)
+                // Đóng reader sớm để giải phóng tài nguyên mạng trước khi CPU thực hiện giải mã JSON
+                await reader.CloseAsync();
+
+                // ==========================================
+                // TỐI ƯU HÓA: GIẢI MÃ JSON SONG SONG BẰNG JSONHELPER CỦA BẠN
+                // ==========================================
+                if (pendingJsonList.Count > 0)
                 {
-                    try
+                    Parallel.ForEach(pendingJsonList, item =>
                     {
-                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
-                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
-                    }
+                        try
+                        {
+                            item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                            item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                        }
+                    });
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc
@@ -5472,17 +5544,26 @@ public class UserSkillsRepository : IUserSkillsRepository
                     skills.Add(skill);
                 }
 
-                foreach (var item in pendingJsonList)
+                // Đóng reader sớm để giải phóng tài nguyên mạng trước khi CPU thực hiện giải mã JSON
+                await reader.CloseAsync();
+
+                // ==========================================
+                // TỐI ƯU HÓA: GIẢI MÃ JSON SONG SONG BẰNG JSONHELPER CỦA BẠN
+                // ==========================================
+                if (pendingJsonList.Count > 0)
                 {
-                    try
+                    Parallel.ForEach(pendingJsonList, item =>
                     {
-                        item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
-                        item.skill.Effects = new List<Effects>(); // Fallback an toàn
-                    }
+                        try
+                        {
+                            item.skill.Effects = JsonHelper.DeserializeEffects(item.jsonRaw);
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.LogError($"[JSON Parse Error for Skill {item.skill.Id}]: {ex.Message}");
+                            item.skill.Effects = new List<Effects>(); // Fallback an toàn
+                        }
+                    });
                 }
 
                 // Load Effects cho toàn bộ Skills cùng một lúc

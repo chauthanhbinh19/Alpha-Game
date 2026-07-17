@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 
 public class UserCardSpellsService : IUserCardSpellsService
 {
-     private static UserCardSpellsService _instance;
+    private static UserCardSpellsService _instance;
     private readonly IUserCardSpellsRepository _userCardSpellsRepository;
 
     public UserCardSpellsService(IUserCardSpellsRepository userCardSpellsRepository)
     {
         _userCardSpellsRepository = userCardSpellsRepository;
     }
-    
+
     public static UserCardSpellsService Create()
     {
         if (_instance == null)
@@ -143,7 +143,7 @@ public class UserCardSpellsService : IUserCardSpellsService
             c.StunRate = c.StunRate + rank.StunRate;
             c.IgnoreStunRate = c.IgnoreStunRate + rank.IgnoreStunRate;
             c.ReflectionRate = c.ReflectionRate + rank.ReflectionRate;
-            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + rank.IgnoreReflectionRate;
+            c.IgnoreReflectionRate = c.IgnoreReflectionRate + rank.IgnoreReflectionRate;
             c.ReflectionDamageRate = c.ReflectionDamageRate + rank.ReflectionDamageRate;
             c.ReflectionResistanceRate = c.ReflectionResistanceRate + rank.ReflectionResistanceRate;
             c.Mana = c.Mana + rank.Mana;
@@ -224,7 +224,7 @@ public class UserCardSpellsService : IUserCardSpellsService
             c.StunRate = c.StunRate + master.StunRate;
             c.IgnoreStunRate = c.IgnoreStunRate + master.IgnoreStunRate;
             c.ReflectionRate = c.ReflectionRate + master.ReflectionRate;
-            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + master.IgnoreReflectionRate;
+            c.IgnoreReflectionRate = c.IgnoreReflectionRate + master.IgnoreReflectionRate;
             c.ReflectionDamageRate = c.ReflectionDamageRate + master.ReflectionDamageRate;
             c.ReflectionResistanceRate = c.ReflectionResistanceRate + master.ReflectionResistanceRate;
             c.Mana = c.Mana + master.Mana;
@@ -348,11 +348,11 @@ public class UserCardSpellsService : IUserCardSpellsService
         }
         return cardSpells;
     }
-    
-    
+
+
     public async Task<List<CardSpells>> GetSkillsAsync(string user_id, List<CardSpells> CardSpellList)
     {
-        foreach(CardSpells cardSpell in CardSpellList)
+        foreach (CardSpells cardSpell in CardSpellList)
         {
             var skills = await UserSkillsService.Create().GetUserCardSpellsSkillsAsync(user_id, cardSpell.Id);
             skills = skills.Where(x => x.Position != 0).ToList();
@@ -360,184 +360,11 @@ public class UserCardSpellsService : IUserCardSpellsService
         }
         return CardSpellList;
     }
-    public async Task<List<CardSpells>> GetUserCardSpellsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardSpells>> GetUserCardSpellsAsync(string user_id, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null)
     {
         List<CardSpells> list = await _userCardSpellsRepository.GetUserCardSpellsAsync(user_id, search, type, pageSize, offset, rare);
-        
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(user_id);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(user_id);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(user_id);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(user_id);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(user_id);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(user_id);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(user_id);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
 
         List<string> cardSpellIds = list.Select(hero => hero.Id).ToList();
-
-        var skillsTask = UserSkillsService.Create().GetUserCardSpellsSkillsAsync(user_id, cardSpellIds);
-
-        await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
-        universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, hicbTask, hisnTask, animeStatsTask);
-
-        var powerManagerData = await powerManagerTask;
-        var scienceFictionData = await scienceFictionTask;
-        var researchData = await researchTask;
-        var archiveData = await archiveTask;
-        var universeData = await universeTask;
-        var hiinData = await hiinTask;
-        var sswnData = await sswnTask;
-        var hitnData = await hitnTask;
-        var hihnData = await hihnTask;
-        var hienData = await hienTask;
-        var hicaData = await hicaTask;
-        var hirnData = await hirnTask;
-        var hidcData = await hidcTask;
-        var hicbData = await hicbTask;
-        var hisnData = await hisnTask;
-        var animeStatsData = await animeStatsTask;
-
-        var skillData = await skillsTask;
-        foreach (var skill in skillData)
-        {
-            if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
-            {
-                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
-            }
-        }
-
-        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(user_id, list);
-        // list = await GetAllRankPowerAsync(user_id, list);
-        // list = await GetAllMasterPowerAsync(user_id, list);
-        // list = await GetSkillsAsync(user_id, list);
-        foreach(var card in list)
-        {
-            card.ApplyPowerStats(powerManagerData);
-            card.ApplyScienceFictionStats(scienceFictionData);
-            card.ApplyResearchStats(researchData);
-            card.ApplyArchiveStats(archiveData);
-            card.ApplyUniverseStats(universeData);
-            card.ApplyHIINStats(hiinData);
-            card.ApplySSWNStats(sswnData);
-            card.ApplyHITNStats(hitnData);
-            card.ApplyHIHNStats(hihnData);
-            card.ApplyHIENStats(hienData);
-            card.ApplyHICAStats(hicaData);
-            card.ApplyHIRNStats(hirnData);
-            card.ApplyHIDCStats(hidcData);
-            card.ApplyHICBStats(hicbData);
-            card.ApplyHISNStats(hisnData);
-            card.ApplyAllUserAnimes(animeStatsData);
-            card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
-            card.RecalculatePower();
-        }
-        ListSortHelper.SortByPower(list);
-        return list;
-    }
-
-    public async Task<List<CardSpells>> GetUserCardSpellsTeamAsync(string user_id, string teamId, string position)
-    {
-        List<CardSpells> list = await _userCardSpellsRepository.GetUserCardSpellsTeamAsync(user_id, teamId, position);
-        
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(user_id);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(user_id);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(user_id);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(user_id);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(user_id);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(user_id);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(user_id);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
-
-        List<string> cardSpellIds = list.Select(hero => hero.Id).ToList();
-
-        var skillsTask = UserSkillsService.Create().GetUserCardSpellsSkillsAsync(user_id, cardSpellIds);
-
-        await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
-        universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, hicbTask, hisnTask, animeStatsTask, skillsTask);
-
-        var powerManagerData = await powerManagerTask;
-        var scienceFictionData = await scienceFictionTask;
-        var researchData = await researchTask;
-        var archiveData = await archiveTask;
-        var universeData = await universeTask;
-        var hiinData = await hiinTask;
-        var sswnData = await sswnTask;
-        var hitnData = await hitnTask;
-        var hihnData = await hihnTask;
-        var hienData = await hienTask;
-        var hicaData = await hicaTask;
-        var hirnData = await hirnTask;
-        var hidcData = await hidcTask;
-        var hicbData = await hicbTask;
-        var hisnData = await hisnTask;
-        var animeStatsData = await animeStatsTask;
-
-        var skillData = await skillsTask;
-        foreach (var skill in skillData)
-        {
-            if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
-            {
-                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
-            }
-        }
-
-        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(user_id, list);
-        // list = await GetAllRankPowerAsync(user_id, list);
-        // list = await GetAllMasterPowerAsync(user_id, list);
-        // list = await GetSkillsAsync(user_id, list);
-        foreach(var card in list)
-        {
-            card.ApplyPowerStats(powerManagerData);
-            card.ApplyScienceFictionStats(scienceFictionData);
-            card.ApplyResearchStats(researchData);
-            card.ApplyArchiveStats(archiveData);
-            card.ApplyUniverseStats(universeData);
-            card.ApplyHIINStats(hiinData);
-            card.ApplySSWNStats(sswnData);
-            card.ApplyHITNStats(hitnData);
-            card.ApplyHIHNStats(hihnData);
-            card.ApplyHIENStats(hienData);
-            card.ApplyHICAStats(hicaData);
-            card.ApplyHIRNStats(hirnData);
-            card.ApplyHIDCStats(hidcData);
-            card.ApplyHICBStats(hicbData);
-            card.ApplyHISNStats(hisnData);
-            card.ApplyAllUserAnimes(animeStatsData);
-            card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
-            card.RecalculatePower();
-        }
-        ListSortHelper.SortByPower(list);
-        return list;
-    }
-
-    public async Task<List<CardSpells>> GetUserCardSpellsTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null)
-    {
-        List<CardSpells> list = await _userCardSpellsRepository.GetUserCardSpellsTeamWithoutPositionAsync(user_id, teamId);
-
-        List<string> cardSpellIds = list.Select(hero => hero.Id).ToList();
-        // list = list.Take(10).ToList();
 
         var skillsTask = UserSkillsService.Create().GetUserCardSpellsSkillsAsync(user_id, cardSpellIds);
 
@@ -556,31 +383,181 @@ public class UserCardSpellsService : IUserCardSpellsService
             context = await UserStatsService.Create().GetUserStatsContextAsync(user_id);
         }
 
+        var skillsLookup = skillData.ToLookup(s => s.CardId);
+
+        TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.PowerManagerData);
+        totalBuffs.AddBuff(context.ScienceFictionData);
+        totalBuffs.AddBuff(context.ResearchData);
+        totalBuffs.AddBuff(context.ArchiveData);
+        totalBuffs.AddBuff(context.UniverseData);
+        totalBuffs.AddBuff(context.HiinData);
+        totalBuffs.AddBuff(context.SswnData);
+        totalBuffs.AddBuff(context.HitnData);
+        totalBuffs.AddBuff(context.HihnData);
+        totalBuffs.AddBuff(context.HienData);
+        totalBuffs.AddBuff(context.HicaData);
+        totalBuffs.AddBuff(context.HirnData);
+        totalBuffs.AddBuff(context.HidcData);
+        totalBuffs.AddBuff(context.HicbData);
+        totalBuffs.AddBuff(context.HisnData);
+        totalBuffs.AddBuff(context.AnimeStatsData);
+
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
         // list = await GetSkillsAsync(user_id, list);
-        foreach(var card in list)
+        foreach (var card in list)
         {
-            card.ApplyPowerStats(context.PowerManagerData);
-            card.ApplyScienceFictionStats(context.ScienceFictionData);
-            card.ApplyResearchStats(context.ResearchData);
-            card.ApplyArchiveStats(context.ArchiveData);
-            card.ApplyUniverseStats(context.UniverseData);
-            card.ApplyHIINStats(context.HiinData);
-            card.ApplySSWNStats(context.SswnData);
-            card.ApplyHITNStats(context.HitnData);
-            card.ApplyHIHNStats(context.HihnData);
-            card.ApplyHIENStats(context.HienData);
-            card.ApplyHICAStats(context.HicaData);
-            card.ApplyHIRNStats(context.HirnData);
-            card.ApplyHIDCStats(context.HidcData);
-            card.ApplyHICBStats(context.HicbData);
-            card.ApplyHISNStats(context.HisnData);
-            card.ApplyAllUserAnimes(context.AnimeStatsData);
-            card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
+            if (card == null) continue; // Phòng hờ phần tử trong list bị null
+
+            // Áp dụng tổng buff (Flat + % Base stats)
+            card.ApplyTotalBuffs(totalBuffs);
+
+            // Gán Skills an toàn, tránh tạo List thừa
+            card.Skills = skillsLookup.Contains(card.Id)
+                ? skillsLookup[card.Id].ToList()
+                : new List<Skills>();
+
+            // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
+            card.RecalculatePower();
+        }
+        ListSortHelper.SortByPower(list);
+        return list;
+    }
+
+    public async Task<List<CardSpells>> GetUserCardSpellsTeamAsync(string user_id, string teamId, string position, UserStatsContextDTO sharedContext = null)
+    {
+        List<CardSpells> list = await _userCardSpellsRepository.GetUserCardSpellsTeamAsync(user_id, teamId, position);
+
+        List<string> cardSpellIds = list.Select(hero => hero.Id).ToList();
+
+        var skillsTask = UserSkillsService.Create().GetUserCardSpellsSkillsAsync(user_id, cardSpellIds);
+
+        var skillData = await skillsTask;
+        foreach (var skill in skillData)
+        {
+            if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
+            {
+                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+            }
+        }
+
+        UserStatsContextDTO context = sharedContext;
+        if (context == null)
+        {
+            context = await UserStatsService.Create().GetUserStatsContextAsync(user_id);
+        }
+
+        var skillsLookup = skillData.ToLookup(s => s.CardId);
+
+        TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.PowerManagerData);
+        totalBuffs.AddBuff(context.ScienceFictionData);
+        totalBuffs.AddBuff(context.ResearchData);
+        totalBuffs.AddBuff(context.ArchiveData);
+        totalBuffs.AddBuff(context.UniverseData);
+        totalBuffs.AddBuff(context.HiinData);
+        totalBuffs.AddBuff(context.SswnData);
+        totalBuffs.AddBuff(context.HitnData);
+        totalBuffs.AddBuff(context.HihnData);
+        totalBuffs.AddBuff(context.HienData);
+        totalBuffs.AddBuff(context.HicaData);
+        totalBuffs.AddBuff(context.HirnData);
+        totalBuffs.AddBuff(context.HidcData);
+        totalBuffs.AddBuff(context.HicbData);
+        totalBuffs.AddBuff(context.HisnData);
+        totalBuffs.AddBuff(context.AnimeStatsData);
+
+        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
+        // list = await GetAllEquipmentPowerAsync(user_id, list);
+        // list = await GetAllRankPowerAsync(user_id, list);
+        // list = await GetAllMasterPowerAsync(user_id, list);
+        // list = await GetSkillsAsync(user_id, list);
+        foreach (var card in list)
+        {
+            if (card == null) continue; // Phòng hờ phần tử trong list bị null
+
+            // Áp dụng tổng buff (Flat + % Base stats)
+            card.ApplyTotalBuffs(totalBuffs);
+
+            // Gán Skills an toàn, tránh tạo List thừa
+            card.Skills = skillsLookup.Contains(card.Id)
+                ? skillsLookup[card.Id].ToList()
+                : new List<Skills>();
+
+            // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
+            card.RecalculatePower();
+        }
+        ListSortHelper.SortByPower(list);
+        return list;
+    }
+
+    public async Task<List<CardSpells>> GetUserCardSpellsTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null)
+    {
+        List<CardSpells> list = await _userCardSpellsRepository.GetUserCardSpellsTeamWithoutPositionAsync(user_id, teamId);
+
+        List<string> cardSpellIds = list.Select(hero => hero.Id).ToList();
+
+        var skillsTask = UserSkillsService.Create().GetUserCardSpellsSkillsAsync(user_id, cardSpellIds);
+
+        var skillData = await skillsTask;
+        foreach (var skill in skillData)
+        {
+            if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
+            {
+                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+            }
+        }
+
+        UserStatsContextDTO context = sharedContext;
+        if (context == null)
+        {
+            context = await UserStatsService.Create().GetUserStatsContextAsync(user_id);
+        }
+
+        var skillsLookup = skillData.ToLookup(s => s.CardId);
+
+        TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.PowerManagerData);
+        totalBuffs.AddBuff(context.ScienceFictionData);
+        totalBuffs.AddBuff(context.ResearchData);
+        totalBuffs.AddBuff(context.ArchiveData);
+        totalBuffs.AddBuff(context.UniverseData);
+        totalBuffs.AddBuff(context.HiinData);
+        totalBuffs.AddBuff(context.SswnData);
+        totalBuffs.AddBuff(context.HitnData);
+        totalBuffs.AddBuff(context.HihnData);
+        totalBuffs.AddBuff(context.HienData);
+        totalBuffs.AddBuff(context.HicaData);
+        totalBuffs.AddBuff(context.HirnData);
+        totalBuffs.AddBuff(context.HidcData);
+        totalBuffs.AddBuff(context.HicbData);
+        totalBuffs.AddBuff(context.HisnData);
+        totalBuffs.AddBuff(context.AnimeStatsData);
+
+        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
+        list = QualityEvaluatorHelper.GetQualityPower(list);
+        // list = await GetAllEquipmentPowerAsync(user_id, list);
+        // list = await GetAllRankPowerAsync(user_id, list);
+        // list = await GetAllMasterPowerAsync(user_id, list);
+        // list = await GetSkillsAsync(user_id, list);
+        foreach (var card in list)
+        {
+            if (card == null) continue; // Phòng hờ phần tử trong list bị null
+
+            // Áp dụng tổng buff (Flat + % Base stats)
+            card.ApplyTotalBuffs(totalBuffs);
+
+            // Gán Skills an toàn, tránh tạo List thừa
+            card.Skills = skillsLookup.Contains(card.Id)
+                ? skillsLookup[card.Id].ToList()
+                : new List<Skills>();
+
+            // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
             card.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);
@@ -632,7 +609,7 @@ public class UserCardSpellsService : IUserCardSpellsService
         return await _userCardSpellsRepository.UpdateCardSpellBreakthroughAsync(cardSpell, star, quantity);
     }
 
-    public async Task<CardSpells> GetUserCardSpellByIdAsync(string user_id, string Id)
+    public async Task<CardSpells> GetUserCardSpellByIdAsync(string user_id, string Id, UserStatsContextDTO sharedContext = null)
     {
         CardSpells cardSpell = await _userCardSpellsRepository.GetUserCardSpellByIdAsync(user_id, Id);
         if (cardSpell == null) return null;
@@ -640,47 +617,9 @@ public class UserCardSpellsService : IUserCardSpellsService
         // Bọc vào list để tái sử dụng logic
         List<CardSpells> list = new List<CardSpells> { cardSpell };
 
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(user_id);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(user_id);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(user_id);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(user_id);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(user_id);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(user_id);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(user_id);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
-
         List<string> cardSpellIds = list.Select(hero => hero.Id).ToList();
 
         var skillsTask = UserSkillsService.Create().GetUserCardSpellsSkillsAsync(user_id, cardSpellIds);
-
-        await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
-        universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, hicbTask, hisnTask, animeStatsTask, skillsTask);
-
-        var powerManagerData = await powerManagerTask;
-        var scienceFictionData = await scienceFictionTask;
-        var researchData = await researchTask;
-        var archiveData = await archiveTask;
-        var universeData = await universeTask;
-        var hiinData = await hiinTask;
-        var sswnData = await sswnTask;
-        var hitnData = await hitnTask;
-        var hihnData = await hihnTask;
-        var hienData = await hienTask;
-        var hicaData = await hicaTask;
-        var hirnData = await hirnTask;
-        var hidcData = await hidcTask;
-        var hicbData = await hicbTask;
-        var hisnData = await hisnTask;
-        var animeStatsData = await animeStatsTask;
 
         var skillData = await skillsTask;
         foreach (var skill in skillData)
@@ -691,81 +630,64 @@ public class UserCardSpellsService : IUserCardSpellsService
             }
         }
 
+        UserStatsContextDTO context = sharedContext;
+        if (context == null)
+        {
+            context = await UserStatsService.Create().GetUserStatsContextAsync(user_id);
+        }
+
+        var skillsLookup = skillData.ToLookup(s => s.CardId);
+
+        TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.PowerManagerData);
+        totalBuffs.AddBuff(context.ScienceFictionData);
+        totalBuffs.AddBuff(context.ResearchData);
+        totalBuffs.AddBuff(context.ArchiveData);
+        totalBuffs.AddBuff(context.UniverseData);
+        totalBuffs.AddBuff(context.HiinData);
+        totalBuffs.AddBuff(context.SswnData);
+        totalBuffs.AddBuff(context.HitnData);
+        totalBuffs.AddBuff(context.HihnData);
+        totalBuffs.AddBuff(context.HienData);
+        totalBuffs.AddBuff(context.HicaData);
+        totalBuffs.AddBuff(context.HirnData);
+        totalBuffs.AddBuff(context.HidcData);
+        totalBuffs.AddBuff(context.HicbData);
+        totalBuffs.AddBuff(context.HisnData);
+        totalBuffs.AddBuff(context.AnimeStatsData);
+
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
         // list = await GetSkillsAsync(user_id, list);
-        foreach(var card in list)
+        foreach (var card in list)
         {
-            card.ApplyPowerStats(powerManagerData);
-            card.ApplyScienceFictionStats(scienceFictionData);
-            card.ApplyResearchStats(researchData);
-            card.ApplyArchiveStats(archiveData);
-            card.ApplyUniverseStats(universeData);
-            card.ApplyHIINStats(hiinData);
-            card.ApplySSWNStats(sswnData);
-            card.ApplyHITNStats(hitnData);
-            card.ApplyHIHNStats(hihnData);
-            card.ApplyHIENStats(hienData);
-            card.ApplyHICAStats(hicaData);
-            card.ApplyHIRNStats(hirnData);
-            card.ApplyHIDCStats(hidcData);
-            card.ApplyHICBStats(hicbData);
-            card.ApplyHISNStats(hisnData);
-            card.ApplyAllUserAnimes(animeStatsData);
-            card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
+            if (card == null) continue; // Phòng hờ phần tử trong list bị null
+
+            // Áp dụng tổng buff (Flat + % Base stats)
+            card.ApplyTotalBuffs(totalBuffs);
+
+            // Gán Skills an toàn, tránh tạo List thừa
+            card.Skills = skillsLookup.Contains(card.Id)
+                ? skillsLookup[card.Id].ToList()
+                : new List<Skills>();
+
+            // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
             card.RecalculatePower();
         }
+        ListSortHelper.SortByPower(list);
         return list.FirstOrDefault();
     }
 
-    public async Task<List<CardSpells>> GetAllUserCardSpellsInTeamAsync(string user_id)
+    public async Task<List<CardSpells>> GetAllUserCardSpellsInTeamAsync(string user_id, UserStatsContextDTO sharedContext = null)
     {
         List<CardSpells> list = await _userCardSpellsRepository.GetAllUserCardSpellsInTeamAsync(user_id);
-        
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(user_id);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(user_id);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(user_id);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(user_id);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(user_id);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(user_id);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(user_id);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
 
         List<string> cardSpellIds = list.Select(hero => hero.Id).ToList();
 
         var skillsTask = UserSkillsService.Create().GetUserCardSpellsSkillsAsync(user_id, cardSpellIds);
-
-        await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
-        universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, hicbTask, hisnTask, animeStatsTask, skillsTask);
-
-        var powerManagerData = await powerManagerTask;
-        var scienceFictionData = await scienceFictionTask;
-        var researchData = await researchTask;
-        var archiveData = await archiveTask;
-        var universeData = await universeTask;
-        var hiinData = await hiinTask;
-        var sswnData = await sswnTask;
-        var hitnData = await hitnTask;
-        var hihnData = await hihnTask;
-        var hienData = await hienTask;
-        var hicaData = await hicaTask;
-        var hirnData = await hirnTask;
-        var hidcData = await hidcTask;
-        var hicbData = await hicbTask;
-        var hisnData = await hisnTask;
-        var animeStatsData = await animeStatsTask;
 
         var skillData = await skillsTask;
         foreach (var skill in skillData)
@@ -776,31 +698,51 @@ public class UserCardSpellsService : IUserCardSpellsService
             }
         }
 
+        UserStatsContextDTO context = sharedContext;
+        if (context == null)
+        {
+            context = await UserStatsService.Create().GetUserStatsContextAsync(user_id);
+        }
+
+        var skillsLookup = skillData.ToLookup(s => s.CardId);
+
+        TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.PowerManagerData);
+        totalBuffs.AddBuff(context.ScienceFictionData);
+        totalBuffs.AddBuff(context.ResearchData);
+        totalBuffs.AddBuff(context.ArchiveData);
+        totalBuffs.AddBuff(context.UniverseData);
+        totalBuffs.AddBuff(context.HiinData);
+        totalBuffs.AddBuff(context.SswnData);
+        totalBuffs.AddBuff(context.HitnData);
+        totalBuffs.AddBuff(context.HihnData);
+        totalBuffs.AddBuff(context.HienData);
+        totalBuffs.AddBuff(context.HicaData);
+        totalBuffs.AddBuff(context.HirnData);
+        totalBuffs.AddBuff(context.HidcData);
+        totalBuffs.AddBuff(context.HicbData);
+        totalBuffs.AddBuff(context.HisnData);
+        totalBuffs.AddBuff(context.AnimeStatsData);
+
         // list = await GetAllSpiritBeastPowerAsync(user_id, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
         // list = await GetSkillsAsync(user_id, list);
-        foreach(var card in list)
+        foreach (var card in list)
         {
-            card.ApplyPowerStats(powerManagerData);
-            card.ApplyScienceFictionStats(scienceFictionData);
-            card.ApplyResearchStats(researchData);
-            card.ApplyArchiveStats(archiveData);
-            card.ApplyUniverseStats(universeData);
-            card.ApplyHIINStats(hiinData);
-            card.ApplySSWNStats(sswnData);
-            card.ApplyHITNStats(hitnData);
-            card.ApplyHIHNStats(hihnData);
-            card.ApplyHIENStats(hienData);
-            card.ApplyHICAStats(hicaData);
-            card.ApplyHIRNStats(hirnData);
-            card.ApplyHIDCStats(hidcData);
-            card.ApplyHICBStats(hicbData);
-            card.ApplyHISNStats(hisnData);
-            card.ApplyAllUserAnimes(animeStatsData);
-            card.Skills = skillData.Where(s => s.CardId == card.Id).ToList();
+            if (card == null) continue; // Phòng hờ phần tử trong list bị null
+
+            // Áp dụng tổng buff (Flat + % Base stats)
+            card.ApplyTotalBuffs(totalBuffs);
+
+            // Gán Skills an toàn, tránh tạo List thừa
+            card.Skills = skillsLookup.Contains(card.Id)
+                ? skillsLookup[card.Id].ToList()
+                : new List<Skills>();
+
+            // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
             card.RecalculatePower();
         }
         ListSortHelper.SortByPower(list);
