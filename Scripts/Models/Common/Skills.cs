@@ -34,6 +34,15 @@ public class Skills : BaseEntity, IPowerSortable, IStats
     public List<Effects> Effects{ get; set; } = new List<Effects>();
     public Patterns Pattern = new Patterns();
     double IPowerSortable.Power => Power;
+    public List<CardSkillRelation> cardHeroIds = new List<CardSkillRelation>();
+    public List<CardSkillRelation> cardCaptainIds = new List<CardSkillRelation>();
+    public List<CardSkillRelation> cardColonelIds = new List<CardSkillRelation>();
+    public List<CardSkillRelation> cardGeneralIds = new List<CardSkillRelation>();
+    public List<CardSkillRelation> cardAdmiralIds = new List<CardSkillRelation>();
+    public List<CardSkillRelation> cardMonsterIds = new List<CardSkillRelation>();
+    public List<CardSkillRelation> cardMilitaryIds = new List<CardSkillRelation>();
+    public List<CardSkillRelation> cardSpellIds = new List<CardSkillRelation>();
+    public List<CardSkillRelation> cardSoldierIds = new List<CardSkillRelation>();
     public Skills()
     {
         PercentAllHealth = -1;
@@ -52,4 +61,9 @@ public class Skills : BaseEntity, IPowerSortable, IStats
     {
         return (Skills)this.MemberwiseClone();
     }
+}
+public class CardSkillRelation
+{
+    public string id { get; set; }   // Map với key 'id' (card_id) từ JSON
+    public int pos { get; set; }     // Map với key 'pos' (position) từ JSON
 }

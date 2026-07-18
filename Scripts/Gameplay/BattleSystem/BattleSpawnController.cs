@@ -167,7 +167,9 @@ public class BattleSpawnController : MonoBehaviour
             System.Threading.Tasks.Task<TeamDeploymentResult> alphaTask = LoadTeams.LoadAndSortTeamAsync(AlphaUserId, teamId);
             System.Threading.Tasks.Task<TeamDeploymentResult> omegaTask = LoadTeams.LoadAndSortTeamAsync(OmegaUserId, teamId);
 
-            await System.Threading.Tasks.Task.WhenAll(alphaTask, omegaTask);
+            await System.Threading.Tasks.Task.WhenAll(alphaTask
+            , omegaTask
+            );
 
             TeamDeploymentResult alphaData = alphaTask.Result;
             TeamDeploymentResult omegaData = omegaTask.Result;

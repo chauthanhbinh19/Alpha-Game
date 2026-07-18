@@ -40,6 +40,54 @@ public class LoadTeams
         // Nhóm 3: Quân lính và phép bổ trợ
         await Task.WhenAll(militaryTask, soldierTask, spellTask);
 
+        List<string> cardHeroIds = heroTask.Result.Select(hero => hero.Id).ToList();
+        List<string> cardCaptainIds = captainTask.Result.Select(hero => hero.Id).ToList();
+        List<string> cardColonelIds = colonelTask.Result.Select(hero => hero.Id).ToList();
+        List<string> cardGeneralIds = generalTask.Result.Select(hero => hero.Id).ToList();
+        List<string> cardAdmiralIds = admiralTask.Result.Select(hero => hero.Id).ToList();
+        List<string> cardMonsterIds = monsterTask.Result.Select(hero => hero.Id).ToList();
+        List<string> cardMilitaryIds = militaryTask.Result.Select(hero => hero.Id).ToList();
+        List<string> cardSoldierIds = soldierTask.Result.Select(hero => hero.Id).ToList();
+        List<string> cardSpellIds = spellTask.Result.Select(hero => hero.Id).ToList();
+
+        var skillTask = UserSkillsService.Create().GetUserSkillsWithCardsAsync(
+            userId,
+            cardHeroIds,
+            cardCaptainIds,
+            cardColonelIds,
+            cardGeneralIds,
+            cardAdmiralIds,
+            cardMonsterIds,
+            cardMilitaryIds,
+            cardSoldierIds,
+            cardSpellIds);
+
+        await Task.WhenAll(skillTask);
+
+        var allSkills = skillTask.Result ?? new List<Skills>();
+
+        // 1. Phân tích và nhóm Skills theo từng ID của từng loại Card (bây giờ selector nhận về List<CardSkillRelation>)
+        var heroSkillsMap = BuildCardSkillsMap(allSkills, s => s.cardHeroIds);
+        var captainSkillsMap = BuildCardSkillsMap(allSkills, s => s.cardCaptainIds);
+        var colonelSkillsMap = BuildCardSkillsMap(allSkills, s => s.cardColonelIds);
+        var generalSkillsMap = BuildCardSkillsMap(allSkills, s => s.cardGeneralIds);
+        var admiralSkillsMap = BuildCardSkillsMap(allSkills, s => s.cardAdmiralIds);
+        var monsterSkillsMap = BuildCardSkillsMap(allSkills, s => s.cardMonsterIds);
+        var militarySkillsMap = BuildCardSkillsMap(allSkills, s => s.cardMilitaryIds);
+        var soldierSkillsMap = BuildCardSkillsMap(allSkills, s => s.cardSoldierIds);
+        var spellSkillsMap = BuildCardSkillsMap(allSkills, s => s.cardSpellIds);
+
+        // 2. Tiến hành gán an toàn và tường minh cho từng danh sách Card (Đã được tự động sắp xếp theo Position)
+        AssignSkillsToCards(heroTask.Result, heroSkillsMap, c => c.Id, (c, s) => c.Skills = s);
+        AssignSkillsToCards(captainTask.Result, captainSkillsMap, c => c.Id, (c, s) => c.Skills = s);
+        AssignSkillsToCards(colonelTask.Result, colonelSkillsMap, c => c.Id, (c, s) => c.Skills = s);
+        AssignSkillsToCards(generalTask.Result, generalSkillsMap, c => c.Id, (c, s) => c.Skills = s);
+        AssignSkillsToCards(admiralTask.Result, admiralSkillsMap, c => c.Id, (c, s) => c.Skills = s);
+        AssignSkillsToCards(monsterTask.Result, monsterSkillsMap, c => c.Id, (c, s) => c.Skills = s);
+        AssignSkillsToCards(militaryTask.Result, militarySkillsMap, c => c.Id, (c, s) => c.Skills = s);
+        AssignSkillsToCards(soldierTask.Result, soldierSkillsMap, c => c.Id, (c, s) => c.Skills = s);
+        AssignSkillsToCards(spellTask.Result, spellSkillsMap, c => c.Id, (c, s) => c.Skills = s);
+
         TeamDeploymentResult result = new TeamDeploymentResult();
 
         AddCardsToResult(heroTask.Result, () => new CardHero(), result);
@@ -52,7 +100,62 @@ public class LoadTeams
         AddCardsToResult(soldierTask.Result, () => new CardSoldier(), result);
         AddCardsToResult(spellTask.Result, () => new CardSpell(), result);
 
+
+
         return result;
+    }
+    private Dictionary<string, List<Skills>> BuildCardSkillsMap(IEnumerable<Skills> allSkills, Func<Skills, IEnumerable<CardSkillRelation>> relationSelector)
+    {
+        var map = new Dictionary<string, List<Skills>>();
+        if (allSkills == null) return map;
+
+        foreach (var skill in allSkills)
+        {
+            // Lấy danh sách quan hệ chứa cả { id, pos }
+            var relations = relationSelector(skill);
+            if (relations == null) continue;
+
+            foreach (var rel in relations)
+            {
+                if (rel == null || string.IsNullOrEmpty(rel.id)) continue;
+
+                // Tạo một bản sao độc lập của Skill cho Card này
+                var skillClone = skill.Clone();
+
+                // Gán pos từ DB vào thuộc tính Position của bản sao Skill
+                skillClone.Position = rel.pos;
+
+                if (!map.TryGetValue(rel.id, out var skillList))
+                {
+                    skillList = new List<Skills>();
+                    map[rel.id] = skillList;
+                }
+                skillList.Add(skillClone);
+            }
+        }
+        return map;
+    }
+    private void AssignSkillsToCards<TCard>(IEnumerable<TCard> cards, Dictionary<string, List<Skills>> skillsMap, Func<TCard, string> idSelector, Action<TCard, List<Skills>> skillsAssigner) where TCard : class
+    {
+        if (cards == null) return;
+
+        foreach (var card in cards)
+        {
+            if (card == null) continue;
+
+            string id = idSelector(card);
+
+            if (skillsMap.TryGetValue(id, out var assignedSkills))
+            {
+                // Sắp xếp các kỹ năng tăng dần theo Position trước khi gán
+                var sortedSkills = assignedSkills.OrderBy(s => s.Position).ToList();
+                skillsAssigner(card, sortedSkills);
+            }
+            else
+            {
+                skillsAssigner(card, new List<Skills>());
+            }
+        }
     }
     private void AddCardsToResult<TSource>(IEnumerable<TSource> entities, System.Func<CardBase> cardFactory, TeamDeploymentResult result)
     {

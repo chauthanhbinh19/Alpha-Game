@@ -484,6 +484,16 @@ public static class JsonHelper
         }
     }
 
+    // Thêm hàm này để xử lý đống mảng ID từ DB trả về dạng ["CH10001", "CH10002"]
+    public static List<string> DeserializeCardIds(string json)
+    {
+        // Ví dụ sử dụng Newtonsoft.Json (Json.NET):
+        return Newtonsoft.Json.JsonConvert.DeserializeObject<List<string>>(json);
+        
+        // Hoặc nếu dùng System.Text.Json của .NET Core:
+        // return System.Text.Json.JsonSerializer.Deserialize<List<string>>(json);
+    }
+    
     /// <summary>
     /// Hàm phụ giúp xử lý các ký tự đặc biệt để chuỗi JSON sinh ra không bị lỗi
     /// </summary>

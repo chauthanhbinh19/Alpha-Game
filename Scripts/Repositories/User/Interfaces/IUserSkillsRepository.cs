@@ -29,6 +29,17 @@ public interface IUserSkillsRepository
     Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, List<string> cardMonsterIds);
     Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, List<string> cardSpellIds);
     Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string user_id, List<string> cardSoldierIds);
+    Task<List<Skills>> GetUserSkillsWithCardsAsync(
+        string userId,
+        List<string> heroIds,
+        List<string> captainIds,
+        List<string> colonelIds,
+        List<string> generalIds,
+        List<string> admiralIds,
+        List<string> monsterIds,
+        List<string> militaryIds,
+        List<string> spellIds,
+        List<string> soldierIds);
     Task<List<Skills>> GetUserCardsSkillsAsync(string userId, List<string> allCardIds);
     Task<bool> InsertUserCardHeroSkillsAsync(string userId, string cardId, string skillId, int position);
     Task<bool> InsertUserCardCaptainSkillsAsync(string userId, string cardId, string skillId, int position);

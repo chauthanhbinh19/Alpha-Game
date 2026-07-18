@@ -6,6 +6,7 @@ using MySqlConnector;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 public class UserSkillsRepository : IUserSkillsRepository
 {
@@ -5577,6 +5578,291 @@ public class UserSkillsRepository : IUserSkillsRepository
         }
 
         return skills;
+    }
+    public async Task<List<Skills>> GetUserSkillsWithCardsAsync(
+        string userId,
+        List<string> heroIds,
+        List<string> captainIds,
+        List<string> colonelIds,
+        List<string> generalIds,
+        List<string> admiralIds,
+        List<string> monsterIds,
+        List<string> militaryIds,
+        List<string> spellIds,
+        List<string> soldierIds)
+    {
+        var skillList = new List<Skills>();
+
+        try
+        {
+            var pendingJsonList = new List<(Skills skill, string effectsJson, string heroJson, string captainJson, string colonelJson, string generalJson, string admiralJson, string monsterJson, string militaryJson, string spellJson, string soldierJson)>();
+            string connectionString = DatabaseConfig.ConnectionString;
+
+            // 1. Khởi tạo danh sách tham số để add động vào command về sau
+            var parameters = new List<MySqlParameter>
+            {
+                new MySqlParameter("@UserId", userId)
+            };
+
+            // 2. Build các chuỗi IN Clause động cho 9 loại thẻ bằng hàm Helper
+            string heroIn = BuildInClause(heroIds, "Hero", parameters);
+            string captainIn = BuildInClause(captainIds, "Captain", parameters);
+            string colonelIn = BuildInClause(colonelIds, "Colonel", parameters);
+            string generalIn = BuildInClause(generalIds, "General", parameters);
+            string admiralIn = BuildInClause(admiralIds, "Admiral", parameters);
+            string monsterIn = BuildInClause(monsterIds, "Monster", parameters);
+            string militaryIn = BuildInClause(militaryIds, "Military", parameters);
+            string spellIn = BuildInClause(spellIds, "Spell", parameters);
+            string soldierIn = BuildInClause(soldierIds, "Soldier", parameters);
+
+            // 3. Khởi tạo câu truy vấn gốc sử dụng các chuỗi IN clause đã build động an toàn
+            string query = $@"
+                WITH TargetSkillsRaw AS (
+                -- Gom tất cả card_id, position và loại card tương ứng về một mối ngay từ đầu
+                SELECT us.skill_id, c.card_hero_id AS card_id, 'hero' AS card_type, c.position
+                FROM user_skills us 
+                JOIN card_heroes_skills c ON us.skill_id = c.skill_id 
+                WHERE us.user_id = @UserId AND c.card_hero_id IN ({heroIn})
+                
+                UNION ALL
+                SELECT us.skill_id, c.card_captain_id, 'captain', c.position
+                FROM user_skills us 
+                JOIN card_captains_skills c ON us.skill_id = c.skill_id 
+                WHERE us.user_id = @UserId AND c.card_captain_id IN ({captainIn})
+                
+                UNION ALL
+                SELECT us.skill_id, c.card_colonel_id, 'colonel', c.position
+                FROM user_skills us 
+                JOIN card_colonels_skills c ON us.skill_id = c.skill_id 
+                WHERE us.user_id = @UserId AND c.card_colonel_id IN ({colonelIn})
+                
+                UNION ALL
+                SELECT us.skill_id, c.card_general_id, 'general', c.position
+                FROM user_skills us 
+                JOIN card_generals_skills c ON us.skill_id = c.skill_id 
+                WHERE us.user_id = @UserId AND c.card_general_id IN ({generalIn})
+                
+                UNION ALL
+                SELECT us.skill_id, c.card_admiral_id, 'admiral', c.position
+                FROM user_skills us 
+                JOIN card_admirals_skills c ON us.skill_id = c.skill_id 
+                WHERE us.user_id = @UserId AND c.card_admiral_id IN ({admiralIn})
+                
+                UNION ALL
+                SELECT us.skill_id, c.card_monster_id, 'monster', c.position
+                FROM user_skills us 
+                JOIN card_monsters_skills c ON us.skill_id = c.skill_id 
+                WHERE us.user_id = @UserId AND c.card_monster_id IN ({monsterIn})
+                
+                UNION ALL
+                SELECT us.skill_id, c.card_military_id, 'military', c.position
+                FROM user_skills us 
+                JOIN card_militaries_skills c ON us.skill_id = c.skill_id 
+                WHERE us.user_id = @UserId AND c.card_military_id IN ({militaryIn})
+                
+                UNION ALL
+                SELECT us.skill_id, c.card_spell_id, 'spell', c.position
+                FROM user_skills us 
+                JOIN card_spells_skills c ON us.skill_id = c.skill_id 
+                WHERE us.user_id = @UserId AND c.card_spell_id IN ({spellIn})
+                
+                UNION ALL
+                SELECT us.skill_id, c.card_soldier_id, 'soldier', c.position
+                FROM user_skills us 
+                JOIN card_soldiers_skills c ON us.skill_id = c.skill_id 
+                WHERE us.user_id = @UserId AND c.card_soldier_id IN ({soldierIn})
+            ),
+            UniqueTargetSkills AS (
+                SELECT DISTINCT skill_id FROM TargetSkillsRaw
+            ),
+
+            CardsGrouped AS (
+                SELECT 
+                    skill_id,
+                    card_type,
+                    JSON_ARRAYAGG(
+                        JSON_OBJECT('id', card_id, 'pos', position)
+                    ) AS card_list
+                FROM TargetSkillsRaw
+                GROUP BY skill_id, card_type
+            ),
+            -- Pivot (Xoay dòng thành cột) để trả về các mảng JSON sạch sẽ cho C#
+            AggregatedCards AS (
+                SELECT 
+                    skill_id,
+                    MAX(CASE WHEN card_type = 'hero' THEN card_list END) AS hero_ids,
+                    MAX(CASE WHEN card_type = 'captain' THEN card_list END) AS captain_ids,
+                    MAX(CASE WHEN card_type = 'colonel' THEN card_list END) AS colonel_ids,
+                    MAX(CASE WHEN card_type = 'general' THEN card_list END) AS general_ids,
+                    MAX(CASE WHEN card_type = 'admiral' THEN card_list END) AS admiral_ids,
+                    MAX(CASE WHEN card_type = 'monster' THEN card_list END) AS monster_ids,
+                    MAX(CASE WHEN card_type = 'military' THEN card_list END) AS military_ids,
+                    MAX(CASE WHEN card_type = 'spell' THEN card_list END) AS spell_ids,
+                    MAX(CASE WHEN card_type = 'soldier' THEN card_list END) AS soldier_ids
+                FROM CardsGrouped
+                GROUP BY skill_id
+            ),
+            BaseEffects AS (
+                SELECT 
+                    se.skill_id, se.effect_id, se.min_value, se.max_value, se.trigger_phase, 
+                    se.trigger_condition, se.is_stackable, se.is_removable, se.target_id, 
+                    e.name AS effect_name, e.effect_type, e.duration, e.description AS effect_description
+                FROM skill_effect se 
+                JOIN effects e ON se.effect_id = e.id AND e.is_deleted = FALSE 
+                WHERE se.skill_id IN (SELECT skill_id FROM UniqueTargetSkills)
+            ),
+            AggregatedEffects AS (
+                SELECT 
+                    be.skill_id, 
+                    JSON_ARRAYAGG(
+                        JSON_OBJECT(
+                            'min_value', be.min_value, 'max_value', be.max_value, 
+                            'trigger_phase', be.trigger_phase, 'trigger_condition', be.trigger_condition, 
+                            'is_stackable', be.is_stackable, 'is_removable', be.is_removable, 
+                            'target_id', be.target_id, 'effect_id', be.effect_id, 
+                            'effect_name', be.effect_name, 'effect_type', be.effect_type, 
+                            'duration', be.duration, 'effect_description', be.effect_description, 
+                            'value_type', epa.value_type, 'value', epa.value, 
+                            'scaling_factor', epa.scaling_factor, 'property_code', ep.property_code, 
+                            'property_name', ep.property_name, 'action_code', ea.action_code, 
+                            'action_name', ea.action_name
+                        )
+                    ) AS skill_effects_json
+                FROM BaseEffects be 
+                LEFT JOIN effect_property_action epa ON be.effect_id = epa.effect_id 
+                LEFT JOIN effect_property ep ON epa.property_id = ep.property_id AND ep.is_deleted = FALSE 
+                LEFT JOIN effect_action ea ON epa.action_id = ea.action_id AND ea.is_deleted = FALSE 
+                GROUP BY be.skill_id
+            )
+            SELECT 
+                us.skill_id, s.name, s.image, us.quality, s.type, s.skill_type, s.skill_sub_type, us.star AS current_star,
+                ae.skill_effects_json,
+                ac.hero_ids, ac.captain_ids, ac.colonel_ids, ac.general_ids, ac.admiral_ids, ac.monster_ids, ac.military_ids, ac.spell_ids, ac.soldier_ids
+            FROM user_skills us
+            JOIN Skills s ON us.skill_id = s.id
+            LEFT JOIN AggregatedEffects ae ON us.skill_id = ae.skill_id
+            LEFT JOIN AggregatedCards ac ON us.skill_id = ac.skill_id
+            WHERE us.user_id = @UserId
+            AND us.skill_id IN (SELECT skill_id FROM UniqueTargetSkills);";
+
+            using (var connection = new MySqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                using (var command = new MySqlCommand(query, connection))
+                {
+                    // command.CommandTimeout = 30;
+
+                    // Gán tất cả các parameter đã tạo từ bước build IN clause động
+                    foreach (var param in parameters)
+                    {
+                        command.Parameters.Add(param);
+                    }
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var skill = new Skills
+                            {
+                                Id = reader.IsDBNull(0) ? string.Empty : reader.GetString(0),
+                                Name = reader.IsDBNull(1) ? string.Empty : reader.GetString(1),
+                                Image = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
+                                Quality = reader.IsDBNull(3) ? 0 : reader.GetDouble(3),
+                                Type = reader.IsDBNull(4) ? string.Empty : reader.GetString(4),
+                                SkillType = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
+                                CurrentStar = reader.IsDBNull(7) ? 0 : reader.GetInt32(7)
+                            };
+
+                            string effectsJson = reader.IsDBNull(8) ? null : reader.GetString(8);
+                            string heroJson = reader.IsDBNull(9) ? null : reader.GetString(9);
+                            string captainJson = reader.IsDBNull(10) ? null : reader.GetString(10);
+                            string colonelJson = reader.IsDBNull(11) ? null : reader.GetString(11);
+                            string generalJson = reader.IsDBNull(12) ? null : reader.GetString(12);
+                            string admiralJson = reader.IsDBNull(13) ? null : reader.GetString(13);
+                            string monsterJson = reader.IsDBNull(14) ? null : reader.GetString(14);
+                            string militaryJson = reader.IsDBNull(15) ? null : reader.GetString(15);
+                            string spellJson = reader.IsDBNull(16) ? null : reader.GetString(16);
+                            string soldierJson = reader.IsDBNull(17) ? null : reader.GetString(17);
+
+                            pendingJsonList.Add((skill, effectsJson, heroJson, captainJson, colonelJson, generalJson, admiralJson, monsterJson, militaryJson, spellJson, soldierJson));
+                            skillList.Add(skill);
+                        }
+                    }
+                }
+            }
+
+            // 4. Giải mã dữ liệu JSON song song đa luồng (sử dụng Newtonsoft.Json)
+            if (pendingJsonList.Count > 0)
+            {
+                Parallel.ForEach(pendingJsonList, item =>
+                {
+                    if (!string.IsNullOrEmpty(item.effectsJson))
+                    {
+                        try
+                        {
+                            // Bạn có thể đổi sang hàm của Newtonsoft nếu JsonHelper đang bị lỗi
+                            item.skill.Effects = JsonConvert.DeserializeObject<List<Effects>>(item.effectsJson) ?? new List<Effects>();
+                        }
+                        catch (Exception) { item.skill.Effects = new List<Effects>(); }
+                    }
+                    else { item.skill.Effects = new List<Effects>(); }
+
+                    item.skill.cardHeroIds = ParseCardRelations(item.heroJson);
+                    item.skill.cardCaptainIds = ParseCardRelations(item.captainJson);
+                    item.skill.cardColonelIds = ParseCardRelations(item.colonelJson);
+                    item.skill.cardGeneralIds = ParseCardRelations(item.generalJson);
+                    item.skill.cardAdmiralIds = ParseCardRelations(item.admiralJson);
+                    item.skill.cardMonsterIds = ParseCardRelations(item.monsterJson);
+                    item.skill.cardMilitaryIds = ParseCardRelations(item.militaryJson);
+                    item.skill.cardSpellIds = ParseCardRelations(item.spellJson);
+                    item.skill.cardSoldierIds = ParseCardRelations(item.soldierJson);
+                });
+            }
+        }
+        catch (Exception ex)
+        {
+            // Xử lý hoặc ghi log lỗi lớn tại đây (ví dụ: LogError(ex);)
+            Console.WriteLine($"Error in GetUserSkillsWithCardsAsync: {ex.Message}");
+            throw; // Re-throw để tầng trên biết có lỗi hoặc return skillList trống tùy thiết kế ứng dụng
+        }
+
+        return skillList;
+    }
+
+    // --- HÀM HELPER 1: Giải mã JSON mảng Card IDs bằng Newtonsoft.Json tránh lỗi ép kiểu ---
+    private List<CardSkillRelation> ParseCardRelations(string jsonStr)
+    {
+        if (string.IsNullOrEmpty(jsonStr)) return new List<CardSkillRelation>();
+        try
+        {
+            return JsonConvert.DeserializeObject<List<CardSkillRelation>>(jsonStr) ?? new List<CardSkillRelation>();
+        }
+        catch (Exception)
+        {
+            // Trả về list rỗng nếu parse lỗi (ví dụ chuỗi không phải định dạng JSON chuẩn)
+            return new List<CardSkillRelation>();
+        }
+    }
+
+    // --- HÀM HELPER 2: Tự động tạo chuỗi IN Clause động và gắn Parameter an toàn ---
+    private string BuildInClause(List<string> ids, string prefix, List<MySqlParameter> paramList)
+    {
+        // Nếu danh sách trống, gán giá trị không khớp (ví dụ: NULL) để tránh lỗi cú pháp IN () trống của SQL
+        if (ids == null || ids.Count == 0)
+        {
+            return "NULL";
+        }
+
+        var sb = new StringBuilder();
+        for (int i = 0; i < ids.Count; i++)
+        {
+            string paramName = $"@{prefix}_{i}";
+            sb.Append(i == 0 ? paramName : $", {paramName}");
+
+            // Khởi tạo Parameter riêng biệt tương thích an toàn với ADO.NET thuần
+            paramList.Add(new MySqlParameter(paramName, ids[i]));
+        }
+        return sb.ToString();
     }
     public async Task<List<Skills>> GetUserCardsSkillsAsync(string userId, List<string> allCardIds)
     {

@@ -480,4 +480,9 @@ public class UserSkillsService : IUserSkillsService
     {
         return await _userSkillsRepository.GetUserCardsSkillsAsync(userId, allCardIds);
     }
+
+    public async Task<List<Skills>> GetUserSkillsWithCardsAsync(string userId, List<string> heroIds, List<string> captainIds, List<string> colonelIds, List<string> generalIds, List<string> admiralIds, List<string> monsterIds, List<string> militaryIds, List<string> spellIds, List<string> soldierIds)
+    {
+        return await _userSkillsRepository.GetUserSkillsWithCardsAsync(userId, heroIds, captainIds, colonelIds, generalIds, admiralIds, monsterIds, militaryIds, spellIds, soldierIds);
+    }
 }
