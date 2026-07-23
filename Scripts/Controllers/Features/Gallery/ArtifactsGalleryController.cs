@@ -94,7 +94,7 @@ public class ArtifactsGalleryController : MonoBehaviour
             unlockButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await ArtifactsGalleryService.Create().UpdateStatusArtifactGalleryAsync(artifact.Id);
+                await ArtifactsGalleryService.Create().UpdateStatusArtifactGalleryAsync(User.CurrentUserId, artifact.Id);
                 blockImage.gameObject.SetActive(false);
                 unlockButton.gameObject.SetActive(false);
                 image.color = Color.white;
@@ -122,7 +122,7 @@ public class ArtifactsGalleryController : MonoBehaviour
             upgradeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await ArtifactsGalleryService.Create().UpdateArtifactGalleryPowerAsync(artifact.Id);
+                await ArtifactsGalleryService.Create().UpdateArtifactGalleryPowerAsync(User.CurrentUserId, artifact.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

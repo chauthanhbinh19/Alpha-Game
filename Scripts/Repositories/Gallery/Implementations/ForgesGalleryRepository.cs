@@ -6,10 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class ForgesGalleryRepository : IForgesGalleryRepository
 {
-    public async Task<List<Forges>> GetForgesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Forges>> GetForgesCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Forges> forges = new List<Forges>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -222,7 +221,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
 
         return count;
     }
-    public async Task InsertForgeGalleryAsync(string Id, Forges forge)
+    public async Task InsertForgeGalleryAsync(string userId, string Id, Forges forge)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(forge.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -241,7 +240,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@forge_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -300,7 +299,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
                     MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@forge_id", Id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -384,7 +383,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusForgeGalleryAsync(string Id)
+    public async Task UpdateStatusForgeGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -396,7 +395,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
 
                 string updateSQL = "UPDATE forges_gallery SET status=@status WHERE user_id=@user_id AND forge_id=@forge_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@forge_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -412,7 +411,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
             }
         }
     }
-    public async Task UpdateStarForgeGalleryAsync(string Id, double star)
+    public async Task UpdateStarForgeGalleryAsync(string userId, string Id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -430,7 +429,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@forge_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -450,7 +449,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@forge_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -469,7 +468,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
             }
         }
     }
-    public async Task UpdateForgeGalleryPowerAsync(string Id, Forges forge)
+    public async Task UpdateForgeGalleryPowerAsync(string userId, string Id, Forges forge)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -549,7 +548,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
             ";
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@forge_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
@@ -627,7 +626,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
             }
         }
     }
-    public async Task<Forges> SumPowerForgesGalleryAsync()
+    public async Task<Forges> SumPowerForgesGalleryAsync(string userId)
     {
         Forges sumForges = new Forges();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -682,7 +681,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

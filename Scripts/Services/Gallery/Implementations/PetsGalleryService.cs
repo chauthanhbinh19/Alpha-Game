@@ -20,9 +20,9 @@ public class PetsGalleryService : IPetsGalleryService
         return _instance;
     }
 
-    public async Task<List<Pets>> GetPetsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Pets>> GetPetsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Pets> list = await _petsGalleryRepository.GetPetsCollectionAsync(search, type, pageSize, offset, rare);
+        List<Pets> list = await _petsGalleryRepository.GetPetsCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class PetsGalleryService : IPetsGalleryService
         return await _petsGalleryRepository.GetPetsCountAsync(search, type, rare);
     }
 
-    public async Task InsertPetGalleryAsync(string Id)
+    public async Task InsertPetGalleryAsync(string userId, string Id)
     {
         IPetsRepository _repository = new PetsRepository();
         PetsService _service = new PetsService(_repository);
-        await _petsGalleryRepository.InsertPetGalleryAsync(Id, await _service.GetPetByIdAsync(Id));
+        await _petsGalleryRepository.InsertPetGalleryAsync(userId, Id, await _service.GetPetByIdAsync(Id));
     }
 
-    public async Task UpdateStatusPetGalleryAsync(string Id)
+    public async Task UpdateStatusPetGalleryAsync(string userId, string Id)
     {
-        await _petsGalleryRepository.UpdateStatusPetGalleryAsync(Id);
+        await _petsGalleryRepository.UpdateStatusPetGalleryAsync(userId, Id);
     }
 
-    public async Task<Pets> SumPowerPetsGalleryAsync()
+    public async Task<Pets> SumPowerPetsGalleryAsync(string userId)
     {
-        return await _petsGalleryRepository.SumPowerPetsGalleryAsync();
+        return await _petsGalleryRepository.SumPowerPetsGalleryAsync(userId);
     }
 
-    public async Task UpdateStarPetGalleryAsync(string Id, double star)
+    public async Task UpdateStarPetGalleryAsync(string userId, string Id, double star)
     {
-        await _petsGalleryRepository.UpdateStarPetGalleryAsync(Id, star);
+        await _petsGalleryRepository.UpdateStarPetGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdatePetGalleryPowerAsync(string Id)
+    public async Task UpdatePetGalleryPowerAsync(string userId, string Id)
     {
         IPetsRepository _repository = new PetsRepository();
         PetsService _service = new PetsService(_repository);
-        await _petsGalleryRepository.UpdatePetGalleryPowerAsync(Id, await _service.GetPetByIdAsync(Id));
+        await _petsGalleryRepository.UpdatePetGalleryPowerAsync(userId, Id, await _service.GetPetByIdAsync(Id));
     }
 }

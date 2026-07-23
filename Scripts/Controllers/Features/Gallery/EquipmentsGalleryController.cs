@@ -97,7 +97,7 @@ public class EquipmentsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var equipmentGalleryService = EquipmentsGalleryService.Create();
-                await equipmentGalleryService.UpdateStatusEquipmentGalleryAsync(equipment.Id);
+                await equipmentGalleryService.UpdateStatusEquipmentGalleryAsync(User.CurrentUserId, equipment.Id);
                 blockImage.gameObject.SetActive(false);
                 unlockButton.gameObject.SetActive(false);
                 image.color = Color.white;
@@ -125,7 +125,7 @@ public class EquipmentsGalleryController : MonoBehaviour
             upgradeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await EquipmentsGalleryService.Create().UpdateEquipmentGalleryPowerAsync(equipment.Id);
+                await EquipmentsGalleryService.Create().UpdateEquipmentGalleryPowerAsync(User.CurrentUserId, equipment.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

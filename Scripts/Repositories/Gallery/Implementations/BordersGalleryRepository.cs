@@ -6,10 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class BordersGalleryRepository : IBordersGalleryRepository
 {
-    public async Task<List<Borders>> GetBordersCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Borders>> GetBordersCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Borders> borders = new List<Borders>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -201,7 +200,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
 
         return count;
     }
-    public async Task InsertBorderGalleryAsync(string Id, Borders border)
+    public async Task InsertBorderGalleryAsync(string userId, string Id, Borders border)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -221,7 +220,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@border_id", Id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -269,7 +268,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
 
                         using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@border_id", Id);
                             insertCommand.Parameters.AddWithValue("@status", "pending");
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -361,7 +360,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusBorderGalleryAsync(string Id)
+    public async Task UpdateStatusBorderGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -377,7 +376,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@border_id", Id);
                     updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -394,7 +393,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
             }
         }
     }
-    public async Task UpdateStarBorderGalleryAsync(string id, double star)
+    public async Task UpdateStarBorderGalleryAsync(string userId, string id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -413,7 +412,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@border_id", id);
 
                     await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -435,7 +434,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
 
                                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                                 {
-                                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                                     updateCommand.Parameters.AddWithValue("@border_id", id);
                                     updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -456,7 +455,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
             }
         }
     }
-    public async Task UpdateBorderGalleryPowerAsync(string id, Borders border)
+    public async Task UpdateBorderGalleryPowerAsync(string userId, string id, Borders border)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -538,7 +537,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
                 // IDs
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@border_id", id);
 
                 // Base flags
@@ -622,7 +621,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
             }
         }
     }
-    public async Task<Borders> SumPowerBordersGalleryAsync()
+    public async Task<Borders> SumPowerBordersGalleryAsync(string userId)
     {
         Borders sumBorders = new Borders();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -684,7 +683,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
             ";
 
                 MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {

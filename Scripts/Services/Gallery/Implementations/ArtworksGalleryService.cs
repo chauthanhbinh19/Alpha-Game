@@ -20,9 +20,9 @@ public class ArtworksGalleryService : IArtworksGalleryService
         return _instance;
     }
 
-    public async Task<List<Artworks>> GetArtworksCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Artworks>> GetArtworksCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Artworks> list = await _artworksGalleryRepository.GetArtworksCollectionAsync(search, type, pageSize, offset, rare);
+        List<Artworks> list = await _artworksGalleryRepository.GetArtworksCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class ArtworksGalleryService : IArtworksGalleryService
         return await _artworksGalleryRepository.GetArtworksCountAsync(search, type, rare);
     }
 
-    public async Task InsertArtworkGalleryAsync(string Id)
+    public async Task InsertArtworkGalleryAsync(string userId, string Id)
     {
         IArtworksRepository _repository = new ArtworksRepository();
         ArtworksService _service = new ArtworksService(_repository);
-        await _artworksGalleryRepository.InsertArtworkGalleryAsync(Id, await _service.GetArtworkByIdAsync(Id));
+        await _artworksGalleryRepository.InsertArtworkGalleryAsync(userId, Id, await _service.GetArtworkByIdAsync(Id));
     }
 
-    public async Task UpdateStatusArtworkGalleryAsync(string Id)
+    public async Task UpdateStatusArtworkGalleryAsync(string userId, string Id)
     {
-        await _artworksGalleryRepository.UpdateStatusArtworkGalleryAsync(Id);
+        await _artworksGalleryRepository.UpdateStatusArtworkGalleryAsync(userId, Id);
     }
 
-    public async Task<Artworks> SumPowerArtworksGalleryAsync()
+    public async Task<Artworks> SumPowerArtworksGalleryAsync(string userId)
     {
-        return await _artworksGalleryRepository.SumPowerArtworksGalleryAsync();
+        return await _artworksGalleryRepository.SumPowerArtworksGalleryAsync(userId);
     }
 
-    public async Task UpdateStarArtworkGalleryAsync(string Id, double star)
+    public async Task UpdateStarArtworkGalleryAsync(string userId, string Id, double star)
     {
-        await _artworksGalleryRepository.UpdateStarArtworkGalleryAsync(Id, star);
+        await _artworksGalleryRepository.UpdateStarArtworkGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateArtworkGalleryPowerAsync(string Id)
+    public async Task UpdateArtworkGalleryPowerAsync(string userId, string Id)
     {
         IArtworksRepository _repository = new ArtworksRepository();
         ArtworksService _service = new ArtworksService(_repository);
-        await _artworksGalleryRepository.UpdateArtworkGalleryPowerAsync(Id, await _service.GetArtworkByIdAsync(Id));
+        await _artworksGalleryRepository.UpdateArtworkGalleryPowerAsync(userId, Id, await _service.GetArtworkByIdAsync(Id));
     }
 }

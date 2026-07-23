@@ -330,7 +330,7 @@ public class PetsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await PetsGalleryService.Create().InsertPetGalleryAsync(pet.Id);
+                    await PetsGalleryService.Create().InsertPetGalleryAsync(User.CurrentUserId, pet.Id);
                     currencies = await UserCurrenciesService.Create().GetPetsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(pet.Image);
 

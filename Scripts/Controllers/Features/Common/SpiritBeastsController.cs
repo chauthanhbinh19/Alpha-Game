@@ -326,7 +326,7 @@ public class SpiritBeastsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await SpiritBeastsGalleryService.Create().InsertSpiritBeastGalleryAsync(spiritBeast.Id);
+                    await SpiritBeastsGalleryService.Create().InsertSpiritBeastGalleryAsync(User.CurrentUserId, spiritBeast.Id);
                     currencies = await UserCurrenciesService.Create().GetSpiritBeastsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(spiritBeast.Image);
 

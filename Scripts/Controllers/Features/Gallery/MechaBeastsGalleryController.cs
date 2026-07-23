@@ -98,7 +98,7 @@ public class MechaBeastsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var mechaBeastGalleryService = MechaBeastsGalleryService.Create();
-                    await mechaBeastGalleryService.UpdateStatusMechaBeastGalleryAsync(mechaBeast.Id);
+                    await mechaBeastGalleryService.UpdateStatusMechaBeastGalleryAsync(User.CurrentUserId, mechaBeast.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class MechaBeastsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await MechaBeastsGalleryService.Create().UpdateMechaBeastGalleryPowerAsync(mechaBeast.Id);
+                    await MechaBeastsGalleryService.Create().UpdateMechaBeastGalleryPowerAsync(User.CurrentUserId, mechaBeast.Id);
                 });
             }
             catch (Exception ex)

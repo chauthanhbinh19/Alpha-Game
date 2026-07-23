@@ -98,7 +98,7 @@ public class PlantsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var PlantGalleryService = PlantsGalleryService.Create();
-                    await PlantGalleryService.UpdateStatusPlantGalleryAsync(plant.Id);
+                    await PlantGalleryService.UpdateStatusPlantGalleryAsync(User.CurrentUserId, plant.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class PlantsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await PlantsGalleryService.Create().UpdatePlantGalleryPowerAsync(plant.Id);
+                    await PlantsGalleryService.Create().UpdatePlantGalleryPowerAsync(User.CurrentUserId, plant.Id);
                 });
             }
             catch (Exception ex)

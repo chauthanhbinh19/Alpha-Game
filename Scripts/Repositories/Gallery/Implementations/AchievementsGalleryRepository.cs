@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class AchievementsGalleryRepository : IAchievementsGalleryRepository
 {
-    public async Task<List<Achievements>> GetAchievementsCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Achievements>> GetAchievementsCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Achievements> achievements = new List<Achievements>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -204,7 +203,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
 
         return count;
     }
-    public async Task InsertAchievementsGalleryAsync(string Id, Achievements achievement)
+    public async Task InsertAchievementsGalleryAsync(string userId, string Id, Achievements achievement)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -224,7 +223,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@achievement_id", Id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -272,7 +271,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
 
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@achievement_id", Id);
                             insertCommand.Parameters.AddWithValue("@status", "pending");
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -366,7 +365,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusAchievementsGalleryAsync(string Id)
+    public async Task UpdateStatusAchievementsGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -382,7 +381,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@achievement_id", Id);
                     updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -399,7 +398,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarAchievementsGalleryAsync(string id, double star)
+    public async Task UpdateStarAchievementsGalleryAsync(string userId, string id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -418,7 +417,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@achievement_id", id);
 
                     await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -440,7 +439,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
 
                                 using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                                 {
-                                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                                     updateCommand.Parameters.AddWithValue("@achievement_id", id);
                                     updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -461,7 +460,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
             }
         }
     }
-    public async Task UpdateAchievementsGalleryPowerAsync(string id, Achievements achievement)
+    public async Task UpdateAchievementsGalleryPowerAsync(string userId, string id, Achievements achievement)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -543,7 +542,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     // IDs
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@achievement_id", id);
 
                     // Base flags
@@ -628,7 +627,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
             }
         }
     }
-    public async Task<Achievements> SumPowerAchievementsGalleryAsync()
+    public async Task<Achievements> SumPowerAchievementsGalleryAsync(string userId)
     {
         Achievements sumAchievements = new Achievements();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -690,7 +689,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
             ";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {

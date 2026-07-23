@@ -20,9 +20,9 @@ public class CardMilitariesGalleryService : ICardMilitariesGalleryService
         return _instance;
     }
 
-    public async Task<List<CardMilitaries>> GetCardMilitariesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardMilitaries>> GetCardMilitariesCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CardMilitaries> list = await _cardMilitariesGalleryRepository.GetCardMilitariesCollectionAsync(search, type, pageSize, offset, rare);
+        List<CardMilitaries> list = await _cardMilitariesGalleryRepository.GetCardMilitariesCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class CardMilitariesGalleryService : ICardMilitariesGalleryService
         return await _cardMilitariesGalleryRepository.GetCardMilitariesCountAsync(search, type, rare);
     }
 
-    public async Task InsertCardMilitaryGalleryAsync(string Id)
+    public async Task InsertCardMilitaryGalleryAsync(string userId, string Id)
     {
         ICardMilitariesRepository _repository = new CardMilitariesRepository();
         CardMilitariesService _service = new CardMilitariesService(_repository);
-        await _cardMilitariesGalleryRepository.InsertCardMilitaryGalleryAsync(Id, await _service.GetCardMilitaryByIdAsync(Id));
+        await _cardMilitariesGalleryRepository.InsertCardMilitaryGalleryAsync(userId, Id, await _service.GetCardMilitaryByIdAsync(Id));
     }
 
-    public async Task UpdateStatusCardMilitaryGalleryAsync(string Id)
+    public async Task UpdateStatusCardMilitaryGalleryAsync(string userId, string Id)
     {
-        await _cardMilitariesGalleryRepository.UpdateStatusCardMilitaryGalleryAsync(Id);
+        await _cardMilitariesGalleryRepository.UpdateStatusCardMilitaryGalleryAsync(userId, Id);
     }
 
-    public async Task<CardMilitaries> SumPowerCardMilitariesGalleryAsync()
+    public async Task<CardMilitaries> SumPowerCardMilitariesGalleryAsync(string userId)
     {
-        return await _cardMilitariesGalleryRepository.SumPowerCardMilitariesGalleryAsync();
+        return await _cardMilitariesGalleryRepository.SumPowerCardMilitariesGalleryAsync(userId);
     }
 
-    public async Task UpdateStarCardMilitaryGalleryAsync(string Id, double star)
+    public async Task UpdateStarCardMilitaryGalleryAsync(string userId, string Id, double star)
     {
-        await _cardMilitariesGalleryRepository.UpdateStarCardMilitaryGalleryAsync(Id, star);
+        await _cardMilitariesGalleryRepository.UpdateStarCardMilitaryGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateCardMilitaryGalleryPowerAsync(string Id)
+    public async Task UpdateCardMilitaryGalleryPowerAsync(string userId, string Id)
     {
         ICardMilitariesRepository _repository = new CardMilitariesRepository();
         CardMilitariesService _service = new CardMilitariesService(_repository);
-        await _cardMilitariesGalleryRepository.UpdateCardMilitaryGalleryPowerAsync(Id, await _service.GetCardMilitaryByIdAsync(Id));
+        await _cardMilitariesGalleryRepository.UpdateCardMilitaryGalleryPowerAsync(userId, Id, await _service.GetCardMilitaryByIdAsync(Id));
     }
 }

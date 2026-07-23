@@ -311,7 +311,7 @@ public class AlchemiesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await AlchemiesGalleryService.Create().InsertAlchemyGalleryAsync(alchemy.Id);
+                    await AlchemiesGalleryService.Create().InsertAlchemyGalleryAsync(User.CurrentUserId, alchemy.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(alchemy.Image);
 

@@ -100,7 +100,7 @@ public class PetsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var petGalleryService = PetsGalleryService.Create();
-                    await petGalleryService.UpdateStatusPetGalleryAsync(pet.Id);
+                    await petGalleryService.UpdateStatusPetGalleryAsync(User.CurrentUserId, pet.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -128,7 +128,7 @@ public class PetsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await PetsGalleryService.Create().UpdatePetGalleryPowerAsync(pet.Id);
+                    await PetsGalleryService.Create().UpdatePetGalleryPowerAsync(User.CurrentUserId, pet.Id);
                 });
             }
             catch (Exception ex)

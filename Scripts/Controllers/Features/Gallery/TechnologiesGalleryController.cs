@@ -98,7 +98,7 @@ public class TechnologiesGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var technologyGalleryService = TechnologiesGalleryService.Create();
-                    await technologyGalleryService.UpdateStatusTechnologyGalleryAsync(technology.Id);
+                    await technologyGalleryService.UpdateStatusTechnologyGalleryAsync(User.CurrentUserId, technology.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class TechnologiesGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await TechnologiesGalleryService.Create().UpdateTechnologyGalleryPowerAsync(technology.Id);
+                    await TechnologiesGalleryService.Create().UpdateTechnologyGalleryPowerAsync(User.CurrentUserId, technology.Id);
                 });
             }
             catch (Exception ex)

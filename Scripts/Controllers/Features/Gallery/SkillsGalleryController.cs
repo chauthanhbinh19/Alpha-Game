@@ -100,7 +100,7 @@ public class SkillsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var skillGalleryService = SkillsGalleryService.Create();
-                    await skillGalleryService.UpdateStatusSkillGalleryAsync(skill.Id);
+                    await skillGalleryService.UpdateStatusSkillGalleryAsync(User.CurrentUserId, skill.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -128,7 +128,7 @@ public class SkillsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await SkillsGalleryService.Create().UpdateSkillGalleryPowerAsync(skill.Id);
+                    await SkillsGalleryService.Create().UpdateSkillGalleryPowerAsync(User.CurrentUserId, skill.Id);
                 });
             }
             catch (Exception ex)

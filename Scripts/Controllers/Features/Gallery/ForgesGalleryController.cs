@@ -101,7 +101,7 @@ public class ForgesGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var forgeGalleryService = ForgesGalleryService.Create();
-                    await forgeGalleryService.UpdateStatusForgeGalleryAsync(forge.Id);
+                    await forgeGalleryService.UpdateStatusForgeGalleryAsync(User.CurrentUserId, forge.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -129,7 +129,7 @@ public class ForgesGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await ForgesGalleryService.Create().UpdateForgeGalleryPowerAsync(forge.Id);
+                    await ForgesGalleryService.Create().UpdateForgeGalleryPowerAsync(User.CurrentUserId, forge.Id);
                 });
             }
             catch (Exception ex)

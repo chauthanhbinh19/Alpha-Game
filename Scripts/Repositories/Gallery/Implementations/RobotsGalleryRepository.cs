@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class RobotsGalleryRepository : IRobotsGalleryRepository
 {
-    public async Task<List<Robots>> GetRobotsCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Robots>> GetRobotsCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Robots> robots = new List<Robots>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -201,7 +200,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
 
         return count;
     }
-    public async Task InsertRobotGalleryAsync(string Id, Robots robot)
+    public async Task InsertRobotGalleryAsync(string userId, string Id, Robots robot)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -221,7 +220,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@robot_id", Id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -269,7 +268,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
 
                         using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@robot_id", Id);
                             insertCommand.Parameters.AddWithValue("@status", "pending");
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -361,7 +360,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusRobotGalleryAsync(string Id)
+    public async Task UpdateStatusRobotGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -377,7 +376,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@robot_id", Id);
                     updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -394,7 +393,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarRobotGalleryAsync(string id, double star)
+    public async Task UpdateStarRobotGalleryAsync(string userId, string id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -413,7 +412,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@robot_id", id);
 
                     await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -435,7 +434,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
 
                                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                                 {
-                                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                                     updateCommand.Parameters.AddWithValue("@robot_id", id);
                                     updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -456,7 +455,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
             }
         }
     }
-    public async Task UpdateRobotGalleryPowerAsync(string id, Robots robot)
+    public async Task UpdateRobotGalleryPowerAsync(string userId, string id, Robots robot)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -538,7 +537,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
                 // IDs
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@robot_id", id);
 
                 // Base flags
@@ -622,7 +621,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
             }
         }
     }
-    public async Task<Robots> SumPowerRobotsGalleryAsync()
+    public async Task<Robots> SumPowerRobotsGalleryAsync(string userId)
     {
         Robots sumRobots = new Robots();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -684,7 +683,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
             ";
 
                 MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {

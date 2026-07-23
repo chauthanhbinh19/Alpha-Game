@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
 {
-    public async Task<List<CardMilitaries>> GetCardMilitariesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardMilitaries>> GetCardMilitariesCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<CardMilitaries> cardMilitaries = new List<CardMilitaries>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -288,7 +287,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
 
         return count;
     }
-    public async Task InsertCardMilitaryGalleryAsync(string Id, CardMilitaries cardMilitary)
+    public async Task InsertCardMilitaryGalleryAsync(string userId, string Id, CardMilitaries cardMilitary)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(cardMilitary.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -307,7 +306,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@card_military_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -366,7 +365,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
                     MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@card_military_id", Id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -450,7 +449,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusCardMilitaryGalleryAsync(string Id)
+    public async Task UpdateStatusCardMilitaryGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -462,7 +461,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
 
                 string updateSQL = "UPDATE card_militaries_gallery SET status=@status WHERE user_id=@user_id AND card_military_id=@card_military_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@card_military_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -478,7 +477,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
             }
         }
     }
-    public async Task UpdateStarCardMilitaryGalleryAsync(string Id, double star)
+    public async Task UpdateStarCardMilitaryGalleryAsync(string userId, string Id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -496,7 +495,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@card_military_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -516,7 +515,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@card_military_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -535,7 +534,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
             }
         }
     }
-    public async Task UpdateCardMilitaryGalleryPowerAsync(string Id, CardMilitaries cardMilitary)
+    public async Task UpdateCardMilitaryGalleryPowerAsync(string userId, string Id, CardMilitaries cardMilitary)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -615,7 +614,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
             ";
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@card_military_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
@@ -693,7 +692,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
             }
         }
     }
-    public async Task<CardMilitaries> SumPowerCardMilitariesGalleryAsync()
+    public async Task<CardMilitaries> SumPowerCardMilitariesGalleryAsync(string userId)
     {
         CardMilitaries sumCardMilitaries = new CardMilitaries();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -748,7 +747,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

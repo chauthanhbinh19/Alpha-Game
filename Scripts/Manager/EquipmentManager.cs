@@ -837,7 +837,7 @@ public class EquipmentManager : MonoBehaviour
             if (success)
             {
                 await UserEquipmentsService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, currency.Id, totalCost);
-                await equipmentsGalleryService.InsertEquipmentGalleryAsync(equipments.Id);
+                await equipmentsGalleryService.InsertEquipmentGalleryAsync(User.CurrentUserId, equipments.Id);
                 Transform CurrencyPanel = CurrentObject.transform.Find("DictionaryCards/Currency");
                 Close(CurrencyPanel);
                 await FindObjectOfType<CurrenciesManager>().GetEquipmentsCurrencyAsync(type, CurrencyPanel);

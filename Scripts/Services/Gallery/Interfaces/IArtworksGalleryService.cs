@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 public interface IArtworksGalleryService
 {
-    Task<List<Artworks>> GetArtworksCollectionAsync(string search, string type, int pageSize, int offset, string rare);
+    Task<List<Artworks>> GetArtworksCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetArtworksCountAsync(string search, string type, string rare);
-    Task InsertArtworkGalleryAsync(string Id);
-    Task UpdateStatusArtworkGalleryAsync(string Id);
-    Task UpdateStarArtworkGalleryAsync(string Id, double star);
-    Task UpdateArtworkGalleryPowerAsync(string Id);
-    Task<Artworks> SumPowerArtworksGalleryAsync();
+    Task InsertArtworkGalleryAsync(string userId, string Id);
+    Task UpdateStatusArtworkGalleryAsync(string userId, string Id);
+    Task UpdateStarArtworkGalleryAsync(string userId, string Id, double star);
+    Task UpdateArtworkGalleryPowerAsync(string userId, string Id);
+    Task<Artworks> SumPowerArtworksGalleryAsync(string userId);
 }

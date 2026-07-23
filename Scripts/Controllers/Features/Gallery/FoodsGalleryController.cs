@@ -98,7 +98,7 @@ public class FoodsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var FoodGalleryService = FoodsGalleryService.Create();
-                    await FoodGalleryService.UpdateStatusFoodGalleryAsync(food.Id);
+                    await FoodGalleryService.UpdateStatusFoodGalleryAsync(User.CurrentUserId, food.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class FoodsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await FoodsGalleryService.Create().UpdateFoodGalleryPowerAsync(food.Id);
+                    await FoodsGalleryService.Create().UpdateFoodGalleryPowerAsync(User.CurrentUserId, food.Id);
                 });
             }
             catch (Exception ex)

@@ -311,7 +311,7 @@ public class SkillsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await SkillsGalleryService.Create().InsertSkillGalleryAsync(skill.Id);
+                    await SkillsGalleryService.Create().InsertSkillGalleryAsync(User.CurrentUserId, skill.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(skill.Image);
 

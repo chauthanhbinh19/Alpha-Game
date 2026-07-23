@@ -327,7 +327,7 @@ public class FoodsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await FoodsGalleryService.Create().InsertFoodGalleryAsync((string)food.Id);
+                    await FoodsGalleryService.Create().InsertFoodGalleryAsync(User.CurrentUserId, (string)food.Id);
                     currencies = await UserCurrenciesService.Create().GetFoodsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)food.Image);
 

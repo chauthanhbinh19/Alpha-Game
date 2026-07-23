@@ -307,7 +307,7 @@ public class CollaborationsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await CollaborationsGalleryService.Create().InsertCollaborationGalleryAsync(collaboration.Id);
+                    await CollaborationsGalleryService.Create().InsertCollaborationGalleryAsync(User.CurrentUserId, collaboration.Id);
                     currencies = await UserCurrenciesService.Create().GetCardMilitariesCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(collaboration.Image);
 

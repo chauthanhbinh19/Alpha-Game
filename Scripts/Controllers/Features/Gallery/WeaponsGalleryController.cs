@@ -98,7 +98,7 @@ public class WeaponsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var weaponGalleryService = WeaponsGalleryService.Create();
-                    await weaponGalleryService.UpdateStatusWeaponGalleryAsync(weapon.Id);
+                    await weaponGalleryService.UpdateStatusWeaponGalleryAsync(User.CurrentUserId, weapon.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class WeaponsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await WeaponsGalleryService.Create().UpdateWeaponGalleryPowerAsync(weapon.Id);
+                    await WeaponsGalleryService.Create().UpdateWeaponGalleryPowerAsync(User.CurrentUserId, weapon.Id);
                 });
             }
             catch (Exception ex)

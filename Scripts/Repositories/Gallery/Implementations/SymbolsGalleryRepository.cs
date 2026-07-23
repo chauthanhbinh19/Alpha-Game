@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class SymbolsGalleryRepository : ISymbolsGalleryRepository
 {
-    public async Task<List<Symbols>> GetSymbolsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Symbols>> GetSymbolsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Symbols> symbols = new List<Symbols>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -223,7 +222,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
 
         return count;
     }
-    public async Task InsertSymbolGalleryAsync(string Id, Symbols symbol)
+    public async Task InsertSymbolGalleryAsync(string userId, string Id, Symbols symbol)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(symbol.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -242,7 +241,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@symbol_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -301,7 +300,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
                     MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@symbol_id", Id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -385,7 +384,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusSymbolGalleryAsync(string Id)
+    public async Task UpdateStatusSymbolGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -397,7 +396,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
 
                 string updateSQL = "UPDATE symbols_gallery SET status=@status WHERE user_id=@user_id AND symbol_id=@symbol_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@symbol_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -413,7 +412,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarSymbolGalleryAsync(string Id, double star)
+    public async Task UpdateStarSymbolGalleryAsync(string userId, string Id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -431,7 +430,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@symbol_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -451,7 +450,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@symbol_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -470,7 +469,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
             }
         }
     }
-    public async Task UpdateSymbolGalleryPowerAsync(string Id, Symbols symbol)
+    public async Task UpdateSymbolGalleryPowerAsync(string userId, string Id, Symbols symbol)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -550,7 +549,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
             ";
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@symbol_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
@@ -628,7 +627,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
             }
         }
     }
-    public async Task<Symbols> SumPowerSymbolsGalleryAsync()
+    public async Task<Symbols> SumPowerSymbolsGalleryAsync(string userId)
     {
         Symbols sumSymbols = new Symbols();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -683,7 +682,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

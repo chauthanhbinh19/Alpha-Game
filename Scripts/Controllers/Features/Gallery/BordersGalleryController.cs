@@ -98,7 +98,7 @@ public class BordersGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var borderGalleryService = BordersGalleryService.Create();
-                    await borderGalleryService.UpdateStatusBorderGalleryAsync(border.Id);
+                    await borderGalleryService.UpdateStatusBorderGalleryAsync(User.CurrentUserId, border.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class BordersGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await BordersGalleryService.Create().UpdateBorderGalleryPowerAsync(border.Id);
+                    await BordersGalleryService.Create().UpdateBorderGalleryPowerAsync(User.CurrentUserId, border.Id);
                 });
             }
             catch (Exception ex)

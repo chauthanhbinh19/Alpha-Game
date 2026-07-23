@@ -331,7 +331,7 @@ public class CardColonelsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await CardColonelsGalleryService.Create().InsertCardColonelGalleryAsync(cardColonel.Id);
+                    await CardColonelsGalleryService.Create().InsertCardColonelGalleryAsync(User.CurrentUserId, cardColonel.Id);
                     currencies = await UserCurrenciesService.Create().GetCardColonelsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardColonel.Image);
 

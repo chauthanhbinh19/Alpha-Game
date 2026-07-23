@@ -114,7 +114,7 @@ public class BooksGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var booksGalleryService = BooksGalleryService.Create();
-                    await booksGalleryService.UpdateStatusBookGalleryAsync(book.Id);
+                    await booksGalleryService.UpdateStatusBookGalleryAsync(User.CurrentUserId, book.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -142,7 +142,7 @@ public class BooksGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await BooksGalleryService.Create().UpdateBookGalleryPowerAsync(book.Id);
+                    await BooksGalleryService.Create().UpdateBookGalleryPowerAsync(User.CurrentUserId, book.Id);
                 });
             }
             catch (Exception ex)

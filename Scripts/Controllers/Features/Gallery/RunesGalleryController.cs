@@ -98,7 +98,7 @@ public class RunesGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var runeGalleryService = RunesGalleryService.Create();
-                    await runeGalleryService.UpdateStatusRuneGalleryAsync(rune.Id);
+                    await runeGalleryService.UpdateStatusRuneGalleryAsync(User.CurrentUserId, rune.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class RunesGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await RunesGalleryService.Create().UpdateRuneGalleryPowerAsync(rune.Id);
+                    await RunesGalleryService.Create().UpdateRuneGalleryPowerAsync(User.CurrentUserId, rune.Id);
                 });
             }
             catch (Exception ex)

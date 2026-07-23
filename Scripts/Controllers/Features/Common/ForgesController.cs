@@ -312,7 +312,7 @@ public class ForgesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await ForgesGalleryService.Create().InsertForgeGalleryAsync(forge.Id);
+                    await ForgesGalleryService.Create().InsertForgeGalleryAsync(User.CurrentUserId, forge.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(forge.Image);
 

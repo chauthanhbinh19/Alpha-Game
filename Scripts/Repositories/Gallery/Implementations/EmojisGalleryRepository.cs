@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class EmojisGalleryRepository : IEmojisGalleryRepository
 {
-    public async Task<List<Emojis>> GetEmojisCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Emojis>> GetEmojisCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Emojis> emojis = new List<Emojis>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -203,7 +202,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
 
         return count;
     }
-    public async Task InsertEmojiGalleryAsync(string Id, Emojis emoji)
+    public async Task InsertEmojiGalleryAsync(string userId, string Id, Emojis emoji)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -223,7 +222,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@emoji_id", Id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -271,7 +270,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
 
                         using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@emoji_id", Id);
                             insertCommand.Parameters.AddWithValue("@status", "pending");
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -363,7 +362,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusEmojiGalleryAsync(string Id)
+    public async Task UpdateStatusEmojiGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -379,7 +378,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@emoji_id", Id);
                     updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -396,7 +395,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
             }
         }
     }
-    public async Task UpdateStarEmojiGalleryAsync(string id, double star)
+    public async Task UpdateStarEmojiGalleryAsync(string userId, string id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -415,7 +414,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@emoji_id", id);
 
                     await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -437,7 +436,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
 
                                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                                 {
-                                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                                     updateCommand.Parameters.AddWithValue("@emoji_id", id);
                                     updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -458,7 +457,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
             }
         }
     }
-    public async Task UpdateEmojiGalleryPowerAsync(string id, Emojis emoji)
+    public async Task UpdateEmojiGalleryPowerAsync(string userId, string id, Emojis emoji)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -540,7 +539,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
                 // IDs
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@emoji_id", id);
 
                 // Base flags
@@ -624,7 +623,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
             }
         }
     }
-    public async Task<Emojis> SumPowerEmojisGalleryAsync()
+    public async Task<Emojis> SumPowerEmojisGalleryAsync(string userId)
     {
         Emojis sumEmojis = new Emojis();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -686,7 +685,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
                 ";
 
                 MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {

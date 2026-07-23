@@ -309,7 +309,7 @@ public class SymbolsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await SymbolsGalleryService.Create().InsertSymbolGalleryAsync(symbol.Id);
+                    await SymbolsGalleryService.Create().InsertSymbolGalleryAsync(User.CurrentUserId, symbol.Id);
                     currencies = await UserCurrenciesService.Create().GetSymbolsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(symbol.Image);
 

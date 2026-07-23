@@ -312,7 +312,7 @@ public class TalismansController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await TalismansGalleryService.Create().InsertTalismanGalleryAsync(talisman.Id);
+                    await TalismansGalleryService.Create().InsertTalismanGalleryAsync(User.CurrentUserId, talisman.Id);
                     currencies = await UserCurrenciesService.Create().GetTalismansCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(talisman.Image);
 

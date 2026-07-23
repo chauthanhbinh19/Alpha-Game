@@ -20,9 +20,9 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
         return _instance;
     }
 
-    public async Task<List<CardSpells>> GetCardSpellsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardSpells>> GetCardSpellsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CardSpells> list = await _cardSpellsGalleryRepository.GetCardSpellsCollectionAsync(search, type, pageSize, offset, rare);
+        List<CardSpells> list = await _cardSpellsGalleryRepository.GetCardSpellsCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
         return await _cardSpellsGalleryRepository.GetCardSpellsCountAsync(search, type, rare);
     }
 
-    public async Task InsertCardSpellGalleryAsync(string Id)
+    public async Task InsertCardSpellGalleryAsync(string userId, string Id)
     {
         ICardSpellsRepository _repository = new CardSpellsRepository();
         CardSpellsService _service = new CardSpellsService(_repository);
-        await _cardSpellsGalleryRepository.InsertCardSpellGalleryAsync(Id, await _service.GetCardSpellByIdAsync(Id));
+        await _cardSpellsGalleryRepository.InsertCardSpellGalleryAsync(userId, Id, await _service.GetCardSpellByIdAsync(Id));
     }
 
-    public async Task UpdateStatusCardSpellGalleryAsync(string Id)
+    public async Task UpdateStatusCardSpellGalleryAsync(string userId, string Id)
     {
-        await _cardSpellsGalleryRepository.UpdateStatusCardSpellGalleryAsync(Id);
+        await _cardSpellsGalleryRepository.UpdateStatusCardSpellGalleryAsync(userId, Id);
     }
 
-    public async Task<CardSpells> SumPowerCardSpellsGalleryAsync()
+    public async Task<CardSpells> SumPowerCardSpellsGalleryAsync(string userId)
     {
-        return await _cardSpellsGalleryRepository.SumPowerCardSpellsGalleryAsync();
+        return await _cardSpellsGalleryRepository.SumPowerCardSpellsGalleryAsync(userId);
     }
 
-    public async Task UpdateStarCardSpellGalleryAsync(string Id, double star)
+    public async Task UpdateStarCardSpellGalleryAsync(string userId, string Id, double star)
     {
-        await _cardSpellsGalleryRepository.UpdateStarCardSpellGalleryAsync(Id, star);
+        await _cardSpellsGalleryRepository.UpdateStarCardSpellGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateCardSpellGalleryPowerAsync(string Id)
+    public async Task UpdateCardSpellGalleryPowerAsync(string userId, string Id)
     {
         ICardSpellsRepository _repository = new CardSpellsRepository();
         CardSpellsService _service = new CardSpellsService(_repository);
-        await _cardSpellsGalleryRepository.UpdateCardSpellGalleryPowerAsync(Id, await _service.GetCardSpellByIdAsync(Id));
+        await _cardSpellsGalleryRepository.UpdateCardSpellGalleryPowerAsync(userId, Id, await _service.GetCardSpellByIdAsync(Id));
     }
 }

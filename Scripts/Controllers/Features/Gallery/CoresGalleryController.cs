@@ -98,7 +98,7 @@ public class CoresGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var coreGalleryService = CoresGalleryService.Create();
-                    await coreGalleryService.UpdateStatusCoreGalleryAsync(core.Id);
+                    await coreGalleryService.UpdateStatusCoreGalleryAsync(User.CurrentUserId, core.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class CoresGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await CoresGalleryService.Create().UpdateCoreGalleryPowerAsync(core.Id);
+                    await CoresGalleryService.Create().UpdateCoreGalleryPowerAsync(User.CurrentUserId, core.Id);
                 });
             }
             catch (Exception ex)

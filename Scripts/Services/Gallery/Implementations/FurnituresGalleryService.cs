@@ -20,9 +20,9 @@ public class FurnituresGalleryService : IFurnituresGalleryService
         return _instance;
     }
 
-    public async Task<List<Furnitures>> GetFurnituresCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Furnitures>> GetFurnituresCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Furnitures> list = await _furnituresGalleryRepository.GetFurnituresCollectionAsync(search, type, pageSize, offset, rare);
+        List<Furnitures> list = await _furnituresGalleryRepository.GetFurnituresCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class FurnituresGalleryService : IFurnituresGalleryService
         return await _furnituresGalleryRepository.GetFurnituresCountAsync(search, type, rare);
     }
 
-    public async Task InsertFurnitureGalleryAsync(string Id)
+    public async Task InsertFurnitureGalleryAsync(string userId, string Id)
     {
         IFurnituresRepository _repository = new FurnituresRepository();
         FurnituresService _service = new FurnituresService(_repository);
-        await _furnituresGalleryRepository.InsertFurnitureGalleryAsync(Id, await _service.GetFurnitureByIdAsync(Id));
+        await _furnituresGalleryRepository.InsertFurnitureGalleryAsync(userId, Id, await _service.GetFurnitureByIdAsync(Id));
     }
 
-    public async Task UpdateStatusFurnitureGalleryAsync(string Id)
+    public async Task UpdateStatusFurnitureGalleryAsync(string userId, string Id)
     {
-        await _furnituresGalleryRepository.UpdateStatusFurnitureGalleryAsync(Id);
+        await _furnituresGalleryRepository.UpdateStatusFurnitureGalleryAsync(userId, Id);
     }
 
-    public async Task<Furnitures> SumPowerFurnituresGalleryAsync()
+    public async Task<Furnitures> SumPowerFurnituresGalleryAsync(string userId)
     {
-        return await _furnituresGalleryRepository.SumPowerFurnituresGalleryAsync();
+        return await _furnituresGalleryRepository.SumPowerFurnituresGalleryAsync(userId);
     }
 
-    public async Task UpdateStarFurnitureGalleryAsync(string Id, double star)
+    public async Task UpdateStarFurnitureGalleryAsync(string userId, string Id, double star)
     {
-        await _furnituresGalleryRepository.UpdateStarFurnitureGalleryAsync(Id, star);
+        await _furnituresGalleryRepository.UpdateStarFurnitureGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateFurnitureGalleryPowerAsync(string Id)
+    public async Task UpdateFurnitureGalleryPowerAsync(string userId, string Id)
     {
         IFurnituresRepository _repository = new FurnituresRepository();
         FurnituresService _service = new FurnituresService(_repository);
-        await _furnituresGalleryRepository.UpdateFurnitureGalleryPowerAsync(Id, await _service.GetFurnitureByIdAsync(Id));
+        await _furnituresGalleryRepository.UpdateFurnitureGalleryPowerAsync(userId, Id, await _service.GetFurnitureByIdAsync(Id));
     }
 }

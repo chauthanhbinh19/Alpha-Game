@@ -100,7 +100,7 @@ public class RelicsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var relicGalleryService = RelicsGalleryService.Create();
-                    await relicGalleryService.UpdateStatusRelicGalleryAsync(relic.Id);
+                    await relicGalleryService.UpdateStatusRelicGalleryAsync(User.CurrentUserId, relic.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -128,7 +128,7 @@ public class RelicsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await RelicsGalleryService.Create().UpdateRelicGalleryPowerAsync(relic.Id);
+                    await RelicsGalleryService.Create().UpdateRelicGalleryPowerAsync(User.CurrentUserId, relic.Id);
                 });
             }
             catch (Exception ex)

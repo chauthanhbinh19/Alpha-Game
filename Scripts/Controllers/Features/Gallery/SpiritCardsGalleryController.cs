@@ -98,7 +98,7 @@ public class SpiritCardsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var spiritCardGalleryService = SpiritCardsGalleryService.Create();
-                    await spiritCardGalleryService.UpdateStatusSpiritCardGalleryAsync(spiritCard.Id);
+                    await spiritCardGalleryService.UpdateStatusSpiritCardGalleryAsync(User.CurrentUserId, spiritCard.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class SpiritCardsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await SpiritCardsGalleryService.Create().UpdateSpiritCardGalleryPowerAsync(spiritCard.Id);
+                    await SpiritCardsGalleryService.Create().UpdateSpiritCardGalleryPowerAsync(User.CurrentUserId, spiritCard.Id);
                 });
             }
             catch (Exception ex)

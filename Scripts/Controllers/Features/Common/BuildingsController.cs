@@ -331,7 +331,7 @@ public class BuildingsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await BuildingsGalleryService.Create().InsertBuildingGalleryAsync(building.Id);
+                    await BuildingsGalleryService.Create().InsertBuildingGalleryAsync(User.CurrentUserId, building.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(building.Image);
 

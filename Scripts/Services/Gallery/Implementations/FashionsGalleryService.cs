@@ -20,9 +20,9 @@ public class FashionsGalleryService : IFashionsGalleryService
         return _instance;
     }
 
-    public async Task<List<Fashions>> GetFashionsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Fashions>> GetFashionsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Fashions> list = await _fashionsGalleryRepository.GetFashionsCollectionAsync(search, type, pageSize, offset, rare);
+        List<Fashions> list = await _fashionsGalleryRepository.GetFashionsCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class FashionsGalleryService : IFashionsGalleryService
         return await _fashionsGalleryRepository.GetFashionsCountAsync(search, type, rare);
     }
 
-    public async Task InsertFashionGalleryAsync(string Id)
+    public async Task InsertFashionGalleryAsync(string userId, string Id)
     {
         IFashionsRepository _repository = new FashionsRepository();
         FashionsService _service = new FashionsService(_repository);
-        await _fashionsGalleryRepository.InsertFashionGalleryAsync(Id, await _service.GetFashionByIdAsync(Id));
+        await _fashionsGalleryRepository.InsertFashionGalleryAsync(userId, Id, await _service.GetFashionByIdAsync(Id));
     }
 
-    public async Task UpdateStatusFashionGalleryAsync(string Id)
+    public async Task UpdateStatusFashionGalleryAsync(string userId, string Id)
     {
-        await _fashionsGalleryRepository.UpdateStatusFashionGalleryAsync(Id);
+        await _fashionsGalleryRepository.UpdateStatusFashionGalleryAsync(userId, Id);
     }
 
-    public async Task<Fashions> SumPowerFashionsGalleryAsync()
+    public async Task<Fashions> SumPowerFashionsGalleryAsync(string userId)
     {
-        return await _fashionsGalleryRepository.SumPowerFashionsGalleryAsync();
+        return await _fashionsGalleryRepository.SumPowerFashionsGalleryAsync(userId);
     }
 
-    public async Task UpdateStarFashionGalleryAsync(string Id, double star)
+    public async Task UpdateStarFashionGalleryAsync(string userId, string Id, double star)
     {
-        await _fashionsGalleryRepository.UpdateStarFashionGalleryAsync(Id, star);
+        await _fashionsGalleryRepository.UpdateStarFashionGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateFashionGalleryPowerAsync(string Id)
+    public async Task UpdateFashionGalleryPowerAsync(string userId, string Id)
     {
         IFashionsRepository _repository = new FashionsRepository();
         FashionsService _service = new FashionsService(_repository);
-        await _fashionsGalleryRepository.UpdateFashionGalleryPowerAsync(Id, await _service.GetFashionByIdAsync(Id));
+        await _fashionsGalleryRepository.UpdateFashionGalleryPowerAsync(userId, Id, await _service.GetFashionByIdAsync(Id));
     }
 }

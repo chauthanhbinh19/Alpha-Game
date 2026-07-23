@@ -20,9 +20,9 @@ public class BordersGalleryService : IBordersGalleryService
         return _instance;
     }
 
-    public async Task<List<Borders>> GetBordersCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Borders>> GetBordersCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Borders> list = await _bordersGalleryRepository.GetBordersCollectionAsync(search, pageSize, offset, rare);
+        List<Borders> list = await _bordersGalleryRepository.GetBordersCollectionAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class BordersGalleryService : IBordersGalleryService
         return await _bordersGalleryRepository.GetBordersCountAsync(search, rare);
     }
 
-    public async Task InsertBorderGalleryAsync(string Id)
+    public async Task InsertBorderGalleryAsync(string userId, string Id)
     {
         IBordersRepository _repository = new BordersRepository();
         BordersService _service = new BordersService(_repository);
-        await _bordersGalleryRepository.InsertBorderGalleryAsync(Id, await _service.GetBorderByIdAsync(Id));
+        await _bordersGalleryRepository.InsertBorderGalleryAsync(userId, Id, await _service.GetBorderByIdAsync(Id));
     }
 
-    public async Task UpdateStatusBorderGalleryAsync(string Id)
+    public async Task UpdateStatusBorderGalleryAsync(string userId, string Id)
     {
-        await _bordersGalleryRepository.UpdateStatusBorderGalleryAsync(Id);
+        await _bordersGalleryRepository.UpdateStatusBorderGalleryAsync(userId, Id);
     }
 
-    public async Task<Borders> SumPowerBordersGalleryAsync()
+    public async Task<Borders> SumPowerBordersGalleryAsync(string userId)
     {
-        return await _bordersGalleryRepository.SumPowerBordersGalleryAsync();
+        return await _bordersGalleryRepository.SumPowerBordersGalleryAsync(userId);
     }
 
-    public async Task UpdateStarBorderGalleryAsync(string Id, double star)
+    public async Task UpdateStarBorderGalleryAsync(string userId, string Id, double star)
     {
-        await _bordersGalleryRepository.UpdateStarBorderGalleryAsync(Id, star);
+        await _bordersGalleryRepository.UpdateStarBorderGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateBorderGalleryPowerAsync(string Id)
+    public async Task UpdateBorderGalleryPowerAsync(string userId, string Id)
     {
         IBordersRepository _repository = new BordersRepository();
         BordersService _service = new BordersService(_repository);
-        await _bordersGalleryRepository.UpdateBorderGalleryPowerAsync(Id, await _service.GetBorderByIdAsync(Id));
+        await _bordersGalleryRepository.UpdateBorderGalleryPowerAsync(userId, Id, await _service.GetBorderByIdAsync(Id));
     }
 }

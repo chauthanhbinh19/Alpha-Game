@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGalleryRepository
 {
-    public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<MagicFormationCircles>> GetMagicFormationCirclesCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<MagicFormationCircles> magicFormationCircles = new List<MagicFormationCircles>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -223,7 +222,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
 
         return count;
     }
-    public async Task InsertMagicFormationCircleGalleryAsync(string Id, MagicFormationCircles magicFormationCircle)
+    public async Task InsertMagicFormationCircleGalleryAsync(string userId, string Id, MagicFormationCircles magicFormationCircle)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(magicFormationCircle.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -242,7 +241,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@mfc_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -301,7 +300,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
                     MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@mfc_id", Id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -385,7 +384,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
             }
         }
     }
-    public async Task UpdateStatusMagicFormationCircleGalleryAsync(string Id)
+    public async Task UpdateStatusMagicFormationCircleGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -397,7 +396,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
 
                 string updateSQL = "UPDATE magic_formation_circles_gallery SET status=@status WHERE user_id=@user_id AND mfc_id=@mfc_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@mfc_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -413,7 +412,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
             }
         }
     }
-    public async Task UpdateStarMagicFormationCircleGalleryAsync(string Id, double star)
+    public async Task UpdateStarMagicFormationCircleGalleryAsync(string userId, string Id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -431,7 +430,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@mfc_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -451,7 +450,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@mfc_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -470,7 +469,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
             }
         }
     }
-    public async Task UpdateMagicFormationCircleGalleryPowerAsync(string Id, MagicFormationCircles magicFormationCircle)
+    public async Task UpdateMagicFormationCircleGalleryPowerAsync(string userId, string Id, MagicFormationCircles magicFormationCircle)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -550,7 +549,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
             ";
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@mfc_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
@@ -628,7 +627,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
             }
         }
     }
-    public async Task<MagicFormationCircles> SumPowerMagicFormationCirclesGalleryAsync()
+    public async Task<MagicFormationCircles> SumPowerMagicFormationCirclesGalleryAsync(string userId)
     {
         MagicFormationCircles sumMagicFormationCircles = new MagicFormationCircles();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -683,7 +682,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

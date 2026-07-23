@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
 {
-    public async Task<List<SpiritCards>> GetSpiritCardsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<SpiritCards>> GetSpiritCardsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<SpiritCards> spiritCards = new List<SpiritCards>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -223,7 +222,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
 
         return count;
     }
-    public async Task InsertSpiritCardGalleryAsync(string Id, SpiritCards spiritCard)
+    public async Task InsertSpiritCardGalleryAsync(string userId, string Id, SpiritCards spiritCard)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(spiritCard.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -242,7 +241,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@spirit_card_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -301,7 +300,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
                     MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@spirit_card_id", Id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -385,7 +384,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusSpiritCardGalleryAsync(string Id)
+    public async Task UpdateStatusSpiritCardGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -397,7 +396,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
 
                 string updateSQL = "UPDATE spirit_cards_gallery SET status=@status WHERE user_id=@user_id AND spirit_card_id=@spirit_card_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@spirit_card_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -413,7 +412,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarSpiritCardGalleryAsync(string Id, double star)
+    public async Task UpdateStarSpiritCardGalleryAsync(string userId, string Id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -431,7 +430,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@spirit_card_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -451,7 +450,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@spirit_card_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -470,7 +469,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
             }
         }
     }
-    public async Task UpdateSpiritCardGalleryPowerAsync(string Id, SpiritCards spiritCard)
+    public async Task UpdateSpiritCardGalleryPowerAsync(string userId, string Id, SpiritCards spiritCard)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -550,7 +549,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
             ";
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@spirit_card_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
@@ -628,7 +627,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
             }
         }
     }
-    public async Task<SpiritCards> SumPowerSpiritCardsGalleryAsync()
+    public async Task<SpiritCards> SumPowerSpiritCardsGalleryAsync(string userId)
     {
         SpiritCards sumSpiritCards = new SpiritCards();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -683,7 +682,7 @@ public class SpiritCardsGalleryRepository : ISpiritCardsGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

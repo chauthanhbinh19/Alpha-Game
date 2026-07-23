@@ -20,9 +20,9 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
         return _instance;
     }
 
-    public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CollaborationEquipments>> GetCollaborationEquipmentsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CollaborationEquipments> list = await _collaborationEquipmentsGalleryRepository.GetCollaborationEquipmentsCollectionAsync(search, type, pageSize, offset, rare);
+        List<CollaborationEquipments> list = await _collaborationEquipmentsGalleryRepository.GetCollaborationEquipmentsCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
         return await _collaborationEquipmentsGalleryRepository.GetCollaborationEquipmentsCountAsync(search, type, rare);
     }
 
-    public async Task InsertCollaborationEquipmentGalleryAsync(string Id)
+    public async Task InsertCollaborationEquipmentGalleryAsync(string userId, string Id)
     {
         ICollaborationEquipmentsRepository _repository = new CollaborationEquipmentsRepository();
         CollaborationEquipmentsService _service = new CollaborationEquipmentsService(_repository);
-        await _collaborationEquipmentsGalleryRepository.InsertCollaborationEquipmentGalleryAsync(Id, await _service.GetCollaborationEquipmentByIdAsync(Id));
+        await _collaborationEquipmentsGalleryRepository.InsertCollaborationEquipmentGalleryAsync(userId, Id, await _service.GetCollaborationEquipmentByIdAsync(Id));
     }
 
-    public async Task UpdateStatusCollaborationEquipmentGalleryAsync(string Id)
+    public async Task UpdateStatusCollaborationEquipmentGalleryAsync(string userId, string Id)
     {
-        await _collaborationEquipmentsGalleryRepository.UpdateStatusCollaborationEquipmentGalleryAsync(Id);
+        await _collaborationEquipmentsGalleryRepository.UpdateStatusCollaborationEquipmentGalleryAsync(userId, Id);
     }
 
-    public async Task<CollaborationEquipments> SumPowerCollaborationEquipmentsGalleryAsync()
+    public async Task<CollaborationEquipments> SumPowerCollaborationEquipmentsGalleryAsync(string userId)
     {
-        return await _collaborationEquipmentsGalleryRepository.SumPowerCollaborationEquipmentsGalleryAsync();
+        return await _collaborationEquipmentsGalleryRepository.SumPowerCollaborationEquipmentsGalleryAsync(userId);
     }
 
-    public async Task UpdateStarCollaborationEquipmentGalleryAsync(string Id, double star)
+    public async Task UpdateStarCollaborationEquipmentGalleryAsync(string userId, string Id, double star)
     {
-        await _collaborationEquipmentsGalleryRepository.UpdateStarCollaborationEquipmentGalleryAsync(Id, star);
+        await _collaborationEquipmentsGalleryRepository.UpdateStarCollaborationEquipmentGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateCollaborationEquipmentGalleryPowerAsync(string Id)
+    public async Task UpdateCollaborationEquipmentGalleryPowerAsync(string userId, string Id)
     {
         ICollaborationEquipmentsRepository _repository = new CollaborationEquipmentsRepository();
         CollaborationEquipmentsService _service = new CollaborationEquipmentsService(_repository);
-        await _collaborationEquipmentsGalleryRepository.UpdateCollaborationEquipmentGalleryPowerAsync(Id, await _service.GetCollaborationEquipmentByIdAsync(Id));
+        await _collaborationEquipmentsGalleryRepository.UpdateCollaborationEquipmentGalleryPowerAsync(userId, Id, await _service.GetCollaborationEquipmentByIdAsync(Id));
     }
 }

@@ -20,217 +20,217 @@ public class PowerManagerService : IPowerManagerService
         return _instance;
     }
 
-    public async Task InsertUserStatsAsync(string user_id)
+    public async Task InsertUserStatsAsync(string userId)
     {
-        PowerManager powerManager = await CalculateTotalPowerAsync();
-        await _powerManagerRepository.InsertUserStatsAsync(user_id, powerManager);
+        PowerManager powerManager = await CalculateTotalPowerAsync(userId);
+        await _powerManagerRepository.InsertUserStatsAsync(userId, powerManager);
     }
-    public async Task UpdateUserStatsAsync(string user_id)
+    public async Task UpdateUserStatsAsync(string userId)
     {
-        PowerManager powerManager = await CalculateTotalPowerAsync();
-        await _powerManagerRepository.UpdateUserStatsAsync(user_id, powerManager);
+        PowerManager powerManager = await CalculateTotalPowerAsync(userId);
+        await _powerManagerRepository.UpdateUserStatsAsync(userId, powerManager);
     }
-    public async Task<PowerManager> GetUserStatsAsync(string user_id)
+    public async Task<PowerManager> GetUserStatsAsync(string userId)
     {
-        return await _powerManagerRepository.GetUserStatsAsync(user_id);
+        return await _powerManagerRepository.GetUserStatsAsync(userId);
     }
-    public async Task<PowerManager> CalculateTotalPowerAsync()
+    public async Task<PowerManager> CalculateTotalPowerAsync(string userId)
     {
         PowerManager totalPower = new PowerManager();
 
-        PowerManager achievementsPower = await GetAchievementsPowerAsync();
+        PowerManager achievementsPower = await GetAchievementsPowerAsync(userId);
         AddPower(totalPower, achievementsPower);
 
         // Lấy sức mạnh từ avatars
-        PowerManager avatarsPower = await GetAvatarsPowerAsync();
+        PowerManager avatarsPower = await GetAvatarsPowerAsync(userId);
         AddPower(totalPower, avatarsPower);
 
         // Lấy sức mạnh từ books
-        PowerManager booksPower = await GetBooksPowerAsync();
+        PowerManager booksPower = await GetBooksPowerAsync(userId);
         AddPower(totalPower, booksPower);
 
         // Lấy sức mạnh từ borders
-        PowerManager bordersPower = await GetBordersPowerAsync();
+        PowerManager bordersPower = await GetBordersPowerAsync(userId);
         AddPower(totalPower, bordersPower);
 
         // Lấy sức mạnh từ card heroes
-        PowerManager cardHeroesPower = await GetCardHeroesPowerAsync();
+        PowerManager cardHeroesPower = await GetCardHeroesPowerAsync(userId);
         AddPower(totalPower, cardHeroesPower);
 
         // Lấy sức mạnh từ card captains
-        PowerManager cardCaptainsPower = await GetCardCaptainsPowerAsync();
+        PowerManager cardCaptainsPower = await GetCardCaptainsPowerAsync(userId);
         AddPower(totalPower, cardCaptainsPower);
 
         // Lấy sức mạnh từ card colonels
-        PowerManager cardColonelsPower = await GetCardColonelsPowerAsync();
+        PowerManager cardColonelsPower = await GetCardColonelsPowerAsync(userId);
         AddPower(totalPower, cardColonelsPower);
 
         // Lấy sức mạnh từ card generals
-        PowerManager cardGeneralsPower = await GetCardGeneralsPowerAsync();
+        PowerManager cardGeneralsPower = await GetCardGeneralsPowerAsync(userId);
         AddPower(totalPower, cardGeneralsPower);
 
         // Lấy sức mạnh từ card admirals
-        PowerManager cardAdmiralsPower = await GetCardAdmiralsPowerAsync();
+        PowerManager cardAdmiralsPower = await GetCardAdmiralsPowerAsync(userId);
         AddPower(totalPower, cardAdmiralsPower);
 
         // Lấy sức mạnh từ card monsters
-        PowerManager cardMonstersPower = await GetCardMonstersPowerAsync();
+        PowerManager cardMonstersPower = await GetCardMonstersPowerAsync(userId);
         AddPower(totalPower, cardMonstersPower);
 
         // Lấy sức mạnh từ card militaries
-        PowerManager cardMilitariesPower = await GetCardMilitariesPowerAsync();
+        PowerManager cardMilitariesPower = await GetCardMilitariesPowerAsync(userId);
         AddPower(totalPower, cardMilitariesPower);
 
         // Lấy sức mạnh từ card spell
-        PowerManager cardSpellsPower = await GetCardSpellsPowerAsync();
+        PowerManager cardSpellsPower = await GetCardSpellsPowerAsync(userId);
         AddPower(totalPower, cardSpellsPower);
 
         // Lấy sức mạnh từ collaborations
-        PowerManager collaborationsPower = await GetCollaborationsPowerAsync();
+        PowerManager collaborationsPower = await GetCollaborationsPowerAsync(userId);
         AddPower(totalPower, collaborationsPower);
 
         // Lấy sức mạnh từ collaboration equipments
-        PowerManager collaborationEquipmentsPower = await GetCollaborationEquipmentsPowerAsync();
+        PowerManager collaborationEquipmentsPower = await GetCollaborationEquipmentsPowerAsync(userId);
         AddPower(totalPower, collaborationEquipmentsPower);
 
         // Lấy sức mạnh từ equipments
-        PowerManager equipmentsPower = await GetEquipmentsPowerAsync();
+        PowerManager equipmentsPower = await GetEquipmentsPowerAsync(userId);
         AddPower(totalPower, equipmentsPower);
 
         // Lấy sức mạnh từ magic formation circles
-        PowerManager magicFormationCirclesPower = await GetMagicFormationCirclesPowerAsync();
+        PowerManager magicFormationCirclesPower = await GetMagicFormationCirclesPowerAsync(userId);
         AddPower(totalPower, magicFormationCirclesPower);
 
         // Lấy sức mạnh từ relics
-        PowerManager relicsPower = await GetRelicsPowerAsync();
+        PowerManager relicsPower = await GetRelicsPowerAsync(userId);
         AddPower(totalPower, relicsPower);
 
         // Lấy sức mạnh từ medals
-        PowerManager medalsPower = await GetMedalsPowerAsync();
+        PowerManager medalsPower = await GetMedalsPowerAsync(userId);
         AddPower(totalPower, medalsPower);
 
         // Lấy sức mạnh từ pets
-        PowerManager petsPower = await GetPetsPowerAsync();
+        PowerManager petsPower = await GetPetsPowerAsync(userId);
         AddPower(totalPower, petsPower);
 
         // Lấy sức mạnh từ symbols
-        PowerManager symbolsPower = await GetSymbolsPowerAsync();
+        PowerManager symbolsPower = await GetSymbolsPowerAsync(userId);
         AddPower(totalPower, symbolsPower);
 
         // Lấy sức mạnh từ skills
-        PowerManager skillsPower = await GetSkillsPowerAsync();
+        PowerManager skillsPower = await GetSkillsPowerAsync(userId);
         AddPower(totalPower, skillsPower);
 
         // Lấy sức mạnh từ titles
-        PowerManager titlesPower = await GetTitlesPowerAsync();
+        PowerManager titlesPower = await GetTitlesPowerAsync(userId);
         AddPower(totalPower, titlesPower);
 
         // Lấy sức mạnh từ talismans
-        PowerManager talismansPower = await GetTalismansPowerAsync();
+        PowerManager talismansPower = await GetTalismansPowerAsync(userId);
         AddPower(totalPower, talismansPower);
 
         // Lấy sức mạnh từ puppets
-        PowerManager puppetsPower = await GetPuppetsPowerAsync();
+        PowerManager puppetsPower = await GetPuppetsPowerAsync(userId);
         AddPower(totalPower, puppetsPower);
 
         // Lấy sức mạnh từ alchemies
-        PowerManager alchemiesPower = await GetAlchemiesPowerAsync();
+        PowerManager alchemiesPower = await GetAlchemiesPowerAsync(userId);
         AddPower(totalPower, alchemiesPower);
 
         // Lấy sức mạnh từ forges
-        PowerManager forgesPower = await GetForgesPowerAsync();
+        PowerManager forgesPower = await GetForgesPowerAsync(userId);
         AddPower(totalPower, forgesPower);
 
         // Lấy sức mạnh từ card lives
-        PowerManager cardLivesPower = await GetCardLivesPowerAsync();
+        PowerManager cardLivesPower = await GetCardLivesPowerAsync(userId);
         AddPower(totalPower, cardLivesPower);
 
         // Lấy sức mạnh từ artworks
-        PowerManager artworksPower = await GetArtworksPowerAsync();
+        PowerManager artworksPower = await GetArtworksPowerAsync(userId);
         AddPower(totalPower, artworksPower);
 
         // Lấy sức mạnh từ spirit beasts
-        PowerManager spiritBeastsPower = await GetSpiritBeastsPowerAsync();
+        PowerManager spiritBeastsPower = await GetSpiritBeastsPowerAsync(userId);
         AddPower(totalPower, spiritBeastsPower);
 
         // Lấy sức mạnh từ spirit cards
-        PowerManager spiritCardsPower = await GetSpiritCardsPowerAsync();
+        PowerManager spiritCardsPower = await GetSpiritCardsPowerAsync(userId);
         AddPower(totalPower, spiritCardsPower);
 
         // Lấy sức mạnh từ vehicles
-        PowerManager vehiclesPower = await GetVehiclesPowerAsync();
+        PowerManager vehiclesPower = await GetVehiclesPowerAsync(userId);
         AddPower(totalPower, vehiclesPower);
 
         // Lấy sức mạnh từ architectures
-        PowerManager architecturePower = await GetArchitecturesPowerAsync();
+        PowerManager architecturePower = await GetArchitecturesPowerAsync(userId);
         AddPower(totalPower, architecturePower);
 
         // Lấy sức mạnh từ technologies
-        PowerManager techonogiesPower = await GetTechnologiesPowerAsync();
+        PowerManager techonogiesPower = await GetTechnologiesPowerAsync(userId);
         AddPower(totalPower, techonogiesPower);
 
         // Lấy sức mạnh từ cards
-        PowerManager cardPower = await GetArtifactsPowerAsync();
+        PowerManager cardPower = await GetArtifactsPowerAsync(userId);
         AddPower(totalPower, cardPower);
 
         // Lấy sức mạnh từ cores
-        PowerManager coresPower = await GetCoresPowerAsync();
+        PowerManager coresPower = await GetCoresPowerAsync(userId);
         AddPower(totalPower, coresPower);
 
         // Lấy sức mạnh từ weapons
-        PowerManager weaponsPower = await GetWeaponsPowerAsync();
+        PowerManager weaponsPower = await GetWeaponsPowerAsync(userId);
         AddPower(totalPower, weaponsPower);
 
         // Lấy sức mạnh từ robots
-        PowerManager robotsPower = await GetRobotsPowerAsync();
+        PowerManager robotsPower = await GetRobotsPowerAsync(userId);
         AddPower(totalPower, robotsPower);
 
         // Lấy sức mạnh từ badges
-        PowerManager badgesPower = await GetBadgesPowerAsync();
+        PowerManager badgesPower = await GetBadgesPowerAsync(userId);
         AddPower(totalPower, badgesPower);
 
         // Lấy sức mạnh từ mecha beasts
-        PowerManager mechaBeastsPower = await GetMechaBeastsPowerAsync();
+        PowerManager mechaBeastsPower = await GetMechaBeastsPowerAsync(userId);
         AddPower(totalPower, mechaBeastsPower);
 
         // Lấy sức mạnh từ runes
-        PowerManager runesPower = await GetRunesPowerAsync();
+        PowerManager runesPower = await GetRunesPowerAsync(userId);
         AddPower(totalPower, runesPower);
 
         // Lấy sức mạnh từ furnitures
-        PowerManager furnituresPower = await GetFurnituresPowerAsync();
+        PowerManager furnituresPower = await GetFurnituresPowerAsync(userId);
         AddPower(totalPower, furnituresPower);
 
         // Lấy sức mạnh từ foods
-        PowerManager foodsPower = await GetFoodsPowerAsync();
+        PowerManager foodsPower = await GetFoodsPowerAsync(userId);
         AddPower(totalPower, foodsPower);
 
         // Lấy sức mạnh từ beverages
-        PowerManager beveragesPower = await GetBeveragesPowerAsync();
+        PowerManager beveragesPower = await GetBeveragesPowerAsync(userId);
         AddPower(totalPower, beveragesPower);
 
         // Lấy sức mạnh từ buildings
-        PowerManager buildingsPower = await GetBuildingsPowerAsync();
+        PowerManager buildingsPower = await GetBuildingsPowerAsync(userId);
         AddPower(totalPower, buildingsPower);
 
         // Lấy sức mạnh từ plants
-        PowerManager plantsPower = await GetPlantsPowerAsync();
+        PowerManager plantsPower = await GetPlantsPowerAsync(userId);
         AddPower(totalPower, plantsPower);
 
         // Lấy sức mạnh từ fashions
-        PowerManager fashionsPower = await GetFashionsPowerAsync();
+        PowerManager fashionsPower = await GetFashionsPowerAsync(userId);
         AddPower(totalPower, fashionsPower);
 
         // Lấy sức mạnh từ emojis
-        PowerManager emojisPower = await GetEmojisPowerAsync();
+        PowerManager emojisPower = await GetEmojisPowerAsync(userId);
         AddPower(totalPower, emojisPower);
 
         // Lấy sức mạnh từ card soldiers
-        PowerManager cardSoldiersPower = await GetCardSoldiersPowerAsync();
+        PowerManager cardSoldiersPower = await GetCardSoldiersPowerAsync(userId);
         AddPower(totalPower, cardSoldiersPower);
 
         // Lấy sức mạnh từ outifts
-        PowerManager outfitsPower = await GetOutfitsPowerAsync();
+        PowerManager outfitsPower = await GetOutfitsPowerAsync(userId);
         AddPower(totalPower, outfitsPower);
 
         return totalPower;
@@ -282,12 +282,12 @@ public class PowerManagerService : IPowerManagerService
         target.PercentAllMentalAttack += source.PercentAllMentalAttack;
         target.PercentAllMentalDefense += source.PercentAllMentalDefense;
     }
-    public async Task<PowerManager> GetAchievementsPowerAsync()
+    public async Task<PowerManager> GetAchievementsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // User Achievements
-        Achievements userAchievements = await UserAchievementsService.Create().SumPowerUserAchievementsAsync();
+        Achievements userAchievements = await UserAchievementsService.Create().SumPowerUserAchievementsAsync(userId);
 
         powerManager.Power += userAchievements.Power;
         powerManager.Health += userAchievements.Health;
@@ -339,12 +339,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetAvatarsPowerAsync()
+    public async Task<PowerManager> GetAvatarsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery Avatars
-        Avatars galleryAvatars = await AvatarsGalleryService.Create().SumPowerAvatarsGalleryAsync();
+        Avatars galleryAvatars = await AvatarsGalleryService.Create().SumPowerAvatarsGalleryAsync(userId);
 
         powerManager.Power += galleryAvatars.Power;
         powerManager.Health += galleryAvatars.Health;
@@ -392,7 +392,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += galleryAvatars.PercentAllMentalDefense;
 
         // User Avatars
-        Avatars userAvatars = await UserAvatarsService.Create().SumPowerUserAvatarsAsync();
+        Avatars userAvatars = await UserAvatarsService.Create().SumPowerUserAvatarsAsync(userId);
 
         powerManager.Power += userAvatars.Power;
         powerManager.Health += userAvatars.Health;
@@ -444,12 +444,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetBordersPowerAsync()
+    public async Task<PowerManager> GetBordersPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery Borders
-        Borders galleryBorders = await BordersGalleryService.Create().SumPowerBordersGalleryAsync();
+        Borders galleryBorders = await BordersGalleryService.Create().SumPowerBordersGalleryAsync(userId);
 
         powerManager.Power += galleryBorders.Power;
         powerManager.Health += galleryBorders.Health;
@@ -497,7 +497,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += galleryBorders.PercentAllMentalDefense;
 
         // User Borders
-        Borders userBorders = await UserBordersService.Create().SumPowerUserBordersAsync();
+        Borders userBorders = await UserBordersService.Create().SumPowerUserBordersAsync(userId);
 
         powerManager.Power += userBorders.Power;
         powerManager.Health += userBorders.Health;
@@ -549,12 +549,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetBooksPowerAsync()
+    public async Task<PowerManager> GetBooksPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         //Gallery
-        Books books = await BooksGalleryService.Create().SumPowerBooksGalleryAsync();
+        Books books = await BooksGalleryService.Create().SumPowerBooksGalleryAsync(userId);
 
         powerManager.Power += books.Power;
         powerManager.Health += books.Health;
@@ -603,12 +603,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCardHeroesPowerAsync()
+    public async Task<PowerManager> GetCardHeroesPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        CardHeroes cardHeroes = await CardHeroesGalleryService.Create().SumPowerCardHeroesGalleryAsync();
+        CardHeroes cardHeroes = await CardHeroesGalleryService.Create().SumPowerCardHeroesGalleryAsync(userId);
 
         powerManager.Power += cardHeroes.Power;
         powerManager.Health += cardHeroes.Health;
@@ -657,12 +657,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCardCaptainsPowerAsync()
+    public async Task<PowerManager> GetCardCaptainsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        CardCaptains cardCaptains = await CardCaptainsGalleryService.Create().SumPowerCardCaptainsGalleryAsync();
+        CardCaptains cardCaptains = await CardCaptainsGalleryService.Create().SumPowerCardCaptainsGalleryAsync(userId);
 
         powerManager.Power += cardCaptains.Power;
         powerManager.Health += cardCaptains.Health;
@@ -711,12 +711,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCardColonelsPowerAsync()
+    public async Task<PowerManager> GetCardColonelsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         //Gallery
-        CardColonels cardColonels = await CardColonelsGalleryService.Create().SumPowerCardColonelsGalleryAsync();
+        CardColonels cardColonels = await CardColonelsGalleryService.Create().SumPowerCardColonelsGalleryAsync(userId);
 
         powerManager.Power += cardColonels.Power;
         powerManager.Health += cardColonels.Health;
@@ -765,12 +765,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCardGeneralsPowerAsync()
+    public async Task<PowerManager> GetCardGeneralsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         //Gallery
-        CardGenerals cardGenerals = await CardGeneralsGalleryService.Create().SumPowerCardGeneralsGalleryAsync();
+        CardGenerals cardGenerals = await CardGeneralsGalleryService.Create().SumPowerCardGeneralsGalleryAsync(userId);
 
         powerManager.Power += cardGenerals.Power;
         powerManager.Health += cardGenerals.Health;
@@ -819,12 +819,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCardAdmiralsPowerAsync()
+    public async Task<PowerManager> GetCardAdmiralsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         //Gallery
-        CardAdmirals cardAdmirals = await CardAdmiralsGalleryService.Create().SumPowerCardAdmiralsGalleryAsync();
+        CardAdmirals cardAdmirals = await CardAdmiralsGalleryService.Create().SumPowerCardAdmiralsGalleryAsync(userId);
 
         powerManager.Power += cardAdmirals.Power;
         powerManager.Health += cardAdmirals.Health;
@@ -873,12 +873,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCardMonstersPowerAsync()
+    public async Task<PowerManager> GetCardMonstersPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         //Gallery
-        CardMonsters cardMonsters = await CardMonstersGalleryService.Create().SumPowerCardMonstersGalleryAsync();
+        CardMonsters cardMonsters = await CardMonstersGalleryService.Create().SumPowerCardMonstersGalleryAsync(userId);
         powerManager.Power += cardMonsters.Power;
         powerManager.Health += cardMonsters.Health;
         powerManager.PhysicalAttack += cardMonsters.PhysicalAttack;
@@ -926,12 +926,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCardMilitariesPowerAsync()
+    public async Task<PowerManager> GetCardMilitariesPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         //Gallery
-        CardMilitaries cardMilitary = await CardMilitariesGalleryService.Create().SumPowerCardMilitariesGalleryAsync();
+        CardMilitaries cardMilitary = await CardMilitariesGalleryService.Create().SumPowerCardMilitariesGalleryAsync(userId);
 
         powerManager.Power += cardMilitary.Power;
         powerManager.Health += cardMilitary.Health;
@@ -980,12 +980,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCardSpellsPowerAsync()
+    public async Task<PowerManager> GetCardSpellsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         //Gallery
-        CardSpells cardSpell = await CardSpellsGalleryService.Create().SumPowerCardSpellsGalleryAsync();
+        CardSpells cardSpell = await CardSpellsGalleryService.Create().SumPowerCardSpellsGalleryAsync(userId);
 
         powerManager.Power += cardSpell.Power;
         powerManager.Health += cardSpell.Health;
@@ -1034,12 +1034,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCollaborationsPowerAsync()
+    public async Task<PowerManager> GetCollaborationsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery tổng hợp sức mạnh từ Collaboration Gallery
-        Collaborations collaboration = await CollaborationsGalleryService.Create().SumPowerCollaborationsGalleryAsync();
+        Collaborations collaboration = await CollaborationsGalleryService.Create().SumPowerCollaborationsGalleryAsync(userId);
         powerManager.Power += collaboration.Power;
         powerManager.Health += collaboration.Health;
         powerManager.PhysicalAttack += collaboration.PhysicalAttack;
@@ -1086,7 +1086,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += collaboration.PercentAllMentalDefense;
 
         // Gallery tổng hợp sức mạnh từ User Collaborations
-        collaboration = await UserCollaborationsService.Create().SumPowerUserCollaborationsAsync();
+        collaboration = await UserCollaborationsService.Create().SumPowerUserCollaborationsAsync(userId);
         powerManager.Power += collaboration.Power;
         powerManager.Health += collaboration.Health;
         powerManager.PhysicalAttack += collaboration.PhysicalAttack;
@@ -1136,12 +1136,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCollaborationEquipmentsPowerAsync()
+    public async Task<PowerManager> GetCollaborationEquipmentsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Sum power from Gallery Equipments
-        CollaborationEquipments collaborationEquipment = await CollaborationEquipmentsGalleryService.Create().SumPowerCollaborationEquipmentsGalleryAsync();
+        CollaborationEquipments collaborationEquipment = await CollaborationEquipmentsGalleryService.Create().SumPowerCollaborationEquipmentsGalleryAsync(userId);
         powerManager.Power += collaborationEquipment.Power;
         powerManager.Health += collaborationEquipment.Health;
         powerManager.PhysicalAttack += collaborationEquipment.PhysicalAttack;
@@ -1188,7 +1188,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += collaborationEquipment.PercentAllMentalDefense;
 
         // Sum power from User Collaboration Equipments
-        collaborationEquipment = await UserCollaborationEquipmentsService.Create().SumPowerUserCollaborationEquipmentsAsync();
+        collaborationEquipment = await UserCollaborationEquipmentsService.Create().SumPowerUserCollaborationEquipmentsAsync(userId);
         powerManager.Power += collaborationEquipment.Power;
         powerManager.Health += collaborationEquipment.Health;
         powerManager.PhysicalAttack += collaborationEquipment.PhysicalAttack;
@@ -1224,12 +1224,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetEquipmentsPowerAsync()
+    public async Task<PowerManager> GetEquipmentsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery Equipments power sum
-        Equipments equipments = await EquipmentsGalleryService.Create().SumPowerEquipmentsGalleryAsync();
+        Equipments equipments = await EquipmentsGalleryService.Create().SumPowerEquipmentsGalleryAsync(userId);
 
         powerManager.Power += equipments.Power;
         powerManager.Health += equipments.Health;
@@ -1278,12 +1278,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetMagicFormationCirclesPowerAsync()
+    public async Task<PowerManager> GetMagicFormationCirclesPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        MagicFormationCircles magicFormationCircle = await MagicFormationCirclesGalleryService.Create().SumPowerMagicFormationCirclesGalleryAsync();
+        MagicFormationCircles magicFormationCircle = await MagicFormationCirclesGalleryService.Create().SumPowerMagicFormationCirclesGalleryAsync(userId);
         powerManager.Power += magicFormationCircle.Power;
         powerManager.Health += magicFormationCircle.Health;
         powerManager.PhysicalAttack += magicFormationCircle.PhysicalAttack;
@@ -1330,7 +1330,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += magicFormationCircle.PercentAllMentalDefense;
 
         // User
-        magicFormationCircle = await UserMagicFormationCirclesService.Create().SumPowerUserMagicFormationCirclesAsync();
+        magicFormationCircle = await UserMagicFormationCirclesService.Create().SumPowerUserMagicFormationCirclesAsync(userId);
         powerManager.Power += magicFormationCircle.Power;
         powerManager.Health += magicFormationCircle.Health;
         powerManager.PhysicalAttack += magicFormationCircle.PhysicalAttack;
@@ -1380,13 +1380,13 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetRelicsPowerAsync()
+    public async Task<PowerManager> GetRelicsPowerAsync(string userId)
     {
         // Relics relics = new Relics();
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Relics relic = await RelicsGalleryService.Create().SumPowerRelicsGalleryAsync();
+        Relics relic = await RelicsGalleryService.Create().SumPowerRelicsGalleryAsync(userId);
         powerManager.Power += relic.Power;
         powerManager.Health += relic.Health;
         powerManager.PhysicalAttack += relic.PhysicalAttack;
@@ -1433,7 +1433,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += relic.PercentAllMentalDefense;
 
         // User
-        relic = await UserRelicsService.Create().SumPowerUserRelicsAsync();
+        relic = await UserRelicsService.Create().SumPowerUserRelicsAsync(userId);
         powerManager.Power += relic.Power;
         powerManager.Health += relic.Health;
         powerManager.PhysicalAttack += relic.PhysicalAttack;
@@ -1483,12 +1483,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetMedalsPowerAsync()
+    public async Task<PowerManager> GetMedalsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Medals medal = await MedalsGalleryService.Create().SumPowerMedalsGalleryAsync();
+        Medals medal = await MedalsGalleryService.Create().SumPowerMedalsGalleryAsync(userId);
         powerManager.Power += medal.Power;
         powerManager.Health += medal.Health;
         powerManager.PhysicalAttack += medal.PhysicalAttack;
@@ -1535,7 +1535,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += medal.PercentAllMentalDefense;
 
         // User Medals (Gallery)
-        medal = await UserMedalsService.Create().SumPowerUserMedalsAsync();
+        medal = await UserMedalsService.Create().SumPowerUserMedalsAsync(userId);
         powerManager.Power += medal.Power;
         powerManager.Health += medal.Health;
         powerManager.PhysicalAttack += medal.PhysicalAttack;
@@ -1585,12 +1585,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetPetsPowerAsync()
+    public async Task<PowerManager> GetPetsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Pets pets = await PetsGalleryService.Create().SumPowerPetsGalleryAsync();
+        Pets pets = await PetsGalleryService.Create().SumPowerPetsGalleryAsync(userId);
         powerManager.Power += pets.Power;
         powerManager.Health += pets.Health;
         powerManager.PhysicalAttack += pets.PhysicalAttack;
@@ -1638,12 +1638,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetSymbolsPowerAsync()
+    public async Task<PowerManager> GetSymbolsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Symbols symbol = await SymbolsGalleryService.Create().SumPowerSymbolsGalleryAsync();
+        Symbols symbol = await SymbolsGalleryService.Create().SumPowerSymbolsGalleryAsync(userId);
         powerManager.Power += symbol.Power;
         powerManager.Health += symbol.Health;
         powerManager.PhysicalAttack += symbol.PhysicalAttack;
@@ -1690,7 +1690,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += symbol.PercentAllMentalDefense;
 
         // User Symbols (Gallery)
-        symbol = await UserSymbolsService.Create().SumPowerUserSymbolsAsync();
+        symbol = await UserSymbolsService.Create().SumPowerUserSymbolsAsync(userId);
         powerManager.Power += symbol.Power;
         powerManager.Health += symbol.Health;
         powerManager.PhysicalAttack += symbol.PhysicalAttack;
@@ -1741,12 +1741,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetSkillsPowerAsync()
+    public async Task<PowerManager> GetSkillsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Skills skills = await SkillsGalleryService.Create().SumPowerSkillsGalleryAsync();
+        Skills skills = await SkillsGalleryService.Create().SumPowerSkillsGalleryAsync(userId);
         powerManager.Power += skills.Power;
         powerManager.Health += skills.Health;
         powerManager.PhysicalAttack += skills.PhysicalAttack;
@@ -1794,12 +1794,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetTitlesPowerAsync()
+    public async Task<PowerManager> GetTitlesPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Titles title = await TitlesGalleryService.Create().SumPowerTitlesGalleryAsync();
+        Titles title = await TitlesGalleryService.Create().SumPowerTitlesGalleryAsync(userId);
         powerManager.Power += title.Power;
         powerManager.Health += title.Health;
         powerManager.PhysicalAttack += title.PhysicalAttack;
@@ -1846,7 +1846,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += title.PercentAllMentalDefense;
 
         // User Titles (Gallery)
-        title = await UserTitlesService.Create().SumPowerUserTitlesAsync();
+        title = await UserTitlesService.Create().SumPowerUserTitlesAsync(userId);
         powerManager.Power += title.Power;
         powerManager.Health += title.Health;
         powerManager.PhysicalAttack += title.PhysicalAttack;
@@ -1896,12 +1896,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetTalismansPowerAsync()
+    public async Task<PowerManager> GetTalismansPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Talismans talisman = await TalismansGalleryService.Create().SumPowerTalismansGalleryAsync();
+        Talismans talisman = await TalismansGalleryService.Create().SumPowerTalismansGalleryAsync(userId);
         powerManager.Power += talisman.Power;
         powerManager.Health += talisman.Health;
         powerManager.PhysicalAttack += talisman.PhysicalAttack;
@@ -1948,7 +1948,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += talisman.PercentAllMentalDefense;
 
         // User
-        talisman = await UserTalismansService.Create().SumPowerUserTalismansAsync();
+        talisman = await UserTalismansService.Create().SumPowerUserTalismansAsync(userId);
         powerManager.Power += talisman.Power;
         powerManager.Health += talisman.Health;
         powerManager.PhysicalAttack += talisman.PhysicalAttack;
@@ -1998,12 +1998,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetPuppetsPowerAsync()
+    public async Task<PowerManager> GetPuppetsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Puppets puppet = await PuppetsGalleryService.Create().SumPowerPuppetsGalleryAsync();
+        Puppets puppet = await PuppetsGalleryService.Create().SumPowerPuppetsGalleryAsync(userId);
         powerManager.Power += puppet.Power;
         powerManager.Health += puppet.Health;
         powerManager.PhysicalAttack += puppet.PhysicalAttack;
@@ -2050,7 +2050,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += puppet.PercentAllMentalDefense;
 
         // User
-        puppet = await UserPuppetsService.Create().SumPowerUserPuppetsAsync();
+        puppet = await UserPuppetsService.Create().SumPowerUserPuppetsAsync(userId);
         powerManager.Power += puppet.Power;
         powerManager.Health += puppet.Health;
         powerManager.PhysicalAttack += puppet.PhysicalAttack;
@@ -2100,12 +2100,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetAlchemiesPowerAsync()
+    public async Task<PowerManager> GetAlchemiesPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Alchemies alchemy = await AlchemiesGalleryService.Create().SumPowerAlchemyGalleryAsync();
+        Alchemies alchemy = await AlchemiesGalleryService.Create().SumPowerAlchemyGalleryAsync(userId);
         powerManager.Power += alchemy.Power;
         powerManager.Health += alchemy.Health;
         powerManager.PhysicalAttack += alchemy.PhysicalAttack;
@@ -2152,7 +2152,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += alchemy.PercentAllMentalDefense;
 
         // User
-        alchemy = await UserAlchemiesService.Create().SumPowerUserAlchemiesAsync();
+        alchemy = await UserAlchemiesService.Create().SumPowerUserAlchemiesAsync(userId);
         powerManager.Power += alchemy.Power;
         powerManager.Health += alchemy.Health;
         powerManager.PhysicalAttack += alchemy.PhysicalAttack;
@@ -2202,12 +2202,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetForgesPowerAsync()
+    public async Task<PowerManager> GetForgesPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Forges forge = await ForgesGalleryService.Create().SumPowerForgesGalleryAsync();
+        Forges forge = await ForgesGalleryService.Create().SumPowerForgesGalleryAsync(userId);
         powerManager.Power += forge.Power;
         powerManager.Health += forge.Health;
         powerManager.PhysicalAttack += forge.PhysicalAttack;
@@ -2254,7 +2254,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += forge.PercentAllMentalDefense;
 
         // User
-        forge = await UserForgesService.Create().SumPowerUserForgesAsync();
+        forge = await UserForgesService.Create().SumPowerUserForgesAsync(userId);
         powerManager.Power += forge.Power;
         powerManager.Health += forge.Health;
         powerManager.PhysicalAttack += forge.PhysicalAttack;
@@ -2304,12 +2304,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCardLivesPowerAsync()
+    public async Task<PowerManager> GetCardLivesPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        CardLives cardLife = await CardLivesGalleryService.Create().SumPowerCardLivesGalleryAsync();
+        CardLives cardLife = await CardLivesGalleryService.Create().SumPowerCardLivesGalleryAsync(userId);
         powerManager.Power += cardLife.Power;
         powerManager.Health += cardLife.Health;
         powerManager.PhysicalAttack += cardLife.PhysicalAttack;
@@ -2356,7 +2356,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += cardLife.PercentAllMentalDefense;
 
         // User
-        cardLife = await UserCardLivesService.Create().SumPowerUserCardLivesAsync();
+        cardLife = await UserCardLivesService.Create().SumPowerUserCardLivesAsync(userId);
         powerManager.Power += cardLife.Power;
         powerManager.Health += cardLife.Health;
         powerManager.PhysicalAttack += cardLife.PhysicalAttack;
@@ -2406,12 +2406,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetArtworksPowerAsync()
+    public async Task<PowerManager> GetArtworksPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Artworks artwork = await ArtworksGalleryService.Create().SumPowerArtworksGalleryAsync();
+        Artworks artwork = await ArtworksGalleryService.Create().SumPowerArtworksGalleryAsync(userId);
         powerManager.Power += artwork.Power;
         powerManager.Health += artwork.Health;
         powerManager.PhysicalAttack += artwork.PhysicalAttack;
@@ -2458,7 +2458,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += artwork.PercentAllMentalDefense;
 
         // User
-        artwork = await UserArtworksService.Create().SumPowerUserArtworksAsync();
+        artwork = await UserArtworksService.Create().SumPowerUserArtworksAsync(userId);
         powerManager.Power += artwork.Power;
         powerManager.Health += artwork.Health;
         powerManager.PhysicalAttack += artwork.PhysicalAttack;
@@ -2508,12 +2508,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetSpiritBeastsPowerAsync()
+    public async Task<PowerManager> GetSpiritBeastsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        SpiritBeasts spiritBeast = await SpiritBeastsGalleryService.Create().SumPowerSpiritBeastsGalleryAsync();
+        SpiritBeasts spiritBeast = await SpiritBeastsGalleryService.Create().SumPowerSpiritBeastsGalleryAsync(userId);
         powerManager.Power += spiritBeast.Power;
         powerManager.Health += spiritBeast.Health;
         powerManager.PhysicalAttack += spiritBeast.PhysicalAttack;
@@ -2560,7 +2560,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += spiritBeast.PercentAllMentalDefense;
 
         // User SpiritBeast (Gallery)
-        spiritBeast = await UserSpiritBeastsService.Create().SumPowerUserSpiritBeastsAsync();
+        spiritBeast = await UserSpiritBeastsService.Create().SumPowerUserSpiritBeastsAsync(userId);
         powerManager.Power += spiritBeast.Power;
         powerManager.Health += spiritBeast.Health;
         powerManager.PhysicalAttack += spiritBeast.PhysicalAttack;
@@ -2610,12 +2610,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetSpiritCardsPowerAsync()
+    public async Task<PowerManager> GetSpiritCardsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        SpiritCards spiritCard = await SpiritCardsGalleryService.Create().SumPowerSpiritCardsGalleryAsync();
+        SpiritCards spiritCard = await SpiritCardsGalleryService.Create().SumPowerSpiritCardsGalleryAsync(userId);
         powerManager.Power += spiritCard.Power;
         powerManager.Health += spiritCard.Health;
         powerManager.PhysicalAttack += spiritCard.PhysicalAttack;
@@ -2662,7 +2662,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += spiritCard.PercentAllMentalDefense;
 
         // User SpiritBeast (Gallery)
-        spiritCard = await UserSpiritCardsService.Create().SumPowerUserSpiritCardsAsync();
+        spiritCard = await UserSpiritCardsService.Create().SumPowerUserSpiritCardsAsync(userId);
         powerManager.Power += spiritCard.Power;
         powerManager.Health += spiritCard.Health;
         powerManager.PhysicalAttack += spiritCard.PhysicalAttack;
@@ -2712,12 +2712,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetVehiclesPowerAsync()
+    public async Task<PowerManager> GetVehiclesPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Vehicles vehicle = await VehiclesGalleryService.Create().SumPowerVehiclesGalleryAsync();
+        Vehicles vehicle = await VehiclesGalleryService.Create().SumPowerVehiclesGalleryAsync(userId);
         powerManager.Power += vehicle.Power;
         powerManager.Health += vehicle.Health;
         powerManager.PhysicalAttack += vehicle.PhysicalAttack;
@@ -2764,7 +2764,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += vehicle.PercentAllMentalDefense;
 
         // User SpiritBeast (Gallery)
-        vehicle = await UserVehiclesService.Create().SumPowerUserVehiclesAsync();
+        vehicle = await UserVehiclesService.Create().SumPowerUserVehiclesAsync(userId);
         powerManager.Power += vehicle.Power;
         powerManager.Health += vehicle.Health;
         powerManager.PhysicalAttack += vehicle.PhysicalAttack;
@@ -2814,12 +2814,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetArtifactsPowerAsync()
+    public async Task<PowerManager> GetArtifactsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Artifacts artifact = await ArtifactsGalleryService.Create().SumPowerArtifactsGalleryAsync();
+        Artifacts artifact = await ArtifactsGalleryService.Create().SumPowerArtifactsGalleryAsync(userId);
         powerManager.Power += artifact.Power;
         powerManager.Health += artifact.Health;
         powerManager.PhysicalAttack += artifact.PhysicalAttack;
@@ -2866,7 +2866,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += artifact.PercentAllMentalDefense;
 
         // User Artifacts (Gallery)
-        artifact = await UserArtifactsService.Create().SumPowerUserArtifactsAsync();
+        artifact = await UserArtifactsService.Create().SumPowerUserArtifactsAsync(userId);
         powerManager.Power += artifact.Power;
         powerManager.Health += artifact.Health;
         powerManager.PhysicalAttack += artifact.PhysicalAttack;
@@ -2916,12 +2916,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetTechnologiesPowerAsync()
+    public async Task<PowerManager> GetTechnologiesPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Technologies technology = await TechnologiesGalleryService.Create().SumPowerTechnologiesGalleryAsync();
+        Technologies technology = await TechnologiesGalleryService.Create().SumPowerTechnologiesGalleryAsync(userId);
         powerManager.Power += technology.Power;
         powerManager.Health += technology.Health;
         powerManager.PhysicalAttack += technology.PhysicalAttack;
@@ -2968,7 +2968,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += technology.PercentAllMentalDefense;
 
         // User Technologies (Gallery)
-        technology = await UserTechnologiesService.Create().SumPowerUserTechnologiesAsync();
+        technology = await UserTechnologiesService.Create().SumPowerUserTechnologiesAsync(userId);
         powerManager.Power += technology.Power;
         powerManager.Health += technology.Health;
         powerManager.PhysicalAttack += technology.PhysicalAttack;
@@ -3018,12 +3018,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetArchitecturesPowerAsync()
+    public async Task<PowerManager> GetArchitecturesPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Architectures architecture =  await ArchitecturesGalleryService.Create().SumPowerArchitecturesGalleryAsync();
+        Architectures architecture =  await ArchitecturesGalleryService.Create().SumPowerArchitecturesGalleryAsync(userId);
         powerManager.Power += architecture.Power;
         powerManager.Health += architecture.Health;
         powerManager.PhysicalAttack += architecture.PhysicalAttack;
@@ -3070,7 +3070,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += architecture.PercentAllMentalDefense;
 
         // User Architectures (Gallery)
-        architecture = await UserArchitecturesService.Create().SumPowerUserArchitecturesAsync();
+        architecture = await UserArchitecturesService.Create().SumPowerUserArchitecturesAsync(userId);
         powerManager.Power += architecture.Power;
         powerManager.Health += architecture.Health;
         powerManager.PhysicalAttack += architecture.PhysicalAttack;
@@ -3120,12 +3120,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCoresPowerAsync()
+    public async Task<PowerManager> GetCoresPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Cores core =  await CoresGalleryService.Create().SumPowerCoresGalleryAsync();
+        Cores core =  await CoresGalleryService.Create().SumPowerCoresGalleryAsync(userId);
         powerManager.Power += core.Power;
         powerManager.Health += core.Health;
         powerManager.PhysicalAttack += core.PhysicalAttack;
@@ -3172,7 +3172,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += core.PercentAllMentalDefense;
 
         // User Cores (Gallery)
-        core = await UserCoresService.Create().SumPowerUserCoresAsync();
+        core = await UserCoresService.Create().SumPowerUserCoresAsync(userId);
         powerManager.Power += core.Power;
         powerManager.Health += core.Health;
         powerManager.PhysicalAttack += core.PhysicalAttack;
@@ -3222,12 +3222,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetWeaponsPowerAsync()
+    public async Task<PowerManager> GetWeaponsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Weapons weapon =  await WeaponsGalleryService.Create().SumPowerWeaponsGalleryAsync();
+        Weapons weapon =  await WeaponsGalleryService.Create().SumPowerWeaponsGalleryAsync(userId);
         powerManager.Power += weapon.Power;
         powerManager.Health += weapon.Health;
         powerManager.PhysicalAttack += weapon.PhysicalAttack;
@@ -3274,7 +3274,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += weapon.PercentAllMentalDefense;
 
         // User Weapons (Gallery)
-        weapon = await UserWeaponsService.Create().SumPowerUserWeaponsAsync();
+        weapon = await UserWeaponsService.Create().SumPowerUserWeaponsAsync(userId);
         powerManager.Power += weapon.Power;
         powerManager.Health += weapon.Health;
         powerManager.PhysicalAttack += weapon.PhysicalAttack;
@@ -3324,12 +3324,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetRobotsPowerAsync()
+    public async Task<PowerManager> GetRobotsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Robots robot =  await RobotsGalleryService.Create().SumPowerRobotsGalleryAsync();
+        Robots robot =  await RobotsGalleryService.Create().SumPowerRobotsGalleryAsync(userId);
         powerManager.Power += robot.Power;
         powerManager.Health += robot.Health;
         powerManager.PhysicalAttack += robot.PhysicalAttack;
@@ -3376,7 +3376,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += robot.PercentAllMentalDefense;
 
         // User Robots (Gallery)
-        robot = await UserRobotsService.Create().SumPowerUserRobotsAsync();
+        robot = await UserRobotsService.Create().SumPowerUserRobotsAsync(userId);
         powerManager.Power += robot.Power;
         powerManager.Health += robot.Health;
         powerManager.PhysicalAttack += robot.PhysicalAttack;
@@ -3426,12 +3426,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetBadgesPowerAsync()
+    public async Task<PowerManager> GetBadgesPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Badges badge =  await BadgesGalleryService.Create().SumPowerBadgesGalleryAsync();
+        Badges badge =  await BadgesGalleryService.Create().SumPowerBadgesGalleryAsync(userId);
         powerManager.Power += badge.Power;
         powerManager.Health += badge.Health;
         powerManager.PhysicalAttack += badge.PhysicalAttack;
@@ -3478,7 +3478,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += badge.PercentAllMentalDefense;
 
         // User Robots (Gallery)
-        badge = await UserBadgesService.Create().SumPowerUserBadgesAsync();
+        badge = await UserBadgesService.Create().SumPowerUserBadgesAsync(userId);
         powerManager.Power += badge.Power;
         powerManager.Health += badge.Health;
         powerManager.PhysicalAttack += badge.PhysicalAttack;
@@ -3528,12 +3528,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetMechaBeastsPowerAsync()
+    public async Task<PowerManager> GetMechaBeastsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        MechaBeasts mechaBeast =  await MechaBeastsGalleryService.Create().SumPowerMechaBeastsGalleryAsync();
+        MechaBeasts mechaBeast =  await MechaBeastsGalleryService.Create().SumPowerMechaBeastsGalleryAsync(userId);
         powerManager.Power += mechaBeast.Power;
         powerManager.Health += mechaBeast.Health;
         powerManager.PhysicalAttack += mechaBeast.PhysicalAttack;
@@ -3580,7 +3580,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += mechaBeast.PercentAllMentalDefense;
 
         // User Robots (Gallery)
-        mechaBeast = await UserMechaBeastsService.Create().SumPowerUserMechaBeastsAsync();
+        mechaBeast = await UserMechaBeastsService.Create().SumPowerUserMechaBeastsAsync(userId);
         powerManager.Power += mechaBeast.Power;
         powerManager.Health += mechaBeast.Health;
         powerManager.PhysicalAttack += mechaBeast.PhysicalAttack;
@@ -3630,12 +3630,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetRunesPowerAsync()
+    public async Task<PowerManager> GetRunesPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Runes rune =  await RunesGalleryService.Create().SumPowerRunesGalleryAsync();
+        Runes rune =  await RunesGalleryService.Create().SumPowerRunesGalleryAsync(userId);
         powerManager.Power += rune.Power;
         powerManager.Health += rune.Health;
         powerManager.PhysicalAttack += rune.PhysicalAttack;
@@ -3682,7 +3682,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += rune.PercentAllMentalDefense;
 
         // User Robots (Gallery)
-        rune = await UserRunesService.Create().SumPowerUserRunesAsync();
+        rune = await UserRunesService.Create().SumPowerUserRunesAsync(userId);
         powerManager.Power += rune.Power;
         powerManager.Health += rune.Health;
         powerManager.PhysicalAttack += rune.PhysicalAttack;
@@ -3732,12 +3732,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetFurnituresPowerAsync()
+    public async Task<PowerManager> GetFurnituresPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Furnitures furniture = await FurnituresGalleryService.Create().SumPowerFurnituresGalleryAsync();
+        Furnitures furniture = await FurnituresGalleryService.Create().SumPowerFurnituresGalleryAsync(userId);
         powerManager.Power += furniture.Power;
         powerManager.Health += furniture.Health;
         powerManager.PhysicalAttack += furniture.PhysicalAttack;
@@ -3784,7 +3784,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += furniture.PercentAllMentalDefense;
 
         // User SpiritBeast (Gallery)
-        furniture = await UserFurnituresService.Create().SumPowerUserFurnituresAsync();
+        furniture = await UserFurnituresService.Create().SumPowerUserFurnituresAsync(userId);
         powerManager.Power += furniture.Power;
         powerManager.Health += furniture.Health;
         powerManager.PhysicalAttack += furniture.PhysicalAttack;
@@ -3834,12 +3834,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetFoodsPowerAsync()
+    public async Task<PowerManager> GetFoodsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Foods food =  await FoodsGalleryService.Create().SumPowerFoodsGalleryAsync();
+        Foods food =  await FoodsGalleryService.Create().SumPowerFoodsGalleryAsync(userId);
         powerManager.Power += food.Power;
         powerManager.Health += food.Health;
         powerManager.PhysicalAttack += food.PhysicalAttack;
@@ -3886,7 +3886,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += food.PercentAllMentalDefense;
 
         // User Robots (Gallery)
-        food = await UserFoodsService.Create().SumPowerUserFoodsAsync();
+        food = await UserFoodsService.Create().SumPowerUserFoodsAsync(userId);
         powerManager.Power += food.Power;
         powerManager.Health += food.Health;
         powerManager.PhysicalAttack += food.PhysicalAttack;
@@ -3936,12 +3936,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetBeveragesPowerAsync()
+    public async Task<PowerManager> GetBeveragesPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Beverages beverage =  await BeveragesGalleryService.Create().SumPowerBeveragesGalleryAsync();
+        Beverages beverage =  await BeveragesGalleryService.Create().SumPowerBeveragesGalleryAsync(userId);
         powerManager.Power += beverage.Power;
         powerManager.Health += beverage.Health;
         powerManager.PhysicalAttack += beverage.PhysicalAttack;
@@ -3988,7 +3988,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += beverage.PercentAllMentalDefense;
 
         // User Robots (Gallery)
-        beverage = await UserBeveragesService.Create().SumPowerUserBeveragesAsync();
+        beverage = await UserBeveragesService.Create().SumPowerUserBeveragesAsync(userId);
         powerManager.Power += beverage.Power;
         powerManager.Health += beverage.Health;
         powerManager.PhysicalAttack += beverage.PhysicalAttack;
@@ -4038,12 +4038,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetBuildingsPowerAsync()
+    public async Task<PowerManager> GetBuildingsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Buildings building = await BuildingsGalleryService.Create().SumPowerBuildingsGalleryAsync();
+        Buildings building = await BuildingsGalleryService.Create().SumPowerBuildingsGalleryAsync(userId);
         powerManager.Power += building.Power;
         powerManager.Health += building.Health;
         powerManager.PhysicalAttack += building.PhysicalAttack;
@@ -4090,7 +4090,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += building.PercentAllMentalDefense;
 
         // User SpiritBeast (Gallery)
-        building = await UserBuildingsService.Create().SumPowerUserBuildingsAsync();
+        building = await UserBuildingsService.Create().SumPowerUserBuildingsAsync(userId);
         powerManager.Power += building.Power;
         powerManager.Health += building.Health;
         powerManager.PhysicalAttack += building.PhysicalAttack;
@@ -4140,12 +4140,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetPlantsPowerAsync()
+    public async Task<PowerManager> GetPlantsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Plants plant =  await PlantsGalleryService.Create().SumPowerPlantsGalleryAsync();
+        Plants plant =  await PlantsGalleryService.Create().SumPowerPlantsGalleryAsync(userId);
         powerManager.Power += plant.Power;
         powerManager.Health += plant.Health;
         powerManager.PhysicalAttack += plant.PhysicalAttack;
@@ -4192,7 +4192,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += plant.PercentAllMentalDefense;
 
         // User Robots (Gallery)
-        plant = await UserPlantsService.Create().SumPowerUserPlantsAsync();
+        plant = await UserPlantsService.Create().SumPowerUserPlantsAsync(userId);
         powerManager.Power += plant.Power;
         powerManager.Health += plant.Health;
         powerManager.PhysicalAttack += plant.PhysicalAttack;
@@ -4242,12 +4242,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetFashionsPowerAsync()
+    public async Task<PowerManager> GetFashionsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Fashions fashion = await FashionsGalleryService.Create().SumPowerFashionsGalleryAsync();
+        Fashions fashion = await FashionsGalleryService.Create().SumPowerFashionsGalleryAsync(userId);
         powerManager.Power += fashion.Power;
         powerManager.Health += fashion.Health;
         powerManager.PhysicalAttack += fashion.PhysicalAttack;
@@ -4294,7 +4294,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += fashion.PercentAllMentalDefense;
 
         // User SpiritBeast (Gallery)
-        fashion = await UserFashionsService.Create().SumPowerUserFashionsAsync();
+        fashion = await UserFashionsService.Create().SumPowerUserFashionsAsync(userId);
         powerManager.Power += fashion.Power;
         powerManager.Health += fashion.Health;
         powerManager.PhysicalAttack += fashion.PhysicalAttack;
@@ -4344,12 +4344,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCardSoldiersPowerAsync()
+    public async Task<PowerManager> GetCardSoldiersPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        CardSoldiers cardSoldier = await CardSoldiersGalleryService.Create().SumPowerCardSoldiersGalleryAsync();
+        CardSoldiers cardSoldier = await CardSoldiersGalleryService.Create().SumPowerCardSoldiersGalleryAsync(userId);
         powerManager.Power += cardSoldier.Power;
         powerManager.Health += cardSoldier.Health;
         powerManager.PhysicalAttack += cardSoldier.PhysicalAttack;
@@ -4397,12 +4397,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetEmojisPowerAsync()
+    public async Task<PowerManager> GetEmojisPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Emojis emoji = await EmojisGalleryService.Create().SumPowerEmojisGalleryAsync();
+        Emojis emoji = await EmojisGalleryService.Create().SumPowerEmojisGalleryAsync(userId);
         powerManager.Power += emoji.Power;
         powerManager.Health += emoji.Health;
         powerManager.PhysicalAttack += emoji.PhysicalAttack;
@@ -4449,7 +4449,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += emoji.PercentAllMentalDefense;
 
         // User SpiritBeast (Gallery)
-        emoji = await UserEmojisService.Create().SumPowerUserEmojisAsync();
+        emoji = await UserEmojisService.Create().SumPowerUserEmojisAsync(userId);
         powerManager.Power += emoji.Power;
         powerManager.Health += emoji.Health;
         powerManager.PhysicalAttack += emoji.PhysicalAttack;
@@ -4499,12 +4499,12 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetOutfitsPowerAsync()
+    public async Task<PowerManager> GetOutfitsPowerAsync(string userId)
     {
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Outfits outfit = await OutfitsGalleryService.Create().SumPowerOutfitsGalleryAsync();
+        Outfits outfit = await OutfitsGalleryService.Create().SumPowerOutfitsGalleryAsync(userId);
         powerManager.Power += outfit.Power;
         powerManager.Health += outfit.Health;
         powerManager.PhysicalAttack += outfit.PhysicalAttack;
@@ -4551,7 +4551,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.PercentAllMentalDefense += outfit.PercentAllMentalDefense;
 
         // User SpiritBeast (Gallery)
-        outfit = await UserOutfitsService.Create().SumPowerUserOutfitsAsync();
+        outfit = await UserOutfitsService.Create().SumPowerUserOutfitsAsync(userId);
         powerManager.Power += outfit.Power;
         powerManager.Health += outfit.Health;
         powerManager.PhysicalAttack += outfit.PhysicalAttack;

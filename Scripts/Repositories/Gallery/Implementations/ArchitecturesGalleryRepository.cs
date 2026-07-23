@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
 {
-    public async Task<List<Architectures>> GetArchitecturesCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Architectures>> GetArchitecturesCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Architectures> architectures = new List<Architectures>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -202,7 +201,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
 
         return count;
     }
-    public async Task InsertArchitectureGalleryAsync(string Id, Architectures architecture)
+    public async Task InsertArchitectureGalleryAsync(string userId, string Id, Architectures architecture)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -222,7 +221,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@architecture_id", Id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -270,7 +269,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
 
                         using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@architecture_id", Id);
                             insertCommand.Parameters.AddWithValue("@status", "pending");
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -363,7 +362,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusArchitectureGalleryAsync(string Id)
+    public async Task UpdateStatusArchitectureGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -379,7 +378,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@architecture_id", Id);
                     updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -396,7 +395,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             }
         }
     }
-    public async Task UpdateStarArchitectureGalleryAsync(string id, double star)
+    public async Task UpdateStarArchitectureGalleryAsync(string userId, string id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -415,7 +414,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@architecture_id", id);
 
                     await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -437,7 +436,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
 
                                 using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                                 {
-                                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                                     updateCommand.Parameters.AddWithValue("@architecture_id", id);
                                     updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -458,7 +457,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             }
         }
     }
-    public async Task UpdateArchitectureGalleryPowerAsync(string id, Architectures architecture)
+    public async Task UpdateArchitectureGalleryPowerAsync(string userId, string id, Architectures architecture)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -540,7 +539,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
                 // IDs
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@architecture_id", id);
 
                 // Base flags
@@ -624,7 +623,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             }
         }
     }
-    public async Task<Architectures> SumPowerArchitecturesGalleryAsync()
+    public async Task<Architectures> SumPowerArchitecturesGalleryAsync(string userId)
     {
         Architectures sumArchitectures = new Architectures();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -686,7 +685,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             ";
 
                 MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {

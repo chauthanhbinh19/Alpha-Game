@@ -307,7 +307,7 @@ public class BordersController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await BordersGalleryService.Create().InsertBorderGalleryAsync(border.Id);
+                    await BordersGalleryService.Create().InsertBorderGalleryAsync(User.CurrentUserId, border.Id);
                     currencies = await UserCurrenciesService.Create().GetBooksCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(border.Image);
 

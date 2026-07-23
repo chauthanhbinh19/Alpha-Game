@@ -326,7 +326,7 @@ public class EmojisController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await EmojisGalleryService.Create().InsertEmojiGalleryAsync(emoji.Id);
+                    await EmojisGalleryService.Create().InsertEmojiGalleryAsync(User.CurrentUserId, emoji.Id);
                     currencies = await UserCurrenciesService.Create().GetEmojisCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(emoji.Image);
 

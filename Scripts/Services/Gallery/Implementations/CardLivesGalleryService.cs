@@ -20,9 +20,9 @@ public class CardLivesGalleryService : ICardLivesGalleryService
         return _instance;
     }
 
-    public async Task<List<CardLives>> GetCardLivesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardLives>> GetCardLivesCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CardLives> list = await _cardLifeGalleryRepository.GetCardLivesCollectionAsync(search, type, pageSize, offset, rare);
+        List<CardLives> list = await _cardLifeGalleryRepository.GetCardLivesCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class CardLivesGalleryService : ICardLivesGalleryService
         return await _cardLifeGalleryRepository.GetCardLivesCountAsync(search, type, rare);
     }
 
-    public async Task InsertCardLifeGalleryAsync(string Id)
+    public async Task InsertCardLifeGalleryAsync(string userId, string Id)
     {
         ICardLivesRepository _repository = new CardLivesRepository();
         CardLivesService _service = new CardLivesService(_repository);
-        await _cardLifeGalleryRepository.InsertCardLifeGalleryAsync(Id, await _service.GetCardLifeByIdAsync(Id));
+        await _cardLifeGalleryRepository.InsertCardLifeGalleryAsync(userId, Id, await _service.GetCardLifeByIdAsync(Id));
     }
 
-    public async Task UpdateStatusCardLifeGalleryAsync(string Id)
+    public async Task UpdateStatusCardLifeGalleryAsync(string userId, string Id)
     {
-        await _cardLifeGalleryRepository.UpdateStatusCardLifeGalleryAsync(Id);
+        await _cardLifeGalleryRepository.UpdateStatusCardLifeGalleryAsync(userId, Id);
     }
 
-    public async Task<CardLives> SumPowerCardLivesGalleryAsync()
+    public async Task<CardLives> SumPowerCardLivesGalleryAsync(string userId)
     {
-        return await _cardLifeGalleryRepository.SumPowerCardLivesGalleryAsync();
+        return await _cardLifeGalleryRepository.SumPowerCardLivesGalleryAsync(userId);
     }
 
-    public async Task UpdateStarCardLifeGalleryAsync(string Id, double star)
+    public async Task UpdateStarCardLifeGalleryAsync(string userId, string Id, double star)
     {
-        await _cardLifeGalleryRepository.UpdateStarCardLifeGalleryAsync(Id, star);
+        await _cardLifeGalleryRepository.UpdateStarCardLifeGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateCardLifeGalleryPowerAsync(string Id)
+    public async Task UpdateCardLifeGalleryPowerAsync(string userId, string Id)
     {
         ICardLivesRepository _repository = new CardLivesRepository();
         CardLivesService _service = new CardLivesService(_repository);
-        await _cardLifeGalleryRepository.UpdateCardLifeGalleryPowerAsync(Id, await _service.GetCardLifeByIdAsync(Id));
+        await _cardLifeGalleryRepository.UpdateCardLifeGalleryPowerAsync(userId, Id, await _service.GetCardLifeByIdAsync(Id));
     }
 }

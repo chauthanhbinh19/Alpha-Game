@@ -98,7 +98,7 @@ public class BeveragesGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var BeverageGalleryService = BeveragesGalleryService.Create();
-                    await BeverageGalleryService.UpdateStatusBeverageGalleryAsync(beverage.Id);
+                    await BeverageGalleryService.UpdateStatusBeverageGalleryAsync(User.CurrentUserId, beverage.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class BeveragesGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await BeveragesGalleryService.Create().UpdateBeverageGalleryPowerAsync(beverage.Id);
+                    await BeveragesGalleryService.Create().UpdateBeverageGalleryPowerAsync(User.CurrentUserId, beverage.Id);
                 });
             }
             catch (Exception ex)

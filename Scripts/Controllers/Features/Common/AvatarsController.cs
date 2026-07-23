@@ -306,7 +306,7 @@ public class AvatarsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await AvatarsGalleryService.Create().InsertAvatarGalleryAsync((string)avatar.Id);
+                    await AvatarsGalleryService.Create().InsertAvatarGalleryAsync(User.CurrentUserId, (string)avatar.Id);
                     currencies = await UserCurrenciesService.Create().GetBooksCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)avatar.Image);
 

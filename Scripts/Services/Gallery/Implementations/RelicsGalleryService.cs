@@ -20,9 +20,9 @@ public class RelicsGalleryService : IRelicsGalleryService
         return _instance;
     }
 
-    public async Task<List<Relics>> GetRelicsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Relics>> GetRelicsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Relics> list = await _relicsGalleryRepository.GetRelicsCollectionAsync(search, type, pageSize, offset, rare);
+        List<Relics> list = await _relicsGalleryRepository.GetRelicsCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class RelicsGalleryService : IRelicsGalleryService
         return await _relicsGalleryRepository.GetRelicsCountAsync(search, type, rare);
     }
 
-    public async Task InsertRelicGalleryAsync(string Id)
+    public async Task InsertRelicGalleryAsync(string userId, string Id)
     {
         IRelicsRepository _repository = new RelicsRepository();
         RelicsService _service = new RelicsService(_repository);
-        await _relicsGalleryRepository.InsertRelicGalleryAsync(Id, await _service.GetRelicByIdAsync(Id));
+        await _relicsGalleryRepository.InsertRelicGalleryAsync(userId, Id, await _service.GetRelicByIdAsync(Id));
     }
 
-    public async Task UpdateStatusRelicGalleryAsync(string Id)
+    public async Task UpdateStatusRelicGalleryAsync(string userId, string Id)
     {
-        await _relicsGalleryRepository.UpdateStatusRelicGalleryAsync(Id);
+        await _relicsGalleryRepository.UpdateStatusRelicGalleryAsync(userId, Id);
     }
 
-    public async Task<Relics> SumPowerRelicsGalleryAsync()
+    public async Task<Relics> SumPowerRelicsGalleryAsync(string userId)
     {
-        return await _relicsGalleryRepository.SumPowerRelicsGalleryAsync();
+        return await _relicsGalleryRepository.SumPowerRelicsGalleryAsync(userId);
     }
 
-    public async Task UpdateStarRelicGalleryAsync(string Id, double star)
+    public async Task UpdateStarRelicGalleryAsync(string userId, string Id, double star)
     {
-        await _relicsGalleryRepository.UpdateStarRelicGalleryAsync(Id, star);
+        await _relicsGalleryRepository.UpdateStarRelicGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateRelicGalleryPowerAsync(string Id)
+    public async Task UpdateRelicGalleryPowerAsync(string userId, string Id)
     {
         IRelicsRepository _repository = new RelicsRepository();
         RelicsService _service = new RelicsService(_repository);
-        await _relicsGalleryRepository.UpdateRelicGalleryPowerAsync(Id, await _service.GetRelicByIdAsync(Id));
+        await _relicsGalleryRepository.UpdateRelicGalleryPowerAsync(userId, Id, await _service.GetRelicByIdAsync(Id));
     }
 }

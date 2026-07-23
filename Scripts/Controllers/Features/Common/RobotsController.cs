@@ -326,7 +326,7 @@ public class RobotsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await RobotsGalleryService.Create().InsertRobotGalleryAsync(robot.Id);
+                    await RobotsGalleryService.Create().InsertRobotGalleryAsync(User.CurrentUserId, robot.Id);
                     currencies = await UserCurrenciesService.Create().GetRobotsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(robot.Image);
 

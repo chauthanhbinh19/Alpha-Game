@@ -97,7 +97,7 @@ public class VehiclesGalleryController : MonoBehaviour
                 unlockButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await VehiclesGalleryService.Create().UpdateStatusVehicleGalleryAsync(vehicle.Id);
+                    await VehiclesGalleryService.Create().UpdateStatusVehicleGalleryAsync(User.CurrentUserId, vehicle.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -125,7 +125,7 @@ public class VehiclesGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await VehiclesGalleryService.Create().UpdateVehicleGalleryPowerAsync(vehicle.Id);
+                    await VehiclesGalleryService.Create().UpdateVehicleGalleryPowerAsync(User.CurrentUserId, vehicle.Id);
                 });
             }
             catch (Exception ex)

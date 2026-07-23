@@ -97,7 +97,7 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var collaborationEquipmentGalleryService = CollaborationEquipmentsGalleryService.Create();
-                    await collaborationEquipmentGalleryService.UpdateStatusCollaborationEquipmentGalleryAsync(collaborationEquipment.Id);
+                    await collaborationEquipmentGalleryService.UpdateStatusCollaborationEquipmentGalleryAsync(User.CurrentUserId, collaborationEquipment.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -125,7 +125,7 @@ public class CollaborationEquipmentsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await CollaborationEquipmentsGalleryService.Create().UpdateCollaborationEquipmentGalleryPowerAsync(collaborationEquipment.Id);
+                    await CollaborationEquipmentsGalleryService.Create().UpdateCollaborationEquipmentGalleryPowerAsync(User.CurrentUserId, collaborationEquipment.Id);
                 });
             }
             catch (Exception ex)

@@ -326,7 +326,7 @@ public class ArtifactsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryArtifacts/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await ArtifactsGalleryService.Create().InsertArtifactGalleryAsync(artifact.Id);
+                    await ArtifactsGalleryService.Create().InsertArtifactGalleryAsync(User.CurrentUserId, artifact.Id);
                     currencies = await UserCurrenciesService.Create().GetArtifactsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(artifact.Image);
 

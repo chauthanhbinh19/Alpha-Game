@@ -20,9 +20,9 @@ public class SpiritBeastsGalleryService : ISpiritBeastsGalleryService
         return _instance;
     }
 
-    public async Task<List<SpiritBeasts>> GetSpiritBeastsCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<SpiritBeasts>> GetSpiritBeastsCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<SpiritBeasts> list = await _spiritBeastsGalleryRepository.GetSpiritBeastsCollectionAsync(search, pageSize, offset, rare);
+        List<SpiritBeasts> list = await _spiritBeastsGalleryRepository.GetSpiritBeastsCollectionAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class SpiritBeastsGalleryService : ISpiritBeastsGalleryService
         return await _spiritBeastsGalleryRepository.GetSpiritBeastsCountAsync(search, rare);
     }
 
-    public async Task InsertSpiritBeastGalleryAsync(string Id)
+    public async Task InsertSpiritBeastGalleryAsync(string userId, string Id)
     {
         ISpiritBeastsRepository _repository = new SpiritBeastsRepository();
         SpiritBeastsService _service = new SpiritBeastsService(_repository);
-        await _spiritBeastsGalleryRepository.InsertSpiritBeastGalleryAsync(Id, await _service.GetSpiritBeastByIdAsync(Id));
+        await _spiritBeastsGalleryRepository.InsertSpiritBeastGalleryAsync(userId, Id, await _service.GetSpiritBeastByIdAsync(Id));
     }
 
-    public async Task UpdateStatusSpiritBeastGalleryAsync(string Id)
+    public async Task UpdateStatusSpiritBeastGalleryAsync(string userId, string Id)
     {
-        await _spiritBeastsGalleryRepository.UpdateStatusSpiritBeastGalleryAsync(Id);
+        await _spiritBeastsGalleryRepository.UpdateStatusSpiritBeastGalleryAsync(userId, Id);
     }
 
-    public async Task<SpiritBeasts> SumPowerSpiritBeastsGalleryAsync()
+    public async Task<SpiritBeasts> SumPowerSpiritBeastsGalleryAsync(string userId)
     {
-        return await _spiritBeastsGalleryRepository.SumPowerSpiritBeastsGalleryAsync();
+        return await _spiritBeastsGalleryRepository.SumPowerSpiritBeastsGalleryAsync(userId);
     }
 
-    public async Task UpdateStarSpiritBeastGalleryAsync(string Id, double star)
+    public async Task UpdateStarSpiritBeastGalleryAsync(string userId, string Id, double star)
     {
-        await _spiritBeastsGalleryRepository.UpdateStarSpiritBeastGalleryAsync(Id, star);
+        await _spiritBeastsGalleryRepository.UpdateStarSpiritBeastGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateSpiritBeastGalleryPowerAsync(string Id)
+    public async Task UpdateSpiritBeastGalleryPowerAsync(string userId, string Id)
     {
         ISpiritBeastsRepository _repository = new SpiritBeastsRepository();
         SpiritBeastsService _service = new SpiritBeastsService(_repository);
-        await _spiritBeastsGalleryRepository.UpdateSpiritBeastGalleryPowerAsync(Id, await _service.GetSpiritBeastByIdAsync(Id));
+        await _spiritBeastsGalleryRepository.UpdateSpiritBeastGalleryPowerAsync(userId, Id, await _service.GetSpiritBeastByIdAsync(Id));
     }
 }

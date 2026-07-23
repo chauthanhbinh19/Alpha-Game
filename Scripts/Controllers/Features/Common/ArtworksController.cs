@@ -312,7 +312,7 @@ public class ArtworksController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await ArtworksGalleryService.Create().InsertArtworkGalleryAsync(artwork.Id);
+                    await ArtworksGalleryService.Create().InsertArtworkGalleryAsync(User.CurrentUserId, artwork.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(artwork.Image);
 

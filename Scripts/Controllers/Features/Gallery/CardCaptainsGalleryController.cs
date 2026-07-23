@@ -98,7 +98,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var cardCaptainsGalleryService = CardCaptainsGalleryService.Create();
-                await cardCaptainsGalleryService.UpdateStatusCardCaptainGalleryAsync(cardCaptain.Id);
+                await cardCaptainsGalleryService.UpdateStatusCardCaptainGalleryAsync(User.CurrentUserId, cardCaptain.Id);
                 blockImage.gameObject.SetActive(false);
                 unlockButton.gameObject.SetActive(false);
                 image.color = Color.white;
@@ -126,7 +126,7 @@ public class CardCaptainsGalleryController : MonoBehaviour
             upgradeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CardCaptainsGalleryService.Create().UpdateCardCaptainGalleryPowerAsync(cardCaptain.Id);
+                await CardCaptainsGalleryService.Create().UpdateCardCaptainGalleryPowerAsync(User.CurrentUserId, cardCaptain.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

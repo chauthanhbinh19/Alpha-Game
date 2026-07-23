@@ -317,7 +317,7 @@ public class PlantsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await PlantsGalleryService.Create().InsertPlantGalleryAsync((string)plant.Id);
+                    await PlantsGalleryService.Create().InsertPlantGalleryAsync(User.CurrentUserId, (string)plant.Id);
                     currencies = await UserCurrenciesService.Create().GetPlantsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)plant.Image);
 

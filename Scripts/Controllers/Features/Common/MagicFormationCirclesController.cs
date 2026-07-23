@@ -312,7 +312,7 @@ public class MagicFormationCirclesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await MagicFormationCirclesGalleryService.Create().InsertMagicFormationCircleGalleryAsync(magicFormationCircle.Id);
+                    await MagicFormationCirclesGalleryService.Create().InsertMagicFormationCircleGalleryAsync(User.CurrentUserId, magicFormationCircle.Id);
                     currencies = await UserCurrenciesService.Create().GetMagicFormationCirclesCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(magicFormationCircle.Image);
 

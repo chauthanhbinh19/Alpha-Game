@@ -97,7 +97,7 @@ public class CollaborationsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var collaborationGalleryService = CollaborationsGalleryService.Create();
-                    await collaborationGalleryService.UpdateStatusCollaborationGalleryAsync(collaboration.Id);
+                    await collaborationGalleryService.UpdateStatusCollaborationGalleryAsync(User.CurrentUserId, collaboration.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -125,7 +125,7 @@ public class CollaborationsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await CollaborationsGalleryService.Create().UpdateCollaborationGalleryPowerAsync(collaboration.Id);
+                    await CollaborationsGalleryService.Create().UpdateCollaborationGalleryPowerAsync(User.CurrentUserId, collaboration.Id);
                 });
             }
             catch (Exception ex)

@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
 {
-    public async Task<List<Equipments>> GetEquipmentsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Equipments>> GetEquipmentsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Equipments> equipments = new List<Equipments>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -223,7 +222,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
 
         return count;
     }
-    public async Task InsertEquipmentGalleryAsync(string Id, Equipments equipment)
+    public async Task InsertEquipmentGalleryAsync(string userId, string Id, Equipments equipment)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(equipment.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -242,7 +241,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@equipment_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -301,7 +300,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
                     MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@equipment_id", Id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -385,7 +384,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusEquipmentGalleryAsync(string Id)
+    public async Task UpdateStatusEquipmentGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -397,7 +396,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
 
                 string updateSQL = "UPDATE equipments_gallery SET status=@status WHERE user_id=@user_id AND equipment_id=@equipment_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@equipment_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -413,7 +412,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarEquipmentGalleryAsync(string Id, double star)
+    public async Task UpdateStarEquipmentGalleryAsync(string userId, string Id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -431,7 +430,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@equipment_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -451,7 +450,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@equipment_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -470,7 +469,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
             }
         }
     }
-    public async Task UpdateEquipmentGalleryPowerAsync(string Id, Equipments equipment)
+    public async Task UpdateEquipmentGalleryPowerAsync(string userId, string Id, Equipments equipment)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -550,7 +549,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
             ";
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@equipment_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
@@ -628,7 +627,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
             }
         }
     }
-    public async Task<Equipments> SumPowerEquipmentsGalleryAsync()
+    public async Task<Equipments> SumPowerEquipmentsGalleryAsync(string userId)
     {
         Equipments sumEquipments = new Equipments();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -683,7 +682,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

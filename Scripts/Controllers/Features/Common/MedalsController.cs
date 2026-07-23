@@ -307,7 +307,7 @@ public class MedalsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await MedalsGalleryService.Create().InsertMedalGalleryAsync(medal.Id);
+                    await MedalsGalleryService.Create().InsertMedalGalleryAsync(User.CurrentUserId, medal.Id);
                     currencies = await UserCurrenciesService.Create().GetMedalsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(medal.Image);
 

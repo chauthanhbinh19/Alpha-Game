@@ -98,7 +98,7 @@ public class EmojisGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var coreGalleryService = EmojisGalleryService.Create();
-                    await coreGalleryService.UpdateStatusEmojiGalleryAsync(emoji.Id);
+                    await coreGalleryService.UpdateStatusEmojiGalleryAsync(User.CurrentUserId, emoji.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class EmojisGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await EmojisGalleryService.Create().UpdateEmojiGalleryPowerAsync(emoji.Id);
+                    await EmojisGalleryService.Create().UpdateEmojiGalleryPowerAsync(User.CurrentUserId, emoji.Id);
                 });
             }
             catch (Exception ex)

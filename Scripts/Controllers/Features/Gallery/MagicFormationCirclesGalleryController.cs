@@ -101,7 +101,7 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var magicFormationCircleGallery = MagicFormationCirclesGalleryService.Create();
-                    await magicFormationCircleGallery.UpdateStatusMagicFormationCircleGalleryAsync(magicFormationCircle.Id);
+                    await magicFormationCircleGallery.UpdateStatusMagicFormationCircleGalleryAsync(User.CurrentUserId, magicFormationCircle.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -129,7 +129,7 @@ public class MagicFormationCirclesGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await MagicFormationCirclesGalleryService.Create().UpdateMagicFormationCircleGalleryPowerAsync(magicFormationCircle.Id);
+                    await MagicFormationCirclesGalleryService.Create().UpdateMagicFormationCircleGalleryPowerAsync(User.CurrentUserId, magicFormationCircle.Id);
                 });
             }
             catch (Exception ex)

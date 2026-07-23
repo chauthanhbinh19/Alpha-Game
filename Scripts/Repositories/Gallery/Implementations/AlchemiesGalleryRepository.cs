@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
 {
-    public async Task<List<Alchemies>> GetAlchemiesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Alchemies>> GetAlchemiesCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Alchemies> alchemies = new List<Alchemies>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -224,7 +223,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
 
         return count;
     }
-    public async Task InsertAlchemyGalleryAsync(string Id, Alchemies alchemy)
+    public async Task InsertAlchemyGalleryAsync(string userId, string Id, Alchemies alchemy)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(alchemy.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -243,7 +242,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
                     ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@alchemy_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -302,7 +301,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
                         // Thêm param
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@alchemy_id", Id);
                         insertCommand.Parameters.AddWithValue("@status", "pending");
                         insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -389,7 +388,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusAlchemyGalleryAsync(string Id)
+    public async Task UpdateStatusAlchemyGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -402,7 +401,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
                 string updateSQL = "UPDATE alchemies_gallery SET status=@status WHERE user_id=@user_id AND alchemy_id=@alchemy_id";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@alchemy_id", Id);
                     updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -419,7 +418,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
             }
         }
     }
-    public async Task UpdateStarAlchemyGalleryAsync(string Id, double star)
+    public async Task UpdateStarAlchemyGalleryAsync(string userId, string Id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -437,7 +436,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@alchemy_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -457,7 +456,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@alchemy_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -476,7 +475,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
             }
         }
     }
-    public async Task UpdateAlchemyGalleryPowerAsync(string Id, Alchemies alchemy)
+    public async Task UpdateAlchemyGalleryPowerAsync(string userId, string Id, Alchemies alchemy)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -556,7 +555,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
             ";
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@alchemy_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
@@ -634,7 +633,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
             }
         }
     }
-    public async Task<Alchemies> SumPowerAlchemyGalleryAsync()
+    public async Task<Alchemies> SumPowerAlchemyGalleryAsync(string userId)
     {
         Alchemies sumAlchemies = new Alchemies();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -689,7 +688,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

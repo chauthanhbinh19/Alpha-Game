@@ -97,7 +97,7 @@ public class FashionsGalleryController : MonoBehaviour
                 unlockButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await FashionsGalleryService.Create().UpdateStatusFashionGalleryAsync(fashion.Id);
+                    await FashionsGalleryService.Create().UpdateStatusFashionGalleryAsync(User.CurrentUserId, fashion.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -125,7 +125,7 @@ public class FashionsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await FashionsGalleryService.Create().UpdateFashionGalleryPowerAsync(fashion.Id);
+                    await FashionsGalleryService.Create().UpdateFashionGalleryPowerAsync(User.CurrentUserId, fashion.Id);
                 });
             }
             catch (Exception ex)

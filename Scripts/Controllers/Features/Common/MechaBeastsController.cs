@@ -326,7 +326,7 @@ public class MechaBeastsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await MechaBeastsGalleryService.Create().InsertMechaBeastGalleryAsync(mechaBeast.Id);
+                    await MechaBeastsGalleryService.Create().InsertMechaBeastGalleryAsync(User.CurrentUserId, mechaBeast.Id);
                     currencies = await UserCurrenciesService.Create().GetMechaBeastsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(mechaBeast.Image);
 

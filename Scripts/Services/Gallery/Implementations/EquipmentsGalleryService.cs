@@ -20,9 +20,9 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
         return _instance;
     }
 
-    public async Task<List<Equipments>> GetEquipmentsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Equipments>> GetEquipmentsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Equipments> list = await _equipmentsGalleryRepository.GetEquipmentsCollectionAsync(search, type, pageSize, offset, rare);
+        List<Equipments> list = await _equipmentsGalleryRepository.GetEquipmentsCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
         return await _equipmentsGalleryRepository.GetEquipmentsCountAsync(search, type, rare);
     }
 
-    public async Task InsertEquipmentGalleryAsync(string Id)
+    public async Task InsertEquipmentGalleryAsync(string userId, string Id)
     {
         IEquipmentsRepository _repository = new EquipmentsRepository();
         EquipmentsService _service = new EquipmentsService(_repository);
-        await _equipmentsGalleryRepository.InsertEquipmentGalleryAsync(Id, await _service.GetEquipmentByIdAsync(Id));
+        await _equipmentsGalleryRepository.InsertEquipmentGalleryAsync(userId, Id, await _service.GetEquipmentByIdAsync(Id));
     }
 
-    public async Task UpdateStatusEquipmentGalleryAsync(string Id)
+    public async Task UpdateStatusEquipmentGalleryAsync(string userId, string Id)
     {
-        await _equipmentsGalleryRepository.UpdateStatusEquipmentGalleryAsync(Id);
+        await _equipmentsGalleryRepository.UpdateStatusEquipmentGalleryAsync(userId, Id);
     }
 
-    public async Task<Equipments> SumPowerEquipmentsGalleryAsync()
+    public async Task<Equipments> SumPowerEquipmentsGalleryAsync(string userId)
     {
-        return await _equipmentsGalleryRepository.SumPowerEquipmentsGalleryAsync();
+        return await _equipmentsGalleryRepository.SumPowerEquipmentsGalleryAsync(userId);
     }
 
-    public async Task UpdateStarEquipmentGalleryAsync(string Id, double star)
+    public async Task UpdateStarEquipmentGalleryAsync(string userId, string Id, double star)
     {
-        await _equipmentsGalleryRepository.UpdateStarEquipmentGalleryAsync(Id, star);
+        await _equipmentsGalleryRepository.UpdateStarEquipmentGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateEquipmentGalleryPowerAsync(string Id)
+    public async Task UpdateEquipmentGalleryPowerAsync(string userId, string Id)
     {
         IEquipmentsRepository _repository = new EquipmentsRepository();
         EquipmentsService _service = new EquipmentsService(_repository);
-        await _equipmentsGalleryRepository.UpdateEquipmentGalleryPowerAsync(Id, await _service.GetEquipmentByIdAsync(Id));
+        await _equipmentsGalleryRepository.UpdateEquipmentGalleryPowerAsync(userId, Id, await _service.GetEquipmentByIdAsync(Id));
     }
 }

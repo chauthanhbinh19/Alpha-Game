@@ -98,7 +98,7 @@ public class RobotsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var robotGalleryService = RobotsGalleryService.Create();
-                    await robotGalleryService.UpdateStatusRobotGalleryAsync(robot.Id);
+                    await robotGalleryService.UpdateStatusRobotGalleryAsync(User.CurrentUserId, robot.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class RobotsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await RobotsGalleryService.Create().UpdateRobotGalleryPowerAsync(robot.Id);
+                    await RobotsGalleryService.Create().UpdateRobotGalleryPowerAsync(User.CurrentUserId, robot.Id);
                 });
             }
             catch (Exception ex)

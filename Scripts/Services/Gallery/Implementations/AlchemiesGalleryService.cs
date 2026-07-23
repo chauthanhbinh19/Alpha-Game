@@ -20,9 +20,9 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
         return _instance;
     }
 
-    public async Task<List<Alchemies>> GetAlchemiesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Alchemies>> GetAlchemiesCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Alchemies> list = await _alchemiesGalleryRepository.GetAlchemiesCollectionAsync(search, type, pageSize, offset, rare);
+        List<Alchemies> list = await _alchemiesGalleryRepository.GetAlchemiesCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
         return await _alchemiesGalleryRepository.GetAlchemyCountAsync(search, type, rare);
     }
 
-    public async Task InsertAlchemyGalleryAsync(string Id)
+    public async Task InsertAlchemyGalleryAsync(string userId, string Id)
     {
         IAlchemiesRepository _repository = new AlchemiesRepository();
         AlchemiesService _service = new AlchemiesService(_repository);
-        await _alchemiesGalleryRepository.InsertAlchemyGalleryAsync(Id, await _service.GetAlchemyByIdAsync(Id));
+        await _alchemiesGalleryRepository.InsertAlchemyGalleryAsync(userId, Id, await _service.GetAlchemyByIdAsync(Id));
     }
 
-    public async Task UpdateStatusAlchemyGalleryAsync(string Id)
+    public async Task UpdateStatusAlchemyGalleryAsync(string userId, string Id)
     {
-        await _alchemiesGalleryRepository.UpdateStatusAlchemyGalleryAsync(Id);
+        await _alchemiesGalleryRepository.UpdateStatusAlchemyGalleryAsync(userId, Id);
     }
 
-    public async Task<Alchemies> SumPowerAlchemyGalleryAsync()
+    public async Task<Alchemies> SumPowerAlchemyGalleryAsync(string userId)
     {
-        return await _alchemiesGalleryRepository.SumPowerAlchemyGalleryAsync();
+        return await _alchemiesGalleryRepository.SumPowerAlchemyGalleryAsync(userId);
     }
 
-    public async Task UpdateStarAlchemyGalleryAsync(string Id, double star)
+    public async Task UpdateStarAlchemyGalleryAsync(string userId, string Id, double star)
     {
-        await _alchemiesGalleryRepository.UpdateStarAlchemyGalleryAsync(Id, star);
+        await _alchemiesGalleryRepository.UpdateStarAlchemyGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateAlchemyGalleryPowerAsync(string Id)
+    public async Task UpdateAlchemyGalleryPowerAsync(string userId, string Id)
     {
         IAlchemiesRepository _repository = new AlchemiesRepository();
         AlchemiesService _service = new AlchemiesService(_repository);
-        await _alchemiesGalleryRepository.UpdateAlchemyGalleryPowerAsync(Id, await _service.GetAlchemyByIdAsync(Id));
+        await _alchemiesGalleryRepository.UpdateAlchemyGalleryPowerAsync(userId, Id, await _service.GetAlchemyByIdAsync(Id));
     }
 }

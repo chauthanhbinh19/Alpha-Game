@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class ArtworksGalleryRepository : IArtworksGalleryRepository
 {
-    public async Task<List<Artworks>> GetArtworksCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Artworks>> GetArtworksCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Artworks> artworks = new List<Artworks>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -223,7 +222,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
 
         return count;
     }
-    public async Task InsertArtworkGalleryAsync(string Id, Artworks artwork)
+    public async Task InsertArtworkGalleryAsync(string userId, string Id, Artworks artwork)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(artwork.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -242,7 +241,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@artwork_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -301,7 +300,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                     MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@artwork_id", Id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -385,7 +384,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusArtworkGalleryAsync(string Id)
+    public async Task UpdateStatusArtworkGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -397,7 +396,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
 
                 string updateSQL = @"UPDATE artworks_gallery SET status=@status WHERE user_id=@user_id AND artwork_id=@artwork_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@artwork_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -413,7 +412,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
             }
         }
     }
-    public async Task UpdateStarArtworkGalleryAsync(string Id, double star)
+    public async Task UpdateStarArtworkGalleryAsync(string userId, string Id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -431,7 +430,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@artwork_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -451,7 +450,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@artwork_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -470,7 +469,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
             }
         }
     }
-    public async Task UpdateArtworkGalleryPowerAsync(string Id, Artworks artwork)
+    public async Task UpdateArtworkGalleryPowerAsync(string userId, string Id, Artworks artwork)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -550,7 +549,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
             ";
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@artwork_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
@@ -628,7 +627,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
             }
         }
     }
-    public async Task<Artworks> SumPowerArtworksGalleryAsync()
+    public async Task<Artworks> SumPowerArtworksGalleryAsync(string userId)
     {
         Artworks sumArtworks = new Artworks();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -683,7 +682,7 @@ public class ArtworksGalleryRepository : IArtworksGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

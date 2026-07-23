@@ -96,7 +96,7 @@ public class AchievementsGalleryController : MonoBehaviour
                 unlockButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await AvatarsGalleryService.Create().UpdateStatusAvatarGalleryAsync(achievement.Id);
+                    await AvatarsGalleryService.Create().UpdateStatusAvatarGalleryAsync(User.CurrentUserId, achievement.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -124,7 +124,7 @@ public class AchievementsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await AvatarsGalleryService.Create().UpdateAvatarGalleryPowerAsync(achievement.Id);
+                    await AvatarsGalleryService.Create().UpdateAvatarGalleryPowerAsync(User.CurrentUserId, achievement.Id);
                 });
             }
             catch (Exception ex)

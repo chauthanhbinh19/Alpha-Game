@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class RelicsGalleryRepository : IRelicsGalleryRepository
 {
-    public async Task<List<Relics>> GetRelicsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Relics>> GetRelicsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Relics> relics = new List<Relics>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -223,7 +222,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
 
         return count;
     }
-    public async Task InsertRelicGalleryAsync(string Id, Relics relic)
+    public async Task InsertRelicGalleryAsync(string userId, string Id, Relics relic)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(relic.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -242,7 +241,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@relic_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -301,7 +300,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                     MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@relic_id", Id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -385,7 +384,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusRelicGalleryAsync(string Id)
+    public async Task UpdateStatusRelicGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -397,7 +396,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
 
                 string updateSQL = "UPDATE relics_gallery SET status=@status WHERE user_id=@user_id AND relic_id=@relic_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@relic_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -413,7 +412,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarRelicGalleryAsync(string Id, double star)
+    public async Task UpdateStarRelicGalleryAsync(string userId, string Id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -431,7 +430,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@relic_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -451,7 +450,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@relic_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -470,7 +469,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             }
         }
     }
-    public async Task UpdateRelicGalleryPowerAsync(string Id, Relics relic)
+    public async Task UpdateRelicGalleryPowerAsync(string userId, string Id, Relics relic)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -550,7 +549,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             ";
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@relic_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
@@ -628,7 +627,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             }
         }
     }
-    public async Task<Relics> SumPowerRelicsGalleryAsync()
+    public async Task<Relics> SumPowerRelicsGalleryAsync(string userId)
     {
         Relics sumRelics = new Relics();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -683,7 +682,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

@@ -98,7 +98,7 @@ public class BadgesGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var badgeGalleryService = BadgesGalleryService.Create();
-                    await badgeGalleryService.UpdateStatusBadgeGalleryAsync(badge.Id);
+                    await badgeGalleryService.UpdateStatusBadgeGalleryAsync(User.CurrentUserId, badge.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class BadgesGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await BadgesGalleryService.Create().UpdateBadgeGalleryPowerAsync(badge.Id);
+                    await BadgesGalleryService.Create().UpdateBadgeGalleryPowerAsync(User.CurrentUserId, badge.Id);
                 });
             }
             catch (Exception ex)

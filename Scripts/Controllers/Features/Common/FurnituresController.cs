@@ -331,7 +331,7 @@ public class FurnituresController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await FurnituresGalleryService.Create().InsertFurnitureGalleryAsync(furniture.Id);
+                    await FurnituresGalleryService.Create().InsertFurnitureGalleryAsync(User.CurrentUserId, furniture.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(furniture.Image);
 

@@ -101,7 +101,7 @@ public class AlchemiesGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var alchemyGalleryService = AlchemiesGalleryService.Create();
-                    await alchemyGalleryService.UpdateStatusAlchemyGalleryAsync(alchemy.Id);
+                    await alchemyGalleryService.UpdateStatusAlchemyGalleryAsync(User.CurrentUserId, alchemy.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -129,7 +129,7 @@ public class AlchemiesGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await AlchemiesGalleryService.Create().UpdateAlchemyGalleryPowerAsync(alchemy.Id);
+                    await AlchemiesGalleryService.Create().UpdateAlchemyGalleryPowerAsync(User.CurrentUserId, alchemy.Id);
                 });
             }
             catch (Exception ex)

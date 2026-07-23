@@ -6,10 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class WeaponsGalleryRepository : IWeaponsGalleryRepository
 {
-    public async Task<List<Weapons>> GetWeaponsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Weapons>> GetWeaponsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Weapons> weapons = new List<Weapons>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -222,7 +221,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
 
         return count;
     }
-    public async Task InsertWeaponGalleryAsync(string Id, Weapons weapon)
+    public async Task InsertWeaponGalleryAsync(string userId, string Id, Weapons weapon)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -242,7 +241,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@weapon_id", Id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -290,7 +289,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
 
                         using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@weapon_id", Id);
                             insertCommand.Parameters.AddWithValue("@status", "pending");
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -382,7 +381,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusWeaponGalleryAsync(string Id)
+    public async Task UpdateStatusWeaponGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -398,7 +397,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@weapon_id", Id);
                     updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -415,7 +414,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarWeaponGalleryAsync(string id, double star)
+    public async Task UpdateStarWeaponGalleryAsync(string userId, string id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -434,7 +433,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@weapon_id", id);
 
                     await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -456,7 +455,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
 
                                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                                 {
-                                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                                     updateCommand.Parameters.AddWithValue("@weapon_id", id);
                                     updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -477,7 +476,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
             }
         }
     }
-    public async Task UpdateWeaponGalleryPowerAsync(string id, Weapons weapon)
+    public async Task UpdateWeaponGalleryPowerAsync(string userId, string id, Weapons weapon)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -559,7 +558,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
                 // IDs
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@weapon_id", id);
 
                 // Base flags
@@ -643,7 +642,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
             }
         }
     }
-    public async Task<Weapons> SumPowerWeaponsGalleryAsync()
+    public async Task<Weapons> SumPowerWeaponsGalleryAsync(string userId)
     {
         Weapons sumWeapons = new Weapons();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -705,7 +704,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
             ";
 
                 MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {

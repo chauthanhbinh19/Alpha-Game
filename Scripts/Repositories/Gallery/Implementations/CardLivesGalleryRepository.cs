@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class CardLivesGalleryRepository : ICardLivesGalleryRepository
 {
-    public async Task<List<CardLives>> GetCardLivesCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardLives>> GetCardLivesCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<CardLives> cardLives = new List<CardLives>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -223,7 +222,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
 
         return count;
     }
-    public async Task InsertCardLifeGalleryAsync(string Id, CardLives cardLife)
+    public async Task InsertCardLifeGalleryAsync(string userId, string Id, CardLives cardLife)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(cardLife.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -242,7 +241,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@card_life_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -301,7 +300,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
                     MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@card_life_id", Id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -385,7 +384,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusCardLifeGalleryAsync(string Id)
+    public async Task UpdateStatusCardLifeGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -397,7 +396,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
 
                 string updateSQL = "UPDATE card_lives_gallery SET status=@status WHERE user_id=@user_id AND card_life_id=@card_life_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@card_life_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -413,7 +412,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
             }
         }
     }
-    public async Task UpdateStarCardLifeGalleryAsync(string Id, double star)
+    public async Task UpdateStarCardLifeGalleryAsync(string userId, string Id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -431,7 +430,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@card_life_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -451,7 +450,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@card_life_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -470,7 +469,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
             }
         }
     }
-    public async Task UpdateCardLifeGalleryPowerAsync(string Id, CardLives cardLife)
+    public async Task UpdateCardLifeGalleryPowerAsync(string userId, string Id, CardLives cardLife)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -550,7 +549,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
             ";
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@card_life_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
@@ -628,7 +627,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
             }
         }
     }
-    public async Task<CardLives> SumPowerCardLivesGalleryAsync()
+    public async Task<CardLives> SumPowerCardLivesGalleryAsync(string userId)
     {
         CardLives sumCardLives = new CardLives();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -683,7 +682,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

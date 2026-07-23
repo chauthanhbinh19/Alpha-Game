@@ -326,7 +326,7 @@ public class WeaponsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await WeaponsGalleryService.Create().InsertWeaponGalleryAsync(weapon.Id);
+                    await WeaponsGalleryService.Create().InsertWeaponGalleryAsync(User.CurrentUserId, weapon.Id);
                     currencies = await UserCurrenciesService.Create().GetWeaponsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(weapon.Image);
 

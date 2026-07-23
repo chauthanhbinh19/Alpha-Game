@@ -326,7 +326,7 @@ public class BadgesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await BadgesGalleryService.Create().InsertBadgeGalleryAsync(badge.Id);
+                    await BadgesGalleryService.Create().InsertBadgeGalleryAsync(User.CurrentUserId, badge.Id);
                     currencies = await UserCurrenciesService.Create().GetBadgesCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(badge.Image);
 

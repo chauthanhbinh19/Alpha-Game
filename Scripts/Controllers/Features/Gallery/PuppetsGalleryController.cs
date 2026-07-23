@@ -101,7 +101,7 @@ public class PuppetsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var puppetGalleryService = PuppetsGalleryService.Create();
-                    await puppetGalleryService.UpdateStatusPuppetGalleryAsync(puppet.Id);
+                    await puppetGalleryService.UpdateStatusPuppetGalleryAsync(User.CurrentUserId, puppet.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -129,7 +129,7 @@ public class PuppetsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await PuppetsGalleryService.Create().UpdatePuppetGalleryPowerAsync(puppet.Id);
+                    await PuppetsGalleryService.Create().UpdatePuppetGalleryPowerAsync(User.CurrentUserId, puppet.Id);
                 });
             }
             catch (Exception ex)

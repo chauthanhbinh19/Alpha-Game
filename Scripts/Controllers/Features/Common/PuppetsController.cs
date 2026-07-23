@@ -312,7 +312,7 @@ public class PuppetsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await PuppetsGalleryService.Create().InsertPuppetGalleryAsync(puppet.Id);
+                    await PuppetsGalleryService.Create().InsertPuppetGalleryAsync(User.CurrentUserId, puppet.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(puppet.Image);
 

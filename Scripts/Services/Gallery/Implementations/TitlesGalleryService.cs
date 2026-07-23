@@ -20,9 +20,9 @@ public class TitlesGalleryService : ITitlesGalleryService
         return _instance;
     }
 
-    public async Task<List<Titles>> GetTitlesCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Titles>> GetTitlesCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Titles> list = await _titlesGalleryRepository.GetTitlesCollectionAsync(search, pageSize, offset, rare);
+        List<Titles> list = await _titlesGalleryRepository.GetTitlesCollectionAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class TitlesGalleryService : ITitlesGalleryService
         return await _titlesGalleryRepository.GetTitlesCountAsync(search, rare);
     }
 
-    public async Task InsertTitleGalleryAsync(string Id)
+    public async Task InsertTitleGalleryAsync(string userId, string Id)
     {
         ITitlesRepository _repository = new TitlesRepository();
         TitlesService _service = new TitlesService(_repository);
-        await _titlesGalleryRepository.InsertTitleGalleryAsync(Id, await _service.GetTitleByIdAsync(Id));
+        await _titlesGalleryRepository.InsertTitleGalleryAsync(userId, Id, await _service.GetTitleByIdAsync(Id));
     }
 
-    public async Task UpdateStatusTitleGalleryAsync(string Id)
+    public async Task UpdateStatusTitleGalleryAsync(string userId, string Id)
     {
-        await _titlesGalleryRepository.UpdateStatusTitleGalleryAsync(Id);
+        await _titlesGalleryRepository.UpdateStatusTitleGalleryAsync(userId, Id);
     }
 
-    public async Task<Titles> SumPowerTitlesGalleryAsync()
+    public async Task<Titles> SumPowerTitlesGalleryAsync(string userId)
     {
-        return await _titlesGalleryRepository.SumPowerTitlesGalleryAsync();
+        return await _titlesGalleryRepository.SumPowerTitlesGalleryAsync(userId);
     }
 
-    public async Task UpdateStarTitleGalleryAsync(string Id, double star)
+    public async Task UpdateStarTitleGalleryAsync(string userId, string Id, double star)
     {
-        await _titlesGalleryRepository.UpdateStarTitleGalleryAsync(Id, star);
+        await _titlesGalleryRepository.UpdateStarTitleGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateTitleGalleryPowerAsync(string Id)
+    public async Task UpdateTitleGalleryPowerAsync(string userId, string Id)
     {
         ITitlesRepository _repository = new TitlesRepository();
         TitlesService _service = new TitlesService(_repository);
-        await _titlesGalleryRepository.UpdateTitleGalleryPowerAsync(Id, await _service.GetTitleByIdAsync(Id));
+        await _titlesGalleryRepository.UpdateTitleGalleryPowerAsync(userId, Id, await _service.GetTitleByIdAsync(Id));
     }
 }

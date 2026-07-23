@@ -331,7 +331,7 @@ public class VehiclesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await VehiclesGalleryService.Create().InsertVehicleGalleryAsync(vehicle.Id);
+                    await VehiclesGalleryService.Create().InsertVehicleGalleryAsync(User.CurrentUserId, vehicle.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(vehicle.Image);
 

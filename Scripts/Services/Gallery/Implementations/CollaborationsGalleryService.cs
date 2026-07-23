@@ -20,9 +20,9 @@ public class CollaborationsGalleryService : ICollaborationsGalleryService
         return _instance;
     }
 
-    public async Task<List<Collaborations>> GetCollaborationsCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Collaborations>> GetCollaborationsCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Collaborations> list = await _collaborationsGalleryRepository.GetCollaborationsCollectionAsync(search, pageSize, offset, rare);
+        List<Collaborations> list = await _collaborationsGalleryRepository.GetCollaborationsCollectionAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class CollaborationsGalleryService : ICollaborationsGalleryService
         return await _collaborationsGalleryRepository.GetCollaborationsCountAsync(search, rare);
     }
 
-    public async Task InsertCollaborationGalleryAsync(string Id)
+    public async Task InsertCollaborationGalleryAsync(string userId, string Id)
     {
         ICollaborationsRepository _repository = new CollaborationsRepository();
         CollaborationsService _service = new CollaborationsService(_repository);
-        await _collaborationsGalleryRepository.InsertCollaborationGalleryAsync(Id, await _service.GetCollaborationByIdAsync(Id));
+        await _collaborationsGalleryRepository.InsertCollaborationGalleryAsync(userId, Id, await _service.GetCollaborationByIdAsync(Id));
     }
 
-    public async Task UpdateStatusCollaborationGalleryAsync(string Id)
+    public async Task UpdateStatusCollaborationGalleryAsync(string userId, string Id)
     {
-        await _collaborationsGalleryRepository.UpdateStatusCollaborationGalleryAsync(Id);
+        await _collaborationsGalleryRepository.UpdateStatusCollaborationGalleryAsync(userId, Id);
     }
 
-    public async Task<Collaborations> SumPowerCollaborationsGalleryAsync()
+    public async Task<Collaborations> SumPowerCollaborationsGalleryAsync(string userId)
     {
-        return await _collaborationsGalleryRepository.SumPowerCollaborationsGalleryAsync();
+        return await _collaborationsGalleryRepository.SumPowerCollaborationsGalleryAsync(userId);
     }
 
-    public async Task UpdateStarCollaborationGalleryAsync(string Id, double star)
+    public async Task UpdateStarCollaborationGalleryAsync(string userId, string Id, double star)
     {
-        await _collaborationsGalleryRepository.UpdateStarCollaborationGalleryAsync(Id, star);
+        await _collaborationsGalleryRepository.UpdateStarCollaborationGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateCollaborationGalleryPowerAsync(string Id)
+    public async Task UpdateCollaborationGalleryPowerAsync(string userId, string Id)
     {
         ICollaborationsRepository _repository = new CollaborationsRepository();
         CollaborationsService _service = new CollaborationsService(_repository);
-        await _collaborationsGalleryRepository.UpdateCollaborationGalleryPowerAsync(Id, await _service.GetCollaborationByIdAsync(Id));
+        await _collaborationsGalleryRepository.UpdateCollaborationGalleryPowerAsync(userId, Id, await _service.GetCollaborationByIdAsync(Id));
     }
 }

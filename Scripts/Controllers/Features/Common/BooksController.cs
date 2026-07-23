@@ -350,7 +350,7 @@ public class BooksController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await BooksGalleryService.Create().InsertBookGalleryAsync(book.Id);
+                    await BooksGalleryService.Create().InsertBookGalleryAsync(User.CurrentUserId, book.Id);
                     currencies = await UserCurrenciesService.Create().GetBooksCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(book.Image);
 

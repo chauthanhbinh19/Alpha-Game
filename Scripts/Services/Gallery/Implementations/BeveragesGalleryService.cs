@@ -20,9 +20,9 @@ public class BeveragesGalleryService : IBeveragesGalleryService
         return _instance;
     }
 
-    public async Task<List<Beverages>> GetBeveragesCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Beverages>> GetBeveragesCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Beverages> list = await _beveragesGalleryRepository.GetBeveragesCollectionAsync(search, pageSize, offset, rare);
+        List<Beverages> list = await _beveragesGalleryRepository.GetBeveragesCollectionAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class BeveragesGalleryService : IBeveragesGalleryService
         return await _beveragesGalleryRepository.GetBeveragesCountAsync(search, rare);
     }
 
-    public async Task InsertBeverageGalleryAsync(string Id)
+    public async Task InsertBeverageGalleryAsync(string userId, string Id)
     {
         IBeveragesRepository _repository = new BeveragesRepository();
         BeveragesService _service = new BeveragesService(_repository);
-        await _beveragesGalleryRepository.InsertBeverageGalleryAsync(Id, await _service.GetBeverageByIdAsync(Id));
+        await _beveragesGalleryRepository.InsertBeverageGalleryAsync(userId, Id, await _service.GetBeverageByIdAsync(Id));
     }
 
-    public async Task UpdateStatusBeverageGalleryAsync(string Id)
+    public async Task UpdateStatusBeverageGalleryAsync(string userId, string Id)
     {
-        await _beveragesGalleryRepository.UpdateStatusBeverageGalleryAsync(Id);
+        await _beveragesGalleryRepository.UpdateStatusBeverageGalleryAsync(userId, Id);
     }
 
-    public async Task<Beverages> SumPowerBeveragesGalleryAsync()
+    public async Task<Beverages> SumPowerBeveragesGalleryAsync(string userId)
     {
-        return await _beveragesGalleryRepository.SumPowerBeveragesGalleryAsync();
+        return await _beveragesGalleryRepository.SumPowerBeveragesGalleryAsync(userId);
     }
 
-    public async Task UpdateStarBeverageGalleryAsync(string Id, double star)
+    public async Task UpdateStarBeverageGalleryAsync(string userId, string Id, double star)
     {
-        await _beveragesGalleryRepository.UpdateStarBeverageGalleryAsync(Id, star);
+        await _beveragesGalleryRepository.UpdateStarBeverageGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateBeverageGalleryPowerAsync(string Id)
+    public async Task UpdateBeverageGalleryPowerAsync(string userId, string Id)
     {
         IBeveragesRepository _repository = new BeveragesRepository();
         BeveragesService _service = new BeveragesService(_repository);
-        await _beveragesGalleryRepository.UpdateBeverageGalleryPowerAsync(Id, await _service.GetBeverageByIdAsync(Id));
+        await _beveragesGalleryRepository.UpdateBeverageGalleryPowerAsync(userId, Id, await _service.GetBeverageByIdAsync(Id));
     }
 }

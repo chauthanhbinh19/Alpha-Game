@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
 {
-    public async Task<List<CardColonels>> GetCardColonelsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardColonels>> GetCardColonelsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<CardColonels> cardColonels = new List<CardColonels>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -288,7 +287,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
 
         return count;
     }
-    public async Task InsertCardColonelGalleryAsync(string Id, CardColonels cardColonel)
+    public async Task InsertCardColonelGalleryAsync(string userId, string Id, CardColonels cardColonel)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(cardColonel.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -307,7 +306,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@card_colonel_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -366,7 +365,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
                     MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@card_colonel_id", Id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -450,7 +449,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusCardColonelGalleryAsync(string Id)
+    public async Task UpdateStatusCardColonelGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -462,7 +461,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
 
                 string updateSQL = "UPDATE card_colonels_gallery SET status=@status WHERE user_id=@user_id AND card_colonel_id=@card_colonel_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@card_colonel_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -478,7 +477,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarCardColonelGalleryAsync(string Id, double star)
+    public async Task UpdateStarCardColonelGalleryAsync(string userId, string Id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -496,7 +495,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@card_colonel_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -516,7 +515,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@card_colonel_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -535,7 +534,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
             }
         }
     }
-    public async Task UpdateCardColonelGalleryPowerAsync(string Id, CardColonels cardColonel)
+    public async Task UpdateCardColonelGalleryPowerAsync(string userId, string Id, CardColonels cardColonel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -615,7 +614,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
             ";
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@card_colonel_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
@@ -693,7 +692,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
             }
         }
     }
-    public async Task<CardColonels> SumPowerCardColonelsGalleryAsync()
+    public async Task<CardColonels> SumPowerCardColonelsGalleryAsync(string userId)
     {
         CardColonels sumCardColonels = new CardColonels();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -748,7 +747,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

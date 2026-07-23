@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class PuppetsGalleryRepository : IPuppetsGalleryRepository
 {
-    public async Task<List<Puppets>> GetPuppetsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Puppets>> GetPuppetsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Puppets> puppets = new List<Puppets>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -223,7 +222,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
 
         return count;
     }
-    public async Task InsertPuppetGalleryAsync(string Id, Puppets puppet)
+    public async Task InsertPuppetGalleryAsync(string userId, string Id, Puppets puppet)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(puppet.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -242,7 +241,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
                 ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@puppet_id", Id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -301,7 +300,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
                     MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
                     // Thêm param
-                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@puppet_id", Id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -385,7 +384,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusPuppetGalleryAsync(string Id)
+    public async Task UpdateStatusPuppetGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -397,7 +396,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
 
                 string updateSQL = "UPDATE puppets_gallery SET status=@status WHERE user_id=@user_id AND puppet_id=@puppet_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@puppet_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -413,7 +412,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarPuppetGalleryAsync(string Id, double star)
+    public async Task UpdateStarPuppetGalleryAsync(string userId, string Id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -431,7 +430,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
             ";
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@puppet_id", Id);
 
                 await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -451,7 +450,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
                         ";
 
                             MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@puppet_id", Id);
                             updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -470,7 +469,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
             }
         }
     }
-    public async Task UpdatePuppetGalleryPowerAsync(string Id, Puppets puppet)
+    public async Task UpdatePuppetGalleryPowerAsync(string userId, string Id, Puppets puppet)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -550,7 +549,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
             ";
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@puppet_id", Id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
@@ -628,7 +627,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
             }
         }
     }
-    public async Task<Puppets> SumPowerPuppetsGalleryAsync()
+    public async Task<Puppets> SumPowerPuppetsGalleryAsync(string userId)
     {
         Puppets sumPuppets = new Puppets();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -683,7 +682,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

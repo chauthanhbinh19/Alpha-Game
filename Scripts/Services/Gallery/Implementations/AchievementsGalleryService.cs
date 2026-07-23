@@ -21,9 +21,9 @@ public class AchievementsGalleryService : IAchievementsGalleryService
         return _instance;
     }
 
-    public async Task<List<Achievements>> GetAchievementsCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Achievements>> GetAchievementsCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Achievements> list = await _achievementsGalleryRepository.GetAchievementsCollectionAsync(search, pageSize, offset, rare);
+        List<Achievements> list = await _achievementsGalleryRepository.GetAchievementsCollectionAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -33,28 +33,28 @@ public class AchievementsGalleryService : IAchievementsGalleryService
         return await _achievementsGalleryRepository.GetAchievementsCountAsync(search, rare);
     }
 
-    public async Task InsertAchievementsGalleryAsync(string Id, Achievements AchievementFromDB)
+    public async Task InsertAchievementsGalleryAsync(string userId, string Id, Achievements AchievementFromDB)
     {
-        await _achievementsGalleryRepository.InsertAchievementsGalleryAsync(Id, AchievementFromDB);
+        await _achievementsGalleryRepository.InsertAchievementsGalleryAsync(userId, Id, AchievementFromDB);
     }
 
-    public async Task<Achievements> SumPowerAchievementsGalleryAsync()
+    public async Task<Achievements> SumPowerAchievementsGalleryAsync(string userId)
     {
-        return await _achievementsGalleryRepository.SumPowerAchievementsGalleryAsync();
+        return await _achievementsGalleryRepository.SumPowerAchievementsGalleryAsync(userId);
     }
 
-    public async Task UpdateAchievementsGalleryPowerAsync(string Id, Achievements AchievementFromDB)
+    public async Task UpdateAchievementsGalleryPowerAsync(string userId, string Id, Achievements AchievementFromDB)
     {
-        await _achievementsGalleryRepository.UpdateAchievementsGalleryPowerAsync(Id, AchievementFromDB);
+        await _achievementsGalleryRepository.UpdateAchievementsGalleryPowerAsync(userId, Id, AchievementFromDB);
     }
 
-    public async Task UpdateStarAchievementsGalleryAsync(string Id, double star)
+    public async Task UpdateStarAchievementsGalleryAsync(string userId, string Id, double star)
     {
-        await _achievementsGalleryRepository.UpdateStarAchievementsGalleryAsync(Id, star);
+        await _achievementsGalleryRepository.UpdateStarAchievementsGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateStatusAchievementsGalleryAsync(string Id)
+    public async Task UpdateStatusAchievementsGalleryAsync(string userId, string Id)
     {
-        await _achievementsGalleryRepository.UpdateStatusAchievementsGalleryAsync(Id);
+        await _achievementsGalleryRepository.UpdateStatusAchievementsGalleryAsync(userId, Id);
     }
 }

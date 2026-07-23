@@ -20,9 +20,9 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
         return _instance;
     }
 
-    public async Task<List<CardAdmirals>> GetCardAdmiralsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardAdmirals>> GetCardAdmiralsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CardAdmirals> list = await _cardAdmiralsGalleryRepository.GetCardAdmiralsCollectionAsync(search, type, pageSize, offset, rare);
+        List<CardAdmirals> list = await _cardAdmiralsGalleryRepository.GetCardAdmiralsCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
         return await _cardAdmiralsGalleryRepository.GetCardAdmiralsCountAsync(search, type, rare);
     }
 
-    public async Task InsertCardAdmiralGalleryAsync(string Id)
+    public async Task InsertCardAdmiralGalleryAsync(string userId, string Id)
     {
         ICardAdmiralsRepository _repository = new CardAdmiralsRepository();
         CardAdmiralsService _service = new CardAdmiralsService(_repository);
-        await _cardAdmiralsGalleryRepository.InsertCardAdmiralGalleryAsync(Id, await _service.GetCardAdmiralByIdAsync(Id));
+        await _cardAdmiralsGalleryRepository.InsertCardAdmiralGalleryAsync(userId, Id, await _service.GetCardAdmiralByIdAsync(Id));
     }
 
-    public async Task UpdateStatusCardAdmiralGalleryAsync(string Id)
+    public async Task UpdateStatusCardAdmiralGalleryAsync(string userId, string Id)
     {
-        await _cardAdmiralsGalleryRepository.UpdateStatusCardAdmiralGalleryAsync(Id);
+        await _cardAdmiralsGalleryRepository.UpdateStatusCardAdmiralGalleryAsync(userId, Id);
     }
 
-    public async Task<CardAdmirals> SumPowerCardAdmiralsGalleryAsync()
+    public async Task<CardAdmirals> SumPowerCardAdmiralsGalleryAsync(string userId)
     {
-        return await _cardAdmiralsGalleryRepository.SumPowerCardAdmiralsGalleryAsync();
+        return await _cardAdmiralsGalleryRepository.SumPowerCardAdmiralsGalleryAsync(userId);
     }
 
-    public async Task UpdateStarCardAdmiralGalleryAsync(string Id, double star)
+    public async Task UpdateStarCardAdmiralGalleryAsync(string userId, string Id, double star)
     {
-        await _cardAdmiralsGalleryRepository.UpdateStarCardAdmiralGalleryAsync(Id, star);
+        await _cardAdmiralsGalleryRepository.UpdateStarCardAdmiralGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateCardAdmiralGalleryPowerAsync(string Id)
+    public async Task UpdateCardAdmiralGalleryPowerAsync(string userId, string Id)
     {
         ICardAdmiralsRepository _repository = new CardAdmiralsRepository();
         CardAdmiralsService _service = new CardAdmiralsService(_repository);
-        await _cardAdmiralsGalleryRepository.UpdateCardAdmiralGalleryPowerAsync(Id, await _service.GetCardAdmiralByIdAsync(Id));
+        await _cardAdmiralsGalleryRepository.UpdateCardAdmiralGalleryPowerAsync(userId, Id, await _service.GetCardAdmiralByIdAsync(Id));
     }
 }

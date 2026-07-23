@@ -98,7 +98,7 @@ public class MedalsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var medalGalleryService = MedalsGalleryService.Create();
-                    await medalGalleryService.UpdateStatusMedalGalleryAsync(medal.Id);
+                    await medalGalleryService.UpdateStatusMedalGalleryAsync(User.CurrentUserId, medal.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class MedalsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await MedalsGalleryService.Create().UpdateMedalGalleryPowerAsync(medal.Id);
+                    await MedalsGalleryService.Create().UpdateMedalGalleryPowerAsync(User.CurrentUserId, medal.Id);
                 });
             }
             catch (Exception ex)

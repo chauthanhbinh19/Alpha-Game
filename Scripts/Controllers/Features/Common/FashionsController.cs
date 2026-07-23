@@ -331,7 +331,7 @@ public class FashionsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await FashionsGalleryService.Create().InsertFashionGalleryAsync(fashion.Id);
+                    await FashionsGalleryService.Create().InsertFashionGalleryAsync(User.CurrentUserId, fashion.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(fashion.Image);
 

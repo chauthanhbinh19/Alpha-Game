@@ -99,7 +99,7 @@ public class CardGeneralsGalleryController : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 var generalGalleryService = CardGeneralsGalleryService.Create();
-                await generalGalleryService.UpdateStatusCardGeneralGalleryAsync(cardGeneral.Id);
+                await generalGalleryService.UpdateStatusCardGeneralGalleryAsync(User.CurrentUserId, cardGeneral.Id);
                 blockImage.gameObject.SetActive(false);
                 unlockButton.gameObject.SetActive(false);
                 image.color = Color.white;
@@ -127,7 +127,7 @@ public class CardGeneralsGalleryController : MonoBehaviour
             upgradeButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CardGeneralsGalleryService.Create().UpdateCardGeneralGalleryPowerAsync(cardGeneral.Id);
+                await CardGeneralsGalleryService.Create().UpdateCardGeneralGalleryPowerAsync(User.CurrentUserId, cardGeneral.Id);
             });
         }
         GridLayoutGroup gridLayout = contentPanel.GetComponent<GridLayoutGroup>();

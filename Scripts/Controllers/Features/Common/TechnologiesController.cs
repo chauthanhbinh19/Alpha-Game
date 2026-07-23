@@ -326,7 +326,7 @@ public class TechnologiesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await TechnologiesGalleryService.Create().InsertTechnologyGalleryAsync(technology.Id);
+                    await TechnologiesGalleryService.Create().InsertTechnologyGalleryAsync(User.CurrentUserId, technology.Id);
                     currencies = await UserCurrenciesService.Create().GetTechnologiesCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(technology.Image);
 

@@ -98,7 +98,7 @@ public class AvatarsGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var avatarGalleryService = AvatarsGalleryService.Create();
-                    await avatarGalleryService.UpdateStatusAvatarGalleryAsync(avatar.Id);
+                    await avatarGalleryService.UpdateStatusAvatarGalleryAsync(User.CurrentUserId, avatar.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -126,7 +126,7 @@ public class AvatarsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await AvatarsGalleryService.Create().UpdateAvatarGalleryPowerAsync(avatar.Id);
+                    await AvatarsGalleryService.Create().UpdateAvatarGalleryPowerAsync(User.CurrentUserId, avatar.Id);
                 });
             }
             catch (Exception ex)

@@ -20,9 +20,9 @@ public class FoodsGalleryService : IFoodsGalleryService
         return _instance;
     }
 
-    public async Task<List<Foods>> GetFoodsCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Foods>> GetFoodsCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Foods> list = await _foodsGalleryRepository.GetFoodsCollectionAsync(search, pageSize, offset, rare);
+        List<Foods> list = await _foodsGalleryRepository.GetFoodsCollectionAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class FoodsGalleryService : IFoodsGalleryService
         return await _foodsGalleryRepository.GetFoodsCountAsync(search, rare);
     }
 
-    public async Task InsertFoodGalleryAsync(string Id)
+    public async Task InsertFoodGalleryAsync(string userId, string Id)
     {
         IFoodsRepository _repository = new FoodsRepository();
         FoodsService _service = new FoodsService(_repository);
-        await _foodsGalleryRepository.InsertFoodGalleryAsync(Id, await _service.GetFoodByIdAsync(Id));
+        await _foodsGalleryRepository.InsertFoodGalleryAsync(userId, Id, await _service.GetFoodByIdAsync(Id));
     }
 
-    public async Task UpdateStatusFoodGalleryAsync(string Id)
+    public async Task UpdateStatusFoodGalleryAsync(string userId, string Id)
     {
-        await _foodsGalleryRepository.UpdateStatusFoodGalleryAsync(Id);
+        await _foodsGalleryRepository.UpdateStatusFoodGalleryAsync(userId, Id);
     }
 
-    public async Task<Foods> SumPowerFoodsGalleryAsync()
+    public async Task<Foods> SumPowerFoodsGalleryAsync(string userId)
     {
-        return await _foodsGalleryRepository.SumPowerFoodsGalleryAsync();
+        return await _foodsGalleryRepository.SumPowerFoodsGalleryAsync(userId);
     }
 
-    public async Task UpdateStarFoodGalleryAsync(string Id, double star)
+    public async Task UpdateStarFoodGalleryAsync(string userId, string Id, double star)
     {
-        await _foodsGalleryRepository.UpdateStarFoodGalleryAsync(Id, star);
+        await _foodsGalleryRepository.UpdateStarFoodGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateFoodGalleryPowerAsync(string Id)
+    public async Task UpdateFoodGalleryPowerAsync(string userId, string Id)
     {
         IFoodsRepository _repository = new FoodsRepository();
         FoodsService _service = new FoodsService(_repository);
-        await _foodsGalleryRepository.UpdateFoodGalleryPowerAsync(Id, await _service.GetFoodByIdAsync(Id));
+        await _foodsGalleryRepository.UpdateFoodGalleryPowerAsync(userId, Id, await _service.GetFoodByIdAsync(Id));
     }
 }

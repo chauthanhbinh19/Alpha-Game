@@ -97,7 +97,7 @@ public class BuildingsGalleryController : MonoBehaviour
                 unlockButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await BuildingsGalleryService.Create().UpdateStatusBuildingGalleryAsync(building.Id);
+                    await BuildingsGalleryService.Create().UpdateStatusBuildingGalleryAsync(User.CurrentUserId, building.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -125,7 +125,7 @@ public class BuildingsGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await BuildingsGalleryService.Create().UpdateBuildingGalleryPowerAsync(building.Id);
+                    await BuildingsGalleryService.Create().UpdateBuildingGalleryPowerAsync(User.CurrentUserId, building.Id);
                 });
             }
             catch (Exception ex)

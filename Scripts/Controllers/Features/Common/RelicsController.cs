@@ -311,7 +311,7 @@ public class RelicsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await RelicsGalleryService.Create().InsertRelicGalleryAsync(relic.Id);
+                    await RelicsGalleryService.Create().InsertRelicGalleryAsync(User.CurrentUserId, relic.Id);
                     currencies = await UserCurrenciesService.Create().GetRelicsCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(relic.Image);
 

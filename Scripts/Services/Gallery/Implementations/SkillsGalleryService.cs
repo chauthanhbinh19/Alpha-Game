@@ -20,9 +20,9 @@ public class SkillsGalleryService : ISkillsGalleryService
         return _instance;
     }
 
-    public async Task<List<Skills>> GetSkillsCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Skills>> GetSkillsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Skills> list = await _skillsGalleryRepository.GetSkillsCollectionAsync(search, type, pageSize, offset, rare);
+        List<Skills> list = await _skillsGalleryRepository.GetSkillsCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class SkillsGalleryService : ISkillsGalleryService
         return await _skillsGalleryRepository.GetSkillsCountAsync(search, type, rare);
     }
 
-    public async Task InsertSkillGalleryAsync(string Id)
+    public async Task InsertSkillGalleryAsync(string userId, string Id)
     {
         ISkillsRepository _repository = new SkillsRepository();
         SkillsService _service = new SkillsService(_repository);
-        await _skillsGalleryRepository.InsertSkillGalleryAsync(Id, await _service.GetSkillByIdAsync(Id));
+        await _skillsGalleryRepository.InsertSkillGalleryAsync(userId, Id, await _service.GetSkillByIdAsync(Id));
     }
 
-    public async Task UpdateStatusSkillGalleryAsync(string Id)
+    public async Task UpdateStatusSkillGalleryAsync(string userId, string Id)
     {
-        await _skillsGalleryRepository.UpdateStatusSkillGalleryAsync(Id);
+        await _skillsGalleryRepository.UpdateStatusSkillGalleryAsync(userId, Id);
     }
 
-    public async Task<Skills> SumPowerSkillsGalleryAsync()
+    public async Task<Skills> SumPowerSkillsGalleryAsync(string userId)
     {
-        return await _skillsGalleryRepository.SumPowerSkillsGalleryAsync();
+        return await _skillsGalleryRepository.SumPowerSkillsGalleryAsync(userId);
     }
 
-    public async Task UpdateStarSkillGalleryAsync(string Id, double star)
+    public async Task UpdateStarSkillGalleryAsync(string userId, string Id, double star)
     {
-        await _skillsGalleryRepository.UpdateStarSkillGalleryAsync(Id, star);
+        await _skillsGalleryRepository.UpdateStarSkillGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateSkillGalleryPowerAsync(string Id)
+    public async Task UpdateSkillGalleryPowerAsync(string userId, string Id)
     {
         ISkillsRepository _repository = new SkillsRepository();
         SkillsService _service = new SkillsService(_repository);
-        await _skillsGalleryRepository.UpdateSkillGalleryPowerAsync(Id, await _service.GetSkillByIdAsync(Id));
+        await _skillsGalleryRepository.UpdateSkillGalleryPowerAsync(userId, Id, await _service.GetSkillByIdAsync(Id));
     }
 }

@@ -326,7 +326,7 @@ public class RunesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await RunesGalleryService.Create().InsertRuneGalleryAsync(rune.Id);
+                    await RunesGalleryService.Create().InsertRuneGalleryAsync(User.CurrentUserId, rune.Id);
                     currencies = await UserCurrenciesService.Create().GetRunesCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(rune.Image);
 

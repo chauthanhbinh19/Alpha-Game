@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 
 public interface ISymbolsGalleryRepository
 {
-    Task<List<Symbols>> GetSymbolsCollectionAsync(string search, string type, int pageSize, int offset, string rare);
+    Task<List<Symbols>> GetSymbolsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetSymbolsCountAsync(string search, string type, string rare);
-    Task InsertSymbolGalleryAsync(string Id, Symbols SymbolFromDB);
-    Task UpdateStatusSymbolGalleryAsync(string Id);
-    Task UpdateStarSymbolGalleryAsync(string Id, double star);
-    Task UpdateSymbolGalleryPowerAsync(string Id, Symbols SymbolFromDB);
-    Task<Symbols> SumPowerSymbolsGalleryAsync();
+    Task InsertSymbolGalleryAsync(string userId, string Id, Symbols SymbolFromDB);
+    Task UpdateStatusSymbolGalleryAsync(string userId, string Id);
+    Task UpdateStarSymbolGalleryAsync(string userId, string Id, double star);
+    Task UpdateSymbolGalleryPowerAsync(string userId, string Id, Symbols SymbolFromDB);
+    Task<Symbols> SumPowerSymbolsGalleryAsync(string userId);
 }

@@ -101,7 +101,7 @@ public class TalismansGalleryController : MonoBehaviour
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                     var talismanGalleryService = TalismansGalleryService.Create();
-                    await talismanGalleryService.UpdateStatusTalismanGalleryAsync(talisman.Id);
+                    await talismanGalleryService.UpdateStatusTalismanGalleryAsync(User.CurrentUserId, talisman.Id);
                     blockImage.gameObject.SetActive(false);
                     unlockButton.gameObject.SetActive(false);
                     image.color = Color.white;
@@ -129,7 +129,7 @@ public class TalismansGalleryController : MonoBehaviour
                 upgradeButton.onClick.AddListener(async () =>
                 {
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                    await TalismansGalleryService.Create().UpdateTalismanGalleryPowerAsync(talisman.Id);
+                    await TalismansGalleryService.Create().UpdateTalismanGalleryPowerAsync(User.CurrentUserId, talisman.Id);
                 });
             }
             catch (Exception ex)

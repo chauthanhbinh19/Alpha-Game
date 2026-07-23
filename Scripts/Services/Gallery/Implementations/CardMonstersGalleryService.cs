@@ -20,9 +20,9 @@ public class CardMonstersGalleryService : ICardMonstersGalleryService
         return _instance;
     }
 
-    public async Task<List<CardMonsters>> GetCardMonstersCollectionAsync(string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardMonsters>> GetCardMonstersCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CardMonsters> list = await _cardMonstersGalleryRepository.GetCardMonstersCollectionAsync(search, type, pageSize, offset, rare);
+        List<CardMonsters> list = await _cardMonstersGalleryRepository.GetCardMonstersCollectionAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
@@ -32,32 +32,32 @@ public class CardMonstersGalleryService : ICardMonstersGalleryService
         return await _cardMonstersGalleryRepository.GetCardMonstersCountAsync(search, type, rare);
     }
 
-    public async Task InsertCardMonsterGalleryAsync(string Id)
+    public async Task InsertCardMonsterGalleryAsync(string userId, string Id)
     {
         ICardMonstersRepository _repository = new CardMonstersRepository();
         CardMonstersService _service = new CardMonstersService(_repository);
-        await _cardMonstersGalleryRepository.InsertCardMonsterGalleryAsync(Id, await _service.GetCardMonsterByIdAsync(Id));
+        await _cardMonstersGalleryRepository.InsertCardMonsterGalleryAsync(userId, Id, await _service.GetCardMonsterByIdAsync(Id));
     }
 
-    public async Task UpdateStatusCardMonsterGalleryAsync(string Id)
+    public async Task UpdateStatusCardMonsterGalleryAsync(string userId, string Id)
     {
-        await _cardMonstersGalleryRepository.UpdateStatusCardMonsterGalleryAsync(Id);
+        await _cardMonstersGalleryRepository.UpdateStatusCardMonsterGalleryAsync(userId, Id);
     }
 
-    public async Task<CardMonsters> SumPowerCardMonstersGalleryAsync()
+    public async Task<CardMonsters> SumPowerCardMonstersGalleryAsync(string userId)
     {
-        return await _cardMonstersGalleryRepository.SumPowerCardMonstersGalleryAsync();
+        return await _cardMonstersGalleryRepository.SumPowerCardMonstersGalleryAsync(userId);
     }
 
-    public async Task UpdateStarCardMonsterGalleryAsync(string Id, double star)
+    public async Task UpdateStarCardMonsterGalleryAsync(string userId, string Id, double star)
     {
-        await _cardMonstersGalleryRepository.UpdateStarCardMonsterGalleryAsync(Id, star);
+        await _cardMonstersGalleryRepository.UpdateStarCardMonsterGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateCardMonsterGalleryPowerAsync(string Id)
+    public async Task UpdateCardMonsterGalleryPowerAsync(string userId, string Id)
     {
         ICardMonstersRepository _repository = new CardMonstersRepository();
         CardMonstersService _service = new CardMonstersService(_repository);
-        await _cardMonstersGalleryRepository.UpdateCardMonsterGalleryPowerAsync(Id, await _service.GetCardMonsterByIdAsync(Id));
+        await _cardMonstersGalleryRepository.UpdateCardMonsterGalleryPowerAsync(userId, Id, await _service.GetCardMonsterByIdAsync(Id));
     }
 }

@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 
 public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
 {
-    public async Task<List<Collaborations>> GetCollaborationsCollectionAsync(string search, int pageSize, int offset, string rare)
+    public async Task<List<Collaborations>> GetCollaborationsCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Collaborations> collaborations = new List<Collaborations>();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -202,7 +201,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
 
         return count;
     }
-    public async Task InsertCollaborationGalleryAsync(string Id, Collaborations collaboration)
+    public async Task InsertCollaborationGalleryAsync(string userId, string Id, Collaborations collaboration)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -222,7 +221,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@collaboration_id", Id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -270,7 +269,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
 
                         using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@collaboration_id", Id);
                             insertCommand.Parameters.AddWithValue("@status", "pending");
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
@@ -362,7 +361,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusCollaborationGalleryAsync(string Id)
+    public async Task UpdateStatusCollaborationGalleryAsync(string userId, string Id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -378,7 +377,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@collaboration_id", Id);
                     updateCommand.Parameters.AddWithValue("@status", "available");
 
@@ -395,7 +394,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarCollaborationGalleryAsync(string id, double star)
+    public async Task UpdateStarCollaborationGalleryAsync(string userId, string id, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -414,7 +413,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@collaboration_id", id);
 
                     await using (var reader = await checkCommand.ExecuteReaderAsync())
@@ -436,7 +435,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
 
                                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                                 {
-                                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                                     updateCommand.Parameters.AddWithValue("@collaboration_id", id);
                                     updateCommand.Parameters.AddWithValue("@temp_star", star);
 
@@ -457,7 +456,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
             }
         }
     }
-    public async Task UpdateCollaborationGalleryPowerAsync(string id, Collaborations collaboration)
+    public async Task UpdateCollaborationGalleryPowerAsync(string userId, string id, Collaborations collaboration)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -539,7 +538,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
                 // IDs
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@collaboration_id", id);
 
                 // Base flags
@@ -623,7 +622,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
             }
         }
     }
-    public async Task<Collaborations> SumPowerCollaborationsGalleryAsync()
+    public async Task<Collaborations> SumPowerCollaborationsGalleryAsync(string userId)
     {
         Collaborations sumCollaborations = new Collaborations();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -685,7 +684,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
             ";
 
                 MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                 {
