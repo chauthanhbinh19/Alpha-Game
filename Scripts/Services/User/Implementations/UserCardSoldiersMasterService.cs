@@ -19,18 +19,18 @@ public class UserCardSoldiersMasterService : IUserCardSoldiersMasterService
         return _instance;
     }
 
-    public async Task<Master> GetUserCardSoldierMasterAsync(string userId, string id, string card_id)
+    public async Task<Master> GetUserCardSoldierMasterAsync(string userId, string id, string cardId)
     {
-        return await _userCardSoldiersMasterRepository.GetUserCardSoldierMasterAsync(userId, id, card_id);
+        return await _userCardSoldiersMasterRepository.GetUserCardSoldierMasterAsync(userId, id, cardId);
     }
 
-    public async Task InsertOrUpdateUserCardSoldierMasterAsync(string userId, UserMasters userMaster, string card_id)
+    public async Task InsertOrUpdateUserCardSoldierMasterAsync(string userId, UserMasters userMaster, string cardId)
     {
-        await _userCardSoldiersMasterRepository.InsertOrUpdateUserCardSoldierMasterAsync(userId, userMaster, card_id);
+        await _userCardSoldiersMasterRepository.InsertOrUpdateUserCardSoldierMasterAsync(userId, userMaster, cardId);
     }
 
-    public async Task<Master> GetSumUserCardSoldiersMasterAsync(string userId, string card_id)
+    public async Task<Master> GetSumUserCardSoldiersMasterAsync(string userId, string cardId)
     {
-        return await _userCardSoldiersMasterRepository.GetSumUserCardSoldiersMasterAsync(userId, card_id);
+        return await _userCardSoldiersMasterRepository.GetSumUserCardSoldiersMasterAsync(userId, cardId);
     }
 }

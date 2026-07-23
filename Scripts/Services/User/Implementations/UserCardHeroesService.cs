@@ -656,14 +656,14 @@ public class UserCardHeroesService : IUserCardHeroesService
         return await _userCardHeroesRepository.GetUserCardHeroesCountAsync(userId, search, type, rare);
     }
 
-    public async Task<int> GetUserCardHeroesTeamsPositionCountAsync(string userId, string team_id, string position)
+    public async Task<int> GetUserCardHeroesTeamsPositionCountAsync(string userId, string teamId, string position)
     {
-        return await _userCardHeroesRepository.GetUserCardHeroesTeamsPositionCountAsync(userId, team_id, position);
+        return await _userCardHeroesRepository.GetUserCardHeroesTeamsPositionCountAsync(userId, teamId, position);
     }
 
-    public async Task<int> GetUserCardHeroesTeamsCountAsync(string userId, string team_id)
+    public async Task<int> GetUserCardHeroesTeamsCountAsync(string userId, string teamId)
     {
-        return await _userCardHeroesRepository.GetUserCardHeroesTeamsCountAsync(userId, team_id);
+        return await _userCardHeroesRepository.GetUserCardHeroesTeamsCountAsync(userId, teamId);
     }
 
     public async Task<bool> InsertUserCardHeroAsync(string userId, CardHeroes cardHero)
@@ -686,9 +686,9 @@ public class UserCardHeroesService : IUserCardHeroesService
         return await _userCardHeroesRepository.UpdateUserCardHeroBreakthroughAsync(userId, cardHero, star, quantity);
     }
 
-    public async Task<bool> UpdateTeamUserCardHeroAsync(string userId, string team_id, string position, string card_id)
+    public async Task<bool> UpdateTeamUserCardHeroAsync(string userId, string teamId, string position, string cardId)
     {
-        return await _userCardHeroesRepository.UpdateTeamUserCardHeroAsync(userId, team_id, position, card_id);
+        return await _userCardHeroesRepository.UpdateTeamUserCardHeroAsync(userId, teamId, position, cardId);
     }
 
     public async Task<CardHeroes> GetUserCardHeroByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)

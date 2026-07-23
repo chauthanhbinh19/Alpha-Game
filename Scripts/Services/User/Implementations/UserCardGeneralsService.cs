@@ -564,9 +564,9 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         return list;
     }
 
-    public async Task<int> GetUserCardGeneralsTeamsPositionCountAsync(string userId, string team_id, string position)
+    public async Task<int> GetUserCardGeneralsTeamsPositionCountAsync(string userId, string teamId, string position)
     {
-        return await _userCardGeneralsRepository.GetUserCardGeneralsTeamsPositionCountAsync(userId, team_id, position);
+        return await _userCardGeneralsRepository.GetUserCardGeneralsTeamsPositionCountAsync(userId, teamId, position);
     }
 
     public async Task<Dictionary<string, int>> GetUniqueUserCardGeneralsTypesTeamAsync(string userId, string teamId)
@@ -574,9 +574,9 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         return await _userCardGeneralsRepository.GetUniqueUserCardGeneralsTypesTeamAsync(userId, teamId);
     }
 
-    public async Task<bool> UpdateTeamUserCardGeneralAsync(string userId, string team_id, string position, string card_id)
+    public async Task<bool> UpdateTeamUserCardGeneralAsync(string userId, string teamId, string position, string cardId)
     {
-        return await _userCardGeneralsRepository.UpdateTeamUserCardGeneralAsync(userId, team_id, position, card_id);
+        return await _userCardGeneralsRepository.UpdateTeamUserCardGeneralAsync(userId, teamId, position, cardId);
     }
 
     public async Task<int> GetUserCardGeneralsCountAsync(string userId, string search, string type, string rare)
@@ -584,9 +584,9 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         return await _userCardGeneralsRepository.GetUserCardGeneralsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<int> GetUserCardGeneralsTeamsCountAsync(string userId, string team_id)
+    public async Task<int> GetUserCardGeneralsTeamsCountAsync(string userId, string teamId)
     {
-        return await _userCardGeneralsRepository.GetUserCardGeneralsTeamsCountAsync(userId, team_id);
+        return await _userCardGeneralsRepository.GetUserCardGeneralsTeamsCountAsync(userId, teamId);
     }
 
     public async Task<bool> InsertUserCardGeneralAsync(string userId, CardGenerals cardGeneral)

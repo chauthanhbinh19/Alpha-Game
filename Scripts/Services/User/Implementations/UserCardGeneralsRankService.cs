@@ -19,9 +19,9 @@ public class UserCardGeneralsRankService : IUserCardGeneralsRankService
         return _instance;
     }
 
-    public async Task<Rank> GetUserCardGeneralRankAsync(string userId, string id, string card_id)
+    public async Task<Rank> GetUserCardGeneralRankAsync(string userId, string id, string cardId)
     {
-        return await _userCardGeneralsRankRepository.GetUserCardGeneralRankAsync(userId, id, card_id);
+        return await _userCardGeneralsRankRepository.GetUserCardGeneralRankAsync(userId, id, cardId);
     }
 
     public async Task InsertOrUpdateUserCardGeneralRankAsync(string userId, UserRanks userRank, string cardId)
@@ -29,8 +29,8 @@ public class UserCardGeneralsRankService : IUserCardGeneralsRankService
         await _userCardGeneralsRankRepository.InsertOrUpdateUserCardGeneralRankAsync(userId, userRank, cardId);
     }
 
-    public async Task<Rank> GetSumUserCardGeneralsRankAsync(string userId, string card_id)
+    public async Task<Rank> GetSumUserCardGeneralsRankAsync(string userId, string cardId)
     {
-        return await _userCardGeneralsRankRepository.GetSumUserCardGeneralsRankAsync(userId, card_id);
+        return await _userCardGeneralsRankRepository.GetSumUserCardGeneralsRankAsync(userId, cardId);
     }
 }

@@ -653,9 +653,9 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         return await _userCardAdmiralsRepository.GetUniqueUserCardAdmiralsTypesTeamAsync(userId, teamId);
     }
 
-    public async Task<bool> UpdateTeamUserCardAdmiralAsync(string userId, string team_id, string position, string card_id)
+    public async Task<bool> UpdateTeamUserCardAdmiralAsync(string userId, string teamId, string position, string cardId)
     {
-        return await _userCardAdmiralsRepository.UpdateTeamUserCardAdmiralAsync(userId, team_id, position, card_id);
+        return await _userCardAdmiralsRepository.UpdateTeamUserCardAdmiralAsync(userId, teamId, position, cardId);
     }
 
     public async Task<int> GetUserCardAdmiralsCountAsync(string userId, string search, string type, string rare)
@@ -663,14 +663,14 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
         return await _userCardAdmiralsRepository.GetUserCardAdmiralsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<int> GetUserCardAdmiralsTeamsPositionCountAsync(string userId, string team_id, string position)
+    public async Task<int> GetUserCardAdmiralsTeamsPositionCountAsync(string userId, string teamId, string position)
     {
-        return await _userCardAdmiralsRepository.GetUserCardAdmiralsTeamsPositionCountAsync(userId, team_id, position);
+        return await _userCardAdmiralsRepository.GetUserCardAdmiralsTeamsPositionCountAsync(userId, teamId, position);
     }
 
-    public async Task<int> GetUserCardAdmiralsTeamsCountAsync(string userId, string team_id)
+    public async Task<int> GetUserCardAdmiralsTeamsCountAsync(string userId, string teamId)
     {
-        return await _userCardAdmiralsRepository.GetUserCardAdmiralsTeamsCountAsync(userId, team_id);
+        return await _userCardAdmiralsRepository.GetUserCardAdmiralsTeamsCountAsync(userId, teamId);
     }
 
     public async Task<bool> InsertUserCardAdmiralAsync(string userId, CardAdmirals cardAdmiral)

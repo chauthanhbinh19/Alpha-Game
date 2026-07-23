@@ -574,14 +574,14 @@ public class UserCardMonstersService : IUserCardMonstersService
         return await _userCardMonstersRepository.GetUserCardMonstersCountAsync(userId, search, type, rare);
     }
 
-    public async Task<int> GetUserCardMonstersTeamsPositionCountAsync(string userId, string team_id, string position)
+    public async Task<int> GetUserCardMonstersTeamsPositionCountAsync(string userId, string teamId, string position)
     {
-        return await _userCardMonstersRepository.GetUserCardMonstersTeamsPositionCountAsync(userId, team_id, position);
+        return await _userCardMonstersRepository.GetUserCardMonstersTeamsPositionCountAsync(userId, teamId, position);
     }
 
-    public async Task<int> GetUserCardMonstersTeamsCountAsync(string userId, string team_id)
+    public async Task<int> GetUserCardMonstersTeamsCountAsync(string userId, string teamId)
     {
-        return await _userCardMonstersRepository.GetUserCardMonstersTeamsCountAsync(userId, team_id);
+        return await _userCardMonstersRepository.GetUserCardMonstersTeamsCountAsync(userId, teamId);
     }
 
     public async Task<bool> InsertUserCardMonsterAsync(string userId, CardMonsters cardMonster)
@@ -604,9 +604,9 @@ public class UserCardMonstersService : IUserCardMonstersService
         return await _userCardMonstersRepository.UpdateUserCardMonsterBreakthroughAsync(userId, cardMonster, star, quantity);
     }
 
-    public async Task<bool> UpdateTeamUserCardMonsterAsync(string userId, string team_id, string position, string card_id)
+    public async Task<bool> UpdateTeamUserCardMonsterAsync(string userId, string teamId, string position, string cardId)
     {
-        return await _userCardMonstersRepository.UpdateTeamUserCardMonsterAsync(userId, team_id, position, card_id);
+        return await _userCardMonstersRepository.UpdateTeamUserCardMonsterAsync(userId, teamId, position, cardId);
     }
 
     public async Task<CardMonsters> GetUserCardMonsterByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)

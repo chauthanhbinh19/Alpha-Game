@@ -19,9 +19,9 @@ public class UserBooksRankService : IUserBooksRankService
         return _instance;
     }
 
-    public async Task<Rank> GetUserBookRankAsync(string userId, string id, string card_id)
+    public async Task<Rank> GetUserBookRankAsync(string userId, string id, string cardId)
     {
-        return await _userBooksRankRepository.GetUserBookRankAsync(userId, id, card_id);
+        return await _userBooksRankRepository.GetUserBookRankAsync(userId, id, cardId);
     }
 
     public async Task InsertOrUpdateUserBookRankAsync(string userId, UserRanks userRank, string cardId)
@@ -29,8 +29,8 @@ public class UserBooksRankService : IUserBooksRankService
         await _userBooksRankRepository.InsertOrUpdateUserBookRankAsync(userId, userRank, cardId);
     }
 
-    public async Task<Rank> GetSumUserBooksRankAsync(string userId, string card_id)
+    public async Task<Rank> GetSumUserBooksRankAsync(string userId, string cardId)
     {
-        return await _userBooksRankRepository.GetSumUserBooksRankAsync(userId, card_id);
+        return await _userBooksRankRepository.GetSumUserBooksRankAsync(userId, cardId);
     }
 }

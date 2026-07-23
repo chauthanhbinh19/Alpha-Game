@@ -438,9 +438,9 @@ public class UserPetsService : IUserPetsService
         return await _userPetsRepository.UpdateUserPetBreakthroughAsync(userId, pet, star, quantity);
     }
 
-    public async Task<bool> UpdateTeamUserPetAsync(string userId, string team_id, string card_id)
+    public async Task<bool> UpdateTeamUserPetAsync(string userId, string teamId, string cardId)
     {
-        return await _userPetsRepository.UpdateTeamUserPetAsync(userId, team_id, card_id);
+        return await _userPetsRepository.UpdateTeamUserPetAsync(userId, teamId, cardId);
     }
 
     public async Task<Pets> GetUserPetByIdAsync(string userId, string Id)

@@ -436,9 +436,9 @@ public class UserBooksService : IUserBooksService
         return await _userBooksRepository.UpdateUserBookBreakthroughAsync(userId, book, star, quantity);
     }
 
-    public async Task<bool> UpdateTeamUserBookAsync(string userId, string team_id, string position, string book_id)
+    public async Task<bool> UpdateTeamUserBookAsync(string userId, string teamId, string position, string book_id)
     {
-        return await _userBooksRepository.UpdateTeamUserBookAsync(userId, team_id, position, book_id);
+        return await _userBooksRepository.UpdateTeamUserBookAsync(userId, teamId, position, book_id);
     }
 
     public async Task<Books> GetUserBookByIdAsync(string userId, string Id)

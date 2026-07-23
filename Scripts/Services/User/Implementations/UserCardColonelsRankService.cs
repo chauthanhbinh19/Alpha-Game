@@ -19,9 +19,9 @@ public class UserCardColonelsRankService : IUserCardColonelsRankService
         return _instance;
     }
 
-    public async Task<Rank> GetUserCardColonelRankAsync(string userId, string id, string card_id)
+    public async Task<Rank> GetUserCardColonelRankAsync(string userId, string id, string cardId)
     {
-        return await _userCardColonelsRankRepository.GetUserCardColonelRankAsync(userId, id, card_id);
+        return await _userCardColonelsRankRepository.GetUserCardColonelRankAsync(userId, id, cardId);
     }
 
     public async Task InsertOrUpdateUserCardColonelRankAsync(string userId, UserRanks userRank, string cardId)
@@ -29,8 +29,8 @@ public class UserCardColonelsRankService : IUserCardColonelsRankService
         await _userCardColonelsRankRepository.InsertOrUpdateUserCardColonelRankAsync(userId, userRank, cardId);
     }
 
-    public async Task<Rank> GetSumUserCardColonelsRankAsync(string userId, string card_id)
+    public async Task<Rank> GetSumUserCardColonelsRankAsync(string userId, string cardId)
     {
-        return await _userCardColonelsRankRepository.GetSumUserCardColonelsRankAsync(userId, card_id);
+        return await _userCardColonelsRankRepository.GetSumUserCardColonelsRankAsync(userId, cardId);
     }
 }

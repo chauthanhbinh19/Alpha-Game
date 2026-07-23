@@ -19,18 +19,18 @@ public class UserBooksMasterService : IUserBooksMasterService
         return _instance;
     }
 
-    public async Task<Master> GetUserBookMasterAsync(string userId, string id, string card_id)
+    public async Task<Master> GetUserBookMasterAsync(string userId, string id, string cardId)
     {
-        return await _userBooksMasterRepository.GetUserBookMasterAsync(userId, id, card_id);
+        return await _userBooksMasterRepository.GetUserBookMasterAsync(userId, id, cardId);
     }
 
-    public async Task InsertOrUpdateUserBookMasterAsync(string userId, UserMasters userMaster, string card_id)
+    public async Task InsertOrUpdateUserBookMasterAsync(string userId, UserMasters userMaster, string cardId)
     {
-        await _userBooksMasterRepository.InsertOrUpdateUserBookMasterAsync(userId, userMaster, card_id);
+        await _userBooksMasterRepository.InsertOrUpdateUserBookMasterAsync(userId, userMaster, cardId);
     }
 
-    public async Task<Master> GetSumUserBooksMasterAsync(string userId, string card_id)
+    public async Task<Master> GetSumUserBooksMasterAsync(string userId, string cardId)
     {
-        return await _userBooksMasterRepository.GetSumUserBooksMasterAsync(userId, card_id);
+        return await _userBooksMasterRepository.GetSumUserBooksMasterAsync(userId, cardId);
     }
 }

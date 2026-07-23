@@ -569,9 +569,9 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         return await _userCardMilitariesRepository.GetUniqueUserCardMilitariesTypesTeamAsync(userId, teamId);
     }
 
-    public async Task<bool> UpdateTeamUserCardMilitaryAsync(string userId, string team_id, string position, string card_id)
+    public async Task<bool> UpdateTeamUserCardMilitaryAsync(string userId, string teamId, string position, string cardId)
     {
-        return await _userCardMilitariesRepository.UpdateTeamUserCardMilitaryAsync(userId, team_id, position, card_id);
+        return await _userCardMilitariesRepository.UpdateTeamUserCardMilitaryAsync(userId, teamId, position, cardId);
     }
 
     public async Task<int> GetUserCardMilitariesCountAsync(string userId, string search, string type, string rare)
@@ -579,14 +579,14 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         return await _userCardMilitariesRepository.GetUserCardMilitariesCountAsync(userId, search, type, rare);
     }
 
-    public async Task<int> GetUserCardMilitariesTeamsPositionCountAsync(string userId, string team_id, string position)
+    public async Task<int> GetUserCardMilitariesTeamsPositionCountAsync(string userId, string teamId, string position)
     {
-        return await _userCardMilitariesRepository.GetUserCardMilitariesTeamsPositionCountAsync(userId, team_id, position);
+        return await _userCardMilitariesRepository.GetUserCardMilitariesTeamsPositionCountAsync(userId, teamId, position);
     }
 
-    public async Task<int> GetUserCardMilitariesTeamsCountAsync(string userId, string team_id)
+    public async Task<int> GetUserCardMilitariesTeamsCountAsync(string userId, string teamId)
     {
-        return await _userCardMilitariesRepository.GetUserCardMilitariesTeamsCountAsync(userId, team_id);
+        return await _userCardMilitariesRepository.GetUserCardMilitariesTeamsCountAsync(userId, teamId);
     }
 
     public async Task<bool> InsertUserCardMilitaryAsync(string userId, CardMilitaries cardMilitary)
