@@ -25,7 +25,7 @@ public class UserCardGeneralsService : IUserCardGeneralsService
     {
         foreach (var c in CardGeneralsList)
         {
-            Equipments equipments = await UserEquipmentsService.Create().GetAllEquipmentsByCardGeneralIdAsync(userId, c.Id);
+            Equipments equipments = await UserEquipmentsService.Create().GetAllUserEquipmentsByCardGeneralIdAsync(userId, c.Id);
             c.Health = c.Health + equipments.Health + equipments.SpecialHealth;
             c.PhysicalAttack = c.PhysicalAttack + equipments.PhysicalAttack + equipments.SpecialPhysicalAttack;
             c.PhysicalDefense = c.PhysicalDefense + equipments.PhysicalDefense + equipments.SpecialPhysicalDefense;

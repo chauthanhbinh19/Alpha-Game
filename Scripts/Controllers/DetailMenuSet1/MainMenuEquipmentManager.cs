@@ -687,7 +687,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         ButtonEvent.Instance.Close(SlotPanel);
 
         List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetCardHeroesEquipmentsAsync(User.CurrentUserId, cardHero.Id, MainType);
+        equipments = await UserEquipmentsService.Create().GetUserCardHeroesEquipmentsAsync(User.CurrentUserId, cardHero.Id, MainType);
         equipments = equipments.Where(e => e.Set == Set).ToList();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardHero.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
@@ -783,7 +783,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         ButtonEvent.Instance.Close(SlotPanel);
 
         List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetCardCaptainsEquipmentsAsync(User.CurrentUserId, cardCaptain.Id, MainType);
+        equipments = await UserEquipmentsService.Create().GetUserCardCaptainsEquipmentsAsync(User.CurrentUserId, cardCaptain.Id, MainType);
         equipments = equipments.Where(e => e.Set == Set).ToList();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardCaptain.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
@@ -879,7 +879,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         ButtonEvent.Instance.Close(SlotPanel);
 
         List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetCardColonelsEquipmentsAsync(User.CurrentUserId, cardColonel.Id, MainType);
+        equipments = await UserEquipmentsService.Create().GetUserCardColonelsEquipmentsAsync(User.CurrentUserId, cardColonel.Id, MainType);
         equipments = equipments.Where(e => e.Set == Set).ToList();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardColonel.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
@@ -975,7 +975,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         ButtonEvent.Instance.Close(SlotPanel);
 
         List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetCardGeneralsEquipmentsAsync(User.CurrentUserId, cardGeneral.Id, MainType);
+        equipments = await UserEquipmentsService.Create().GetUserCardGeneralsEquipmentsAsync(User.CurrentUserId, cardGeneral.Id, MainType);
         equipments = equipments.Where(e => e.Set == Set).ToList();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardGeneral.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
@@ -1071,7 +1071,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         ButtonEvent.Instance.Close(SlotPanel);
 
         List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetCardAdmiralsEquipmentsAsync(User.CurrentUserId, cardAdmiral.Id, MainType);
+        equipments = await UserEquipmentsService.Create().GetUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, cardAdmiral.Id, MainType);
         equipments = equipments.Where(e => e.Set == Set).ToList();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmiral.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
@@ -1167,7 +1167,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         ButtonEvent.Instance.Close(SlotPanel);
 
         List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetCardMonstersEquipmentsAsync(User.CurrentUserId, cardMonster.Id, MainType);
+        equipments = await UserEquipmentsService.Create().GetUserCardMonstersEquipmentsAsync(User.CurrentUserId, cardMonster.Id, MainType);
         equipments = equipments.Where(e => e.Set == Set).ToList();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardMonster.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
@@ -1263,7 +1263,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         ButtonEvent.Instance.Close(SlotPanel);
 
         List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetCardMilitariesEquipmentsAsync(User.CurrentUserId, cardMilitary.Id, MainType);
+        equipments = await UserEquipmentsService.Create().GetUserCardMilitariesEquipmentsAsync(User.CurrentUserId, cardMilitary.Id, MainType);
         equipments = equipments.Where(e => e.Set == Set).ToList();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardMilitary.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
@@ -1359,7 +1359,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         ButtonEvent.Instance.Close(SlotPanel);
 
         List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetCardSpellsEquipmentsAsync(User.CurrentUserId, cardSpell.Id, MainType);
+        equipments = await UserEquipmentsService.Create().GetUserCardSpellsEquipmentsAsync(User.CurrentUserId, cardSpell.Id, MainType);
         equipments = equipments.Where(e => e.Set == Set).ToList();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardSpell.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
@@ -1455,7 +1455,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         ButtonEvent.Instance.Close(SlotPanel);
 
         List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetBooksEquipmentsAsync(User.CurrentUserId, book.Id, MainType);
+        equipments = await UserEquipmentsService.Create().GetUserBooksEquipmentsAsync(User.CurrentUserId, book.Id, MainType);
         equipments = equipments.Where(e => e.Set == Set).ToList();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(book.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
@@ -1551,7 +1551,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
         ButtonEvent.Instance.Close(SlotPanel);
 
         List<Equipments> equipments = new List<Equipments>();
-        equipments = await UserEquipmentsService.Create().GetPetsEquipmentsAsync(User.CurrentUserId, pet.Id, MainType);
+        equipments = await UserEquipmentsService.Create().GetUserPetsEquipmentsAsync(User.CurrentUserId, pet.Id, MainType);
         equipments = equipments.Where(e => e.Set == Set).ToList();
         string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(pet.Image);
         Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
@@ -1853,43 +1853,43 @@ public class MainMenuEquipmentManager : MonoBehaviour
         List<Equipments> equipments = new List<Equipments>();
         if (data is CardHeroes cardHero)
         {
-            equipments = await UserEquipmentsService.Create().GetAllCardHeroesEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardHeroesEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
         }
         else if (data is CardCaptains cardCaptain)
         {
-            equipments = await UserEquipmentsService.Create().GetAllCardCaptainsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardCaptainsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
         }
         else if (data is CardColonels cardColonel)
         {
-            equipments = await UserEquipmentsService.Create().GetAllCardColonelsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardColonelsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
         }
         else if (data is CardGenerals cardGeneral)
         {
-            equipments = await UserEquipmentsService.Create().GetAllCardGeneralsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardGeneralsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
         }
         else if (data is CardAdmirals cardAdmiral)
         {
-            equipments = await UserEquipmentsService.Create().GetAllCardAdmiralsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
         }
         else if (data is CardMonsters cardMonster)
         {
-            equipments = await UserEquipmentsService.Create().GetAllCardMonstersEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardMonstersEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
         }
         else if (data is CardMilitaries cardMilitary)
         {
-            equipments = await UserEquipmentsService.Create().GetAllCardMilitariesEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardMilitariesEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
         }
         else if (data is CardSpells cardSpell)
         {
-            equipments = await UserEquipmentsService.Create().GetAllCardSpellsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserCardSpellsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
         }
         else if (data is Books book)
         {
-            equipments = await UserEquipmentsService.Create().GetAllBooksEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserBooksEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
         }
         else if (data is Pets pet)
         {
-            equipments = await UserEquipmentsService.Create().GetAllPetsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
+            equipments = await UserEquipmentsService.Create().GetAllUserPetsEquipmentsAsync(User.CurrentUserId, MainType, PageSize, Offset, statusToggle);
         }
         equipments = equipments.Where(e => e.Set == Set).ToList();
         int totalRecord = await UserEquipmentsService.Create().GetUserEquipmentsCountAsync(User.CurrentUserId, Search, MainType, Rare);
@@ -1928,7 +1928,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Destroy(PopupEquipmentObject);
                 if (data is CardHeroes cardHero)
                 {
-                    await UserEquipmentsService.Create().InsertCardHeroEquipmentsAsync(User.CurrentUserId, (string)cardHero.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertUserCardHeroEquipmentsAsync(User.CurrentUserId, (string)cardHero.Id, equipment, position);
                     await CreateCardHeroesEquipmentsAsync(cardHero);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1937,7 +1937,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardCaptains cardCaptain)
                 {
-                    await UserEquipmentsService.Create().InsertCardCaptainEquipmentsAsync(User.CurrentUserId, cardCaptain.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertUserCardCaptainEquipmentsAsync(User.CurrentUserId, cardCaptain.Id, equipment, position);
                     await CreateCardCaptainsEquipmentsAsync(cardCaptain);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1946,7 +1946,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardColonels cardColonel)
                 {
-                    await UserEquipmentsService.Create().InsertCardColonelEquipmentsAsync(User.CurrentUserId, cardColonel.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertUserCardColonelEquipmentsAsync(User.CurrentUserId, cardColonel.Id, equipment, position);
                     await CreateCardColonelsEquipmentsAsync(cardColonel);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1955,7 +1955,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardGenerals cardGeneral)
                 {
-                    await UserEquipmentsService.Create().InsertCardGeneralEquipmentsAsync(User.CurrentUserId, cardGeneral.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertUserCardGeneralEquipmentsAsync(User.CurrentUserId, cardGeneral.Id, equipment, position);
                     await CreateCardGeneralsEquipmentsAsync(cardGeneral);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1964,7 +1964,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardAdmirals cardAdmiral)
                 {
-                    await UserEquipmentsService.Create().InsertCardAdmiralEquipmentsAsync(User.CurrentUserId, cardAdmiral.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertUserCardAdmiralEquipmentsAsync(User.CurrentUserId, cardAdmiral.Id, equipment, position);
                     await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1973,7 +1973,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardMonsters cardMonster)
                 {
-                    await UserEquipmentsService.Create().InsertCardMonsterEquipmentsAsync(User.CurrentUserId, cardMonster.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertUserCardMonsterEquipmentsAsync(User.CurrentUserId, cardMonster.Id, equipment, position);
                     await CreateCardMonstersEquipmentsAsync(cardMonster);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1982,7 +1982,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardMilitaries cardMilitary)
                 {
-                    await UserEquipmentsService.Create().InsertCardMilitaryEquipmentsAsync(User.CurrentUserId, cardMilitary.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertUserCardMilitaryEquipmentsAsync(User.CurrentUserId, cardMilitary.Id, equipment, position);
                     await CreateCardMilitaryEquipmentsAsync(cardMilitary);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1991,7 +1991,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardSpells cardSpell)
                 {
-                    await UserEquipmentsService.Create().InsertCardSpellEquipmentsAsync(User.CurrentUserId, cardSpell.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertUserCardSpellEquipmentsAsync(User.CurrentUserId, cardSpell.Id, equipment, position);
                     await CreateCardSpellEquipmentsAsync(cardSpell);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -2000,7 +2000,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is Books book)
                 {
-                    await UserEquipmentsService.Create().InsertBookEquipmentsAsync(User.CurrentUserId, book.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertUserBookEquipmentsAsync(User.CurrentUserId, book.Id, equipment, position);
                     await CreateBooksEquipmentsAsync(book);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -2009,7 +2009,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is Pets pet)
                 {
-                    await UserEquipmentsService.Create().InsertPetEquipmentsAsync(User.CurrentUserId, pet.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertUserPetEquipmentsAsync(User.CurrentUserId, pet.Id, equipment, position);
                     await CreatePetsEquipmentsAsync(pet);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -2039,7 +2039,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage + 1;
                 Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardHeroesEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardHeroesEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardCaptains cardCaptain)
@@ -2048,7 +2048,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage + 1;
                 Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardCaptainsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardCaptainsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardColonels cardColonel)
@@ -2057,7 +2057,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage + 1;
                 Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardColonelsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardColonelsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardGenerals cardGeneral)
@@ -2066,7 +2066,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage + 1;
                 Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardGeneralsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardGeneralsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardAdmirals cardAdmiral)
@@ -2075,7 +2075,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage + 1;
                 Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardAdmiralsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardMonsters cardMonster)
@@ -2084,7 +2084,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage + 1;
                 Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardMonstersEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardMonstersEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardMilitaries cardMilitary)
@@ -2093,7 +2093,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage + 1;
                 Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardMilitariesEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardMilitariesEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardSpells cardSpell)
@@ -2102,7 +2102,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage + 1;
                 Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardSpellsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardSpellsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is Books book)
@@ -2111,7 +2111,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage + 1;
                 Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllBooksEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserBooksEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is Pets pet)
@@ -2120,7 +2120,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage + 1;
                 Offset = Offset + PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllPetsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserPetsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
 
@@ -2141,7 +2141,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage - 1;
                 Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardHeroesEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardHeroesEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardCaptains cardCaptain)
@@ -2150,7 +2150,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage - 1;
                 Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardCaptainsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardCaptainsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardColonels cardColonel)
@@ -2159,7 +2159,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage - 1;
                 Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardColonelsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardColonelsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardGenerals cardGeneral)
@@ -2168,7 +2168,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage - 1;
                 Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardGeneralsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardGeneralsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardAdmirals cardAdmiral)
@@ -2177,7 +2177,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage - 1;
                 Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardAdmiralsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardAdmiralsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardMonsters cardMonster)
@@ -2186,7 +2186,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage - 1;
                 Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardMonstersEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardMonstersEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardMilitaries cardMilitary)
@@ -2195,7 +2195,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage - 1;
                 Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardMilitariesEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardMilitariesEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is CardSpells cardSpell)
@@ -2204,7 +2204,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage - 1;
                 Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllCardSpellsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserCardSpellsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is Books book)
@@ -2213,7 +2213,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage - 1;
                 Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllBooksEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserBooksEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
             else if (data is Pets pet)
@@ -2222,7 +2222,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 TotalPage = PageHelper.CalculateTotalPages(totalRecord, PageSize);
                 CurrentPage = CurrentPage - 1;
                 Offset = Offset - PageSize;
-                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllPetsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
+                List<Equipments> equipments = await UserEquipmentsService.Create().GetAllUserPetsEquipmentsAsync(User.CurrentUserId, subType, PageSize, Offset, StatusToggle);
                 CreatePopupEquipmentsUI(data, equipments, content, position);
             }
 

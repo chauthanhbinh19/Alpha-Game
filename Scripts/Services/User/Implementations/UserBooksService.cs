@@ -24,7 +24,7 @@ public class UserBooksService : IUserBooksService
     {
         foreach (var c in BooksList)
         {
-            Equipments equipments = await UserEquipmentsService.Create().GetAllEquipmentsByBookIdAsync(userId, c.Id);
+            Equipments equipments = await UserEquipmentsService.Create().GetAllUserEquipmentsByBookIdAsync(userId, c.Id);
             c.Health = c.Health + equipments.Health + equipments.SpecialHealth;
             c.PhysicalAttack = c.PhysicalAttack + equipments.PhysicalAttack + equipments.SpecialPhysicalAttack;
             c.PhysicalDefense = c.PhysicalDefense + equipments.PhysicalDefense + equipments.SpecialPhysicalDefense;

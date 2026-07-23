@@ -25,7 +25,7 @@ public class UserCardMonstersService : IUserCardMonstersService
     {
         foreach (var c in CardMonstersList)
         {
-            Equipments equipments = await UserEquipmentsService.Create().GetAllEquipmentsByCardMonsterIdAsync(userId, c.Id);
+            Equipments equipments = await UserEquipmentsService.Create().GetAllUserEquipmentsByCardMonsterIdAsync(userId, c.Id);
             c.Health = c.Health + equipments.Health + equipments.SpecialHealth;
             c.PhysicalAttack = c.PhysicalAttack + equipments.PhysicalAttack + equipments.SpecialPhysicalAttack;
             c.PhysicalDefense = c.PhysicalDefense + equipments.PhysicalDefense + equipments.SpecialPhysicalDefense;

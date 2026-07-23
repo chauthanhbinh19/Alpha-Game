@@ -1181,7 +1181,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardHeroEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
+    public async Task InsertUserCardHeroEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1237,7 +1237,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardCaptainEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
+    public async Task InsertUserCardCaptainEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1293,7 +1293,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardColonelEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
+    public async Task InsertUserCardColonelEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1349,7 +1349,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardGeneralEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
+    public async Task InsertUserCardGeneralEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1405,7 +1405,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardAdmiralEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
+    public async Task InsertUserCardAdmiralEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1461,7 +1461,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardMonsterEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
+    public async Task InsertUserCardMonsterEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1517,7 +1517,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardMilitaryEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
+    public async Task InsertUserCardMilitaryEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1573,7 +1573,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardSpellEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
+    public async Task InsertUserCardSpellEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1629,7 +1629,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertBookEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
+    public async Task InsertUserBookEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1685,7 +1685,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertPetEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
+    public async Task InsertUserPetEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1741,7 +1741,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardSoldierEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
+    public async Task InsertUserCardSoldierEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1797,7 +1797,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<List<Equipments>> GetCardHeroesEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardHeroesEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -1920,7 +1920,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardCaptainsEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardCaptainsEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2043,7 +2043,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardColonelsEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardColonelsEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2166,7 +2166,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardGeneralsEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardGeneralsEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2289,7 +2289,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardAdmiralsEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardAdmiralsEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2412,7 +2412,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardMonstersEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardMonstersEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2535,7 +2535,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardMilitariesEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardMilitariesEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2654,7 +2654,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardSpellsEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardSpellsEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2777,7 +2777,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetBooksEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserBooksEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -2900,7 +2900,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetPetsEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserPetsEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3023,7 +3023,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetCardSoldiersEquipmentsAsync(string userId, string cardId, string type)
+    public async Task<List<Equipments>> GetUserCardSoldiersEquipmentsAsync(string userId, string cardId, string type)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3146,7 +3146,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardHeroesEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardHeroesEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3277,7 +3277,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardCaptainsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardCaptainsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3408,7 +3408,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardColonelsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardColonelsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3538,7 +3538,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardGeneralsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardGeneralsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3664,7 +3664,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardAdmiralsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardAdmiralsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3794,7 +3794,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardMonstersEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardMonstersEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -3924,7 +3924,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardMilitariesEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardMilitariesEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4054,7 +4054,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardSpellsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardSpellsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4184,7 +4184,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllBooksEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserBooksEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4314,7 +4314,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllPetsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserPetsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4444,7 +4444,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipments;
     }
-    public async Task<List<Equipments>> GetAllCardSoldiersEquipmentsAsync(string userId, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllUserCardSoldiersEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
         List<Equipments> equipments = new List<Equipments>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4622,7 +4622,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         equipment.SpecialSpeed = 0;
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardHeroIdAsync(string userId, string cardHeroId)
+    public async Task<Equipments> GetAllUserEquipmentsByCardHeroIdAsync(string userId, string cardHeroId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -4800,7 +4800,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardCaptainIdAsync(string userId, string cardCaptainId)
+    public async Task<Equipments> GetAllUserEquipmentsByCardCaptainIdAsync(string userId, string cardCaptainId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -4978,7 +4978,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardColonelIdAsync(string userId, string cardColonelId)
+    public async Task<Equipments> GetAllUserEquipmentsByCardColonelIdAsync(string userId, string cardColonelId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -5156,7 +5156,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardGeneralIdAsync(string userId, string cardGeneralId)
+    public async Task<Equipments> GetAllUserEquipmentsByCardGeneralIdAsync(string userId, string cardGeneralId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -5334,7 +5334,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardAdmiralIdAsync(string userId, string cardAdmiralId)
+    public async Task<Equipments> GetAllUserEquipmentsByCardAdmiralIdAsync(string userId, string cardAdmiralId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -5512,7 +5512,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardMonsterIdAsync(string userId, string cardMonsterId)
+    public async Task<Equipments> GetAllUserEquipmentsByCardMonsterIdAsync(string userId, string cardMonsterId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -5690,7 +5690,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardMilitaryIdAsync(string userId, string cardMilitaryId)
+    public async Task<Equipments> GetAllUserEquipmentsByCardMilitaryIdAsync(string userId, string cardMilitaryId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -5868,7 +5868,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardSpellIdAsync(string userId, string cardSpellId)
+    public async Task<Equipments> GetAllUserEquipmentsByCardSpellIdAsync(string userId, string cardSpellId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -6046,7 +6046,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByBookIdAsync(string userId, string bookId)
+    public async Task<Equipments> GetAllUserEquipmentsByBookIdAsync(string userId, string bookId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -6224,7 +6224,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByPetIdAsync(string userId, string petId)
+    public async Task<Equipments> GetAllUserEquipmentsByPetIdAsync(string userId, string petId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0
@@ -6402,7 +6402,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
         return equipment;
     }
-    public async Task<Equipments> GetAllEquipmentsByCardSoldierIdAsync(string userId, string cardSoldierId)
+    public async Task<Equipments> GetAllUserEquipmentsByCardSoldierIdAsync(string userId, string cardSoldierId)
     {
         Equipments equipment = new Equipments();
         equipment = ChangeValueToZero(equipment); // reset tất cả giá trị về 0

@@ -24,7 +24,7 @@ public class UserPetsService : IUserPetsService
     {
         foreach (var c in PetsList)
         {
-            Equipments equipments = await UserEquipmentsService.Create().GetAllEquipmentsByPetIdAsync(userId, c.Id);
+            Equipments equipments = await UserEquipmentsService.Create().GetAllUserEquipmentsByPetIdAsync(userId, c.Id);
             c.Health = c.Health + equipments.Health + equipments.SpecialHealth;
             c.PhysicalAttack = c.PhysicalAttack + equipments.PhysicalAttack + equipments.SpecialPhysicalAttack;
             c.PhysicalDefense = c.PhysicalDefense + equipments.PhysicalDefense + equipments.SpecialPhysicalDefense;
