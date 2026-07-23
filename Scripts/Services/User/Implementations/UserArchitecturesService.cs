@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserArchitecturesService : IUserArchitecturesService
 {
-     private static UserArchitecturesService _instance;
+    private static UserArchitecturesService _instance;
     private readonly IUserArchitecturesRepository _userArchitecturesRepository;
 
     public UserArchitecturesService(IUserArchitecturesRepository userArchitecturesRepository)
@@ -38,19 +38,19 @@ public class UserArchitecturesService : IUserArchitecturesService
         return await _userArchitecturesRepository.InsertUserArchitectureAsync(architecture, userId);
     }
 
-    public async Task<bool> UpdateArchitectureLevelAsync(Architectures architecture)
+    public async Task<bool> UpdateUserArchitectureLevelAsync(string userId, Architectures architecture)
     {
-        return await _userArchitecturesRepository.UpdateArchitectureLevelAsync(architecture);
+        return await _userArchitecturesRepository.UpdateUserArchitectureLevelAsync(userId, architecture);
     }
 
-    public async Task<bool> UpdateArchitectureStarAsync(Architectures architecture)
+    public async Task<bool> UpdateUserArchitectureStarAsync(string userId, Architectures architecture)
     {
-        return await _userArchitecturesRepository.UpdateArchitectureStarAsync(architecture);
+        return await _userArchitecturesRepository.UpdateUserArchitectureStarAsync(userId, architecture);
     }
 
-    public async Task<bool> UpdateArchitectureBreakthroughAsync(Architectures architecture, int star, double quantity)
+    public async Task<bool> UpdateUserArchitectureBreakthroughAsync(string userId, Architectures architecture, int star, double quantity)
     {
-        return await _userArchitecturesRepository.UpdateArchitectureBreakthroughAsync(architecture, star, quantity);
+        return await _userArchitecturesRepository.UpdateUserArchitectureBreakthroughAsync(userId, architecture, star, quantity);
     }
 
     public async Task<Architectures> GetUserArchitectureByIdAsync(string user_id, string Id)
@@ -58,13 +58,13 @@ public class UserArchitecturesService : IUserArchitecturesService
         return await _userArchitecturesRepository.GetUserArchitectureByIdAsync(user_id, Id);
     }
 
-    public async Task<Architectures> SumPowerUserArchitecturesAsync()
+    public async Task<Architectures> SumPowerUserArchitecturesAsync(string userId)
     {
-        return await _userArchitecturesRepository.SumPowerUserArchitecturesAsync();
+        return await _userArchitecturesRepository.SumPowerUserArchitecturesAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserArchitecturesBatchAsync(List<Architectures> architectures)
+    public async Task<bool> InsertOrUpdateUserArchitecturesBatchAsync(string userId, List<Architectures> architectures)
     {
-        return await _userArchitecturesRepository.InsertOrUpdateUserArchitecturesBatchAsync(architectures);
+        return await _userArchitecturesRepository.InsertOrUpdateUserArchitecturesBatchAsync(userId, architectures);
     }
 }

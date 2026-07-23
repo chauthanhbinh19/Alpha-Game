@@ -353,7 +353,7 @@ public class UserRunesRepository : IUserRunesRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserRunesBatchAsync(List<Runes> runes)
+    public async Task<bool> InsertOrUpdateUserRunesBatchAsync(string userId, List<Runes> runes)
     {
         if (runes == null || runes.Count == 0)
             return true;
@@ -488,7 +488,7 @@ public class UserRunesRepository : IUserRunesRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -504,7 +504,7 @@ public class UserRunesRepository : IUserRunesRepository
 
         return true;
     }
-    public async Task<bool> UpdateRuneLevelAsync(Runes rune)
+    public async Task<bool> UpdateUserRuneLevelAsync(string userId, Runes rune)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -523,7 +523,7 @@ public class UserRunesRepository : IUserRunesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@rune_id", rune.Id);
                     updateCommand.Parameters.AddWithValue("@level", rune.Level);
                     updateCommand.Parameters.AddWithValue("@experience", rune.Experience);
@@ -544,7 +544,7 @@ public class UserRunesRepository : IUserRunesRepository
 
         return true;
     }
-    public async Task<bool> UpdateRuneStarAsync(Runes rune)
+    public async Task<bool> UpdateUserRuneStarAsync(string userId, Runes rune)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -563,7 +563,7 @@ public class UserRunesRepository : IUserRunesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@rune_id", rune.Id);
                     updateCommand.Parameters.AddWithValue("@star", rune.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", rune.Quantity);
@@ -584,8 +584,7 @@ public class UserRunesRepository : IUserRunesRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateRuneBreakthroughAsync(Runes rune, int star, double quantity)
+    public async Task<bool> UpdateUserRuneBreakthroughAsync(string userId, Runes rune, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -624,7 +623,7 @@ public class UserRunesRepository : IUserRunesRepository
                 WHERE user_id = @user_id AND rune_id = @rune_id;";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@rune_id", rune.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -788,7 +787,7 @@ public class UserRunesRepository : IUserRunesRepository
         }
         return rune;
     }
-    public async Task<Runes> SumPowerUserRunesAsync()
+    public async Task<Runes> SumPowerUserRunesAsync(string userId)
     {
         Runes sumRunes = new Runes();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -853,7 +852,7 @@ public class UserRunesRepository : IUserRunesRepository
             ";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

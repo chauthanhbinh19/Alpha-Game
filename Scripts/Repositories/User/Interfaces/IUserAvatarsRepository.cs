@@ -3,14 +3,14 @@ using System.Threading.Tasks;
 
 public interface IUserAvatarsRepository
 {
-    Task<List<Avatars>> GetUserAvatarsAsync(string user_id, string search, int pageSize, int offset, string rare);
-    Task<int> GetUserAvatarsCountAsync(string user_id, string search, string rare);
+    Task<List<Avatars>> GetUserAvatarsAsync(string userId, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserAvatarsCountAsync(string userId, string search, string rare);
     Task<bool> InsertUserAvatarAsync(Avatars avatar, string userId);
     Task<bool> InsertUserAvatarByIdAsync(Avatars avatar, string userId);
-    Task<bool> InsertOrUpdateUserAvatarsBatchAsync(List<Avatars> avatars);
-    Task<Avatars> GetAvatarByUsedAsync(string user_id);
-    Task<bool> UpdateAvatarLevelAsync(Avatars avatar);
-    Task<bool> UpdateAvatarStarAsync(Avatars avatar);
-    Task UpdateIsUsedAvatarAsync(string avatarId, string userId, bool is_used);
-    Task<Avatars> SumPowerUserAvatarsAsync();
+    Task<bool> InsertOrUpdateUserAvatarsBatchAsync(string userId, List<Avatars> avatars);
+    Task<Avatars> GetUserAvatarByUsedAsync(string userId);
+    Task<bool> UpdateUserAvatarLevelAsync(string userId, Avatars avatar);
+    Task<bool> UpdateUserAvatarStarAsync(string userId, Avatars avatar);
+    Task UpdateIsUsedUserAvatarAsync(string avatarId, string userId, bool is_used);
+    Task<Avatars> SumPowerUserAvatarsAsync(string userId);
 }

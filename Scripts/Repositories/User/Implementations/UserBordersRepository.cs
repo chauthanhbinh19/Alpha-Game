@@ -495,7 +495,7 @@ public class UserBordersRepository : IUserBordersRepository
             }
         }
     }
-    public async Task<bool> InsertOrUpdateUserBordersBatchAsync(List<Borders> borders)
+    public async Task<bool> InsertOrUpdateUserBordersBatchAsync(string userId, List<Borders> borders)
     {
         if (borders == null || borders.Count == 0)
             return true;
@@ -630,7 +630,7 @@ public class UserBordersRepository : IUserBordersRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -646,7 +646,7 @@ public class UserBordersRepository : IUserBordersRepository
 
         return true;
     }
-    public async Task<bool> UpdateBorderLevelAsync(Borders border)
+    public async Task<bool> UpdateUserBorderLevelAsync(string userId, Borders border)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -665,7 +665,7 @@ public class UserBordersRepository : IUserBordersRepository
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@border_id", border.Id);
                 updateCommand.Parameters.AddWithValue("@level", border.Level);
                 updateCommand.Parameters.AddWithValue("@experience", border.Experience);
@@ -685,7 +685,7 @@ public class UserBordersRepository : IUserBordersRepository
 
         return true;
     }
-    public async Task<bool> UpdateBorderStarAsync(Borders border)
+    public async Task<bool> UpdateUserBorderStarAsync(string userId, Borders border)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -704,7 +704,7 @@ public class UserBordersRepository : IUserBordersRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@border_id", border.Id);
                     updateCommand.Parameters.AddWithValue("@star", border.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", border.Quantity);
@@ -725,8 +725,7 @@ public class UserBordersRepository : IUserBordersRepository
 
         return true;
     }
-
-    public async Task UpdateIsUsedBorderAsync(string borderId, string userId, bool is_used)
+    public async Task UpdateIsUsedUserBorderAsync(string borderId, string userId, bool is_used)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -755,7 +754,7 @@ public class UserBordersRepository : IUserBordersRepository
             }
         }
     }
-    public async Task<Borders> GetBorderByUsedAsync(string userId)
+    public async Task<Borders> GetUserBorderByUsedAsync(string userId)
     {
         Borders border = new Borders();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -849,7 +848,7 @@ public class UserBordersRepository : IUserBordersRepository
         }
         return border;
     }
-    public async Task<Borders> SumPowerUserBordersAsync()
+    public async Task<Borders> SumPowerUserBordersAsync(string userId)
     {
         Borders sumBorders = new Borders();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -916,7 +915,7 @@ public class UserBordersRepository : IUserBordersRepository
             WHERE user_id = @user_id;";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
 

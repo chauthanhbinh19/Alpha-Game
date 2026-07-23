@@ -136,7 +136,7 @@ public class UserItemsRepository : IUserItemsRepository
 
         return count;
     }
-    public async Task<Items> GetUserItemByNameAsync(string itemName)
+    public async Task<Items> GetUserItemByNameAsync(string userId, string itemName)
     {
         Items items = new Items();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -156,7 +156,7 @@ public class UserItemsRepository : IUserItemsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     selectCommand.Parameters.AddWithValue("@itemName", itemName);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -183,7 +183,7 @@ public class UserItemsRepository : IUserItemsRepository
 
         return items;
     }
-    public async Task<Items> GetUserItemByCodeNameAsync(string codeName)
+    public async Task<Items> GetUserItemByCodeNameAsync(string userId, string codeName)
     {
         Items items = new Items();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -203,7 +203,7 @@ public class UserItemsRepository : IUserItemsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     selectCommand.Parameters.AddWithValue("@code_name", codeName);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -231,7 +231,7 @@ public class UserItemsRepository : IUserItemsRepository
 
         return items;
     }
-    public async Task<ItemExperienceDTO> GetUserItemExperienceByCodeNameAsync(string codeName)
+    public async Task<ItemExperienceDTO> GetUserItemExperienceByCodeNameAsync(string userId, string codeName)
     {
         ItemExperienceDTO item = null;
 
@@ -262,7 +262,7 @@ public class UserItemsRepository : IUserItemsRepository
                 await using (MySqlCommand command =
                     new MySqlCommand(selectSQL, connection))
                 {
-                    command.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                    command.Parameters.AddWithValue("@userId", userId);
                     command.Parameters.AddWithValue("@code_name", codeName);
 
                     await using (MySqlDataReader reader =
@@ -291,7 +291,7 @@ public class UserItemsRepository : IUserItemsRepository
 
         return item;
     }
-    public async Task<bool> InsertUserItemAsync(Items item, double quantity)
+    public async Task<bool> InsertUserItemAsync(string userId, Items item, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -305,7 +305,7 @@ public class UserItemsRepository : IUserItemsRepository
                 string selectSQL = @"SELECT COUNT(*) FROM user_items WHERE user_id = @user_id AND item_id = @item_id";
                 await using (MySqlCommand checkCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@item_id", item.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -317,7 +317,7 @@ public class UserItemsRepository : IUserItemsRepository
                                            VALUES (@user_id, @item_id, @quantity)";
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@item_id", item.Id);
                             insertCommand.Parameters.AddWithValue("@quantity", quantity);
 
@@ -328,7 +328,7 @@ public class UserItemsRepository : IUserItemsRepository
                     {
                         // Cập nhật số lượng item đã tồn tại
                         item.Quantity = (int)quantity;
-                        await UpdateUserItemQuantityAsync(item); // Giả sử bạn đã có phiên bản async
+                        await UpdateUserItemQuantityAsync(userId, item); // Giả sử bạn đã có phiên bản async
                     }
                 }
             }
@@ -345,7 +345,7 @@ public class UserItemsRepository : IUserItemsRepository
 
         return true;
     }
-    public async Task<Items> UpdateUserItemQuantityAsync(Items item)
+    public async Task<Items> UpdateUserItemQuantityAsync(string userId, Items item)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -361,7 +361,7 @@ public class UserItemsRepository : IUserItemsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@item_id", item.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", item.Quantity);
 
@@ -380,7 +380,7 @@ public class UserItemsRepository : IUserItemsRepository
 
         return item;
     }
-    public async Task<Items> UpdateUserItemQuantityAsync(Items item, double quantity)
+    public async Task<Items> UpdateUserItemQuantityAsync(string userId, Items item, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -396,7 +396,7 @@ public class UserItemsRepository : IUserItemsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@item_id", item.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
 
@@ -461,7 +461,7 @@ public class UserItemsRepository : IUserItemsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserItemsBatchAsync(List<(Items item, double quantity)> items)
+    public async Task<bool> InsertOrUpdateUserItemsBatchAsync(string userId, List<(Items item, double quantity)> items)
     {
         if (items == null || items.Count == 0)
             return true;
@@ -508,7 +508,7 @@ public class UserItemsRepository : IUserItemsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();

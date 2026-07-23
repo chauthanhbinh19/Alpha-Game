@@ -376,7 +376,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserMagicFormationCirclesBatchAsync(List<MagicFormationCircles> magicFormationCircles)
+    public async Task<bool> InsertOrUpdateUserMagicFormationCirclesBatchAsync(string userId, List<MagicFormationCircles> magicFormationCircles)
     {
         if (magicFormationCircles == null || magicFormationCircles.Count == 0)
             return true;
@@ -511,7 +511,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -527,7 +527,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
         return true;
     }
-    public async Task<bool> UpdateMagicFormationCircleLevelAsync(MagicFormationCircles magicFormationCircle)
+    public async Task<bool> UpdateUserMagicFormationCircleLevelAsync(string userId, MagicFormationCircles magicFormationCircle)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -546,7 +546,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@mfc_id", magicFormationCircle.Id);
                     updateCommand.Parameters.AddWithValue("@level", magicFormationCircle.Level);
                     updateCommand.Parameters.AddWithValue("@experience", magicFormationCircle.Experience);
@@ -567,7 +567,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
         return true;
     }
-    public async Task<bool> UpdateMagicFormationCircleStarAsync(MagicFormationCircles magicFormationCircle)
+    public async Task<bool> UpdateUserMagicFormationCircleStarAsync(string userId, MagicFormationCircles magicFormationCircle)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -586,7 +586,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@mfc_id", magicFormationCircle.Id);
                     updateCommand.Parameters.AddWithValue("@star", magicFormationCircle.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", magicFormationCircle.Quantity);
@@ -607,8 +607,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
         return true;
     }
-
-    public async Task<bool> UpdateMagicFormationCircleBreakthroughAsync(MagicFormationCircles magicFormationCircle, int star, double quantity)
+    public async Task<bool> UpdateUserMagicFormationCircleBreakthroughAsync(string userId, MagicFormationCircles magicFormationCircle, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -651,7 +650,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@mfc_id", magicFormationCircle.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -819,7 +818,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
         return magicFormationCircle;
     }
-    public async Task<MagicFormationCircles> SumPowerUserMagicFormationCirclesAsync()
+    public async Task<MagicFormationCircles> SumPowerUserMagicFormationCirclesAsync(string userId)
     {
         MagicFormationCircles sumMagicFormationCircles = new MagicFormationCircles();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -887,7 +886,7 @@ public class UserMagicFormationCirclesRepository : IUserMagicFormationCirclesRep
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

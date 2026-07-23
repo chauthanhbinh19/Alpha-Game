@@ -376,7 +376,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserSymbolsBatchAsync(List<Symbols> symbols)
+    public async Task<bool> InsertOrUpdateUserSymbolsBatchAsync(string userId, List<Symbols> symbols)
     {
         if (symbols == null || symbols.Count == 0)
             return true;
@@ -511,7 +511,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -527,7 +527,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
         return true;
     }
-    public async Task<bool> UpdateSymbolLevelAsync(Symbols symbol)
+    public async Task<bool> UpdateUserSymbolLevelAsync(string userId, Symbols symbol)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -546,7 +546,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@symbol_id", symbol.Id);
                     updateCommand.Parameters.AddWithValue("@level", symbol.Level);
                     updateCommand.Parameters.AddWithValue("@experience", symbol.Experience);
@@ -567,7 +567,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
         return true;
     }
-    public async Task<bool> UpdateSymbolStarAsync(Symbols symbol)
+    public async Task<bool> UpdateUserSymbolStarAsync(string userId, Symbols symbol)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -586,7 +586,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@symbol_id", symbol.Id);
                     updateCommand.Parameters.AddWithValue("@star", symbol.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", symbol.Quantity);
@@ -607,8 +607,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateSymbolBreakthroughAsync(Symbols symbol, int star, double quantity)
+    public async Task<bool> UpdateUserSymbolBreakthroughAsync(string userId, Symbols symbol, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -651,7 +650,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@symbol_id", symbol.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -819,7 +818,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
         return symbol;
     }
-    public async Task<Symbols> SumPowerUserSymbolsAsync()
+    public async Task<Symbols> SumPowerUserSymbolsAsync(string userId)
     {
         Symbols sumSymbols = new Symbols();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -887,7 +886,7 @@ public class UserSymbolsRepository : IUserSymbolsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

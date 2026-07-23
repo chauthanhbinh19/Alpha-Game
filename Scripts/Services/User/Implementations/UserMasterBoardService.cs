@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public class UserMasterBoardService : IUserMasterBoardService
 {
-     private static UserMasterBoardService _instance;
-    private IUserMasterBoardRepository _userMesterBoardRepository;
+    private static UserMasterBoardService _instance;
+    private readonly IUserMasterBoardRepository _userMesterBoardRepository;
 
     public UserMasterBoardService(IUserMasterBoardRepository userMesterBoardRepository)
     {

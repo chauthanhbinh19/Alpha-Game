@@ -165,14 +165,14 @@ public class BattleSpawnController : MonoBehaviour
             // Load teams from server (use AlphaUserId/OmegaUserId as userIds and default teamId = "1")
             string teamId = "1";
             System.Threading.Tasks.Task<TeamDeploymentResult> alphaTask = LoadTeams.LoadAndSortTeamAsync(AlphaUserId, teamId);
-            System.Threading.Tasks.Task<TeamDeploymentResult> omegaTask = LoadTeams.LoadAndSortTeamAsync(OmegaUserId, teamId);
+            // System.Threading.Tasks.Task<TeamDeploymentResult> omegaTask = LoadTeams.LoadAndSortTeamAsync(OmegaUserId, teamId);
 
             await System.Threading.Tasks.Task.WhenAll(alphaTask
-            , omegaTask
+            // , omegaTask
             );
 
             TeamDeploymentResult alphaData = alphaTask.Result;
-            TeamDeploymentResult omegaData = omegaTask.Result;
+            // TeamDeploymentResult omegaData = omegaTask.Result;
 
             // Debug.Log($"[BattleSpawnController] Loaded battle teams: Alpha on-field={alphaData?.OnFieldCards?.Count ?? 0}, Alpha bench={alphaData?.BenchCards?.Count ?? 0}, Omega on-field={omegaData?.OnFieldCards?.Count ?? 0}, Omega bench={omegaData?.BenchCards?.Count ?? 0}");
             // LogTeamDeploymentDetails(alphaData, "Alpha");
@@ -185,7 +185,7 @@ public class BattleSpawnController : MonoBehaviour
 
             // Store bench lists
             AlphaBenchCards = alphaData.BenchCards;
-            OmegaBenchCards = omegaData.BenchCards;
+            // OmegaBenchCards = omegaData.BenchCards;
 
             // Ensure grid-cell mapping exists
             MapSlotsToGridCells();
@@ -200,14 +200,14 @@ public class BattleSpawnController : MonoBehaviour
                 Debug.LogWarning("[BattleSpawnController] Alpha team has no on-field cards to deploy.");
             }
 
-            if (omegaData.OnFieldCards != null && omegaData.OnFieldCards.Count > 0)
-            {
-                DeployTeam(omegaData.OnFieldCards, false);
-            }
-            else
-            {
-                Debug.LogWarning("[BattleSpawnController] Omega team has no on-field cards to deploy.");
-            }
+            // if (omegaData.OnFieldCards != null && omegaData.OnFieldCards.Count > 0)
+            // {
+            //     DeployTeam(omegaData.OnFieldCards, false);
+            // }
+            // else
+            // {
+            //     Debug.LogWarning("[BattleSpawnController] Omega team has no on-field cards to deploy.");
+            // }
 
             if (LoadingManager.Instance != null)
             {

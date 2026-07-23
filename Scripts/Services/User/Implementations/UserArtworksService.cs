@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 public class UserArtworksService : IUserArtworksService
 {
-     private static UserArtworksService _instance;
-    private IUserArtworksRepository _userArtworksRepository;
+    private static UserArtworksService _instance;
+    private readonly IUserArtworksRepository _userArtworksRepository;
 
     public UserArtworksService(IUserArtworksRepository userArtworksRepository)
     {

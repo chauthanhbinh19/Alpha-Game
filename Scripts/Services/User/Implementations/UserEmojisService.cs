@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserEmojisService : IUserEmojisService
 {
-     private static UserEmojisService _instance;
+    private static UserEmojisService _instance;
     private readonly IUserEmojisRepository _userEmojisRepository;
 
     public UserEmojisService(IUserEmojisRepository userEmojisRepository)
@@ -40,17 +40,17 @@ public class UserEmojisService : IUserEmojisService
 
     public async Task<bool> UpdateEmojiLevelAsync(Emojis emoji)
     {
-        return await _userEmojisRepository.UpdateEmojiLevelAsync(emoji);
+        return await _userEmojisRepository.UpdateUserEmojiLevelAsync(emoji);
     }
 
     public async Task<bool> UpdateEmojiStarAsync(Emojis emoji)
     {
-        return await _userEmojisRepository.UpdateEmojiStarAsync(emoji);
+        return await _userEmojisRepository.UpdateUserEmojiStarAsync(emoji);
     }
 
     public async Task<bool> UpdateEmojiBreakthroughAsync(Emojis emoji, int star, double quantity)
     {
-        return await _userEmojisRepository.UpdateEmojiBreakthroughAsync(emoji, star, quantity);
+        return await _userEmojisRepository.UpdateUserEmojiBreakthroughAsync(emoji, star, quantity);
     }
 
     public async Task<Emojis> GetUserEmojiByIdAsync(string user_id, string Id)

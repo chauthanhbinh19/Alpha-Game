@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserTechnologiesService : IUserTechnologiesService
 {
-     private static UserTechnologiesService _instance;
+    private static UserTechnologiesService _instance;
     private readonly IUserTechnologiesRepository _userTechnologiesRepository;
 
     public UserTechnologiesService(IUserTechnologiesRepository userTechnologiesRepository)

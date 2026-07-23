@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface ICardMilitariesGallerService
+public interface ICardMilitariesGalleryService
 {
     Task<List<CardMilitaries>> GetCardMilitariesCollectionAsync(string search, string type, int pageSize, int offset, string rare);
     Task<int> GetCardMilitariesCountAsync(string search, string type, string rare);

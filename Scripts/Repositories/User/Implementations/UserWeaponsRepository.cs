@@ -376,7 +376,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserWeaponsBatchAsync(List<Weapons> weapons)
+    public async Task<bool> InsertOrUpdateUserWeaponsBatchAsync(string userId, List<Weapons> weapons)
     {
         if (weapons == null || weapons.Count == 0)
             return true;
@@ -511,7 +511,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -527,7 +527,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
         return true;
     }
-    public async Task<bool> UpdateWeaponLevelAsync(Weapons weapon)
+    public async Task<bool> UpdateUserWeaponLevelAsync(string userId, Weapons weapon)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -546,7 +546,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@weapon_id", weapon.Id);
                     updateCommand.Parameters.AddWithValue("@level", weapon.Level);
                     updateCommand.Parameters.AddWithValue("@experience", weapon.Experience);
@@ -567,7 +567,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
         return true;
     }
-    public async Task<bool> UpdateWeaponStarAsync(Weapons weapon)
+    public async Task<bool> UpdateUserWeaponStarAsync(string userId, Weapons weapon)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -586,7 +586,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@weapon_id", weapon.Id);
                     updateCommand.Parameters.AddWithValue("@star", weapon.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", weapon.Quantity);
@@ -607,8 +607,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateWeaponBreakthroughAsync(Weapons weapon, int star, double quantity)
+    public async Task<bool> UpdateUserWeaponBreakthroughAsync(string userId, Weapons weapon, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -647,7 +646,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
                 WHERE user_id = @user_id AND weapon_id = @weapon_id;";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@weapon_id", weapon.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -811,7 +810,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
         }
         return weapon;
     }
-    public async Task<Weapons> SumPowerUserWeaponsAsync()
+    public async Task<Weapons> SumPowerUserWeaponsAsync(string userId)
     {
         Weapons sumWeapons = new Weapons();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -876,7 +875,7 @@ public class UserWeaponsRepository : IUserWeaponsRepository
             ";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

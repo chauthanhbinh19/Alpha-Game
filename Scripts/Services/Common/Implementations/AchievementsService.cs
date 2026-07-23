@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 public class AchievementsService : IAchievementsService
 {
     private static AchievementsService _instance;
-    private IAchievementsRepository _achievementsRepository;
+    private readonly IAchievementsRepository _achievementsRepository;
 
     public AchievementsService(IAchievementsRepository achievementsRepository)
     {

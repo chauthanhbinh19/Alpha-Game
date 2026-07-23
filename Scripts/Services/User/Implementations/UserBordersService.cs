@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public class UserBordersService : IUserBordersService
 {
-     private static UserBordersService _instance;
-    private IUserBordersRepository _userBordersRepository;
+    private static UserBordersService _instance;
+    private readonly IUserBordersRepository _userBordersRepository;
 
     public UserBordersService(IUserBordersRepository userBordersRepository)
     {
@@ -57,12 +57,12 @@ public class UserBordersService : IUserBordersService
 
     public async Task<Borders> GetBorderByUsedAsync(string user_id)
     {
-        return await _userBordersRepository.GetBorderByUsedAsync(user_id);
+        return await _userBordersRepository.GetUserBorderByUsedAsync(user_id);
     }
 
     public async Task UpdateIsUsedBorderAsync(string borderId, string userId, bool is_used)
     {
-        await _userBordersRepository.UpdateIsUsedBorderAsync(borderId, userId, is_used);
+        await _userBordersRepository.UpdateIsUsedUserBorderAsync(borderId, userId, is_used);
     }
 
     public async Task<Borders> SumPowerUserBordersAsync()

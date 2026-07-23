@@ -380,7 +380,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserVehiclesBatchAsync(List<Vehicles> vehicles)
+    public async Task<bool> InsertOrUpdateUserVehiclesBatchAsync(string userId, List<Vehicles> vehicles)
     {
         if (vehicles == null || vehicles.Count == 0)
             return true;
@@ -515,7 +515,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -531,7 +531,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
         return true;
     }
-    public async Task<bool> UpdateVehicleLevelAsync(Vehicles vehicle)
+    public async Task<bool> UpdateUserVehicleLevelAsync(string userId, Vehicles vehicle)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -550,7 +550,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@vehicle_id", vehicle.Id);
                     updateCommand.Parameters.AddWithValue("@level", vehicle.Level);
                     updateCommand.Parameters.AddWithValue("@experience", vehicle.Experience);
@@ -571,7 +571,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
         return true;
     }
-    public async Task<bool> UpdateVehicleStarAsync(Vehicles vehicle)
+    public async Task<bool> UpdateUserVehicleStarAsync(string userId, Vehicles vehicle)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -590,7 +590,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@vehicle_id", vehicle.Id);
                     updateCommand.Parameters.AddWithValue("@star", vehicle.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", vehicle.Quantity);
@@ -611,8 +611,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateVehicleBreakthroughAsync(Vehicles vehicle, int star, double quantity)
+    public async Task<bool> UpdateUserVehicleBreakthroughAsync(string userId, Vehicles vehicle, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -655,7 +654,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@vehicle_id", vehicle.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -823,7 +822,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
         return vehicle;
     }
-    public async Task<Vehicles> SumPowerUserVehiclesAsync()
+    public async Task<Vehicles> SumPowerUserVehiclesAsync(string userId)
     {
         Vehicles sumVehicles = new Vehicles();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -891,7 +890,7 @@ public class UserVehiclesRepository : IUserVehiclesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 public interface IUserOutfitsRepository
 {
-    Task<List<Outfits>> GetUserOutfitsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<int> GetUserOutfitsCountAsync(string user_id, string search, string type, string rare);
+    Task<List<Outfits>> GetUserOutfitsAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserOutfitsCountAsync(string userId, string search, string type, string rare);
     Task<bool> InsertUserOutfitAsync(Outfits outfit, string userId);
-    Task<bool> InsertOrUpdateUserOutfitsBatchAsync(List<Outfits> outfits);
-    Task<bool> UpdateOutfitLevelAsync(Outfits outfit);
-    Task<bool> UpdateOutfitStarAsync(Outfits outfit);
-    Task<bool> UpdateOutfitBreakthroughAsync(Outfits outfit, int star, double quantity);
-    Task<Outfits> GetUserOutfitByIdAsync(string user_id, string Id);
-    Task<Outfits> SumPowerUserOutfitsAsync();
+    Task<bool> InsertOrUpdateUserOutfitsBatchAsync(string userId, List<Outfits> outfits);
+    Task<bool> UpdateUserOutfitLevelAsync(string userId, Outfits outfit);
+    Task<bool> UpdateUserOutfitStarAsync(string userId, Outfits outfit);
+    Task<bool> UpdateUserOutfitBreakthroughAsync(string userId, Outfits outfit, int star, double quantity);
+    Task<Outfits> GetUserOutfitByIdAsync(string userId, string Id);
+    Task<Outfits> SumPowerUserOutfitsAsync(string userId);
 }

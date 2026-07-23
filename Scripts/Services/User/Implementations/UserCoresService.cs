@@ -40,17 +40,17 @@ public class UserCoresService : IUserCoresService
 
     public async Task<bool> UpdateCoreLevelAsync(Cores core)
     {
-        return await _userCoresRepository.UpdateCoreLevelAsync(core);
+        return await _userCoresRepository.UpdateUserCoreLevelAsync(core);
     }
 
     public async Task<bool> UpdateCoreStarAsync(Cores core)
     {
-        return await _userCoresRepository.UpdateCoreStarAsync(core);
+        return await _userCoresRepository.UpdateUserCoreStarAsync(core);
     }
 
     public async Task<bool> UpdateCoreBreakthroughAsync(Cores core, int star, double quantity)
     {
-        return await _userCoresRepository.UpdateCoreBreakthroughAsync(core, star, quantity);
+        return await _userCoresRepository.UpdateUserCoreBreakthroughAsync(core, star, quantity);
     }
 
     public async Task<Cores> GetUserCoreByIdAsync(string user_id, string Id)

@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 public interface IUserCardMilitariesMasterRepository
 {
-    Task<Master> GetCardMilitaryMasterAsync(string id, string card_id);
-    Task InsertOrUpdateCardMilitaryMasterAsync(string userId, UserMasters userMaster, string card_id);
-    Task<Master> GetSumCardMilitariesMasterAsync(string user_id, string card_id);
+    Task<Master> GetUserCardMilitaryMasterAsync(string userId, string id, string cardId);
+    Task InsertOrUpdateUserCardMilitaryMasterAsync(string userId, UserMasters userMaster, string cardId);
+    Task<Master> GetSumUserCardMilitariesMasterAsync(string userId, string cardId);
 }

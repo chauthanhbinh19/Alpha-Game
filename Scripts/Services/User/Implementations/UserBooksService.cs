@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserBooksService : IUserBooksService
 {
-     private static UserBooksService _instance;
+    private static UserBooksService _instance;
     private readonly IUserBooksRepository _userBooksRepository;
 
     public UserBooksService(IUserBooksRepository userBooksRepository)
@@ -142,7 +142,7 @@ public class UserBooksService : IUserBooksService
             c.StunRate = c.StunRate + rank.StunRate;
             c.IgnoreStunRate = c.IgnoreStunRate + rank.IgnoreStunRate;
             c.ReflectionRate = c.ReflectionRate + rank.ReflectionRate;
-            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + rank.IgnoreReflectionRate;
+            c.IgnoreReflectionRate = c.IgnoreReflectionRate + rank.IgnoreReflectionRate;
             c.ReflectionDamageRate = c.ReflectionDamageRate + rank.ReflectionDamageRate;
             c.ReflectionResistanceRate = c.ReflectionResistanceRate + rank.ReflectionResistanceRate;
             c.Mana = c.Mana + rank.Mana;
@@ -223,7 +223,7 @@ public class UserBooksService : IUserBooksService
             c.StunRate = c.StunRate + master.StunRate;
             c.IgnoreStunRate = c.IgnoreStunRate + master.IgnoreStunRate;
             c.ReflectionRate = c.ReflectionRate + master.ReflectionRate;
-            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + master.IgnoreReflectionRate;
+            c.IgnoreReflectionRate = c.IgnoreReflectionRate + master.IgnoreReflectionRate;
             c.ReflectionDamageRate = c.ReflectionDamageRate + master.ReflectionDamageRate;
             c.ReflectionResistanceRate = c.ReflectionResistanceRate + master.ReflectionResistanceRate;
             c.Mana = c.Mana + master.Mana;
@@ -267,7 +267,7 @@ public class UserBooksService : IUserBooksService
     public async Task<List<Books>> GetUserBooksAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Books> list = await _userBooksRepository.GetUserBooksAsync(user_id, search, type, pageSize, offset, rare);
-        
+
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
         var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
@@ -311,7 +311,7 @@ public class UserBooksService : IUserBooksService
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
-        foreach(var book in list)
+        foreach (var book in list)
         {
             book.ApplyPowerStats(powerManagerData);
             book.ApplyScienceFictionStats(scienceFictionData);
@@ -338,7 +338,7 @@ public class UserBooksService : IUserBooksService
     public async Task<List<Books>> GetUserBooksTeamAsync(string user_id, string teamId, string position)
     {
         List<Books> list = await _userBooksRepository.GetUserBooksTeamAsync(teamId);
-        
+
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
         var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
@@ -382,7 +382,7 @@ public class UserBooksService : IUserBooksService
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
-        foreach(var book in list)
+        foreach (var book in list)
         {
             book.ApplyPowerStats(powerManagerData);
             book.ApplyScienceFictionStats(scienceFictionData);
@@ -449,7 +449,7 @@ public class UserBooksService : IUserBooksService
     public async Task<List<Books>> GetAllUserBooksInTeamAsync(string user_id)
     {
         List<Books> list = await _userBooksRepository.GetAllUserBooksInTeamAsync(user_id);
-        
+
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
         var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
@@ -493,7 +493,7 @@ public class UserBooksService : IUserBooksService
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
-        foreach(var book in list)
+        foreach (var book in list)
         {
             book.ApplyPowerStats(powerManagerData);
             book.ApplyScienceFictionStats(scienceFictionData);

@@ -3,19 +3,19 @@ using System.Threading.Tasks;
 
 public interface IUserCardMilitariesRepository
 {
-    Task<List<CardMilitaries>> GetUserCardMilitariesAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<List<CardMilitaries>> GetUserCardMilitariesTeamAsync(string user_id, string teamId, string position);
-    Task<List<CardMilitaries>> GetUserCardMilitariesTeamWithoutPositionAsync(string user_id, string teamId);
-    Task<Dictionary<string, int>> GetUniqueCardMilitariesTypesTeamAsync(string teamId);
-    Task<bool> UpdateTeamCardMilitaryAsync(string team_id, string position, string card_id);
-    Task<int> GetUserCardMilitariesCountAsync(string user_id, string search, string type, string rare);
-    Task<int> GetUserCardMilitariesTeamsPositionCountAsync(string user_id, string team_id, string position);
-    Task<int> GetUserCardMilitariesTeamsCountAsync(string user_id, string team_id);
-    Task<bool> InsertUserCardMilitaryAsync(CardMilitaries cardMilitary);
-    Task<bool> InsertOrUpdateUserCardMilitariesBatchAsync(List<CardMilitaries> cardMilitaries);
-    Task<bool> UpdateCardMilitaryLevelAsync(CardMilitaries cardMilitary);
-    Task<bool> UpdateCardMilitaryStarAsync(CardMilitaries cardMilitary);
-    Task<bool> UpdateCardMilitaryBreakthroughAsync(CardMilitaries cardMilitary, int star, double quantity);
-    Task<CardMilitaries> GetUserCardMilitaryByIdAsync(string user_id, string Id);
-    Task<List<CardMilitaries>> GetAllUserCardMilitariesInTeamAsync(string user_id);
+    Task<List<CardMilitaries>> GetUserCardMilitariesAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<List<CardMilitaries>> GetUserCardMilitariesTeamAsync(string userId, string teamId, string position);
+    Task<List<CardMilitaries>> GetUserCardMilitariesTeamWithoutPositionAsync(string userId, string teamId);
+    Task<Dictionary<string, int>> GetUniqueUserCardMilitariesTypesTeamAsync(string userId, string teamId);
+    Task<bool> UpdateUserTeamCardMilitaryAsync(string userId, string team_id, string position, string cardId);
+    Task<int> GetUserCardMilitariesCountAsync(string userId, string search, string type, string rare);
+    Task<int> GetUserCardMilitariesTeamsPositionCountAsync(string userId, string team_id, string position);
+    Task<int> GetUserCardMilitariesTeamsCountAsync(string userId, string team_id);
+    Task<bool> InsertUserCardMilitaryAsync(string userId, CardMilitaries cardMilitary);
+    Task<bool> InsertOrUpdateUserCardMilitariesBatchAsync(string userId, List<CardMilitaries> cardMilitaries);
+    Task<bool> UpdateUserCardMilitaryLevelAsync(string userId, CardMilitaries cardMilitary);
+    Task<bool> UpdateUserCardMilitaryStarAsync(string userId, CardMilitaries cardMilitary);
+    Task<bool> UpdateUserCardMilitaryBreakthroughAsync(string userId, CardMilitaries cardMilitary, int star, double quantity);
+    Task<CardMilitaries> GetUserCardMilitaryByIdAsync(string userId, string Id);
+    Task<List<CardMilitaries>> GetAllUserCardMilitariesInTeamAsync(string userId);
 }

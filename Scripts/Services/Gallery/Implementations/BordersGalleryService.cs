@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 public class BordersGalleryService : IBordersGalleryService
 {
     private static BordersGalleryService _instance;
-    private IBordersGalleryRepository _bordersGalleryRepository;
+    private readonly IBordersGalleryRepository _bordersGalleryRepository;
 
     public BordersGalleryService(IBordersGalleryRepository bordersGalleryRepository)
     {

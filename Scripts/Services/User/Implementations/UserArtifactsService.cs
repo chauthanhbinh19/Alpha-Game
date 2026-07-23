@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserArtifactsService : IUserArtifactsService
 {
-     private static UserArtifactsService _instance;
+    private static UserArtifactsService _instance;
     private readonly IUserArtifactsRepository _userArtifactsRepository;
 
     public UserArtifactsService(IUserArtifactsRepository userArtifactsRepository)

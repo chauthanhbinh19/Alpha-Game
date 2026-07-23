@@ -246,7 +246,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeasts;
     }
-    public async Task<List<SpiritBeasts>> GetSpiritBeastsByCardIdsAsync(string userId, List<string> cardIds)
+    public async Task<List<SpiritBeasts>> GetUserSpiritBeastsByCardIdsAsync(string userId, List<string> cardIds)
     {
         List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
         if (cardIds == null || cardIds.Count == 0) return spiritBeasts;
@@ -1470,7 +1470,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeast;
     }
-    public async Task<bool> InsertUserSpiritBeastAsync(SpiritBeasts spiritBeast)
+    public async Task<bool> InsertUserSpiritBeastAsync(string userId, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1488,7 +1488,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@spirit_beast_id", spiritBeast.Id);
 
                     int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -1535,7 +1535,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@spirit_beast_id", spiritBeast.Id);
                             insertCommand.Parameters.AddWithValue("@rare", spiritBeast.Rarity);
                             insertCommand.Parameters.AddWithValue("@level", 0);
@@ -1609,7 +1609,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@spirit_beast_id", spiritBeast.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", spiritBeast.Quantity);
 
@@ -1631,7 +1631,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserSpiritBeastsBatchAsync(List<SpiritBeasts> spiritBeasts)
+    public async Task<bool> InsertOrUpdateUserSpiritBeastsBatchAsync(string userId, List<SpiritBeasts> spiritBeasts)
     {
         if (spiritBeasts == null || spiritBeasts.Count == 0)
             return true;
@@ -1766,7 +1766,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -1782,7 +1782,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> UpdateSpiritBeastLevelAsync(SpiritBeasts spiritBeast)
+    public async Task<bool> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1801,7 +1801,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@spirit_beast_id", spiritBeast.Id);
                     updateCommand.Parameters.AddWithValue("@level", spiritBeast.Level);
                     updateCommand.Parameters.AddWithValue("@experience", spiritBeast.Experience);
@@ -1822,7 +1822,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-    public async Task<bool> UpdateSpiritBeastStarAsync(SpiritBeasts spiritBeast)
+    public async Task<bool> UpdateUserSpiritBeastStarAsync(string userId, SpiritBeasts spiritBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1841,7 +1841,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@spirit_beast_id", spiritBeast.Id);
                     updateCommand.Parameters.AddWithValue("@star", spiritBeast.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", spiritBeast.Quantity);
@@ -1862,8 +1862,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateSpiritBeastBreakthroughAsync(SpiritBeasts spiritBeast, int star, double quantity)
+    public async Task<bool> UpdateUserSpiritBeastBreakthroughAsync(string userId, SpiritBeasts spiritBeast, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1906,7 +1905,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@spirit_beast_id", spiritBeast.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -2193,7 +2192,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                                        WHERE user_id = @user_id AND user_card_general_id = @user_card_general_id;";
 
                         await using var updateCommand = new MySqlCommand(updateSQL, connection);
-                        updateCommand.Parameters.AddWithValue("@user_id", userId); // sửa lỗi User.CurrentUserId
+                        updateCommand.Parameters.AddWithValue("@user_id", userId); // sửa lỗi userId
                         updateCommand.Parameters.AddWithValue("@user_card_general_id", cardGeneral.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
@@ -2253,7 +2252,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
                                        WHERE user_id = @user_id AND user_card_admiral_id = @user_card_admiral_id;";
 
                         await using var updateCommand = new MySqlCommand(updateSQL, connection);
-                        updateCommand.Parameters.AddWithValue("@user_id", userId); // sửa lỗi User.CurrentUserId
+                        updateCommand.Parameters.AddWithValue("@user_id", userId); // sửa lỗi userId
                         updateCommand.Parameters.AddWithValue("@user_card_admiral_id", cardAdmiral.Id);
                         updateCommand.Parameters.AddWithValue("@user_spirit_beast_id", spiritBeast.Id);
 
@@ -4212,7 +4211,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
         return spiritBeast;
     }
-    public async Task<SpiritBeasts> SumPowerUserSpiritBeastsAsync()
+    public async Task<SpiritBeasts> SumPowerUserSpiritBeastsAsync(string userId)
     {
         SpiritBeasts sumSpiritBeasts = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -4281,7 +4280,7 @@ public class UserSpiritBeastsRepository : IUserSpiritBeastsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

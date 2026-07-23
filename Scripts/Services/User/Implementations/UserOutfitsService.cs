@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserOutfitsService : IUserOutfitsService
 {
-     private static UserOutfitsService _instance;
+    private static UserOutfitsService _instance;
     private readonly IUserOutfitsRepository _userOutfitsRepository;
 
     public UserOutfitsService(IUserOutfitsRepository userOutfitsRepository)

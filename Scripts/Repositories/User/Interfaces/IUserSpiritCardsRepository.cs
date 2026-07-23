@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 public interface IUserSpiritCardsRepository
 {
-    Task<List<SpiritCards>> GetUserSpiritCardsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<int> GetUserSpiritCardsCountAsync(string user_id, string search, string type, string rare);
-    Task<bool> InsertUserSpiritCardAsync(SpiritCards spiritCard);
-    Task<bool> InsertOrUpdateUserSpiritCardsBatchAsync(List<SpiritCards> spiritCards);
-    Task<bool> UpdateSpiritCardLevelAsync(SpiritCards spiritCard);
-    Task<bool> UpdateSpiritCardStarAsync(SpiritCards spiritCard);
-    Task<bool> UpdateSpiritCardBreakthroughAsync(SpiritCards spiritCard, int star, double quantity);
-    Task<SpiritCards> GetUserSpiritCardByIdAsync(string user_id, string Id);
-    Task<SpiritCards> SumPowerUserSpiritCardsAsync();
+    Task<List<SpiritCards>> GetUserSpiritCardsAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserSpiritCardsCountAsync(string userId, string search, string type, string rare);
+    Task<bool> InsertUserSpiritCardAsync(string userId, SpiritCards spiritCard);
+    Task<bool> InsertOrUpdateUserSpiritCardsBatchAsync(string userId, List<SpiritCards> spiritCards);
+    Task<bool> UpdateUserSpiritCardLevelAsync(string userId, SpiritCards spiritCard);
+    Task<bool> UpdateUserSpiritCardStarAsync(string userId, SpiritCards spiritCard);
+    Task<bool> UpdateUserSpiritCardBreakthroughAsync(string userId, SpiritCards spiritCard, int star, double quantity);
+    Task<SpiritCards> GetUserSpiritCardByIdAsync(string userId, string Id);
+    Task<SpiritCards> SumPowerUserSpiritCardsAsync(string userId);
 }

@@ -6,10 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserRanksRepository : IUserRanksRepository
 {
-    public async Task<UserRanks> GetUserRanksAsync(string id)
+    public async Task<UserRanks> GetUserRanksAsync(string userId, string id)
     {
         UserRanks userRank = new UserRanks();
-        string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -26,7 +25,7 @@ public class UserRanksRepository : IUserRanksRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@master_id", id);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())

@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 public class UserAchievementsService : IUserAchievementsService
 {
-     private static UserAchievementsService _instance;
-    private IUserAchievementsRepository _userAchievementsRepository;
+    private static UserAchievementsService _instance;
+    private readonly IUserAchievementsRepository _userAchievementsRepository;
 
     public UserAchievementsService(IUserAchievementsRepository userAchievementsService)
     {
@@ -41,19 +41,19 @@ public class UserAchievementsService : IUserAchievementsService
         return await _userAchievementsRepository.InsertUserAchievementsAsync(achievement, userId);
     }
 
-    public async Task<bool> UpdateAchievementLevelAsync(Achievements achievement)
+    public async Task<bool> UpdateUserAchievementLevelAsync(string userId, Achievements achievement)
     {
-        return await _userAchievementsRepository.UpdateAchievementLevelAsync(achievement);
+        return await _userAchievementsRepository.UpdateUserAchievementLevelAsync(userId, achievement);
     }
 
-    public async Task<bool> UpdateAchievementStarAsync(Achievements achievement)
+    public async Task<bool> UpdateUserAchievementStarAsync(string userId, Achievements achievement)
     {
-        return await _userAchievementsRepository.UpdateAchievementStarAsync(achievement);
+        return await _userAchievementsRepository.UpdateUserAchievementStarAsync(userId, achievement);
     }
 
-    public async Task<bool> UpdateAchievementBreakthroughAsync(Achievements achievement, int star, double quantity)
+    public async Task<bool> UpdateUserAchievementBreakthroughAsync(string userId, Achievements achievement, int star, double quantity)
     {
-        return await _userAchievementsRepository.UpdateAchievementBreakthroughAsync(achievement, star, quantity);
+        return await _userAchievementsRepository.UpdateUserAchievementBreakthroughAsync(userId, achievement, star, quantity);
     }
 
     public async Task<Achievements> GetUserAchievementByIdAsync(string user_id, string Id)
@@ -61,13 +61,13 @@ public class UserAchievementsService : IUserAchievementsService
         return await _userAchievementsRepository.GetUserAchievementByIdAsync(user_id, Id);
     }
 
-    public async Task<Achievements> SumPowerUserAchievementsAsync()
+    public async Task<Achievements> SumPowerUserAchievementsAsync(string userId)
     {
-        return await _userAchievementsRepository.SumPowerUserAchievementsAsync();
+        return await _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserAchievementsBatchAsync(List<Achievements> achievements)
+    public async Task<bool> InsertOrUpdateUserAchievementsBatchAsync(string userId, List<Achievements> achievements)
     {
-        return await _userAchievementsRepository.InsertOrUpdateUserAchievementsBatchAsync(achievements);
+        return await _userAchievementsRepository.InsertOrUpdateUserAchievementsBatchAsync(userId, achievements);
     }
 }

@@ -376,7 +376,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserCardLivesBatchAsync(List<CardLives> cardLives)
+    public async Task<bool> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLives)
     {
         if (cardLives == null || cardLives.Count == 0)
             return true;
@@ -511,7 +511,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -527,7 +527,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 
         return true;
     }
-    public async Task<bool> UpdateCardLifeLevelAsync(CardLives cardLife)
+    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -546,7 +546,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 
                 using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@card_life_id", cardLife.Id);
                     updateCommand.Parameters.AddWithValue("@level", cardLife.Level);
                     updateCommand.Parameters.AddWithValue("@experience", cardLife.Experience);
@@ -567,7 +567,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 
         return true;
     }
-    public async Task<bool> UpdateCardLifeStarAsync(CardLives cardLife)
+    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -586,7 +586,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@card_life_id", cardLife.Id);
                     updateCommand.Parameters.AddWithValue("@star", cardLife.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", cardLife.Quantity);
@@ -607,8 +607,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateCardLifeBreakthroughAsync(CardLives cardLife, int star, double quantity)
+    public async Task<bool> UpdateUserCardLifeBreakthroughAsync(string userId, CardLives cardLife, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -651,7 +650,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@card_life_id", cardLife.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -819,7 +818,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 
         return cardLife;
     }
-    public async Task<CardLives> SumPowerUserCardLivesAsync()
+    public async Task<CardLives> SumPowerUserCardLivesAsync(string userId)
     {
         CardLives sumCardLives = new CardLives();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -887,7 +886,7 @@ public class UserCardLivesRepository : IUserCardLivesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

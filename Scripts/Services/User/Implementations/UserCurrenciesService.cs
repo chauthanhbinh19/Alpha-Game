@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserCurrenciesService : IUserCurrenciesService
 {
-     private static UserCurrenciesService _instance;
+    private static UserCurrenciesService _instance;
     private readonly IUserCurrenciesRepository _userCurrenciesRepository;
 
     public UserCurrenciesService(IUserCurrenciesRepository userCurrenciesRepository)

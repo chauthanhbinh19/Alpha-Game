@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserFoodsService : IUserFoodsService
 {
-     private static UserFoodsService _instance;
+    private static UserFoodsService _instance;
     private readonly IUserFoodsRepository _userFoodsRepository;
 
     public UserFoodsService(IUserFoodsRepository userFoodsRepository)
@@ -40,17 +40,17 @@ public class UserFoodsService : IUserFoodsService
 
     public async Task<bool> UpdateFoodLevelAsync(Foods food)
     {
-        return await _userFoodsRepository.UpdateFoodLevelAsync(food);
+        return await _userFoodsRepository.UpdateUserFoodLevelAsync(food);
     }
 
     public async Task<bool> UpdateFoodStarAsync(Foods food)
     {
-        return await _userFoodsRepository.UpdateFoodStarAsync(food);
+        return await _userFoodsRepository.UpdateUserFoodStarAsync(food);
     }
 
     public async Task<bool> UpdateFoodBreakthroughAsync(Foods food, int star, double quantity)
     {
-        return await _userFoodsRepository.UpdateFoodBreakthroughAsync(food, star, quantity);
+        return await _userFoodsRepository.UpdateUserFoodBreakthroughAsync(food, star, quantity);
     }
 
     public async Task<Foods> GetUserFoodByIdAsync(string user_id, string Id)

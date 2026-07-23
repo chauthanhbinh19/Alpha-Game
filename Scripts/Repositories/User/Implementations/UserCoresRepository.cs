@@ -344,7 +344,7 @@ public class UserCoresRepository : IUserCoresRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserCoresBatchAsync(List<Cores> cores)
+    public async Task<bool> InsertOrUpdateUserCoresBatchAsync(string userId, List<Cores> cores)
     {
         if (cores == null || cores.Count == 0)
             return true;
@@ -479,7 +479,7 @@ public class UserCoresRepository : IUserCoresRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -495,7 +495,7 @@ public class UserCoresRepository : IUserCoresRepository
 
         return true;
     }
-    public async Task<bool> UpdateCoreLevelAsync(Cores core)
+    public async Task<bool> UpdateUserCoreLevelAsync(string userId, Cores core)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -514,7 +514,7 @@ public class UserCoresRepository : IUserCoresRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@core_id", core.Id);
                     updateCommand.Parameters.AddWithValue("@level", core.Level);
                     updateCommand.Parameters.AddWithValue("@experience", core.Experience);
@@ -535,7 +535,7 @@ public class UserCoresRepository : IUserCoresRepository
 
         return true;
     }
-    public async Task<bool> UpdateCoreStarAsync(Cores core)
+    public async Task<bool> UpdateUserCoreStarAsync(string userId, Cores core)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -554,7 +554,7 @@ public class UserCoresRepository : IUserCoresRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@core_id", core.Id);
                     updateCommand.Parameters.AddWithValue("@star", core.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", core.Quantity);
@@ -575,8 +575,7 @@ public class UserCoresRepository : IUserCoresRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateCoreBreakthroughAsync(Cores core, int star, double quantity)
+    public async Task<bool> UpdateUserCoreBreakthroughAsync(string userId, Cores core, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -618,7 +617,7 @@ public class UserCoresRepository : IUserCoresRepository
                 WHERE user_id = @user_id AND core_id = @core_id;";
 
                 await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@core_id", core.Id);
                 updateCommand.Parameters.AddWithValue("@star", star);
                 updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -781,7 +780,7 @@ public class UserCoresRepository : IUserCoresRepository
 
         return core;
     }
-    public async Task<Cores> SumPowerUserCoresAsync()
+    public async Task<Cores> SumPowerUserCoresAsync(string userId)
     {
         Cores sumCores = new Cores();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -849,7 +848,7 @@ public class UserCoresRepository : IUserCoresRepository
             ";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                 await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
                 if (await reader.ReadAsync())

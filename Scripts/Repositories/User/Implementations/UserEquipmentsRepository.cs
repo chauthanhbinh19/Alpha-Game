@@ -598,7 +598,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipment;
     }
-    public async Task<bool> BuyEquipmentAsync(string Id, Equipments equipment, double quantity)
+    public async Task<bool> InsertUserEquipmentAsync(string userId, string Id, Equipments equipment, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -615,7 +615,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@equipment_id", Id);
 
                     var existingCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -628,7 +628,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@equipment_id", Id);
                             updateCommand.Parameters.AddWithValue("@quantity", quantity);
                             await updateCommand.ExecuteNonQueryAsync();
@@ -675,7 +675,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                 {
-                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@equipment_id", Id);
                     insertCommand.Parameters.AddWithValue("@rare", equipment.Rarity);
                     insertCommand.Parameters.AddWithValue("@level", 0);
@@ -763,7 +763,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(List<(Equipments data, double quantity)> list)
+    public async Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(string userId, List<(Equipments data, double quantity)> list)
     {
         if (list == null || list.Count == 0)
             return true;
@@ -908,7 +908,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -924,7 +924,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return true;
     }
-    public async Task<bool> UpdateEquipmentsLevelAsync(Equipments equipment)
+    public async Task<bool> UpdateUserEquipmentsLevelAsync(string userId, Equipments equipment)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -943,7 +943,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                     updateCommand.Parameters.AddWithValue("@level", equipment.Level);
                     updateCommand.Parameters.AddWithValue("@experience", equipment.Experience);
@@ -964,7 +964,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return true;
     }
-    public async Task<bool> UpdateEquipmentsStarAsync(Equipments equipment)
+    public async Task<bool> UpdateUserEquipmentsStarAsync(string userId, Equipments equipment)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -983,7 +983,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                     updateCommand.Parameters.AddWithValue("@star", equipment.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", equipment.Quantity);
@@ -1004,8 +1004,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateEquipmentsBreakthroughAsync(Equipments equipment, int star, double quantity)
+    public async Task<bool> UpdateUserEquipmentsBreakthroughAsync(string userId, Equipments equipment, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1047,7 +1046,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -1118,7 +1117,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task UpdateUserCurrencyAsync(string Id, double amount)
+    public async Task UpdateUserCurrencyAsync(string userId, string Id, double amount)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1151,7 +1150,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         selectSQL = "SELECT quantity FROM user_currencies WHERE user_id = @user_id AND currency_id = @currency_id";
                         await using (MySqlCommand cmd2 = new MySqlCommand(selectSQL, connection))
                         {
-                            cmd2.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            cmd2.Parameters.AddWithValue("@user_id", userId);
                             cmd2.Parameters.AddWithValue("@currency_id", currencyId);
 
                             object result = await cmd2.ExecuteScalarAsync();
@@ -1163,7 +1162,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                             await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                             {
                                 updateCommand.Parameters.AddWithValue("@quantity", newQuantity);
-                                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                                updateCommand.Parameters.AddWithValue("@user_id", userId);
                                 updateCommand.Parameters.AddWithValue("@currency_id", currencyId);
 
                                 await updateCommand.ExecuteNonQueryAsync();
@@ -1182,7 +1181,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardHeroEquipmentsAsync(string Id, Equipments equipment, int position)
+    public async Task InsertCardHeroEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1219,7 +1218,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                        VALUES (@user_id, @card_hero_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_hero_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -1238,7 +1237,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardCaptainEquipmentsAsync(string Id, Equipments equipment, int position)
+    public async Task InsertCardCaptainEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1275,7 +1274,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                        VALUES (@user_id, @card_captain_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_captain_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -1294,7 +1293,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardColonelEquipmentsAsync(string Id, Equipments equipment, int position)
+    public async Task InsertCardColonelEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1331,7 +1330,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                        VALUES (@user_id, @card_colonel_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_colonel_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -1350,7 +1349,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardGeneralEquipmentsAsync(string Id, Equipments equipment, int position)
+    public async Task InsertCardGeneralEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1387,7 +1386,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                        VALUES (@user_id, @card_general_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_general_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -1406,7 +1405,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardAdmiralEquipmentsAsync(string Id, Equipments equipment, int position)
+    public async Task InsertCardAdmiralEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1443,7 +1442,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                        VALUES (@user_id, @card_admiral_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_admiral_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -1462,7 +1461,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardMonsterEquipmentsAsync(string Id, Equipments equipment, int position)
+    public async Task InsertCardMonsterEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1499,7 +1498,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                        VALUES (@user_id, @card_monster_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_monster_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -1518,7 +1517,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardMilitaryEquipmentsAsync(string Id, Equipments equipment, int position)
+    public async Task InsertCardMilitaryEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1555,7 +1554,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                        VALUES (@user_id, @card_military_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_military_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -1574,7 +1573,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardSpellEquipmentsAsync(string Id, Equipments equipment, int position)
+    public async Task InsertCardSpellEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1611,7 +1610,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                        VALUES (@user_id, @card_spell_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_spell_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -1630,7 +1629,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertBookEquipmentsAsync(string Id, Equipments equipment, int position)
+    public async Task InsertBookEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1667,7 +1666,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                        VALUES (@user_id, @book_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@book_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -1686,7 +1685,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertPetEquipmentsAsync(string Id, Equipments equipment, int position)
+    public async Task InsertPetEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1723,7 +1722,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                        VALUES (@user_id, @pet_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@pet_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -1742,7 +1741,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task InsertCardSoldierEquipmentsAsync(string Id, Equipments equipment, int position)
+    public async Task InsertCardSoldierEquipmentsAsync(string userId, string Id, Equipments equipment, int position)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1779,7 +1778,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                                        VALUES (@user_id, @pet_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@soldier_id", Id);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -6582,7 +6581,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         return equipment;
     }
 
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardHeroAsync(string cardHeroId, string type, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardHeroAsync(string userId, string cardHeroId, string type, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -6622,7 +6621,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 {
                     getUsedCmd.Parameters.AddWithValue("@card_hero_id", cardHeroId);
                     getUsedCmd.Parameters.AddWithValue("@type", type);
-                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", userId);
                     await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -6676,7 +6675,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         (@user_id, @card_hero_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_hero_id", cardHeroId);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -6700,7 +6699,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<bool> EquipAllEquipmentsToCardHeroAsync(string cardHeroId, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsToCardHeroAsync(string userId, string cardHeroId, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -6727,7 +6726,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
                 foreach (string type in types)
                 {
-                    bool success = await EquipAllEquipmentsOfTypeToCardHeroAsync(cardHeroId, type, availableEquipments);
+                    bool success = await EquipAllEquipmentsOfTypeToCardHeroAsync(userId, cardHeroId, type, availableEquipments);
                     if (!success)
                     {
                         Debug.LogWarning($"Failed to equip type '{type}' for card hero '{cardHeroId}'.");
@@ -6749,7 +6748,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
     }
 
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardCaptainAsync(string cardCaptainId, string type, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardCaptainAsync(string userId, string cardCaptainId, string type, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -6789,7 +6788,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 {
                     getUsedCmd.Parameters.AddWithValue("@card_captain_id", cardCaptainId);
                     getUsedCmd.Parameters.AddWithValue("@type", type);
-                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", userId);
                     await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -6843,7 +6842,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         (@user_id, @card_captain_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_captain_id", cardCaptainId);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -6867,7 +6866,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<bool> EquipAllEquipmentsToCardCaptainAsync(string cardCaptainId, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsToCardCaptainAsync(string userId, string cardCaptainId, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -6894,7 +6893,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
                 foreach (string type in types)
                 {
-                    bool success = await EquipAllEquipmentsOfTypeToCardCaptainAsync(cardCaptainId, type, availableEquipments);
+                    bool success = await EquipAllEquipmentsOfTypeToCardCaptainAsync(userId, cardCaptainId, type, availableEquipments);
                     if (!success)
                     {
                         Debug.LogWarning($"Failed to equip type '{type}' for card hero '{cardCaptainId}'.");
@@ -6916,7 +6915,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
     }
 
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardColonelAsync(string cardColonelId, string type, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardColonelAsync(string userId, string cardColonelId, string type, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -6956,7 +6955,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 {
                     getUsedCmd.Parameters.AddWithValue("@card_captain_id", cardColonelId);
                     getUsedCmd.Parameters.AddWithValue("@type", type);
-                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", userId);
                     await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -7010,7 +7009,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         (@user_id, @card_captain_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_captain_id", cardColonelId);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -7034,7 +7033,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<bool> EquipAllEquipmentsToCardColonelAsync(string cardColonelId, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsToCardColonelAsync(string userId, string cardColonelId, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -7061,7 +7060,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
                 foreach (string type in types)
                 {
-                    bool success = await EquipAllEquipmentsOfTypeToCardColonelAsync(cardColonelId, type, availableEquipments);
+                    bool success = await EquipAllEquipmentsOfTypeToCardColonelAsync(userId, cardColonelId, type, availableEquipments);
                     if (!success)
                     {
                         Debug.LogWarning($"Failed to equip type '{type}' for card colonel '{cardColonelId}'.");
@@ -7083,7 +7082,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
     }
 
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardGeneralAsync(string cardGeneralId, string type, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardGeneralAsync(string userId, string cardGeneralId, string type, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -7123,7 +7122,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 {
                     getUsedCmd.Parameters.AddWithValue("@card_general_id", cardGeneralId);
                     getUsedCmd.Parameters.AddWithValue("@type", type);
-                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", userId);
                     await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -7177,7 +7176,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         (@user_id, @card_general_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_general_id", cardGeneralId);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -7201,7 +7200,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<bool> EquipAllEquipmentsToCardGeneralAsync(string cardGeneralId, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsToCardGeneralAsync(string userId, string cardGeneralId, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -7228,7 +7227,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
                 foreach (string type in types)
                 {
-                    bool success = await EquipAllEquipmentsOfTypeToCardGeneralAsync(cardGeneralId, type, availableEquipments);
+                    bool success = await EquipAllEquipmentsOfTypeToCardGeneralAsync(userId, cardGeneralId, type, availableEquipments);
                     if (!success)
                     {
                         Debug.LogWarning($"Failed to equip type '{type}' for card general '{cardGeneralId}'.");
@@ -7250,7 +7249,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
     }
 
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardAdmiralAsync(string cardAdmiralId, string type, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardAdmiralAsync(string userId, string cardAdmiralId, string type, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -7290,7 +7289,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 {
                     getUsedCmd.Parameters.AddWithValue("@card_admiral_id", cardAdmiralId);
                     getUsedCmd.Parameters.AddWithValue("@type", type);
-                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", userId);
                     await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -7344,7 +7343,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         (@user_id, @card_admiral_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_admiral_id", cardAdmiralId);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -7368,7 +7367,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<bool> EquipAllEquipmentsToCardAdmiralAsync(string cardAdmiralId, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsToCardAdmiralAsync(string userId, string cardAdmiralId, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -7395,7 +7394,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
                 foreach (string type in types)
                 {
-                    bool success = await EquipAllEquipmentsOfTypeToCardAdmiralAsync(cardAdmiralId, type, availableEquipments);
+                    bool success = await EquipAllEquipmentsOfTypeToCardAdmiralAsync(userId, cardAdmiralId, type, availableEquipments);
                     if (!success)
                     {
                         Debug.LogWarning($"Failed to equip type '{type}' for card admiral '{cardAdmiralId}'.");
@@ -7417,7 +7416,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
     }
 
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardMonsterAsync(string cardMonsterId, string type, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardMonsterAsync(string userId, string cardMonsterId, string type, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -7457,7 +7456,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 {
                     getUsedCmd.Parameters.AddWithValue("@card_monster_id", cardMonsterId);
                     getUsedCmd.Parameters.AddWithValue("@type", type);
-                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", userId);
                     await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -7511,7 +7510,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         (@user_id, @card_monster_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_monster_id", cardMonsterId);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -7535,7 +7534,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<bool> EquipAllEquipmentsToCardMonsterAsync(string cardMonsterId, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsToCardMonsterAsync(string userId, string cardMonsterId, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -7562,7 +7561,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
                 foreach (string type in types)
                 {
-                    bool success = await EquipAllEquipmentsOfTypeToCardMonsterAsync(cardMonsterId, type, availableEquipments);
+                    bool success = await EquipAllEquipmentsOfTypeToCardMonsterAsync(userId, cardMonsterId, type, availableEquipments);
                     if (!success)
                     {
                         Debug.LogWarning($"Failed to equip type '{type}' for card monster '{cardMonsterId}'.");
@@ -7584,7 +7583,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
     }
 
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardMilitaryAsync(string cardMilitaryId, string type, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardMilitaryAsync(string userId, string cardMilitaryId, string type, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -7624,7 +7623,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 {
                     getUsedCmd.Parameters.AddWithValue("@card_military_id", cardMilitaryId);
                     getUsedCmd.Parameters.AddWithValue("@type", type);
-                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", userId);
                     await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -7678,7 +7677,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         (@user_id, @card_military_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_military_id", cardMilitaryId);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -7702,7 +7701,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<bool> EquipAllEquipmentsToCardMilitaryAsync(string cardMilitaryId, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsToCardMilitaryAsync(string userId, string cardMilitaryId, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -7729,7 +7728,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardHeroAsync với list đã filter
                 foreach (string type in types)
                 {
-                    bool success = await EquipAllEquipmentsOfTypeToCardMilitaryAsync(cardMilitaryId, type, availableEquipments);
+                    bool success = await EquipAllEquipmentsOfTypeToCardMilitaryAsync(userId, cardMilitaryId, type, availableEquipments);
                     if (!success)
                     {
                         Debug.LogWarning($"Failed to equip type '{type}' for card military '{cardMilitaryId}'.");
@@ -7751,7 +7750,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
     }
 
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardSpellAsync(string cardSpellId, string type, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardSpellAsync(string userId, string cardSpellId, string type, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -7791,7 +7790,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 {
                     getUsedCmd.Parameters.AddWithValue("@card_spell_id", cardSpellId);
                     getUsedCmd.Parameters.AddWithValue("@type", type);
-                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", userId);
                     await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -7845,7 +7844,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         (@user_id, @card_spell_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_spell_id", cardSpellId);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -7869,7 +7868,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<bool> EquipAllEquipmentsToCardSpellAsync(string cardSpellId, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsToCardSpellAsync(string userId, string cardSpellId, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -7896,7 +7895,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardSpellAsync với list đã filter
                 foreach (string type in types)
                 {
-                    bool success = await EquipAllEquipmentsOfTypeToCardSpellAsync(cardSpellId, type, availableEquipments);
+                    bool success = await EquipAllEquipmentsOfTypeToCardSpellAsync(userId, cardSpellId, type, availableEquipments);
                     if (!success)
                     {
                         Debug.LogWarning($"Failed to equip type '{type}' for card spell '{cardSpellId}'.");
@@ -7918,7 +7917,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
     }
 
-    public async Task<bool> EquipAllEquipmentsOfTypeToBookAsync(string bookId, string type, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsOfTypeToBookAsync(string userId, string bookId, string type, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -7958,7 +7957,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 {
                     getUsedCmd.Parameters.AddWithValue("@book_id", bookId);
                     getUsedCmd.Parameters.AddWithValue("@type", type);
-                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", userId);
                     await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -8012,7 +8011,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         (@user_id, @book_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@book_id", bookId);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -8036,7 +8035,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<bool> EquipAllEquipmentsToBookAsync(string bookId, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsToBookAsync(string userId, string bookId, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -8063,7 +8062,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToBookAsync với list đã filter
                 foreach (string type in types)
                 {
-                    bool success = await EquipAllEquipmentsOfTypeToBookAsync(bookId, type, availableEquipments);
+                    bool success = await EquipAllEquipmentsOfTypeToBookAsync(userId, bookId, type, availableEquipments);
                     if (!success)
                     {
                         Debug.LogWarning($"Failed to equip type '{type}' for card book '{bookId}'.");
@@ -8085,7 +8084,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
     }
 
-    public async Task<bool> EquipAllEquipmentsOfTypeToPetAsync(string petId, string type, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsOfTypeToPetAsync(string userId, string petId, string type, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -8125,7 +8124,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 {
                     getUsedCmd.Parameters.AddWithValue("@pet_id", petId);
                     getUsedCmd.Parameters.AddWithValue("@type", type);
-                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", userId);
                     await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -8179,7 +8178,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         (@user_id, @pet_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@pet_id", petId);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -8203,7 +8202,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<bool> EquipAllEquipmentsToPetAsync(string petId, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsToPetAsync(string userId, string petId, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -8230,7 +8229,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToPetAsync với list đã filter
                 foreach (string type in types)
                 {
-                    bool success = await EquipAllEquipmentsOfTypeToPetAsync(petId, type, availableEquipments);
+                    bool success = await EquipAllEquipmentsOfTypeToPetAsync(userId, petId, type, availableEquipments);
                     if (!success)
                     {
                         Debug.LogWarning($"Failed to equip type '{type}' for card hero '{petId}'.");
@@ -8252,7 +8251,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
         }
     }
 
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardSoldierAsync(string petId, string type, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardSoldierAsync(string userId, string petId, string type, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -8292,7 +8291,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 {
                     getUsedCmd.Parameters.AddWithValue("@card_soldier_id", petId);
                     getUsedCmd.Parameters.AddWithValue("@type", type);
-                    getUsedCmd.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    getUsedCmd.Parameters.AddWithValue("@user_id", userId);
                     await using (MySqlDataReader reader = await getUsedCmd.ExecuteReaderAsync())
                     {
                         while (await reader.ReadAsync())
@@ -8346,7 +8345,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                         (@user_id, @card_soldier_id, @equipment_id, @position)";
                     await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                     {
-                        insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        insertCommand.Parameters.AddWithValue("@user_id", userId);
                         insertCommand.Parameters.AddWithValue("@card_soldier_id", petId);
                         insertCommand.Parameters.AddWithValue("@equipment_id", equipment.Id);
                         insertCommand.Parameters.AddWithValue("@position", position);
@@ -8370,7 +8369,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
             }
         }
     }
-    public async Task<bool> EquipAllEquipmentsToCardSoldierAsync(string cardSoldierId, List<Equipments> availableEquipments)
+    public async Task<bool> EquipAllEquipmentsToCardSoldierAsync(string userId, string cardSoldierId, List<Equipments> availableEquipments)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -8397,7 +8396,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
                 // Cho mỗi type, gọi hàm EquipAllEquipmentsOfTypeToCardSoldierAsync với list đã filter
                 foreach (string type in types)
                 {
-                    bool success = await EquipAllEquipmentsOfTypeToCardSoldierAsync(cardSoldierId, type, availableEquipments);
+                    bool success = await EquipAllEquipmentsOfTypeToCardSoldierAsync(userId, cardSoldierId, type, availableEquipments);
                     if (!success)
                     {
                         Debug.LogWarning($"Failed to equip type '{type}' for card soldier '{cardSoldierId}'.");

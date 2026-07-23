@@ -337,7 +337,7 @@ public class UserWorldsRepository : IUserWorldsRepository
 
         return true;
     }
-    public async Task<bool> UpdateWorldLevelAsync(Worlds Worlds, int WorldLevel)
+    public async Task<bool> UpdateUserWorldLevelAsync(string userId, Worlds Worlds, int WorldLevel)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -356,7 +356,7 @@ public class UserWorldsRepository : IUserWorldsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@world_id", Worlds.Id);
                     updateCommand.Parameters.AddWithValue("@level", WorldLevel);
                     updateCommand.Parameters.AddWithValue("@experience", Worlds.Experience);
@@ -377,7 +377,7 @@ public class UserWorldsRepository : IUserWorldsRepository
 
         return true;
     }
-    public async Task<bool> UpdateWorldStarAsync(Worlds Worlds)
+    public async Task<bool> UpdateWorldStarAsync(string userId, Worlds Worlds)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -396,7 +396,7 @@ public class UserWorldsRepository : IUserWorldsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@world_id", Worlds.Id);
                     updateCommand.Parameters.AddWithValue("@star", Worlds.Star);
 
@@ -416,8 +416,7 @@ public class UserWorldsRepository : IUserWorldsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateWorldBreakthroughAsync(Worlds Worlds, int star, double quantity)
+    public async Task<bool> UpdateUserWorldBreakthroughAsync(string userId, Worlds Worlds, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -456,7 +455,7 @@ public class UserWorldsRepository : IUserWorldsRepository
                 WHERE user_id = @user_id AND world_id = @world_id;";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@world_id", Worlds.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -620,7 +619,7 @@ public class UserWorldsRepository : IUserWorldsRepository
         }
         return world;
     }
-    public async Task<Worlds> SumPowerUserWorldsAsync()
+    public async Task<Worlds> SumPowerUserWorldsAsync(string userId)
     {
         Worlds sumWorlds = new Worlds();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -685,7 +684,7 @@ public class UserWorldsRepository : IUserWorldsRepository
             ";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

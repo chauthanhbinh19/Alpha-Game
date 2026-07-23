@@ -40,17 +40,17 @@ public class UserCollaborationsService : IUserCollaborationsService
 
     public async Task<bool> UpdateCollaborationLevelAsync(Collaborations collaboration)
     {
-        return await _userCollaborationsRepository.UpdateCollaborationLevelAsync(collaboration);
+        return await _userCollaborationsRepository.UpdateUserCollaborationLevelAsync(collaboration);
     }
 
     public async Task<bool> UpdateCollaborationStarAsync(Collaborations collaboration)
     {
-        return await _userCollaborationsRepository.UpdateCollaborationStarAsync(collaboration);
+        return await _userCollaborationsRepository.UpdateUserCollaborationStarAsync(collaboration);
     }
 
     public async Task<bool> UpdateCollaborationBreakthroughAsync(Collaborations collaboration, int star, double quantity)
     {
-        return await _userCollaborationsRepository.UpdateCollaborationBreakthroughAsync(collaboration, star, quantity);
+        return await _userCollaborationsRepository.UpdateUserCollaborationBreakthroughAsync(collaboration, star, quantity);
     }
 
     public async Task<Collaborations> GetUserCollaborationByIdAsync(string user_id, string Id)

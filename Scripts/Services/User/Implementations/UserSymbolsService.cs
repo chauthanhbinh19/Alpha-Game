@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserSymbolsService : IUserSymbolsService
 {
-     private static UserSymbolsService _instance;
+    private static UserSymbolsService _instance;
     private readonly IUserSymbolsRepository _userSymbolsRepository;
 
     public UserSymbolsService(IUserSymbolsRepository userSymbolsRepository)

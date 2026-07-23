@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserSpiritCardsService : IUserSpiritCardsService
 {
-     private static UserSpiritCardsService _instance;
+    private static UserSpiritCardsService _instance;
     private readonly IUserSpiritCardsRepository _userSpiritCardsRepository;
 
     public UserSpiritCardsService(IUserSpiritCardsRepository userSpiritCardsRepository)

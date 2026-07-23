@@ -6,10 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserCardMonstersMasterRepository : IUserCardMonstersMasterRepository
 {
-    public async Task<Master> GetCardMonsterMasterAsync(string id, string cardId)
+    public async Task<Master> GetUserCardMonsterMasterAsync(string userId, string id, string cardId)
     {
         Master master = new Master();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -113,7 +112,7 @@ public class UserCardMonstersMasterRepository : IUserCardMonstersMasterRepositor
 
         return master;
     }
-    public async Task InsertOrUpdateCardMonsterMasterAsync(string userId, UserMasters userMaster, string cardId)
+    public async Task InsertOrUpdateUserCardMonsterMasterAsync(string userId, UserMasters userMaster, string cardId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -390,7 +389,7 @@ public class UserCardMonstersMasterRepository : IUserCardMonstersMasterRepositor
             }
         }
     }
-    public async Task<Master> GetSumCardMonstersMasterAsync(string userId, string cardId)
+    public async Task<Master> GetSumUserCardMonstersMasterAsync(string userId, string cardId)
     {
         Master master = new Master();
         string connectionString = DatabaseConfig.ConnectionString;

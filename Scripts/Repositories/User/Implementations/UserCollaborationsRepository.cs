@@ -350,7 +350,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserCollaborationsBatchAsync(List<Collaborations> collaborations)
+    public async Task<bool> InsertOrUpdateUserCollaborationsBatchAsync(string userId, List<Collaborations> collaborations)
     {
         if (collaborations == null || collaborations.Count == 0)
             return true;
@@ -485,7 +485,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -501,7 +501,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
         return true;
     }
-    public async Task<bool> UpdateCollaborationLevelAsync(Collaborations collaboration)
+    public async Task<bool> UpdateUserCollaborationLevelAsync(string userId, Collaborations collaboration)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -520,7 +520,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@collaboration_id", collaboration.Id);
                     updateCommand.Parameters.AddWithValue("@level", collaboration.Level);
                     updateCommand.Parameters.AddWithValue("@experience", collaboration.Experience);
@@ -541,7 +541,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
         return true;
     }
-    public async Task<bool> UpdateCollaborationStarAsync(Collaborations collaboration)
+    public async Task<bool> UpdateUserCollaborationStarAsync(string userId, Collaborations collaboration)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -560,7 +560,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@collaboration_id", collaboration.Id);
                     updateCommand.Parameters.AddWithValue("@star", collaboration.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", collaboration.Quantity);
@@ -581,8 +581,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateCollaborationBreakthroughAsync(Collaborations collaboration, int star, double quantity)
+    public async Task<bool> UpdateUserCollaborationBreakthroughAsync(string userId, Collaborations collaboration, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -625,7 +624,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@collaboration_id", collaboration.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -797,7 +796,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
         return collaboration;
     }
-    public async Task<Collaborations> SumPowerUserCollaborationsAsync()
+    public async Task<Collaborations> SumPowerUserCollaborationsAsync(string userId)
     {
         Collaborations sumCollaborations = new Collaborations();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -866,7 +865,7 @@ public class UserCollaborationsRepository : IUserCollaborationsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

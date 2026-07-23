@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 public class AchievementsGalleryService : IAchievementsGalleryService
 {
     private static AchievementsGalleryService _instance;
-    private IAchievementsGalleryRepository _achievementsGalleryRepository;
+    private readonly IAchievementsGalleryRepository _achievementsGalleryRepository;
 
     public AchievementsGalleryService(IAchievementsGalleryRepository achievementsGalleryRepository)
     {

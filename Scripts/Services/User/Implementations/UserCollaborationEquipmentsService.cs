@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsService
 {
-     private static UserCollaborationEquipmentsService _instance;
+    private static UserCollaborationEquipmentsService _instance;
     private readonly IUserCollaborationEquipmentsRepository _userCollaborationEquipmentsRepository;
 
     public UserCollaborationEquipmentsService(IUserCollaborationEquipmentsRepository userCollaborationEquipmentsRepository)
@@ -40,17 +40,17 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
 
     public async Task<bool> UpdateCollaborationEquipmentLevelAsync(CollaborationEquipments collaborationEquipment)
     {
-        return await _userCollaborationEquipmentsRepository.UpdateCollaborationEquipmentLevelAsync(collaborationEquipment);
+        return await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentLevelAsync(collaborationEquipment);
     }
 
     public async Task<bool> UpdateCollaborationEquipmentStarAsync(CollaborationEquipments collaborationEquipment)
     {
-        return await _userCollaborationEquipmentsRepository.UpdateCollaborationEquipmentStarAsync(collaborationEquipment);
+        return await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentStarAsync(collaborationEquipment);
     }
 
     public async Task<bool> UpdateCollaborationEquipmentBreakthroughAsync(CollaborationEquipments collaborationEquipment, int star, double quantity)
     {
-        return await _userCollaborationEquipmentsRepository.UpdateCollaborationEquipmentBreakthroughAsync(collaborationEquipment, star, quantity);
+        return await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentBreakthroughAsync(collaborationEquipment, star, quantity);
     }
 
     public async Task<CollaborationEquipments> GetUserCollaborationEquipmentByIdAsync(string user_id, string Id)

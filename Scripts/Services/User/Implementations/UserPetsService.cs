@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserPetsService : IUserPetsService
 {
-     private static UserPetsService _instance;
+    private static UserPetsService _instance;
     private readonly IUserPetsRepository _userPetsRepository;
 
     public UserPetsService(IUserPetsRepository userPetsRepository)
@@ -142,7 +142,7 @@ public class UserPetsService : IUserPetsService
             c.StunRate = c.StunRate + rank.StunRate;
             c.IgnoreStunRate = c.IgnoreStunRate + rank.IgnoreStunRate;
             c.ReflectionRate = c.ReflectionRate + rank.ReflectionRate;
-            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + rank.IgnoreReflectionRate;
+            c.IgnoreReflectionRate = c.IgnoreReflectionRate + rank.IgnoreReflectionRate;
             c.ReflectionDamageRate = c.ReflectionDamageRate + rank.ReflectionDamageRate;
             c.ReflectionResistanceRate = c.ReflectionResistanceRate + rank.ReflectionResistanceRate;
             c.Mana = c.Mana + rank.Mana;
@@ -223,7 +223,7 @@ public class UserPetsService : IUserPetsService
             c.StunRate = c.StunRate + master.StunRate;
             c.IgnoreStunRate = c.IgnoreStunRate + master.IgnoreStunRate;
             c.ReflectionRate = c.ReflectionRate + master.ReflectionRate;
-            c.IgnoreReflectionRate  = c.IgnoreReflectionRate + master.IgnoreReflectionRate;
+            c.IgnoreReflectionRate = c.IgnoreReflectionRate + master.IgnoreReflectionRate;
             c.ReflectionDamageRate = c.ReflectionDamageRate + master.ReflectionDamageRate;
             c.ReflectionResistanceRate = c.ReflectionResistanceRate + master.ReflectionResistanceRate;
             c.Mana = c.Mana + master.Mana;
@@ -263,13 +263,13 @@ public class UserPetsService : IUserPetsService
         }
         return PetsList;
     }
-    
-    
+
+
 
     public async Task<List<Pets>> GetUserPetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {
         List<Pets> list = await _userPetsRepository.GetUserPetsAsync(user_id, search, type, pageSize, offset, rare);
-        
+
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
         var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
@@ -313,7 +313,7 @@ public class UserPetsService : IUserPetsService
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
-        foreach(var pet in list)
+        foreach (var pet in list)
         {
             pet.ApplyPowerStats(powerManagerData);
             pet.ApplyScienceFictionStats(scienceFictionData);
@@ -340,7 +340,7 @@ public class UserPetsService : IUserPetsService
     public async Task<List<Pets>> GetUserPetsTeamAsync(string user_id, string teamId)
     {
         List<Pets> list = await _userPetsRepository.GetUserPetsTeamAsync(user_id, teamId);
-        
+
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
         var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
@@ -384,7 +384,7 @@ public class UserPetsService : IUserPetsService
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
-        foreach(var pet in list)
+        foreach (var pet in list)
         {
             pet.ApplyPowerStats(powerManagerData);
             pet.ApplyScienceFictionStats(scienceFictionData);
@@ -451,7 +451,7 @@ public class UserPetsService : IUserPetsService
     public async Task<List<Pets>> GetAllUserPetsInTeamAsync(string user_id)
     {
         List<Pets> list = await _userPetsRepository.GetAllUserPetsInTeamAsync(user_id);
-        
+
         var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
         var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
         var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
@@ -495,7 +495,7 @@ public class UserPetsService : IUserPetsService
         // list = await GetAllEquipmentPowerAsync(user_id, list);
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
-        foreach(var pet in list)
+        foreach (var pet in list)
         {
             pet.ApplyPowerStats(powerManagerData);
             pet.ApplyScienceFictionStats(scienceFictionData);

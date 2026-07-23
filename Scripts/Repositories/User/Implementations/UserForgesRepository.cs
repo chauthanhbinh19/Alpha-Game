@@ -376,7 +376,7 @@ public class UserForgesRepository : IUserForgesRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserForgesBatchAsync(List<Forges> forges)
+    public async Task<bool> InsertOrUpdateUserForgesBatchAsync(string userId, List<Forges> forges)
     {
         if (forges == null || forges.Count == 0)
             return true;
@@ -511,7 +511,7 @@ public class UserForgesRepository : IUserForgesRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", UserId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -527,7 +527,7 @@ public class UserForgesRepository : IUserForgesRepository
 
         return true;
     }
-    public async Task<bool> UpdateForgeLevelAsync(Forges forge)
+    public async Task<bool> UpdateUserForgeLevelAsync(string userId, Forges forge)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -546,7 +546,7 @@ public class UserForgesRepository : IUserForgesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
                     updateCommand.Parameters.AddWithValue("@forge_id", forge.Id);
                     updateCommand.Parameters.AddWithValue("@level", forge.Level);
                     updateCommand.Parameters.AddWithValue("@experience", forge.Experience);
@@ -567,7 +567,7 @@ public class UserForgesRepository : IUserForgesRepository
 
         return true;
     }
-    public async Task<bool> UpdateForgeStarAsync(Forges forge)
+    public async Task<bool> UpdateUserForgeStarAsync(string userId, Forges forge)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -586,7 +586,7 @@ public class UserForgesRepository : IUserForgesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
                     updateCommand.Parameters.AddWithValue("@forge_id", forge.Id);
                     updateCommand.Parameters.AddWithValue("@star", forge.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", forge.Quantity);
@@ -607,8 +607,7 @@ public class UserForgesRepository : IUserForgesRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateForgeBreakthroughAsync(Forges forge, int star, double quantity)
+    public async Task<bool> UpdateUserForgeBreakthroughAsync(string userId, Forges forge, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -651,7 +650,7 @@ public class UserForgesRepository : IUserForgesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
                     updateCommand.Parameters.AddWithValue("@forge_id", forge.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -819,7 +818,7 @@ public class UserForgesRepository : IUserForgesRepository
 
         return forge;
     }
-    public async Task<Forges> SumPowerUserForgesAsync()
+    public async Task<Forges> SumPowerUserForgesAsync(string userId)
     {
         Forges sumForges = new Forges();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -887,7 +886,7 @@ public class UserForgesRepository : IUserForgesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", UserId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

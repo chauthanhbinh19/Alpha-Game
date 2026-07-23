@@ -3,15 +3,15 @@ using System.Threading.Tasks;
 
 public interface IUserSpiritBeastsRepository
 {
-    Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string user_id, string search, int pageSize, int offset, string rare);
-    Task<List<SpiritBeasts>> GetAllUserSpiritBeastsAsync(string user_id, int pageSize, int offset);
-    Task<List<SpiritBeasts>> GetSpiritBeastsByCardIdsAsync(string user_id, List<string> cardIds);
-    Task<int> GetUserSpiritBeastsCountAsync(string user_id, string search, string rare);
-    Task<bool> InsertUserSpiritBeastAsync(SpiritBeasts spiritBeast);
-    Task<bool> InsertOrUpdateUserSpiritBeastsBatchAsync(List<SpiritBeasts> spiritBeasts);
-    Task<bool> UpdateSpiritBeastLevelAsync(SpiritBeasts spiritBeast);
-    Task<bool> UpdateSpiritBeastStarAsync(SpiritBeasts spiritBeast);
-    Task<bool> UpdateSpiritBeastBreakthroughAsync(SpiritBeasts spiritBeast, int star, double quantity);
+    Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string userId, string search, int pageSize, int offset, string rare);
+    Task<List<SpiritBeasts>> GetAllUserSpiritBeastsAsync(string userId, int pageSize, int offset);
+    Task<List<SpiritBeasts>> GetUserSpiritBeastsByCardIdsAsync(string userId, List<string> cardIds);
+    Task<int> GetUserSpiritBeastsCountAsync(string userId, string search, string rare);
+    Task<bool> InsertUserSpiritBeastAsync(string userId, SpiritBeasts spiritBeast);
+    Task<bool> InsertOrUpdateUserSpiritBeastsBatchAsync(string userId, List<SpiritBeasts> spiritBeasts);
+    Task<bool> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast);
+    Task<bool> UpdateUserSpiritBeastStarAsync(string userId, SpiritBeasts spiritBeast);
+    Task<bool> UpdateUserSpiritBeastBreakthroughAsync(string userId, SpiritBeasts spiritBeast, int star, double quantity);
     Task<SpiritBeasts> GetUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHeroes);
     Task<SpiritBeasts> GetUserCardCaptainSpiritBeastAsync(string userId, CardCaptains cardCaptains);
     Task<SpiritBeasts> GetUserCardColonelSpiritBeastAsync(string userId, CardColonels cardColonels);
@@ -30,15 +30,15 @@ public interface IUserSpiritBeastsRepository
     Task<bool> InsertOrUpdateUserCardMonsterSpiritBeastAsync(string userId, CardMonsters cardMonsters, SpiritBeasts spiritBeast);
     Task<bool> InsertOrUpdateUserCardSpellSpiritBeastAsync(string userId, CardSpells cardSpell, SpiritBeasts spiritBeast);
     Task<bool> InsertOrUpdateUserCardSoldierSpiritBeastAsync(string userId, CardSoldiers cardSoldier, SpiritBeasts spiritBeast);
-    Task<List<SpiritBeasts>> GetAllUserCardHeroesSpiritBeastAsync(string user_id, int pageSize, int offset, string status);
-    Task<List<SpiritBeasts>> GetAllUserCardCaptainsSpiritBeastAsync(string user_id, int pageSize, int offset, string status);
-    Task<List<SpiritBeasts>> GetAllUserCardColonelsSpiritBeastAsync(string user_id, int pageSize, int offset, string status);
-    Task<List<SpiritBeasts>> GetAllUserCardGeneralsSpiritBeastAsync(string user_id, int pageSize, int offset, string status);
-    Task<List<SpiritBeasts>> GetAllUserCardAdmiralsSpiritBeastAsync(string user_id, int pageSize, int offset, string status);
-    Task<List<SpiritBeasts>> GetAllUserCardMilitariesSpiritBeastAsync(string user_id, int pageSize, int offset, string status);
-    Task<List<SpiritBeasts>> GetAllUserCardMonstersSpiritBeastAsync(string user_id, int pageSize, int offset, string status);
-    Task<List<SpiritBeasts>> GetAllUserCardSpellsSpiritBeastAsync(string user_id, int pageSize, int offset, string status);
-    Task<List<SpiritBeasts>> GetAllUserCardSoldiersSpiritBeastAsync(string user_id, int pageSize, int offset, string status);
+    Task<List<SpiritBeasts>> GetAllUserCardHeroesSpiritBeastAsync(string userId, int pageSize, int offset, string status);
+    Task<List<SpiritBeasts>> GetAllUserCardCaptainsSpiritBeastAsync(string userId, int pageSize, int offset, string status);
+    Task<List<SpiritBeasts>> GetAllUserCardColonelsSpiritBeastAsync(string userId, int pageSize, int offset, string status);
+    Task<List<SpiritBeasts>> GetAllUserCardGeneralsSpiritBeastAsync(string userId, int pageSize, int offset, string status);
+    Task<List<SpiritBeasts>> GetAllUserCardAdmiralsSpiritBeastAsync(string userId, int pageSize, int offset, string status);
+    Task<List<SpiritBeasts>> GetAllUserCardMilitariesSpiritBeastAsync(string userId, int pageSize, int offset, string status);
+    Task<List<SpiritBeasts>> GetAllUserCardMonstersSpiritBeastAsync(string userId, int pageSize, int offset, string status);
+    Task<List<SpiritBeasts>> GetAllUserCardSpellsSpiritBeastAsync(string userId, int pageSize, int offset, string status);
+    Task<List<SpiritBeasts>> GetAllUserCardSoldiersSpiritBeastAsync(string userId, int pageSize, int offset, string status);
     Task<bool> DeleteUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHeroes, SpiritBeasts spiritBeast);
     Task<bool> DeleteUserCardCaptainSpiritBeastAsync(string userId, CardCaptains cardCaptains, SpiritBeasts spiritBeast);
     Task<bool> DeleteUserCardColonelSpiritBeastAsync(string userId, CardColonels cardColonels, SpiritBeasts spiritBeast);
@@ -48,6 +48,6 @@ public interface IUserSpiritBeastsRepository
     Task<bool> DeleteUserCardMonsterSpiritBeastAsync(string userId, CardMonsters cardMonsters, SpiritBeasts spiritBeast);
     Task<bool> DeleteUserCardSpellSpiritBeastAsync(string userId, CardSpells cardSpells, SpiritBeasts spiritBeast);
     Task<bool> DeleteUserCardSoldierSpiritBeastAsync(string userId, CardSoldiers cardSoldiers, SpiritBeasts spiritBeast);
-    Task<SpiritBeasts> GetUserSpiritBeastByIdAsync(string user_id, string Id);
-    Task<SpiritBeasts> SumPowerUserSpiritBeastsAsync();
+    Task<SpiritBeasts> GetUserSpiritBeastByIdAsync(string userId, string Id);
+    Task<SpiritBeasts> SumPowerUserSpiritBeastsAsync(string userId);
 }

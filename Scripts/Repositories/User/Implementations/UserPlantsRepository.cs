@@ -352,7 +352,7 @@ public class UserPlantsRepository : IUserPlantsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserPlantsBatchAsync(List<Plants> plants)
+    public async Task<bool> InsertOrUpdateUserPlantsBatchAsync(string userId, List<Plants> plants)
     {
         if (plants == null || plants.Count == 0)
             return true;
@@ -487,7 +487,7 @@ public class UserPlantsRepository : IUserPlantsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -503,7 +503,7 @@ public class UserPlantsRepository : IUserPlantsRepository
 
         return true;
     }
-    public async Task<bool> UpdatePlantLevelAsync(Plants plant)
+    public async Task<bool> UpdateUserPlantLevelAsync(string userId, Plants plant)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -522,7 +522,7 @@ public class UserPlantsRepository : IUserPlantsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@plant_id", plant.Id);
                     updateCommand.Parameters.AddWithValue("@level", plant.Level);
                     updateCommand.Parameters.AddWithValue("@experience", plant.Experience);
@@ -543,7 +543,7 @@ public class UserPlantsRepository : IUserPlantsRepository
 
         return true;
     }
-    public async Task<bool> UpdatePlantStarAsync(Plants plant)
+    public async Task<bool> UpdateUserPlantStarAsync(string userId, Plants plant)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -562,7 +562,7 @@ public class UserPlantsRepository : IUserPlantsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@plant_id", plant.Id);
                     updateCommand.Parameters.AddWithValue("@star", plant.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", plant.Quantity);
@@ -583,8 +583,7 @@ public class UserPlantsRepository : IUserPlantsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdatePlantBreakthroughAsync(Plants plant, int star, double quantity)
+    public async Task<bool> UpdateUserPlantBreakthroughAsync(string userId, Plants plant, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -623,7 +622,7 @@ public class UserPlantsRepository : IUserPlantsRepository
                 WHERE user_id = @user_id AND plant_id = @plant_id;";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@plant_id", plant.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -787,7 +786,7 @@ public class UserPlantsRepository : IUserPlantsRepository
         }
         return plant;
     }
-    public async Task<Plants> SumPowerUserPlantsAsync()
+    public async Task<Plants> SumPowerUserPlantsAsync(string userId)
     {
         Plants sumPlants = new Plants();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -852,7 +851,7 @@ public class UserPlantsRepository : IUserPlantsRepository
             ";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

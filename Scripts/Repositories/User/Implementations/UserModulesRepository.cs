@@ -6,10 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserModulesRepository : IUserModulesRepository
 {
-    public async Task<UserModules> GetUserModulesAsync(string moduleId, string userTable, string objectColumn)
+    public async Task<UserModules> GetUserModulesAsync(string userId, string moduleId, string userTable, string objectColumn)
     {
         UserModules userModule = new UserModules();
-        string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -26,7 +25,7 @@ public class UserModulesRepository : IUserModulesRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@module_id", moduleId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())

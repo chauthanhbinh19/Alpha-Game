@@ -6,10 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserScienceFictionsRepository : IUserScienceFictionsRepository
 {
-    public async Task<UserScienceFictions> GetScienceFictionsAsync(string id)
+    public async Task<UserScienceFictions> GetUserScienceFictionsAsync(string userId, string id)
     {
         UserScienceFictions userScienceFiction = new UserScienceFictions();
-        string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -26,7 +25,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@type", id);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -108,7 +107,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
 
         return userScienceFiction;
     }
-    public async Task InsertOrUpdateScienceFictionsAsync(string userId, UserScienceFictions scienceFiction, string id)
+    public async Task InsertOrUpdateUserScienceFictionsAsync(string userId, UserScienceFictions scienceFiction, string id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -252,7 +251,7 @@ public class UserScienceFictionsRepository : IUserScienceFictionsRepository
             Debug.LogError("Error: " + ex.Message);
         }
     }
-    public async Task<UserScienceFictions> GetSumScienceFictionsAsync(string userId)
+    public async Task<UserScienceFictions> GetSumUserScienceFictionsAsync(string userId)
     {
         UserScienceFictions userScienceFictions = new UserScienceFictions();
         string connectionString = DatabaseConfig.ConnectionString;

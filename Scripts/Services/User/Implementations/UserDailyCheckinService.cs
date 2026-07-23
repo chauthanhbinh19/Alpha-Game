@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserDailyCheckinService : IUserDailyCheckinService
 {
-     private static UserDailyCheckinService _instance;
+    private static UserDailyCheckinService _instance;
     private readonly IUserDailyCheckinRepository _userDailyCheckinRepository;
 
     public UserDailyCheckinService(IUserDailyCheckinRepository userDailyCheckinRepository)

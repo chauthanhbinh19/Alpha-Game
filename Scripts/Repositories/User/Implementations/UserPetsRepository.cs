@@ -344,7 +344,7 @@ public class UserPetsRepository : IUserPetsRepository
 
         return petsList;
     }
-    public async Task<Dictionary<string, int>> GetUniquePetsTypesTeamAsync(string teamId)
+    public async Task<Dictionary<string, int>> GetUniqueUserPetsTypesTeamAsync(string userId, string teamId)
     {
         var result = new Dictionary<string, int>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -363,7 +363,7 @@ public class UserPetsRepository : IUserPetsRepository
         ";
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+            selectCommand.Parameters.AddWithValue("@userId", userId);
             selectCommand.Parameters.AddWithValue("@team_id", teamId);
 
             await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
@@ -593,7 +593,7 @@ public class UserPetsRepository : IUserPetsRepository
             return false;
         }
     }
-    public async Task<bool> InsertOrUpdateUserPetsBatchAsync(List<Pets> pets)
+    public async Task<bool> InsertOrUpdateUserPetsBatchAsync(string userId, List<Pets> pets)
     {
         if (pets == null || pets.Count == 0)
             return true;
@@ -728,7 +728,7 @@ public class UserPetsRepository : IUserPetsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -744,7 +744,7 @@ public class UserPetsRepository : IUserPetsRepository
 
         return true;
     }
-    public async Task<bool> UpdatePetLevelAsync(Pets pet)
+    public async Task<bool> UpdateUserPetLevelAsync(string userId, Pets pet)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -763,7 +763,7 @@ public class UserPetsRepository : IUserPetsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@pet_id", pet.Id);
                     updateCommand.Parameters.AddWithValue("@level", pet.Level);
                     updateCommand.Parameters.AddWithValue("@experience", pet.Experience);
@@ -784,7 +784,7 @@ public class UserPetsRepository : IUserPetsRepository
 
         return true;
     }
-    public async Task<bool> UpdatePetStarAsync(Pets pet)
+    public async Task<bool> UpdateUserPetStarAsync(string userId, Pets pet)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -803,7 +803,7 @@ public class UserPetsRepository : IUserPetsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@pet_id", pet.Id);
                     updateCommand.Parameters.AddWithValue("@star", pet.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", pet.Quantity);
@@ -824,8 +824,7 @@ public class UserPetsRepository : IUserPetsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdatePetBreakthroughAsync(Pets pet, int star, double quantity)
+    public async Task<bool> UpdateUserPetBreakthroughAsync(string userId, Pets pet, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -866,7 +865,7 @@ public class UserPetsRepository : IUserPetsRepository
         ";
 
             await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            updateCommand.Parameters.AddWithValue("@user_id", userId);
             updateCommand.Parameters.AddWithValue("@pet_id", pet.Id);
             updateCommand.Parameters.AddWithValue("@star", star);
             updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -930,7 +929,7 @@ public class UserPetsRepository : IUserPetsRepository
             return false;
         }
     }
-    public async Task<bool> UpdateTeamPetAsync(string teamId, string cardId)
+    public async Task<bool> UpdateTeamUserPetAsync(string userId, string teamId, string cardId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -948,7 +947,7 @@ public class UserPetsRepository : IUserPetsRepository
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@team_id", teamId);
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@card_pet_id", cardId);
 
                     await updateCommand.ExecuteNonQueryAsync();

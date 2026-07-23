@@ -9,10 +9,10 @@ public interface IUserAlchemiesService
     Task<List<Alchemies>> GetUserAlchemiesAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetUserAlchemiesCountAsync(string user_id, string search, string type, string rare);
     Task<bool> InsertUserAlchemyAsync(Alchemies alchemy, string userId);
-    Task<bool> InsertOrUpdateUserAlchemiesBatchAsync(List<Alchemies> alchemies);
-    Task<bool> UpdateAlchemyLevelAsync(Alchemies alchemy);
-    Task<bool> UpdateAlchemyStarAsync(Alchemies alchemy);
-    Task<bool> UpdateAlchemyBreakthroughAsync(Alchemies alchemy, int star, double quantity);
+    Task<bool> InsertOrUpdateUserAlchemiesBatchAsync(string userId, List<Alchemies> alchemies);
+    Task<bool> UpdateUserAlchemyLevelAsync(string userId, Alchemies alchemy);
+    Task<bool> UpdateUserAlchemyStarAsync(string userId, Alchemies alchemy);
+    Task<bool> UpdateUserAlchemyBreakthroughAsync(string userId, Alchemies alchemy, int star, double quantity);
     Task<Alchemies> GetUserAlchemyByIdAsync(string user_id, string Id);
-    Task<Alchemies> SumPowerUserAlchemiesAsync();
+    Task<Alchemies> SumPowerUserAlchemiesAsync(string userId);
 }

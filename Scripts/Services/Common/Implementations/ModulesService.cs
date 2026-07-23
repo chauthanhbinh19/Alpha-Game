@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 public class ModulesService : IModulesService
 {
     private static ModulesService _instance;
-    private readonly IModulesRepository _universesRepository;
+    private readonly IModulesRepository _modulesRepository;
 
-    public ModulesService(IModulesRepository universesRepository)
+    public ModulesService(IModulesRepository modulesRepository)
     {
-        _universesRepository = universesRepository;
+        _modulesRepository = modulesRepository;
     }
 
     public static ModulesService Create()
@@ -26,6 +26,6 @@ public class ModulesService : IModulesService
 
     public async Task<Modules> GetModuleByIdAsync(string id)
     {
-        return await _universesRepository.GetModuleByIdAsync(id);
+        return await _modulesRepository.GetModuleByIdAsync(id);
     }
 }

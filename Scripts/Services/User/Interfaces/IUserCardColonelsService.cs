@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public interface IUseCardColonelsService
+public interface IUserCardColonelsService
 {
     Task<List<CardColonels>> GetAllEquipmentPowerAsync(string user_id, List<CardColonels> CardColonelsList);
     Task<List<CardColonels>> GetAllRankPowerAsync(string user_id, List<CardColonels> CardColonelsList);

@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 public interface IUserBeveragesRepository
 {
-    Task<List<Beverages>> GetUserBeveragesAsync(string user_id, string search, int pageSize, int offset, string rare);
-    Task<int> GetUserBeveragesCountAsync(string user_id, string search, string rare);
+    Task<List<Beverages>> GetUserBeveragesAsync(string userId, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserBeveragesCountAsync(string userId, string search, string rare);
     Task<bool> InsertUserBeverageAsync(Beverages beverage, string userId);
-    Task<bool> InsertOrUpdateUserBeveragesBatchAsync(List<Beverages> beverages);
-    Task<bool> UpdateBeverageLevelAsync(Beverages beverage);
-    Task<bool> UpdateBeverageStarAsync(Beverages beverage);
-    Task<bool> UpdateBeverageBreakthroughAsync(Beverages beverage, int star, double quantity);
-    Task<Beverages> GetUserBeverageByIdAsync(string user_id, string Id);
-    Task<Beverages> SumPowerUserBeveragesAsync();
+    Task<bool> InsertOrUpdateUserBeveragesBatchAsync(string userId, List<Beverages> beverages);
+    Task<bool> UpdateUserBeverageLevelAsync(string userId, Beverages beverage);
+    Task<bool> UpdateUserBeverageStarAsync(string userId, Beverages beverage);
+    Task<bool> UpdateUserBeverageBreakthroughAsync(string userId, Beverages beverage, int star, double quantity);
+    Task<Beverages> GetUserBeverageByIdAsync(string userId, string Id);
+    Task<Beverages> SumPowerUserBeveragesAsync(string userId);
 }

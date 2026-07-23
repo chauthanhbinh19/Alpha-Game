@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserVehiclesService : IUserVehiclesService
 {
-     private static UserVehiclesService _instance;
+    private static UserVehiclesService _instance;
     private readonly IUserVehiclesRepository _userVehiclesRepository;
 
     public UserVehiclesService(IUserVehiclesRepository userVehiclesRepository)

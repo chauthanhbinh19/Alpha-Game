@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 
 public interface IUserArtworksRepository
 {
-    Task<List<Artworks>> GetUserArtworksAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<int> GetUserArtworksCountAsync(string user_id, string search, string type, string rare);
+    Task<List<Artworks>> GetUserArtworksAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserArtworksCountAsync(string userId, string search, string type, string rare);
     Task<bool> InsertUserArtworkAsync(Artworks artwork, string userId);
-    Task<bool> InsertOrUpdateUserArtworksBatchAsync(List<Artworks> artworks);
-    Task<bool> UpdateArtworkLevelAsync(Artworks artwork);
-    Task<bool> UpdateArtworkStarAsync(Artworks artwork);
-    Task<bool> UpdateArtworkBreakthroughAsync(Artworks artwork, int star, double quantity);
-    Task<Artworks> GetUserArtworkByIdAsync(string user_id, string Id);
-    Task<Artworks> SumPowerUserArtworksAsync();
+    Task<bool> InsertOrUpdateUserArtworksBatchAsync(string userId, List<Artworks> artworks);
+    Task<bool> UpdateUserArtworkLevelAsync(string userId, Artworks artwork);
+    Task<bool> UpdateUserArtworkStarAsync(string userId, Artworks artwork);
+    Task<bool> UpdateUserArtworkBreakthroughAsync(string userId, Artworks artwork, int star, double quantity);
+    Task<Artworks> GetUserArtworkByIdAsync(string userId, string Id);
+    Task<Artworks> SumPowerUserArtworksAsync(string userId);
 }

@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 public class UserEquipmentsRankService : IUserEquipmentsRankService
 {
-     private static UserEquipmentsRankService _instance;
+    private static UserEquipmentsRankService _instance;
     private readonly IUserEquipmentsRankRepository _userEquipmentsRankRepository;
 
     public UserEquipmentsRankService(IUserEquipmentsRankRepository userEquipmentsRankRepository)

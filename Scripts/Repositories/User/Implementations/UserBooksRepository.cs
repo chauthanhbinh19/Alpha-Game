@@ -201,7 +201,7 @@ public class UserBooksRepository : IUserBooksRepository
         }
         return books;
     }
-    public async Task<List<Books>> GetUserBooksTeamAsync(string teamId)
+    public async Task<List<Books>> GetUserBooksTeamAsync(string userId, string teamId)
     {
         List<Books> books = new List<Books>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -217,7 +217,7 @@ public class UserBooksRepository : IUserBooksRepository
                 ";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     selectCommand.Parameters.AddWithValue("@team_id", teamId);
 
                     await using (MySqlDataReader reader = selectCommand.ExecuteReader())
@@ -363,7 +363,7 @@ public class UserBooksRepository : IUserBooksRepository
         }
         return books;
     }
-    public async Task<Dictionary<string, int>> GetUniqueBooksTypesTeamAsync(string teamId)
+    public async Task<Dictionary<string, int>> GetUniqueUserBooksTypesTeamAsync(string userId, string teamId)
     {
         var result = new Dictionary<string, int>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -381,7 +381,7 @@ public class UserBooksRepository : IUserBooksRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     selectCommand.Parameters.AddWithValue("@team_id", teamId);
 
                     await using (MySqlDataReader reader = selectCommand.ExecuteReader())
@@ -475,7 +475,7 @@ public class UserBooksRepository : IUserBooksRepository
 
         return count;
     }
-    public async Task<bool> InsertUserBookAsync(Books book)
+    public async Task<bool> InsertUserBookAsync(string userId, Books book)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -492,7 +492,7 @@ public class UserBooksRepository : IUserBooksRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@book_id", book.Id);
 
                     object result = await checkCommand.ExecuteScalarAsync();
@@ -540,7 +540,7 @@ public class UserBooksRepository : IUserBooksRepository
 
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
-                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@book_id", book.Id);
                             insertCommand.Parameters.AddWithValue("@rare", book.Rarity);
                             insertCommand.Parameters.AddWithValue("@level", 0);
@@ -615,7 +615,7 @@ public class UserBooksRepository : IUserBooksRepository
 
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@book_id", book.Id);
                             updateCommand.Parameters.AddWithValue("@quantity", book.Quantity);
 
@@ -637,7 +637,7 @@ public class UserBooksRepository : IUserBooksRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserBooksBatchAsync(List<Books> books)
+    public async Task<bool> InsertOrUpdateUserBooksBatchAsync(string userId, List<Books> books)
     {
         if (books == null || books.Count == 0)
             return true;
@@ -772,7 +772,7 @@ public class UserBooksRepository : IUserBooksRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -788,7 +788,7 @@ public class UserBooksRepository : IUserBooksRepository
 
         return true;
     }
-    public async Task<bool> UpdateBookLevelAsync(Books book)
+    public async Task<bool> UpdateUserBookLevelAsync(string userId, Books book)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -806,7 +806,7 @@ public class UserBooksRepository : IUserBooksRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@book_id", book.Id);
                     updateCommand.Parameters.AddWithValue("@level", book.Level);
                     updateCommand.Parameters.AddWithValue("@experience", book.Experience);
@@ -827,7 +827,7 @@ public class UserBooksRepository : IUserBooksRepository
 
         return true;
     }
-    public async Task<bool> UpdateBookStarAsync(Books book)
+    public async Task<bool> UpdateUserBookStarAsync(string userId, Books book)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -846,7 +846,7 @@ public class UserBooksRepository : IUserBooksRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@book_id", book.Id);
                     updateCommand.Parameters.AddWithValue("@star", book.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", book.Quantity);
@@ -867,8 +867,7 @@ public class UserBooksRepository : IUserBooksRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateBookBreakthroughAsync(Books book, int star, double quantity)
+    public async Task<bool> UpdateUserBookBreakthroughAsync(string userId, Books book, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -910,7 +909,7 @@ public class UserBooksRepository : IUserBooksRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@book_id", book.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -982,7 +981,7 @@ public class UserBooksRepository : IUserBooksRepository
 
         return true;
     }
-    public async Task<bool> UpdateTeamBookAsync(string teamId, string position, string bookId)
+    public async Task<bool> UpdateTeamUserBookAsync(string userId, string teamId, string position, string bookId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1002,7 +1001,7 @@ public class UserBooksRepository : IUserBooksRepository
                 {
                     updateCommand.Parameters.AddWithValue("@team_id", teamId);
                     updateCommand.Parameters.AddWithValue("@position", position);
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@book_id", bookId);
 
                     await updateCommand.ExecuteNonQueryAsync();

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UserService : IUserService
 {
-     private static UserService _instance;
+    private static UserService _instance;
     private readonly IUserRepository _userRepository;
 
     public UserService(IUserRepository userRepository)

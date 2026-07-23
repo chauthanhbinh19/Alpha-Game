@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserCardLivesService : IUserCardLivesService
 {
-     private static UserCardLivesService _instance;
+    private static UserCardLivesService _instance;
     private readonly IUserCardLivesRepository _userCardLivesRepository;
 
     public UserCardLivesService(IUserCardLivesRepository userCardLivesRepository)
@@ -20,8 +20,8 @@ public class UserCardLivesService : IUserCardLivesService
         return _instance;
     }
 
-    
-    
+
+
 
     public async Task<List<CardLives>> GetUserCardLivesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {

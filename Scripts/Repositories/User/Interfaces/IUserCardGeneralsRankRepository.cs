@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 public interface IUserCardGeneralsRankRepository
 {
-    Task<Rank> GetCardGeneralRankAsync(string id, string card_id);
-    Task InsertOrUpdateCardGeneralRankAsync(string userId, UserRanks userRank, string cardId);
-    Task<Rank> GetSumCardGeneralsRankAsync(string user_id, string card_id);
+    Task<Rank> GetUserCardGeneralRankAsync(string userId, string id, string cardId);
+    Task InsertOrUpdateUserCardGeneralRankAsync(string userId, UserRanks userRank, string cardId);
+    Task<Rank> GetSumUserCardGeneralsRankAsync(string userId, string cardId);
 }

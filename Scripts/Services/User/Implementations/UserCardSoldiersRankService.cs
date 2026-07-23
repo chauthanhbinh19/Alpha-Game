@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 public class UserCardSoldiersRankService : IUserCardSoldiersRankService
 {
-     private static UserCardSoldiersRankService _instance;
+    private static UserCardSoldiersRankService _instance;
     private readonly IUserCardSoldiersRankRepository _userCardSoldiersRankRepository;
 
     public UserCardSoldiersRankService(IUserCardSoldiersRankRepository userCardSoldiersRankRepository)
@@ -26,11 +26,11 @@ public class UserCardSoldiersRankService : IUserCardSoldiersRankService
 
     public async Task InsertOrUpdateCardSoldierRankAsync(string userId, UserRanks userRank, string cardId)
     {
-        await _userCardSoldiersRankRepository.InsertOrUpdateCardSoldierRankAsync(userId, userRank, cardId);
+        await _userCardSoldiersRankRepository.InsertOrUpdateUserCardSoldierRankAsync(userId, userRank, cardId);
     }
 
     public async Task<Rank> GetSumCardSoldiersRankAsync(string user_id, string card_id)
     {
-        return await _userCardSoldiersRankRepository.GetSumCardSoldiersRankAsync(user_id, card_id);
+        return await _userCardSoldiersRankRepository.GetSumUserCardSoldiersRankAsync(user_id, card_id);
     }
 }

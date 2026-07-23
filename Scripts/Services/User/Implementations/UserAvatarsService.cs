@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserAvatarsService : IUserAvatarsService
 {
-     private static UserAvatarsService _instance;
+    private static UserAvatarsService _instance;
     private readonly IUserAvatarsRepository _userAvatarsRepository;
 
     public UserAvatarsService(IUserAvatarsRepository userAvatarsRepository)
@@ -57,12 +57,12 @@ public class UserAvatarsService : IUserAvatarsService
 
     public async Task<Avatars> GetAvatarByUsedAsync(string user_id)
     {
-        return await _userAvatarsRepository.GetAvatarByUsedAsync(user_id);
+        return await _userAvatarsRepository.GetUserAvatarByUsedAsync(user_id);
     }
 
     public async Task UpdateIsUsedAvatarAsync(string avatarId, string userId, bool is_used)
     {
-        await _userAvatarsRepository.UpdateIsUsedAvatarAsync(avatarId, userId, is_used);
+        await _userAvatarsRepository.UpdateIsUsedUserAvatarAsync(avatarId, userId, is_used);
     }
 
     public async Task<Avatars> SumPowerUserAvatarsAsync()

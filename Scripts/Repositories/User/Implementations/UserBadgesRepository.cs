@@ -356,7 +356,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserBadgesBatchAsync(List<Badges> badges)
+    public async Task<bool> InsertOrUpdateUserBadgesBatchAsync(string userId, List<Badges> badges)
     {
         if (badges == null || badges.Count == 0)
             return true;
@@ -491,7 +491,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -507,7 +507,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
         return true;
     }
-    public async Task<bool> UpdateBadgeLevelAsync(Badges badge)
+    public async Task<bool> UpdateUserBadgeLevelAsync(string userId, Badges badge)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -526,7 +526,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@badge_id", badge.Id);
                     updateCommand.Parameters.AddWithValue("@level", badge.Level);
                     updateCommand.Parameters.AddWithValue("@experience", badge.Experience);
@@ -547,7 +547,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
         return true;
     }
-    public async Task<bool> UpdateBadgeStarAsync(Badges badge)
+    public async Task<bool> UpdateUserBadgeStarAsync(string userId, Badges badge)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -566,7 +566,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@badge_id", badge.Id);
                     updateCommand.Parameters.AddWithValue("@star", badge.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", badge.Quantity);
@@ -587,8 +587,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateBadgeBreakthroughAsync(Badges badge, int star, double quantity)
+    public async Task<bool> UpdateUserBadgeBreakthroughAsync(string userId, Badges badge, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -631,7 +630,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@badge_id", badge.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -799,7 +798,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
         return badge;
     }
-    public async Task<Badges> SumPowerUserBadgesAsync()
+    public async Task<Badges> SumPowerUserBadgesAsync(string userId)
     {
         Badges sumBadges = new Badges();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -868,7 +867,7 @@ public class UserBadgesRepository : IUserBadgesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

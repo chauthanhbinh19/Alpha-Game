@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public class UserForgesService : IUserForgesService
 {
-     private static UserForgesService _instance;
-    private IUserForgesRepository _userForgesRepository;
+    private static UserForgesService _instance;
+    private readonly IUserForgesRepository _userForgesRepository;
 
     public UserForgesService(IUserForgesRepository userForgesRepository)
     {
@@ -40,17 +40,17 @@ public class UserForgesService : IUserForgesService
 
     public async Task<bool> UpdateForgeLevelAsync(Forges forge)
     {
-        return await _userForgesRepository.UpdateForgeLevelAsync(forge);
+        return await _userForgesRepository.UpdateUserForgeLevelAsync(forge);
     }
 
     public async Task<bool> UpdateForgeStarAsync(Forges forge)
     {
-        return await _userForgesRepository.UpdateForgeStarAsync(forge);
+        return await _userForgesRepository.UpdateUserForgeStarAsync(forge);
     }
 
     public async Task<bool> UpdateForgeBreakthroughAsync(Forges forge, int star, double quantity)
     {
-        return await _userForgesRepository.UpdateForgeBreakthroughAsync(forge, star, quantity);
+        return await _userForgesRepository.UpdateUserForgeBreakthroughAsync(forge, star, quantity);
     }
 
     public async Task<Forges> GetUserForgeByIdAsync(string user_id, string Id)

@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 public class MastersService : IMastersService
 {
     private static MastersService _instance;
-    private readonly IMastersRepository _universesRepository;
+    private readonly IMastersRepository _mastersRepository;
 
-    public MastersService(IMastersRepository universesRepository)
+    public MastersService(IMastersRepository mastersRepository)
     {
-        _universesRepository = universesRepository;
+        _mastersRepository = mastersRepository;
     }
 
     public static MastersService Create()
@@ -26,6 +26,6 @@ public class MastersService : IMastersService
 
     public async Task<Masters> GetMasterByIdAsync(string id)
     {
-        return await _universesRepository.GetMasterByIdAsync(id);
+        return await _mastersRepository.GetMasterByIdAsync(id);
     }
 }

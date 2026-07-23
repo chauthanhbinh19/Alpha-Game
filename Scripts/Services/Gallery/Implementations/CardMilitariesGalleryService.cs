@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-public class CardMilitariesGalleryService : ICardMilitariesGallerService
+public class CardMilitariesGalleryService : ICardMilitariesGalleryService
 {
     private static CardMilitariesGalleryService _instance;
     private readonly ICardMilitariesGalleryRepository _cardMilitariesGalleryRepository;

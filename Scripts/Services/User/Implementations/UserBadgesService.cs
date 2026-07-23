@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserBadgesService : IUserBadgesService
 {
-     private static UserBadgesService _instance;
+    private static UserBadgesService _instance;
     private readonly IUserBadgesRepository _userBadgesRepository;
 
     public UserBadgesService(IUserBadgesRepository userBadgesRepository)

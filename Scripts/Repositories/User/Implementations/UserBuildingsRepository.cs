@@ -376,7 +376,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserBuildingsBatchAsync(List<Buildings> buildings)
+    public async Task<bool> InsertOrUpdateUserBuildingsBatchAsync(string userId, List<Buildings> buildings)
     {
         if (buildings == null || buildings.Count == 0)
             return true;
@@ -511,7 +511,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -527,7 +527,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
 
         return true;
     }
-    public async Task<bool> UpdateBuildingLevelAsync(Buildings building)
+    public async Task<bool> UpdateUserBuildingLevelAsync(string userId, Buildings building)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -546,7 +546,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@building_id", building.Id);
                     updateCommand.Parameters.AddWithValue("@level", building.Level);
                     updateCommand.Parameters.AddWithValue("@experience", building.Experience);
@@ -567,7 +567,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
 
         return true;
     }
-    public async Task<bool> UpdateBuildingStarAsync(Buildings building)
+    public async Task<bool> UpdateUserBuildingStarAsync(string userId, Buildings building)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -586,7 +586,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@building_id", building.Id);
                     updateCommand.Parameters.AddWithValue("@star", building.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", building.Quantity);
@@ -607,8 +607,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateBuildingBreakthroughAsync(Buildings building, int star, double quantity)
+    public async Task<bool> UpdateUserBuildingBreakthroughAsync(string userId, Buildings building, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -651,7 +650,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@building_id", building.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -819,7 +818,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
 
         return building;
     }
-    public async Task<Buildings> SumPowerUserBuildingsAsync()
+    public async Task<Buildings> SumPowerUserBuildingsAsync(string userId)
     {
         Buildings sumBuildings = new Buildings();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -887,7 +886,7 @@ public class UserBuildingsRepository : IUserBuildingsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

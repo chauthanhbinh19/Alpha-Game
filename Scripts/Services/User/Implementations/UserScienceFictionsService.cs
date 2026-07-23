@@ -26,11 +26,11 @@ public class UserScienceFictionsService : IUserScienceFictionsService
 
     public async Task<UserScienceFictions> GetSumUserScienceFictionsAsync(string user_id)
     {
-        return await _scienceFictionsRepository.GetSumScienceFictionsAsync(user_id);
+        return await _scienceFictionsRepository.GetSumUserScienceFictionsAsync(user_id);
     }
 
     public async Task InsertOrUpdateUserScienceFictionsAsync(string userId, UserScienceFictions scienceFiction, string id)
     {
-        await _scienceFictionsRepository.InsertOrUpdateScienceFictionsAsync(userId, scienceFiction, id);
+        await _scienceFictionsRepository.InsertOrUpdateUserScienceFictionsAsync(userId, scienceFiction, id);
     }
 }

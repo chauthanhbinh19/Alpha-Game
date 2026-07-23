@@ -3,32 +3,32 @@ using System.Threading.Tasks;
 
 public interface IUserSkillsRepository
 {
-    Task<List<Skills>> GetUserSkillsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<int> GetUserSkillsCountAsync(string user_id, string search, string type, string rare);
-    Task<bool> InsertUserSkillAsync(Skills skill);
-    Task<bool> InsertOrUpdateUserSkillsBatchAsync(List<Skills> skills);
-    Task<bool> UpdateSkillLevelAsync(Skills skill);
-    Task<bool> UpdateSkillBreakthroughAsync(Skills skill, int star, double quantity);
-    Task<bool> UpdateSkillStarAsync(Skills skill);
-    Task<Skills> GetUserSkillsByIdAsync(string user_id, string Id);
-    Task<List<Skills>> GetUserCardHeroesSkillsAsync(string user_id, string cardId);
-    Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string user_id, string cardId);
-    Task<List<Skills>> GetUserCardColonelsSkillsAsync(string user_id, string cardId);
-    Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string user_id, string cardId);
-    Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string user_id, string cardId);
-    Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string user_id, string cardId);
-    Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, string cardId);
-    Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, string cardId);
-    Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string user_id, string cardId);
-    Task<List<Skills>> GetUserCardHeroesSkillsAsync(string user_id, List<string> cardHeroIds);
-    Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string user_id, List<string> cardCaptainIds);
-    Task<List<Skills>> GetUserCardColonelsSkillsAsync(string user_id, List<string> cardColonelIds);
-    Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string user_id, List<string> cardGeneralIds);
-    Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string user_id, List<string> cardAdmiralIds);
-    Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string user_id, List<string> cardMilitaryIds);
-    Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, List<string> cardMonsterIds);
-    Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, List<string> cardSpellIds);
-    Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string user_id, List<string> cardSoldierIds);
+    Task<List<Skills>> GetUserSkillsAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserSkillsCountAsync(string userId, string search, string type, string rare);
+    Task<bool> InsertUserSkillAsync(string userId, Skills skill);
+    Task<bool> InsertOrUpdateUserSkillsBatchAsync(string userId, List<Skills> skills);
+    Task<bool> UpdateUserSkillLevelAsync(string userId, Skills skill);
+    Task<bool> UpdateUserSkillBreakthroughAsync(string userId, Skills skill, int star, double quantity);
+    Task<bool> UpdateUserSkillStarAsync(string userId, Skills skill);
+    Task<Skills> GetUserSkillsByIdAsync(string userId, string Id);
+    Task<List<Skills>> GetUserCardHeroesSkillsAsync(string userId, string cardId);
+    Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string userId, string cardId);
+    Task<List<Skills>> GetUserCardColonelsSkillsAsync(string userId, string cardId);
+    Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string userId, string cardId);
+    Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string userId, string cardId);
+    Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string userId, string cardId);
+    Task<List<Skills>> GetUserCardMonstersSkillsAsync(string userId, string cardId);
+    Task<List<Skills>> GetUserCardSpellsSkillsAsync(string userId, string cardId);
+    Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string userId, string cardId);
+    Task<List<Skills>> GetUserCardHeroesSkillsAsync(string userId, List<string> cardHeroIds);
+    Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string userId, List<string> cardCaptainIds);
+    Task<List<Skills>> GetUserCardColonelsSkillsAsync(string userId, List<string> cardColonelIds);
+    Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string userId, List<string> cardGeneralIds);
+    Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string userId, List<string> cardAdmiralIds);
+    Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string userId, List<string> cardMilitaryIds);
+    Task<List<Skills>> GetUserCardMonstersSkillsAsync(string userId, List<string> cardMonsterIds);
+    Task<List<Skills>> GetUserCardSpellsSkillsAsync(string userId, List<string> cardSpellIds);
+    Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string userId, List<string> cardSoldierIds);
     Task<List<Skills>> GetUserSkillsWithCardsAsync(
         string userId,
         List<string> heroIds,
@@ -68,5 +68,5 @@ public interface IUserSkillsRepository
     Task<int> AssignRandomSkillsToUserCardMilitariesAsync(string userId);
     Task<int> AssignRandomSkillsToUserCardSoldiersAsync(string userId);
     Task<int> AssignRandomSkillsToUserCardSpellsAsync(string userId);
-    Task<int> AssignRandomSkillsInternalAsync(string userId, string userCardTable, string targetSkillTable, string cardIdColumn);
+    Task<int> AssignRandomUserSkillsInternalAsync(string userId, string userCardTable, string targetSkillTable, string cardIdColumn);
 }

@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 public class ForgesGalleryService : IForgesGalleryService
 {
     private static ForgesGalleryService _instance;
-    private IForgesGalleryRepository _forgesGalleryRepository;
+    private readonly IForgesGalleryRepository _forgesGalleryRepository;
 
     public ForgesGalleryService(IForgesGalleryRepository forgesGalleryRepository)
     {

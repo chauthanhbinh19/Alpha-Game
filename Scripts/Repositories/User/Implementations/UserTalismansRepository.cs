@@ -383,7 +383,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserTalismansBatchAsync(List<Talismans> talismans)
+    public async Task<bool> InsertOrUpdateUserTalismansBatchAsync(string userId, List<Talismans> talismans)
     {
         if (talismans == null || talismans.Count == 0)
             return true;
@@ -518,7 +518,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -534,7 +534,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
         return true;
     }
-    public async Task<bool> UpdateTalismanLevelAsync(Talismans talisman)
+    public async Task<bool> UpdateUserTalismanLevelAsync(string userId, Talismans talisman)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -553,7 +553,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@talisman_id", talisman.Id);
                     updateCommand.Parameters.AddWithValue("@level", talisman.Level);
                     updateCommand.Parameters.AddWithValue("@experience", talisman.Experience);
@@ -574,7 +574,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
         return true;
     }
-    public async Task<bool> UpdateTalismanStarAsync(Talismans talisman)
+    public async Task<bool> UpdateUserTalismanStarAsync(string userId, Talismans talisman)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -593,7 +593,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@talisman_id", talisman.Id);
                     updateCommand.Parameters.AddWithValue("@star", talisman.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", talisman.Quantity);
@@ -614,7 +614,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
         return true;
     }
-    public async Task<bool> UpdateTalismanBreakthroughAsync(Talismans talisman, int star, double quantity)
+    public async Task<bool> UpdateUserTalismanBreakthroughAsync(string userId, Talismans talisman, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -657,7 +657,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@talisman_id", talisman.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -825,7 +825,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
         return talisman;
     }
-    public async Task<Talismans> SumPowerUserTalismansAsync()
+    public async Task<Talismans> SumPowerUserTalismansAsync(string userId)
     {
         Talismans sumTalismans = new Talismans();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -893,7 +893,7 @@ public class UserTalismansRepository : IUserTalismansRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

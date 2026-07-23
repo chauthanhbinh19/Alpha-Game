@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserFurnituresService : IUserFurnituresService
 {
-     private static UserFurnituresService _instance;
+    private static UserFurnituresService _instance;
     private readonly IUserFurnituresRepository _userFurnituresRepository;
 
     public UserFurnituresService(IUserFurnituresRepository userFurnituresRepository)
@@ -40,17 +40,17 @@ public class UserFurnituresService : IUserFurnituresService
 
     public async Task<bool> UpdateFurnitureLevelAsync(Furnitures furniture)
     {
-        return await _userFurnituresRepository.UpdateFurnitureLevelAsync(furniture);
+        return await _userFurnituresRepository.UpdateUserFurnitureLevelAsync(furniture);
     }
 
     public async Task<bool> UpdateFurnitureStarAsync(Furnitures furniture)
     {
-        return await _userFurnituresRepository.UpdateFurnitureStarAsync(furniture);
+        return await _userFurnituresRepository.UpdateUserFurnitureStarAsync(furniture);
     }
 
     public async Task<bool> UpdateFurnitureBreakthroughAsync(Furnitures furniture, int star, double quantity)
     {
-        return await _userFurnituresRepository.UpdateFurnitureBreakthroughAsync(furniture, star, quantity);
+        return await _userFurnituresRepository.UpdateUserFurnitureBreakthroughAsync(furniture, star, quantity);
     }
 
     public async Task<Furnitures> GetUserFurnitureByIdAsync(string user_id, string Id)

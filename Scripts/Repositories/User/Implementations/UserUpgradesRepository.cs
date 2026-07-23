@@ -6,10 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserUpgradesRepository : IUserUpgradesRepository
 {
-    public async Task<UserUpgrades> GetUserUpgradesAsync(string upgradeId, string userTable, string objectColumn)
+    public async Task<UserUpgrades> GetUserUpgradesAsync(string userId, string upgradeId, string userTable, string objectColumn)
     {
         UserUpgrades userUpgrade = new UserUpgrades();
-        string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -26,7 +25,7 @@ public class UserUpgradesRepository : IUserUpgradesRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@upgrade_id", upgradeId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())

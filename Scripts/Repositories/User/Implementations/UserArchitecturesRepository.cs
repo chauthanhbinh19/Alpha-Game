@@ -351,7 +351,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserArchitecturesBatchAsync(List<Architectures> architectures)
+    public async Task<bool> InsertOrUpdateUserArchitecturesBatchAsync(string userId, List<Architectures> architectures)
     {
         if (architectures == null || architectures.Count == 0)
             return true;
@@ -486,7 +486,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -502,7 +502,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
         return true;
     }
-    public async Task<bool> UpdateArchitectureLevelAsync(Architectures architecture)
+    public async Task<bool> UpdateUserArchitectureLevelAsync(string userId, Architectures architecture)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -520,7 +520,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@architecture_id", architecture.Id);
                     updateCommand.Parameters.AddWithValue("@level", architecture.Level);
                     updateCommand.Parameters.AddWithValue("@experience", architecture.Experience);
@@ -541,7 +541,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
         return true;
     }
-    public async Task<bool> UpdateArchitectureStarAsync(Architectures architecture)
+    public async Task<bool> UpdateUserArchitectureStarAsync(string userId, Architectures architecture)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -560,7 +560,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@architecture_id", architecture.Id);
                     updateCommand.Parameters.AddWithValue("@star", architecture.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", architecture.Quantity);
@@ -581,8 +581,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateArchitectureBreakthroughAsync(Architectures architecture, int star, double quantity)
+    public async Task<bool> UpdateUserArchitectureBreakthroughAsync(string userId, Architectures architecture, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -624,7 +623,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@architecture_id", architecture.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -794,7 +793,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
         return architecture;
     }
-    public async Task<Architectures> SumPowerUserArchitecturesAsync()
+    public async Task<Architectures> SumPowerUserArchitecturesAsync(string userId)
     {
         Architectures sumArchitectures = new Architectures();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -863,7 +862,7 @@ public class UserArchitecturesRepository : IUserArchitecturesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

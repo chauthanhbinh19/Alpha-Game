@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserMechaBeastsService : IUserMechaBeastsService
 {
-     private static UserMechaBeastsService _instance;
+    private static UserMechaBeastsService _instance;
     private readonly IUserMechaBeastsRepository _userMechaBeastsRepository;
 
     public UserMechaBeastsService(IUserMechaBeastsRepository userMechaBeastsRepository)

@@ -37,7 +37,7 @@ public interface IPowerManagerService
     Task<PowerManager> GetSpiritBeastsPowerAsync();
     Task<PowerManager> GetSpiritCardsPowerAsync();
     Task<PowerManager> GetVehiclesPowerAsync();
-    Task<PowerManager> GetCardsPowerAsync();
+    Task<PowerManager> GetArtifactsPowerAsync();
     Task<PowerManager> GetTechnologiesPowerAsync();
     Task<PowerManager> GetArchitecturesPowerAsync();
     Task<PowerManager> GetCoresPowerAsync();

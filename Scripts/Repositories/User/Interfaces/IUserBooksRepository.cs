@@ -3,16 +3,16 @@ using System.Threading.Tasks;
 
 public interface IUserBooksRepository
 {
-    Task<List<Books>> GetUserBooksAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<List<Books>> GetUserBooksTeamAsync(string teamId);
-    Task<Dictionary<string, int>> GetUniqueBooksTypesTeamAsync(string teamId);
-    Task<int> GetUserBooksCountAsync(string user_id, string search, string type, string rare);
-    Task<bool> InsertUserBookAsync(Books book);
-    Task<bool> InsertOrUpdateUserBooksBatchAsync(List<Books> books);
-    Task<bool> UpdateBookLevelAsync(Books book);
-    Task<bool> UpdateBookStarAsync(Books book);
-    Task<bool> UpdateBookBreakthroughAsync(Books book, int star, double quantity);
-    Task<bool> UpdateTeamBookAsync(string team_id, string position, string book_id);
-    Task<Books> GetUserBookByIdAsync(string user_id, string Id);
-    Task<List<Books>> GetAllUserBooksInTeamAsync(string user_id);
+    Task<List<Books>> GetUserBooksAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<List<Books>> GetUserBooksTeamAsync(string userId, string teamId);
+    Task<Dictionary<string, int>> GetUniqueUserBooksTypesTeamAsync(string userId, string teamId);
+    Task<int> GetUserBooksCountAsync(string userId, string search, string type, string rare);
+    Task<bool> InsertUserBookAsync(string userId, Books book);
+    Task<bool> InsertOrUpdateUserBooksBatchAsync(string userId, List<Books> books);
+    Task<bool> UpdateUserBookLevelAsync(string userId, Books book);
+    Task<bool> UpdateUserBookStarAsync(string userId, Books book);
+    Task<bool> UpdateUserBookBreakthroughAsync(string userId, Books book, int star, double quantity);
+    Task<bool> UpdateTeamUserBookAsync(string userId, string team_id, string position, string book_id);
+    Task<Books> GetUserBookByIdAsync(string userId, string Id);
+    Task<List<Books>> GetAllUserBooksInTeamAsync(string userId);
 }

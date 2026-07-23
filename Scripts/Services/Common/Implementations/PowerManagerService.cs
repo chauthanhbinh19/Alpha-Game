@@ -170,7 +170,7 @@ public class PowerManagerService : IPowerManagerService
         AddPower(totalPower, techonogiesPower);
 
         // Lấy sức mạnh từ cards
-        PowerManager cardPower = await GetCardsPowerAsync();
+        PowerManager cardPower = await GetArtifactsPowerAsync();
         AddPower(totalPower, cardPower);
 
         // Lấy sức mạnh từ cores
@@ -2814,7 +2814,7 @@ public class PowerManagerService : IPowerManagerService
 
         return powerManager;
     }
-    public async Task<PowerManager> GetCardsPowerAsync()
+    public async Task<PowerManager> GetArtifactsPowerAsync()
     {
         PowerManager powerManager = new PowerManager();
 
@@ -2900,8 +2900,6 @@ public class PowerManagerService : IPowerManagerService
         powerManager.DamageToSameFactionRate += artifact.DamageToSameFactionRate;
         powerManager.ResistanceToSameFactionRate += artifact.ResistanceToSameFactionRate;
 
-        IArtifactsRepository artifactsRepository = new ArtifactsRepository();
-        ArtifactsService artifactsService = new ArtifactsService(artifactsRepository);
         // Percent
         artifact = await ArtifactsService.Create().SumPowerArtifactsPercentAsync();
         powerManager.PercentAllHealth += artifact.PercentAllHealth;

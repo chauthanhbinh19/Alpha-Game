@@ -1,10 +1,15 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using UnityEngine;
+using UnityEngine.Networking;
 
 public class CardHeroesService : ICardHeroesService
 {
     private static CardHeroesService _instance;
     private readonly ICardHeroesRepository _cardHeroesRepository;
+    private const string BaseUrl = "https://localhost:7116/api/CardHeroes";
 
     public CardHeroesService(ICardHeroesRepository cardHeroesRepository)
     {
@@ -31,6 +36,56 @@ public class CardHeroesService : ICardHeroesService
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
+    // public async Task<List<CardHeroes>> GetCardHeroesAsync(string search, string type, string rare, int pageSize, int offset)
+    // {
+    //     string url =
+    //         $"{BaseUrl}" +
+    //         $"?search={UnityWebRequest.EscapeURL(search ?? "")}" +
+    //         $"&type={UnityWebRequest.EscapeURL(type ?? "")}" +
+    //         $"&rare={UnityWebRequest.EscapeURL(rare ?? "")}" +
+    //         $"&pageSize={pageSize}" +
+    //         $"&offset={offset}";
+
+    //     using UnityWebRequest request = UnityWebRequest.Get(url);
+
+    //     var operation = request.SendWebRequest();
+
+    //     while (!operation.isDone)
+    //     {
+    //         await Task.Yield();
+    //     }
+
+    //     if (request.result != UnityWebRequest.Result.Success)
+    //     {
+    //         Debug.LogError(
+    //             $"GetCardHeroesAsync Error: {request.error}"
+    //         );
+
+    //         return new List<CardHeroes>();
+    //     }
+
+    //     try
+    //     {
+    //         List<CardHeroes> list =
+    //             JsonConvert.DeserializeObject<List<CardHeroes>>(
+    //                 request.downloadHandler.text
+    //             );
+
+    //         list ??= new List<CardHeroes>();
+
+    //         list = QualityEvaluatorHelper.GetQualityPower(list);
+
+    //         return list;
+    //     }
+    //     catch (Exception ex)
+    //     {
+    //         Debug.LogError(
+    //             $"Deserialize CardHeroes Error: {ex.Message}"
+    //         );
+
+    //         return new List<CardHeroes>();
+    //     }
+    // }
 
     public async Task<int> GetCardHeroesCountAsync(string search, string type, string rare)
     {

@@ -354,7 +354,7 @@ public class UserFoodsRepository : IUserFoodsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserFoodsBatchAsync(List<Foods> foods)
+    public async Task<bool> InsertOrUpdateUserFoodsBatchAsync(string userId, List<Foods> foods)
     {
         if (foods == null || foods.Count == 0)
             return true;
@@ -489,7 +489,7 @@ public class UserFoodsRepository : IUserFoodsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", UserId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -505,7 +505,7 @@ public class UserFoodsRepository : IUserFoodsRepository
 
         return true;
     }
-    public async Task<bool> UpdateFoodLevelAsync(Foods food)
+    public async Task<bool> UpdateUserFoodLevelAsync(string userId, Foods food)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -524,7 +524,7 @@ public class UserFoodsRepository : IUserFoodsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
                     updateCommand.Parameters.AddWithValue("@food_id", food.Id);
                     updateCommand.Parameters.AddWithValue("@level", food.Level);
                     updateCommand.Parameters.AddWithValue("@experience", food.Experience);
@@ -545,7 +545,7 @@ public class UserFoodsRepository : IUserFoodsRepository
 
         return true;
     }
-    public async Task<bool> UpdateFoodStarAsync(Foods food)
+    public async Task<bool> UpdateUserFoodStarAsync(string userId, Foods food)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -564,7 +564,7 @@ public class UserFoodsRepository : IUserFoodsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
                     updateCommand.Parameters.AddWithValue("@food_id", food.Id);
                     updateCommand.Parameters.AddWithValue("@star", food.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", food.Quantity);
@@ -585,8 +585,7 @@ public class UserFoodsRepository : IUserFoodsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateFoodBreakthroughAsync(Foods food, int star, double quantity)
+    public async Task<bool> UpdateUserFoodBreakthroughAsync(string userId, Foods food, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -625,7 +624,7 @@ public class UserFoodsRepository : IUserFoodsRepository
                 WHERE user_id = @user_id AND food_id = @food_id;";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
                     updateCommand.Parameters.AddWithValue("@food_id", food.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -789,7 +788,7 @@ public class UserFoodsRepository : IUserFoodsRepository
         }
         return food;
     }
-    public async Task<Foods> SumPowerUserFoodsAsync()
+    public async Task<Foods> SumPowerUserFoodsAsync(string userId)
     {
         Foods sumFoods = new Foods();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -854,7 +853,7 @@ public class UserFoodsRepository : IUserFoodsRepository
             ";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", UserId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

@@ -741,7 +741,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return cardAdmirals;
     }
-    public async Task<Dictionary<string, int>> GetUniqueCardAdmiralsTypesTeamAsync(string teamId)
+    public async Task<Dictionary<string, int>> GetUniqueUserCardAdmiralsTypesTeamAsync(string userId, string teamId)
     {
         var result = new Dictionary<string, int>();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -761,7 +761,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
             ";
 
                 await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
-                selectCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                selectCommand.Parameters.AddWithValue("@userId", userId);
                 selectCommand.Parameters.AddWithValue("@team_id", teamId);
 
                 await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
@@ -785,7 +785,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return result;
     }
-    public async Task<bool> UpdateTeamCardAdmiralAsync(string teamId, string position, string cardId)
+    public async Task<bool> UpdateTeamUserCardAdmiralAsync(string userId, string teamId, string position, string cardId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -804,7 +804,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                 updateCommand.Parameters.AddWithValue("@team_id", teamId);
                 updateCommand.Parameters.AddWithValue("@position", position);
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@card_admiral_id", cardId);
 
                 await updateCommand.ExecuteNonQueryAsync();
@@ -958,7 +958,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return count;
     }
-    public async Task<bool> InsertUserCardAdmiralAsync(CardAdmirals cardAdmiral)
+    public async Task<bool> InsertUserCardAdmiralAsync(string userId, CardAdmirals cardAdmiral)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -976,7 +976,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         ";
 
                 await using MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                checkCommand.Parameters.AddWithValue("@user_id", userId);
                 checkCommand.Parameters.AddWithValue("@card_admiral_id", cardAdmiral.Id);
 
                 int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
@@ -1023,7 +1023,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
 
                     await using MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
 
-                    insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    insertCommand.Parameters.AddWithValue("@user_id", userId);
                     insertCommand.Parameters.AddWithValue("@card_admiral_id", cardAdmiral.Id);
                     insertCommand.Parameters.AddWithValue("@rare", cardAdmiral.Rarity);
                     insertCommand.Parameters.AddWithValue("@level", 0);
@@ -1095,7 +1095,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
                 ";
 
                     await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@card_admiral_id", cardAdmiral.Id);
                     updateCommand.Parameters.AddWithValue("@quantity", cardAdmiral.Quantity);
 
@@ -1114,7 +1114,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserCardAdmiralsBatchAsync(List<CardAdmirals> cardAdmirals)
+    public async Task<bool> InsertOrUpdateUserCardAdmiralsBatchAsync(string userId, List<CardAdmirals> cardAdmirals)
     {
         if (cardAdmirals == null || cardAdmirals.Count == 0)
             return true;
@@ -1249,7 +1249,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -1265,7 +1265,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
 
         return true;
     }
-    public async Task<bool> UpdateCardAdmiralLevelAsync(CardAdmirals cardAdmiral)
+    public async Task<bool> UpdateUserCardAdmiralLevelAsync(string userId, CardAdmirals cardAdmiral)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1284,7 +1284,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
 
                 await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@card_admiral_id", cardAdmiral.Id);
                 updateCommand.Parameters.AddWithValue("@level", cardAdmiral.Level);
                 updateCommand.Parameters.AddWithValue("@experience", cardAdmiral.Experience);
@@ -1303,7 +1303,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
         }
         return true;
     }
-    public async Task<bool> UpdateCardAdmiralStarAsync(CardAdmirals cardAdmiral)
+    public async Task<bool> UpdateUserCardAdmiralStarAsync(string userId, CardAdmirals cardAdmiral)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1322,7 +1322,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@card_admiral_id", cardAdmiral.Id);
                     updateCommand.Parameters.AddWithValue("@star", cardAdmiral.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", cardAdmiral.Quantity);
@@ -1343,8 +1343,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateCardAdmiralBreakthroughAsync(CardAdmirals cardAdmiral, int star, double quantity)
+    public async Task<bool> UpdateUserCardAdmiralBreakthroughAsync(string userId, CardAdmirals cardAdmiral, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -1387,7 +1386,7 @@ public class UserCardAdmiralsRepository : IUserCardAdmiralsRepository
 
                 await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@card_admiral_id", cardAdmiral.Id);
                 updateCommand.Parameters.AddWithValue("@star", star);
                 updateCommand.Parameters.AddWithValue("@quantity", quantity);

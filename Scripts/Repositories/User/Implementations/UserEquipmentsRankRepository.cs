@@ -6,10 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserEquipmentsRankRepository : IUserEquipmentsRankRepository
 {
-    public async Task<Rank> GetEquipmentRankAsync(string id, string cardId)
+    public async Task<Rank> GetEquipmentRankAsync(string userId, string id, string cardId)
     {
         Rank rank = new Rank();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -113,7 +112,7 @@ public class UserEquipmentsRankRepository : IUserEquipmentsRankRepository
 
         return rank;
     }
-    public async Task InsertOrUpdateEquipmentRankAsync(Rank rank, string cardId)
+    public async Task InsertOrUpdateEquipmentRankAsync(string userId, Rank rank, string cardId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -131,7 +130,7 @@ public class UserEquipmentsRankRepository : IUserEquipmentsRankRepository
 
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    checkCommand.Parameters.AddWithValue("@user_id", userId);
                     checkCommand.Parameters.AddWithValue("@card_id", cardId);
                     checkCommand.Parameters.AddWithValue("@rank_id", rank.Id);
 
@@ -178,7 +177,7 @@ public class UserEquipmentsRankRepository : IUserEquipmentsRankRepository
                         await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                         {
                             // Thêm tất cả các parameter như cũ
-                            updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            updateCommand.Parameters.AddWithValue("@user_id", userId);
                             updateCommand.Parameters.AddWithValue("@card_id", cardId);
                             updateCommand.Parameters.AddWithValue("@rank_id", rank.Id);
                             updateCommand.Parameters.AddWithValue("@rank_level", rank.Level);
@@ -309,7 +308,7 @@ public class UserEquipmentsRankRepository : IUserEquipmentsRankRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             // Thêm các parameter giống như trên (giữ nguyên)
-                            insertCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                            insertCommand.Parameters.AddWithValue("@user_id", userId);
                             insertCommand.Parameters.AddWithValue("@card_id", cardId);
                             insertCommand.Parameters.AddWithValue("@rank_id", rank.Id);
                             insertCommand.Parameters.AddWithValue("@rank_level", rank.Level == 0 ? 1 : rank.Level);

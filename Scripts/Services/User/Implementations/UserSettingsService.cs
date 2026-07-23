@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class UserSettingsService : IUserSettingsService
 {
-     private static UserSettingsService _instance;
+    private static UserSettingsService _instance;
     private readonly IUserSettingsRepository _userSettingsRepository;
 
     public UserSettingsService(IUserSettingsRepository userSettingsRepository)
@@ -44,7 +44,7 @@ public class UserSettingsService : IUserSettingsService
         {
             SettingKey = AppConstants.Setting.MUSIC,
             SettingValue = "100",
-            ValueType = "int" 
+            ValueType = "int"
         });
 
         //Sound - SFX setting
@@ -52,7 +52,7 @@ public class UserSettingsService : IUserSettingsService
         {
             SettingKey = AppConstants.Setting.SFX,
             SettingValue = "100",
-            ValueType = "int" 
+            ValueType = "int"
         });
 
         //Sound - Voice setting
@@ -60,7 +60,7 @@ public class UserSettingsService : IUserSettingsService
         {
             SettingKey = AppConstants.Setting.VOICE,
             SettingValue = "100",
-            ValueType = "int" 
+            ValueType = "int"
         });
 
         //Graphic - Resolution setting
@@ -68,7 +68,7 @@ public class UserSettingsService : IUserSettingsService
         {
             SettingKey = AppConstants.Setting.RESOLUTION,
             SettingValue = "High",
-            ValueType = "string" 
+            ValueType = "string"
         });
 
         //Graphic - Texture setting
@@ -76,7 +76,7 @@ public class UserSettingsService : IUserSettingsService
         {
             SettingKey = AppConstants.Setting.TEXTURE,
             SettingValue = "High",
-            ValueType = "string" 
+            ValueType = "string"
         });
 
         //Graphic - Damage Flytext setting
@@ -84,7 +84,7 @@ public class UserSettingsService : IUserSettingsService
         {
             SettingKey = AppConstants.Setting.DAMAGE_FLYTEXT,
             SettingValue = "On",
-            ValueType = "string" 
+            ValueType = "string"
         });
 
         //Graphic - In-game cinematic setting
@@ -92,7 +92,7 @@ public class UserSettingsService : IUserSettingsService
         {
             SettingKey = AppConstants.Setting.IN_GAME_CINEMATIC,
             SettingValue = "On",
-            ValueType = "string" 
+            ValueType = "string"
         });
 
         //Language - language setting
@@ -100,7 +100,7 @@ public class UserSettingsService : IUserSettingsService
         {
             SettingKey = AppConstants.Setting.LANGUAGE,
             SettingValue = "en",
-            ValueType = "string" 
+            ValueType = "string"
         });
     }
 }

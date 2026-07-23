@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserTitlesService : IUserTitlesService
 {
-     private static UserTitlesService _instance;
+    private static UserTitlesService _instance;
     private readonly IUserTitlesRepository _userTitlesRepository;
 
     public UserTitlesService(IUserTitlesRepository userTitlesRepository)

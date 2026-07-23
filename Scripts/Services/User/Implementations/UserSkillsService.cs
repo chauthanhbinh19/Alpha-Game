@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserSkillsService : IUserSkillsService
 {
-     private static UserSkillsService _instance;
+    private static UserSkillsService _instance;
     private readonly IUserSkillsRepository _userSkillsRepository;
 
     public UserSkillsService(IUserSkillsRepository userSkillsRepository)
@@ -433,47 +433,47 @@ public class UserSkillsService : IUserSkillsService
 
     public async Task<int> AssignRandomSkillsToUserCardHeroesAsync(string userId)
     {
-        return await _userSkillsRepository.AssignRandomSkillsInternalAsync(userId, "user_card_heroes", "card_heroes_skills", "card_hero_id");
+        return await _userSkillsRepository.AssignRandomUserSkillsInternalAsync(userId, "user_card_heroes", "card_heroes_skills", "card_hero_id");
     }
 
     public async Task<int> AssignRandomSkillsToUserCardCaptainsAsync(string userId)
     {
-        return await _userSkillsRepository.AssignRandomSkillsInternalAsync(userId, "user_card_captains", "card_captains_skills", "card_captain_id");
+        return await _userSkillsRepository.AssignRandomUserSkillsInternalAsync(userId, "user_card_captains", "card_captains_skills", "card_captain_id");
     }
 
     public async Task<int> AssignRandomSkillsToUserCardColonelsAsync(string userId)
     {
-        return await _userSkillsRepository.AssignRandomSkillsInternalAsync(userId, "user_card_colonels", "card_colonels_skills", "card_colonel_id");
+        return await _userSkillsRepository.AssignRandomUserSkillsInternalAsync(userId, "user_card_colonels", "card_colonels_skills", "card_colonel_id");
     }
 
     public async Task<int> AssignRandomSkillsToUserCardGeneralsAsync(string userId)
     {
-        return await _userSkillsRepository.AssignRandomSkillsInternalAsync(userId, "user_card_generals", "card_generals_skills", "card_general_id");
+        return await _userSkillsRepository.AssignRandomUserSkillsInternalAsync(userId, "user_card_generals", "card_generals_skills", "card_general_id");
     }
 
     public async Task<int> AssignRandomSkillsToUserCardAdmiralsAsync(string userId)
     {
-        return await _userSkillsRepository.AssignRandomSkillsInternalAsync(userId, "user_card_admirals", "card_admirals_skills", "card_admiral_id");
+        return await _userSkillsRepository.AssignRandomUserSkillsInternalAsync(userId, "user_card_admirals", "card_admirals_skills", "card_admiral_id");
     }
 
     public async Task<int> AssignRandomSkillsToUserCardMonstersAsync(string userId)
     {
-        return await _userSkillsRepository.AssignRandomSkillsInternalAsync(userId, "user_card_monsters", "card_monsters_skills", "card_monster_id");
+        return await _userSkillsRepository.AssignRandomUserSkillsInternalAsync(userId, "user_card_monsters", "card_monsters_skills", "card_monster_id");
     }
 
     public async Task<int> AssignRandomSkillsToUserCardMilitariesAsync(string userId)
     {
-        return await _userSkillsRepository.AssignRandomSkillsInternalAsync(userId, "user_card_militaries", "card_militaries_skills", "card_military_id");
+        return await _userSkillsRepository.AssignRandomUserSkillsInternalAsync(userId, "user_card_militaries", "card_militaries_skills", "card_military_id");
     }
 
     public async Task<int> AssignRandomSkillsToUserCardSoldiersAsync(string userId)
     {
-        return await _userSkillsRepository.AssignRandomSkillsInternalAsync(userId, "user_card_soldiers", "card_soldiers_skills", "card_soldier_id");
+        return await _userSkillsRepository.AssignRandomUserSkillsInternalAsync(userId, "user_card_soldiers", "card_soldiers_skills", "card_soldier_id");
     }
 
     public async Task<int> AssignRandomSkillsToUserCardSpellsAsync(string userId)
     {
-        return await _userSkillsRepository.AssignRandomSkillsInternalAsync(userId, "user_card_spells", "card_spells_skills", "card_spell_id");
+        return await _userSkillsRepository.AssignRandomUserSkillsInternalAsync(userId, "user_card_spells", "card_spells_skills", "card_spell_id");
     }
 
     public async Task<List<Skills>> GetUserCardsSkillsAsync(string userId, List<string> allCardIds)

@@ -6,6 +6,7 @@ public class Skills : BaseEntity, IPowerSortable, IStats
     public string Name { get; set; }
     public string Image { get; set; }
     public string CardId { get; set; }
+    public string UserId { get; set; }
     
     public double Quality { get; set; }
     public string Type { get; set; }

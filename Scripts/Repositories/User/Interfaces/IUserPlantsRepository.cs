@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 public interface IUserPlantsRepository
 {
-    Task<List<Plants>> GetUserPlantsAsync(string user_id, string search, int pageSize, int offset, string rare);
-    Task<int> GetUserPlantsCountAsync(string user_id, string search, string rare);
+    Task<List<Plants>> GetUserPlantsAsync(string userId, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserPlantsCountAsync(string userId, string search, string rare);
     Task<bool> InsertUserPlantAsync(Plants plant, string userId);
-    Task<bool> InsertOrUpdateUserPlantsBatchAsync(List<Plants> plants);
-    Task<bool> UpdatePlantLevelAsync(Plants plant);
-    Task<bool> UpdatePlantStarAsync(Plants plant);
-    Task<bool> UpdatePlantBreakthroughAsync(Plants plant, int star, double quantity);
-    Task<Plants> GetUserPlantByIdAsync(string user_id, string Id);
-    Task<Plants> SumPowerUserPlantsAsync();
+    Task<bool> InsertOrUpdateUserPlantsBatchAsync(string userId, List<Plants> plants);
+    Task<bool> UpdateUserPlantLevelAsync(string userId, Plants plant);
+    Task<bool> UpdateUserPlantStarAsync(string userId, Plants plant);
+    Task<bool> UpdateUserPlantBreakthroughAsync(string userId, Plants plant, int star, double quantity);
+    Task<Plants> GetUserPlantByIdAsync(string userId, string Id);
+    Task<Plants> SumPowerUserPlantsAsync(string userId);
 }

@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public class UserMagicFormationCirclesService : IUserMagicFormationCirclesService
 {
-     private static UserMagicFormationCirclesService _instance;
-    private IUserMagicFormationCirclesRepository _userMagicFormationCirclesRepository;
+    private static UserMagicFormationCirclesService _instance;
+    private readonly IUserMagicFormationCirclesRepository _userMagicFormationCirclesRepository;
 
     public UserMagicFormationCirclesService(IUserMagicFormationCirclesRepository userMagicFormationCirclesRepository)
     {

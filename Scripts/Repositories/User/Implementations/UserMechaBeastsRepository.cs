@@ -353,7 +353,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserMechaBeastsBatchAsync(List<MechaBeasts> mechaBeasts)
+    public async Task<bool> InsertOrUpdateUserMechaBeastsBatchAsync(string userId, List<MechaBeasts> mechaBeasts)
     {
         if (mechaBeasts == null || mechaBeasts.Count == 0)
             return true;
@@ -488,7 +488,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -504,7 +504,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
         return true;
     }
-    public async Task<bool> UpdateMechaBeastLevelAsync(MechaBeasts mechaBeast)
+    public async Task<bool> UpdateUserMechaBeastLevelAsync(string userId, MechaBeasts mechaBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -523,7 +523,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@mecha_beast_id", mechaBeast.Id);
                     updateCommand.Parameters.AddWithValue("@level", mechaBeast.Level);
                     updateCommand.Parameters.AddWithValue("@experience", mechaBeast.Experience);
@@ -544,7 +544,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
         return true;
     }
-    public async Task<bool> UpdateMechaBeastStarAsync(MechaBeasts mechaBeast)
+    public async Task<bool> UpdateUserMechaBeastStarAsync(string userId, MechaBeasts mechaBeast)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -563,7 +563,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@mecha_beast_id", mechaBeast.Id);
                     updateCommand.Parameters.AddWithValue("@star", mechaBeast.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", mechaBeast.Quantity);
@@ -584,8 +584,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateMechaBeastBreakthroughAsync(MechaBeasts mechaBeast, int star, double quantity)
+    public async Task<bool> UpdateUserMechaBeastBreakthroughAsync(string userId, MechaBeasts mechaBeast, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -624,7 +623,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
                 WHERE user_id = @user_id AND mecha_beast_id = @mecha_beast_id;";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@mecha_beast_id", mechaBeast.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -788,7 +787,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
         }
         return mechaBeast;
     }
-    public async Task<MechaBeasts> SumPowerUserMechaBeastsAsync()
+    public async Task<MechaBeasts> SumPowerUserMechaBeastsAsync(string userId)
     {
         MechaBeasts sumMechaBeasts = new MechaBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -853,7 +852,7 @@ public class UserMechaBeastsRepository : IUserMechaBeastsRepository
             ";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

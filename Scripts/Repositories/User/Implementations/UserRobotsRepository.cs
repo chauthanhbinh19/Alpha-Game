@@ -353,7 +353,7 @@ public class UserRobotsRepository : IUserRobotsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserRobotsBatchAsync(List<Robots> robots)
+    public async Task<bool> InsertOrUpdateUserRobotsBatchAsync(string userId, List<Robots> robots)
     {
         if (robots == null || robots.Count == 0)
             return true;
@@ -488,7 +488,7 @@ public class UserRobotsRepository : IUserRobotsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -504,7 +504,7 @@ public class UserRobotsRepository : IUserRobotsRepository
 
         return true;
     }
-    public async Task<bool> UpdateRobotLevelAsync(Robots robot)
+    public async Task<bool> UpdateUserRobotLevelAsync(string userId, Robots robot)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -523,7 +523,7 @@ public class UserRobotsRepository : IUserRobotsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@robot_id", robot.Id);
                     updateCommand.Parameters.AddWithValue("@level", robot.Level);
                     updateCommand.Parameters.AddWithValue("@experience", robot.Experience);
@@ -544,7 +544,7 @@ public class UserRobotsRepository : IUserRobotsRepository
 
         return true;
     }
-    public async Task<bool> UpdateRobotStarAsync(Robots robot)
+    public async Task<bool> UpdateUserRobotStarAsync(string userId, Robots robot)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -563,7 +563,7 @@ public class UserRobotsRepository : IUserRobotsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@robot_id", robot.Id);
                     updateCommand.Parameters.AddWithValue("@star", robot.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", robot.Quantity);
@@ -584,8 +584,7 @@ public class UserRobotsRepository : IUserRobotsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateRobotBreakthroughAsync(Robots robot, int star, double quantity)
+    public async Task<bool> UpdateUserRobotBreakthroughAsync(string userId, Robots robot, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -624,7 +623,7 @@ public class UserRobotsRepository : IUserRobotsRepository
                 WHERE user_id = @user_id AND robot_id = @robot_id;";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@robot_id", robot.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -788,7 +787,7 @@ public class UserRobotsRepository : IUserRobotsRepository
         }
         return robot;
     }
-    public async Task<Robots> SumPowerUserRobotsAsync()
+    public async Task<Robots> SumPowerUserRobotsAsync(string userId)
     {
         Robots sumRobots = new Robots();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -853,7 +852,7 @@ public class UserRobotsRepository : IUserRobotsRepository
             ";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

@@ -352,7 +352,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserMedalsBatchAsync(List<Medals> medals)
+    public async Task<bool> InsertOrUpdateUserMedalsBatchAsync(string userId, List<Medals> medals)
     {
         if (medals == null || medals.Count == 0)
             return true;
@@ -487,7 +487,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -503,7 +503,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 
         return true;
     }
-    public async Task<bool> UpdateMedalLevelAsync(Medals medal)
+    public async Task<bool> UpdateUserMedalLevelAsync(string userId, Medals medal)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -522,7 +522,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@medal_id", medal.Id);
                     updateCommand.Parameters.AddWithValue("@level", medal.Level);
                     updateCommand.Parameters.AddWithValue("@experience", medal.Experience);
@@ -543,7 +543,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 
         return true;
     }
-    public async Task<bool> UpdateMedalStarAsync(Medals medal)
+    public async Task<bool> UpdateUserMedalStarAsync(string userId, Medals medal)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -562,7 +562,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@medal_id", medal.Id);
                     updateCommand.Parameters.AddWithValue("@star", medal.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", medal.Quantity);
@@ -583,8 +583,7 @@ public class UserMedalsRepository : IUserMedalsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateMedalBreakthroughAsync(Medals medal, int star, double quantity)
+    public async Task<bool> UpdateUserMedalBreakthroughAsync(string userId, Medals medal, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -623,7 +622,7 @@ public class UserMedalsRepository : IUserMedalsRepository
                 WHERE user_id = @user_id AND medal_id = @medal_id;";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@medal_id", medal.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -787,7 +786,7 @@ public class UserMedalsRepository : IUserMedalsRepository
         }
         return medal;
     }
-    public async Task<Medals> SumPowerUserMedalsAsync()
+    public async Task<Medals> SumPowerUserMedalsAsync(string userId)
     {
         Medals sumMedals = new Medals();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -852,7 +851,7 @@ public class UserMedalsRepository : IUserMedalsRepository
             ";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

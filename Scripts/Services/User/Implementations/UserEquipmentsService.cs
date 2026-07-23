@@ -114,22 +114,22 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         IEquipmentsRepository _repository = new EquipmentsRepository();
         EquipmentsService _service = new EquipmentsService(_repository);
-        return await _userEquipmentsRepository.BuyEquipmentAsync(Id, await _service.GetEquipmentByIdAsync(Id), quantity);
+        return await _userEquipmentsRepository.InsertUserEquipmentAsync(Id, await _service.GetEquipmentByIdAsync(Id), quantity);
     }
 
     public async Task<bool> UpdateEquipmentLevelAsync(Equipments equipments)
     {
-        return await _userEquipmentsRepository.UpdateEquipmentsLevelAsync(equipments);
+        return await _userEquipmentsRepository.UpdateUserEquipmentsLevelAsync(equipments);
     }
 
     public async Task<bool> UpdateEquipmentStarAsync(Equipments equipments)
     {
-        return await _userEquipmentsRepository.UpdateEquipmentsStarAsync(equipments);
+        return await _userEquipmentsRepository.UpdateUserEquipmentsStarAsync(equipments);
     }
 
     public async Task<bool> UpdateEquipmentsBreakthroughAsync(Equipments equipments, int star, double quantity)
     {
-        return await _userEquipmentsRepository.UpdateEquipmentsBreakthroughAsync(equipments, star, quantity);
+        return await _userEquipmentsRepository.UpdateUserEquipmentsBreakthroughAsync(equipments, star, quantity);
     }
 
     public async Task UpdateUserCurrencyAsync(string Id, double quantity)

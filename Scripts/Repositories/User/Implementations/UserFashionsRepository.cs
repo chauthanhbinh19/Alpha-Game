@@ -376,7 +376,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserFashionsBatchAsync(List<Fashions> fashions)
+    public async Task<bool> InsertOrUpdateUserFashionsBatchAsync(string userId, List<Fashions> fashions)
     {
         if (fashions == null || fashions.Count == 0)
             return true;
@@ -511,7 +511,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", UserId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -527,7 +527,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
         return true;
     }
-    public async Task<bool> UpdateFashionLevelAsync(Fashions fashion)
+    public async Task<bool> UpdateUserFashionLevelAsync(string userId, Fashions fashion)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -546,7 +546,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
                     updateCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
                     updateCommand.Parameters.AddWithValue("@level", fashion.Level);
                     updateCommand.Parameters.AddWithValue("@experience", fashion.Experience);
@@ -567,7 +567,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
         return true;
     }
-    public async Task<bool> UpdateFashionStarAsync(Fashions fashion)
+    public async Task<bool> UpdateUserFashionStarAsync(string userId, Fashions fashion)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -586,7 +586,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
                     updateCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
                     updateCommand.Parameters.AddWithValue("@star", fashion.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", fashion.Quantity);
@@ -607,8 +607,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateFashionBreakthroughAsync(Fashions fashion, int star, double quantity)
+    public async Task<bool> UpdateUserFashionBreakthroughAsync(string userId, Fashions fashion, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -651,7 +650,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
                     updateCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -819,7 +818,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
         return fashion;
     }
-    public async Task<Fashions> SumPowerUserFashionsAsync()
+    public async Task<Fashions> SumPowerUserFashionsAsync(string userId)
     {
         Fashions sumFashions = new Fashions();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -887,7 +886,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", UserId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

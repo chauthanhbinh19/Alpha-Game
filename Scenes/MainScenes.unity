@@ -8504,7 +8504,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0.5, y: 0, z: 0, w: 0.8660254}
-  m_LocalPosition: {x: 0, y: 36, z: -8.5}
+  m_LocalPosition: {x: 0, y: 36, z: -6.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10809,6 +10809,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LoadingPanel: {fileID: 0}
   LoadingProcessPanelPrefab: {fileID: 0}
+  CatchUpSpeed: 5
+  IdleCreepSpeed: 0.02
 --- !u!1 &1273252468
 GameObject:
   m_ObjectHideFlags: 0

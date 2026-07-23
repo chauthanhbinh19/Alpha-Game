@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserPlantsService : IUserPlantsService
 {
-     private static UserPlantsService _instance;
+    private static UserPlantsService _instance;
     private readonly IUserPlantsRepository _userPlantsRepository;
 
     public UserPlantsService(IUserPlantsRepository userPlantsRepository)
@@ -20,8 +20,8 @@ public class UserPlantsService : IUserPlantsService
         return _instance;
     }
 
-    
-    
+
+
 
     public async Task<List<Plants>> GetUserPlantsAsync(string user_id, string search, int pageSize, int offset, string rare)
     {

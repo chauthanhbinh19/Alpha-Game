@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 public class UserMedalsService : IUserMedalsService
 {
-     private static UserMedalsService _instance;
-    private IUserMedalsRepository _userMedalsRepository;
+    private static UserMedalsService _instance;
+    private readonly IUserMedalsRepository _userMedalsRepository;
 
     public UserMedalsService(IUserMedalsRepository userMedalsRepository)
     {

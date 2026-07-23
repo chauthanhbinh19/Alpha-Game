@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 public class UserBooksMasterService : IUserBooksMasterService
 {
-     private static UserBooksMasterService _instance;
+    private static UserBooksMasterService _instance;
     private readonly IUserBooksMasterRepository _userBooksMasterRepository;
 
     public UserBooksMasterService(IUserBooksMasterRepository userBooksMasterRepository)
@@ -26,11 +26,11 @@ public class UserBooksMasterService : IUserBooksMasterService
 
     public async Task InsertOrUpdateBookMasterAsync(string userId, UserMasters userMaster, string card_id)
     {
-        await _userBooksMasterRepository.InsertOrUpdateBookMasterAsync(userId, userMaster, card_id);
+        await _userBooksMasterRepository.InsertOrUpdateUserBookMasterAsync(userId, userMaster, card_id);
     }
 
     public async Task<Master> GetSumBooksMasterAsync(string user_id, string card_id)
     {
-        return await _userBooksMasterRepository.GetSumBooksMasterAsync(user_id, card_id);
+        return await _userBooksMasterRepository.GetSumUserBooksMasterAsync(user_id, card_id);
     }
 }

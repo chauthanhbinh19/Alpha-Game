@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserWeaponsService : IUserWeaponsService
 {
-     private static UserWeaponsService _instance;
+    private static UserWeaponsService _instance;
     private readonly IUserWeaponsRepository _userWeaponsRepository;
 
     public UserWeaponsService(IUserWeaponsRepository userWeaponsRepository)

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserPetsRankService : IUserPetsRankService
 {
-     private static UserPetsRankService _instance;
+    private static UserPetsRankService _instance;
     private readonly IUserPetsRankRepository _userPetsRankRepository;
 
     // Constructor để inject dependency của repository
@@ -28,11 +28,11 @@ public class UserPetsRankService : IUserPetsRankService
 
     public async Task InsertOrUpdatePetRankAsync(string userId, UserRanks userRank, string cardId)
     {
-        await _userPetsRankRepository.InsertOrUpdatePetRankAsync(userId, userRank, cardId);
+        await _userPetsRankRepository.InsertOrUpdateUserPetRankAsync(userId, userRank, cardId);
     }
 
     public async Task<Rank> GetSumPetsRankAsync(string user_id, string card_id)
     {
-        return await _userPetsRankRepository.GetSumPetsRankAsync(user_id, card_id);;
+        return await _userPetsRankRepository.GetSumUserPetsRankAsync(user_id, card_id); ;
     }
 }

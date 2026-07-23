@@ -355,7 +355,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserAchievementsBatchAsync(List<Achievements> achievements)
+    public async Task<bool> InsertOrUpdateUserAchievementsBatchAsync(string userId, List<Achievements> achievements)
     {
         if (achievements == null || achievements.Count == 0)
             return true;
@@ -490,7 +490,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -506,7 +506,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
         return true;
     }
-    public async Task<bool> UpdateAchievementLevelAsync(Achievements achievement)
+    public async Task<bool> UpdateUserAchievementLevelAsync(string userId, Achievements achievement)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -525,7 +525,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@achievement_id", achievement.Id);
                 updateCommand.Parameters.AddWithValue("@level", achievement.Level);
                 updateCommand.Parameters.AddWithValue("@experience", achievement.Experience);
@@ -545,7 +545,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
         return true;
     }
-    public async Task<bool> UpdateAchievementStarAsync(Achievements achievement)
+    public async Task<bool> UpdateUserAchievementStarAsync(string userId, Achievements achievement)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -564,7 +564,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@achievement_id", achievement.Id);
                 updateCommand.Parameters.AddWithValue("@star", achievement.Star);
                 updateCommand.Parameters.AddWithValue("@quantity", achievement.Quantity);
@@ -584,7 +584,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
         return true;
     }
-    public async Task<bool> UpdateAchievementBreakthroughAsync(Achievements achievement, int star, double quantity)
+    public async Task<bool> UpdateUserAchievementBreakthroughAsync(string userId, Achievements achievement, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -626,7 +626,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@achievement_id", achievement.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -797,7 +797,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
         return achievement;
     }
-    public async Task<Achievements> SumPowerUserAchievementsAsync()
+    public async Task<Achievements> SumPowerUserAchievementsAsync(string userId)
     {
         Achievements sumAchievements = new Achievements();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -866,7 +866,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

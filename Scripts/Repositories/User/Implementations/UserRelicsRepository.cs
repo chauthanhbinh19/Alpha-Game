@@ -376,7 +376,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserRelicsBatchAsync(List<Relics> relics)
+    public async Task<bool> InsertOrUpdateUserRelicsBatchAsync(string userId, List<Relics> relics)
     {
         if (relics == null || relics.Count == 0)
             return true;
@@ -511,7 +511,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -527,7 +527,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
         return true;
     }
-    public async Task<bool> UpdateRelicLevelAsync(Relics relic)
+    public async Task<bool> UpdateUserRelicLevelAsync(string userId, Relics relic)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -546,7 +546,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@relic_id", relic.Id);
                     updateCommand.Parameters.AddWithValue("@level", relic.Level);
                     updateCommand.Parameters.AddWithValue("@experience", relic.Experience);
@@ -567,7 +567,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
         return true;
     }
-    public async Task<bool> UpdateRelicStarAsync(Relics relic)
+    public async Task<bool> UpdateUserRelicStarAsync(string userId, Relics relic)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -586,7 +586,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@relic_id", relic.Id);
                     updateCommand.Parameters.AddWithValue("@star", relic.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", relic.Quantity);
@@ -607,8 +607,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateRelicBreakthroughAsync(Relics relic, int star, double quantity)
+    public async Task<bool> UpdateUserRelicBreakthroughAsync(string userId, Relics relic, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -651,7 +650,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@relic_id", relic.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -819,7 +818,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
         return relic;
     }
-    public async Task<Relics> SumPowerUserRelicsAsync()
+    public async Task<Relics> SumPowerUserRelicsAsync(string userId)
     {
         Relics sumRelics = new Relics();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -887,7 +886,7 @@ public class UserRelicsRepository : IUserRelicsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

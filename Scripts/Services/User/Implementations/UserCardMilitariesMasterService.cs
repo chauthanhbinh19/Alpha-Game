@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 public class UserCardMilitariesMasterService : IUserCardMilitariesMasterService
 {
-     private static UserCardMilitariesMasterService _instance;
+    private static UserCardMilitariesMasterService _instance;
     private readonly IUserCardMilitariesMasterRepository _userCardMilitariesMasterRepository;
 
     public UserCardMilitariesMasterService(IUserCardMilitariesMasterRepository userCardMilitariesMasterRepository)
@@ -26,11 +26,11 @@ public class UserCardMilitariesMasterService : IUserCardMilitariesMasterService
 
     public async Task InsertOrUpdateCardMilitaryMasterAsync(string userId, UserMasters userMaster, string card_id)
     {
-        await _userCardMilitariesMasterRepository.InsertOrUpdateCardMilitaryMasterAsync(userId, userMaster, card_id);
+        await _userCardMilitariesMasterRepository.InsertOrUpdateUserCardMilitaryMasterAsync(userId, userMaster, card_id);
     }
 
     public async Task<Master> GetSumCardMilitariesMasterAsync(string user_id, string card_id)
     {
-        return await _userCardMilitariesMasterRepository.GetSumCardMilitariesMasterAsync(user_id, card_id);
+        return await _userCardMilitariesMasterRepository.GetSumUserCardMilitariesMasterAsync(user_id, card_id);
     }
 }

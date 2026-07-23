@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 public interface IUserBuildingsRepository
 {
-    Task<List<Buildings>> GetUserBuildingsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<int> GetUserBuildingsCountAsync(string user_id, string search, string type, string rare);
+    Task<List<Buildings>> GetUserBuildingsAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserBuildingsCountAsync(string userId, string search, string type, string rare);
     Task<bool> InsertUserBuildingAsync(Buildings building, string userId);
-    Task<bool> InsertOrUpdateUserBuildingsBatchAsync(List<Buildings> buildings);
-    Task<bool> UpdateBuildingLevelAsync(Buildings building);
-    Task<bool> UpdateBuildingStarAsync(Buildings building);
-    Task<bool> UpdateBuildingBreakthroughAsync(Buildings building, int star, double quantity);
-    Task<Buildings> GetUserBuildingByIdAsync(string user_id, string Id);
-    Task<Buildings> SumPowerUserBuildingsAsync();
+    Task<bool> InsertOrUpdateUserBuildingsBatchAsync(string userId, List<Buildings> buildings);
+    Task<bool> UpdateUserBuildingLevelAsync(string userId, Buildings building);
+    Task<bool> UpdateUserBuildingStarAsync(string userId, Buildings building);
+    Task<bool> UpdateUserBuildingBreakthroughAsync(string userId, Buildings building, int star, double quantity);
+    Task<Buildings> GetUserBuildingByIdAsync(string userId, string Id);
+    Task<Buildings> SumPowerUserBuildingsAsync(string userId);
 }

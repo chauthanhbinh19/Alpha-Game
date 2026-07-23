@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 public class UserAlchemiesService : IUserAlchemiesService
 {
-     private static UserAlchemiesService _instance;
-    private IUserAlchemiesRepository _userAlchemiesRepository;
+    private static UserAlchemiesService _instance;
+    private readonly IUserAlchemiesRepository _userAlchemiesRepository;
 
     public UserAlchemiesService(IUserAlchemiesRepository userAlchemiesRepository)
     {
@@ -39,19 +39,19 @@ public class UserAlchemiesService : IUserAlchemiesService
         return await _userAlchemiesRepository.InsertUserAlchemyAsync(alchemy, userId);
     }
 
-    public async Task<bool> UpdateAlchemyLevelAsync(Alchemies alchemy)
+    public async Task<bool> UpdateUserAlchemyLevelAsync(string userId, Alchemies alchemy)
     {
-        return await _userAlchemiesRepository.UpdateAlchemyLevelAsync(alchemy);
+        return await _userAlchemiesRepository.UpdateUserAlchemyLevelAsync(userId, alchemy);
     }
 
-    public async Task<bool> UpdateAlchemyStarAsync(Alchemies alchemy)
+    public async Task<bool> UpdateUserAlchemyStarAsync(string userId, Alchemies alchemy)
     {
-        return await _userAlchemiesRepository.UpdateAlchemyStarAsync(alchemy);
+        return await _userAlchemiesRepository.UpdateUserAlchemyStarAsync(userId, alchemy);
     }
 
-    public async Task<bool> UpdateAlchemyBreakthroughAsync(Alchemies alchemy, int star, double quantity)
+    public async Task<bool> UpdateUserAlchemyBreakthroughAsync(string userId, Alchemies alchemy, int star, double quantity)
     {
-        return await _userAlchemiesRepository.UpdateAlchemyBreakthroughAsync(alchemy, star, quantity);
+        return await _userAlchemiesRepository.UpdateUserAlchemyBreakthroughAsync(userId, alchemy, star, quantity);
     }
 
     public async Task<Alchemies> GetUserAlchemyByIdAsync(string user_id, string Id)
@@ -59,13 +59,13 @@ public class UserAlchemiesService : IUserAlchemiesService
         return await _userAlchemiesRepository.GetUserAlchemyByIdAsync(user_id, Id);
     }
 
-    public async Task<Alchemies> SumPowerUserAlchemiesAsync()
+    public async Task<Alchemies> SumPowerUserAlchemiesAsync(string userId)
     {
-        return await _userAlchemiesRepository.SumPowerUserAlchemiesAsync();
+        return await _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserAlchemiesBatchAsync(List<Alchemies> alchemies)
+    public async Task<bool> InsertOrUpdateUserAlchemiesBatchAsync(string userId, List<Alchemies> alchemies)
     {
-        return await _userAlchemiesRepository.InsertOrUpdateUserAlchemiesBatchAsync(alchemies);
+        return await _userAlchemiesRepository.InsertOrUpdateUserAlchemiesBatchAsync(userId, alchemies);
     }
 }

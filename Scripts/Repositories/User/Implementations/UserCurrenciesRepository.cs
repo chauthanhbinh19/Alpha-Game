@@ -65,7 +65,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
 
         return currencies;
     }
-    public async Task<Currencies> GetUserCurrencyByIdAsync(string id)
+    public async Task<Currencies> GetUserCurrencyByIdAsync(string userId, string id)
     {
         Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -84,7 +84,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     selectCommand.Parameters.AddWithValue("@id", id);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -114,7 +114,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
 
         return currency;
     }
-    public async Task<Currencies> GetUserCurrencyByNameAsync(string currencyName)
+    public async Task<Currencies> GetUserCurrencyByNameAsync(string userId, string currencyName)
     {
         Currencies currency = new Currencies();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -133,7 +133,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@userId", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@userId", userId);
                     selectCommand.Parameters.AddWithValue("@name", currencyName);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
@@ -198,7 +198,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
             }
         }
     }
-    public async Task UpdateUserCurrencyAsync(string currencyId, double price)
+    public async Task UpdateUserCurrencyAsync(string userId, string currencyId, double price)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -212,7 +212,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                 string selectSQL = "SELECT quantity FROM user_currencies WHERE user_id = @user_id AND currency_id = @currency_id";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@currency_id", currencyId);
 
                     object result = await selectCommand.ExecuteScalarAsync();
@@ -224,7 +224,7 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                     await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                     {
                         updateCommand.Parameters.AddWithValue("@quantity", newQuantity);
-                        updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                        updateCommand.Parameters.AddWithValue("@user_id", userId);
                         updateCommand.Parameters.AddWithValue("@currency_id", currencyId);
 
                         await updateCommand.ExecuteNonQueryAsync();

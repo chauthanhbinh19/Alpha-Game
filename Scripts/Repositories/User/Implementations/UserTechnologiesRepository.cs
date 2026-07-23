@@ -355,7 +355,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserTechnologiesBatchAsync(List<Technologies> technologies)
+    public async Task<bool> InsertOrUpdateUserTechnologiesBatchAsync(string userId, List<Technologies> technologies)
     {
         if (technologies == null || technologies.Count == 0)
             return true;
@@ -490,7 +490,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -506,7 +506,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
         return true;
     }
-    public async Task<bool> UpdateTechnologyLevelAsync(Technologies technology)
+    public async Task<bool> UpdateUserTechnologyLevelAsync(string userId, Technologies technology)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -525,7 +525,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@technology_id", technology.Id);
                     updateCommand.Parameters.AddWithValue("@level", technology.Level);
                     updateCommand.Parameters.AddWithValue("@experience", technology.Experience);
@@ -546,7 +546,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
         return true;
     }
-    public async Task<bool> UpdateTechnologyStarAsync(Technologies technology)
+    public async Task<bool> UpdateUserTechnologyStarAsync(string userId, Technologies technology)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -565,7 +565,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@technology_id", technology.Id);
                     updateCommand.Parameters.AddWithValue("@star", technology.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", technology.Quantity);
@@ -586,8 +586,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateTechnologyBreakthroughAsync(Technologies technology, int star, double quantity)
+    public async Task<bool> UpdateUserTechnologyBreakthroughAsync(string userId, Technologies technology, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -626,7 +625,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
                 WHERE user_id = @user_id AND technology_id = @technology_id;";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@technology_id", technology.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -790,7 +789,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
         }
         return technology;
     }
-    public async Task<Technologies> SumPowerUserTechnologiesAsync()
+    public async Task<Technologies> SumPowerUserTechnologiesAsync(string userId)
     {
         Technologies sumTechnologies = new Technologies();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -855,7 +854,7 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             ";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

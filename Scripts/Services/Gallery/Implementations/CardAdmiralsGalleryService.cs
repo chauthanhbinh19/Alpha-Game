@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
 {
     private static CardAdmiralsGalleryService _instance;
-    private ICardAdmiralsGalleryRepository _cardAdmiralsGalleryRepository;
+    private readonly ICardAdmiralsGalleryRepository _cardAdmiralsGalleryRepository;
 
     public CardAdmiralsGalleryService(ICardAdmiralsGalleryRepository cardAdmiralsGalleryRepository)
     {

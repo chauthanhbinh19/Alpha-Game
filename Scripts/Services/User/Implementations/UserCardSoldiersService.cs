@@ -4,8 +4,8 @@ using System.Threading.Tasks;
 
 public class UserCardSoldiersService : IUserCardSoldiersService
 {
-     private static UserCardSoldiersService _instance;
-    private IUserCardSoldiersRepository _userCardSoldiersRepository;
+    private static UserCardSoldiersService _instance;
+    private readonly IUserCardSoldiersRepository _userCardSoldiersRepository;
 
     public UserCardSoldiersService(IUserCardSoldiersRepository userCardSoldiersRepository)
     {
@@ -348,11 +348,11 @@ public class UserCardSoldiersService : IUserCardSoldiersService
     //     }
     //     return CardSoldiersList;
     // }
-    
-    
+
+
     public async Task<List<CardSoldiers>> GetSkillsAsync(string user_id, List<CardSoldiers> CardSoldiersList)
     {
-        foreach(CardSoldiers cardAdmiral in CardSoldiersList)
+        foreach (CardSoldiers cardAdmiral in CardSoldiersList)
         {
             var skills = await UserSkillsService.Create().GetUserCardSoldiersSkillsAsync(user_id, cardAdmiral.Id);
             skills = skills.Where(x => x.Position != 0).ToList();
@@ -363,7 +363,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
     public async Task<List<CardSoldiers>> GetUserCardSoldiersAsync(string user_id, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null)
     {
         List<CardSoldiers> list = await _userCardSoldiersRepository.GetUserCardSoldiersAsync(user_id, search, type, pageSize, offset, rare);
-        
+
         List<string> cardSoldierIds = list.Select(hero => hero.Id).ToList();
 
         var skillsTask = UserSkillsService.Create().GetUserCardSoldiersSkillsAsync(user_id, cardSoldierIds);
@@ -409,7 +409,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
         // list = await GetSkillsAsync(user_id, list);
-        foreach(var card in list)
+        foreach (var card in list)
         {
             if (card == null) continue; // Phòng hờ phần tử trong list bị null
 
@@ -431,7 +431,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
     public async Task<List<CardSoldiers>> GetUserCardSoldiersTeamAsync(string user_id, string teamId, string position, UserStatsContextDTO sharedContext = null)
     {
         List<CardSoldiers> list = await _userCardSoldiersRepository.GetUserCardSoldiersTeamAsync(user_id, teamId, position);
-        
+
         List<string> cardSoldierIds = list.Select(hero => hero.Id).ToList();
 
         var skillsTask = UserSkillsService.Create().GetUserCardSoldiersSkillsAsync(user_id, cardSoldierIds);
@@ -477,7 +477,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
         // list = await GetSkillsAsync(user_id, list);
-        foreach(var card in list)
+        foreach (var card in list)
         {
             if (card == null) continue; // Phòng hờ phần tử trong list bị null
 
@@ -545,7 +545,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
         // list = await GetSkillsAsync(user_id, list);
-        foreach(var card in list)
+        foreach (var card in list)
         {
             if (card == null) continue; // Phòng hờ phần tử trong list bị null
 
@@ -662,7 +662,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
         // list = await GetSkillsAsync(user_id, list);
-        foreach(var card in list)
+        foreach (var card in list)
         {
             if (card == null) continue; // Phòng hờ phần tử trong list bị null
 
@@ -684,8 +684,8 @@ public class UserCardSoldiersService : IUserCardSoldiersService
     public async Task<List<CardSoldiers>> GetAllUserCardSoldiersInTeamAsync(string user_id, UserStatsContextDTO sharedContext = null)
     {
         List<CardSoldiers> list = await _userCardSoldiersRepository.GetAllUserCardSoldiersInTeamAsync(user_id);
-        
-       List<string> cardSoldierIds = list.Select(hero => hero.Id).ToList();
+
+        List<string> cardSoldierIds = list.Select(hero => hero.Id).ToList();
 
         var skillsTask = UserSkillsService.Create().GetUserCardSoldiersSkillsAsync(user_id, cardSoldierIds);
 
@@ -730,7 +730,7 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         // list = await GetAllRankPowerAsync(user_id, list);
         // list = await GetAllMasterPowerAsync(user_id, list);
         // list = await GetSkillsAsync(user_id, list);
-        foreach(var card in list)
+        foreach (var card in list)
         {
             if (card == null) continue; // Phòng hờ phần tử trong list bị null
 

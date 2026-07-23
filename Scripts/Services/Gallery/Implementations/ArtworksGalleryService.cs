@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 public class ArtworksGalleryService : IArtworksGalleryService
 {
     private static ArtworksGalleryService _instance;
-    private IArtworksGalleryRepository _artworksGalleryRepository;
+    private readonly IArtworksGalleryRepository _artworksGalleryRepository;
 
     public ArtworksGalleryService(IArtworksGalleryRepository artworksGalleryRepository)
     {

@@ -6,10 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserCardMilitariesRankRepository : IUserCardMilitariesRankRepository
 {
-    public async Task<Rank> GetCardMilitaryRankAsync(string id, string cardId)
+    public async Task<Rank> GetUserCardMilitaryRankAsync(string userId, string id, string cardId)
     {
         Rank rank = new Rank();
-        string userId = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -113,7 +112,7 @@ public class UserCardMilitariesRankRepository : IUserCardMilitariesRankRepositor
 
         return rank;
     }
-    public async Task InsertOrUpdateCardMilitaryRankAsync(string userId, UserRanks userRank, string cardId)
+    public async Task InsertOrUpdateUserCardMilitaryRankAsync(string userId, UserRanks userRank, string cardId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -390,7 +389,7 @@ public class UserCardMilitariesRankRepository : IUserCardMilitariesRankRepositor
             }
         }
     }
-    public async Task<Rank> GetSumCardMilitariesRankAsync(string userId, string cardId)
+    public async Task<Rank> GetSumUserCardMilitariesRankAsync(string userId, string cardId)
     {
         Rank rank = new Rank();
         string connectionString = DatabaseConfig.ConnectionString;

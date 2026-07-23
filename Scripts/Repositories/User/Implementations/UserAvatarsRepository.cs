@@ -511,7 +511,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserAvatarsBatchAsync(List<Avatars> avatars)
+    public async Task<bool> InsertOrUpdateUserAvatarsBatchAsync(string userId, List<Avatars> avatars)
     {
         if (avatars == null || avatars.Count == 0)
             return true;
@@ -647,7 +647,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -663,7 +663,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
         return true;
     }
-    public async Task<bool> UpdateAvatarLevelAsync(Avatars avatar)
+    public async Task<bool> UpdateUserAvatarLevelAsync(string userId, Avatars avatar)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -682,7 +682,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
 
-                updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                updateCommand.Parameters.AddWithValue("@user_id", userId);
                 updateCommand.Parameters.AddWithValue("@avatar_id", avatar.Id);
                 updateCommand.Parameters.AddWithValue("@level", avatar.Level);
                 updateCommand.Parameters.AddWithValue("@experience", avatar.Experience);
@@ -702,7 +702,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
         return true;
     }
-    public async Task<bool> UpdateAvatarStarAsync(Avatars avatar)
+    public async Task<bool> UpdateUserAvatarStarAsync(string userId, Avatars avatar)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -721,7 +721,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@avatar_id", avatar.Id);
                     updateCommand.Parameters.AddWithValue("@star", avatar.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", avatar.Quantity);
@@ -742,8 +742,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
         return true;
     }
-
-    public async Task<Avatars> GetAvatarByUsedAsync(string userId)
+    public async Task<Avatars> GetUserAvatarByUsedAsync(string userId)
     {
         Avatars avatar = new Avatars();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -842,7 +841,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
         return avatar;
     }
-    public async Task UpdateIsUsedAvatarAsync(string avatarId, string userId, bool is_used)
+    public async Task UpdateIsUsedUserAvatarAsync(string avatarId, string userId, bool is_used)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -877,7 +876,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
             }
         }
     }
-    public async Task<Avatars> SumPowerUserAvatarsAsync()
+    public async Task<Avatars> SumPowerUserAvatarsAsync(string userId)
     {
         Avatars sumAvatars = new Avatars();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -946,7 +945,7 @@ public class UserAvatarsRepository : IUserAvatarsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

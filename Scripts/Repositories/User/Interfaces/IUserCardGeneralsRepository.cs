@@ -3,19 +3,19 @@ using System.Threading.Tasks;
 
 public interface IUserCardGeneralsRepository
 {
-    Task<List<CardGenerals>> GetUserCardGeneralsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<List<CardGenerals>> GetUserCardGeneralsTeamAsync(string user_id, string teamId, string position);
-    Task<List<CardGenerals>> GetUserCardGeneralsTeamWithoutPositionAsync(string user_id, string teamId);
-    Task<Dictionary<string, int>> GetUniqueCardGeneralsTypesTeamAsync(string teamId);
-    Task<bool> UpdateTeamCardGeneralAsync(string team_id, string position, string card_id);
-    Task<int> GetUserCardGeneralsCountAsync(string user_id, string search, string type, string rare);
-    Task<int> GetUserCardGeneralsTeamsPositionCountAsync(string user_id, string team_id, string position);
-    Task<int> GetUserCardGeneralsTeamsCountAsync(string user_id, string team_id);
-    Task<bool> InsertUserCardGeneralAsync(CardGenerals cardGeneral);
-    Task<bool> InsertOrUpdateUserCardGeneralsBatchAsync(List<CardGenerals> cardGenerals);
-    Task<bool> UpdateCardGeneralLevelAsync(CardGenerals cardGeneral);
-    Task<bool> UpdateCardGeneralStarAsync(CardGenerals cardGeneral);
-    Task<bool> UpdateCardGeneralBreakthroughAsync(CardGenerals cardGeneral, int star, double quantity);
-    Task<CardGenerals> GetUserCardGeneralByIdAsync(string user_id, string Id);
-    Task<List<CardGenerals>> GetAllUserCardGeneralsInTeamAsync(string user_id);
+    Task<List<CardGenerals>> GetUserCardGeneralsAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<List<CardGenerals>> GetUserCardGeneralsTeamAsync(string userId, string teamId, string position);
+    Task<List<CardGenerals>> GetUserCardGeneralsTeamWithoutPositionAsync(string userId, string teamId);
+    Task<Dictionary<string, int>> GetUniqueUserCardGeneralsTypesTeamAsync(string userId, string teamId);
+    Task<bool> UpdateTeamUserCardGeneralAsync(string userId, string team_id, string position, string cardId);
+    Task<int> GetUserCardGeneralsCountAsync(string userId, string search, string type, string rare);
+    Task<int> GetUserCardGeneralsTeamsPositionCountAsync(string userId, string team_id, string position);
+    Task<int> GetUserCardGeneralsTeamsCountAsync(string userId, string team_id);
+    Task<bool> InsertUserCardGeneralAsync(string userId, CardGenerals cardGeneral);
+    Task<bool> InsertOrUpdateUserCardGeneralsBatchAsync(string userId, List<CardGenerals> cardGenerals);
+    Task<bool> UpdateUserCardGeneralLevelAsync(string userId, CardGenerals cardGeneral);
+    Task<bool> UpdateUserCardGeneralStarAsync(string userId, CardGenerals cardGeneral);
+    Task<bool> UpdateUserCardGeneralBreakthroughAsync(string userId, CardGenerals cardGeneral, int star, double quantity);
+    Task<CardGenerals> GetUserCardGeneralByIdAsync(string userId, string Id);
+    Task<List<CardGenerals>> GetAllUserCardGeneralsInTeamAsync(string userId);
 }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserRelicsService : IUserRelicsService
 {
-     private static UserRelicsService _instance;
+    private static UserRelicsService _instance;
     private readonly IUserRelicsRepository _userRelicsRepository;
 
     public UserRelicsService(IUserRelicsRepository userRelicsRepository)
@@ -20,8 +20,8 @@ public class UserRelicsService : IUserRelicsService
         return _instance;
     }
 
-    
-    
+
+
 
     public async Task<List<Relics>> GetUserRelicsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {

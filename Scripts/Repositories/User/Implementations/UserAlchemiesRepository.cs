@@ -376,7 +376,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserAlchemiesBatchAsync(List<Alchemies> alchemies)
+    public async Task<bool> InsertOrUpdateUserAlchemiesBatchAsync(string userId, List<Alchemies> alchemies)
     {
         if (alchemies == null || alchemies.Count == 0)
             return true;
@@ -511,7 +511,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -527,7 +527,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
         return true;
     }
-    public async Task<bool> UpdateAlchemyLevelAsync(Alchemies alchemy)
+    public async Task<bool> UpdateUserAlchemyLevelAsync(string userId, Alchemies alchemy)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -546,7 +546,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
                     updateCommand.Parameters.AddWithValue("@level", alchemy.Level);
                     updateCommand.Parameters.AddWithValue("@experience", alchemy.Experience);
@@ -567,7 +567,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
         return true;
     }
-    public async Task<bool> UpdateAlchemyStarAsync(Alchemies alchemy)
+    public async Task<bool> UpdateUserAlchemyStarAsync(string userId, Alchemies alchemy)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -586,7 +586,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
                     updateCommand.Parameters.AddWithValue("@star", alchemy.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", alchemy.Quantity);
@@ -607,7 +607,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
         return true;
     }
-    public async Task<bool> UpdateAlchemyBreakthroughAsync(Alchemies alchemy, int star, double quantity)
+    public async Task<bool> UpdateUserAlchemyBreakthroughAsync(string userId, Alchemies alchemy, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -650,7 +650,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@alchemy_id", alchemy.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -818,7 +818,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
         return alchemy;
     }
-    public async Task<Alchemies> SumPowerUserAlchemiesAsync()
+    public async Task<Alchemies> SumPowerUserAlchemiesAsync(string userId)
     {
         Alchemies sumAlchemies = new Alchemies();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -886,7 +886,7 @@ public class UserAlchemiesRepository : IUserAlchemiesRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

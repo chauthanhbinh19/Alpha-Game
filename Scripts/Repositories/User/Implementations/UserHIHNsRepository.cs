@@ -6,10 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserHIHNsRepository : IUserHIHNsRepository
 {
-    public async Task<UserHIHNs> GetUserHIHNsAsync(string id)
+    public async Task<UserHIHNs> GetUserHIHNsAsync(string userId, string id)
     {
         UserHIHNs userHIHN = new UserHIHNs();
-        string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -26,7 +25,7 @@ public class UserHIHNsRepository : IUserHIHNsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@hihn_id", id);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())

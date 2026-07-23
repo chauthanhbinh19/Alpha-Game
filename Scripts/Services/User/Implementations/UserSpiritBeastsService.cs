@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserSpiritBeastsService : IUserSpiritBeastsService
 {
-     private static UserSpiritBeastsService _instance;
+    private static UserSpiritBeastsService _instance;
     private readonly IUserSpiritBeastsRepository _userSpiritBeastsRepository;
 
     public UserSpiritBeastsService(IUserSpiritBeastsRepository userSpiritBeastsRepository)
@@ -38,7 +38,7 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
 
     public async Task<List<SpiritBeasts>> GetSpiritBeastsByCardIdsAsync(string user_id, List<string> cardIds)
     {
-        List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetSpiritBeastsByCardIdsAsync(user_id, cardIds);
+        List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetUserSpiritBeastsByCardIdsAsync(user_id, cardIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
@@ -233,7 +233,7 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
     {
         return await _userSpiritBeastsRepository.DeleteUserCardMonsterSpiritBeastAsync(userId, cardMonster, spiritBeast);
     }
-    
+
     public async Task<bool> DeleteUserCardSpellSpiritBeastAsync(string userId, CardSpells cardSpell, SpiritBeasts spiritBeast)
     {
         return await _userSpiritBeastsRepository.DeleteUserCardSpellSpiritBeastAsync(userId, cardSpell, spiritBeast);

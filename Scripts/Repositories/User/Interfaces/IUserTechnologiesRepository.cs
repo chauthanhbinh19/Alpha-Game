@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 public interface IUserTechnologiesRepository
 {
-    Task<List<Technologies>> GetUserTechnologiesAsync(string user_id, string search, int pageSize, int offset, string rare);
-    Task<int> GetUserTechnologiesCountAsync(string user_id, string search, string rare);
+    Task<List<Technologies>> GetUserTechnologiesAsync(string userId, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserTechnologiesCountAsync(string userId, string search, string rare);
     Task<bool> InsertUserTechnologyAsync(Technologies technology, string userId);
-    Task<bool> InsertOrUpdateUserTechnologiesBatchAsync(List<Technologies> technologies);
-    Task<bool> UpdateTechnologyLevelAsync(Technologies technology);
-    Task<bool> UpdateTechnologyStarAsync(Technologies technology);
-    Task<bool> UpdateTechnologyBreakthroughAsync(Technologies technology, int star, double quantity);
-    Task<Technologies> GetUserTechnologyByIdAsync(string user_id, string Id);
-    Task<Technologies> SumPowerUserTechnologiesAsync();
+    Task<bool> InsertOrUpdateUserTechnologiesBatchAsync(string userId, List<Technologies> technologies);
+    Task<bool> UpdateUserTechnologyLevelAsync(string userId, Technologies technology);
+    Task<bool> UpdateUserTechnologyStarAsync(string userId, Technologies technology);
+    Task<bool> UpdateUserTechnologyBreakthroughAsync(string userId, Technologies technology, int star, double quantity);
+    Task<Technologies> GetUserTechnologyByIdAsync(string userId, string Id);
+    Task<Technologies> SumPowerUserTechnologiesAsync(string userId);
 }

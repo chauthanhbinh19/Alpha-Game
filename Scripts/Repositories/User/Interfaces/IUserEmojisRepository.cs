@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 public interface IUserEmojisRepository
 {
-    Task<List<Emojis>> GetUserEmojisAsync(string user_id, string search, int pageSize, int offset, string rare);
-    Task<int> GetUserEmojisCountAsync(string user_id, string search, string rare);
+    Task<List<Emojis>> GetUserEmojisAsync(string userId, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserEmojisCountAsync(string userId, string search, string rare);
     Task<bool> InsertUserEmojiAsync(Emojis emoji, string userId);
-    Task<bool> InsertOrUpdateUserEmojisBatchAsync(List<Emojis> emojis);
-    Task<bool> UpdateEmojiLevelAsync(Emojis emoji);
-    Task<bool> UpdateEmojiStarAsync(Emojis emoji);
-    Task<bool> UpdateEmojiBreakthroughAsync(Emojis emoji, int star, double quantity);
-    Task<Emojis> GetUserEmojiByIdAsync(string user_id, string Id);
-    Task<Emojis> SumPowerUserEmojisAsync();
+    Task<bool> InsertOrUpdateUserEmojisBatchAsync(string userId, List<Emojis> emojis);
+    Task<bool> UpdateUserEmojiLevelAsync(string userId, Emojis emoji);
+    Task<bool> UpdateUserEmojiStarAsync(string userId, Emojis emoji);
+    Task<bool> UpdateUserEmojiBreakthroughAsync(string userId, Emojis emoji, int star, double quantity);
+    Task<Emojis> GetUserEmojiByIdAsync(string userId, string Id);
+    Task<Emojis> SumPowerUserEmojisAsync(string userId);
 }

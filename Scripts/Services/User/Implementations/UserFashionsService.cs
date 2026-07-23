@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserFashionsService : IUserFashionsService
 {
-     private static UserFashionsService _instance;
+    private static UserFashionsService _instance;
     private readonly IUserFashionsRepository _userFashionsRepository;
 
     public UserFashionsService(IUserFashionsRepository userFashionsRepository)
@@ -40,17 +40,17 @@ public class UserFashionsService : IUserFashionsService
 
     public async Task<bool> UpdateFashionLevelAsync(Fashions fashion)
     {
-        return await _userFashionsRepository.UpdateFashionLevelAsync(fashion);
+        return await _userFashionsRepository.UpdateUserFashionLevelAsync(fashion);
     }
 
     public async Task<bool> UpdateFashionStarAsync(Fashions fashion)
     {
-        return await _userFashionsRepository.UpdateFashionStarAsync(fashion);
+        return await _userFashionsRepository.UpdateUserFashionStarAsync(fashion);
     }
 
     public async Task<bool> UpdateFashionBreakthroughAsync(Fashions fashion, int star, double quantity)
     {
-        return await _userFashionsRepository.UpdateFashionBreakthroughAsync(fashion, star, quantity);
+        return await _userFashionsRepository.UpdateUserFashionBreakthroughAsync(fashion, star, quantity);
     }
 
     public async Task<Fashions> GetUserFashionByIdAsync(string user_id, string Id)

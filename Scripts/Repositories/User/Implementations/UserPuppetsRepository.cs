@@ -376,7 +376,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserPuppetsBatchAsync(List<Puppets> puppets)
+    public async Task<bool> InsertOrUpdateUserPuppetsBatchAsync(string userId, List<Puppets> puppets)
     {
         if (puppets == null || puppets.Count == 0)
             return true;
@@ -511,7 +511,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -527,7 +527,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
         return true;
     }
-    public async Task<bool> UpdatePuppetLevelAsync(Puppets puppet)
+    public async Task<bool> UpdateUserPuppetLevelAsync(string userId, Puppets puppet)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -546,7 +546,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@puppet_id", puppet.Id);
                     updateCommand.Parameters.AddWithValue("@level", puppet.Level);
                     updateCommand.Parameters.AddWithValue("@experience", puppet.Experience);
@@ -567,7 +567,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
         return true;
     }
-    public async Task<bool> UpdatePuppetStarAsync(Puppets puppet)
+    public async Task<bool> UpdateUserPuppetStarAsync(string userId, Puppets puppet)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -586,7 +586,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@puppet_id", puppet.Id);
                     updateCommand.Parameters.AddWithValue("@star", puppet.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", puppet.Quantity);
@@ -607,8 +607,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdatePuppetBreakthroughAsync(Puppets puppet, int star, double quantity)
+    public async Task<bool> UpdateUserPuppetBreakthroughAsync(string userId, Puppets puppet, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -651,7 +650,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@puppet_id", puppet.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -819,7 +818,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
         return puppet;
     }
-    public async Task<Puppets> SumPowerUserPuppetsAsync()
+    public async Task<Puppets> SumPowerUserPuppetsAsync(string userId)
     {
         Puppets sumPuppets = new Puppets();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -887,7 +886,7 @@ public class UserPuppetsRepository : IUserPuppetsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

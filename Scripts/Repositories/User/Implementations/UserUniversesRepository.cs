@@ -6,10 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserUniversesRepository : IUserUniversesRepository
 {
-    public async Task<UserUniverses> GetUserUniversesAsync(string id)
+    public async Task<UserUniverses> GetUserUniversesAsync(string userId, string id)
     {
         UserUniverses userUniverse = new UserUniverses();
-        string user_id = User.CurrentUserId;
         string connectionString = DatabaseConfig.ConnectionString;
 
         using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -26,7 +25,7 @@ public class UserUniversesRepository : IUserUniversesRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", user_id);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@universe_id", id);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())

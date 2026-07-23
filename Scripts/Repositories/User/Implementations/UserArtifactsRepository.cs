@@ -354,7 +354,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
 
         return true;
     }
-    public async Task<bool> InsertOrUpdateUserArtifactsBatchAsync(List<Artifacts> artifacts)
+    public async Task<bool> InsertOrUpdateUserArtifactsBatchAsync(string userId, List<Artifacts> artifacts)
     {
         if (artifacts == null || artifacts.Count == 0)
             return true;
@@ -489,7 +489,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -505,7 +505,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
 
         return true;
     }
-    public async Task<bool> UpdateArtifactLevelAsync(Artifacts artifact)
+    public async Task<bool> UpdateUserArtifactLevelAsync(string userId, Artifacts artifact)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -521,7 +521,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@artifact_id", artifact.Id);
                     updateCommand.Parameters.AddWithValue("@level", artifact.Level);
                     updateCommand.Parameters.AddWithValue("@experience", artifact.Experience);
@@ -541,7 +541,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
         }
         return true;
     }
-    public async Task<bool> UpdateArtifactStarAsync(Artifacts artifact)
+    public async Task<bool> UpdateUserArtifactStarAsync(string userId, Artifacts artifact)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -560,7 +560,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@artifact_id", artifact.Id);
                     updateCommand.Parameters.AddWithValue("@star", artifact.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", artifact.Quantity);
@@ -581,8 +581,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
 
         return true;
     }
-
-    public async Task<bool> UpdateArtifactBreakthroughAsync(Artifacts artifact, int star, double quantity)
+    public async Task<bool> UpdateUserArtifactBreakthroughAsync(string userId, Artifacts artifact, int star, double quantity)
     {
         string connectionString = DatabaseConfig.ConnectionString;
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -621,7 +620,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
                 WHERE user_id = @user_id AND artifact_id = @artifact_id;";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@artifact_id", artifact.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -785,7 +784,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
         }
         return artifact;
     }
-    public async Task<Artifacts> SumPowerUserArtifactsAsync()
+    public async Task<Artifacts> SumPowerUserArtifactsAsync(string userId)
     {
         Artifacts sumArtifacts = new Artifacts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -850,7 +849,7 @@ public class UserArtifactsRepository : IUserArtifactsRepository
             ";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

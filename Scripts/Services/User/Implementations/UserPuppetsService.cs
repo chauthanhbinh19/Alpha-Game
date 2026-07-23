@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 public class UserPuppetsService : IUserPuppetsService
 {
-     private static UserPuppetsService _instance;
+    private static UserPuppetsService _instance;
     private readonly IUserPuppetsRepository _userPuppetsRepository;
 
     public UserPuppetsService(IUserPuppetsRepository userPuppetsRepository)
@@ -20,8 +20,8 @@ public class UserPuppetsService : IUserPuppetsService
         return _instance;
     }
 
-    
-    
+
+
 
     public async Task<List<Puppets>> GetUserPuppetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
     {

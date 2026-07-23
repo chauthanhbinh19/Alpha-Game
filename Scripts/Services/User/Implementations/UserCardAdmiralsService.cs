@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 public class UserCardAdmiralsService : IUserCardAdmiralsService
 {
     private static UserCardAdmiralsService _instance;
-    private IUserCardAdmiralsRepository _userCardAdmiralsRepository;
+    private readonly IUserCardAdmiralsRepository _userCardAdmiralsRepository;
 
     public UserCardAdmiralsService(IUserCardAdmiralsRepository userCardAdmiralsRepository)
     {

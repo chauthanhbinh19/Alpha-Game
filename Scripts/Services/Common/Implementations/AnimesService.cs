@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 public class AnimesService : IAnimesService
 {
     private static AnimesService _instance;
-    private readonly IAnimesRepository _universesRepository;
+    private readonly IAnimesRepository _animesRepository;
 
-    public AnimesService(IAnimesRepository universesRepository)
+    public AnimesService(IAnimesRepository animesRepository)
     {
-        _universesRepository = universesRepository;
+        _animesRepository = animesRepository;
     }
 
     public static AnimesService Create()
@@ -26,6 +26,6 @@ public class AnimesService : IAnimesService
 
     public async Task<Animes> GetAnimeByIdAsync(string id)
     {
-        return await _universesRepository.GetAnimeByIdAsync(id);
+        return await _animesRepository.GetAnimeByIdAsync(id);
     }
 }

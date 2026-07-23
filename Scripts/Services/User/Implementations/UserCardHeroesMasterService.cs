@@ -26,11 +26,11 @@ public class UserCardHeroesMasterService : IUserCardHeroesMasterService
 
     public async Task InsertOrUpdateCardHeroMasterAsync(string userId, UserMasters userMaster, string card_id)
     {
-        await _userCardHeroesMasterRepository.InsertOrUpdateCardHeroMasterAsync(userId, userMaster, card_id);
+        await _userCardHeroesMasterRepository.InsertOrUpdateUserCardHeroMasterAsync(userId, userMaster, card_id);
     }
 
     public async Task<Master> GetSumCardHeroesMasterAsync(string user_id, string card_id)
     {
-        return await _userCardHeroesMasterRepository.GetSumCardHeroesMasterAsync(user_id, card_id);
+        return await _userCardHeroesMasterRepository.GetSumUserCardHeroesMasterAsync(user_id, card_id);
     }
 }

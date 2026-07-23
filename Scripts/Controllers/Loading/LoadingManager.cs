@@ -1,4 +1,4 @@
-using System.Collections; // Cần dùng cho Coroutine
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -15,21 +15,30 @@ public class LoadingManager : MonoBehaviour
     private TextMeshProUGUI ContentText;
     private TextMeshProUGUI TimeText;
 
-    // Các biến phục vụ cho bộ đếm thời gian
-    private Coroutine timerCoroutine;
-    private float elapsedTime;
+    // Bộ đếm thời gian
+    private Coroutine TimerCoroutine;
+    private float ElapsedTime;
+
+    // --- LOGIC ANIMATION SLIDER ---
+    private Coroutine SliderAnimationCoroutine;
+    private float TargetProgress = 0f; // Giá trị logic hướng tới
+    private float CurrentDisplayProgress = 0f; // Giá trị UI đang hiển thị thực tế
+    
+    [Header("Cấu hình tốc độ")]
+    [Tooltip("Tốc độ đuổi theo giá trị mới khi SetProgress được gọi (Càng cao càng nhanh)")]
+    public float CatchUpSpeed = 5f; 
+    [Tooltip("Tốc độ tự động nhích từ từ khi chờ đợi để đạt tối đa 99% (Càng cao càng nhanh)")]
+    public float IdleCreepSpeed = 0.02f; 
 
     private void Awake()
     {
-        // Ensure there's only one instance of PanelManager
         if (Instance == null)
         {
             Instance = this;
-            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
         }
         else
         {
-            Destroy(gameObject); // Destroy duplicate instances
+            Destroy(gameObject);
         }
     }
 
@@ -52,10 +61,10 @@ public class LoadingManager : MonoBehaviour
             return;
         }
 
-        // Dừng coroutine đếm giờ cũ nếu có để tránh chạy đè luồng
         StopTimer();
+        StopSliderAnimation();
 
-        // Clear any old loading UI first
+        // Xóa UI cũ
         if (CurrentLoadingObject != null)
         {
             Destroy(CurrentLoadingObject);
@@ -69,44 +78,57 @@ public class LoadingManager : MonoBehaviour
 
         CurrentLoadingObject = Instantiate(LoadingProcessPanelPrefab, LoadingPanel);
         
-        // Tối ưu hóa: thay thế transform.Find thành GetComponentInChildren hoặc tìm trực tiếp
         LoadingSlider = CurrentLoadingObject.transform.Find("Slider")?.GetComponent<Slider>();
         LoadingText = CurrentLoadingObject.transform.Find("LoadingText")?.GetComponent<TextMeshProUGUI>();
         ContentText = CurrentLoadingObject.transform.Find("ContentText")?.GetComponent<TextMeshProUGUI>();
         TimeText = CurrentLoadingObject.transform.Find("TimeText")?.GetComponent<TextMeshProUGUI>();
 
+        // Reset các giá trị tiến trình về 0
+        TargetProgress = 0f;
+        CurrentDisplayProgress = 0f;
         if (LoadingSlider != null)
         {
-            LoadingSlider.value = 0;
+            LoadingSlider.value = 0f;
         }
 
-        // Bắt đầu đếm thời gian từ 0
         StartTimer();
+        
+        // Kích hoạt luồng chạy Animation cho Slider
+        SliderAnimationCoroutine = StartCoroutine(AnimateSliderCoroutine());
     }
 
+    /// <summary>
+    /// Cập nhật tiến trình. Animation sẽ lập tức nhảy tới giá trị này và tiếp tục tự chạy.
+    /// </summary>
+    /// <param name="value">Giá trị từ 0.0 đến 1.0</param>
     public void SetProgress(float value, string percentText = "", string loadingContent = "")
     {
+        // Giới hạn giá trị truyền vào luôn nằm trong khoảng [0, 1]
+        value = Mathf.Clamp01(value);
+
+        // Bẻ bánh lái: Đặt giá trị hiển thị hiện tại và đích đến bằng chính giá trị mới nhận
+        CurrentDisplayProgress = value;
+        TargetProgress = value;
+
         if (LoadingSlider != null)
         {
-            LoadingSlider.value = value;
+            LoadingSlider.value = CurrentDisplayProgress;
         }
 
-        if (LoadingText != null)
-        {
-            int percent = Mathf.RoundToInt(value * 100f);
-            LoadingText.text = $"{percent}%";
-        }
-
+        // Cập nhật text nội dung ngay lập tức
         if (ContentText != null)
         {
             ContentText.text = $"Loading {percentText} {loadingContent}...";
         }
+        
+        // Cập nhật text phần trăm dựa trên giá trị thực tế đang hiển thị trên UI
+        UpdatePercentText(CurrentDisplayProgress);
     }
 
     public void HideLoading()
     {
-        // Dừng đếm thời gian ngay khi kết thúc loading
         StopTimer();
+        StopSliderAnimation();
 
         if (CurrentLoadingObject != null)
         {
@@ -125,41 +147,99 @@ public class LoadingManager : MonoBehaviour
         TimeText = null;
     }
 
+    #region Slider Animation Logic
+
+    private void StopSliderAnimation()
+    {
+        if (SliderAnimationCoroutine != null)
+        {
+            StopCoroutine(SliderAnimationCoroutine);
+            SliderAnimationCoroutine = null;
+        }
+    }
+
+    private IEnumerator AnimateSliderCoroutine()
+    {
+        while (true)
+        {
+            yield return null;
+
+            // Nếu logic đã báo hoàn thành tuyệt đối (100% tức là 1.0)
+            if (TargetProgress >= 1f)
+            {
+                // Đuổi nhanh về đích 100%
+                CurrentDisplayProgress = Mathf.MoveTowards(CurrentDisplayProgress, 1f, Time.deltaTime * CatchUpSpeed);
+            }
+            else
+            {
+                // Nếu chưa đạt 100%, tự động nhích từ từ (Creep) nhưng GIỚI HẠN tối đa là 99% (0.99f)
+                CurrentDisplayProgress += Time.deltaTime * IdleCreepSpeed;
+                if (CurrentDisplayProgress > 0.99f)
+                {
+                    CurrentDisplayProgress = 0.99f;
+                }
+            }
+
+            // Cập nhật thanh Slider và Text hiển thị tương ứng
+            if (LoadingSlider != null)
+            {
+                LoadingSlider.value = CurrentDisplayProgress;
+            }
+            UpdatePercentText(CurrentDisplayProgress);
+        }
+    }
+
+    private void UpdatePercentText(float progressValue)
+    {
+        if (LoadingText != null)
+        {
+            // Làm tròn xuống để tránh việc 99.6% bị làm tròn lên thành 100% khi chưa được phép
+            int percent = Mathf.FloorToInt(progressValue * 100f);
+            
+            // Khóa bảo hiểm: Nếu chưa chạm target 1.0 thì chữ không bao giờ được hiển thị 100%
+            if (TargetProgress < 1f && percent >= 100)
+            {
+                percent = 99;
+            }
+            
+            LoadingText.text = $"{percent}%";
+        }
+    }
+
+    #endregion
+
     #region Timer Logic
 
     private void StartTimer()
     {
-        elapsedTime = 0f;
+        ElapsedTime = 0f;
         if (TimeText != null)
         {
             TimeText.text = "00:00";
         }
-        timerCoroutine = StartCoroutine(UpdateTimerCoroutine());
+        TimerCoroutine = StartCoroutine(UpdateTimerCoroutine());
     }
 
     private void StopTimer()
     {
-        if (timerCoroutine != null)
+        if (TimerCoroutine != null)
         {
-            StopCoroutine(timerCoroutine);
-            timerCoroutine = null;
+            StopCoroutine(TimerCoroutine);
+            TimerCoroutine = null;
         }
     }
 
     private IEnumerator UpdateTimerCoroutine()
     {
-        // Vòng lặp chạy vô hạn cho đến khi Coroutine bị dừng chủ động bởi HideLoading()
         while (true)
         {
-            yield return null; // Đợi sang frame tiếp theo
-            elapsedTime += Time.deltaTime;
+            yield return null;
+            ElapsedTime += Time.deltaTime;
 
             if (TimeText != null)
             {
-                int minutes = Mathf.FloorToInt(elapsedTime / 60f);
-                int seconds = Mathf.FloorToInt(elapsedTime % 60f);
-                
-                // Định dạng hiển thị luôn đủ 2 chữ số (ví dụ: 01:05 thay vì 1:5)
+                int minutes = Mathf.FloorToInt(ElapsedTime / 60f);
+                int seconds = Mathf.FloorToInt(ElapsedTime % 60f);
                 TimeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
             }
         }
