@@ -46,7 +46,7 @@ public class ItemsController : MonoBehaviour
     public async Task CreateItemsTradeAsync(List<Items> items, Currencies currency, Transform currentContent, Transform currencyPanel, Transform popupPanel)
     {
         List<Currencies> currencies = new List<Currencies>();
-        var tempCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(currency.Id);
+        var tempCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, currency.Id);
         currencies.Add(tempCurrency);
         FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
 
@@ -187,7 +187,7 @@ public class ItemsController : MonoBehaviour
         });
         maxButton.onClick.AddListener(async () =>
         {
-            Currencies userCurrency = userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(currency.Id);
+            Currencies userCurrency = userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, currency.Id);
             int max = (int)(userCurrency.Quantity / price);
             price = originPrice * max;
             quantityText.text = max.ToString();
@@ -214,8 +214,8 @@ public class ItemsController : MonoBehaviour
 
             if (obj is Items item)
             {
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(currency.Id, price);
-                bool success = await UserItemsService.Create().InsertUserItemAsync(item, quantity);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, currency.Id, price);
+                bool success = await UserItemsService.Create().InsertUserItemAsync(User.CurrentUserId, item, quantity);
                 if (!success)
                 {
                     allSuccess = false;
@@ -227,7 +227,7 @@ public class ItemsController : MonoBehaviour
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
-                    var tempCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(currency.Id);
+                    var tempCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, currency.Id);
                     currencies.Add(tempCurrency);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(item.Image);
 

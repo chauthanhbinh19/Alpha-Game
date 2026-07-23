@@ -279,9 +279,9 @@ public class RobotsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Robots Robots)
+            if (obj is Robots robot)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Robots.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, robot.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -312,7 +312,7 @@ public class RobotsController : MonoBehaviour
             if (obj is Robots robot)
             {
                 robot.Quantity = robot.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(robot.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, robot.Currency.Id, price);
                 bool success = await UserRobotsService.Create().InsertUserRobotAsync(robot, User.CurrentUserId);
                 if (!success)
                 {

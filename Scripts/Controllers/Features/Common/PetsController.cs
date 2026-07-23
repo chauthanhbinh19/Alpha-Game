@@ -283,9 +283,9 @@ public class PetsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Pets pets)
+            if (obj is Pets pet)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(pets.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, pet.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -316,7 +316,7 @@ public class PetsController : MonoBehaviour
             if (obj is Pets pet)
             {
                 pet.Quantity = pet.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(pet.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, pet.Currency.Id, price);
                 bool success = await UserPetsService.Create().InsertUserPetAsync(pet, User.CurrentUserId);
                 if (!success)
                 {

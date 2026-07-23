@@ -279,9 +279,9 @@ public class WeaponsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Weapons Weapons)
+            if (obj is Weapons weapon)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Weapons.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, weapon.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -312,7 +312,7 @@ public class WeaponsController : MonoBehaviour
             if (obj is Weapons weapon)
             {
                 weapon.Quantity = weapon.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(weapon.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, weapon.Currency.Id, price);
                 bool success = await UserWeaponsService.Create().InsertUserWeaponAsync(weapon, User.CurrentUserId);
                 if (!success)
                 {

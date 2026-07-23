@@ -267,7 +267,7 @@ public class MagicFormationCirclesController : MonoBehaviour
             Currencies userCurrency = new Currencies();
             if (obj is MagicFormationCircles magicFormationCircle)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(magicFormationCircle.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, magicFormationCircle.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -298,7 +298,7 @@ public class MagicFormationCirclesController : MonoBehaviour
             if (obj is MagicFormationCircles magicFormationCircle)
             {
                 magicFormationCircle.Quantity = magicFormationCircle.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(magicFormationCircle.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, magicFormationCircle.Currency.Id, price);
                 bool success = await UserMagicFormationCirclesService.Create().InsertUserMagicFormationCircleAsync(magicFormationCircle, User.CurrentUserId);
                 if (!success)
                 {

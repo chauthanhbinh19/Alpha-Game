@@ -279,9 +279,9 @@ public class TechnologiesController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Technologies Technologies)
+            if (obj is Technologies technology)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Technologies.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, technology.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -312,7 +312,7 @@ public class TechnologiesController : MonoBehaviour
             if (obj is Technologies technology)
             {
                 technology.Quantity = technology.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(technology.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, technology.Currency.Id, price);
                 bool success = await UserTechnologiesService.Create().InsertUserTechnologyAsync(technology, User.CurrentUserId);
                 if (!success)
                 {

@@ -283,9 +283,9 @@ public class CardHeroesController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is CardHeroes cardHeroes)
+            if (obj is CardHeroes cardHero)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(cardHeroes.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, cardHero.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -313,11 +313,11 @@ public class CardHeroesController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is CardHeroes cardHeroes)
+            if (obj is CardHeroes cardHero)
             {
-                cardHeroes.Quantity = cardHeroes.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(cardHeroes.Currency.Id, price);
-                bool success = await UserCardHeroesService.Create().InsertUserCardHeroAsync(cardHeroes);
+                cardHero.Quantity = cardHero.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, cardHero.Currency.Id, price);
+                bool success = await UserCardHeroesService.Create().InsertUserCardHeroAsync(User.CurrentUserId, cardHero);
                 if (!success)
                 {
                     allSuccess = false;
@@ -329,9 +329,9 @@ public class CardHeroesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync((string)cardHeroes.Id);
+                    await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync((string)cardHero.Id);
                     currencies = await UserCurrenciesService.Create().GetCardHeroesCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)cardHeroes.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)cardHero.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

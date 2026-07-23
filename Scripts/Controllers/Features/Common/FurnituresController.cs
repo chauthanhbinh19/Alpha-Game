@@ -284,9 +284,9 @@ public class FurnituresController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Furnitures Furniture)
+            if (obj is Furnitures furniture)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Furniture.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, furniture.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -314,11 +314,11 @@ public class FurnituresController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Furnitures Furniture)
+            if (obj is Furnitures furniture)
             {
-                Furniture.Quantity = Furniture.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(Furniture.Currency.Id, price);
-                bool success = await UserFurnituresService.Create().InsertUserFurnitureAsync(Furniture, User.CurrentUserId);
+                furniture.Quantity = furniture.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, furniture.Currency.Id, price);
+                bool success = await UserFurnituresService.Create().InsertUserFurnitureAsync(furniture, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -331,9 +331,9 @@ public class FurnituresController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await FurnituresGalleryService.Create().InsertFurnitureGalleryAsync(Furniture.Id);
+                    await FurnituresGalleryService.Create().InsertFurnitureGalleryAsync(furniture.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(Furniture.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(furniture.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

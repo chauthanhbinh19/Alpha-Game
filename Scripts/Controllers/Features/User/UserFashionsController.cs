@@ -199,7 +199,7 @@ public class UserFashionsController : MonoBehaviour
         upgradeLevelButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            ItemExperienceDTO itemExperienceDTO = await UserItemsService.Create().GetUserItemExperienceByCodeNameAsync(ItemConstants.Experiment.EXP_CARD_HEROES);
+            ItemExperienceDTO itemExperienceDTO = await UserItemsService.Create().GetUserItemExperienceByCodeNameAsync(User.CurrentUserId, ItemConstants.Experiment.EXP_CARD_HEROES);
             LevelController.Instance.CreateLevelPanel(fashion, itemExperienceDTO, MAX_LEVEL, level => Math.Max(level, 1) * 500d);
         });
 

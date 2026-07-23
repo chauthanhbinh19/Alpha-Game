@@ -284,9 +284,9 @@ public class VehiclesController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Vehicles Vehicle)
+            if (obj is Vehicles vehicle)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Vehicle.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, vehicle.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -317,7 +317,7 @@ public class VehiclesController : MonoBehaviour
             if (obj is Vehicles vehicle)
             {
                 vehicle.Quantity = vehicle.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(vehicle.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, vehicle.Currency.Id, price);
                 bool success = await UserVehiclesService.Create().InsertUserVehicleAsync(vehicle, User.CurrentUserId);
                 if (!success)
                 {

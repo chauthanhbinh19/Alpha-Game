@@ -279,9 +279,9 @@ public class SpiritCardsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is SpiritCards SpiritCard)
+            if (obj is SpiritCards spiritCard)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(SpiritCard.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, spiritCard.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -309,11 +309,11 @@ public class SpiritCardsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is SpiritCards SpiritCard)
+            if (obj is SpiritCards spiritCard)
             {
-                SpiritCard.Quantity = SpiritCard.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(SpiritCard.Currency.Id, price);
-                bool success = await UserSpiritCardsService.Create().InsertUserSpiritCardAsync(SpiritCard);
+                spiritCard.Quantity = spiritCard.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, spiritCard.Currency.Id, price);
+                bool success = await UserSpiritCardsService.Create().InsertUserSpiritCardAsync(User.CurrentUserId, spiritCard);
                 if (!success)
                 {
                     allSuccess = false;
@@ -326,9 +326,9 @@ public class SpiritCardsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await SpiritCardsGalleryService.Create().InsertSpiritCardGalleryAsync(SpiritCard.Id);
+                    await SpiritCardsGalleryService.Create().InsertSpiritCardGalleryAsync(spiritCard.Id);
                     currencies = await UserCurrenciesService.Create().GetSpiritCardsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(SpiritCard.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(spiritCard.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

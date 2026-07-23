@@ -262,7 +262,7 @@ public class CollaborationsController : MonoBehaviour
             Currencies userCurrency = new Currencies();
             if (obj is Collaborations collaboration)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(collaboration.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, collaboration.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -293,7 +293,7 @@ public class CollaborationsController : MonoBehaviour
             if (obj is Collaborations collaboration)
             {
                 collaboration.Quantity = collaboration.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(collaboration.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, collaboration.Currency.Id, price);
                 bool success = await UserCollaborationsService.Create().InsertUserCollaborationAsync(collaboration, User.CurrentUserId);
                 if (!success)
                 {

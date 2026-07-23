@@ -279,9 +279,9 @@ public class EmojisController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Emojis Emojis)
+            if (obj is Emojis emoji)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Emojis.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, emoji.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -309,11 +309,11 @@ public class EmojisController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Emojis core)
+            if (obj is Emojis emoji)
             {
-                core.Quantity = core.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(core.Currency.Id, price);
-                bool success = await UserEmojisService.Create().InsertUserEmojiAsync(core, User.CurrentUserId);
+                emoji.Quantity = emoji.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, emoji.Currency.Id, price);
+                bool success = await UserEmojisService.Create().InsertUserEmojiAsync(emoji, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -326,9 +326,9 @@ public class EmojisController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await EmojisGalleryService.Create().InsertEmojiGalleryAsync(core.Id);
+                    await EmojisGalleryService.Create().InsertEmojiGalleryAsync(emoji.Id);
                     currencies = await UserCurrenciesService.Create().GetEmojisCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(core.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(emoji.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

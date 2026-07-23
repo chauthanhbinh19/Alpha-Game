@@ -279,9 +279,9 @@ public class CoresController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Cores Cores)
+            if (obj is Cores core)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Cores.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, core.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -312,7 +312,7 @@ public class CoresController : MonoBehaviour
             if (obj is Cores core)
             {
                 core.Quantity = core.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(core.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, core.Currency.Id, price);
                 bool success = await UserCoresService.Create().InsertUserCoreAsync(core, User.CurrentUserId);
                 if (!success)
                 {

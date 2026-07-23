@@ -266,7 +266,7 @@ public class SkillsController : MonoBehaviour
             Currencies userCurrency = new Currencies();
             if (obj is Skills skill)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(skill.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, skill.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -297,8 +297,8 @@ public class SkillsController : MonoBehaviour
             if (obj is Skills skill)
             {
                 skill.Quantity = skill.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(skill.Currency.Id, price);
-                bool success = await UserSkillsService.Create().InsertUserSkillsAsync(skill);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, skill.Currency.Id, price);
+                bool success = await UserSkillsService.Create().InsertUserSkillsAsync(User.CurrentUserId, skill);
                 if (!success)
                 {
                     allSuccess = false;

@@ -284,9 +284,9 @@ public class FashionsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Fashions Fashion)
+            if (obj is Fashions fashion)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Fashion.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, fashion.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -314,11 +314,11 @@ public class FashionsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Fashions Fashion)
+            if (obj is Fashions fashion)
             {
-                Fashion.Quantity = Fashion.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(Fashion.Currency.Id, price);
-                bool success = await UserFashionsService.Create().InsertUserFashionAsync(Fashion, User.CurrentUserId);
+                fashion.Quantity = fashion.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, fashion.Currency.Id, price);
+                bool success = await UserFashionsService.Create().InsertUserFashionAsync(fashion, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -331,9 +331,9 @@ public class FashionsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await FashionsGalleryService.Create().InsertFashionGalleryAsync(Fashion.Id);
+                    await FashionsGalleryService.Create().InsertFashionGalleryAsync(fashion.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(Fashion.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(fashion.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

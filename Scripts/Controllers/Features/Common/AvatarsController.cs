@@ -259,9 +259,9 @@ public class AvatarsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Borders borders)
+            if (obj is Avatars avatar)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(borders.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, avatar.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -289,11 +289,11 @@ public class AvatarsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Avatars avatars)
+            if (obj is Avatars avatar)
             {
-                avatars.Quantity = avatars.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync((string)avatars.Currency.Id, price);
-                bool success = await UserAvatarsService.Create().InsertUserAvatarAsync(avatars, User.CurrentUserId);
+                avatar.Quantity = avatar.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, (string)avatar.Currency.Id, price);
+                bool success = await UserAvatarsService.Create().InsertUserAvatarAsync(avatar, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -306,9 +306,9 @@ public class AvatarsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await AvatarsGalleryService.Create().InsertAvatarGalleryAsync((string)avatars.Id);
+                    await AvatarsGalleryService.Create().InsertAvatarGalleryAsync((string)avatar.Id);
                     currencies = await UserCurrenciesService.Create().GetBooksCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)avatars.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)avatar.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

@@ -303,9 +303,9 @@ public class BooksController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Books books)
+            if (obj is Books book)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(books.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, book.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -333,11 +333,11 @@ public class BooksController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Books books)
+            if (obj is Books book)
             {
-                books.Quantity = books.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(books.Currency.Id, price);
-                bool success = await UserBooksService.Create().InsertUserBookAsync(books);
+                book.Quantity = book.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, book.Currency.Id, price);
+                bool success = await UserBooksService.Create().InsertUserBookAsync(User.CurrentUserId, book);
                 if (!success)
                 {
                     allSuccess = false;
@@ -350,9 +350,9 @@ public class BooksController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await BooksGalleryService.Create().InsertBookGalleryAsync(books.Id);
+                    await BooksGalleryService.Create().InsertBookGalleryAsync(book.Id);
                     currencies = await UserCurrenciesService.Create().GetBooksCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(books.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(book.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

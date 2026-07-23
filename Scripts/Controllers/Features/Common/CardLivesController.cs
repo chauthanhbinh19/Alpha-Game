@@ -286,7 +286,7 @@ public class CardLivesController : MonoBehaviour
             Currencies userCurrency = new Currencies();
             if (obj is CardLives cardLife)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(cardLife.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, cardLife.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -317,7 +317,7 @@ public class CardLivesController : MonoBehaviour
             if (obj is CardLives cardLife)
             {
                 cardLife.Quantity = cardLife.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(cardLife.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, cardLife.Currency.Id, price);
                 bool success = await UserCardLivesService.Create().InsertUserCardLifeAsync(cardLife, User.CurrentUserId);
                 if (!success)
                 {

@@ -263,9 +263,9 @@ public class TitlesController : MonoBehaviour
         maxButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Titles titles)
+            if (obj is Titles title)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync((string)titles.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, (string)title.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -296,7 +296,7 @@ public class TitlesController : MonoBehaviour
             if (obj is Titles title)
             {
                 title.Quantity = title.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync((string)title.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, (string)title.Currency.Id, price);
                 bool success = await UserTitlesService.Create().InsertUserTitleAsync(title, User.CurrentUserId);
                 if (!success)
                 {

@@ -279,9 +279,9 @@ public class RunesController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Runes Runes)
+            if (obj is Runes rune)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Runes.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, rune.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -312,7 +312,7 @@ public class RunesController : MonoBehaviour
             if (obj is Runes rune)
             {
                 rune.Quantity = rune.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(rune.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, rune.Currency.Id, price);
                 bool success = await UserRunesService.Create().InsertUserRuneAsync(rune, User.CurrentUserId);
                 if (!success)
                 {

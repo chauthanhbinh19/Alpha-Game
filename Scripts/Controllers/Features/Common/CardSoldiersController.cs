@@ -284,9 +284,9 @@ public class CardSoldiersController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is CardSoldiers cardAdmirals)
+            if (obj is CardSoldiers cardSoldier)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(cardAdmirals.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, cardSoldier.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -317,8 +317,8 @@ public class CardSoldiersController : MonoBehaviour
             if (obj is CardSoldiers cardSoldier)
             {
                 cardSoldier.Quantity = cardSoldier.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(cardSoldier.Currency.Id, price);
-                bool success = await UserCardSoldiersService.Create().InsertUserCardSoldierAsync(cardSoldier);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, cardSoldier.Currency.Id, price);
+                bool success = await UserCardSoldiersService.Create().InsertUserCardSoldierAsync(User.CurrentUserId, cardSoldier);
                 if (!success)
                 {
                     allSuccess = false;

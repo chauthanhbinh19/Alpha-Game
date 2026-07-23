@@ -260,9 +260,9 @@ public class MedalsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Medals medals)
+            if (obj is Medals medal)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(medals.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, medal.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -293,7 +293,7 @@ public class MedalsController : MonoBehaviour
             if (obj is Medals medal)
             {
                 medal.Quantity = medal.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(medal.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, medal.Currency.Id, price);
                 bool success = await UserMedalsService.Create().InsertUserMedalAsync(medal, User.CurrentUserId);
                 if (!success)
                 {

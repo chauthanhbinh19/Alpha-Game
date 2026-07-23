@@ -267,7 +267,7 @@ public class TalismansController : MonoBehaviour
             Currencies userCurrency = new Currencies();
             if (obj is Talismans talisman)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(talisman.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, talisman.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -298,7 +298,7 @@ public class TalismansController : MonoBehaviour
             if (obj is Talismans talisman)
             {
                 talisman.Quantity = talisman.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(talisman.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, talisman.Currency.Id, price);
                 bool success = await UserTalismansService.Create().InsertUserTalismanAsync(talisman, User.CurrentUserId);
                 if (!success)
                 {

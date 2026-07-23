@@ -284,9 +284,9 @@ public class CardAdmiralsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is CardAdmirals cardAdmirals)
+            if (obj is CardAdmirals cardAdmiral)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(cardAdmirals.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, cardAdmiral.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -314,11 +314,11 @@ public class CardAdmiralsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is CardAdmirals cardAdmirals)
+            if (obj is CardAdmirals cardAdmiral)
             {
-                cardAdmirals.Quantity = cardAdmirals.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(cardAdmirals.Currency.Id, price);
-                bool success = await UserCardAdmiralsService.Create().InsertUserCardAdmiralAsync(cardAdmirals);
+                cardAdmiral.Quantity = cardAdmiral.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, cardAdmiral.Currency.Id, price);
+                bool success = await UserCardAdmiralsService.Create().InsertUserCardAdmiralAsync(User.CurrentUserId, cardAdmiral);
                 if (!success)
                 {
                     allSuccess = false;
@@ -331,9 +331,9 @@ public class CardAdmiralsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await CardAdmiralsGalleryService.Create().InsertCardAdmiralGalleryAsync(cardAdmirals.Id);
+                    await CardAdmiralsGalleryService.Create().InsertCardAdmiralGalleryAsync(cardAdmiral.Id);
                     currencies = await UserCurrenciesService.Create().GetCardAdmiralsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmirals.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardAdmiral.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

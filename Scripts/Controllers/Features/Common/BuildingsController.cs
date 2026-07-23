@@ -284,9 +284,9 @@ public class BuildingsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Buildings Building)
+            if (obj is Buildings building)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Building.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, building.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -314,11 +314,11 @@ public class BuildingsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Buildings Building)
+            if (obj is Buildings building)
             {
-                Building.Quantity = Building.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(Building.Currency.Id, price);
-                bool success = await UserBuildingsService.Create().InsertUserBuildingAsync(Building, User.CurrentUserId);
+                building.Quantity = building.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, building.Currency.Id, price);
+                bool success = await UserBuildingsService.Create().InsertUserBuildingAsync(building, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -331,9 +331,9 @@ public class BuildingsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await BuildingsGalleryService.Create().InsertBuildingGalleryAsync(Building.Id);
+                    await BuildingsGalleryService.Create().InsertBuildingGalleryAsync(building.Id);
                     currencies = await UserCurrenciesService.Create().GetSkillsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(Building.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(building.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

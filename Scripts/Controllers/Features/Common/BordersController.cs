@@ -260,9 +260,9 @@ public class BordersController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Borders borders)
+            if (obj is Borders border)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(borders.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, border.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -290,11 +290,11 @@ public class BordersController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Borders borders)
+            if (obj is Borders border)
             {
-                borders.Quantity = borders.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(borders.Currency.Id, price);
-                bool success = await UserBordersService.Create().InsertUserBorderAsync(borders, User.CurrentUserId);
+                border.Quantity = border.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, border.Currency.Id, price);
+                bool success = await UserBordersService.Create().InsertUserBorderAsync(border, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -307,9 +307,9 @@ public class BordersController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await BordersGalleryService.Create().InsertBorderGalleryAsync(borders.Id);
+                    await BordersGalleryService.Create().InsertBorderGalleryAsync(border.Id);
                     currencies = await UserCurrenciesService.Create().GetBooksCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(borders.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(border.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

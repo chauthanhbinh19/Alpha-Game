@@ -264,9 +264,9 @@ public class RelicsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Relics relics)
+            if (obj is Relics relic)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(relics.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, relic.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -297,7 +297,7 @@ public class RelicsController : MonoBehaviour
             if (obj is Relics relic)
             {
                 relic.Quantity = relic.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(relic.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, relic.Currency.Id, price);
                 bool success = await UserRelicsService.Create().InsertUserRelicAsync(relic, User.CurrentUserId);
                 if (!success)
                 {

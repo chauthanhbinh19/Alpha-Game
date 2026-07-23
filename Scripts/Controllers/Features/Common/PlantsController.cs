@@ -270,9 +270,9 @@ public class PlantsController : MonoBehaviour
         maxButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Plants Plants)
+            if (obj is Plants plant)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync((string)Plants.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, (string)plant.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -300,11 +300,11 @@ public class PlantsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Plants Plant)
+            if (obj is Plants plant)
             {
-                Plant.Quantity = Plant.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync((string)Plant.Currency.Id, price);
-                bool success = await UserPlantsService.Create().InsertUserPlantAsync(Plant, User.CurrentUserId);
+                plant.Quantity = plant.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, (string)plant.Currency.Id, price);
+                bool success = await UserPlantsService.Create().InsertUserPlantAsync(plant, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -317,9 +317,9 @@ public class PlantsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await PlantsGalleryService.Create().InsertPlantGalleryAsync((string)Plant.Id);
+                    await PlantsGalleryService.Create().InsertPlantGalleryAsync((string)plant.Id);
                     currencies = await UserCurrenciesService.Create().GetPlantsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)Plant.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)plant.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

@@ -280,9 +280,9 @@ public class BeveragesController : MonoBehaviour
         maxButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Beverages Beverages)
+            if (obj is Beverages beverage)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync((string)Beverages.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, (string)beverage.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -310,11 +310,11 @@ public class BeveragesController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Beverages Beverage)
+            if (obj is Beverages beverage)
             {
-                Beverage.Quantity = Beverage.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync((string)Beverage.Currency.Id, price);
-                bool success = await UserBeveragesService.Create().InsertUserBeverageAsync(Beverage, User.CurrentUserId);
+                beverage.Quantity = beverage.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, (string)beverage.Currency.Id, price);
+                bool success = await UserBeveragesService.Create().InsertUserBeverageAsync(beverage, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -327,9 +327,9 @@ public class BeveragesController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await BeveragesGalleryService.Create().InsertBeverageGalleryAsync((string)Beverage.Id);
+                    await BeveragesGalleryService.Create().InsertBeverageGalleryAsync((string)beverage.Id);
                     currencies = await UserCurrenciesService.Create().GetBeveragesCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)Beverage.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)beverage.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

@@ -265,9 +265,9 @@ public class ArtworksController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Artworks Artwork)
+            if (obj is Artworks artwork)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Artwork.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, artwork.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -298,7 +298,7 @@ public class ArtworksController : MonoBehaviour
             if (obj is Artworks artwork)
             {
                 artwork.Quantity = artwork.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(artwork.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, artwork.Currency.Id, price);
                 bool success = await UserArtworksService.Create().InsertUserArtworkAsync(artwork, User.CurrentUserId);
                 if (!success)
                 {

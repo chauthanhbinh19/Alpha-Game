@@ -279,9 +279,9 @@ public class SpiritBeastsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is SpiritBeasts SpiritBeast)
+            if (obj is SpiritBeasts spiritBeast)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(SpiritBeast.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, spiritBeast.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -309,11 +309,11 @@ public class SpiritBeastsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is SpiritBeasts SpiritBeast)
+            if (obj is SpiritBeasts spiritBeast)
             {
-                SpiritBeast.Quantity = SpiritBeast.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(SpiritBeast.Currency.Id, price);
-                bool success = await UserSpiritBeastsService.Create().InsertUserSpiritBeastAsync(SpiritBeast);
+                spiritBeast.Quantity = spiritBeast.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, spiritBeast.Currency.Id, price);
+                bool success = await UserSpiritBeastsService.Create().InsertUserSpiritBeastAsync(User.CurrentUserId, spiritBeast);
                 if (!success)
                 {
                     allSuccess = false;
@@ -326,9 +326,9 @@ public class SpiritBeastsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await SpiritBeastsGalleryService.Create().InsertSpiritBeastGalleryAsync(SpiritBeast.Id);
+                    await SpiritBeastsGalleryService.Create().InsertSpiritBeastGalleryAsync(spiritBeast.Id);
                     currencies = await UserCurrenciesService.Create().GetSpiritBeastsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(SpiritBeast.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(spiritBeast.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

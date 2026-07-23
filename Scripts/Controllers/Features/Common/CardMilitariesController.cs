@@ -286,7 +286,7 @@ public class CardMilitariesController : MonoBehaviour
             Currencies userCurrency = new Currencies();
             if (obj is CardMilitaries cardMilitary)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(cardMilitary.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, cardMilitary.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -317,8 +317,8 @@ public class CardMilitariesController : MonoBehaviour
             if (obj is CardMilitaries cardMilitary)
             {
                 cardMilitary.Quantity = cardMilitary.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(cardMilitary.Currency.Id, price);
-                bool success = await UserCardMilitariesService.Create().InsertUserCardMilitaryAsync(cardMilitary);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, cardMilitary.Currency.Id, price);
+                bool success = await UserCardMilitariesService.Create().InsertUserCardMilitaryAsync(User.CurrentUserId, cardMilitary);
                 if (!success)
                 {
                     allSuccess = false;

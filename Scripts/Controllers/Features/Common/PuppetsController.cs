@@ -267,7 +267,7 @@ public class PuppetsController : MonoBehaviour
             Currencies userCurrency = new Currencies();
             if (obj is Puppets puppet)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(puppet.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, puppet.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -298,7 +298,7 @@ public class PuppetsController : MonoBehaviour
             if (obj is Puppets puppet)
             {
                 puppet.Quantity = puppet.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(puppet.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, puppet.Currency.Id, price);
                 bool success = await UserPuppetsService.Create().InsertUserPuppetAsync(puppet, User.CurrentUserId);
                 if (!success)
                 {

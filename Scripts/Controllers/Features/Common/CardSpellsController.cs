@@ -286,7 +286,7 @@ public class CardSpellsController : MonoBehaviour
             Currencies userCurrency = new Currencies();
             if (obj is CardSpells cardSpell)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(cardSpell.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, cardSpell.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -317,8 +317,8 @@ public class CardSpellsController : MonoBehaviour
             if (obj is CardSpells cardSpell)
             {
                 cardSpell.Quantity = cardSpell.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(cardSpell.Currency.Id, price);
-                bool success = await UserCardSpellsService.Create().InsertUserCardSpellAsync(cardSpell);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, cardSpell.Currency.Id, price);
+                bool success = await UserCardSpellsService.Create().InsertUserCardSpellAsync(User.CurrentUserId, cardSpell);
                 if (!success)
                 {
                     allSuccess = false;

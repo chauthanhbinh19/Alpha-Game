@@ -166,7 +166,7 @@ public class MasterBoardController : MonoBehaviour
         mainImage.color = Color.white;
 
         RawImage materialImage = popup.transform.Find("Material/MaterialImage").GetComponent<RawImage>();
-        Items items = await userItemsService.GetUserItemByNameAsync("Attack Amulet");
+        Items items = await userItemsService.GetUserItemByNameAsync(User.CurrentUserId, "Attack Amulet");
         string fileNameWithoutExtension = items.Image.Split('.')[0];
         Texture materialTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         materialImage.texture = materialTexture;
@@ -184,7 +184,7 @@ public class MasterBoardController : MonoBehaviour
                 if (items.Quantity >= materialQuantity)
                 {
                     items.Quantity = items.Quantity - materialQuantity;
-                    await userItemsService.UpdateUserItemQuantityAsync(items);
+                    await userItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, items);
                     // newanimeStats = EnhanceAnimeStats(animeStats, 1);
                     // double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     await UserMasterBoardService.Create().InsertUserMasterBoardAsync(User.CurrentUserId, masterBoard);
@@ -203,7 +203,7 @@ public class MasterBoardController : MonoBehaviour
                 if (items.Quantity >= materialQuantity)
                 {
                     items.Quantity = items.Quantity - materialQuantity;
-                    await userItemsService.UpdateUserItemQuantityAsync(items);
+                    await userItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, items);
                     masterBoard.RankLevel = QualityEvaluatorHelper.GetNextQuality(masterBoard.RankLevel);
                     // newanimeStats = EnhanceAnimeStats(animeStats, 1);
                     // double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);

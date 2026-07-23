@@ -279,9 +279,9 @@ public class ArtifactsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Artifacts Artifacts)
+            if (obj is Artifacts artifact)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Artifacts.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, artifact.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -309,11 +309,11 @@ public class ArtifactsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Artifacts card)
+            if (obj is Artifacts artifact)
             {
-                card.Quantity = card.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(card.Currency.Id, price);
-                bool success = await UserArtifactsService.Create().InsertUserArtifactAsync(card, User.CurrentUserId);
+                artifact.Quantity = artifact.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, artifact.Currency.Id, price);
+                bool success = await UserArtifactsService.Create().InsertUserArtifactAsync(artifact, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -326,9 +326,9 @@ public class ArtifactsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryArtifacts/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await ArtifactsGalleryService.Create().InsertArtifactGalleryAsync(card.Id);
+                    await ArtifactsGalleryService.Create().InsertArtifactGalleryAsync(artifact.Id);
                     currencies = await UserCurrenciesService.Create().GetArtifactsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(card.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(artifact.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

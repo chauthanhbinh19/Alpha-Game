@@ -267,7 +267,7 @@ public class ForgesController : MonoBehaviour
             Currencies userCurrency = new Currencies();
             if (obj is Forges forge)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(forge.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, forge.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -298,7 +298,7 @@ public class ForgesController : MonoBehaviour
             if (obj is Forges forge)
             {
                 forge.Quantity = forge.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(forge.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, forge.Currency.Id, price);
                 bool success = await UserForgesService.Create().InsertUserForgeAsync(forge, User.CurrentUserId);
                 if (!success)
                 {

@@ -279,9 +279,9 @@ public class BadgesController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Badges Badges)
+            if (obj is Badges badge)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Badges.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, badge.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -312,7 +312,7 @@ public class BadgesController : MonoBehaviour
             if (obj is Badges badge)
             {
                 badge.Quantity = badge.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(badge.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, badge.Currency.Id, price);
                 bool success = await UserBadgesService.Create().InsertUserBadgeAsync(badge, User.CurrentUserId);
                 if (!success)
                 {

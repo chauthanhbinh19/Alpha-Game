@@ -284,9 +284,9 @@ public class CardMonstersController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is CardMonsters cardMonsters)
+            if (obj is CardMonsters cardMonster)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(cardMonsters.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, cardMonster.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -314,11 +314,11 @@ public class CardMonstersController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is CardMonsters cardMonsters)
+            if (obj is CardMonsters cardMonster)
             {
-                cardMonsters.Quantity = cardMonsters.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(cardMonsters.Currency.Id, price);
-                bool success = await UserCardMonstersService.Create().InsertUserCardMonsterAsync(cardMonsters);
+                cardMonster.Quantity = cardMonster.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, cardMonster.Currency.Id, price);
+                bool success = await UserCardMonstersService.Create().InsertUserCardMonsterAsync(User.CurrentUserId, cardMonster);
                 if (!success)
                 {
                     allSuccess = false;
@@ -331,9 +331,9 @@ public class CardMonstersController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await CardMonstersGalleryService.Create().InsertCardMonsterGalleryAsync(cardMonsters.Id);
+                    await CardMonstersGalleryService.Create().InsertCardMonsterGalleryAsync(cardMonster.Id);
                     currencies = await UserCurrenciesService.Create().GetCardMonstersCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardMonsters.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension(cardMonster.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);

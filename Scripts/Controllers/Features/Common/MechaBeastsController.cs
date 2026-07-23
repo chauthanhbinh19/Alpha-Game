@@ -279,9 +279,9 @@ public class MechaBeastsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is MechaBeasts MechaBeasts)
+            if (obj is MechaBeasts mechaBeast)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(MechaBeasts.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, mechaBeast.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -312,7 +312,7 @@ public class MechaBeastsController : MonoBehaviour
             if (obj is MechaBeasts mechaBeast)
             {
                 mechaBeast.Quantity = mechaBeast.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(mechaBeast.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, mechaBeast.Currency.Id, price);
                 bool success = await UserMechaBeastsService.Create().InsertUserMechaBeastAsync(mechaBeast, User.CurrentUserId);
                 if (!success)
                 {

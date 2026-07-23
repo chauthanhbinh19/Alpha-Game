@@ -262,9 +262,9 @@ public class SymbolsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Symbols symbols)
+            if (obj is Symbols symbol)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(symbols.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, symbol.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -295,7 +295,7 @@ public class SymbolsController : MonoBehaviour
             if (obj is Symbols symbol)
             {
                 symbol.Quantity = symbol.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(symbol.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, symbol.Currency.Id, price);
                 bool success = await UserSymbolsService.Create().InsertUserSymbolAsync(symbol, User.CurrentUserId);
                 if (!success)
                 {

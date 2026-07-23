@@ -279,9 +279,9 @@ public class OutfitsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Outfits Outfits)
+            if (obj is Outfits outfit)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Outfits.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, outfit.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -312,7 +312,7 @@ public class OutfitsController : MonoBehaviour
             if (obj is Outfits outfit)
             {
                 outfit.Quantity = outfit.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(outfit.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, outfit.Currency.Id, price);
                 bool success = await UserOutfitsService.Create().InsertUserOutfitAsync(outfit, User.CurrentUserId);
                 if (!success)
                 {

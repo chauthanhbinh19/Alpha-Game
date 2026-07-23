@@ -280,9 +280,9 @@ public class FoodsController : MonoBehaviour
         maxButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Foods Foods)
+            if (obj is Foods food)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync((string)Foods.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, (string)food.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -310,11 +310,11 @@ public class FoodsController : MonoBehaviour
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
             bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
-            if (obj is Foods Food)
+            if (obj is Foods food)
             {
-                Food.Quantity = Food.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync((string)Food.Currency.Id, price);
-                bool success = await UserFoodsService.Create().InsertUserFoodAsync(Food, User.CurrentUserId);
+                food.Quantity = food.Quantity + quantity;
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, (string)food.Currency.Id, price);
+                bool success = await UserFoodsService.Create().InsertUserFoodAsync(food, User.CurrentUserId);
                 if (!success)
                 {
                     allSuccess = false;
@@ -327,9 +327,9 @@ public class FoodsController : MonoBehaviour
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await FoodsGalleryService.Create().InsertFoodGalleryAsync((string)Food.Id);
+                    await FoodsGalleryService.Create().InsertFoodGalleryAsync((string)food.Id);
                     currencies = await UserCurrenciesService.Create().GetFoodsCurrencyAsync(subType);
-                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)Food.Image);
+                    fileNameWithoutExtension = ImageHelper.RemoveImageExtension((string)food.Image);
 
                     ButtonEvent.Instance.Close(currencyPanel);
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
