@@ -20,18 +20,18 @@ public class UserMasterBoardService : IUserMasterBoardService
         return _instance;
     }
 
-    public async Task<List<MasterBoard>> GetUserMasterBoardAsync(string user_id, string name)
+    public async Task<List<MasterBoard>> GetUserMasterBoardAsync(string userId, string name)
     {
-        return await _userMesterBoardRepository.GetUserMasterBoardAsync(user_id, name);
+        return await _userMesterBoardRepository.GetUserMasterBoardAsync(userId, name);
     }
 
-    public async Task InsertUserMasterBoardAsync(string user_id, MasterBoard masterBoard)
+    public async Task InsertUserMasterBoardAsync(string userId, MasterBoard masterBoard)
     {
-        await _userMesterBoardRepository.InsertUserMasterBoardAsync(user_id, masterBoard);
+        await _userMesterBoardRepository.InsertUserMasterBoardAsync(userId, masterBoard);
     }
 
-    public async Task UpdateUserMasterBoardAsync(string user_id, MasterBoard masterBoard)
+    public async Task UpdateUserMasterBoardAsync(string userId, MasterBoard masterBoard)
     {
-        await _userMesterBoardRepository.UpdateUserMasterBoardAsync(user_id, masterBoard);
+        await _userMesterBoardRepository.UpdateUserMasterBoardAsync(userId, masterBoard);
     }
 }

@@ -19,18 +19,18 @@ public class UserCardGeneralsRankService : IUserCardGeneralsRankService
         return _instance;
     }
 
-    public async Task<Rank> GetCardGeneralRankAsync(string id, string card_id)
+    public async Task<Rank> GetUserCardGeneralRankAsync(string userId, string id, string card_id)
     {
-        return await _userCardGeneralsRankRepository.GetCardGeneralRankAsync(id, card_id);
+        return await _userCardGeneralsRankRepository.GetUserCardGeneralRankAsync(userId, id, card_id);
     }
 
-    public async Task InsertOrUpdateCardGeneralRankAsync(string userId, UserRanks userRank, string cardId)
+    public async Task InsertOrUpdateUserCardGeneralRankAsync(string userId, UserRanks userRank, string cardId)
     {
         await _userCardGeneralsRankRepository.InsertOrUpdateUserCardGeneralRankAsync(userId, userRank, cardId);
     }
 
-    public async Task<Rank> GetSumCardGeneralsRankAsync(string user_id, string card_id)
+    public async Task<Rank> GetSumUserCardGeneralsRankAsync(string userId, string card_id)
     {
-        return await _userCardGeneralsRankRepository.GetSumUserCardGeneralsRankAsync(user_id, card_id);
+        return await _userCardGeneralsRankRepository.GetSumUserCardGeneralsRankAsync(userId, card_id);
     }
 }

@@ -19,14 +19,14 @@ public class UserHICAsService : IUserHICAsService
         return _instance;
     }
 
-    public async Task<UserHICAs> GetUserHICAsAsync(string id)
+    public async Task<UserHICAs> GetUserHICAsAsync(string userId, string id)
     {
-        return await _userHICAsRepository.GetUserHICAsAsync(id);
+        return await _userHICAsRepository.GetUserHICAsAsync(userId, id);
     }
 
-    public async Task<UserHICAs> GetSumUserHICAsAsync(string user_id)
+    public async Task<UserHICAs> GetSumUserHICAsAsync(string userId)
     {
-        return await _userHICAsRepository.GetSumUserHICAsAsync(user_id);
+        return await _userHICAsRepository.GetSumUserHICAsAsync(userId);
     }
 
     public async Task InsertOrUpdateUserHICAsAsync(string userId, UserHICAs HICAs, string id)

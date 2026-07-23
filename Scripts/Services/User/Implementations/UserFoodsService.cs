@@ -20,17 +20,17 @@ public class UserFoodsService : IUserFoodsService
         return _instance;
     }
 
-    public async Task<List<Foods>> GetUserFoodsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Foods>> GetUserFoodsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Foods> list = await _userFoodsRepository.GetUserFoodsAsync(user_id, search, pageSize, offset, rare);
+        List<Foods> list = await _userFoodsRepository.GetUserFoodsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserFoodsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserFoodsCountAsync(string userId, string search, string rare)
     {
-        return await _userFoodsRepository.GetUserFoodsCountAsync(user_id, search, rare);
+        return await _userFoodsRepository.GetUserFoodsCountAsync(userId, search, rare);
     }
 
     public async Task<bool> InsertUserFoodAsync(Foods food, string userId)
@@ -38,33 +38,33 @@ public class UserFoodsService : IUserFoodsService
         return await _userFoodsRepository.InsertUserFoodAsync(food, userId);
     }
 
-    public async Task<bool> UpdateFoodLevelAsync(Foods food)
+    public async Task<bool> UpdateUserFoodLevelAsync(string userId, Foods food)
     {
-        return await _userFoodsRepository.UpdateUserFoodLevelAsync(food);
+        return await _userFoodsRepository.UpdateUserFoodLevelAsync(userId, food);
     }
 
-    public async Task<bool> UpdateFoodStarAsync(Foods food)
+    public async Task<bool> UpdateUserFoodStarAsync(string userId, Foods food)
     {
-        return await _userFoodsRepository.UpdateUserFoodStarAsync(food);
+        return await _userFoodsRepository.UpdateUserFoodStarAsync(userId, food);
     }
 
-    public async Task<bool> UpdateFoodBreakthroughAsync(Foods food, int star, double quantity)
+    public async Task<bool> UpdateUserFoodBreakthroughAsync(string userId, Foods food, int star, double quantity)
     {
-        return await _userFoodsRepository.UpdateUserFoodBreakthroughAsync(food, star, quantity);
+        return await _userFoodsRepository.UpdateUserFoodBreakthroughAsync(userId, food, star, quantity);
     }
 
-    public async Task<Foods> GetUserFoodByIdAsync(string user_id, string Id)
+    public async Task<Foods> GetUserFoodByIdAsync(string userId, string Id)
     {
-        return await _userFoodsRepository.GetUserFoodByIdAsync(user_id, Id);
+        return await _userFoodsRepository.GetUserFoodByIdAsync(userId, Id);
     }
 
-    public async Task<Foods> SumPowerUserFoodsAsync()
+    public async Task<Foods> SumPowerUserFoodsAsync(string userId)
     {
-        return await _userFoodsRepository.SumPowerUserFoodsAsync();
+        return await _userFoodsRepository.SumPowerUserFoodsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserFoodsBatchAsync(List<Foods> foods)
+    public async Task<bool> InsertOrUpdateUserFoodsBatchAsync(string userId, List<Foods> foods)
     {
-        return await _userFoodsRepository.InsertOrUpdateUserFoodsBatchAsync(foods);
+        return await _userFoodsRepository.InsertOrUpdateUserFoodsBatchAsync(userId, foods);
     }
 }

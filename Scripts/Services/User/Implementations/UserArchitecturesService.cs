@@ -20,17 +20,17 @@ public class UserArchitecturesService : IUserArchitecturesService
         return _instance;
     }
 
-    public async Task<List<Architectures>> GetUserArchitecturesAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Architectures>> GetUserArchitecturesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Architectures> list = await _userArchitecturesRepository.GetUserArchitecturesAsync(user_id, search, pageSize, offset, rare);
+        List<Architectures> list = await _userArchitecturesRepository.GetUserArchitecturesAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserArchitecturesCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserArchitecturesCountAsync(string userId, string search, string rare)
     {
-        return await _userArchitecturesRepository.GetUserArchitecturesCountAsync(user_id, search, rare);
+        return await _userArchitecturesRepository.GetUserArchitecturesCountAsync(userId, search, rare);
     }
 
     public async Task<bool> InsertUserArchitectureAsync(Architectures architecture, string userId)
@@ -53,9 +53,9 @@ public class UserArchitecturesService : IUserArchitecturesService
         return await _userArchitecturesRepository.UpdateUserArchitectureBreakthroughAsync(userId, architecture, star, quantity);
     }
 
-    public async Task<Architectures> GetUserArchitectureByIdAsync(string user_id, string Id)
+    public async Task<Architectures> GetUserArchitectureByIdAsync(string userId, string Id)
     {
-        return await _userArchitecturesRepository.GetUserArchitectureByIdAsync(user_id, Id);
+        return await _userArchitecturesRepository.GetUserArchitectureByIdAsync(userId, Id);
     }
 
     public async Task<Architectures> SumPowerUserArchitecturesAsync(string userId)

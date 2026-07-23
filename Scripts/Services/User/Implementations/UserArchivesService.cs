@@ -19,14 +19,14 @@ public class UserArchivesService : IUserArchivesService
         return _instance;
     }
 
-    public async Task<UserArchives> GetUserArchivesAsync(string id)
+    public async Task<UserArchives> GetUserArchivesAsync(string userId, string id)
     {
-        return await _userArchivesRepository.GetUserArchivesAsync(id);
+        return await _userArchivesRepository.GetUserArchivesAsync(userId, id);
     }
 
-    public async Task<UserArchives> GetSumUserArchivesAsync(string user_id)
+    public async Task<UserArchives> GetSumUserArchivesAsync(string userId)
     {
-        return await _userArchivesRepository.GetSumUserArchivesAsync(user_id);
+        return await _userArchivesRepository.GetSumUserArchivesAsync(userId);
     }
 
     public async Task InsertOrUpdateUserArchivesAsync(string userId, UserArchives Archives, string id)

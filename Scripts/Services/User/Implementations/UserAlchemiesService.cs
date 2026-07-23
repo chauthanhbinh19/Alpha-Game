@@ -21,17 +21,17 @@ public class UserAlchemiesService : IUserAlchemiesService
         return _instance;
     }
 
-    public async Task<List<Alchemies>> GetUserAlchemiesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Alchemies>> GetUserAlchemiesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Alchemies> list = await _userAlchemiesRepository.GetUserAlchemiesAsync(user_id, search, type, pageSize, offset, rare);
+        List<Alchemies> list = await _userAlchemiesRepository.GetUserAlchemiesAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserAlchemiesCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserAlchemiesCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userAlchemiesRepository.GetUserAlchemiesCountAsync(user_id, search, type, rare);
+        return await _userAlchemiesRepository.GetUserAlchemiesCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserAlchemyAsync(Alchemies alchemy, string userId)
@@ -54,9 +54,9 @@ public class UserAlchemiesService : IUserAlchemiesService
         return await _userAlchemiesRepository.UpdateUserAlchemyBreakthroughAsync(userId, alchemy, star, quantity);
     }
 
-    public async Task<Alchemies> GetUserAlchemyByIdAsync(string user_id, string Id)
+    public async Task<Alchemies> GetUserAlchemyByIdAsync(string userId, string Id)
     {
-        return await _userAlchemiesRepository.GetUserAlchemyByIdAsync(user_id, Id);
+        return await _userAlchemiesRepository.GetUserAlchemyByIdAsync(userId, Id);
     }
 
     public async Task<Alchemies> SumPowerUserAlchemiesAsync(string userId)

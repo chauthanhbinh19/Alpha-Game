@@ -3,24 +3,24 @@ using System.Threading.Tasks;
 
 public interface IUserCardGeneralsService
 {
-    Task<List<CardGenerals>> GetAllEquipmentPowerAsync(string user_id, List<CardGenerals> CardGeneralsList);
-    Task<List<CardGenerals>> GetAllRankPowerAsync(string user_id, List<CardGenerals> CardGeneralsList);
-    Task<List<CardGenerals>> GetAllMasterPowerAsync(string user_id, List<CardGenerals> CardGeneralsList);
-    Task<List<CardGenerals>> GetAllSpiritBeastPowerAsync(string user_id, List<CardGenerals> cardGenerals);
-    Task<List<CardGenerals>> GetSkillsAsync(string user_id, List<CardGenerals> CardGeneralsList);
-    Task<List<CardGenerals>> GetUserCardGeneralsAsync(string user_id, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
-    Task<List<CardGenerals>> GetUserCardGeneralsTeamAsync(string user_id, string teamId, string position, UserStatsContextDTO sharedContext = null);
-    Task<List<CardGenerals>> GetUserCardGeneralsTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null);
-    Task<Dictionary<string, int>> GetUniqueCardGeneralsTypesTeamAsync(string teamId);
-    Task<bool> UpdateTeamCardGeneralAsync(string team_id, string position, string card_id);
-    Task<int> GetUserCardGeneralsCountAsync(string user_id, string search, string type, string rare);
-    Task<int> GetUserCardGeneralsTeamsPositionCountAsync(string user_id, string team_id, string position);
-    Task<int> GetUserCardGeneralsTeamsCountAsync(string user_id, string team_id);
-    Task<bool> InsertUserCardGeneralAsync(CardGenerals cardGeneral);
-    Task<bool> InsertOrUpdateUserCardGeneralsBatchAsync(List<CardGenerals> cardGenerals);
-    Task<bool> UpdateCardGeneralLevelAsync(CardGenerals cardGeneral);
-    Task<bool> UpdateCardGeneralStarAsync(CardGenerals cardGeneral);
-    Task<bool> UpdateCardGeneralBreakthroughAsync(CardGenerals cardGeneral, int star, double quantity);
-    Task<CardGenerals> GetUserCardGeneralByIdAsync(string user_id, string Id, UserStatsContextDTO sharedContext = null);
-    Task<List<CardGenerals>> GetAllUserCardGeneralsInTeamAsync(string user_id, UserStatsContextDTO sharedContext = null);
+    Task<List<CardGenerals>> GetAllEquipmentPowerAsync(string userId, List<CardGenerals> cardGeneralList);
+    Task<List<CardGenerals>> GetAllRankPowerAsync(string userId, List<CardGenerals> cardGeneralList);
+    Task<List<CardGenerals>> GetAllMasterPowerAsync(string userId, List<CardGenerals> cardGeneralList);
+    Task<List<CardGenerals>> GetAllSpiritBeastPowerAsync(string userId, List<CardGenerals> cardGeneralList);
+    Task<List<CardGenerals>> GetSkillsAsync(string userId, List<CardGenerals> cardGeneralList);
+    Task<List<CardGenerals>> GetUserCardGeneralsAsync(string userId, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
+    Task<List<CardGenerals>> GetUserCardGeneralsTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null);
+    Task<List<CardGenerals>> GetUserCardGeneralsTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null);
+    Task<Dictionary<string, int>> GetUniqueUserCardGeneralsTypesTeamAsync(string userId, string teamId);
+    Task<bool> UpdateTeamUserCardGeneralAsync(string userId, string teamId, string position, string cardId);
+    Task<int> GetUserCardGeneralsCountAsync(string userId, string search, string type, string rare);
+    Task<int> GetUserCardGeneralsTeamsPositionCountAsync(string userId, string teamId, string position);
+    Task<int> GetUserCardGeneralsTeamsCountAsync(string userId, string teamId);
+    Task<bool> InsertUserCardGeneralAsync(string userId, CardGenerals cardGeneral);
+    Task<bool> InsertOrUpdateUserCardGeneralsBatchAsync(string userId, List<CardGenerals> cardGenerals);
+    Task<bool> UpdateUserCardGeneralLevelAsync(string userId, CardGenerals cardGeneral);
+    Task<bool> UpdateUserCardGeneralStarAsync(string userId, CardGenerals cardGeneral);
+    Task<bool> UpdateUserCardGeneralBreakthroughAsync(string userId, CardGenerals cardGeneral, int star, double quantity);
+    Task<CardGenerals> GetUserCardGeneralByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
+    Task<List<CardGenerals>> GetAllUserCardGeneralsInTeamAsync(string userId, UserStatsContextDTO sharedContext = null);
 }

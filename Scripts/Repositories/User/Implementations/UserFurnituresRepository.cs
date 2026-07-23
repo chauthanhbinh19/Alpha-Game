@@ -214,7 +214,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
 
         return count;
     }
-    public async Task<bool> InsertUserFurnitureAsync(string userId, Furnitures furniture, string userId)
+    public async Task<bool> InsertUserFurnitureAsync(Furnitures furniture, string userId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -511,7 +511,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", UserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -546,7 +546,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@furniture_id", furniture.Id);
                     updateCommand.Parameters.AddWithValue("@level", furniture.Level);
                     updateCommand.Parameters.AddWithValue("@experience", furniture.Experience);
@@ -586,7 +586,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@furniture_id", furniture.Id);
                     updateCommand.Parameters.AddWithValue("@star", furniture.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", furniture.Quantity);
@@ -650,7 +650,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@furniture_id", furniture.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -886,7 +886,7 @@ public class UserFurnituresRepository : IUserFurnituresRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", UserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

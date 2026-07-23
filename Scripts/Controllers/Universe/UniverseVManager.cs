@@ -234,7 +234,7 @@ public class UniverseVManager : MonoBehaviour
         AnimationController.Instance.CreateUniverseAnimation(currentObject);
         Universes universe = await UniversesService.Create().GetUniverseByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserUniverses userUniverse = await UserUniversesService.Create().GetUserUniversesAsync(featureId);
+        UserUniverses userUniverse = await UserUniversesService.Create().GetUserUniversesAsync(User.CurrentUserId,featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -264,7 +264,7 @@ public class UniverseVManager : MonoBehaviour
         levelText.text = currentLevel.ToString();
         async Task RefreshPanelAsync()
         {
-            userUniverse = await UserUniversesService.Create().GetUserUniversesAsync(featureId);
+            userUniverse = await UserUniversesService.Create().GetUserUniversesAsync(User.CurrentUserId,featureId);
             currentLevel = userUniverse?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

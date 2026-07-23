@@ -20,17 +20,17 @@ public class UserFashionsService : IUserFashionsService
         return _instance;
     }
 
-    public async Task<List<Fashions>> GetUserFashionsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Fashions>> GetUserFashionsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Fashions> list = await _userFashionsRepository.GetUserFashionsAsync(user_id, search, type, pageSize, offset, rare);
+        List<Fashions> list = await _userFashionsRepository.GetUserFashionsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserFashionsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserFashionsCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userFashionsRepository.GetUserFashionsCountAsync(user_id, search, type, rare);
+        return await _userFashionsRepository.GetUserFashionsCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserFashionAsync(Fashions fashion, string userId)
@@ -38,33 +38,33 @@ public class UserFashionsService : IUserFashionsService
         return await _userFashionsRepository.InsertUserFashionAsync(fashion, userId);
     }
 
-    public async Task<bool> UpdateFashionLevelAsync(Fashions fashion)
+    public async Task<bool> UpdateUserFashionLevelAsync(string userId, Fashions fashion)
     {
-        return await _userFashionsRepository.UpdateUserFashionLevelAsync(fashion);
+        return await _userFashionsRepository.UpdateUserFashionLevelAsync(userId, fashion);
     }
 
-    public async Task<bool> UpdateFashionStarAsync(Fashions fashion)
+    public async Task<bool> UpdateUserFashionStarAsync(string userId, Fashions fashion)
     {
-        return await _userFashionsRepository.UpdateUserFashionStarAsync(fashion);
+        return await _userFashionsRepository.UpdateUserFashionStarAsync(userId, fashion);
     }
 
-    public async Task<bool> UpdateFashionBreakthroughAsync(Fashions fashion, int star, double quantity)
+    public async Task<bool> UpdateUserFashionBreakthroughAsync(string userId, Fashions fashion, int star, double quantity)
     {
-        return await _userFashionsRepository.UpdateUserFashionBreakthroughAsync(fashion, star, quantity);
+        return await _userFashionsRepository.UpdateUserFashionBreakthroughAsync(userId, fashion, star, quantity);
     }
 
-    public async Task<Fashions> GetUserFashionByIdAsync(string user_id, string Id)
+    public async Task<Fashions> GetUserFashionByIdAsync(string userId, string Id)
     {
-        return await _userFashionsRepository.GetUserFashionByIdAsync(user_id, Id);
+        return await _userFashionsRepository.GetUserFashionByIdAsync(userId, Id);
     }
 
-    public async Task<Fashions> SumPowerUserFashionsAsync()
+    public async Task<Fashions> SumPowerUserFashionsAsync(string userId)
     {
-        return await _userFashionsRepository.SumPowerUserFashionsAsync();
+        return await _userFashionsRepository.SumPowerUserFashionsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserFashionsBatchAsync(List<Fashions> fashions)
+    public async Task<bool> InsertOrUpdateUserFashionsBatchAsync(string userId, List<Fashions> fashions)
     {
-        return await _userFashionsRepository.InsertOrUpdateUserFashionsBatchAsync(fashions);
+        return await _userFashionsRepository.InsertOrUpdateUserFashionsBatchAsync(userId, fashions);
     }
 }

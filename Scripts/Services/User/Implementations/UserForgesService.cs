@@ -20,17 +20,17 @@ public class UserForgesService : IUserForgesService
         return _instance;
     }
 
-    public async Task<List<Forges>> GetUserForgesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Forges>> GetUserForgesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Forges> list = await _userForgesRepository.GetUserForgesAsync(user_id, search, type, pageSize, offset, rare);
+        List<Forges> list = await _userForgesRepository.GetUserForgesAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserForgesCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserForgesCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userForgesRepository.GetUserForgesCountAsync(user_id, search, type, rare);
+        return await _userForgesRepository.GetUserForgesCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserForgeAsync(Forges forge, string userId)
@@ -38,33 +38,33 @@ public class UserForgesService : IUserForgesService
         return await _userForgesRepository.InsertUserForgeAsync(forge, userId);
     }
 
-    public async Task<bool> UpdateForgeLevelAsync(Forges forge)
+    public async Task<bool> UpdateUserForgeLevelAsync(string userId, Forges forge)
     {
-        return await _userForgesRepository.UpdateUserForgeLevelAsync(forge);
+        return await _userForgesRepository.UpdateUserForgeLevelAsync(userId, forge);
     }
 
-    public async Task<bool> UpdateForgeStarAsync(Forges forge)
+    public async Task<bool> UpdateUserForgeStarAsync(string userId, Forges forge)
     {
-        return await _userForgesRepository.UpdateUserForgeStarAsync(forge);
+        return await _userForgesRepository.UpdateUserForgeStarAsync(userId, forge);
     }
 
-    public async Task<bool> UpdateForgeBreakthroughAsync(Forges forge, int star, double quantity)
+    public async Task<bool> UpdateUserForgeBreakthroughAsync(string userId, Forges forge, int star, double quantity)
     {
-        return await _userForgesRepository.UpdateUserForgeBreakthroughAsync(forge, star, quantity);
+        return await _userForgesRepository.UpdateUserForgeBreakthroughAsync(userId, forge, star, quantity);
     }
 
-    public async Task<Forges> GetUserForgeByIdAsync(string user_id, string Id)
+    public async Task<Forges> GetUserForgeByIdAsync(string userId, string Id)
     {
-        return await _userForgesRepository.GetUserForgeByIdAsync(user_id, Id);
+        return await _userForgesRepository.GetUserForgeByIdAsync(userId, Id);
     }
 
-    public async Task<Forges> SumPowerUserForgesAsync()
+    public async Task<Forges> SumPowerUserForgesAsync(string userId)
     {
-        return await _userForgesRepository.SumPowerUserForgesAsync();
+        return await _userForgesRepository.SumPowerUserForgesAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserForgesBatchAsync(List<Forges> forges)
+    public async Task<bool> InsertOrUpdateUserForgesBatchAsync(string userId, List<Forges> forges)
     {
-        return await _userForgesRepository.InsertOrUpdateUserForgesBatchAsync(forges);
+        return await _userForgesRepository.InsertOrUpdateUserForgesBatchAsync(userId, forges);
     }
 }

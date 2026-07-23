@@ -266,7 +266,7 @@ public class AlchemiesController : MonoBehaviour
             Currencies userCurrency = new Currencies();
             if (obj is Alchemies alchemy)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(alchemy.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, alchemy.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -297,7 +297,7 @@ public class AlchemiesController : MonoBehaviour
             if (obj is Alchemies alchemy)
             {
                 alchemy.Quantity = alchemy.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(alchemy.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, alchemy.Currency.Id, price);
                 bool success = await UserAlchemiesService.Create().InsertUserAlchemyAsync(alchemy, User.CurrentUserId);
                 if (!success)
                 {

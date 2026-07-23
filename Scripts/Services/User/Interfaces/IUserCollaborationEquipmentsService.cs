@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 public interface IUserCollaborationEquipmentsService
 {
-    Task<List<CollaborationEquipments>> GetUserCollaborationEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<int> GetUserCollaborationEquipmentsCountAsync(string user_id, string search, string type, string rare);
+    Task<List<CollaborationEquipments>> GetUserCollaborationEquipmentsAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserCollaborationEquipmentsCountAsync(string userId, string search, string type, string rare);
     Task<bool> InsertUserCollaborationEquipmentAsync(CollaborationEquipments collaborationEquipment, string userId);
-    Task<bool> InsertOrUpdateUserCollaborationEquipmentsBatchAsync(List<CollaborationEquipments> collaborationEquipments);
-    Task<bool> UpdateCollaborationEquipmentLevelAsync(CollaborationEquipments collaborationEquipment);
-    Task<bool> UpdateCollaborationEquipmentStarAsync(CollaborationEquipments collaborationEquipment);
-    Task<bool> UpdateCollaborationEquipmentBreakthroughAsync(CollaborationEquipments collaborationEquipment, int star, double quantity);
-    Task<CollaborationEquipments> GetUserCollaborationEquipmentByIdAsync(string user_id, string Id);
-    Task<CollaborationEquipments> SumPowerUserCollaborationEquipmentsAsync();
+    Task<bool> InsertOrUpdateUserCollaborationEquipmentsBatchAsync(string userId, List<CollaborationEquipments> collaborationEquipments);
+    Task<bool> UpdateUserCollaborationEquipmentLevelAsync(string userId, CollaborationEquipments collaborationEquipment);
+    Task<bool> UpdateUserCollaborationEquipmentStarAsync(string userId, CollaborationEquipments collaborationEquipment);
+    Task<bool> UpdateUserCollaborationEquipmentBreakthroughAsync(string userId, CollaborationEquipments collaborationEquipment, int star, double quantity);
+    Task<CollaborationEquipments> GetUserCollaborationEquipmentByIdAsync(string userId, string Id);
+    Task<CollaborationEquipments> SumPowerUserCollaborationEquipmentsAsync(string userId);
 }

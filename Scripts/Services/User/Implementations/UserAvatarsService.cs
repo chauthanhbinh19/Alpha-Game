@@ -20,17 +20,17 @@ public class UserAvatarsService : IUserAvatarsService
         return _instance;
     }
 
-    public async Task<List<Avatars>> GetUserAvatarsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Avatars>> GetUserAvatarsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Avatars> list = await _userAvatarsRepository.GetUserAvatarsAsync(user_id, search, pageSize, offset, rare);
+        List<Avatars> list = await _userAvatarsRepository.GetUserAvatarsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserAvatarsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserAvatarsCountAsync(string userId, string search, string rare)
     {
-        return await _userAvatarsRepository.GetUserAvatarsCountAsync(user_id, search, rare);
+        return await _userAvatarsRepository.GetUserAvatarsCountAsync(userId, search, rare);
     }
 
     public async Task<bool> InsertUserAvatarAsync(Avatars avatar, string userId)
@@ -45,33 +45,33 @@ public class UserAvatarsService : IUserAvatarsService
         return await _userAvatarsRepository.InsertUserAvatarByIdAsync(await _service.GetAvatarByIdAsync(avatarId), userId);
     }
 
-    public async Task<bool> UpdateAvatarLevelAsync(Avatars avatar)
+    public async Task<bool> UpdateUserAvatarLevelAsync(string userId, Avatars avatar)
     {
-        return await _userAvatarsRepository.UpdateAvatarLevelAsync(avatar);
+        return await _userAvatarsRepository.UpdateUserAvatarLevelAsync(userId, avatar);
     }
 
-    public async Task<bool> UpdateAvatarStarAsync(Avatars avatar)
+    public async Task<bool> UpdateUserAvatarStarAsync(string userId, Avatars avatar)
     {
-        return await _userAvatarsRepository.UpdateAvatarStarAsync(avatar);
+        return await _userAvatarsRepository.UpdateUserAvatarStarAsync(userId, avatar);
     }
 
-    public async Task<Avatars> GetAvatarByUsedAsync(string user_id)
+    public async Task<Avatars> GetUserAvatarByUsedAsync(string userId)
     {
-        return await _userAvatarsRepository.GetUserAvatarByUsedAsync(user_id);
+        return await _userAvatarsRepository.GetUserAvatarByUsedAsync(userId);
     }
 
-    public async Task UpdateIsUsedAvatarAsync(string avatarId, string userId, bool is_used)
+    public async Task UpdateIsUsedUserAvatarAsync(string avatarId, string userId, bool is_used)
     {
         await _userAvatarsRepository.UpdateIsUsedUserAvatarAsync(avatarId, userId, is_used);
     }
 
-    public async Task<Avatars> SumPowerUserAvatarsAsync()
+    public async Task<Avatars> SumPowerUserAvatarsAsync(string userId)
     {
-        return await _userAvatarsRepository.SumPowerUserAvatarsAsync();
+        return await _userAvatarsRepository.SumPowerUserAvatarsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserAvatarsBatchAsync(List<Avatars> avatars)
+    public async Task<bool> InsertOrUpdateUserAvatarsBatchAsync(string userId, List<Avatars> avatars)
     {
-        return await _userAvatarsRepository.InsertOrUpdateUserAvatarsBatchAsync(avatars);
+        return await _userAvatarsRepository.InsertOrUpdateUserAvatarsBatchAsync(userId, avatars);
     }
 }

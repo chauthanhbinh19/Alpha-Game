@@ -20,17 +20,17 @@ public class UserSymbolsService : IUserSymbolsService
         return _instance;
     }
 
-    public async Task<List<Symbols>> GetUserSymbolsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Symbols>> GetUserSymbolsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Symbols> list = await _userSymbolsRepository.GetUserSymbolsAsync(user_id, search, type, pageSize, offset, rare);
+        List<Symbols> list = await _userSymbolsRepository.GetUserSymbolsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserSymbolsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserSymbolsCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userSymbolsRepository.GetUserSymbolsCountAsync(user_id, search, type, rare);
+        return await _userSymbolsRepository.GetUserSymbolsCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserSymbolAsync(Symbols symbol, string userId)
@@ -38,33 +38,33 @@ public class UserSymbolsService : IUserSymbolsService
         return await _userSymbolsRepository.InsertUserSymbolAsync(symbol, userId);
     }
 
-    public async Task<bool> UpdateSymbolLevelAsync(Symbols symbol)
+    public async Task<bool> UpdateUserSymbolLevelAsync(string userId, Symbols symbol)
     {
-        return await _userSymbolsRepository.UpdateSymbolLevelAsync(symbol);
+        return await _userSymbolsRepository.UpdateUserSymbolLevelAsync(userId, symbol);
     }
 
-    public async Task<bool> UpdateSymbolStarAsync(Symbols symbol)
+    public async Task<bool> UpdateUserSymbolStarAsync(string userId, Symbols symbol)
     {
-        return await _userSymbolsRepository.UpdateSymbolStarAsync(symbol);
+        return await _userSymbolsRepository.UpdateUserSymbolStarAsync(userId, symbol);
     }
 
-    public async Task<bool> UpdateSymbolBreakthroughAsync(Symbols symbol, int star, double quantity)
+    public async Task<bool> UpdateUserSymbolBreakthroughAsync(string userId, Symbols symbol, int star, double quantity)
     {
-        return await _userSymbolsRepository.UpdateSymbolBreakthroughAsync(symbol, star, quantity);
+        return await _userSymbolsRepository.UpdateUserSymbolBreakthroughAsync(userId, symbol, star, quantity);
     }
 
-    public async Task<Symbols> GetUserSymbolByIdAsync(string user_id, string Id)
+    public async Task<Symbols> GetUserSymbolByIdAsync(string userId, string Id)
     {
-        return await _userSymbolsRepository.GetUserSymbolByIdAsync(user_id, Id);
+        return await _userSymbolsRepository.GetUserSymbolByIdAsync(userId, Id);
     }
 
-    public async Task<Symbols> SumPowerUserSymbolsAsync()
+    public async Task<Symbols> SumPowerUserSymbolsAsync(string userId)
     {
-        return await _userSymbolsRepository.SumPowerUserSymbolsAsync();
+        return await _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserSymbolsBatchAsync(List<Symbols> symbols)
+    public async Task<bool> InsertOrUpdateUserSymbolsBatchAsync(string userId, List<Symbols> symbols)
     {
-        return await _userSymbolsRepository.InsertOrUpdateUserSymbolsBatchAsync(symbols);
+        return await _userSymbolsRepository.InsertOrUpdateUserSymbolsBatchAsync(userId, symbols);
     }
 }

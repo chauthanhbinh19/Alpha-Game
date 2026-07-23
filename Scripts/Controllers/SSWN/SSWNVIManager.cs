@@ -233,7 +233,7 @@ public class SSWNVIManager : MonoBehaviour
         AnimationController.Instance.CreateSSWNAnimation(currentObject);
         SSWNs sswn = await SSWNsService.Create().GetSSWNByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserSSWNs userSSWN = await UserSSWNsService.Create().GetUserSSWNsAsync(featureId);
+        UserSSWNs userSSWN = await UserSSWNsService.Create().GetUserSSWNsAsync(User.CurrentUserId,featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -264,7 +264,7 @@ public class SSWNVIManager : MonoBehaviour
 
         async Task RefreshPanelAsync()
         {
-            userSSWN = await UserSSWNsService.Create().GetUserSSWNsAsync(featureId);
+            userSSWN = await UserSSWNsService.Create().GetUserSSWNsAsync(User.CurrentUserId,featureId);
             currentLevel = userSSWN?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

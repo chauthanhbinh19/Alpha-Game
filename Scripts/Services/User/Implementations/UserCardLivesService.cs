@@ -23,17 +23,17 @@ public class UserCardLivesService : IUserCardLivesService
 
 
 
-    public async Task<List<CardLives>> GetUserCardLivesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CardLives>> GetUserCardLivesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CardLives> list = await _userCardLivesRepository.GetUserCardLivesAsync(user_id, search, type, pageSize, offset, rare);
+        List<CardLives> list = await _userCardLivesRepository.GetUserCardLivesAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserCardLivesCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserCardLivesCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userCardLivesRepository.GetUserCardLivesCountAsync(user_id, search, type, rare);
+        return await _userCardLivesRepository.GetUserCardLivesCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserCardLifeAsync(CardLives cardLife, string userId)
@@ -41,33 +41,33 @@ public class UserCardLivesService : IUserCardLivesService
         return await _userCardLivesRepository.InsertUserCardLifeAsync(cardLife, userId);
     }
 
-    public async Task<bool> UpdateCardLifeLevelAsync(CardLives cardLife)
+    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
     {
-        return await _userCardLivesRepository.UpdateCardLifeLevelAsync(cardLife);
+        return await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
     }
 
-    public async Task<bool> UpdateCardLifeStarAsync(CardLives cardLife)
+    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
     {
-        return await _userCardLivesRepository.UpdateCardLifeStarAsync(cardLife);
+        return await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
     }
 
-    public async Task<bool> UpdateCardLifeBreakthroughAsync(CardLives cardLife, int star, double quantity)
+    public async Task<bool> UpdateUserCardLifeBreakthroughAsync(string userId, CardLives cardLife, int star, double quantity)
     {
-        return await _userCardLivesRepository.UpdateCardLifeBreakthroughAsync(cardLife, star, quantity);
+        return await _userCardLivesRepository.UpdateUserCardLifeBreakthroughAsync(userId, cardLife, star, quantity);
     }
 
-    public async Task<CardLives> GetUserCardLifeByIdAsync(string user_id, string Id)
+    public async Task<CardLives> GetUserCardLifeByIdAsync(string userId, string Id)
     {
-        return await _userCardLivesRepository.GetUserCardLifeByIdAsync(user_id, Id);
+        return await _userCardLivesRepository.GetUserCardLifeByIdAsync(userId, Id);
     }
 
-    public async Task<CardLives> SumPowerUserCardLivesAsync()
+    public async Task<CardLives> SumPowerUserCardLivesAsync(string userId)
     {
-        return await _userCardLivesRepository.SumPowerUserCardLivesAsync();
+        return await _userCardLivesRepository.SumPowerUserCardLivesAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserCardLivesBatchAsync(List<CardLives> cardLives)
+    public async Task<bool> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLives)
     {
-        return await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(cardLives);
+        return await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLives);
     }
 }

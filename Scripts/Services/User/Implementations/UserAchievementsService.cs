@@ -23,17 +23,17 @@ public class UserAchievementsService : IUserAchievementsService
         return _instance;
     }
 
-    public async Task<List<Achievements>> GetUserAchievementsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Achievements>> GetUserAchievementsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Achievements> list = await _userAchievementsRepository.GetUserAchievementsAsync(user_id, search, pageSize, offset, rare);
+        List<Achievements> list = await _userAchievementsRepository.GetUserAchievementsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserAchievementsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserAchievementsCountAsync(string userId, string search, string rare)
     {
-        return await _userAchievementsRepository.GetUserArchievementsCountAsync(user_id, search, rare);
+        return await _userAchievementsRepository.GetUserArchievementsCountAsync(userId, search, rare);
     }
 
     public async Task<bool> InsertUserAchievementAsync(Achievements achievement, string userId)
@@ -56,9 +56,9 @@ public class UserAchievementsService : IUserAchievementsService
         return await _userAchievementsRepository.UpdateUserAchievementBreakthroughAsync(userId, achievement, star, quantity);
     }
 
-    public async Task<Achievements> GetUserAchievementByIdAsync(string user_id, string Id)
+    public async Task<Achievements> GetUserAchievementByIdAsync(string userId, string Id)
     {
-        return await _userAchievementsRepository.GetUserAchievementByIdAsync(user_id, Id);
+        return await _userAchievementsRepository.GetUserAchievementByIdAsync(userId, Id);
     }
 
     public async Task<Achievements> SumPowerUserAchievementsAsync(string userId)

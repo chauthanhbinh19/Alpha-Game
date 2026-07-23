@@ -19,14 +19,14 @@ public class UserHIRNsService : IUserHIRNsService
         return _instance;
     }
 
-    public async Task<UserHIRNs> GetUserHIRNsAsync(string id)
+    public async Task<UserHIRNs> GetUserHIRNsAsync(string userId, string id)
     {
-        return await _userHIRNsRepository.GetUserHIRNsAsync(id);
+        return await _userHIRNsRepository.GetUserHIRNsAsync(userId, id);
     }
 
-    public async Task<UserHIRNs> GetSumUserHIRNsAsync(string user_id)
+    public async Task<UserHIRNs> GetSumUserHIRNsAsync(string userId)
     {
-        return await _userHIRNsRepository.GetSumUserHIRNsAsync(user_id);
+        return await _userHIRNsRepository.GetSumUserHIRNsAsync(userId);
     }
 
     public async Task InsertOrUpdateUserHIRNsAsync(string userId, UserHIRNs HIRNs, string id)

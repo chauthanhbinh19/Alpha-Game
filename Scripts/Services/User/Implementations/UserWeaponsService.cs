@@ -20,17 +20,17 @@ public class UserWeaponsService : IUserWeaponsService
         return _instance;
     }
 
-    public async Task<List<Weapons>> GetUserWeaponsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Weapons>> GetUserWeaponsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Weapons> list = await _userWeaponsRepository.GetUserWeaponsAsync(user_id, search, type, pageSize, offset, rare);
+        List<Weapons> list = await _userWeaponsRepository.GetUserWeaponsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserWeaponsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserWeaponsCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userWeaponsRepository.GetUserWeaponsCountAsync(user_id, search, type, rare);
+        return await _userWeaponsRepository.GetUserWeaponsCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserWeaponAsync(Weapons weapon, string userId)
@@ -38,33 +38,33 @@ public class UserWeaponsService : IUserWeaponsService
         return await _userWeaponsRepository.InsertUserWeaponAsync(weapon, userId);
     }
 
-    public async Task<bool> UpdateWeaponLevelAsync(Weapons weapon)
+    public async Task<bool> UpdateUserWeaponLevelAsync(string userId, Weapons weapon)
     {
-        return await _userWeaponsRepository.UpdateWeaponLevelAsync(weapon);
+        return await _userWeaponsRepository.UpdateUserWeaponLevelAsync(userId, weapon);
     }
 
-    public async Task<bool> UpdateWeaponStarAsync(Weapons weapon)
+    public async Task<bool> UpdateUserWeaponStarAsync(string userId, Weapons weapon)
     {
-        return await _userWeaponsRepository.UpdateWeaponStarAsync(weapon);
+        return await _userWeaponsRepository.UpdateUserWeaponStarAsync(userId, weapon);
     }
 
-    public async Task<bool> UpdateWeaponBreakthroughAsync(Weapons weapon, int star, double quantity)
+    public async Task<bool> UpdateUserWeaponBreakthroughAsync(string userId, Weapons weapon, int star, double quantity)
     {
-        return await _userWeaponsRepository.UpdateWeaponBreakthroughAsync(weapon, star, quantity);
+        return await _userWeaponsRepository.UpdateUserWeaponBreakthroughAsync(userId, weapon, star, quantity);
     }
 
-    public async Task<Weapons> GetUserWeaponByIdAsync(string user_id, string Id)
+    public async Task<Weapons> GetUserWeaponByIdAsync(string userId, string Id)
     {
-        return await _userWeaponsRepository.GetUserWeaponByIdAsync(user_id, Id);
+        return await _userWeaponsRepository.GetUserWeaponByIdAsync(userId, Id);
     }
 
-    public async Task<Weapons> SumPowerUserWeaponsAsync()
+    public async Task<Weapons> SumPowerUserWeaponsAsync(string userId)
     {
-        return await _userWeaponsRepository.SumPowerUserWeaponsAsync();
+        return await _userWeaponsRepository.SumPowerUserWeaponsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserWeaponsBatchAsync(List<Weapons> weapons)
+    public async Task<bool> InsertOrUpdateUserWeaponsBatchAsync(string userId, List<Weapons> weapons)
     {
-        return await _userWeaponsRepository.InsertOrUpdateUserWeaponsBatchAsync(weapons);
+        return await _userWeaponsRepository.InsertOrUpdateUserWeaponsBatchAsync(userId, weapons);
     }
 }

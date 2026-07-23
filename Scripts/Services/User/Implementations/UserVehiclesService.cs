@@ -20,17 +20,17 @@ public class UserVehiclesService : IUserVehiclesService
         return _instance;
     }
 
-    public async Task<List<Vehicles>> GetUserVehiclesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Vehicles>> GetUserVehiclesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Vehicles> list = await _userVehiclesRepository.GetUserVehiclesAsync(user_id, search, type, pageSize, offset, rare);
+        List<Vehicles> list = await _userVehiclesRepository.GetUserVehiclesAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserVehiclesCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserVehiclesCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userVehiclesRepository.GetUserVehiclesCountAsync(user_id, search, type, rare);
+        return await _userVehiclesRepository.GetUserVehiclesCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserVehicleAsync(Vehicles vehicle, string userId)
@@ -38,33 +38,33 @@ public class UserVehiclesService : IUserVehiclesService
         return await _userVehiclesRepository.InsertUserVehicleAsync(vehicle, userId);
     }
 
-    public async Task<bool> UpdateVehicleLevelAsync(Vehicles vehicle)
+    public async Task<bool> UpdateUserVehicleLevelAsync(string userId, Vehicles vehicle)
     {
-        return await _userVehiclesRepository.UpdateVehicleLevelAsync(vehicle);
+        return await _userVehiclesRepository.UpdateUserVehicleLevelAsync(userId, vehicle);
     }
 
-    public async Task<bool> UpdateVehicleStarAsync(Vehicles vehicle)
+    public async Task<bool> UpdateUserVehicleStarAsync(string userId, Vehicles vehicle)
     {
-        return await _userVehiclesRepository.UpdateVehicleStarAsync(vehicle);
+        return await _userVehiclesRepository.UpdateUserVehicleStarAsync(userId, vehicle);
     }
 
-    public async Task<bool> UpdateVehicleBreakthroughAsync(Vehicles vehicle, int star, double quantity)
+    public async Task<bool> UpdateUserVehicleBreakthroughAsync(string userId, Vehicles vehicle, int star, double quantity)
     {
-        return await _userVehiclesRepository.UpdateVehicleBreakthroughAsync(vehicle, star, quantity);
+        return await _userVehiclesRepository.UpdateUserVehicleBreakthroughAsync(userId, vehicle, star, quantity);
     }
 
-    public async Task<Vehicles> GetUserVehicleByIdAsync(string user_id, string Id)
+    public async Task<Vehicles> GetUserVehicleByIdAsync(string userId, string Id)
     {
-        return await _userVehiclesRepository.GetUserVehicleByIdAsync(user_id, Id);
+        return await _userVehiclesRepository.GetUserVehicleByIdAsync(userId, Id);
     }
 
-    public async Task<Vehicles> SumPowerUserVehiclesAsync()
+    public async Task<Vehicles> SumPowerUserVehiclesAsync(string userId)
     {
-        return await _userVehiclesRepository.SumPowerUserVehiclesAsync();
+        return await _userVehiclesRepository.SumPowerUserVehiclesAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserVehiclesBatchAsync(List<Vehicles> vehicles)
+    public async Task<bool> InsertOrUpdateUserVehiclesBatchAsync(string userId, List<Vehicles> vehicles)
     {
-        return await _userVehiclesRepository.InsertOrUpdateUserVehiclesBatchAsync(vehicles);
+        return await _userVehiclesRepository.InsertOrUpdateUserVehiclesBatchAsync(userId, vehicles);
     }
 }

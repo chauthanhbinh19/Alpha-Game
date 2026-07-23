@@ -19,14 +19,14 @@ public class UserUniversesService : IUserUniversesService
         return _instance;
     }
 
-    public async Task<UserUniverses> GetUserUniversesAsync(string id)
+    public async Task<UserUniverses> GetUserUniversesAsync(string userId, string id)
     {
-        return await _userUniversesRepository.GetUserUniversesAsync(id);
+        return await _userUniversesRepository.GetUserUniversesAsync(userId, id);
     }
 
-    public async Task<UserUniverses> GetSumUserUniversesAsync(string user_id)
+    public async Task<UserUniverses> GetSumUserUniversesAsync(string userId)
     {
-        return await _userUniversesRepository.GetSumUserUniversesAsync(user_id);
+        return await _userUniversesRepository.GetSumUserUniversesAsync(userId);
     }
 
     public async Task InsertOrUpdateUserUniversesAsync(string userId, UserUniverses Universes, string id)

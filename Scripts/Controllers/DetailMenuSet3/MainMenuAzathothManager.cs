@@ -237,7 +237,7 @@ public class MainMenuAzathothManager : MonoBehaviour
         AnimationController.Instance.CreateRankAnimation(currentObject);
         Ranks rank = await RanksService.Create().GetRankByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserRanks userRank = await UserRanksService.Create().GetUserRanksAsync(featureId);
+        UserRanks userRank = await UserRanksService.Create().GetUserRanksAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -267,7 +267,7 @@ public class MainMenuAzathothManager : MonoBehaviour
         levelText.text = currentLevel.ToString();
         async Task RefreshPanelAsync()
         {
-            userRank = await UserRanksService.Create().GetUserRanksAsync(featureId);
+            userRank = await UserRanksService.Create().GetUserRanksAsync(User.CurrentUserId, featureId);
             currentLevel = userRank?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

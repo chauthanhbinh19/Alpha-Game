@@ -233,7 +233,7 @@ public class HICBXManager : MonoBehaviour
         AnimationController.Instance.CreateHICBAnimation(currentObject);
         HICBs hicb = await HICBsService.Create().GetHICBByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserHICBs userHICB = await UserHICBsService.Create().GetUserHICBsAsync(featureId);
+        UserHICBs userHICB = await UserHICBsService.Create().GetUserHICBsAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -264,7 +264,7 @@ public class HICBXManager : MonoBehaviour
 
         async Task RefreshPanelAsync()
         {
-            userHICB = await UserHICBsService.Create().GetUserHICBsAsync(featureId);
+            userHICB = await UserHICBsService.Create().GetUserHICBsAsync(User.CurrentUserId, featureId);
             currentLevel = userHICB?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

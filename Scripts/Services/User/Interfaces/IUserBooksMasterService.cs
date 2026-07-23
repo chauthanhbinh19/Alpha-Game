@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 public interface IUserBooksMasterService
 {
-    Task<Master> GetBookMasterAsync(string id, string card_id);
-    Task InsertOrUpdateBookMasterAsync(string userId, UserMasters userMaster, string card_id);
-    Task<Master> GetSumBooksMasterAsync(string user_id, string card_id);
+    Task<Master> GetUserBookMasterAsync(string userId, string id, string cardId);
+    Task InsertOrUpdateUserBookMasterAsync(string userId, UserMasters userMaster, string cardId);
+    Task<Master> GetSumUserBooksMasterAsync(string userId, string cardId);
 }

@@ -2,8 +2,8 @@ using System.Threading.Tasks;
 
 public interface IUserCardMonstersRankService
 {
-    Task<Rank> GetCardMonsterRankAsync(string id, string card_id);
-    Task InsertOrUpdateCardMonsterRankAsync(string userId, UserRanks userRank, string cardId);
-    Task<Rank> GetSumCardMonstersRankAsync(string user_id, string card_id);
+    Task<Rank> GetUserCardMonsterRankAsync(string userId, string id, string cardId);
+    Task InsertOrUpdateUserCardMonsterRankAsync(string userId, UserRanks userRank, string cardId);
+    Task<Rank> GetSumUserCardMonstersRankAsync(string userId, string cardId);
 
 }

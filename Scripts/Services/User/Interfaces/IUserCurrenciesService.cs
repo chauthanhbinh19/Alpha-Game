@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 public interface IUserCurrenciesService
 {
     Task<List<Currencies>> GetUserCurrencyAsync(string userId);
-    Task<Currencies> GetUserCurrencyByIdAsync(string Id);
-    Task<Currencies> GetUserCurrencyByNameAsync(string currencyName);
+    Task<Currencies> GetUserCurrencyByIdAsync(string userId, string Id);
+    Task<Currencies> GetUserCurrencyByNameAsync(string userId, string currencyName);
     Task InitiateUserCurrencyAsync(string userId);
-    Task UpdateUserCurrencyAsync(string currency_id, double price);
+    Task UpdateUserCurrencyAsync(string userId, string currency_id, double price);
     Task<List<Currencies>> GetEquipmentsCurrencyAsync(string type);
     Task<Currencies> GetEquipmentsPriceAsync(string type, string equipment_id);
     Task<Currencies> GetUserEquipmentsPriceAsync(string type, string equipment_id);

@@ -233,7 +233,7 @@ public class HITNVManager : MonoBehaviour
         AnimationController.Instance.CreateHITNAnimation(currentObject);
         HITNs hitn = await HITNsService.Create().GetHITNByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserHITNs userHITN = await UserHITNsService.Create().GetUserHITNsAsync(featureId);
+        UserHITNs userHITN = await UserHITNsService.Create().GetUserHITNsAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -264,7 +264,7 @@ public class HITNVManager : MonoBehaviour
 
         async Task RefreshPanelAsync()
         {
-            userHITN = await UserHITNsService.Create().GetUserHITNsAsync(featureId);
+            userHITN = await UserHITNsService.Create().GetUserHITNsAsync(User.CurrentUserId, featureId);
             currentLevel = userHITN?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

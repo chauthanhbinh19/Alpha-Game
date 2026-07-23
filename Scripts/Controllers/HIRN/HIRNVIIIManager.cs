@@ -233,7 +233,7 @@ public class HIRNVIIIManager : MonoBehaviour
         AnimationController.Instance.CreateHIRNAnimation(currentObject);
         HIRNs hirn = await HIRNsService.Create().GetHIRNByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserHIRNs userHIRN = await UserHIRNsService.Create().GetUserHIRNsAsync(featureId);
+        UserHIRNs userHIRN = await UserHIRNsService.Create().GetUserHIRNsAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -264,7 +264,7 @@ public class HIRNVIIIManager : MonoBehaviour
 
         async Task RefreshPanelAsync()
         {
-            userHIRN = await UserHIRNsService.Create().GetUserHIRNsAsync(featureId);
+            userHIRN = await UserHIRNsService.Create().GetUserHIRNsAsync(User.CurrentUserId, featureId);
             currentLevel = userHIRN?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

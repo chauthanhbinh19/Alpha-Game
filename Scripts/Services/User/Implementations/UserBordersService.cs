@@ -20,17 +20,17 @@ public class UserBordersService : IUserBordersService
         return _instance;
     }
 
-    public async Task<List<Borders>> GetUserBordersAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Borders>> GetUserBordersAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Borders> list = await _userBordersRepository.GetUserBordersAsync(user_id, search, pageSize, offset, rare);
+        List<Borders> list = await _userBordersRepository.GetUserBordersAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserBordersCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserBordersCountAsync(string userId, string search, string rare)
     {
-        return await _userBordersRepository.GetUserBordersCountAsync(user_id, search, rare);
+        return await _userBordersRepository.GetUserBordersCountAsync(userId, search, rare);
     }
 
     public async Task<bool> InsertUserBorderAsync(Borders border, string userId)
@@ -45,33 +45,33 @@ public class UserBordersService : IUserBordersService
         return await _userBordersRepository.InsertUserBorderByIdAsync(await _service.GetBorderByIdAsync(borderId), userId);
     }
 
-    public async Task<bool> UpdateBorderLevelAsync(Borders border)
+    public async Task<bool> UpdateUserBorderLevelAsync(string userId, Borders border)
     {
-        return await _userBordersRepository.UpdateBorderLevelAsync(border);
+        return await _userBordersRepository.UpdateUserBorderLevelAsync(userId, border);
     }
 
-    public async Task<bool> UpdateBorderStarAsync(Borders border)
+    public async Task<bool> UpdateUserBorderStarAsync(string userId, Borders border)
     {
-        return await _userBordersRepository.UpdateBorderStarAsync(border);
+        return await _userBordersRepository.UpdateUserBorderStarAsync(userId, border);
     }
 
-    public async Task<Borders> GetBorderByUsedAsync(string user_id)
+    public async Task<Borders> GetUserBorderByUsedAsync(string userId)
     {
-        return await _userBordersRepository.GetUserBorderByUsedAsync(user_id);
+        return await _userBordersRepository.GetUserBorderByUsedAsync(userId);
     }
 
-    public async Task UpdateIsUsedBorderAsync(string borderId, string userId, bool is_used)
+    public async Task UpdateIsUsedUserBorderAsync(string borderId, string userId, bool is_used)
     {
         await _userBordersRepository.UpdateIsUsedUserBorderAsync(borderId, userId, is_used);
     }
 
-    public async Task<Borders> SumPowerUserBordersAsync()
+    public async Task<Borders> SumPowerUserBordersAsync(string userId)
     {
-        return await _userBordersRepository.SumPowerUserBordersAsync();
+        return await _userBordersRepository.SumPowerUserBordersAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserBordersBatchAsync(List<Borders> borders)
+    public async Task<bool> InsertOrUpdateUserBordersBatchAsync(string userId, List<Borders> borders)
     {
-        return await _userBordersRepository.InsertOrUpdateUserBordersBatchAsync(borders);
+        return await _userBordersRepository.InsertOrUpdateUserBordersBatchAsync(userId, borders);
     }
 }

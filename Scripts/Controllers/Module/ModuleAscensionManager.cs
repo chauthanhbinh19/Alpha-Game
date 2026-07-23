@@ -217,7 +217,7 @@ public class ModuleAscensionManager : MonoBehaviour
         
         Universes universe = await UniversesService.Create().GetUniverseByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserUniverses userUniverse = await UserUniversesService.Create().GetUserUniversesAsync(featureId);
+        UserUniverses userUniverse = await UserUniversesService.Create().GetUserUniversesAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;

@@ -21,18 +21,18 @@ public class UserPetsMasterService : IUserPetsMasterService
         return _instance;
     }
 
-    public async Task<Master> GetPetMasterAsync(string id, string card_id)
+    public async Task<Master> GetUserPetMasterAsync(string userId, string id, string card_id)
     {
-        return await _userPetsMasterRepository.GetPetMasterAsync(id, card_id);
+        return await _userPetsMasterRepository.GetUserPetMasterAsync(userId, id, card_id);
     }
 
-    public async Task InsertOrUpdatePetMasterAsync(string userId, UserMasters userMaster, string card_id)
+    public async Task InsertOrUpdateUserPetMasterAsync(string userId, UserMasters userMaster, string card_id)
     {
         await _userPetsMasterRepository.InsertOrUpdateUserPetMasterAsync(userId, userMaster, card_id);
     }
 
-    public async Task<Master> GetSumPetsMasterAsync(string user_id, string card_id)
+    public async Task<Master> GetSumUserPetsMasterAsync(string userId, string card_id)
     {
-        return await _userPetsMasterRepository.GetSumUserPetsMasterAsync(user_id, card_id); ;
+        return await _userPetsMasterRepository.GetSumUserPetsMasterAsync(userId, card_id); ;
     }
 }

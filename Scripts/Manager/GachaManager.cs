@@ -417,7 +417,7 @@ public class GachaManager : MonoBehaviour
         // tickets.Clear();
         if (MainType.Equals(AppConstants.MainType.CARD_HERO))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_HERO_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.CARD_HERO_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -428,7 +428,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.BOOK))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BOOK_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.BOOK_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -439,7 +439,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_CAPTAIN))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_CAPTAIN_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.CARD_CAPTAIN_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -450,7 +450,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_MONSTER))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MONSTER_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.CARD_MONSTER_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -461,7 +461,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_COLONEL))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_COLONEL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.CARD_COLONEL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -472,7 +472,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_GENERAL))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_GENERAL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.CARD_GENERAL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -483,7 +483,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_ADMIRAL))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_ADMIRAL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.CARD_ADMIRAL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -494,7 +494,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_MILITARY))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_MILITARY_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.CARD_MILITARY_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -505,7 +505,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_SPELL))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SPELL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.CARD_SPELL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -516,7 +516,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.COLLABORATION))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.COLLABORATION_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.COLLABORATION_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -527,7 +527,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.COLLABORATION_EQUIPMENT))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.COLLABORATION_EQUIPMENT_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.COLLABORATION_EQUIPMENT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -538,7 +538,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.EQUIPMENT))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.EQUIPMENT_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.EQUIPMENT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -549,7 +549,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.PET))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PET_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.PET_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -560,7 +560,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.SKILL))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SKILL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.SKILL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -571,7 +571,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.SYMBOL))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SYMBOL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.SYMBOL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -582,7 +582,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.MEDAL))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MEDAL_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.MEDAL_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -593,7 +593,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.TITLE))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TITLE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.TITLE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -604,7 +604,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.BORDER))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BORDER_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.BORDER_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -615,7 +615,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.MAGIC_FORMATION_CIRCLE))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MAGIC_FORMATION_CIRCLE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.MAGIC_FORMATION_CIRCLE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -626,7 +626,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.RELIC))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.RELIC_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.RELIC_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -637,7 +637,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.TALISMAN))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TALISMAN_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.TALISMAN_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -648,7 +648,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.PUPPET))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PUPPET_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.PUPPET_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -659,7 +659,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.ALCHEMY))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ALCHEMY_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.ALCHEMY_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -670,7 +670,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.FORGE))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FORGE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.FORGE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -681,7 +681,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_LIFE))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_LIFE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.CARD_LIFE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -692,7 +692,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.ARTWORK))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARTWORK_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.ARTWORK_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -703,7 +703,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.SPIRIT_BEAST))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SPIRIT_BEAST_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.SPIRIT_BEAST_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -714,7 +714,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.AVATAR))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.AVATAR_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.AVATAR_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -725,7 +725,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.SPIRIT_CARD))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.SPIRIT_CARD_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.SPIRIT_CARD_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -736,7 +736,7 @@ public class GachaManager : MonoBehaviour
         }
         // else if (mainType.Equals(AppConstants.MainType.ACHIEVEMENT))
         // {
-        //     items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ACHIE_TICKET) };
+        //     items = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.ACHIE_TICKET) };
         //     CurrenciesManager.Instance.GetTicketsCurrency(
         //         items,
         //         transform
@@ -746,7 +746,7 @@ public class GachaManager : MonoBehaviour
         // }
         else if (MainType.Equals(AppConstants.MainType.ARTIFACT))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARTIFACT_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.ARTIFACT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -757,7 +757,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.ARCHITECTURE))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ARCHITECTURE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.ARCHITECTURE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -768,7 +768,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.TECHNOLOGY))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.TECHNOLOGY_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.TECHNOLOGY_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -779,7 +779,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.VEHICLE))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.VEHICLE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.VEHICLE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -790,7 +790,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CORE))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CORE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.CORE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -801,7 +801,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.WEAPON))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.WEAPON_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.WEAPON_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -812,7 +812,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.ROBOT))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.ROBOT_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.ROBOT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -823,7 +823,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.BADGE))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BADGE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.BADGE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -834,7 +834,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.MECHA_BEAST))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.MECHA_BEAST_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.MECHA_BEAST_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -845,7 +845,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.RUNE))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.RUNE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.RUNE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -856,7 +856,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.FURNITURE))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FURNITURE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.FURNITURE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -867,7 +867,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.FOOD))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FOOD_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.FOOD_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -878,7 +878,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.BEVERAGE))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BEVERAGE_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.BEVERAGE_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -889,7 +889,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.BUILDING))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.BUILDING_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.BUILDING_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -900,7 +900,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.PLANT))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.PLANT_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.PLANT_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -911,7 +911,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.FASHION))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.FASHION_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.FASHION_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -922,7 +922,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.EMOJI))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.EMOJI_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.EMOJI_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -933,7 +933,7 @@ public class GachaManager : MonoBehaviour
         }
         else if (MainType.Equals(AppConstants.MainType.CARD_SOLDIER))
         {
-            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(ItemConstants.Ticket.CARD_SOLDIER_TICKET) };
+            Tickets = new List<Items> { await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, ItemConstants.Ticket.CARD_SOLDIER_TICKET) };
             CurrenciesManager.Instance.GetTicketsCurrency(
                 Tickets,
                 currencyTransform
@@ -1276,7 +1276,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedAchievements.Any())
         {
             await UserAchievementsService.Create()
-                .InsertOrUpdateUserAchievementsBatchAsync(
+                .InsertOrUpdateUserAchievementsBatchAsync(User.CurrentUserId, 
                     rewardedAchievements
                 );
         }
@@ -1285,7 +1285,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -1414,7 +1414,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserAlchemiesService.Create()
-                .InsertOrUpdateUserAlchemiesBatchAsync(
+                .InsertOrUpdateUserAlchemiesBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -1422,7 +1422,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -1551,7 +1551,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserArtworksService.Create()
-                .InsertOrUpdateUserArtworksBatchAsync(
+                .InsertOrUpdateUserArtworksBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -1559,7 +1559,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -1679,7 +1679,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedArchitectures.Any())
         {
             await UserArchitecturesService.Create()
-                .InsertOrUpdateUserArchitecturesBatchAsync(
+                .InsertOrUpdateUserArchitecturesBatchAsync(User.CurrentUserId, 
                     rewardedArchitectures
                 );
         }
@@ -1688,7 +1688,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -1808,7 +1808,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedArtifacts.Any())
         {
             await UserArtifactsService.Create()
-                .InsertOrUpdateUserArtifactsBatchAsync(
+                .InsertOrUpdateUserArtifactsBatchAsync(User.CurrentUserId, 
                     rewardedArtifacts
                 );
         }
@@ -1817,7 +1817,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -1937,7 +1937,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedAvatars.Any())
         {
             await UserAvatarsService.Create()
-                .InsertOrUpdateUserAvatarsBatchAsync(
+                .InsertOrUpdateUserAvatarsBatchAsync(User.CurrentUserId, 
                     rewardedAvatars
                 );
         }
@@ -1946,7 +1946,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -2066,7 +2066,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedBadges.Any())
         {
             await UserBadgesService.Create()
-                .InsertOrUpdateUserBadgesBatchAsync(
+                .InsertOrUpdateUserBadgesBatchAsync(User.CurrentUserId, 
                     rewardedBadges
                 );
         }
@@ -2075,7 +2075,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -2195,7 +2195,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedBeverages.Any())
         {
             await UserBeveragesService.Create()
-                .InsertOrUpdateUserBeveragesBatchAsync(
+                .InsertOrUpdateUserBeveragesBatchAsync(User.CurrentUserId, 
                     rewardedBeverages
                 );
         }
@@ -2204,7 +2204,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -2333,7 +2333,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserBooksService.Create()
-                .InsertOrUpdateUserBooksBatchAsync(
+                .InsertOrUpdateUserBooksBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -2341,7 +2341,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -2461,7 +2461,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedBorders.Any())
         {
             await UserBordersService.Create()
-                .InsertOrUpdateUserBordersBatchAsync(
+                .InsertOrUpdateUserBordersBatchAsync(User.CurrentUserId, 
                     rewardedBorders
                 );
         }
@@ -2470,7 +2470,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -2599,7 +2599,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserBuildingsService.Create()
-                .InsertOrUpdateUserBuildingsBatchAsync(
+                .InsertOrUpdateUserBuildingsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -2607,7 +2607,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -2736,7 +2736,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserCardAdmiralsService.Create()
-                .InsertOrUpdateUserCardAdmiralsBatchAsync(
+                .InsertOrUpdateUserCardAdmiralsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -2744,7 +2744,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -2873,7 +2873,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserCardCaptainsService.Create()
-                .InsertOrUpdateUserCardCaptainsBatchAsync(
+                .InsertOrUpdateUserCardCaptainsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -2881,7 +2881,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -3010,7 +3010,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserCardColonelsService.Create()
-                .InsertOrUpdateUserCardColonelsBatchAsync(
+                .InsertOrUpdateUserCardColonelsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -3018,7 +3018,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -3147,7 +3147,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserCardGeneralsService.Create()
-                .InsertOrUpdateUserCardGeneralsBatchAsync(
+                .InsertOrUpdateUserCardGeneralsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -3155,7 +3155,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -3284,7 +3284,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserCardHeroesService.Create()
-                .InsertOrUpdateUserCardHeroesBatchAsync(
+                .InsertOrUpdateUserCardHeroesBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -3292,7 +3292,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -3421,7 +3421,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserCardLivesService.Create()
-                .InsertOrUpdateUserCardLivesBatchAsync(
+                .InsertOrUpdateUserCardLivesBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -3429,7 +3429,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -3558,7 +3558,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserCardMonstersService.Create()
-                .InsertOrUpdateUserCardMonstersBatchAsync(
+                .InsertOrUpdateUserCardMonstersBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -3566,7 +3566,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -3695,7 +3695,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserCardMilitariesService.Create()
-                .InsertOrUpdateUserCardMilitariesBatchAsync(
+                .InsertOrUpdateUserCardMilitariesBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -3703,7 +3703,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -3832,7 +3832,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserCardSoldiersService.Create()
-                .InsertOrUpdateUserCardSoldiersBatchAsync(
+                .InsertOrUpdateUserCardSoldiersBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -3840,7 +3840,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -3969,7 +3969,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserCardSpellsService.Create()
-                .InsertOrUpdateUserCardSpellsBatchAsync(
+                .InsertOrUpdateUserCardSpellsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -3977,7 +3977,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -4106,7 +4106,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserCollaborationEquipmentsService.Create()
-                .InsertOrUpdateUserCollaborationEquipmentsBatchAsync(
+                .InsertOrUpdateUserCollaborationEquipmentsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -4114,7 +4114,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -4234,7 +4234,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCollaborations.Any())
         {
             await UserCollaborationsService.Create()
-                .InsertOrUpdateUserCollaborationsBatchAsync(
+                .InsertOrUpdateUserCollaborationsBatchAsync(User.CurrentUserId, 
                     rewardedCollaborations
                 );
         }
@@ -4243,7 +4243,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -4363,7 +4363,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCores.Any())
         {
             await UserCoresService.Create()
-                .InsertOrUpdateUserCoresBatchAsync(
+                .InsertOrUpdateUserCoresBatchAsync(User.CurrentUserId, 
                     rewardedCores
                 );
         }
@@ -4372,7 +4372,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -4492,7 +4492,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedEmojis.Any())
         {
             await UserEmojisService.Create()
-                .InsertOrUpdateUserEmojisBatchAsync(
+                .InsertOrUpdateUserEmojisBatchAsync(User.CurrentUserId, 
                     rewardedEmojis
                 );
         }
@@ -4501,7 +4501,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -4638,7 +4638,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -4767,7 +4767,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserFashionsService.Create()
-                .InsertOrUpdateUserFashionsBatchAsync(
+                .InsertOrUpdateUserFashionsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -4775,7 +4775,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -4895,7 +4895,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedFoods.Any())
         {
             await UserFoodsService.Create()
-                .InsertOrUpdateUserFoodsBatchAsync(
+                .InsertOrUpdateUserFoodsBatchAsync(User.CurrentUserId, 
                     rewardedFoods
                 );
         }
@@ -4904,7 +4904,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -5033,7 +5033,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserForgesService.Create()
-                .InsertOrUpdateUserForgesBatchAsync(
+                .InsertOrUpdateUserForgesBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -5041,7 +5041,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -5170,7 +5170,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserFurnituresService.Create()
-                .InsertOrUpdateUserFurnituresBatchAsync(
+                .InsertOrUpdateUserFurnituresBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -5178,7 +5178,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -5307,7 +5307,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserMagicFormationCirclesService.Create()
-                .InsertOrUpdateUserMagicFormationCirclesBatchAsync(
+                .InsertOrUpdateUserMagicFormationCirclesBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -5315,7 +5315,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -5435,7 +5435,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedMechaBeasts.Any())
         {
             await UserMechaBeastsService.Create()
-                .InsertOrUpdateUserMechaBeastsBatchAsync(
+                .InsertOrUpdateUserMechaBeastsBatchAsync(User.CurrentUserId, 
                     rewardedMechaBeasts
                 );
         }
@@ -5444,7 +5444,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -5564,7 +5564,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedMedals.Any())
         {
             await UserMedalsService.Create()
-                .InsertOrUpdateUserMedalsBatchAsync(
+                .InsertOrUpdateUserMedalsBatchAsync(User.CurrentUserId, 
                     rewardedMedals
                 );
         }
@@ -5573,7 +5573,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -5702,7 +5702,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserPetsService.Create()
-                .InsertOrUpdateUserPetsBatchAsync(
+                .InsertOrUpdateUserPetsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -5710,7 +5710,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -5830,7 +5830,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedPlants.Any())
         {
             await UserPlantsService.Create()
-                .InsertOrUpdateUserPlantsBatchAsync(
+                .InsertOrUpdateUserPlantsBatchAsync(User.CurrentUserId, 
                     rewardedPlants
                 );
         }
@@ -5839,7 +5839,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -5968,7 +5968,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserPuppetsService.Create()
-                .InsertOrUpdateUserPuppetsBatchAsync(
+                .InsertOrUpdateUserPuppetsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -5976,7 +5976,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -6105,7 +6105,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserRelicsService.Create()
-                .InsertOrUpdateUserRelicsBatchAsync(
+                .InsertOrUpdateUserRelicsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -6113,7 +6113,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -6233,7 +6233,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedRobots.Any())
         {
             await UserRobotsService.Create()
-                .InsertOrUpdateUserRobotsBatchAsync(
+                .InsertOrUpdateUserRobotsBatchAsync(User.CurrentUserId, 
                     rewardedRobots
                 );
         }
@@ -6242,7 +6242,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -6362,7 +6362,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedRunes.Any())
         {
             await UserRunesService.Create()
-                .InsertOrUpdateUserRunesBatchAsync(
+                .InsertOrUpdateUserRunesBatchAsync(User.CurrentUserId, 
                     rewardedRunes
                 );
         }
@@ -6371,7 +6371,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -6500,7 +6500,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserSkillsService.Create()
-                .InsertOrUpdateUserSkillsBatchAsync(
+                .InsertOrUpdateUserSkillsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -6508,7 +6508,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -6630,7 +6630,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedSpiritBeasts.Any())
         {
             await UserSpiritBeastsService.Create()
-                .InsertOrUpdateUserSpiritBeastsBatchAsync(
+                .InsertOrUpdateUserSpiritBeastsBatchAsync(User.CurrentUserId, 
                     rewardedSpiritBeasts
                 );
         }
@@ -6639,7 +6639,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -6770,7 +6770,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserSpiritCardsService.Create()
-                .InsertOrUpdateUserSpiritCardsBatchAsync(
+                .InsertOrUpdateUserSpiritCardsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -6778,7 +6778,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -6909,7 +6909,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserSymbolsService.Create()
-                .InsertOrUpdateUserSymbolsBatchAsync(
+                .InsertOrUpdateUserSymbolsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -6917,7 +6917,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -7048,7 +7048,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserTalismansService.Create()
-                .InsertOrUpdateUserTalismansBatchAsync(
+                .InsertOrUpdateUserTalismansBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -7056,7 +7056,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -7178,7 +7178,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedTechnologies.Any())
         {
             await UserTechnologiesService.Create()
-                .InsertOrUpdateUserTechnologiesBatchAsync(
+                .InsertOrUpdateUserTechnologiesBatchAsync(User.CurrentUserId, 
                     rewardedTechnologies
                 );
         }
@@ -7187,7 +7187,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -7309,7 +7309,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedTitles.Any())
         {
             await UserTitlesService.Create()
-                .InsertOrUpdateUserTitlesBatchAsync(
+                .InsertOrUpdateUserTitlesBatchAsync(User.CurrentUserId, 
                     rewardedTitles
                 );
         }
@@ -7318,7 +7318,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -7449,7 +7449,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserVehiclesService.Create()
-                .InsertOrUpdateUserVehiclesBatchAsync(
+                .InsertOrUpdateUserVehiclesBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -7457,7 +7457,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -7588,7 +7588,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserWeaponsService.Create()
-                .InsertOrUpdateUserWeaponsBatchAsync(
+                .InsertOrUpdateUserWeaponsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -7596,7 +7596,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }
@@ -7727,7 +7727,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedCards.Any())
         {
             await UserOutfitsService.Create()
-                .InsertOrUpdateUserOutfitsBatchAsync(
+                .InsertOrUpdateUserOutfitsBatchAsync(User.CurrentUserId, 
                     rewardedCards
                 );
         }
@@ -7735,7 +7735,7 @@ public class GachaManager : MonoBehaviour
         if (rewardedItems.Any())
         {
             await UserItemsService.Create()
-                .InsertOrUpdateUserItemsBatchAsync(
+                .InsertOrUpdateUserItemsBatchAsync(User.CurrentUserId, 
                     rewardedItems.Values.ToList()
                 );
         }

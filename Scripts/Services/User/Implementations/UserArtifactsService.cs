@@ -20,17 +20,17 @@ public class UserArtifactsService : IUserArtifactsService
         return _instance;
     }
 
-    public async Task<List<Artifacts>> GetUserArtifactsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Artifacts>> GetUserArtifactsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Artifacts> list = await _userArtifactsRepository.GetUserArtifactsAsync(user_id, search, pageSize, offset, rare);
+        List<Artifacts> list = await _userArtifactsRepository.GetUserArtifactsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserArtifactsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserArtifactsCountAsync(string userId, string search, string rare)
     {
-        return await _userArtifactsRepository.GetUserArtifactsCountAsync(user_id, search, rare);
+        return await _userArtifactsRepository.GetUserArtifactsCountAsync(userId, search, rare);
     }
 
     public async Task<bool> InsertUserArtifactAsync(Artifacts artifact, string userId)
@@ -38,33 +38,33 @@ public class UserArtifactsService : IUserArtifactsService
         return await _userArtifactsRepository.InsertUserArtifactAsync(artifact, userId);
     }
 
-    public async Task<bool> UpdateArtifactLevelAsync(Artifacts artifact)
+    public async Task<bool> UpdateUserArtifactLevelAsync(string userId, Artifacts artifact)
     {
-        return await _userArtifactsRepository.UpdateArtifactLevelAsync(artifact);
+        return await _userArtifactsRepository.UpdateUserArtifactLevelAsync(userId, artifact);
     }
 
-    public async Task<bool> UpdateArtifactStarAsync(Artifacts artifact)
+    public async Task<bool> UpdateUserArtifactStarAsync(string userId, Artifacts artifact)
     {
-        return await _userArtifactsRepository.UpdateArtifactStarAsync(artifact);
+        return await _userArtifactsRepository.UpdateUserArtifactStarAsync(userId, artifact);
     }
 
-    public async Task<bool> UpdateArtifactBreakthroughAsync(Artifacts artifact, int star, double quantity)
+    public async Task<bool> UpdateUserArtifactBreakthroughAsync(string userId, Artifacts artifact, int star, double quantity)
     {
-        return await _userArtifactsRepository.UpdateArtifactBreakthroughAsync(artifact, star, quantity);
+        return await _userArtifactsRepository.UpdateUserArtifactBreakthroughAsync(userId, artifact, star, quantity);
     }
 
-    public async Task<Artifacts> GetUserArtifactByIdAsync(string user_id, string Id)
+    public async Task<Artifacts> GetUserArtifactByIdAsync(string userId, string Id)
     {
-        return await _userArtifactsRepository.GetUserArtifactByIdAsync(user_id, Id);
+        return await _userArtifactsRepository.GetUserArtifactByIdAsync(userId, Id);
     }
 
-    public async Task<Artifacts> SumPowerUserArtifactsAsync()
+    public async Task<Artifacts> SumPowerUserArtifactsAsync(string userId)
     {
-        return await _userArtifactsRepository.SumPowerUserArtifactsAsync();
+        return await _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserArtifactsBatchAsync(List<Artifacts> artifacts)
+    public async Task<bool> InsertOrUpdateUserArtifactsBatchAsync(string userId, List<Artifacts> artifacts)
     {
-        return await _userArtifactsRepository.InsertOrUpdateUserArtifactsBatchAsync(artifacts);
+        return await _userArtifactsRepository.InsertOrUpdateUserArtifactsBatchAsync(userId, artifacts);
     }
 }

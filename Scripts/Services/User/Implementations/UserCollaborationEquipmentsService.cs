@@ -20,17 +20,17 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
         return _instance;
     }
 
-    public async Task<List<CollaborationEquipments>> GetUserCollaborationEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<CollaborationEquipments>> GetUserCollaborationEquipmentsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<CollaborationEquipments> list = await _userCollaborationEquipmentsRepository.GetUserCollaborationEquipmentsAsync(user_id, search, type, pageSize, offset, rare);
+        List<CollaborationEquipments> list = await _userCollaborationEquipmentsRepository.GetUserCollaborationEquipmentsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserCollaborationEquipmentsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserCollaborationEquipmentsCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userCollaborationEquipmentsRepository.GetUserCollaborationEquipmentsCountAsync(user_id, search, type, rare);
+        return await _userCollaborationEquipmentsRepository.GetUserCollaborationEquipmentsCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserCollaborationEquipmentAsync(CollaborationEquipments collaborationEquipment, string userId)
@@ -38,33 +38,33 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
         return await _userCollaborationEquipmentsRepository.InsertUserCollaborationEquipmentAsync(collaborationEquipment, userId);
     }
 
-    public async Task<bool> UpdateCollaborationEquipmentLevelAsync(CollaborationEquipments collaborationEquipment)
+    public async Task<bool> UpdateUserCollaborationEquipmentLevelAsync(string userId, CollaborationEquipments collaborationEquipment)
     {
-        return await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentLevelAsync(collaborationEquipment);
+        return await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentLevelAsync(userId, collaborationEquipment);
     }
 
-    public async Task<bool> UpdateCollaborationEquipmentStarAsync(CollaborationEquipments collaborationEquipment)
+    public async Task<bool> UpdateUserCollaborationEquipmentStarAsync(string userId, CollaborationEquipments collaborationEquipment)
     {
-        return await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentStarAsync(collaborationEquipment);
+        return await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentStarAsync(userId, collaborationEquipment);
     }
 
-    public async Task<bool> UpdateCollaborationEquipmentBreakthroughAsync(CollaborationEquipments collaborationEquipment, int star, double quantity)
+    public async Task<bool> UpdateUserCollaborationEquipmentBreakthroughAsync(string userId, CollaborationEquipments collaborationEquipment, int star, double quantity)
     {
-        return await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentBreakthroughAsync(collaborationEquipment, star, quantity);
+        return await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentBreakthroughAsync(userId, collaborationEquipment, star, quantity);
     }
 
-    public async Task<CollaborationEquipments> GetUserCollaborationEquipmentByIdAsync(string user_id, string Id)
+    public async Task<CollaborationEquipments> GetUserCollaborationEquipmentByIdAsync(string userId, string Id)
     {
-        return await _userCollaborationEquipmentsRepository.GetUserCollaborationEquipmentByIdAsync(user_id, Id);
+        return await _userCollaborationEquipmentsRepository.GetUserCollaborationEquipmentByIdAsync(userId, Id);
     }
 
-    public async Task<CollaborationEquipments> SumPowerUserCollaborationEquipmentsAsync()
+    public async Task<CollaborationEquipments> SumPowerUserCollaborationEquipmentsAsync(string userId)
     {
-        return await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync();
+        return await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserCollaborationEquipmentsBatchAsync(List<CollaborationEquipments> collaborationEquipments)
+    public async Task<bool> InsertOrUpdateUserCollaborationEquipmentsBatchAsync(string userId, List<CollaborationEquipments> collaborationEquipments)
     {
-        return await _userCollaborationEquipmentsRepository.InsertOrUpdateUserCollaborationEquipmentsBatchAsync(collaborationEquipments);
+        return await _userCollaborationEquipmentsRepository.InsertOrUpdateUserCollaborationEquipmentsBatchAsync(userId, collaborationEquipments);
     }
 }

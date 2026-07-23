@@ -72,14 +72,14 @@ public class UserUpgradesService : IUserUpgradesService
         return _instance;
     }
 
-    public async Task<UserUpgrades> GetUserUpgradesAsync(string upgradeId, IStats stat)
+    public async Task<UserUpgrades> GetUserUpgradesAsync(string userId, string upgradeId, IStats stat)
     {
         if (!UpgradeMappings.TryGetValue(stat.GetType(), out var mapping))
         {
             throw new NotSupportedException(
                 $"Unsupported stat type: {stat.GetType().Name}");
         }
-        return await _userUpgradesRepository.GetUserUpgradesAsync(upgradeId, mapping.Table, mapping.Column);
+        return await _userUpgradesRepository.GetUserUpgradesAsync(userId, upgradeId, mapping.Table, mapping.Column);
     }
 
     public async Task<UserUpgrades> GetSumUserUpgradesAsync(string userId, IStats stat)

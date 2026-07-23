@@ -289,247 +289,247 @@ public class LevelController : MonoBehaviour
             {
                 if (stat is Achievements achievement)
                 {
-                    await UserAchievementsService.Create().UpdateAchievementLevelAsync(achievement);
+                    await UserAchievementsService.Create().UpdateUserAchievementLevelAsync(User.CurrentUserId, achievement);
                     UserAchievementsController.Instance.RefreshCurrentDetailsUI(achievement);
                 }
                 else if (stat is Alchemies alchemy)
                 {
-                    await UserAlchemiesService.Create().UpdateAlchemyLevelAsync(alchemy);
+                    await UserAlchemiesService.Create().UpdateUserAlchemyLevelAsync(User.CurrentUserId, alchemy);
                     UserAlchemiesController.Instance.RefreshCurrentDetailsUI(alchemy);
                 }
                 else if (stat is Architectures architecture)
                 {
-                    await UserArchitecturesService.Create().UpdateArchitectureLevelAsync(architecture);
+                    await UserArchitecturesService.Create().UpdateUserArchitectureLevelAsync(User.CurrentUserId, architecture);
                     UserArchitecturesController.Instance.RefreshCurrentDetailsUI(architecture);
                 }
                 else if (stat is Artifacts artifact)
                 {
-                    await UserArtifactsService.Create().UpdateArtifactLevelAsync(artifact);
+                    await UserArtifactsService.Create().UpdateUserArtifactLevelAsync(User.CurrentUserId, artifact);
                     UserArtifactsController.Instance.RefreshCurrentDetailsUI(artifact);
                 }
                 else if (stat is Artworks artwork)
                 {
-                    await UserArtworksService.Create().UpdateArtworkLevelAsync(artwork);
+                    await UserArtworksService.Create().UpdateUserArtworkLevelAsync(User.CurrentUserId, artwork);
                     UserArtworksController.Instance.RefreshCurrentDetailsUI(artwork);
                 }
                 else if (stat is Avatars avatar)
                 {
-                    await UserAvatarsService.Create().UpdateAvatarLevelAsync(avatar);
+                    await UserAvatarsService.Create().UpdateUserAvatarLevelAsync(User.CurrentUserId, avatar);
                     UserAvatarsController.Instance.RefreshCurrentDetailsUI(avatar);
                 }
                 else if (stat is Badges badge)
                 {
-                    await UserBadgesService.Create().UpdateBadgeLevelAsync(badge);
+                    await UserBadgesService.Create().UpdateUserBadgeLevelAsync(User.CurrentUserId, badge);
                     UserBadgesController.Instance.RefreshCurrentDetailsUI(badge);
                 }
                 else if (stat is Beverages beverage)
                 {
-                    await UserBeveragesService.Create().UpdateBeverageLevelAsync(beverage);
+                    await UserBeveragesService.Create().UpdateUserBeverageLevelAsync(User.CurrentUserId, beverage);
                     UserBeveragesController.Instance.RefreshCurrentDetailsUI(beverage);
                 }
                 else if (stat is Books book)
                 {
-                    await UserBooksService.Create().UpdateBookLevelAsync(book);
+                    await UserBooksService.Create().UpdateUserBookLevelAsync(User.CurrentUserId, book);
                     UserBooksController.Instance.RefreshCurrentDetailsUI(book);
                 }
                 else if (stat is Borders border)
                 {
-                    await UserBordersService.Create().UpdateBorderLevelAsync(border);
+                    await UserBordersService.Create().UpdateUserBorderLevelAsync(User.CurrentUserId, border);
                     UserBordersController.Instance.RefreshCurrentDetailsUI(border);
                 }
                 else if (stat is Buildings building)
                 {
-                    await UserBuildingsService.Create().UpdateBuildingLevelAsync(building);
+                    await UserBuildingsService.Create().UpdateUserBuildingLevelAsync(User.CurrentUserId, building);
                     UserBuildingsController.Instance.RefreshCurrentDetailsUI(building);
                 }
                 else if (stat is CardAdmirals admiral)
                 {
-                    await UserCardAdmiralsService.Create().UpdateCardAdmiralLevelAsync(admiral);
+                    await UserCardAdmiralsService.Create().UpdateUserCardAdmiralLevelAsync(User.CurrentUserId, admiral);
                     UserCardAdmiralsController.Instance.RefreshCurrentDetailsUI(admiral);
                 }
                 else if (stat is CardCaptains captain)
                 {
-                    await UserCardCaptainsService.Create().UpdateCardCaptainLevelAsync(captain);
+                    await UserCardCaptainsService.Create().UpdateUserCardCaptainLevelAsync(User.CurrentUserId, captain);
                     UserCardCaptainsController.Instance.RefreshCurrentDetailsUI(captain);
                 }
                 else if (stat is CardColonels colonel)
                 {
-                    await UserCardColonelsService.Create().UpdateCardColonelLevelAsync(colonel);
+                    await UserCardColonelsService.Create().UpdateUserCardColonelLevelAsync(User.CurrentUserId, colonel);
                     UserCardColonelsController.Instance.RefreshCurrentDetailsUI(colonel);
                 }
                 else if (stat is CardGenerals general)
                 {
-                    await UserCardGeneralsService.Create().UpdateCardGeneralLevelAsync(general);
+                    await UserCardGeneralsService.Create().UpdateUserCardGeneralLevelAsync(User.CurrentUserId, general);
                     UserCardGeneralsController.Instance.RefreshCurrentDetailsUI(general);
                 }
                 else if (stat is CardHeroes hero)
                 {
-                    await UserCardHeroesService.Create().UpdateCardHeroLevelAsync(hero);
+                    await UserCardHeroesService.Create().UpdateUserCardHeroLevelAsync(User.CurrentUserId, hero);
                     UserCardHeroesController.Instance.RefreshCurrentDetailsUI(hero);
                 }
                 else if (stat is CardLives cardLife)
                 {
-                    await UserCardLivesService.Create().UpdateCardLifeLevelAsync(cardLife);
+                    await UserCardLivesService.Create().UpdateUserCardLifeLevelAsync(User.CurrentUserId, cardLife);
                     UserCardLivesController.Instance.RefreshCurrentDetailsUI(cardLife);
                 }
                 else if (stat is CardMilitaries military)
                 {
-                    await UserCardMilitariesService.Create().UpdateCardMilitaryLevelAsync(military);
+                    await UserCardMilitariesService.Create().UpdateUserCardMilitaryLevelAsync(User.CurrentUserId, military);
                     UserCardMilitariesController.Instance.RefreshCurrentDetailsUI(military);
                 }
                 else if (stat is CardMonsters monster)
                 {
-                    await UserCardMonstersService.Create().UpdateCardMonsterLevelAsync(monster);
+                    await UserCardMonstersService.Create().UpdateUserCardMonsterLevelAsync(User.CurrentUserId, monster);
                     UserCardMonstersController.Instance.RefreshCurrentDetailsUI(monster);
                 }
                 else if (stat is CardSoldiers soldier)
                 {
-                    await UserCardSoldiersService.Create().UpdateCardSoldierLevelAsync(soldier);
+                    await UserCardSoldiersService.Create().UpdateUserCardSoldierLevelAsync(User.CurrentUserId, soldier);
                     UserCardSoldiersController.Instance.RefreshCurrentDetailsUI(soldier);
                 }
                 else if (stat is CardSpells spell)
                 {
-                    await UserCardSpellsService.Create().UpdateCardSpellLevelAsync(spell);
+                    await UserCardSpellsService.Create().UpdateUserCardSpellLevelAsync(User.CurrentUserId, spell);
                     UserCardSpellsController.Instance.RefreshCurrentDetailsUI(spell);
                 }
                 else if (stat is CollaborationEquipments collabEquip)
                 {
-                    await UserCollaborationEquipmentsService.Create().UpdateCollaborationEquipmentLevelAsync(collabEquip);
+                    await UserCollaborationEquipmentsService.Create().UpdateUserCollaborationEquipmentLevelAsync(User.CurrentUserId, collabEquip);
                     UserCollaborationEquipmentsController.Instance.RefreshCurrentDetailsUI(collabEquip);
                 }
                 else if (stat is Collaborations collab)
                 {
-                    await UserCollaborationsService.Create().UpdateCollaborationLevelAsync(collab);
+                    await UserCollaborationsService.Create().UpdateUserCollaborationLevelAsync(User.CurrentUserId, collab);
                     UserCollaborationsController.Instance.RefreshCurrentDetailsUI(collab);
                 }
                 else if (stat is Cores core)
                 {
-                    await UserCoresService.Create().UpdateCoreLevelAsync(core);
+                    await UserCoresService.Create().UpdateUserCoreLevelAsync(User.CurrentUserId, core);
                     UserCoresController.Instance.RefreshCurrentDetailsUI(core);
                 }
                 else if (stat is Emojis emoji)
                 {
-                    await UserEmojisService.Create().UpdateEmojiLevelAsync(emoji);
+                    await UserEmojisService.Create().UpdateUserEmojiLevelAsync(User.CurrentUserId, emoji);
                     UserEmojisController.Instance.RefreshCurrentDetailsUI(emoji);
                 }
                 else if (stat is Equipments equipment)
                 {
-                    await UserEquipmentsService.Create().UpdateEquipmentLevelAsync(equipment);
+                    await UserEquipmentsService.Create().UpdateUserEquipmentLevelAsync(User.CurrentUserId, equipment);
                     UserEquipmentsController.Instance.RefreshCurrentDetailsUI(equipment);
                 }
                 else if (stat is Fashions fashion)
                 {
-                    await UserFashionsService.Create().UpdateFashionLevelAsync(fashion);
+                    await UserFashionsService.Create().UpdateUserFashionLevelAsync(User.CurrentUserId, fashion);
                     UserFashionsController.Instance.RefreshCurrentDetailsUI(fashion);
                 }
                 else if (stat is Foods food)
                 {
-                    await UserFoodsService.Create().UpdateFoodLevelAsync(food);
+                    await UserFoodsService.Create().UpdateUserFoodLevelAsync(User.CurrentUserId, food);
                     UserFoodsController.Instance.RefreshCurrentDetailsUI(food);
                 }
                 else if (stat is Forges forge)
                 {
-                    await UserForgesService.Create().UpdateForgeLevelAsync(forge);
+                    await UserForgesService.Create().UpdateUserForgeLevelAsync(User.CurrentUserId, forge);
                     UserForgesController.Instance.RefreshCurrentDetailsUI(forge);
                 }
                 else if (stat is Furnitures furniture)
                 {
-                    await UserFurnituresService.Create().UpdateFurnitureLevelAsync(furniture);
+                    await UserFurnituresService.Create().UpdateUserFurnitureLevelAsync(User.CurrentUserId, furniture);
                     UserFurnituresController.Instance.RefreshCurrentDetailsUI(furniture);
                 }
                 else if (stat is MagicFormationCircles circle)
                 {
-                    await UserMagicFormationCirclesService.Create().UpdateMagicFormationCircleLevelAsync(circle);
+                    await UserMagicFormationCirclesService.Create().UpdateUserMagicFormationCircleLevelAsync(User.CurrentUserId, circle);
                     UserMagicFormationCirclesController.Instance.RefreshCurrentDetailsUI(circle);
                 }
                 else if (stat is MechaBeasts mechaBeast)
                 {
-                    await UserMechaBeastsService.Create().UpdateMechaBeastLevelAsync(mechaBeast);
+                    await UserMechaBeastsService.Create().UpdateUserMechaBeastLevelAsync(User.CurrentUserId, mechaBeast);
                     UserMechaBeastsController.Instance.RefreshCurrentDetailsUI(mechaBeast);
                 }
                 else if (stat is Medals medal)
                 {
-                    await UserMedalsService.Create().UpdateMedalLevelAsync(medal);
+                    await UserMedalsService.Create().UpdateUserMedalLevelAsync(User.CurrentUserId, medal);
                     UserMedalsController.Instance.RefreshCurrentDetailsUI(medal);
                 }
                 else if (stat is Pets pet)
                 {
-                    await UserPetsService.Create().UpdatePetLevelAsync(pet);
+                    await UserPetsService.Create().UpdateUserPetLevelAsync(User.CurrentUserId, pet);
                     UserPetsController.Instance.RefreshCurrentDetailsUI(pet);
                 }
                 else if (stat is Plants plant)
                 {
-                    await UserPlantsService.Create().UpdatePlantLevelAsync(plant);
+                    await UserPlantsService.Create().UpdateUserPlantLevelAsync(User.CurrentUserId, plant);
                     UserPlantsController.Instance.RefreshCurrentDetailsUI(plant);
                 }
                 else if (stat is Puppets puppet)
                 {
-                    await UserPuppetsService.Create().UpdatePuppetLevelAsync(puppet);
+                    await UserPuppetsService.Create().UpdateUserPuppetLevelAsync(User.CurrentUserId, puppet);
                     UserPuppetsController.Instance.RefreshCurrentDetailsUI(puppet);
                 }
                 else if (stat is Relics relic)
                 {
-                    await UserRelicsService.Create().UpdateRelicLevelAsync(relic);
+                    await UserRelicsService.Create().UpdateUserRelicLevelAsync(User.CurrentUserId, relic);
                     UserRelicsController.Instance.RefreshCurrentDetailsUI(relic);
                 }
                 else if (stat is Robots robot)
                 {
-                    await UserRobotsService.Create().UpdateRobotLevelAsync(robot);
+                    await UserRobotsService.Create().UpdateUserRobotLevelAsync(User.CurrentUserId, robot);
                     UserRobotsController.Instance.RefreshCurrentDetailsUI(robot);
                 }
                 else if (stat is Runes rune)
                 {
-                    await UserRunesService.Create().UpdateRuneLevelAsync(rune);
+                    await UserRunesService.Create().UpdateUserRuneLevelAsync(User.CurrentUserId, rune);
                     UserRunesController.Instance.RefreshCurrentDetailsUI(rune);
                 }
                 else if (stat is Skills skill)
                 {
-                    await UserSkillsService.Create().UpdateSkillLevelAsync(skill);
+                    await UserSkillsService.Create().UpdateUserSkillLevelAsync(User.CurrentUserId, skill);
                     UserSkillsController.Instance.RefreshCurrentDetailsUI(skill);
                 }
                 else if (stat is SpiritBeasts spiritBeast)
                 {
-                    await UserSpiritBeastsService.Create().UpdateSpiritBeastLevelAsync(spiritBeast);
+                    await UserSpiritBeastsService.Create().UpdateUserSpiritBeastLevelAsync(User.CurrentUserId, spiritBeast);
                     UserSpiritBeastsController.Instance.RefreshCurrentDetailsUI(spiritBeast);
                 }
                 else if (stat is SpiritCards spiritCard)
                 {
-                    await UserSpiritCardsService.Create().UpdateSpiritCardLevelAsync(spiritCard);
+                    await UserSpiritCardsService.Create().UpdateUserSpiritCardLevelAsync(User.CurrentUserId, spiritCard);
                     UserSpiritCardsController.Instance.RefreshCurrentDetailsUI(spiritCard);
                 }
                 else if (stat is Symbols symbol)
                 {
-                    await UserSymbolsService.Create().UpdateSymbolLevelAsync(symbol);
+                    await UserSymbolsService.Create().UpdateUserSymbolLevelAsync(User.CurrentUserId, symbol);
                     UserSymbolsController.Instance.RefreshCurrentDetailsUI(symbol);
                 }
                 else if (stat is Talismans talisman)
                 {
-                    await UserTalismansService.Create().UpdateTalismanLevelAsync(talisman);
+                    await UserTalismansService.Create().UpdateUserTalismanLevelAsync(User.CurrentUserId, talisman);
                     UserTalismansController.Instance.RefreshCurrentDetailsUI(talisman);
                 }
                 else if (stat is Technologies technology)
                 {
-                    await UserTechnologiesService.Create().UpdateTechnologyLevelAsync(technology);
+                    await UserTechnologiesService.Create().UpdateUserTechnologyLevelAsync(User.CurrentUserId, technology);
                     UserTechnologiesController.Instance.RefreshCurrentDetailsUI(technology);
                 }
                 else if (stat is Titles title)
                 {
-                    await UserTitlesService.Create().UpdateTitleLevelAsync(title);
+                    await UserTitlesService.Create().UpdateUserTitleLevelAsync(User.CurrentUserId, title);
                     UserTitlesController.Instance.RefreshCurrentDetailsUI(title);
                 }
                 else if (stat is Vehicles vehicle)
                 {
-                    await UserVehiclesService.Create().UpdateVehicleLevelAsync(vehicle);
+                    await UserVehiclesService.Create().UpdateUserVehicleLevelAsync(User.CurrentUserId, vehicle);
                     UserVehiclesController.Instance.RefreshCurrentDetailsUI(vehicle);
                 }
                 else if (stat is Weapons weapon)
                 {
-                    await UserWeaponsService.Create().UpdateWeaponLevelAsync(weapon);
+                    await UserWeaponsService.Create().UpdateUserWeaponLevelAsync(User.CurrentUserId, weapon);
                     UserWeaponsController.Instance.RefreshCurrentDetailsUI(weapon);
                 }
                 else if (stat is Outfits outfit)
                 {
-                    await UserOutfitsService.Create().UpdateOutfitLevelAsync(outfit);
+                    await UserOutfitsService.Create().UpdateUserOutfitLevelAsync(User.CurrentUserId, outfit);
                     UserOutfitsController.Instance.RefreshCurrentDetailsUI(outfit);
                 }
             }

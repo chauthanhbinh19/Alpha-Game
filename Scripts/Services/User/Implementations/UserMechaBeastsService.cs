@@ -20,17 +20,17 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         return _instance;
     }
 
-    public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<MechaBeasts> list = await _userMechaBeastsRepository.GetUserMechaBeastsAsync(user_id, search, pageSize, offset, rare);
+        List<MechaBeasts> list = await _userMechaBeastsRepository.GetUserMechaBeastsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserMechaBeastsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserMechaBeastsCountAsync(string userId, string search, string rare)
     {
-        return await _userMechaBeastsRepository.GetUserMechaBeastsCountAsync(user_id, search, rare);
+        return await _userMechaBeastsRepository.GetUserMechaBeastsCountAsync(userId, search, rare);
     }
 
     public async Task<bool> InsertUserMechaBeastAsync(MechaBeasts mechaBeast, string userId)
@@ -38,33 +38,33 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         return await _userMechaBeastsRepository.InsertUserMechaBeastAsync(mechaBeast, userId);
     }
 
-    public async Task<bool> UpdateMechaBeastLevelAsync(MechaBeasts mechaBeast)
+    public async Task<bool> UpdateUserMechaBeastLevelAsync(string userId, MechaBeasts mechaBeast)
     {
-        return await _userMechaBeastsRepository.UpdateMechaBeastLevelAsync(mechaBeast);
+        return await _userMechaBeastsRepository.UpdateUserMechaBeastLevelAsync(userId, mechaBeast);
     }
 
-    public async Task<bool> UpdateMechaBeastStarAsync(MechaBeasts mechaBeast)
+    public async Task<bool> UpdateUserMechaBeastStarAsync(string userId, MechaBeasts mechaBeast)
     {
-        return await _userMechaBeastsRepository.UpdateMechaBeastStarAsync(mechaBeast);
+        return await _userMechaBeastsRepository.UpdateUserMechaBeastStarAsync(userId, mechaBeast);
     }
 
-    public async Task<bool> UpdateMechaBeastBreakthroughAsync(MechaBeasts mechaBeast, int star, double quantity)
+    public async Task<bool> UpdateUserMechaBeastBreakthroughAsync(string userId, MechaBeasts mechaBeast, int star, double quantity)
     {
-        return await _userMechaBeastsRepository.UpdateMechaBeastBreakthroughAsync(mechaBeast, star, quantity);
+        return await _userMechaBeastsRepository.UpdateUserMechaBeastBreakthroughAsync(userId, mechaBeast, star, quantity);
     }
 
-    public async Task<MechaBeasts> GetUserMechaBeastByIdAsync(string user_id, string Id)
+    public async Task<MechaBeasts> GetUserMechaBeastByIdAsync(string userId, string Id)
     {
-        return await _userMechaBeastsRepository.GetUserMechaBeastByIdAsync(user_id, Id);
+        return await _userMechaBeastsRepository.GetUserMechaBeastByIdAsync(userId, Id);
     }
 
-    public async Task<MechaBeasts> SumPowerUserMechaBeastsAsync()
+    public async Task<MechaBeasts> SumPowerUserMechaBeastsAsync(string userId)
     {
-        return await _userMechaBeastsRepository.SumPowerUserMechaBeastsAsync();
+        return await _userMechaBeastsRepository.SumPowerUserMechaBeastsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserMechaBeastsBatchAsync(List<MechaBeasts> mechaBeasts)
+    public async Task<bool> InsertOrUpdateUserMechaBeastsBatchAsync(string userId, List<MechaBeasts> mechaBeasts)
     {
-        return await _userMechaBeastsRepository.InsertOrUpdateUserMechaBeastsBatchAsync(mechaBeasts);
+        return await _userMechaBeastsRepository.InsertOrUpdateUserMechaBeastsBatchAsync(userId, mechaBeasts);
     }
 }

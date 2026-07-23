@@ -20,11 +20,11 @@ public class UserEquipmentsService : IUserEquipmentsService
         return _instance;
     }
 
-    public async Task<List<Equipments>> GetAllRankPowerAsync(string user_id, List<Equipments> EquipmentsList)
+    public async Task<List<Equipments>> GetAllRankPowerAsync(string userId, List<Equipments> EquipmentsList)
     {
         foreach (var c in EquipmentsList)
         {
-            Rank rank = await UserEquipmentsRankService.Create().GetSumEquipmentsRankAsync(user_id, c.Id);
+            Rank rank = await UserEquipmentsRankService.Create().GetSumUserEquipmentsRankAsync(userId, c.Id);
             c.Health = c.Health + rank.Health + c.BaseStats.Health * rank.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + c.BaseStats.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + c.BaseStats.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
@@ -84,468 +84,468 @@ public class UserEquipmentsService : IUserEquipmentsService
         return EquipmentsList;
     }
 
-    public async Task<List<Equipments>> GetUserEquipmentsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Equipments>> GetUserEquipmentsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetUserEquipmentsAsync(user_id, search, type, pageSize, offset, rare);
+        List<Equipments> list = await _userEquipmentsRepository.GetUserEquipmentsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetUserAllEquipmentsAsync(string user_id)
+    public async Task<List<Equipments>> GetUserAllEquipmentsAsync(string userId)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetUserAllEquipmentsAsync(user_id);
+        List<Equipments> list = await _userEquipmentsRepository.GetUserAllEquipmentsAsync(userId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserEquipmentsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserEquipmentsCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userEquipmentsRepository.GetUserEquipmentsCountAsync(user_id, search, type, rare);
+        return await _userEquipmentsRepository.GetUserEquipmentsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<Equipments> GetUserEquipmentsByIdAsync(string user_id, string Id)
+    public async Task<Equipments> GetUserEquipmentsByIdAsync(string userId, string Id)
     {
-        return await _userEquipmentsRepository.GetUserEquipmentsByIdAsync(user_id, Id);
+        return await _userEquipmentsRepository.GetUserEquipmentsByIdAsync(userId, Id);
     }
 
-    public async Task<bool> BuyEquipmentAsync(string Id, double quantity)
+    public async Task<bool> InsertUserEquipmentAsync(string userId, string Id, double quantity)
     {
         IEquipmentsRepository _repository = new EquipmentsRepository();
         EquipmentsService _service = new EquipmentsService(_repository);
-        return await _userEquipmentsRepository.InsertUserEquipmentAsync(Id, await _service.GetEquipmentByIdAsync(Id), quantity);
+        return await _userEquipmentsRepository.InsertUserEquipmentAsync(userId, Id, await _service.GetEquipmentByIdAsync(Id), quantity);
     }
 
-    public async Task<bool> UpdateEquipmentLevelAsync(Equipments equipments)
+    public async Task<bool> UpdateUserEquipmentLevelAsync(string userId, Equipments equipments)
     {
-        return await _userEquipmentsRepository.UpdateUserEquipmentsLevelAsync(equipments);
+        return await _userEquipmentsRepository.UpdateUserEquipmentsLevelAsync(userId, equipments);
     }
 
-    public async Task<bool> UpdateEquipmentStarAsync(Equipments equipments)
+    public async Task<bool> UpdateUserEquipmentStarAsync(string userId, Equipments equipments)
     {
-        return await _userEquipmentsRepository.UpdateUserEquipmentsStarAsync(equipments);
+        return await _userEquipmentsRepository.UpdateUserEquipmentsStarAsync(userId, equipments);
     }
 
-    public async Task<bool> UpdateEquipmentsBreakthroughAsync(Equipments equipments, int star, double quantity)
+    public async Task<bool> UpdateUserEquipmentsBreakthroughAsync(string userId, Equipments equipments, int star, double quantity)
     {
-        return await _userEquipmentsRepository.UpdateUserEquipmentsBreakthroughAsync(equipments, star, quantity);
+        return await _userEquipmentsRepository.UpdateUserEquipmentsBreakthroughAsync(userId, equipments, star, quantity);
     }
 
-    public async Task UpdateUserCurrencyAsync(string Id, double quantity)
+    public async Task UpdateUserCurrencyAsync(string userId, string Id, double quantity)
     {
-        await _userEquipmentsRepository.UpdateUserCurrencyAsync(Id, quantity);
+        await _userEquipmentsRepository.UpdateUserCurrencyAsync(userId, Id, quantity);
     }
 
-    public async Task InsertCardHeroEquipmentsAsync(string Id, Equipments equipments, int position)
+    public async Task InsertCardHeroEquipmentsAsync(string userId, string Id, Equipments equipments, int position)
     {
-        await _userEquipmentsRepository.InsertCardHeroEquipmentsAsync(Id, equipments, position);
+        await _userEquipmentsRepository.InsertCardHeroEquipmentsAsync(userId, Id, equipments, position);
     }
 
-    public async Task InsertCardCaptainEquipmentsAsync(string Id, Equipments equipments, int position)
+    public async Task InsertCardCaptainEquipmentsAsync(string userId, string Id, Equipments equipments, int position)
     {
-        await _userEquipmentsRepository.InsertCardCaptainEquipmentsAsync(Id, equipments, position);
+        await _userEquipmentsRepository.InsertCardCaptainEquipmentsAsync(userId, Id, equipments, position);
     }
 
-    public async Task InsertCardColonelEquipmentsAsync(string Id, Equipments equipments, int position)
+    public async Task InsertCardColonelEquipmentsAsync(string userId, string Id, Equipments equipments, int position)
     {
-        await _userEquipmentsRepository.InsertCardColonelEquipmentsAsync(Id, equipments, position);
+        await _userEquipmentsRepository.InsertCardColonelEquipmentsAsync(userId, Id, equipments, position);
     }
 
-    public async Task InsertCardGeneralEquipmentsAsync(string Id, Equipments equipments, int position)
+    public async Task InsertCardGeneralEquipmentsAsync(string userId, string Id, Equipments equipments, int position)
     {
-        await _userEquipmentsRepository.InsertCardGeneralEquipmentsAsync(Id, equipments, position);
+        await _userEquipmentsRepository.InsertCardGeneralEquipmentsAsync(userId, Id, equipments, position);
     }
 
-    public async Task InsertCardAdmiralEquipmentsAsync(string Id, Equipments equipments, int position)
+    public async Task InsertCardAdmiralEquipmentsAsync(string userId, string Id, Equipments equipments, int position)
     {
-        await _userEquipmentsRepository.InsertCardAdmiralEquipmentsAsync(Id, equipments, position);
+        await _userEquipmentsRepository.InsertCardAdmiralEquipmentsAsync(userId, Id, equipments, position);
     }
 
-    public async Task InsertCardMonsterEquipmentsAsync(string Id, Equipments equipments, int position)
+    public async Task InsertCardMonsterEquipmentsAsync(string userId, string Id, Equipments equipments, int position)
     {
-        await _userEquipmentsRepository.InsertCardMonsterEquipmentsAsync(Id, equipments, position);
+        await _userEquipmentsRepository.InsertCardMonsterEquipmentsAsync(userId, Id, equipments, position);
     }
 
-    public async Task InsertCardMilitaryEquipmentsAsync(string Id, Equipments equipments, int position)
+    public async Task InsertCardMilitaryEquipmentsAsync(string userId, string Id, Equipments equipments, int position)
     {
-        await _userEquipmentsRepository.InsertCardMilitaryEquipmentsAsync(Id, equipments, position);
+        await _userEquipmentsRepository.InsertCardMilitaryEquipmentsAsync(userId, Id, equipments, position);
     }
 
-    public async Task InsertCardSpellEquipmentsAsync(string Id, Equipments equipments, int position)
+    public async Task InsertCardSpellEquipmentsAsync(string userId, string Id, Equipments equipments, int position)
     {
-        await _userEquipmentsRepository.InsertCardSpellEquipmentsAsync(Id, equipments, position);
+        await _userEquipmentsRepository.InsertCardSpellEquipmentsAsync(userId, Id, equipments, position);
     }
 
-    public async Task InsertBookEquipmentsAsync(string Id, Equipments equipments, int position)
+    public async Task InsertBookEquipmentsAsync(string userId, string Id, Equipments equipments, int position)
     {
-        await _userEquipmentsRepository.InsertBookEquipmentsAsync(Id, equipments, position);
+        await _userEquipmentsRepository.InsertBookEquipmentsAsync(userId, Id, equipments, position);
     }
 
-    public async Task InsertPetEquipmentsAsync(string Id, Equipments equipments, int position)
+    public async Task InsertPetEquipmentsAsync(string userId, string Id, Equipments equipments, int position)
     {
-        await _userEquipmentsRepository.InsertPetEquipmentsAsync(Id, equipments, position);
+        await _userEquipmentsRepository.InsertPetEquipmentsAsync(userId, Id, equipments, position);
     }
 
-    public async Task InsertCardSoldierEquipmentsAsync(string Id, Equipments equipments, int position)
+    public async Task InsertCardSoldierEquipmentsAsync(string userId, string Id, Equipments equipments, int position)
     {
-        await _userEquipmentsRepository.InsertCardSoldierEquipmentsAsync(Id, equipments, position);
+        await _userEquipmentsRepository.InsertCardSoldierEquipmentsAsync(userId, Id, equipments, position);
     }
 
-    public async Task<List<Equipments>> GetCardHeroesEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardHeroesEquipmentsAsync(string userId, string card_id, string type)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetCardHeroesEquipmentsAsync(user_id, card_id, type);
+        List<Equipments> list = await _userEquipmentsRepository.GetCardHeroesEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetCardCaptainsEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardCaptainsEquipmentsAsync(string userId, string card_id, string type)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetCardCaptainsEquipmentsAsync(user_id, card_id, type);
+        List<Equipments> list = await _userEquipmentsRepository.GetCardCaptainsEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetCardColonelsEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardColonelsEquipmentsAsync(string userId, string card_id, string type)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetCardColonelsEquipmentsAsync(user_id, card_id, type);
+        List<Equipments> list = await _userEquipmentsRepository.GetCardColonelsEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetCardGeneralsEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardGeneralsEquipmentsAsync(string userId, string card_id, string type)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetCardGeneralsEquipmentsAsync(user_id, card_id, type);
+        List<Equipments> list = await _userEquipmentsRepository.GetCardGeneralsEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetCardAdmiralsEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardAdmiralsEquipmentsAsync(string userId, string card_id, string type)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetCardAdmiralsEquipmentsAsync(user_id, card_id, type);
+        List<Equipments> list = await _userEquipmentsRepository.GetCardAdmiralsEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetCardMonstersEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardMonstersEquipmentsAsync(string userId, string card_id, string type)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetCardMonstersEquipmentsAsync(user_id, card_id, type);
+        List<Equipments> list = await _userEquipmentsRepository.GetCardMonstersEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetCardMilitariesEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardMilitariesEquipmentsAsync(string userId, string card_id, string type)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetCardMilitariesEquipmentsAsync(user_id, card_id, type);
+        List<Equipments> list = await _userEquipmentsRepository.GetCardMilitariesEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetCardSpellsEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardSpellsEquipmentsAsync(string userId, string card_id, string type)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetCardSpellsEquipmentsAsync(user_id, card_id, type);
+        List<Equipments> list = await _userEquipmentsRepository.GetCardSpellsEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetBooksEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetBooksEquipmentsAsync(string userId, string card_id, string type)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetBooksEquipmentsAsync(user_id, card_id, type);
+        List<Equipments> list = await _userEquipmentsRepository.GetBooksEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetPetsEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetPetsEquipmentsAsync(string userId, string card_id, string type)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetPetsEquipmentsAsync(user_id, card_id, type);
+        List<Equipments> list = await _userEquipmentsRepository.GetPetsEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetCardSoldiersEquipmentsAsync(string user_id, string card_id, string type)
+    public async Task<List<Equipments>> GetCardSoldiersEquipmentsAsync(string userId, string card_id, string type)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetCardSoldiersEquipmentsAsync(user_id, card_id, type);
+        List<Equipments> list = await _userEquipmentsRepository.GetCardSoldiersEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetAllCardHeroesEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardHeroesEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetAllCardHeroesEquipmentsAsync(user_id, type, limit, offset, status);
+        List<Equipments> list = await _userEquipmentsRepository.GetAllCardHeroesEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetAllCardCaptainsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardCaptainsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetAllCardCaptainsEquipmentsAsync(user_id, type, limit, offset, status);
+        List<Equipments> list = await _userEquipmentsRepository.GetAllCardCaptainsEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetAllCardColonelsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardColonelsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetAllCardColonelsEquipmentsAsync(user_id, type, limit, offset, status);
+        List<Equipments> list = await _userEquipmentsRepository.GetAllCardColonelsEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetAllCardGeneralsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardGeneralsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetAllCardGeneralsEquipmentsAsync(user_id, type, limit, offset, status);
+        List<Equipments> list = await _userEquipmentsRepository.GetAllCardGeneralsEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetAllCardAdmiralsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardAdmiralsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetAllCardAdmiralsEquipmentsAsync(user_id, type, limit, offset, status);
+        List<Equipments> list = await _userEquipmentsRepository.GetAllCardAdmiralsEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetAllCardMonstersEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardMonstersEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetAllCardMonstersEquipmentsAsync(user_id, type, limit, offset, status);
+        List<Equipments> list = await _userEquipmentsRepository.GetAllCardMonstersEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetAllCardMilitariesEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardMilitariesEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetAllCardMilitariesEquipmentsAsync(user_id, type, limit, offset, status);
+        List<Equipments> list = await _userEquipmentsRepository.GetAllCardMilitariesEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetAllCardSpellsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardSpellsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetAllCardSpellsEquipmentsAsync(user_id, type, limit, offset, status);
+        List<Equipments> list = await _userEquipmentsRepository.GetAllCardSpellsEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetAllBooksEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllBooksEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetAllBooksEquipmentsAsync(user_id, type, limit, offset, status);
+        List<Equipments> list = await _userEquipmentsRepository.GetAllBooksEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetAllPetsEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllPetsEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetAllPetsEquipmentsAsync(user_id, type, limit, offset, status);
+        List<Equipments> list = await _userEquipmentsRepository.GetAllPetsEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<List<Equipments>> GetAllCardSoldiersEquipmentsAsync(string user_id, string type, int limit, int offset, string status)
+    public async Task<List<Equipments>> GetAllCardSoldiersEquipmentsAsync(string userId, string type, int limit, int offset, string status)
     {
-        List<Equipments> list = await _userEquipmentsRepository.GetAllCardSoldiersEquipmentsAsync(user_id, type, limit, offset, status);
+        List<Equipments> list = await _userEquipmentsRepository.GetAllCardSoldiersEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         return list;
     }
 
-    public async Task<Equipments> GetAllEquipmentsByCardHeorIdAsync(string user_id, string Id)
+    public async Task<Equipments> GetAllEquipmentsByCardHeorIdAsync(string userId, string Id)
     {
-        return await _userEquipmentsRepository.GetAllEquipmentsByCardHeroIdAsync(user_id, Id);
+        return await _userEquipmentsRepository.GetAllEquipmentsByCardHeroIdAsync(userId, Id);
     }
 
-    public async Task<Equipments> GetAllEquipmentsByCardCaptainIdAsync(string user_id, string Id)
+    public async Task<Equipments> GetAllEquipmentsByCardCaptainIdAsync(string userId, string Id)
     {
-        return await _userEquipmentsRepository.GetAllEquipmentsByCardCaptainIdAsync(user_id, Id);
+        return await _userEquipmentsRepository.GetAllEquipmentsByCardCaptainIdAsync(userId, Id);
     }
 
-    public async Task<Equipments> GetAllEquipmentsByCardColonelIdAsync(string user_id, string Id)
+    public async Task<Equipments> GetAllEquipmentsByCardColonelIdAsync(string userId, string Id)
     {
-        return await _userEquipmentsRepository.GetAllEquipmentsByCardColonelIdAsync(user_id, Id);
+        return await _userEquipmentsRepository.GetAllEquipmentsByCardColonelIdAsync(userId, Id);
     }
 
-    public async Task<Equipments> GetAllEquipmentsByCardGeneralIdAsync(string user_id, string Id)
+    public async Task<Equipments> GetAllEquipmentsByCardGeneralIdAsync(string userId, string Id)
     {
-        return await _userEquipmentsRepository.GetAllEquipmentsByCardGeneralIdAsync(user_id, Id);
+        return await _userEquipmentsRepository.GetAllEquipmentsByCardGeneralIdAsync(userId, Id);
     }
 
-    public async Task<Equipments> GetAllEquipmentsByCardAdmiralIdAsync(string user_id, string Id)
+    public async Task<Equipments> GetAllEquipmentsByCardAdmiralIdAsync(string userId, string Id)
     {
-        return await _userEquipmentsRepository.GetAllEquipmentsByCardAdmiralIdAsync(user_id, Id);
+        return await _userEquipmentsRepository.GetAllEquipmentsByCardAdmiralIdAsync(userId, Id);
     }
 
-    public async Task<Equipments> GetAllEquipmentsByCardMonsterIdAsync(string user_id, string Id)
+    public async Task<Equipments> GetAllEquipmentsByCardMonsterIdAsync(string userId, string Id)
     {
-        return await _userEquipmentsRepository.GetAllEquipmentsByCardMonsterIdAsync(user_id, Id);
+        return await _userEquipmentsRepository.GetAllEquipmentsByCardMonsterIdAsync(userId, Id);
     }
 
-    public async Task<Equipments> GetAllEquipmentsByCardMilitaryIdAsync(string user_id, string Id)
+    public async Task<Equipments> GetAllEquipmentsByCardMilitaryIdAsync(string userId, string Id)
     {
-        return await _userEquipmentsRepository.GetAllEquipmentsByCardMilitaryIdAsync(user_id, Id);
+        return await _userEquipmentsRepository.GetAllEquipmentsByCardMilitaryIdAsync(userId, Id);
     }
 
-    public async Task<Equipments> GetAllEquipmentsByCardSpellIdAsync(string user_id, string Id)
+    public async Task<Equipments> GetAllEquipmentsByCardSpellIdAsync(string userId, string Id)
     {
-        return await _userEquipmentsRepository.GetAllEquipmentsByCardSpellIdAsync(user_id, Id);
+        return await _userEquipmentsRepository.GetAllEquipmentsByCardSpellIdAsync(userId, Id);
     }
 
-    public async Task<Equipments> GetAllEquipmentsByBookIdAsync(string user_id, string Id)
+    public async Task<Equipments> GetAllEquipmentsByBookIdAsync(string userId, string Id)
     {
-        return await _userEquipmentsRepository.GetAllEquipmentsByBookIdAsync(user_id, Id);
+        return await _userEquipmentsRepository.GetAllEquipmentsByBookIdAsync(userId, Id);
     }
 
-    public async Task<Equipments> GetAllEquipmentsByPetIdAsync(string user_id, string Id)
+    public async Task<Equipments> GetAllEquipmentsByPetIdAsync(string userId, string Id)
     {
-        return await _userEquipmentsRepository.GetAllEquipmentsByPetIdAsync(user_id, Id);
+        return await _userEquipmentsRepository.GetAllEquipmentsByPetIdAsync(userId, Id);
     }
 
-    public async Task<Equipments> GetAllEquipmentsByCardSoldierIdAsync(string user_id, string Id)
+    public async Task<Equipments> GetAllEquipmentsByCardSoldierIdAsync(string userId, string Id)
     {
-        return await _userEquipmentsRepository.GetAllEquipmentsByCardSoldierIdAsync(user_id, Id);
+        return await _userEquipmentsRepository.GetAllEquipmentsByCardSoldierIdAsync(userId, Id);
     }
 
     // Hàm cho CardHero
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardHeroAsync(string cardHeroId, string type)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardHeroAsync(string userId, string cardHeroId, string type)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardHeroAsync(cardHeroId, type, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardHeroAsync(userId, cardHeroId, type, allEquipments);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardHeroAsync(string cardHeroId)
+    public async Task<bool> EquipAllEquipmentsToCardHeroAsync(string userId, string cardHeroId)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardHeroAsync(cardHeroId, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsToCardHeroAsync(userId, cardHeroId, allEquipments);
     }
 
     // Hàm cho CardCaptain
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardCaptainAsync(string cardCaptainId, string type)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardCaptainAsync(string userId, string cardCaptainId, string type)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardCaptainAsync(cardCaptainId, type, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardCaptainAsync(userId, cardCaptainId, type, allEquipments);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardCaptainAsync(string cardCaptainId)
+    public async Task<bool> EquipAllEquipmentsToCardCaptainAsync(string userId, string cardCaptainId)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardCaptainAsync(cardCaptainId, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsToCardCaptainAsync(userId, cardCaptainId, allEquipments);
     }
 
     // Hàm cho CardColonel
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardColonelAsync(string cardColonelId, string type)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardColonelAsync(string userId, string cardColonelId, string type)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardColonelAsync(cardColonelId, type, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardColonelAsync(userId, cardColonelId, type, allEquipments);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardColonelAsync(string cardColonelId)
+    public async Task<bool> EquipAllEquipmentsToCardColonelAsync(string userId, string cardColonelId)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardColonelAsync(cardColonelId, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsToCardColonelAsync(userId, cardColonelId, allEquipments);
     }
 
     // Hàm cho CardGeneral
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardGeneralAsync(string cardGeneralId, string type)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardGeneralAsync(string userId, string cardGeneralId, string type)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardGeneralAsync(cardGeneralId, type, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardGeneralAsync(userId, cardGeneralId, type, allEquipments);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardGeneralAsync(string cardGeneralId)
+    public async Task<bool> EquipAllEquipmentsToCardGeneralAsync(string userId, string cardGeneralId)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardGeneralAsync(cardGeneralId, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsToCardGeneralAsync(userId, cardGeneralId, allEquipments);
     }
 
     // Hàm cho CardAdmiral
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardAdmiralAsync(string cardAdmiralId, string type)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardAdmiralAsync(string userId, string cardAdmiralId, string type)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardAdmiralAsync(cardAdmiralId, type, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardAdmiralAsync(userId, cardAdmiralId, type, allEquipments);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardAdmiralAsync(string cardAdmiralId)
+    public async Task<bool> EquipAllEquipmentsToCardAdmiralAsync(string userId, string cardAdmiralId)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardAdmiralAsync(cardAdmiralId, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsToCardAdmiralAsync(userId, cardAdmiralId, allEquipments);
     }
 
     // Hàm cho CardMonster
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardMonsterAsync(string cardMonsterId, string type)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardMonsterAsync(string userId, string cardMonsterId, string type)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardMonsterAsync(cardMonsterId, type, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardMonsterAsync(userId, cardMonsterId, type, allEquipments);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardMonsterAsync(string cardMonsterId)
+    public async Task<bool> EquipAllEquipmentsToCardMonsterAsync(string userId, string cardMonsterId)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardMonsterAsync(cardMonsterId, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsToCardMonsterAsync(userId, cardMonsterId, allEquipments);
     }
 
     // Hàm cho CardMilitary
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardMilitaryAsync(string cardMilitaryId, string type)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardMilitaryAsync(string userId, string cardMilitaryId, string type)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardMilitaryAsync(cardMilitaryId, type, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardMilitaryAsync(userId, cardMilitaryId, type, allEquipments);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardMilitaryAsync(string cardMilitaryId)
+    public async Task<bool> EquipAllEquipmentsToCardMilitaryAsync(string userId, string cardMilitaryId)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardMilitaryAsync(cardMilitaryId, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsToCardMilitaryAsync(userId, cardMilitaryId, allEquipments);
     }
 
     // Hàm cho CardSpell
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardSpellAsync(string cardSpellId, string type)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardSpellAsync(string userId, string cardSpellId, string type)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardSpellAsync(cardSpellId, type, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardSpellAsync(userId, cardSpellId, type, allEquipments);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardSpellAsync(string cardSpellId)
+    public async Task<bool> EquipAllEquipmentsToCardSpellAsync(string userId, string cardSpellId)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardSpellAsync(cardSpellId, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsToCardSpellAsync(userId, cardSpellId, allEquipments);
     }
 
     // Hàm cho Book
-    public async Task<bool> EquipAllEquipmentsOfTypeToBookAsync(string bookId, string type)
+    public async Task<bool> EquipAllEquipmentsOfTypeToBookAsync(string userId, string bookId, string type)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToBookAsync(bookId, type, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToBookAsync(userId, bookId, type, allEquipments);
     }
 
-    public async Task<bool> EquipAllEquipmentsToBookAsync(string bookId)
+    public async Task<bool> EquipAllEquipmentsToBookAsync(string userId, string bookId)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToBookAsync(bookId, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsToBookAsync(userId, bookId, allEquipments);
     }
 
     // Hàm cho Pet
-    public async Task<bool> EquipAllEquipmentsOfTypeToPetAsync(string petId, string type)
+    public async Task<bool> EquipAllEquipmentsOfTypeToPetAsync(string userId, string petId, string type)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToPetAsync(petId, type, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToPetAsync(userId, petId, type, allEquipments);
     }
 
-    public async Task<bool> EquipAllEquipmentsToPetAsync(string petId)
+    public async Task<bool> EquipAllEquipmentsToPetAsync(string userId, string petId)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToPetAsync(petId, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsToPetAsync(userId, petId, allEquipments);
     }
 
     // Hàm cho Card Soldier
-    public async Task<bool> EquipAllEquipmentsOfTypeToCardSoldierAsync(string cardSoldierId, string type)
+    public async Task<bool> EquipAllEquipmentsOfTypeToCardSoldierAsync(string userId, string cardSoldierId, string type)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardSoldierAsync(cardSoldierId, type, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsOfTypeToCardSoldierAsync(userId, cardSoldierId, type, allEquipments);
     }
 
-    public async Task<bool> EquipAllEquipmentsToCardSoldierAsync(string cardSoldierId)
+    public async Task<bool> EquipAllEquipmentsToCardSoldierAsync(string userId, string cardSoldierId)
     {
-        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(User.CurrentUserId);
-        return await _userEquipmentsRepository.EquipAllEquipmentsToCardSoldierAsync(cardSoldierId, allEquipments);
+        List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
+        return await _userEquipmentsRepository.EquipAllEquipmentsToCardSoldierAsync(userId, cardSoldierId, allEquipments);
     }
 
-    public async Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(List<(Equipments data, double quantity)> list)
+    public async Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(string userId, List<(Equipments data, double quantity)> list)
     {
-        return await _userEquipmentsRepository.InsertOrUpdateUserEquipmentsBatchAsync(list);
+        return await _userEquipmentsRepository.InsertOrUpdateUserEquipmentsBatchAsync(userId, list);
     }
 }

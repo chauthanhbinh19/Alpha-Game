@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public interface IUserHICAsService
 { 
-    Task<UserHICAs> GetUserHICAsAsync(string id);
-    Task InsertOrUpdateUserHICAsAsync(string user_id, UserHICAs HICAs, string id);
-    Task<UserHICAs> GetSumUserHICAsAsync(string user_id);
+    Task<UserHICAs> GetUserHICAsAsync(string userId, string id);
+    Task InsertOrUpdateUserHICAsAsync(string userId, UserHICAs HICAs, string id);
+    Task<UserHICAs> GetSumUserHICAsAsync(string userId);
 }

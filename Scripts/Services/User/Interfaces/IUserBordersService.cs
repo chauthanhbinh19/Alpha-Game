@@ -3,14 +3,14 @@ using System.Threading.Tasks;
 
 public interface IUserBordersService
 {
-    Task<List<Borders>> GetUserBordersAsync(string user_id, string search, int pageSize, int offset, string rare);
-    Task<int> GetUserBordersCountAsync(string user_id, string search, string rare);
+    Task<List<Borders>> GetUserBordersAsync(string userId, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserBordersCountAsync(string userId, string search, string rare);
     Task<bool> InsertUserBorderAsync(Borders border, string userId);
     Task<bool> InsertUserBorderByIdAsync(string borderId, string userId);
-    Task<bool> InsertOrUpdateUserBordersBatchAsync(List<Borders> borders);
-    Task<bool> UpdateBorderLevelAsync(Borders border);
-    Task<bool> UpdateBorderStarAsync(Borders border);
-    Task<Borders> GetBorderByUsedAsync(string user_id);
-    Task UpdateIsUsedBorderAsync(string borderId, string userId, bool is_used);
-    Task<Borders> SumPowerUserBordersAsync();
+    Task<bool> InsertOrUpdateUserBordersBatchAsync(string userId, List<Borders> borders);
+    Task<bool> UpdateUserBorderLevelAsync(string userId, Borders border);
+    Task<bool> UpdateUserBorderStarAsync(string userId, Borders border);
+    Task<Borders> GetUserBorderByUsedAsync(string userId);
+    Task UpdateIsUsedUserBorderAsync(string borderId, string userId, bool is_used);
+    Task<Borders> SumPowerUserBordersAsync(string userId);
 }

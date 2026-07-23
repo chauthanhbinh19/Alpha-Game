@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public interface IUserHIDCsService
 { 
-    Task<UserHIDCs> GetUserHIDCsAsync(string id);
-    Task InsertOrUpdateUserHIDCsAsync(string user_id, UserHIDCs HIDCs, string id);
-    Task<UserHIDCs> GetSumUserHIDCsAsync(string user_id);
+    Task<UserHIDCs> GetUserHIDCsAsync(string userId, string id);
+    Task InsertOrUpdateUserHIDCsAsync(string userId, UserHIDCs HIDCs, string id);
+    Task<UserHIDCs> GetSumUserHIDCsAsync(string userId);
 }

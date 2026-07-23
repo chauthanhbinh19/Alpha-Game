@@ -19,61 +19,61 @@ public class UserMastersService : IUserMastersService
         return _instance;
     }
 
-    public async Task<UserMasters> GetUserMastersAsync(string id)
+    public async Task<UserMasters> GetUserMastersAsync(string userId, string id)
     {
-        return await _userMastersRepository.GetUserMastersAsync(id);
+        return await _userMastersRepository.GetUserMastersAsync(userId, id);
     }
 
-    public async Task<UserMasters> GetSumUserMastersAsync(string user_id)
+    public async Task<UserMasters> GetSumUserMastersAsync(string userId)
     {
-        return await _userMastersRepository.GetSumUserMastersAsync(user_id);
+        return await _userMastersRepository.GetSumUserMastersAsync(userId);
     }
 
     public async Task InsertOrUpdateUserMastersAsync(string userId, UserMasters Masters, string id, IStats stat)
     {
         if(stat is CardHeroes cardHero)
         {
-            await UserCardHeroesMasterService.Create().InsertOrUpdateCardHeroMasterAsync(userId, Masters, cardHero.Id);
+            await UserCardHeroesMasterService.Create().InsertOrUpdateUserCardHeroMasterAsync(userId, Masters, cardHero.Id);
         }
         else if (stat is CardCaptains cardCaptain)
         {
-            await UserCardCaptainsMasterService.Create().InsertOrUpdateCardCaptainMasterAsync(userId, Masters, cardCaptain.Id);
+            await UserCardCaptainsMasterService.Create().InsertOrUpdateUserCardCaptainMasterAsync(userId, Masters, cardCaptain.Id);
         }
         else if (stat is CardColonels cardColonel)
         {
-            await UserCardColonelsMasterService.Create().InsertOrUpdateCardColonelMasterAsync(userId, Masters, cardColonel.Id);
+            await UserCardColonelsMasterService.Create().InsertOrUpdateUserCardColonelMasterAsync(userId, Masters, cardColonel.Id);
         }
         else if (stat is CardGenerals cardGeneral)
         {
-            await UserCardGeneralsMasterService.Create().InsertOrUpdateCardGeneralMasterAsync(userId, Masters, cardGeneral.Id);
+            await UserCardGeneralsMasterService.Create().InsertOrUpdateUserCardGeneralMasterAsync(userId, Masters, cardGeneral.Id);
         }
         else if (stat is CardAdmirals cardAdmiral)
         {
-            await UserCardAdmiralsMasterService.Create().InsertOrUpdateCardAdmiralMasterAsync(userId, Masters, cardAdmiral.Id);
+            await UserCardAdmiralsMasterService.Create().InsertOrUpdateUserCardAdmiralMasterAsync(userId, Masters, cardAdmiral.Id);
         }
         else if (stat is CardMilitaries cardMilitary)
         {
-            await UserCardMilitariesMasterService.Create().InsertOrUpdateCardMilitaryMasterAsync(userId, Masters, cardMilitary.Id);
+            await UserCardMilitariesMasterService.Create().InsertOrUpdateUserCardMilitaryMasterAsync(userId, Masters, cardMilitary.Id);
         }
         else if (stat is CardMonsters cardMonster)
         {
-            await UserCardMonstersMasterService.Create().InsertOrUpdateCardMonsterMasterAsync(userId, Masters, cardMonster.Id);
+            await UserCardMonstersMasterService.Create().InsertOrUpdateUserCardMonsterMasterAsync(userId, Masters, cardMonster.Id);
         }
         else if (stat is CardSpells cardSpell)
         {
-            await UserCardSpellsMasterService.Create().InsertOrUpdateCardSpellMasterAsync(userId, Masters, cardSpell.Id);
+            await UserCardSpellsMasterService.Create().InsertOrUpdateUserCardSpellMasterAsync(userId, Masters, cardSpell.Id);
         }
         else if (stat is CardSoldiers cardSoldier)
         {
-            await UserCardSoldiersMasterService.Create().InsertOrUpdateCardSoldierMasterAsync(userId, Masters, cardSoldier.Id);
+            await UserCardSoldiersMasterService.Create().InsertOrUpdateUserCardSoldierMasterAsync(userId, Masters, cardSoldier.Id);
         }
         else if (stat is Books book)
         {
-            await UserBooksMasterService.Create().InsertOrUpdateBookMasterAsync(userId, Masters, book.Id);
+            await UserBooksMasterService.Create().InsertOrUpdateUserBookMasterAsync(userId, Masters, book.Id);
         }
         else if (stat is Pets pet)
         {
-            await UserPetsMasterService.Create().InsertOrUpdatePetMasterAsync(userId, Masters, pet.Id);
+            await UserPetsMasterService.Create().InsertOrUpdateUserPetMasterAsync(userId, Masters, pet.Id);
         }
         await _userMastersRepository.InsertOrUpdateUserMastersAsync(userId, Masters, id);
     }

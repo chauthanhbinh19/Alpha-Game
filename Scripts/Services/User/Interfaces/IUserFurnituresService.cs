@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 public interface IUserFurnituresService
 {
-    Task<List<Furnitures>> GetUserFurnituresAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<int> GetUserFurnituresCountAsync(string user_id, string search, string type, string rare);
+    Task<List<Furnitures>> GetUserFurnituresAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserFurnituresCountAsync(string userId, string search, string type, string rare);
     Task<bool> InsertUserFurnitureAsync(Furnitures furniture, string userId);
-    Task<bool> InsertOrUpdateUserFurnituresBatchAsync(List<Furnitures> furnitures);
-    Task<bool> UpdateFurnitureLevelAsync(Furnitures furniture);
-    Task<bool> UpdateFurnitureStarAsync(Furnitures furniture);
-    Task<bool> UpdateFurnitureBreakthroughAsync(Furnitures furniture, int star, double quantity);
-    Task<Furnitures> GetUserFurnitureByIdAsync(string user_id, string Id);
-    Task<Furnitures> SumPowerUserFurnituresAsync();
+    Task<bool> InsertOrUpdateUserFurnituresBatchAsync(string userId, List<Furnitures> furnitures);
+    Task<bool> UpdateUserFurnitureLevelAsync(string userId, Furnitures furniture);
+    Task<bool> UpdateUserFurnitureStarAsync(string userId, Furnitures furniture);
+    Task<bool> UpdateUserFurnitureBreakthroughAsync(string userId, Furnitures furniture, int star, double quantity);
+    Task<Furnitures> GetUserFurnitureByIdAsync(string userId, string Id);
+    Task<Furnitures> SumPowerUserFurnituresAsync(string userId);
 }

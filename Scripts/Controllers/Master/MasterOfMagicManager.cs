@@ -237,7 +237,7 @@ public class MasterOfMagicManager : MonoBehaviour
         AnimationController.Instance.CreateMasterAnimation(currentObject);
         Masters master = await MastersService.Create().GetMasterByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserMasters userMaster = await UserMastersService.Create().GetUserMastersAsync(featureId);
+        UserMasters userMaster = await UserMastersService.Create().GetUserMastersAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -267,7 +267,7 @@ public class MasterOfMagicManager : MonoBehaviour
         levelText.text = currentLevel.ToString();
         async Task RefreshPanelAsync()
         {
-            userMaster = await UserMastersService.Create().GetUserMastersAsync(featureId);
+            userMaster = await UserMastersService.Create().GetUserMastersAsync(User.CurrentUserId, featureId);
             currentLevel = userMaster?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

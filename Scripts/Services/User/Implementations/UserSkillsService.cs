@@ -20,9 +20,9 @@ public class UserSkillsService : IUserSkillsService
         return _instance;
     }
 
-    public async Task<List<Skills>> GetUserSkillsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Skills>> GetUserSkillsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserSkillsAsync(user_id, search, type, pageSize, offset, rare);
+        List<Skills> list = await _userSkillsRepository.GetUserSkillsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -35,39 +35,39 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<int> GetUserSkillsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserSkillsCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userSkillsRepository.GetUserSkillsCountAsync(user_id, search, type, rare);
+        return await _userSkillsRepository.GetUserSkillsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<bool> InsertUserSkillsAsync(Skills skill)
+    public async Task<bool> InsertUserSkillsAsync(string userId, Skills skill)
     {
-        return await _userSkillsRepository.InsertUserSkillAsync(skill);
+        return await _userSkillsRepository.InsertUserSkillAsync(userId, skill);
     }
 
-    public async Task<bool> UpdateSkillLevelAsync(Skills skill)
+    public async Task<bool> UpdateUserSkillLevelAsync(string userId, Skills skill)
     {
-        return await _userSkillsRepository.UpdateSkillLevelAsync(skill);
+        return await _userSkillsRepository.UpdateUserSkillLevelAsync(userId, skill);
     }
 
-    public async Task<bool> UpdateSkillStarAsync(Skills skill)
+    public async Task<bool> UpdateUserSkillStarAsync(string userId, Skills skill)
     {
-        return await _userSkillsRepository.UpdateSkillStarAsync(skill);
+        return await _userSkillsRepository.UpdateUserSkillStarAsync(userId, skill);
     }
 
-    public async Task<bool> UpdateSkillsBreakthroughAsync(Skills skill, int star, double quantity)
+    public async Task<bool> UpdateUserSkillsBreakthroughAsync(string userId, Skills skill, int star, double quantity)
     {
-        return await _userSkillsRepository.UpdateSkillBreakthroughAsync(skill, star, quantity);
+        return await _userSkillsRepository.UpdateUserSkillBreakthroughAsync(userId, skill, star, quantity);
     }
 
-    public async Task<Skills> GetUserSkillsByIdAsync(string user_id, string Id)
+    public async Task<Skills> GetUserSkillsByIdAsync(string userId, string Id)
     {
-        return await _userSkillsRepository.GetUserSkillsByIdAsync(user_id, Id);
+        return await _userSkillsRepository.GetUserSkillsByIdAsync(userId, Id);
     }
 
-    public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardHeroesSkillsAsync(user_id, cardId);
+        List<Skills> list = await _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -80,9 +80,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardCaptainsSkillsAsync(user_id, cardId);
+        List<Skills> list = await _userSkillsRepository.GetUserCardCaptainsSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -95,9 +95,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardColonelsSkillsAsync(user_id, cardId);
+        List<Skills> list = await _userSkillsRepository.GetUserCardColonelsSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -110,9 +110,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardGeneralsSkillsAsync(user_id, cardId);
+        List<Skills> list = await _userSkillsRepository.GetUserCardGeneralsSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -125,9 +125,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardAdmiralsSkillsAsync(user_id, cardId);
+        List<Skills> list = await _userSkillsRepository.GetUserCardAdmiralsSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -140,9 +140,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardMilitariesSkillsAsync(user_id, cardId);
+        List<Skills> list = await _userSkillsRepository.GetUserCardMilitariesSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -155,9 +155,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardMonstersSkillsAsync(user_id, cardId);
+        List<Skills> list = await _userSkillsRepository.GetUserCardMonstersSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -170,9 +170,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardSpellsSkillsAsync(user_id, cardId);
+        List<Skills> list = await _userSkillsRepository.GetUserCardSpellsSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -185,9 +185,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string user_id, string cardId)
+    public async Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string userId, string cardId)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardSoldiersSkillsAsync(user_id, cardId);
+        List<Skills> list = await _userSkillsRepository.GetUserCardSoldiersSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -200,9 +200,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string user_id, List<string> cardHeroIds)
+    public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string userId, List<string> cardHeroIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardHeroesSkillsAsync(user_id, cardHeroIds);
+        List<Skills> list = await _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -215,9 +215,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string user_id, List<string> cardCaptainIds)
+    public async Task<List<Skills>> GetUserCardCaptainsSkillsAsync(string userId, List<string> cardCaptainIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardCaptainsSkillsAsync(user_id, cardCaptainIds);
+        List<Skills> list = await _userSkillsRepository.GetUserCardCaptainsSkillsAsync(userId, cardCaptainIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -230,9 +230,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string user_id, List<string> cardColonelIds)
+    public async Task<List<Skills>> GetUserCardColonelsSkillsAsync(string userId, List<string> cardColonelIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardColonelsSkillsAsync(user_id, cardColonelIds);
+        List<Skills> list = await _userSkillsRepository.GetUserCardColonelsSkillsAsync(userId, cardColonelIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -245,9 +245,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string user_id, List<string> cardGeneralIds)
+    public async Task<List<Skills>> GetUserCardGeneralsSkillsAsync(string userId, List<string> cardGeneralIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardGeneralsSkillsAsync(user_id, cardGeneralIds);
+        List<Skills> list = await _userSkillsRepository.GetUserCardGeneralsSkillsAsync(userId, cardGeneralIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -260,9 +260,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string user_id, List<string> cardAdmiralIds)
+    public async Task<List<Skills>> GetUserCardAdmiralsSkillsAsync(string userId, List<string> cardAdmiralIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardAdmiralsSkillsAsync(user_id, cardAdmiralIds);
+        List<Skills> list = await _userSkillsRepository.GetUserCardAdmiralsSkillsAsync(userId, cardAdmiralIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -275,9 +275,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string user_id, List<string> cardMilitaryIds)
+    public async Task<List<Skills>> GetUserCardMilitariesSkillsAsync(string userId, List<string> cardMilitaryIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardMilitariesSkillsAsync(user_id, cardMilitaryIds);
+        List<Skills> list = await _userSkillsRepository.GetUserCardMilitariesSkillsAsync(userId, cardMilitaryIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -290,9 +290,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string user_id, List<string> cardMonsterIds)
+    public async Task<List<Skills>> GetUserCardMonstersSkillsAsync(string userId, List<string> cardMonsterIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardMonstersSkillsAsync(user_id, cardMonsterIds);
+        List<Skills> list = await _userSkillsRepository.GetUserCardMonstersSkillsAsync(userId, cardMonsterIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -305,9 +305,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string user_id, List<string> cardSpellIds)
+    public async Task<List<Skills>> GetUserCardSpellsSkillsAsync(string userId, List<string> cardSpellIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardSpellsSkillsAsync(user_id, cardSpellIds);
+        List<Skills> list = await _userSkillsRepository.GetUserCardSpellsSkillsAsync(userId, cardSpellIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -320,9 +320,9 @@ public class UserSkillsService : IUserSkillsService
         return list;
     }
 
-    public async Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string user_id, List<string> cardSoldierIds)
+    public async Task<List<Skills>> GetUserCardSoldiersSkillsAsync(string userId, List<string> cardSoldierIds)
     {
-        List<Skills> list = await _userSkillsRepository.GetUserCardSoldiersSkillsAsync(user_id, cardSoldierIds);
+        List<Skills> list = await _userSkillsRepository.GetUserCardSoldiersSkillsAsync(userId, cardSoldierIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
 
@@ -426,9 +426,9 @@ public class UserSkillsService : IUserSkillsService
         return await _userSkillsRepository.DeleteUserCardSoldierSkillsAsync(userId, cardId, skillId, position);
     }
 
-    public async Task<bool> InsertOrUpdateUserSkillsBatchAsync(List<Skills> skills)
+    public async Task<bool> InsertOrUpdateUserSkillsBatchAsync(string userId, List<Skills> skills)
     {
-        return await _userSkillsRepository.InsertOrUpdateUserSkillsBatchAsync(skills);
+        return await _userSkillsRepository.InsertOrUpdateUserSkillsBatchAsync(userId, skills);
     }
 
     public async Task<int> AssignRandomSkillsToUserCardHeroesAsync(string userId)

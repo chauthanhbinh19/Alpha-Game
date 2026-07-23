@@ -233,7 +233,7 @@ public class HISNIIManager : MonoBehaviour
         AnimationController.Instance.CreateHISNAnimation(currentObject);
         HISNs hisn = await HISNsService.Create().GetHISNByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserHISNs userHISN = await UserHISNsService.Create().GetUserHISNsAsync(featureId);
+        UserHISNs userHISN = await UserHISNsService.Create().GetUserHISNsAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -264,7 +264,7 @@ public class HISNIIManager : MonoBehaviour
 
         async Task RefreshPanelAsync()
         {
-            userHISN = await UserHISNsService.Create().GetUserHISNsAsync(featureId);
+            userHISN = await UserHISNsService.Create().GetUserHISNsAsync(User.CurrentUserId, featureId);
             currentLevel = userHISN?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

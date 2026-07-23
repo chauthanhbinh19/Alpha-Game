@@ -19,61 +19,61 @@ public class UserRanksService : IUserRanksService
         return _instance;
     }
 
-    public async Task<UserRanks> GetUserRanksAsync(string id)
+    public async Task<UserRanks> GetUserRanksAsync(string userId, string id)
     {
-        return await _userRanksRepository.GetUserRanksAsync(id);
+        return await _userRanksRepository.GetUserRanksAsync(userId, id);
     }
 
-    public async Task<UserRanks> GetSumUserRanksAsync(string user_id)
+    public async Task<UserRanks> GetSumUserRanksAsync(string userId)
     {
-        return await _userRanksRepository.GetSumUserRanksAsync(user_id);
+        return await _userRanksRepository.GetSumUserRanksAsync(userId);
     }
 
     public async Task InsertOrUpdateUserRanksAsync(string userId, UserRanks Ranks, string id, IStats stat)
     {
         if(stat is CardHeroes cardHero)
         {
-            await UserCardHeroesRankService.Create().InsertOrUpdateCardHeroRankAsync(userId, Ranks, cardHero.Id);
+            await UserCardHeroesRankService.Create().InsertOrUpdateUserCardHeroRankAsync(userId, Ranks, cardHero.Id);
         }
         else if (stat is CardCaptains cardCaptain)
         {
-            await UserCardCaptainsRankService.Create().InsertOrUpdateCardCaptainRankAsync(userId, Ranks, cardCaptain.Id);
+            await UserCardCaptainsRankService.Create().InsertOrUpdateUserCardCaptainRankAsync(userId, Ranks, cardCaptain.Id);
         }
         else if (stat is CardColonels cardColonel)
         {
-            await UserCardColonelsRankService.Create().InsertOrUpdateCardColonelRankAsync(userId, Ranks, cardColonel.Id);
+            await UserCardColonelsRankService.Create().InsertOrUpdateUserCardColonelRankAsync(userId, Ranks, cardColonel.Id);
         }
         else if (stat is CardGenerals cardGeneral)
         {
-            await UserCardGeneralsRankService.Create().InsertOrUpdateCardGeneralRankAsync(userId, Ranks, cardGeneral.Id);
+            await UserCardGeneralsRankService.Create().InsertOrUpdateUserCardGeneralRankAsync(userId, Ranks, cardGeneral.Id);
         }
         else if (stat is CardAdmirals cardAdmiral)
         {
-            await UserCardAdmiralsRankService.Create().InsertOrUpdateCardAdmiralRankAsync(userId, Ranks, cardAdmiral.Id);
+            await UserCardAdmiralsRankService.Create().InsertOrUpdateUserCardAdmiralRankAsync(userId, Ranks, cardAdmiral.Id);
         }
         else if (stat is CardMilitaries cardMilitary)
         {
-            await UserCardMilitariesRankService.Create().InsertOrUpdateCardMilitaryRankAsync(userId, Ranks, cardMilitary.Id);
+            await UserCardMilitariesRankService.Create().InsertOrUpdateUserCardMilitaryRankAsync(userId, Ranks, cardMilitary.Id);
         }
         else if (stat is CardMonsters cardMonster)
         {
-            await UserCardMonstersRankService.Create().InsertOrUpdateCardMonsterRankAsync(userId, Ranks, cardMonster.Id);
+            await UserCardMonstersRankService.Create().InsertOrUpdateUserCardMonsterRankAsync(userId, Ranks, cardMonster.Id);
         }
         else if (stat is CardSpells cardSpell)
         {
-            await UserCardSpellsRankService.Create().InsertOrUpdateCardSpellRankAsync(userId, Ranks, cardSpell.Id);
+            await UserCardSpellsRankService.Create().InsertOrUpdateUserCardSpellRankAsync(userId, Ranks, cardSpell.Id);
         }
         else if (stat is CardSoldiers cardSoldier)
         {
-            await UserCardSoldiersRankService.Create().InsertOrUpdateCardSoldierRankAsync(userId, Ranks, cardSoldier.Id);
+            await UserCardSoldiersRankService.Create().InsertOrUpdateUserCardSoldierRankAsync(userId, Ranks, cardSoldier.Id);
         }
         else if (stat is Books book)
         {
-            await UserBooksRankService.Create().InsertOrUpdateBookRankAsync(userId, Ranks, book.Id);
+            await UserBooksRankService.Create().InsertOrUpdateUserBookRankAsync(userId, Ranks, book.Id);
         }
         else if (stat is Pets pet)
         {
-            await UserPetsRankService.Create().InsertOrUpdatePetRankAsync(userId, Ranks, pet.Id);
+            await UserPetsRankService.Create().InsertOrUpdateUserPetRankAsync(userId, Ranks, pet.Id);
         }
         await _userRanksRepository.InsertOrUpdateUserRanksAsync(userId, Ranks, id);
     }

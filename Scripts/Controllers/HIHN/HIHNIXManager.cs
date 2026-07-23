@@ -233,7 +233,7 @@ public class HIHNIXManager : MonoBehaviour
         AnimationController.Instance.CreateHIHNAnimation(currentObject);
         HIHNs hihn = await HIHNsService.Create().GetHIHNByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserHIHNs userHIHN = await UserHIHNsService.Create().GetUserHIHNsAsync(featureId);
+        UserHIHNs userHIHN = await UserHIHNsService.Create().GetUserHIHNsAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -264,7 +264,7 @@ public class HIHNIXManager : MonoBehaviour
 
         async Task RefreshPanelAsync()
         {
-            userHIHN = await UserHIHNsService.Create().GetUserHIHNsAsync(featureId);
+            userHIHN = await UserHIHNsService.Create().GetUserHIHNsAsync(User.CurrentUserId, featureId);
             currentLevel = userHIHN?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

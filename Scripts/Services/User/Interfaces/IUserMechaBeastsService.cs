@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 public interface IUserMechaBeastsService
 {
-    Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string user_id, string search, int pageSize, int offset, string rare);
-    Task<int> GetUserMechaBeastsCountAsync(string user_id, string search, string rare);
+    Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string userId, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserMechaBeastsCountAsync(string userId, string search, string rare);
     Task<bool> InsertUserMechaBeastAsync(MechaBeasts mechaBeast, string userId);
-    Task<bool> InsertOrUpdateUserMechaBeastsBatchAsync(List<MechaBeasts> mechaBeasts);
-    Task<bool> UpdateMechaBeastLevelAsync(MechaBeasts mechaBeast);
-    Task<bool> UpdateMechaBeastStarAsync(MechaBeasts mechaBeast);
-    Task<bool> UpdateMechaBeastBreakthroughAsync(MechaBeasts mechaBeast, int star, double quantity);
-    Task<MechaBeasts> GetUserMechaBeastByIdAsync(string user_id, string Id);
-    Task<MechaBeasts> SumPowerUserMechaBeastsAsync();
+    Task<bool> InsertOrUpdateUserMechaBeastsBatchAsync(string userId, List<MechaBeasts> mechaBeasts);
+    Task<bool> UpdateUserMechaBeastLevelAsync(string userId, MechaBeasts mechaBeast);
+    Task<bool> UpdateUserMechaBeastStarAsync(string userId, MechaBeasts mechaBeast);
+    Task<bool> UpdateUserMechaBeastBreakthroughAsync(string userId, MechaBeasts mechaBeast, int star, double quantity);
+    Task<MechaBeasts> GetUserMechaBeastByIdAsync(string userId, string Id);
+    Task<MechaBeasts> SumPowerUserMechaBeastsAsync(string userId);
 }

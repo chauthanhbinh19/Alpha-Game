@@ -262,9 +262,9 @@ public class AchievementsController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Achievements achievements)
+            if (obj is Achievements achievement)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(achievements.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, achievement.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -295,7 +295,7 @@ public class AchievementsController : MonoBehaviour
             if (obj is Achievements achievement)
             {
                 achievement.Quantity = achievement.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(achievement.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, achievement.Currency.Id, price);
                 bool success = await UserAchievementsService.Create().InsertUserAchievementAsync(achievement, User.CurrentUserId);
                 if (!success)
                 {

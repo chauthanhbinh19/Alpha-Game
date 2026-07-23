@@ -20,11 +20,11 @@ public class UserBooksService : IUserBooksService
         return _instance;
     }
 
-    public async Task<List<Books>> GetAllEquipmentPowerAsync(string user_id, List<Books> BooksList)
+    public async Task<List<Books>> GetAllEquipmentPowerAsync(string userId, List<Books> BooksList)
     {
         foreach (var c in BooksList)
         {
-            Equipments equipments = await UserEquipmentsService.Create().GetAllEquipmentsByBookIdAsync(user_id, c.Id);
+            Equipments equipments = await UserEquipmentsService.Create().GetAllEquipmentsByBookIdAsync(userId, c.Id);
             c.Health = c.Health + equipments.Health + equipments.SpecialHealth;
             c.PhysicalAttack = c.PhysicalAttack + equipments.PhysicalAttack + equipments.SpecialPhysicalAttack;
             c.PhysicalDefense = c.PhysicalDefense + equipments.PhysicalDefense + equipments.SpecialPhysicalDefense;
@@ -101,11 +101,11 @@ public class UserBooksService : IUserBooksService
         }
         return BooksList;
     }
-    public async Task<List<Books>> GetAllRankPowerAsync(string user_id, List<Books> BooksList)
+    public async Task<List<Books>> GetAllRankPowerAsync(string userId, List<Books> BooksList)
     {
         foreach (var c in BooksList)
         {
-            Rank rank = await UserBooksRankService.Create().GetSumBooksRankAsync(user_id, c.Id);
+            Rank rank = await UserBooksRankService.Create().GetSumUserBooksRankAsync(userId, c.Id);
             c.Health = c.Health + rank.Health + c.BaseStats.Health * rank.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + c.BaseStats.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + c.BaseStats.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
@@ -182,11 +182,11 @@ public class UserBooksService : IUserBooksService
         }
         return BooksList;
     }
-    public async Task<List<Books>> GetAllMasterPowerAsync(string user_id, List<Books> BooksList)
+    public async Task<List<Books>> GetAllMasterPowerAsync(string userId, List<Books> BooksList)
     {
         foreach (var c in BooksList)
         {
-            Master master = await UserBooksMasterService.Create().GetSumBooksMasterAsync(user_id, c.Id);
+            Master master = await UserBooksMasterService.Create().GetSumUserBooksMasterAsync(userId, c.Id);
             c.Health = c.Health + master.Health + c.BaseStats.Health * master.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + master.PhysicalAttack + c.BaseStats.PhysicalAttack * master.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + master.PhysicalDefense + c.BaseStats.PhysicalDefense * master.PercentAllPhysicalDefense / 100;
@@ -264,26 +264,26 @@ public class UserBooksService : IUserBooksService
         return BooksList;
     }
 
-    public async Task<List<Books>> GetUserBooksAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Books>> GetUserBooksAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Books> list = await _userBooksRepository.GetUserBooksAsync(user_id, search, type, pageSize, offset, rare);
+        List<Books> list = await _userBooksRepository.GetUserBooksAsync(userId, search, type, pageSize, offset, rare);
 
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(user_id);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(user_id);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(user_id);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(user_id);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(user_id);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(user_id);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(user_id);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
+        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(userId);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(userId);
+        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(userId);
+        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(userId);
+        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(userId);
+        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(userId);
+        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(userId);
+        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(userId);
+        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(userId);
+        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(userId);
+        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(userId);
+        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(userId);
+        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(userId);
+        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(userId);
+        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(userId);
+        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(userId);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
@@ -306,11 +306,11 @@ public class UserBooksService : IUserBooksService
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
 
-        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
+        // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(user_id, list);
-        // list = await GetAllRankPowerAsync(user_id, list);
-        // list = await GetAllMasterPowerAsync(user_id, list);
+        // list = await GetAllEquipmentPowerAsync(userId, list);
+        // list = await GetAllRankPowerAsync(userId, list);
+        // list = await GetAllMasterPowerAsync(userId, list);
         foreach (var book in list)
         {
             book.ApplyPowerStats(powerManagerData);
@@ -335,26 +335,26 @@ public class UserBooksService : IUserBooksService
         return list;
     }
 
-    public async Task<List<Books>> GetUserBooksTeamAsync(string user_id, string teamId, string position)
+    public async Task<List<Books>> GetUserBooksTeamAsync(string userId, string teamId, string position)
     {
-        List<Books> list = await _userBooksRepository.GetUserBooksTeamAsync(teamId);
+        List<Books> list = await _userBooksRepository.GetUserBooksTeamAsync(userId, teamId);
 
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(user_id);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(user_id);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(user_id);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(user_id);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(user_id);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(user_id);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(user_id);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
+        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(userId);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(userId);
+        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(userId);
+        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(userId);
+        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(userId);
+        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(userId);
+        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(userId);
+        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(userId);
+        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(userId);
+        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(userId);
+        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(userId);
+        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(userId);
+        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(userId);
+        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(userId);
+        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(userId);
+        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(userId);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
@@ -377,11 +377,11 @@ public class UserBooksService : IUserBooksService
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
 
-        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
+        // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(user_id, list);
-        // list = await GetAllRankPowerAsync(user_id, list);
-        // list = await GetAllMasterPowerAsync(user_id, list);
+        // list = await GetAllEquipmentPowerAsync(userId, list);
+        // list = await GetAllRankPowerAsync(userId, list);
+        // list = await GetAllMasterPowerAsync(userId, list);
         foreach (var book in list)
         {
             book.ApplyPowerStats(powerManagerData);
@@ -406,66 +406,66 @@ public class UserBooksService : IUserBooksService
         return list;
     }
 
-    public async Task<Dictionary<string, int>> GetUniqueBooksTypesTeamAsync(string teamId)
+    public async Task<Dictionary<string, int>> GetUniqueUserBooksTypesTeamAsync(string userId, string teamId)
     {
-        return await _userBooksRepository.GetUniqueBooksTypesTeamAsync(teamId);
+        return await _userBooksRepository.GetUniqueUserBooksTypesTeamAsync(userId, teamId);
     }
 
-    public async Task<int> GetUserBooksCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserBooksCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userBooksRepository.GetUserBooksCountAsync(user_id, search, type, rare);
+        return await _userBooksRepository.GetUserBooksCountAsync(userId, search, type, rare);
     }
 
-    public async Task<bool> InsertUserBookAsync(Books book)
+    public async Task<bool> InsertUserBookAsync(string userId, Books book)
     {
-        return await _userBooksRepository.InsertUserBookAsync(book);
+        return await _userBooksRepository.InsertUserBookAsync(userId, book);
     }
 
-    public async Task<bool> UpdateBookLevelAsync(Books book)
+    public async Task<bool> UpdateUserBookLevelAsync(string userId, Books book)
     {
-        return await _userBooksRepository.UpdateBookLevelAsync(book);
+        return await _userBooksRepository.UpdateUserBookLevelAsync(userId, book);
     }
 
-    public async Task<bool> UpdateBookStarAsync(Books book)
+    public async Task<bool> UpdateUserBookStarAsync(string userId, Books book)
     {
-        return await _userBooksRepository.UpdateBookStarAsync(book);
+        return await _userBooksRepository.UpdateUserBookStarAsync(userId, book);
     }
 
-    public async Task<bool> UpdateBookBreakthroughAsync(Books book, int star, double quantity)
+    public async Task<bool> UpdateUserBookBreakthroughAsync(string userId, Books book, int star, double quantity)
     {
-        return await _userBooksRepository.UpdateBookBreakthroughAsync(book, star, quantity);
+        return await _userBooksRepository.UpdateUserBookBreakthroughAsync(userId, book, star, quantity);
     }
 
-    public async Task<bool> UpdateTeamBookAsync(string team_id, string position, string book_id)
+    public async Task<bool> UpdateTeamUserBookAsync(string userId, string team_id, string position, string book_id)
     {
-        return await _userBooksRepository.UpdateTeamBookAsync(team_id, position, book_id);
+        return await _userBooksRepository.UpdateTeamUserBookAsync(userId, team_id, position, book_id);
     }
 
-    public async Task<Books> GetUserBookByIdAsync(string user_id, string Id)
+    public async Task<Books> GetUserBookByIdAsync(string userId, string Id)
     {
-        return await _userBooksRepository.GetUserBookByIdAsync(user_id, Id);
+        return await _userBooksRepository.GetUserBookByIdAsync(userId, Id);
     }
 
-    public async Task<List<Books>> GetAllUserBooksInTeamAsync(string user_id)
+    public async Task<List<Books>> GetAllUserBooksInTeamAsync(string userId)
     {
-        List<Books> list = await _userBooksRepository.GetAllUserBooksInTeamAsync(user_id);
+        List<Books> list = await _userBooksRepository.GetAllUserBooksInTeamAsync(userId);
 
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(user_id);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(user_id);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(user_id);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(user_id);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(user_id);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(user_id);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(user_id);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
+        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(userId);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(userId);
+        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(userId);
+        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(userId);
+        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(userId);
+        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(userId);
+        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(userId);
+        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(userId);
+        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(userId);
+        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(userId);
+        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(userId);
+        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(userId);
+        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(userId);
+        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(userId);
+        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(userId);
+        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(userId);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
@@ -488,11 +488,11 @@ public class UserBooksService : IUserBooksService
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
 
-        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
+        // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(user_id, list);
-        // list = await GetAllRankPowerAsync(user_id, list);
-        // list = await GetAllMasterPowerAsync(user_id, list);
+        // list = await GetAllEquipmentPowerAsync(userId, list);
+        // list = await GetAllRankPowerAsync(userId, list);
+        // list = await GetAllMasterPowerAsync(userId, list);
         foreach (var book in list)
         {
             book.ApplyPowerStats(powerManagerData);
@@ -517,8 +517,8 @@ public class UserBooksService : IUserBooksService
         return list;
     }
 
-    public async Task<bool> InsertOrUpdateUserBooksBatchAsync(List<Books> books)
+    public async Task<bool> InsertOrUpdateUserBooksBatchAsync(string userId, List<Books> books)
     {
-        return await _userBooksRepository.InsertOrUpdateUserBooksBatchAsync(books);
+        return await _userBooksRepository.InsertOrUpdateUserBooksBatchAsync(userId, books);
     }
 }

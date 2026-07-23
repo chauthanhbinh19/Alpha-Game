@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public interface IUserScienceFictionsService
 { 
-    Task<UserScienceFictions> GetUserScienceFictionsAsync(string id);
-    Task InsertOrUpdateUserScienceFictionsAsync(string user_id, UserScienceFictions scienceFiction, string id);
-    Task<UserScienceFictions> GetSumUserScienceFictionsAsync(string user_id);
+    Task<UserScienceFictions> GetUserScienceFictionsAsync(string userId, string id);
+    Task InsertOrUpdateUserScienceFictionsAsync(string userId, UserScienceFictions scienceFiction, string id);
+    Task<UserScienceFictions> GetSumUserScienceFictionsAsync(string userId);
 }

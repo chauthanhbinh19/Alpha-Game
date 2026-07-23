@@ -20,17 +20,17 @@ public class UserCoresService : IUserCoresService
         return _instance;
     }
 
-    public async Task<List<Cores>> GetUserCoresAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Cores>> GetUserCoresAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Cores> list = await _userCoresRepository.GetUserCoresAsync(user_id, search, pageSize, offset, rare);
+        List<Cores> list = await _userCoresRepository.GetUserCoresAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserCoresCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserCoresCountAsync(string userId, string search, string rare)
     {
-        return await _userCoresRepository.GetUserCoresCountAsync(user_id, search, rare);
+        return await _userCoresRepository.GetUserCoresCountAsync(userId, search, rare);
     }
 
     public async Task<bool> InsertUserCoreAsync(Cores core, string userId)
@@ -38,33 +38,33 @@ public class UserCoresService : IUserCoresService
         return await _userCoresRepository.InsertUserCoreAsync(core, userId);
     }
 
-    public async Task<bool> UpdateCoreLevelAsync(Cores core)
+    public async Task<bool> UpdateUserCoreLevelAsync(string userId, Cores core)
     {
-        return await _userCoresRepository.UpdateUserCoreLevelAsync(core);
+        return await _userCoresRepository.UpdateUserCoreLevelAsync(userId, core);
     }
 
-    public async Task<bool> UpdateCoreStarAsync(Cores core)
+    public async Task<bool> UpdateUserCoreStarAsync(string userId, Cores core)
     {
-        return await _userCoresRepository.UpdateUserCoreStarAsync(core);
+        return await _userCoresRepository.UpdateUserCoreStarAsync(userId, core);
     }
 
-    public async Task<bool> UpdateCoreBreakthroughAsync(Cores core, int star, double quantity)
+    public async Task<bool> UpdateUserCoreBreakthroughAsync(string userId, Cores core, int star, double quantity)
     {
-        return await _userCoresRepository.UpdateUserCoreBreakthroughAsync(core, star, quantity);
+        return await _userCoresRepository.UpdateUserCoreBreakthroughAsync(userId, core, star, quantity);
     }
 
-    public async Task<Cores> GetUserCoreByIdAsync(string user_id, string Id)
+    public async Task<Cores> GetUserCoreByIdAsync(string userId, string Id)
     {
-        return await _userCoresRepository.GetUserCoreByIdAsync(user_id, Id);
+        return await _userCoresRepository.GetUserCoreByIdAsync(userId, Id);
     }
 
-    public async Task<Cores> SumPowerUserCoresAsync()
+    public async Task<Cores> SumPowerUserCoresAsync(string userId)
     {
-        return await _userCoresRepository.SumPowerUserCoresAsync();
+        return await _userCoresRepository.SumPowerUserCoresAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserCoresBatchAsync(List<Cores> cores)
+    public async Task<bool> InsertOrUpdateUserCoresBatchAsync(string userId, List<Cores> cores)
     {
-        return await _userCoresRepository.InsertOrUpdateUserCoresBatchAsync(cores);
+        return await _userCoresRepository.InsertOrUpdateUserCoresBatchAsync(userId, cores);
     }
 }

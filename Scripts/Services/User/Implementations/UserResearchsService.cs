@@ -19,14 +19,14 @@ public class UserResearchsService : IUserResearchsService
         return _instance;
     }
 
-    public async Task<UserResearchs> GetUserResearchsAsync(string id)
+    public async Task<UserResearchs> GetUserResearchsAsync(string userId, string id)
     {
-        return await _userResearchsRepository.GetUserResearchsAsync(id);
+        return await _userResearchsRepository.GetUserResearchsAsync(userId, id);
     }
 
-    public async Task<UserResearchs> GetSumUserResearchsAsync(string user_id)
+    public async Task<UserResearchs> GetSumUserResearchsAsync(string userId)
     {
-        return await _userResearchsRepository.GetSumUserResearchsAsync(user_id);
+        return await _userResearchsRepository.GetSumUserResearchsAsync(userId);
     }
 
     public async Task InsertOrUpdateUserResearchsAsync(string userId, UserResearchs Researchs, string id)

@@ -99,7 +99,7 @@ public class UpgradeAscensionManager : MonoBehaviour
 
         Upgrades upgrade = await UpgradesService.Create().GetUpgradeByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserUpgrades userUpgrade = await UserUpgradesService.Create().GetUserUpgradesAsync(featureId, stat);
+        UserUpgrades userUpgrade = await UserUpgradesService.Create().GetUserUpgradesAsync(User.CurrentUserId, featureId, stat);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -129,7 +129,7 @@ public class UpgradeAscensionManager : MonoBehaviour
         levelText.text = currentLevel.ToString();
         async Task RefreshPanelAsync()
         {
-            userUpgrade = await UserUpgradesService.Create().GetUserUpgradesAsync(featureId, stat);
+            userUpgrade = await UserUpgradesService.Create().GetUserUpgradesAsync(User.CurrentUserId, featureId, stat);
             currentLevel = userUpgrade?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

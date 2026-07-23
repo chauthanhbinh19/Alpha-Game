@@ -20,17 +20,17 @@ public class UserEmojisService : IUserEmojisService
         return _instance;
     }
 
-    public async Task<List<Emojis>> GetUserEmojisAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Emojis>> GetUserEmojisAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Emojis> list = await _userEmojisRepository.GetUserEmojisAsync(user_id, search, pageSize, offset, rare);
+        List<Emojis> list = await _userEmojisRepository.GetUserEmojisAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserEmojisCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserEmojisCountAsync(string userId, string search, string rare)
     {
-        return await _userEmojisRepository.GetUserEmojisCountAsync(user_id, search, rare);
+        return await _userEmojisRepository.GetUserEmojisCountAsync(userId, search, rare);
     }
 
     public async Task<bool> InsertUserEmojiAsync(Emojis emoji, string userId)
@@ -38,33 +38,33 @@ public class UserEmojisService : IUserEmojisService
         return await _userEmojisRepository.InsertUserEmojiAsync(emoji, userId);
     }
 
-    public async Task<bool> UpdateEmojiLevelAsync(Emojis emoji)
+    public async Task<bool> UpdateUserEmojiLevelAsync(string userId, Emojis emoji)
     {
-        return await _userEmojisRepository.UpdateUserEmojiLevelAsync(emoji);
+        return await _userEmojisRepository.UpdateUserEmojiLevelAsync(userId, emoji);
     }
 
-    public async Task<bool> UpdateEmojiStarAsync(Emojis emoji)
+    public async Task<bool> UpdateUserEmojiStarAsync(string userId, Emojis emoji)
     {
-        return await _userEmojisRepository.UpdateUserEmojiStarAsync(emoji);
+        return await _userEmojisRepository.UpdateUserEmojiStarAsync(userId, emoji);
     }
 
-    public async Task<bool> UpdateEmojiBreakthroughAsync(Emojis emoji, int star, double quantity)
+    public async Task<bool> UpdateUserEmojiBreakthroughAsync(string userId, Emojis emoji, int star, double quantity)
     {
-        return await _userEmojisRepository.UpdateUserEmojiBreakthroughAsync(emoji, star, quantity);
+        return await _userEmojisRepository.UpdateUserEmojiBreakthroughAsync(userId, emoji, star, quantity);
     }
 
-    public async Task<Emojis> GetUserEmojiByIdAsync(string user_id, string Id)
+    public async Task<Emojis> GetUserEmojiByIdAsync(string userId, string Id)
     {
-        return await _userEmojisRepository.GetUserEmojiByIdAsync(user_id, Id);
+        return await _userEmojisRepository.GetUserEmojiByIdAsync(userId, Id);
     }
 
-    public async Task<Emojis> SumPowerUserEmojisAsync()
+    public async Task<Emojis> SumPowerUserEmojisAsync(string userId)
     {
-        return await _userEmojisRepository.SumPowerUserEmojisAsync();
+        return await _userEmojisRepository.SumPowerUserEmojisAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserEmojisBatchAsync(List<Emojis> emojis)
+    public async Task<bool> InsertOrUpdateUserEmojisBatchAsync(string userId, List<Emojis> emojis)
     {
-        return await _userEmojisRepository.InsertOrUpdateUserEmojisBatchAsync(emojis);
+        return await _userEmojisRepository.InsertOrUpdateUserEmojisBatchAsync(userId, emojis);
     }
 }

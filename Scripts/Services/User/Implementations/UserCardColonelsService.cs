@@ -21,11 +21,11 @@ public class UserCardColonelsService : IUserCardColonelsService
         return _instance;
     }
 
-    public async Task<List<CardColonels>> GetAllEquipmentPowerAsync(string user_id, List<CardColonels> CardColonelsList)
+    public async Task<List<CardColonels>> GetAllEquipmentPowerAsync(string userId, List<CardColonels> CardColonelsList)
     {
         foreach (var c in CardColonelsList)
         {
-            Equipments equipments = await UserEquipmentsService.Create().GetAllEquipmentsByCardColonelIdAsync(user_id, c.Id);
+            Equipments equipments = await UserEquipmentsService.Create().GetAllEquipmentsByCardColonelIdAsync(userId, c.Id);
             c.Health = c.Health + equipments.Health + equipments.SpecialHealth;
             c.PhysicalAttack = c.PhysicalAttack + equipments.PhysicalAttack + equipments.SpecialPhysicalAttack;
             c.PhysicalDefense = c.PhysicalDefense + equipments.PhysicalDefense + equipments.SpecialPhysicalDefense;
@@ -102,11 +102,11 @@ public class UserCardColonelsService : IUserCardColonelsService
         }
         return CardColonelsList;
     }
-    public async Task<List<CardColonels>> GetAllRankPowerAsync(string user_id, List<CardColonels> CardColonelsList)
+    public async Task<List<CardColonels>> GetAllRankPowerAsync(string userId, List<CardColonels> CardColonelsList)
     {
         foreach (var c in CardColonelsList)
         {
-            Rank rank = await UserCardColonelsRankService.Create().GetSumCardColonelsRankAsync(user_id, c.Id);
+            Rank rank = await UserCardColonelsRankService.Create().GetSumUserCardColonelsRankAsync(userId, c.Id);
             c.Health = c.Health + rank.Health + c.BaseStats.Health * rank.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + c.BaseStats.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + c.BaseStats.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
@@ -183,11 +183,11 @@ public class UserCardColonelsService : IUserCardColonelsService
         }
         return CardColonelsList;
     }
-    public async Task<List<CardColonels>> GetAllMasterPowerAsync(string user_id, List<CardColonels> CardColonelsList)
+    public async Task<List<CardColonels>> GetAllMasterPowerAsync(string userId, List<CardColonels> CardColonelsList)
     {
         foreach (var c in CardColonelsList)
         {
-            Master master = await UserCardColonelsMasterService.Create().GetSumCardColonelsMasterAsync(user_id, c.Id);
+            Master master = await UserCardColonelsMasterService.Create().GetSumUserCardColonelsMasterAsync(userId, c.Id);
             c.Health = c.Health + master.Health + c.BaseStats.Health * master.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + master.PhysicalAttack + c.BaseStats.PhysicalAttack * master.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + master.PhysicalDefense + c.BaseStats.PhysicalDefense * master.PercentAllPhysicalDefense / 100;
@@ -264,11 +264,11 @@ public class UserCardColonelsService : IUserCardColonelsService
         }
         return CardColonelsList;
     }
-    public async Task<List<CardColonels>> GetAllSpiritBeastPowerAsync(string user_id, List<CardColonels> cardColonels)
+    public async Task<List<CardColonels>> GetAllSpiritBeastPowerAsync(string userId, List<CardColonels> cardColonels)
     {
         foreach (var c in cardColonels)
         {
-            SpiritBeasts spiritBeast = await UserSpiritBeastsService.Create().GetUserCardColonelSpiritBeastAsync(user_id, c);
+            SpiritBeasts spiritBeast = await UserSpiritBeastsService.Create().GetUserCardColonelSpiritBeastAsync(userId, c);
             if (spiritBeast != null)
             {
                 c.Health = c.Health + spiritBeast.Health + c.BaseStats.Health * spiritBeast.PercentAllHealth / 100;
@@ -350,23 +350,23 @@ public class UserCardColonelsService : IUserCardColonelsService
     }
 
 
-    public async Task<List<CardColonels>> GetSkillsAsync(string user_id, List<CardColonels> CardColonelsList)
+    public async Task<List<CardColonels>> GetSkillsAsync(string userId, List<CardColonels> CardColonelsList)
     {
         foreach (CardColonels cardColonel in CardColonelsList)
         {
-            var skills = await UserSkillsService.Create().GetUserCardColonelsSkillsAsync(user_id, cardColonel.Id);
+            var skills = await UserSkillsService.Create().GetUserCardColonelsSkillsAsync(userId, cardColonel.Id);
             skills = skills.Where(x => x.Position != 0).ToList();
             cardColonel.Skills = skills;
         }
         return CardColonelsList;
     }
-    public async Task<List<CardColonels>> GetUserCardColonelsAsync(string user_id, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null)
+    public async Task<List<CardColonels>> GetUserCardColonelsAsync(string userId, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null)
     {
-        List<CardColonels> list = await _userCardColonelsRepository.GetUserCardColonelsAsync(user_id, search, type, pageSize, offset, rare);
+        List<CardColonels> list = await _userCardColonelsRepository.GetUserCardColonelsAsync(userId, search, type, pageSize, offset, rare);
 
         List<string> cardColonelIds = list.Select(hero => hero.Id).ToList();
 
-        var skillsTask = UserSkillsService.Create().GetUserCardColonelsSkillsAsync(user_id, cardColonelIds);
+        var skillsTask = UserSkillsService.Create().GetUserCardColonelsSkillsAsync(userId, cardColonelIds);
 
         var skillData = await skillsTask;
         foreach (var skill in skillData)
@@ -380,7 +380,7 @@ public class UserCardColonelsService : IUserCardColonelsService
         UserStatsContextDTO context = sharedContext;
         if (context == null)
         {
-            context = await UserStatsService.Create().GetUserStatsContextAsync(user_id);
+            context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
         }
 
         var skillsLookup = skillData.ToLookup(s => s.CardId);
@@ -403,12 +403,12 @@ public class UserCardColonelsService : IUserCardColonelsService
         totalBuffs.AddBuff(context.HisnData);
         totalBuffs.AddBuff(context.AnimeStatsData);
 
-        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
+        // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(user_id, list);
-        // list = await GetAllRankPowerAsync(user_id, list);
-        // list = await GetAllMasterPowerAsync(user_id, list);
-        // list = await GetSkillsAsync(user_id, list);
+        // list = await GetAllEquipmentPowerAsync(userId, list);
+        // list = await GetAllRankPowerAsync(userId, list);
+        // list = await GetAllMasterPowerAsync(userId, list);
+        // list = await GetSkillsAsync(userId, list);
         foreach (var card in list)
         {
             if (card == null) continue; // Phòng hờ phần tử trong list bị null
@@ -428,13 +428,13 @@ public class UserCardColonelsService : IUserCardColonelsService
         return list;
     }
 
-    public async Task<List<CardColonels>> GetUserCardColonelsTeamAsync(string user_id, string teamId, string position, UserStatsContextDTO sharedContext = null)
+    public async Task<List<CardColonels>> GetUserCardColonelsTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null)
     {
-        List<CardColonels> list = await _userCardColonelsRepository.GetUserCardColonelsTeamAsync(user_id, teamId, position);
+        List<CardColonels> list = await _userCardColonelsRepository.GetUserCardColonelsTeamAsync(userId, teamId, position);
 
         List<string> cardColonelIds = list.Select(hero => hero.Id).ToList();
 
-        var skillsTask = UserSkillsService.Create().GetUserCardColonelsSkillsAsync(user_id, cardColonelIds);
+        var skillsTask = UserSkillsService.Create().GetUserCardColonelsSkillsAsync(userId, cardColonelIds);
 
         var skillData = await skillsTask;
         foreach (var skill in skillData)
@@ -448,7 +448,7 @@ public class UserCardColonelsService : IUserCardColonelsService
         UserStatsContextDTO context = sharedContext;
         if (context == null)
         {
-            context = await UserStatsService.Create().GetUserStatsContextAsync(user_id);
+            context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
         }
 
         var skillsLookup = skillData.ToLookup(s => s.CardId);
@@ -471,12 +471,12 @@ public class UserCardColonelsService : IUserCardColonelsService
         totalBuffs.AddBuff(context.HisnData);
         totalBuffs.AddBuff(context.AnimeStatsData);
 
-        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
+        // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(user_id, list);
-        // list = await GetAllRankPowerAsync(user_id, list);
-        // list = await GetAllMasterPowerAsync(user_id, list);
-        // list = await GetSkillsAsync(user_id, list);
+        // list = await GetAllEquipmentPowerAsync(userId, list);
+        // list = await GetAllRankPowerAsync(userId, list);
+        // list = await GetAllMasterPowerAsync(userId, list);
+        // list = await GetSkillsAsync(userId, list);
         foreach (var card in list)
         {
             if (card == null) continue; // Phòng hờ phần tử trong list bị null
@@ -496,13 +496,13 @@ public class UserCardColonelsService : IUserCardColonelsService
         return list;
     }
 
-    public async Task<List<CardColonels>> GetUserCardColonelsTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null)
+    public async Task<List<CardColonels>> GetUserCardColonelsTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null)
     {
-        List<CardColonels> list = await _userCardColonelsRepository.GetUserCardColonelsTeamWithoutPositionAsync(user_id, teamId);
+        List<CardColonels> list = await _userCardColonelsRepository.GetUserCardColonelsTeamWithoutPositionAsync(userId, teamId);
 
         List<string> cardColonelIds = list.Select(hero => hero.Id).ToList();
 
-        // var skillsTask = UserSkillsService.Create().GetUserCardColonelsSkillsAsync(user_id, cardColonelIds);
+        // var skillsTask = UserSkillsService.Create().GetUserCardColonelsSkillsAsync(userId, cardColonelIds);
 
         // var skillData = await skillsTask;
         // foreach (var skill in skillData)
@@ -516,7 +516,7 @@ public class UserCardColonelsService : IUserCardColonelsService
         UserStatsContextDTO context = sharedContext;
         if (context == null)
         {
-            context = await UserStatsService.Create().GetUserStatsContextAsync(user_id);
+            context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
         }
 
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
@@ -539,12 +539,12 @@ public class UserCardColonelsService : IUserCardColonelsService
         totalBuffs.AddBuff(context.HisnData);
         totalBuffs.AddBuff(context.AnimeStatsData);
 
-        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
+        // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(user_id, list);
-        // list = await GetAllRankPowerAsync(user_id, list);
-        // list = await GetAllMasterPowerAsync(user_id, list);
-        // list = await GetSkillsAsync(user_id, list);
+        // list = await GetAllEquipmentPowerAsync(userId, list);
+        // list = await GetAllRankPowerAsync(userId, list);
+        // list = await GetAllMasterPowerAsync(userId, list);
+        // list = await GetSkillsAsync(userId, list);
         foreach (var card in list)
         {
             if (card == null) continue; // Phòng hờ phần tử trong list bị null
@@ -564,54 +564,54 @@ public class UserCardColonelsService : IUserCardColonelsService
         return list;
     }
 
-    public async Task<Dictionary<string, int>> GetUniqueCardColonelsTypesTeamAsync(string teamId)
+    public async Task<Dictionary<string, int>> GetUniqueUserCardColonelsTypesTeamAsync(string userId, string teamId)
     {
-        return await _userCardColonelsRepository.GetUniqueCardColonelsTypesTeamAsync(teamId);
+        return await _userCardColonelsRepository.GetUniqueUserCardColonelsTypesTeamAsync(userId, teamId);
     }
 
-    public async Task<int> GetUserCardColonelsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserCardColonelsCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userCardColonelsRepository.GetUserCardColonelsCountAsync(user_id, search, type, rare);
+        return await _userCardColonelsRepository.GetUserCardColonelsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<int> GetUserCardColonelsTeamsPositionCountAsync(string user_id, string team_id, string position)
+    public async Task<int> GetUserCardColonelsTeamsPositionCountAsync(string userId, string team_id, string position)
     {
-        return await _userCardColonelsRepository.GetUserCardColonelsTeamsPositionCountAsync(user_id, team_id, position);
+        return await _userCardColonelsRepository.GetUserCardColonelsTeamsPositionCountAsync(userId, team_id, position);
     }
 
-    public async Task<int> GetUserCardColonelsTeamsCountAsync(string user_id, string team_id)
+    public async Task<int> GetUserCardColonelsTeamsCountAsync(string userId, string team_id)
     {
-        return await _userCardColonelsRepository.GetUserCardColonelsTeamsCountAsync(user_id, team_id);
+        return await _userCardColonelsRepository.GetUserCardColonelsTeamsCountAsync(userId, team_id);
     }
 
-    public async Task<bool> InsertUserCardColonelAsync(CardColonels cardColonel)
+    public async Task<bool> InsertUserCardColonelAsync(string userId, CardColonels cardColonel)
     {
-        return await _userCardColonelsRepository.InsertUserCardColonelAsync(cardColonel);
+        return await _userCardColonelsRepository.InsertUserCardColonelAsync(userId, cardColonel);
     }
 
-    public async Task<bool> UpdateCardColonelLevelAsync(CardColonels cardColonel)
+    public async Task<bool> UpdateUserCardColonelLevelAsync(string userId, CardColonels cardColonel)
     {
-        return await _userCardColonelsRepository.UpdateCardColonelLevelAsync(cardColonel);
+        return await _userCardColonelsRepository.UpdateUserCardColonelLevelAsync(userId, cardColonel);
     }
 
-    public async Task<bool> UpdateCardColonelStarAsync(CardColonels cardColonel)
+    public async Task<bool> UpdateUserCardColonelStarAsync(string userId, CardColonels cardColonel)
     {
-        return await _userCardColonelsRepository.UpdateCardColonelStarAsync(cardColonel);
+        return await _userCardColonelsRepository.UpdateUserCardColonelStarAsync(userId, cardColonel);
     }
 
-    public async Task<bool> UpdateCardColonelBreakthroughAsync(CardColonels cardColonel, int star, double quantity)
+    public async Task<bool> UpdateUserCardColonelBreakthroughAsync(string userId, CardColonels cardColonel, int star, double quantity)
     {
-        return await _userCardColonelsRepository.UpdateCardColonelBreakthroughAsync(cardColonel, star, quantity);
+        return await _userCardColonelsRepository.UpdateUserCardColonelBreakthroughAsync(userId, cardColonel, star, quantity);
     }
 
-    public async Task<bool> UpdateTeamCardColonelAsync(string team_id, string position, string card_id)
+    public async Task<bool> UpdateTeamUserCardColonelAsync(string userId, string team_id, string position, string card_id)
     {
-        return await _userCardColonelsRepository.UpdateTeamCardColonelAsync(team_id, position, card_id);
+        return await _userCardColonelsRepository.UpdateTeamUserCardColonelAsync(userId, team_id, position, card_id);
     }
 
-    public async Task<CardColonels> GetUserCardColonelByIdAsync(string user_id, string Id, UserStatsContextDTO sharedContext = null)
+    public async Task<CardColonels> GetUserCardColonelByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null)
     {
-        CardColonels cardColonel = await _userCardColonelsRepository.GetUserCardColonelByIdAsync(user_id, Id);
+        CardColonels cardColonel = await _userCardColonelsRepository.GetUserCardColonelByIdAsync(userId, Id);
         if (cardColonel == null) return null;
 
         // Bọc vào list để tái sử dụng logic
@@ -619,7 +619,7 @@ public class UserCardColonelsService : IUserCardColonelsService
 
         List<string> cardColonelIds = list.Select(hero => hero.Id).ToList();
 
-        var skillsTask = UserSkillsService.Create().GetUserCardColonelsSkillsAsync(user_id, cardColonelIds);
+        var skillsTask = UserSkillsService.Create().GetUserCardColonelsSkillsAsync(userId, cardColonelIds);
 
         var skillData = await skillsTask;
         foreach (var skill in skillData)
@@ -633,7 +633,7 @@ public class UserCardColonelsService : IUserCardColonelsService
         UserStatsContextDTO context = sharedContext;
         if (context == null)
         {
-            context = await UserStatsService.Create().GetUserStatsContextAsync(user_id);
+            context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
         }
 
         var skillsLookup = skillData.ToLookup(s => s.CardId);
@@ -656,12 +656,12 @@ public class UserCardColonelsService : IUserCardColonelsService
         totalBuffs.AddBuff(context.HisnData);
         totalBuffs.AddBuff(context.AnimeStatsData);
 
-        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
+        // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(user_id, list);
-        // list = await GetAllRankPowerAsync(user_id, list);
-        // list = await GetAllMasterPowerAsync(user_id, list);
-        // list = await GetSkillsAsync(user_id, list);
+        // list = await GetAllEquipmentPowerAsync(userId, list);
+        // list = await GetAllRankPowerAsync(userId, list);
+        // list = await GetAllMasterPowerAsync(userId, list);
+        // list = await GetSkillsAsync(userId, list);
         foreach (var card in list)
         {
             if (card == null) continue; // Phòng hờ phần tử trong list bị null
@@ -681,13 +681,13 @@ public class UserCardColonelsService : IUserCardColonelsService
         return list.FirstOrDefault();
     }
 
-    public async Task<List<CardColonels>> GetAllUserCardColonelsInTeamAsync(string user_id, UserStatsContextDTO sharedContext = null)
+    public async Task<List<CardColonels>> GetAllUserCardColonelsInTeamAsync(string userId, UserStatsContextDTO sharedContext = null)
     {
-        List<CardColonels> list = await _userCardColonelsRepository.GetAllUserCardColonelsInTeamAsync(user_id);
+        List<CardColonels> list = await _userCardColonelsRepository.GetAllUserCardColonelsInTeamAsync(userId);
 
         List<string> cardColonelIds = list.Select(hero => hero.Id).ToList();
 
-        var skillsTask = UserSkillsService.Create().GetUserCardColonelsSkillsAsync(user_id, cardColonelIds);
+        var skillsTask = UserSkillsService.Create().GetUserCardColonelsSkillsAsync(userId, cardColonelIds);
 
         var skillData = await skillsTask;
         foreach (var skill in skillData)
@@ -701,7 +701,7 @@ public class UserCardColonelsService : IUserCardColonelsService
         UserStatsContextDTO context = sharedContext;
         if (context == null)
         {
-            context = await UserStatsService.Create().GetUserStatsContextAsync(user_id);
+            context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
         }
 
         var skillsLookup = skillData.ToLookup(s => s.CardId);
@@ -724,12 +724,12 @@ public class UserCardColonelsService : IUserCardColonelsService
         totalBuffs.AddBuff(context.HisnData);
         totalBuffs.AddBuff(context.AnimeStatsData);
 
-        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
+        // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(user_id, list);
-        // list = await GetAllRankPowerAsync(user_id, list);
-        // list = await GetAllMasterPowerAsync(user_id, list);
-        // list = await GetSkillsAsync(user_id, list);
+        // list = await GetAllEquipmentPowerAsync(userId, list);
+        // list = await GetAllRankPowerAsync(userId, list);
+        // list = await GetAllMasterPowerAsync(userId, list);
+        // list = await GetSkillsAsync(userId, list);
         foreach (var card in list)
         {
             if (card == null) continue; // Phòng hờ phần tử trong list bị null
@@ -749,8 +749,8 @@ public class UserCardColonelsService : IUserCardColonelsService
         return list;
     }
 
-    public async Task<bool> InsertOrUpdateUserCardColonelsBatchAsync(List<CardColonels> cardColonels)
+    public async Task<bool> InsertOrUpdateUserCardColonelsBatchAsync(string userId, List<CardColonels> cardColonels)
     {
-        return await _userCardColonelsRepository.InsertOrUpdateUserCardColonelsBatchAsync(cardColonels);
+        return await _userCardColonelsRepository.InsertOrUpdateUserCardColonelsBatchAsync(userId, cardColonels);
     }
 }

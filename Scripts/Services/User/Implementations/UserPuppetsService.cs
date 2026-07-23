@@ -23,17 +23,17 @@ public class UserPuppetsService : IUserPuppetsService
 
 
 
-    public async Task<List<Puppets>> GetUserPuppetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Puppets>> GetUserPuppetsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Puppets> list = await _userPuppetsRepository.GetUserPuppetsAsync(user_id, search, type, pageSize, offset, rare);
+        List<Puppets> list = await _userPuppetsRepository.GetUserPuppetsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserPuppetsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserPuppetsCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userPuppetsRepository.GetUserPuppetsCountAsync(user_id, search, type, rare);
+        return await _userPuppetsRepository.GetUserPuppetsCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserPuppetAsync(Puppets puppet, string userId)
@@ -41,33 +41,33 @@ public class UserPuppetsService : IUserPuppetsService
         return await _userPuppetsRepository.InsertUserPuppetAsync(puppet, userId);
     }
 
-    public async Task<bool> UpdatePuppetLevelAsync(Puppets puppet)
+    public async Task<bool> UpdateUserPuppetLevelAsync(string userId, Puppets puppet)
     {
-        return await _userPuppetsRepository.UpdatePuppetLevelAsync(puppet);
+        return await _userPuppetsRepository.UpdateUserPuppetLevelAsync(userId, puppet);
     }
 
-    public async Task<bool> UpdatePuppetStarAsync(Puppets puppet)
+    public async Task<bool> UpdateUserPuppetStarAsync(string userId, Puppets puppet)
     {
-        return await _userPuppetsRepository.UpdatePuppetStarAsync(puppet);
+        return await _userPuppetsRepository.UpdateUserPuppetStarAsync(userId, puppet);
     }
 
-    public async Task<bool> UpdatePuppetBreakthroughAsync(Puppets puppet, int star, double quantity)
+    public async Task<bool> UpdatePuppetBreakthroughAsync(string userId, Puppets puppet, int star, double quantity)
     {
-        return await _userPuppetsRepository.UpdatePuppetBreakthroughAsync(puppet, star, quantity);
+        return await _userPuppetsRepository.UpdateUserPuppetBreakthroughAsync(userId, puppet, star, quantity);
     }
 
-    public async Task<Puppets> GetUserPuppetByIdAsync(string user_id, string Id)
+    public async Task<Puppets> GetUserPuppetByIdAsync(string userId, string Id)
     {
-        return await _userPuppetsRepository.GetUserPuppetByIdAsync(user_id, Id);
+        return await _userPuppetsRepository.GetUserPuppetByIdAsync(userId, Id);
     }
 
-    public async Task<Puppets> SumPowerUserPuppetsAsync()
+    public async Task<Puppets> SumPowerUserPuppetsAsync(string userId)
     {
-        return await _userPuppetsRepository.SumPowerUserPuppetsAsync();
+        return await _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserPuppetsBatchAsync(List<Puppets> puppets)
+    public async Task<bool> InsertOrUpdateUserPuppetsBatchAsync(string userId, List<Puppets> puppets)
     {
-        return await _userPuppetsRepository.InsertOrUpdateUserPuppetsBatchAsync(puppets);
+        return await _userPuppetsRepository.InsertOrUpdateUserPuppetsBatchAsync(userId, puppets);
     }
 }

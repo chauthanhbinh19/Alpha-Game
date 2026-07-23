@@ -20,11 +20,11 @@ public class UserPetsService : IUserPetsService
         return _instance;
     }
 
-    public async Task<List<Pets>> GetAllEquipmentPowerAsync(string user_id, List<Pets> PetsList)
+    public async Task<List<Pets>> GetAllEquipmentPowerAsync(string userId, List<Pets> PetsList)
     {
         foreach (var c in PetsList)
         {
-            Equipments equipments = await UserEquipmentsService.Create().GetAllEquipmentsByPetIdAsync(user_id, c.Id);
+            Equipments equipments = await UserEquipmentsService.Create().GetAllEquipmentsByPetIdAsync(userId, c.Id);
             c.Health = c.Health + equipments.Health + equipments.SpecialHealth;
             c.PhysicalAttack = c.PhysicalAttack + equipments.PhysicalAttack + equipments.SpecialPhysicalAttack;
             c.PhysicalDefense = c.PhysicalDefense + equipments.PhysicalDefense + equipments.SpecialPhysicalDefense;
@@ -101,11 +101,11 @@ public class UserPetsService : IUserPetsService
         }
         return PetsList;
     }
-    public async Task<List<Pets>> GetAllRankPowerAsync(string user_id, List<Pets> PetsList)
+    public async Task<List<Pets>> GetAllRankPowerAsync(string userId, List<Pets> PetsList)
     {
         foreach (var c in PetsList)
         {
-            Rank rank = await UserPetsRankService.Create().GetSumPetsRankAsync(user_id, c.Id);
+            Rank rank = await UserPetsRankService.Create().GetSumUserPetsRankAsync(userId, c.Id);
             c.Health = c.Health + rank.Health + c.BaseStats.Health * rank.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + c.BaseStats.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + c.BaseStats.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
@@ -182,11 +182,11 @@ public class UserPetsService : IUserPetsService
         }
         return PetsList;
     }
-    public async Task<List<Pets>> GetAllMasterPowerAsync(string user_id, List<Pets> PetsList)
+    public async Task<List<Pets>> GetAllMasterPowerAsync(string userId, List<Pets> PetsList)
     {
         foreach (var c in PetsList)
         {
-            Master master = await UserPetsMasterService.Create().GetSumPetsMasterAsync(user_id, c.Id);
+            Master master = await UserPetsMasterService.Create().GetSumUserPetsMasterAsync(userId, c.Id);
             c.Health = c.Health + master.Health + c.BaseStats.Health * master.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + master.PhysicalAttack + c.BaseStats.PhysicalAttack * master.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + master.PhysicalDefense + c.BaseStats.PhysicalDefense * master.PercentAllPhysicalDefense / 100;
@@ -266,26 +266,26 @@ public class UserPetsService : IUserPetsService
 
 
 
-    public async Task<List<Pets>> GetUserPetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Pets>> GetUserPetsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Pets> list = await _userPetsRepository.GetUserPetsAsync(user_id, search, type, pageSize, offset, rare);
+        List<Pets> list = await _userPetsRepository.GetUserPetsAsync(userId, search, type, pageSize, offset, rare);
 
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(user_id);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(user_id);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(user_id);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(user_id);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(user_id);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(user_id);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(user_id);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
+        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(userId);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(userId);
+        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(userId);
+        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(userId);
+        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(userId);
+        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(userId);
+        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(userId);
+        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(userId);
+        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(userId);
+        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(userId);
+        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(userId);
+        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(userId);
+        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(userId);
+        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(userId);
+        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(userId);
+        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(userId);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
@@ -308,11 +308,11 @@ public class UserPetsService : IUserPetsService
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
 
-        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
+        // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(user_id, list);
-        // list = await GetAllRankPowerAsync(user_id, list);
-        // list = await GetAllMasterPowerAsync(user_id, list);
+        // list = await GetAllEquipmentPowerAsync(userId, list);
+        // list = await GetAllRankPowerAsync(userId, list);
+        // list = await GetAllMasterPowerAsync(userId, list);
         foreach (var pet in list)
         {
             pet.ApplyPowerStats(powerManagerData);
@@ -337,26 +337,26 @@ public class UserPetsService : IUserPetsService
         return list;
     }
 
-    public async Task<List<Pets>> GetUserPetsTeamAsync(string user_id, string teamId)
+    public async Task<List<Pets>> GetUserPetsTeamAsync(string userId, string teamId)
     {
-        List<Pets> list = await _userPetsRepository.GetUserPetsTeamAsync(user_id, teamId);
+        List<Pets> list = await _userPetsRepository.GetUserPetsTeamAsync(userId, teamId);
 
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(user_id);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(user_id);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(user_id);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(user_id);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(user_id);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(user_id);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(user_id);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
+        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(userId);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(userId);
+        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(userId);
+        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(userId);
+        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(userId);
+        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(userId);
+        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(userId);
+        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(userId);
+        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(userId);
+        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(userId);
+        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(userId);
+        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(userId);
+        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(userId);
+        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(userId);
+        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(userId);
+        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(userId);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
@@ -379,11 +379,11 @@ public class UserPetsService : IUserPetsService
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
 
-        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
+        // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(user_id, list);
-        // list = await GetAllRankPowerAsync(user_id, list);
-        // list = await GetAllMasterPowerAsync(user_id, list);
+        // list = await GetAllEquipmentPowerAsync(userId, list);
+        // list = await GetAllRankPowerAsync(userId, list);
+        // list = await GetAllMasterPowerAsync(userId, list);
         foreach (var pet in list)
         {
             pet.ApplyPowerStats(powerManagerData);
@@ -408,14 +408,14 @@ public class UserPetsService : IUserPetsService
         return list;
     }
 
-    public async Task<Dictionary<string, int>> GetUniquePetsTypesTeamAsync(string teamId)
+    public async Task<Dictionary<string, int>> GetUniqueUserPetsTypesTeamAsync(string userId, string teamId)
     {
-        return await _userPetsRepository.GetUniquePetsTypesTeamAsync(teamId);
+        return await _userPetsRepository.GetUniqueUserPetsTypesTeamAsync(userId, teamId);
     }
 
-    public async Task<int> GetUserPetsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserPetsCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userPetsRepository.GetUserPetsCountAsync(user_id, search, type, rare);
+        return await _userPetsRepository.GetUserPetsCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserPetAsync(Pets pet, string userId)
@@ -423,51 +423,51 @@ public class UserPetsService : IUserPetsService
         return await _userPetsRepository.InsertUserPetAsync(pet, userId);
     }
 
-    public async Task<bool> UpdatePetLevelAsync(Pets pet)
+    public async Task<bool> UpdateUserPetLevelAsync(string userId, Pets pet)
     {
-        return await _userPetsRepository.UpdatePetLevelAsync(pet);
+        return await _userPetsRepository.UpdateUserPetLevelAsync(userId, pet);
     }
 
-    public async Task<bool> UpdatePetStarAsync(Pets pet)
+    public async Task<bool> UpdateUserPetStarAsync(string userId, Pets pet)
     {
-        return await _userPetsRepository.UpdatePetStarAsync(pet);
+        return await _userPetsRepository.UpdateUserPetStarAsync(userId, pet);
     }
 
-    public async Task<bool> UpdatePetBreakthroughAsync(Pets pet, int star, double quantity)
+    public async Task<bool> UpdateUserPetBreakthroughAsync(string userId, Pets pet, int star, double quantity)
     {
-        return await _userPetsRepository.UpdatePetBreakthroughAsync(pet, star, quantity);
+        return await _userPetsRepository.UpdateUserPetBreakthroughAsync(userId, pet, star, quantity);
     }
 
-    public async Task<bool> UpdateTeamPetAsync(string team_id, string card_id)
+    public async Task<bool> UpdateTeamUserPetAsync(string userId, string team_id, string card_id)
     {
-        return await _userPetsRepository.UpdateTeamPetAsync(team_id, card_id);
+        return await _userPetsRepository.UpdateTeamUserPetAsync(userId, team_id, card_id);
     }
 
-    public async Task<Pets> GetUserPetByIdAsync(string user_id, string Id)
+    public async Task<Pets> GetUserPetByIdAsync(string userId, string Id)
     {
-        return await _userPetsRepository.GetUserPetByIdAsync(user_id, Id);
+        return await _userPetsRepository.GetUserPetByIdAsync(userId, Id);
     }
 
-    public async Task<List<Pets>> GetAllUserPetsInTeamAsync(string user_id)
+    public async Task<List<Pets>> GetAllUserPetsInTeamAsync(string userId)
     {
-        List<Pets> list = await _userPetsRepository.GetAllUserPetsInTeamAsync(user_id);
+        List<Pets> list = await _userPetsRepository.GetAllUserPetsInTeamAsync(userId);
 
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(user_id);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(user_id);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(user_id);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(user_id);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(user_id);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(user_id);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(user_id);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(user_id);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(user_id);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(user_id);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(user_id);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(user_id);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(user_id);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(user_id);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(user_id);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(user_id);
+        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(userId);
+        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(userId);
+        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(userId);
+        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(userId);
+        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(userId);
+        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(userId);
+        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(userId);
+        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(userId);
+        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(userId);
+        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(userId);
+        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(userId);
+        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(userId);
+        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(userId);
+        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(userId);
+        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(userId);
+        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(userId);
 
         await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
         universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
@@ -490,11 +490,11 @@ public class UserPetsService : IUserPetsService
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
 
-        // list = await GetAllSpiritBeastPowerAsync(user_id, list);
+        // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(user_id, list);
-        // list = await GetAllRankPowerAsync(user_id, list);
-        // list = await GetAllMasterPowerAsync(user_id, list);
+        // list = await GetAllEquipmentPowerAsync(userId, list);
+        // list = await GetAllRankPowerAsync(userId, list);
+        // list = await GetAllMasterPowerAsync(userId, list);
         foreach (var pet in list)
         {
             pet.ApplyPowerStats(powerManagerData);
@@ -519,8 +519,8 @@ public class UserPetsService : IUserPetsService
         return list;
     }
 
-    public async Task<bool> InsertOrUpdateUserPetsBatchAsync(List<Pets> pets)
+    public async Task<bool> InsertOrUpdateUserPetsBatchAsync(string userId, List<Pets> pets)
     {
-        return await _userPetsRepository.InsertOrUpdateUserPetsBatchAsync(pets);
+        return await _userPetsRepository.InsertOrUpdateUserPetsBatchAsync(userId, pets);
     }
 }

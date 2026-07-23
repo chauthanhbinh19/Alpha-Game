@@ -233,7 +233,7 @@ public class PopulationManager : MonoBehaviour
         AnimationController.Instance.CreateResearchAnimation(currentObject);
         Researchs research = await ResearchsService.Create().GetResearchByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserResearchs userResearch = await UserResearchsService.Create().GetUserResearchsAsync(featureId);
+        UserResearchs userResearch = await UserResearchsService.Create().GetUserResearchsAsync(User.CurrentUserId,featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -263,7 +263,7 @@ public class PopulationManager : MonoBehaviour
         levelText.text = currentLevel.ToString();
         async Task RefreshPanelAsync()
         {
-            userResearch = await UserResearchsService.Create().GetUserResearchsAsync(featureId);
+            userResearch = await UserResearchsService.Create().GetUserResearchsAsync(User.CurrentUserId,featureId);
             currentLevel = userResearch?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

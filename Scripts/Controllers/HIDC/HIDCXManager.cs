@@ -233,7 +233,7 @@ public class HIDCXManager : MonoBehaviour
         AnimationController.Instance.CreateHIDCAnimation(currentObject);
         HIDCs hidc = await HIDCsService.Create().GetHIDCByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserHIDCs userHIDC = await UserHIDCsService.Create().GetUserHIDCsAsync(featureId);
+        UserHIDCs userHIDC = await UserHIDCsService.Create().GetUserHIDCsAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -264,7 +264,7 @@ public class HIDCXManager : MonoBehaviour
 
         async Task RefreshPanelAsync()
         {
-            userHIDC = await UserHIDCsService.Create().GetUserHIDCsAsync(featureId);
+            userHIDC = await UserHIDCsService.Create().GetUserHIDCsAsync(User.CurrentUserId, featureId);
             currentLevel = userHIDC?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

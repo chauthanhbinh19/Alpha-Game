@@ -233,7 +233,7 @@ public class ScienceFictionVIIIManager : MonoBehaviour
         AnimationController.Instance.CreateScienceFictionAnimation(currentObject);
         ScienceFictions scienceFiction = await ScienceFictionsService.Create().GetScienceFictionByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserScienceFictions userScienceFiction = await UserScienceFictionsService.Create().GetUserScienceFictionsAsync(featureId);
+        UserScienceFictions userScienceFiction = await UserScienceFictionsService.Create().GetUserScienceFictionsAsync(User.CurrentUserId,featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -270,7 +270,7 @@ public class ScienceFictionVIIIManager : MonoBehaviour
 
         async Task RefreshPanelAsync()
         {
-            userScienceFiction = await UserScienceFictionsService.Create().GetUserScienceFictionsAsync(featureId);
+            userScienceFiction = await UserScienceFictionsService.Create().GetUserScienceFictionsAsync(User.CurrentUserId,featureId);
             currentLevel = userScienceFiction?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

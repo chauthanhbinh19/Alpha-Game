@@ -20,17 +20,17 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
         return _instance;
     }
 
-    public async Task<List<MagicFormationCircles>> GetUserMagicFormationCirclesAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<MagicFormationCircles>> GetUserMagicFormationCirclesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<MagicFormationCircles> list = await _userMagicFormationCirclesRepository.GetUserMagicFormationCirclesAsync(user_id, search, type, pageSize, offset, rare);
+        List<MagicFormationCircles> list = await _userMagicFormationCirclesRepository.GetUserMagicFormationCirclesAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserMagicFormationCirclesCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserMagicFormationCirclesCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userMagicFormationCirclesRepository.GetUserMagicFormationCirclesCountAsync(user_id, search, type, rare);
+        return await _userMagicFormationCirclesRepository.GetUserMagicFormationCirclesCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserMagicFormationCircleAsync(MagicFormationCircles magicFormationCircle, string userId)
@@ -38,33 +38,33 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
         return await _userMagicFormationCirclesRepository.InsertUserMagicFormationCircleAsync(magicFormationCircle, userId);
     }
 
-    public async Task<bool> UpdateMagicFormationCircleLevelAsync(MagicFormationCircles magicFormationCircle)
+    public async Task<bool> UpdateUserMagicFormationCircleLevelAsync(string userId, MagicFormationCircles magicFormationCircle)
     {
-        return await _userMagicFormationCirclesRepository.UpdateMagicFormationCircleLevelAsync(magicFormationCircle);
+        return await _userMagicFormationCirclesRepository.UpdateUserMagicFormationCircleLevelAsync(userId, magicFormationCircle);
     }
 
-    public async Task<bool> UpdateMagicFormationCircleStarAsync(MagicFormationCircles magicFormationCircle)
+    public async Task<bool> UpdateUserMagicFormationCircleStarAsync(string userId, MagicFormationCircles magicFormationCircle)
     {
-        return await _userMagicFormationCirclesRepository.UpdateMagicFormationCircleStarAsync(magicFormationCircle);
+        return await _userMagicFormationCirclesRepository.UpdateUserMagicFormationCircleStarAsync(userId, magicFormationCircle);
     }
 
-    public async Task<bool> UpdateMagicFormationCircleBreakthroughAsync(MagicFormationCircles magicFormationCircle, int star, double quantity)
+    public async Task<bool> UpdateUserMagicFormationCircleBreakthroughAsync(string userId, MagicFormationCircles magicFormationCircle, int star, double quantity)
     {
-        return await _userMagicFormationCirclesRepository.UpdateMagicFormationCircleBreakthroughAsync(magicFormationCircle, star, quantity);
+        return await _userMagicFormationCirclesRepository.UpdateUserMagicFormationCircleBreakthroughAsync(userId, magicFormationCircle, star, quantity);
     }
 
-    public async Task<MagicFormationCircles> GetUserMagicFormationCircleByIdAsync(string user_id, string Id)
+    public async Task<MagicFormationCircles> GetUserMagicFormationCircleByIdAsync(string userId, string Id)
     {
-        return await _userMagicFormationCirclesRepository.GetUserMagicFormationCircleByIdAsync(user_id, Id);
+        return await _userMagicFormationCirclesRepository.GetUserMagicFormationCircleByIdAsync(userId, Id);
     }
 
-    public async Task<MagicFormationCircles> SumPowerUserMagicFormationCirclesAsync()
+    public async Task<MagicFormationCircles> SumPowerUserMagicFormationCirclesAsync(string userId)
     {
-        return await _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync();
+        return await _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserMagicFormationCirclesBatchAsync(List<MagicFormationCircles> magicFormationCircles)
+    public async Task<bool> InsertOrUpdateUserMagicFormationCirclesBatchAsync(string userId, List<MagicFormationCircles> magicFormationCircles)
     {
-        return await _userMagicFormationCirclesRepository.InsertOrUpdateUserMagicFormationCirclesBatchAsync(magicFormationCircles);
+        return await _userMagicFormationCirclesRepository.InsertOrUpdateUserMagicFormationCirclesBatchAsync(userId, magicFormationCircles);
     }
 }

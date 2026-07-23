@@ -20,63 +20,63 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         return _instance;
     }
 
-    public async Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetUserSpiritBeastsAsync(user_id, search, pageSize, offset, rare);
+        List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetUserSpiritBeastsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<List<SpiritBeasts>> GetAllUserSpiritBeastsAsync(string user_id, int pageSize, int offset)
+    public async Task<List<SpiritBeasts>> GetAllUserSpiritBeastsAsync(string userId, int pageSize, int offset)
     {
-        List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetAllUserSpiritBeastsAsync(user_id, pageSize, offset);
+        List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetAllUserSpiritBeastsAsync(userId, pageSize, offset);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<List<SpiritBeasts>> GetSpiritBeastsByCardIdsAsync(string user_id, List<string> cardIds)
+    public async Task<List<SpiritBeasts>> GetSpiritBeastsByCardIdsAsync(string userId, List<string> cardIds)
     {
-        List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetUserSpiritBeastsByCardIdsAsync(user_id, cardIds);
+        List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetUserSpiritBeastsByCardIdsAsync(userId, cardIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserSpiritBeastsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserSpiritBeastsCountAsync(string userId, string search, string rare)
     {
-        return await _userSpiritBeastsRepository.GetUserSpiritBeastsCountAsync(user_id, search, rare);
+        return await _userSpiritBeastsRepository.GetUserSpiritBeastsCountAsync(userId, search, rare);
     }
 
-    public async Task<bool> InsertUserSpiritBeastAsync(SpiritBeasts spiritBeast)
+    public async Task<bool> InsertUserSpiritBeastAsync(string userId, SpiritBeasts spiritBeast)
     {
-        return await _userSpiritBeastsRepository.InsertUserSpiritBeastAsync(spiritBeast);
+        return await _userSpiritBeastsRepository.InsertUserSpiritBeastAsync(userId, spiritBeast);
     }
 
-    public async Task<bool> UpdateSpiritBeastLevelAsync(SpiritBeasts spiritBeast)
+    public async Task<bool> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast)
     {
-        return await _userSpiritBeastsRepository.UpdateSpiritBeastLevelAsync(spiritBeast);
+        return await _userSpiritBeastsRepository.UpdateUserSpiritBeastLevelAsync(userId, spiritBeast);
     }
 
-    public async Task<bool> UpdateSpiritBeastStarAsync(SpiritBeasts spiritBeast)
+    public async Task<bool> UpdateUserSpiritBeastStarAsync(string userId, SpiritBeasts spiritBeast)
     {
-        return await _userSpiritBeastsRepository.UpdateSpiritBeastStarAsync(spiritBeast);
+        return await _userSpiritBeastsRepository.UpdateUserSpiritBeastStarAsync(userId, spiritBeast);
     }
 
-    public async Task<bool> UpdateSpiritBeastBreakthroughAsync(SpiritBeasts spiritBeast, int star, double quantity)
+    public async Task<bool> UpdateUserSpiritBeastBreakthroughAsync(string userId, SpiritBeasts spiritBeast, int star, double quantity)
     {
-        return await _userSpiritBeastsRepository.UpdateSpiritBeastBreakthroughAsync(spiritBeast, star, quantity);
+        return await _userSpiritBeastsRepository.UpdateUserSpiritBeastBreakthroughAsync(userId, spiritBeast, star, quantity);
     }
 
-    public async Task<SpiritBeasts> GetUserSpiritBeastByIdAsync(string user_id, string Id)
+    public async Task<SpiritBeasts> GetUserSpiritBeastByIdAsync(string userId, string Id)
     {
-        return await _userSpiritBeastsRepository.GetUserSpiritBeastByIdAsync(user_id, Id);
+        return await _userSpiritBeastsRepository.GetUserSpiritBeastByIdAsync(userId, Id);
     }
 
-    public async Task<SpiritBeasts> SumPowerUserSpiritBeastsAsync()
+    public async Task<SpiritBeasts> SumPowerUserSpiritBeastsAsync(string userId)
     {
-        return await _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync();
+        return await _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
     }
 
     public async Task<bool> InsertOrUpdateUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHero, SpiritBeasts spiritBeast)
@@ -119,44 +119,44 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         return await _userSpiritBeastsRepository.InsertOrUpdateUserCardSpellSpiritBeastAsync(userId, cardSpell, spiritBeast);
     }
 
-    public async Task<List<SpiritBeasts>> GetAllUserCardHeroesSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardHeroesSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
-        return await _userSpiritBeastsRepository.GetAllUserCardHeroesSpiritBeastAsync(user_id, pageSize, offset, status);
+        return await _userSpiritBeastsRepository.GetAllUserCardHeroesSpiritBeastAsync(userId, pageSize, offset, status);
     }
 
-    public async Task<List<SpiritBeasts>> GetAllUserCardCaptainsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardCaptainsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
-        return await _userSpiritBeastsRepository.GetAllUserCardCaptainsSpiritBeastAsync(user_id, pageSize, offset, status);
+        return await _userSpiritBeastsRepository.GetAllUserCardCaptainsSpiritBeastAsync(userId, pageSize, offset, status);
     }
 
-    public async Task<List<SpiritBeasts>> GetAllUserCardColonelsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardColonelsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
-        return await _userSpiritBeastsRepository.GetAllUserCardColonelsSpiritBeastAsync(user_id, pageSize, offset, status);
+        return await _userSpiritBeastsRepository.GetAllUserCardColonelsSpiritBeastAsync(userId, pageSize, offset, status);
     }
 
-    public async Task<List<SpiritBeasts>> GetAllUserCardGeneralsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardGeneralsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
-        return await _userSpiritBeastsRepository.GetAllUserCardGeneralsSpiritBeastAsync(user_id, pageSize, offset, status);
+        return await _userSpiritBeastsRepository.GetAllUserCardGeneralsSpiritBeastAsync(userId, pageSize, offset, status);
     }
 
-    public async Task<List<SpiritBeasts>> GetAllUserCardAdmiralsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardAdmiralsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
-        return await _userSpiritBeastsRepository.GetAllUserCardAdmiralsSpiritBeastAsync(user_id, pageSize, offset, status);
+        return await _userSpiritBeastsRepository.GetAllUserCardAdmiralsSpiritBeastAsync(userId, pageSize, offset, status);
     }
 
-    public async Task<List<SpiritBeasts>> GetAllUserCardMilitariesSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardMilitariesSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
-        return await _userSpiritBeastsRepository.GetAllUserCardMilitariesSpiritBeastAsync(user_id, pageSize, offset, status);
+        return await _userSpiritBeastsRepository.GetAllUserCardMilitariesSpiritBeastAsync(userId, pageSize, offset, status);
     }
 
-    public async Task<List<SpiritBeasts>> GetAllUserCardMonstersSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardMonstersSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
-        return await _userSpiritBeastsRepository.GetAllUserCardMonstersSpiritBeastAsync(user_id, pageSize, offset, status);
+        return await _userSpiritBeastsRepository.GetAllUserCardMonstersSpiritBeastAsync(userId, pageSize, offset, status);
     }
 
-    public async Task<List<SpiritBeasts>> GetAllUserCardSpellsSpiritBeastAsync(string user_id, int pageSize, int offset, string status)
+    public async Task<List<SpiritBeasts>> GetAllUserCardSpellsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
     {
-        return await _userSpiritBeastsRepository.GetAllUserCardSpellsSpiritBeastAsync(user_id, pageSize, offset, status);
+        return await _userSpiritBeastsRepository.GetAllUserCardSpellsSpiritBeastAsync(userId, pageSize, offset, status);
     }
 
     public async Task<SpiritBeasts> GetUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHero)
@@ -239,8 +239,8 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         return await _userSpiritBeastsRepository.DeleteUserCardSpellSpiritBeastAsync(userId, cardSpell, spiritBeast);
     }
 
-    public async Task<bool> InsertOrUpdateUserSpiritBeastsBatchAsync(List<SpiritBeasts> spiritBeasts)
+    public async Task<bool> InsertOrUpdateUserSpiritBeastsBatchAsync(string userId, List<SpiritBeasts> spiritBeasts)
     {
-        return await _userSpiritBeastsRepository.InsertOrUpdateUserSpiritBeastsBatchAsync(spiritBeasts);
+        return await _userSpiritBeastsRepository.InsertOrUpdateUserSpiritBeastsBatchAsync(userId, spiritBeasts);
     }
 }

@@ -32,11 +32,11 @@ public class UserService : IUserService
 
             await UserBordersService.Create().InsertUserBorderByIdAsync("BD359", userId);
             await BordersGalleryService.Create().InsertBorderGalleryAsync("BD359");
-            await UserBordersService.Create().UpdateIsUsedBorderAsync("BD359", userId, true);
+            await UserBordersService.Create().UpdateIsUsedUserBorderAsync("BD359", userId, true);
 
             await UserAvatarsService.Create().InsertUserAvatarByIdAsync("AT1", userId);
             await AvatarsGalleryService.Create().InsertAvatarGalleryAsync("AT1");
-            await UserAvatarsService.Create().UpdateIsUsedAvatarAsync("AT1", userId, true);
+            await UserAvatarsService.Create().UpdateIsUsedUserAvatarAsync("AT1", userId, true);
 
             await PowerManagerService.Create().InsertUserStatsAsync(userId);
 
@@ -87,10 +87,10 @@ public class UserService : IUserService
             user = await _userRepository.SignInWithUsernameAndPasswordAsync(username, password);
             AuthManager.SaveUserId(user.Id);
 
-            Borders border = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
+            Borders border = await UserBordersService.Create().GetUserBorderByUsedAsync(user.Id);
             string borderImagePath = border.Image;
 
-            Avatars avatar = await UserAvatarsService.Create().GetAvatarByUsedAsync(user.Id);
+            Avatars avatar = await UserAvatarsService.Create().GetUserAvatarByUsedAsync(user.Id);
             string avatarImagePath = avatar.Image;
 
             User.CurrentUserAvatar = avatarImagePath;
@@ -170,10 +170,10 @@ public class UserService : IUserService
 
         if (user != null)
         {
-            Borders border = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
+            Borders border = await UserBordersService.Create().GetUserBorderByUsedAsync(user.Id);
             string borderImagePath = border.Image;
 
-            Avatars avatar = await UserAvatarsService.Create().GetAvatarByUsedAsync(user.Id);
+            Avatars avatar = await UserAvatarsService.Create().GetUserAvatarByUsedAsync(user.Id);
             string avatarImagePath = avatar.Image;
 
             User.CurrentUserAvatar = avatarImagePath;
@@ -235,10 +235,10 @@ public class UserService : IUserService
     {
         User user = await _userRepository.GetUserByIdAsync(Id);
 
-        Borders border = await UserBordersService.Create().GetBorderByUsedAsync(user.Id);
+        Borders border = await UserBordersService.Create().GetUserBorderByUsedAsync(user.Id);
         string borderImagePath = border.Image;
 
-        Avatars avatar = await UserAvatarsService.Create().GetAvatarByUsedAsync(user.Id);
+        Avatars avatar = await UserAvatarsService.Create().GetUserAvatarByUsedAsync(user.Id);
         string avatarImagePath = avatar.Image;
 
         User.CurrentUserAvatar = avatarImagePath;
@@ -250,15 +250,15 @@ public class UserService : IUserService
         return user;
     }
 
-    public async Task UpdateUserNameAsync(string user_id, string new_name)
+    public async Task UpdateUserNameAsync(string userId, string new_name)
     {
-        await _userRepository.UpdateUserNameAsync(user_id, new_name);
+        await _userRepository.UpdateUserNameAsync(userId, new_name);
         User.CurrentUserName = new_name;
     }
 
-    public async Task UpdateUserPowerAsync(string user_id, double power)
+    public async Task UpdateUserPowerAsync(string userId, double power)
     {
-        await _userRepository.UpdateUserPowerAsync(user_id, power);
+        await _userRepository.UpdateUserPowerAsync(userId, power);
     }
 
     public async Task CreateUserCurrencyAsync(string userId)

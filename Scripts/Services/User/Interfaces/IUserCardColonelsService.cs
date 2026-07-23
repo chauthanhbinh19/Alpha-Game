@@ -3,24 +3,24 @@ using System.Threading.Tasks;
 
 public interface IUserCardColonelsService
 {
-    Task<List<CardColonels>> GetAllEquipmentPowerAsync(string user_id, List<CardColonels> CardColonelsList);
-    Task<List<CardColonels>> GetAllRankPowerAsync(string user_id, List<CardColonels> CardColonelsList);
-    Task<List<CardColonels>> GetAllMasterPowerAsync(string user_id, List<CardColonels> CardColonelsList);
-    Task<List<CardColonels>> GetAllSpiritBeastPowerAsync(string user_id, List<CardColonels> cardColonels);
-    Task<List<CardColonels>> GetSkillsAsync(string user_id, List<CardColonels> CardColonelsList);
-    Task<List<CardColonels>> GetUserCardColonelsAsync(string user_id, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
-    Task<List<CardColonels>> GetUserCardColonelsTeamAsync(string user_id, string teamId, string position, UserStatsContextDTO sharedContext = null);
-    Task<List<CardColonels>> GetUserCardColonelsTeamWithoutPositionAsync(string user_id, string teamId, UserStatsContextDTO sharedContext = null);
-    Task<Dictionary<string, int>> GetUniqueCardColonelsTypesTeamAsync(string teamId);
-    Task<bool> UpdateTeamCardColonelAsync(string team_id, string position, string card_id);
-    Task<int> GetUserCardColonelsCountAsync(string user_id, string search, string type, string rare);
-    Task<int> GetUserCardColonelsTeamsPositionCountAsync(string user_id, string team_id, string position);
-    Task<int> GetUserCardColonelsTeamsCountAsync(string user_id, string team_id);
-    Task<bool> InsertUserCardColonelAsync(CardColonels cardColonel);
-    Task<bool> InsertOrUpdateUserCardColonelsBatchAsync(List<CardColonels> cardColonels);
-    Task<bool> UpdateCardColonelLevelAsync(CardColonels cardColonel);
-    Task<bool> UpdateCardColonelStarAsync(CardColonels cardColonel);
-    Task<bool> UpdateCardColonelBreakthroughAsync(CardColonels cardColonel, int star, double quantity);
-    Task<CardColonels> GetUserCardColonelByIdAsync(string user_id, string Id, UserStatsContextDTO sharedContext = null);
-    Task<List<CardColonels>> GetAllUserCardColonelsInTeamAsync(string user_id, UserStatsContextDTO sharedContext = null);
+    Task<List<CardColonels>> GetAllEquipmentPowerAsync(string userId, List<CardColonels> cardColonelList);
+    Task<List<CardColonels>> GetAllRankPowerAsync(string userId, List<CardColonels> cardColonelList);
+    Task<List<CardColonels>> GetAllMasterPowerAsync(string userId, List<CardColonels> cardColonelList);
+    Task<List<CardColonels>> GetAllSpiritBeastPowerAsync(string userId, List<CardColonels> cardColonelList);
+    Task<List<CardColonels>> GetSkillsAsync(string userId, List<CardColonels> cardColonelList);
+    Task<List<CardColonels>> GetUserCardColonelsAsync(string userId, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
+    Task<List<CardColonels>> GetUserCardColonelsTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null);
+    Task<List<CardColonels>> GetUserCardColonelsTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null);
+    Task<Dictionary<string, int>> GetUniqueUserCardColonelsTypesTeamAsync(string userId, string teamId);
+    Task<bool> UpdateTeamUserCardColonelAsync(string userId, string teamId, string position, string cardId);
+    Task<int> GetUserCardColonelsCountAsync(string userId, string search, string type, string rare);
+    Task<int> GetUserCardColonelsTeamsPositionCountAsync(string userId, string teamId, string position);
+    Task<int> GetUserCardColonelsTeamsCountAsync(string userId, string teamId);
+    Task<bool> InsertUserCardColonelAsync(string userId, CardColonels cardColonel);
+    Task<bool> InsertOrUpdateUserCardColonelsBatchAsync(string userId, List<CardColonels> cardColonels);
+    Task<bool> UpdateUserCardColonelLevelAsync(string userId, CardColonels cardColonel);
+    Task<bool> UpdateUserCardColonelStarAsync(string userId, CardColonels cardColonel);
+    Task<bool> UpdateUserCardColonelBreakthroughAsync(string userId, CardColonels cardColonel, int star, double quantity);
+    Task<CardColonels> GetUserCardColonelByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
+    Task<List<CardColonels>> GetAllUserCardColonelsInTeamAsync(string userId, UserStatsContextDTO sharedContext = null);
 }

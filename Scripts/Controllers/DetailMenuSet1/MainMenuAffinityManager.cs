@@ -136,7 +136,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public async Task CreateCardHeroesEquipmentsAsync(CardHeroes cardHero)
     {
-        Rank rank = await UserCardHeroesRankService.Create().GetCardHeroRankAsync(MainType, cardHero.Id);
+        Rank rank = await UserCardHeroesRankService.Create().GetUserCardHeroRankAsync(User.CurrentUserId, MainType, cardHero.Id);
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardHero.Image)}");
         MainImage.texture = texture;
         MainLevelText.text = rank.Level.ToString();
@@ -210,7 +210,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -285,7 +285,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -307,7 +307,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(book.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserBooksRankService.Create().GetBookRankAsync(MainType, book.Id);
+        Rank rank = await UserBooksRankService.Create().GetUserBookRankAsync(User.CurrentUserId, MainType, book.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -379,7 +379,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -454,7 +454,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -476,7 +476,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardCaptain.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardCaptainsRankService.Create().GetCardCaptainRankAsync(MainType, cardCaptain.Id);
+        Rank rank = await UserCardCaptainsRankService.Create().GetUserCardCaptainRankAsync(User.CurrentUserId, MainType, cardCaptain.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -548,7 +548,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -623,7 +623,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -645,7 +645,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(pet.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserPetsRankService.Create().GetPetRankAsync(MainType, pet.Id);
+        Rank rank = await UserPetsRankService.Create().GetUserPetRankAsync(User.CurrentUserId, MainType, pet.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -717,7 +717,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -792,7 +792,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -814,7 +814,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardMilitary.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardMilitariesRankService.Create().GetCardMilitaryRankAsync(MainType, cardMilitary.Id);
+        Rank rank = await UserCardMilitariesRankService.Create().GetUserCardMilitaryRankAsync(User.CurrentUserId, MainType, cardMilitary.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -886,7 +886,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -961,7 +961,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -983,7 +983,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardSpell.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardSpellsRankService.Create().GetCardSpellRankAsync(MainType, cardSpell.Id);
+        Rank rank = await UserCardSpellsRankService.Create().GetUserCardSpellRankAsync(User.CurrentUserId, MainType, cardSpell.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1055,7 +1055,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1130,7 +1130,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1152,7 +1152,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardMonster.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardMonstersRankService.Create().GetCardMonsterRankAsync(MainType, cardMonster.Id);
+        Rank rank = await UserCardMonstersRankService.Create().GetUserCardMonsterRankAsync(User.CurrentUserId, MainType, cardMonster.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1224,7 +1224,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1299,7 +1299,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1322,7 +1322,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardColonel.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardColonelsRankService.Create().GetCardColonelRankAsync(MainType, cardColonel.Id);
+        Rank rank = await UserCardColonelsRankService.Create().GetUserCardColonelRankAsync(User.CurrentUserId, MainType, cardColonel.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1394,7 +1394,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1469,7 +1469,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1491,7 +1491,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardGeneral.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardGeneralsRankService.Create().GetCardGeneralRankAsync(MainType, cardGeneral.Id);
+        Rank rank = await UserCardGeneralsRankService.Create().GetUserCardGeneralRankAsync(User.CurrentUserId, MainType, cardGeneral.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1563,7 +1563,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1638,7 +1638,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1660,7 +1660,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardAdmiral.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardAdmiralsRankService.Create().GetCardAdmiralRankAsync(MainType, cardAdmiral.Id);
+        Rank rank = await UserCardAdmiralsRankService.Create().GetUserCardAdmiralRankAsync(User.CurrentUserId, MainType, cardAdmiral.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1732,7 +1732,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1807,7 +1807,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1829,7 +1829,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardSoldier.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardAdmiralsRankService.Create().GetCardAdmiralRankAsync(MainType, cardSoldier.Id);
+        Rank rank = await UserCardAdmiralsRankService.Create().GetUserCardAdmiralRankAsync(User.CurrentUserId, MainType, cardSoldier.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1901,7 +1901,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1976,7 +1976,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(usedItem);
+                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1999,7 +1999,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         Close(MateriralPanel);
         Items items = new Items();
         ItemsList = new List<Items>();
-        ItemsList = await UserItemsService.GetItemForRankAsync("Affinity");
+        ItemsList = await UserItemsService.GetItemForRankAsync(User.CurrentUserId, "Affinity");
         foreach (Items item in ItemsList)
         {
             GameObject itemObject = Instantiate(ItemPopupPrefab, MateriralPanel);

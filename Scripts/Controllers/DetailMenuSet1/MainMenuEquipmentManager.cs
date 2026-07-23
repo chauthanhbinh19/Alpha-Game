@@ -189,7 +189,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (data is CardHeroes cardHero)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardHeroAsync((string)cardHero.Id, MainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardHeroAsync(User.CurrentUserId, (string)cardHero.Id, MainType);
                 if (success)
                 {
                     await CreateCardHeroesEquipmentsAsync(cardHero);
@@ -205,7 +205,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardCaptains cardCaptain)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardCaptainAsync(cardCaptain.Id, MainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardCaptainAsync(User.CurrentUserId, cardCaptain.Id, MainType);
                 if (success)
                 {
                     await CreateCardCaptainsEquipmentsAsync(cardCaptain);
@@ -221,7 +221,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardColonels cardColonel)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardColonelAsync(cardColonel.Id, MainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardColonelAsync(User.CurrentUserId, cardColonel.Id, MainType);
                 if (success)
                 {
                     await CreateCardColonelsEquipmentsAsync(cardColonel);
@@ -237,7 +237,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardGenerals cardGeneral)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardGeneralAsync(cardGeneral.Id, MainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardGeneralAsync(User.CurrentUserId, cardGeneral.Id, MainType);
                 if (success)
                 {
                     await CreateCardGeneralsEquipmentsAsync(cardGeneral);
@@ -253,7 +253,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardAdmirals cardAdmiral)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardAdmiralAsync(cardAdmiral.Id, MainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardAdmiralAsync(User.CurrentUserId, cardAdmiral.Id, MainType);
                 if (success)
                 {
                     await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
@@ -269,7 +269,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardMonsters cardMonster)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardMonsterAsync(cardMonster.Id, MainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardMonsterAsync(User.CurrentUserId, cardMonster.Id, MainType);
                 if (success)
                 {
                     await CreateCardMonstersEquipmentsAsync(cardMonster);
@@ -285,7 +285,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardMilitaries cardMilitary)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardMilitaryAsync(cardMilitary.Id, MainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardMilitaryAsync(User.CurrentUserId, cardMilitary.Id, MainType);
                 if (success)
                 {
                     await CreateCardMilitaryEquipmentsAsync(cardMilitary);
@@ -301,7 +301,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardSpells cardSpell)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardSpellAsync(cardSpell.Id, MainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToCardSpellAsync(User.CurrentUserId, cardSpell.Id, MainType);
                 if (success)
                 {
                     await CreateCardSpellEquipmentsAsync(cardSpell);
@@ -317,7 +317,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is Books book)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToBookAsync(book.Id, MainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToBookAsync(User.CurrentUserId, book.Id, MainType);
                 if (success)
                 {
                     await CreateBooksEquipmentsAsync(book);
@@ -333,7 +333,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is Pets pet)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToPetAsync(pet.Id, MainType);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsOfTypeToPetAsync(User.CurrentUserId, pet.Id, MainType);
                 if (success)
                 {
                     await CreatePetsEquipmentsAsync(pet);
@@ -354,7 +354,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             if (data is CardHeroes cardHero)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardHeroAsync((string)cardHero.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardHeroAsync(User.CurrentUserId, (string)cardHero.Id);
                 if (success)
                 {
                     await CreateCardHeroesEquipmentsAsync(cardHero);
@@ -370,7 +370,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardCaptains cardCaptain)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardCaptainAsync(cardCaptain.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardCaptainAsync(User.CurrentUserId, cardCaptain.Id);
                 if (success)
                 {
                     await CreateCardCaptainsEquipmentsAsync(cardCaptain);
@@ -386,7 +386,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardColonels cardColonel)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardColonelAsync(cardColonel.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardColonelAsync(User.CurrentUserId, cardColonel.Id);
                 if (success)
                 {
                     await CreateCardColonelsEquipmentsAsync(cardColonel);
@@ -402,7 +402,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardGenerals cardGeneral)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardGeneralAsync(cardGeneral.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardGeneralAsync(User.CurrentUserId, cardGeneral.Id);
                 if (success)
                 {
                     await CreateCardGeneralsEquipmentsAsync(cardGeneral);
@@ -418,7 +418,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardAdmirals cardAdmiral)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardAdmiralAsync(cardAdmiral.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardAdmiralAsync(User.CurrentUserId, cardAdmiral.Id);
                 if (success)
                 {
                     await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
@@ -434,7 +434,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardMonsters cardMonster)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardMonsterAsync(cardMonster.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardMonsterAsync(User.CurrentUserId, cardMonster.Id);
                 if (success)
                 {
                     await CreateCardMonstersEquipmentsAsync(cardMonster);
@@ -450,7 +450,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardMilitaries cardMilitary)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardMilitaryAsync(cardMilitary.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardMilitaryAsync(User.CurrentUserId, cardMilitary.Id);
                 if (success)
                 {
                     await CreateCardMilitaryEquipmentsAsync(cardMilitary);
@@ -466,7 +466,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is CardSpells cardSpell)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardSpellAsync(cardSpell.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToCardSpellAsync(User.CurrentUserId, cardSpell.Id);
                 if (success)
                 {
                     await CreateCardSpellEquipmentsAsync(cardSpell);
@@ -482,7 +482,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is Books book)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToBookAsync(book.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToBookAsync(User.CurrentUserId, book.Id);
                 if (success)
                 {
                     await CreateBooksEquipmentsAsync(book);
@@ -498,7 +498,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
             }
             else if (data is Pets pet)
             {
-                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToPetAsync(pet.Id);
+                bool success = await UserEquipmentsService.Create().EquipAllEquipmentsToPetAsync(User.CurrentUserId, pet.Id);
                 if (success)
                 {
                     await CreatePetsEquipmentsAsync(pet);
@@ -1928,7 +1928,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 Destroy(PopupEquipmentObject);
                 if (data is CardHeroes cardHero)
                 {
-                    await UserEquipmentsService.Create().InsertCardHeroEquipmentsAsync((string)cardHero.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertCardHeroEquipmentsAsync(User.CurrentUserId, (string)cardHero.Id, equipment, position);
                     await CreateCardHeroesEquipmentsAsync(cardHero);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1937,7 +1937,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardCaptains cardCaptain)
                 {
-                    await UserEquipmentsService.Create().InsertCardCaptainEquipmentsAsync(cardCaptain.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertCardCaptainEquipmentsAsync(User.CurrentUserId, cardCaptain.Id, equipment, position);
                     await CreateCardCaptainsEquipmentsAsync(cardCaptain);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1946,7 +1946,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardColonels cardColonel)
                 {
-                    await UserEquipmentsService.Create().InsertCardColonelEquipmentsAsync(cardColonel.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertCardColonelEquipmentsAsync(User.CurrentUserId, cardColonel.Id, equipment, position);
                     await CreateCardColonelsEquipmentsAsync(cardColonel);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1955,7 +1955,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardGenerals cardGeneral)
                 {
-                    await UserEquipmentsService.Create().InsertCardGeneralEquipmentsAsync(cardGeneral.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertCardGeneralEquipmentsAsync(User.CurrentUserId, cardGeneral.Id, equipment, position);
                     await CreateCardGeneralsEquipmentsAsync(cardGeneral);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1964,7 +1964,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardAdmirals cardAdmiral)
                 {
-                    await UserEquipmentsService.Create().InsertCardAdmiralEquipmentsAsync(cardAdmiral.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertCardAdmiralEquipmentsAsync(User.CurrentUserId, cardAdmiral.Id, equipment, position);
                     await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1973,7 +1973,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardMonsters cardMonster)
                 {
-                    await UserEquipmentsService.Create().InsertCardMonsterEquipmentsAsync(cardMonster.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertCardMonsterEquipmentsAsync(User.CurrentUserId, cardMonster.Id, equipment, position);
                     await CreateCardMonstersEquipmentsAsync(cardMonster);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1982,7 +1982,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardMilitaries cardMilitary)
                 {
-                    await UserEquipmentsService.Create().InsertCardMilitaryEquipmentsAsync(cardMilitary.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertCardMilitaryEquipmentsAsync(User.CurrentUserId, cardMilitary.Id, equipment, position);
                     await CreateCardMilitaryEquipmentsAsync(cardMilitary);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -1991,7 +1991,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is CardSpells cardSpell)
                 {
-                    await UserEquipmentsService.Create().InsertCardSpellEquipmentsAsync(cardSpell.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertCardSpellEquipmentsAsync(User.CurrentUserId, cardSpell.Id, equipment, position);
                     await CreateCardSpellEquipmentsAsync(cardSpell);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -2000,7 +2000,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is Books book)
                 {
-                    await UserEquipmentsService.Create().InsertBookEquipmentsAsync(book.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertBookEquipmentsAsync(User.CurrentUserId, book.Id, equipment, position);
                     await CreateBooksEquipmentsAsync(book);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
@@ -2009,7 +2009,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 }
                 else if (data is Pets pet)
                 {
-                    await UserEquipmentsService.Create().InsertPetEquipmentsAsync(pet.Id, equipment, position);
+                    await UserEquipmentsService.Create().InsertPetEquipmentsAsync(User.CurrentUserId, pet.Id, equipment, position);
                     await CreatePetsEquipmentsAsync(pet);
                     double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;

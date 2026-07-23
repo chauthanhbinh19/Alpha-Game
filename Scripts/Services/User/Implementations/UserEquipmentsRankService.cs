@@ -19,18 +19,18 @@ public class UserEquipmentsRankService : IUserEquipmentsRankService
         return _instance;
     }
 
-    public async Task<Rank> GetEquipmentRankAsync(string id, string card_id)
+    public async Task<Rank> GetUserEquipmentRankAsync(string userId, string id, string card_id)
     {
-        return await _userEquipmentsRankRepository.GetEquipmentRankAsync(id, card_id);
+        return await _userEquipmentsRankRepository.GetEquipmentRankAsync(userId, id, card_id);
     }
 
-    public async Task InsertOrUpdateEquipmentRankAsync(Rank rank, string card_id)
+    public async Task InsertOrUpdateUserEquipmentRankAsync(string userId, Rank rank, string card_id)
     {
-        await _userEquipmentsRankRepository.InsertOrUpdateEquipmentRankAsync(rank, card_id);
+        await _userEquipmentsRankRepository.InsertOrUpdateEquipmentRankAsync(userId, rank, card_id);
     }
 
-    public async Task<Rank> GetSumEquipmentsRankAsync(string user_id, string card_id)
+    public async Task<Rank> GetSumUserEquipmentsRankAsync(string userId, string card_id)
     {
-        return await _userEquipmentsRankRepository.GetSumEquipmentsRankAsync(user_id, card_id);
+        return await _userEquipmentsRankRepository.GetSumEquipmentsRankAsync(userId, card_id);
     }
 }

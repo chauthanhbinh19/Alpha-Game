@@ -19,14 +19,14 @@ public class UserScienceFictionsService : IUserScienceFictionsService
         return _instance;
     }
 
-    public async Task<UserScienceFictions> GetUserScienceFictionsAsync(string id)
+    public async Task<UserScienceFictions> GetUserScienceFictionsAsync(string userId, string id)
     {
-        return await _scienceFictionsRepository.GetScienceFictionsAsync(id);
+        return await _scienceFictionsRepository.GetUserScienceFictionsAsync(userId, id);
     }
 
-    public async Task<UserScienceFictions> GetSumUserScienceFictionsAsync(string user_id)
+    public async Task<UserScienceFictions> GetSumUserScienceFictionsAsync(string userId)
     {
-        return await _scienceFictionsRepository.GetSumUserScienceFictionsAsync(user_id);
+        return await _scienceFictionsRepository.GetSumUserScienceFictionsAsync(userId);
     }
 
     public async Task InsertOrUpdateUserScienceFictionsAsync(string userId, UserScienceFictions scienceFiction, string id)

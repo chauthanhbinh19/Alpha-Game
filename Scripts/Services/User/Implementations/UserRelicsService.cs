@@ -23,17 +23,17 @@ public class UserRelicsService : IUserRelicsService
 
 
 
-    public async Task<List<Relics>> GetUserRelicsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Relics>> GetUserRelicsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Relics> list = await _userRelicsRepository.GetUserRelicsAsync(user_id, search, type, pageSize, offset, rare);
+        List<Relics> list = await _userRelicsRepository.GetUserRelicsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserRelicsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserRelicsCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userRelicsRepository.GetUserRelicsCountAsync(user_id, search, type, rare);
+        return await _userRelicsRepository.GetUserRelicsCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserRelicAsync(Relics relic, string userId)
@@ -41,33 +41,33 @@ public class UserRelicsService : IUserRelicsService
         return await _userRelicsRepository.InsertUserRelicAsync(relic, userId);
     }
 
-    public async Task<bool> UpdateRelicLevelAsync(Relics relic)
+    public async Task<bool> UpdateUserRelicLevelAsync(string userId, Relics relic)
     {
-        return await _userRelicsRepository.UpdateRelicLevelAsync(relic);
+        return await _userRelicsRepository.UpdateUserRelicLevelAsync(userId, relic);
     }
 
-    public async Task<bool> UpdateRelicStarAsync(Relics relic)
+    public async Task<bool> UpdateUserRelicStarAsync(string userId, Relics relic)
     {
-        return await _userRelicsRepository.UpdateRelicStarAsync(relic);
+        return await _userRelicsRepository.UpdateUserRelicStarAsync(userId, relic);
     }
 
-    public async Task<bool> UpdateRelicBreakthroughAsync(Relics relic, int star, double quantity)
+    public async Task<bool> UpdateUserRelicBreakthroughAsync(string userId, Relics relic, int star, double quantity)
     {
-        return await _userRelicsRepository.UpdateRelicBreakthroughAsync(relic, star, quantity);
+        return await _userRelicsRepository.UpdateUserRelicBreakthroughAsync(userId, relic, star, quantity);
     }
 
-    public async Task<Relics> GetUserRelicByIdAsync(string user_id, string Id)
+    public async Task<Relics> GetUserRelicByIdAsync(string userId, string Id)
     {
-        return await _userRelicsRepository.GetUserRelicByIdAsync(user_id, Id);
+        return await _userRelicsRepository.GetUserRelicByIdAsync(userId, Id);
     }
 
-    public async Task<Relics> SumPowerUserRelicsAsync()
+    public async Task<Relics> SumPowerUserRelicsAsync(string userId)
     {
-        return await _userRelicsRepository.SumPowerUserRelicsAsync();
+        return await _userRelicsRepository.SumPowerUserRelicsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserRelicsBatchAsync(List<Relics> relics)
+    public async Task<bool> InsertOrUpdateUserRelicsBatchAsync(string userId, List<Relics> relics)
     {
-        return await _userRelicsRepository.InsertOrUpdateUserRelicsBatchAsync(relics);
+        return await _userRelicsRepository.InsertOrUpdateUserRelicsBatchAsync(userId, relics);
     }
 }

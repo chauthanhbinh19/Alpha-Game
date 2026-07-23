@@ -233,7 +233,7 @@ public class HIINIIIManager : MonoBehaviour
         AnimationController.Instance.CreateHIINAnimation(currentObject);
         HIINs hiin = await HIINsService.Create().GetHIINByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserHIINs userHIIN = await UserHIINsService.Create().GetUserHIINsAsync(featureId);
+        UserHIINs userHIIN = await UserHIINsService.Create().GetUserHIINsAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -264,7 +264,7 @@ public class HIINIIIManager : MonoBehaviour
 
         async Task RefreshPanelAsync()
         {
-            userHIIN = await UserHIINsService.Create().GetUserHIINsAsync(featureId);
+            userHIIN = await UserHIINsService.Create().GetUserHIINsAsync(User.CurrentUserId, featureId);
             currentLevel = userHIIN?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

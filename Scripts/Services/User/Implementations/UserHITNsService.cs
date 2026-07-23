@@ -19,14 +19,14 @@ public class UserHITNsService : IUserHITNsService
         return _instance;
     }
 
-    public async Task<UserHITNs> GetUserHITNsAsync(string id)
+    public async Task<UserHITNs> GetUserHITNsAsync(string userId, string id)
     {
-        return await _userHITNsRepository.GetUserHITNsAsync(id);
+        return await _userHITNsRepository.GetUserHITNsAsync(userId, id);
     }
 
-    public async Task<UserHITNs> GetSumUserHITNsAsync(string user_id)
+    public async Task<UserHITNs> GetSumUserHITNsAsync(string userId)
     {
-        return await _userHITNsRepository.GetSumUserHITNsAsync(user_id);
+        return await _userHITNsRepository.GetSumUserHITNsAsync(userId);
     }
 
     public async Task InsertOrUpdateUserHITNsAsync(string userId, UserHITNs HITNs, string id)

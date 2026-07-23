@@ -23,17 +23,17 @@ public class UserPlantsService : IUserPlantsService
 
 
 
-    public async Task<List<Plants>> GetUserPlantsAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Plants>> GetUserPlantsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Plants> list = await _userPlantsRepository.GetUserPlantsAsync(user_id, search, pageSize, offset, rare);
+        List<Plants> list = await _userPlantsRepository.GetUserPlantsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserPlantsCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserPlantsCountAsync(string userId, string search, string rare)
     {
-        return await _userPlantsRepository.GetUserPlantsCountAsync(user_id, search, rare);
+        return await _userPlantsRepository.GetUserPlantsCountAsync(userId, search, rare);
     }
 
     public async Task<bool> InsertUserPlantAsync(Plants plant, string userId)
@@ -41,33 +41,33 @@ public class UserPlantsService : IUserPlantsService
         return await _userPlantsRepository.InsertUserPlantAsync(plant, userId);
     }
 
-    public async Task<bool> UpdatePlantLevelAsync(Plants plant)
+    public async Task<bool> UpdateUserPlantLevelAsync(string userId, Plants plant)
     {
-        return await _userPlantsRepository.UpdatePlantLevelAsync(plant);
+        return await _userPlantsRepository.UpdateUserPlantLevelAsync(userId, plant);
     }
 
-    public async Task<bool> UpdatePlantStarAsync(Plants plant)
+    public async Task<bool> UpdateUserPlantStarAsync(string userId, Plants plant)
     {
-        return await _userPlantsRepository.UpdatePlantStarAsync(plant);
+        return await _userPlantsRepository.UpdateUserPlantStarAsync(userId, plant);
     }
 
-    public async Task<bool> UpdatePlantBreakthroughAsync(Plants plant, int star, double quantity)
+    public async Task<bool> UpdateUserPlantBreakthroughAsync(string userId, Plants plant, int star, double quantity)
     {
-        return await _userPlantsRepository.UpdatePlantBreakthroughAsync(plant, star, quantity);
+        return await _userPlantsRepository.UpdateUserPlantBreakthroughAsync(userId, plant, star, quantity);
     }
 
-    public async Task<Plants> GetUserPlantByIdAsync(string user_id, string Id)
+    public async Task<Plants> GetUserPlantByIdAsync(string userId, string Id)
     {
-        return await _userPlantsRepository.GetUserPlantByIdAsync(user_id, Id);
+        return await _userPlantsRepository.GetUserPlantByIdAsync(userId, Id);
     }
 
-    public async Task<Plants> SumPowerUserPlantsAsync()
+    public async Task<Plants> SumPowerUserPlantsAsync(string userId)
     {
-        return await _userPlantsRepository.SumPowerUserPlantsAsync();
+        return await _userPlantsRepository.SumPowerUserPlantsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserPlantsBatchAsync(List<Plants> plants)
+    public async Task<bool> InsertOrUpdateUserPlantsBatchAsync(string userId, List<Plants> plants)
     {
-        return await _userPlantsRepository.InsertOrUpdateUserPlantsBatchAsync(plants);
+        return await _userPlantsRepository.InsertOrUpdateUserPlantsBatchAsync(userId, plants);
     }
 }

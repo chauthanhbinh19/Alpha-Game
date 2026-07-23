@@ -833,10 +833,10 @@ public class EquipmentManager : MonoBehaviour
                 return;
             }
 
-            bool success = await userEquipmentsService.BuyEquipmentAsync(equipments.Id, quantity);
+            bool success = await userEquipmentsService.InsertUserEquipmentAsync(User.CurrentUserId, equipments.Id, quantity);
             if (success)
             {
-                await UserEquipmentsService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, totalCost);
+                await UserEquipmentsService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, currency.Id, totalCost);
                 await equipmentsGalleryService.InsertEquipmentGalleryAsync(equipments.Id);
                 Transform CurrencyPanel = CurrentObject.transform.Find("DictionaryCards/Currency");
                 Close(CurrencyPanel);

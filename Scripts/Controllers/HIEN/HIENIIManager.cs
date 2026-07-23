@@ -233,7 +233,7 @@ public class HIENIIManager : MonoBehaviour
         AnimationController.Instance.CreateHIENAnimation(currentObject);
         HIENs hien = await HIENsService.Create().GetHIENByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserHIENs userHIEN = await UserHIENsService.Create().GetUserHIENsAsync(featureId);
+        UserHIENs userHIEN = await UserHIENsService.Create().GetUserHIENsAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -264,7 +264,7 @@ public class HIENIIManager : MonoBehaviour
 
         async Task RefreshPanelAsync()
         {
-            userHIEN = await UserHIENsService.Create().GetUserHIENsAsync(featureId);
+            userHIEN = await UserHIENsService.Create().GetUserHIENsAsync(User.CurrentUserId, featureId);
             currentLevel = userHIEN?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

@@ -279,9 +279,9 @@ public class ArchitecturesController : MonoBehaviour
         maxButton.onClick.AddListener(async () =>
         {
             Currencies userCurrency = new Currencies();
-            if (obj is Architectures Architectures)
+            if (obj is Architectures architecture)
             {
-                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(Architectures.Currency.Id);
+                userCurrency = await UserCurrenciesService.Create().GetUserCurrencyByIdAsync(User.CurrentUserId, architecture.Currency.Id);
             }
             // double price = double.Parse(priceText.text);
 
@@ -312,7 +312,7 @@ public class ArchitecturesController : MonoBehaviour
             if (obj is Architectures architecture)
             {
                 architecture.Quantity = architecture.Quantity + quantity;
-                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(architecture.Currency.Id, price);
+                await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, architecture.Currency.Id, price);
                 bool success = await UserArchitecturesService.Create().InsertUserArchitectureAsync(architecture, User.CurrentUserId);
                 if (!success)
                 {

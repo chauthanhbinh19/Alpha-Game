@@ -20,17 +20,17 @@ public class UserTechnologiesService : IUserTechnologiesService
         return _instance;
     }
 
-    public async Task<List<Technologies>> GetUserTechnologiesAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Technologies>> GetUserTechnologiesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Technologies> list = await _userTechnologiesRepository.GetUserTechnologiesAsync(user_id, search, pageSize, offset, rare);
+        List<Technologies> list = await _userTechnologiesRepository.GetUserTechnologiesAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserTechnologiesCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserTechnologiesCountAsync(string userId, string search, string rare)
     {
-        return await _userTechnologiesRepository.GetUserTechnologiesCountAsync(user_id, search, rare);
+        return await _userTechnologiesRepository.GetUserTechnologiesCountAsync(userId, search, rare);
     }
 
     public async Task<bool> InsertUserTechnologyAsync(Technologies technology, string userId)
@@ -38,33 +38,33 @@ public class UserTechnologiesService : IUserTechnologiesService
         return await _userTechnologiesRepository.InsertUserTechnologyAsync(technology, userId);
     }
 
-    public async Task<bool> UpdateTechnologyLevelAsync(Technologies technology)
+    public async Task<bool> UpdateUserTechnologyLevelAsync(string userId, Technologies technology)
     {
-        return await _userTechnologiesRepository.UpdateTechnologyLevelAsync(technology);
+        return await _userTechnologiesRepository.UpdateUserTechnologyLevelAsync(userId, technology);
     }
 
-    public async Task<bool> UpdateTechnologyStarAsync(Technologies technology)
+    public async Task<bool> UpdateUserTechnologyStarAsync(string userId, Technologies technology)
     {
-        return await _userTechnologiesRepository.UpdateTechnologyStarAsync(technology);
+        return await _userTechnologiesRepository.UpdateUserTechnologyStarAsync(userId, technology);
     }
 
-    public async Task<bool> UpdateTechnologyBreakthroughAsync(Technologies technology, int star, double quantity)
+    public async Task<bool> UpdateUserTechnologyBreakthroughAsync(string userId, Technologies technology, int star, double quantity)
     {
-        return await _userTechnologiesRepository.UpdateTechnologyBreakthroughAsync(technology, star, quantity);
+        return await _userTechnologiesRepository.UpdateUserTechnologyBreakthroughAsync(userId, technology, star, quantity);
     }
 
-    public async Task<Technologies> GetUserTechnologyByIdAsync(string user_id, string Id)
+    public async Task<Technologies> GetUserTechnologyByIdAsync(string userId, string Id)
     {
-        return await _userTechnologiesRepository.GetUserTechnologyByIdAsync(user_id, Id);
+        return await _userTechnologiesRepository.GetUserTechnologyByIdAsync(userId, Id);
     }
 
-    public async Task<Technologies> SumPowerUserTechnologiesAsync()
+    public async Task<Technologies> SumPowerUserTechnologiesAsync(string userId)
     {
-        return await _userTechnologiesRepository.SumPowerUserTechnologiesAsync();
+        return await _userTechnologiesRepository.SumPowerUserTechnologiesAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserTechnologiesBatchAsync(List<Technologies> technologies)
+    public async Task<bool> InsertOrUpdateUserTechnologiesBatchAsync(string userId, List<Technologies> technologies)
     {
-        return await _userTechnologiesRepository.InsertOrUpdateUserTechnologiesBatchAsync(technologies);
+        return await _userTechnologiesRepository.InsertOrUpdateUserTechnologiesBatchAsync(userId, technologies);
     }
 }

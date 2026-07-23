@@ -20,1016 +20,1016 @@ public class UserItemsService : IUserItemsService
         return _instance;
     }
 
-    public async Task<List<Items>> GetUserItemsAsync(string user_id, string search, string type, int pageSize, int offset)
+    public async Task<List<Items>> GetUserItemsAsync(string userId, string search, string type, int pageSize, int offset)
     {
-        return await _userItemsRepository.GetUserItemsAsync(user_id, search, type, pageSize, offset);
+        return await _userItemsRepository.GetUserItemsAsync(userId, search, type, pageSize, offset);
     }
 
-    public async Task<int> GetUserItemsCountAsync(string user_id, string search, string type)
+    public async Task<int> GetUserItemsCountAsync(string userId, string search, string type)
     {
-        return await _userItemsRepository.GetUserItemsCountAsync(user_id, search, type);
+        return await _userItemsRepository.GetUserItemsCountAsync(userId, search, type);
     }
-    public async Task<Items> GetUserItemByNameAsync(string itemName)
+    public async Task<Items> GetUserItemByNameAsync(string userId, string itemName)
     {
-        return await _userItemsRepository.GetUserItemByNameAsync(itemName);
-    }
-
-    public async Task<Items> GetUserItemByCodeNameAsync(string codeName)
-    {
-        return await _userItemsRepository.GetUserItemByCodeNameAsync(codeName);
+        return await _userItemsRepository.GetUserItemByNameAsync(userId, itemName);
     }
 
-    public async Task<ItemExperienceDTO> GetUserItemExperienceByCodeNameAsync(string codeName)
+    public async Task<Items> GetUserItemByCodeNameAsync(string userId, string codeName)
     {
-        return await _userItemsRepository.GetUserItemExperienceByCodeNameAsync(codeName);
+        return await _userItemsRepository.GetUserItemByCodeNameAsync(userId, codeName);
     }
 
-    public async Task<bool> InsertUserItemAsync(Items item, double quantity)
+    public async Task<ItemExperienceDTO> GetUserItemExperienceByCodeNameAsync(string userId, string codeName)
     {
-        return await _userItemsRepository.InsertUserItemAsync(item, quantity);
+        return await _userItemsRepository.GetUserItemExperienceByCodeNameAsync(userId, codeName);
     }
 
-    public async Task<Items> UpdateUserItemQuantityAsync(Items item)
+    public async Task<bool> InsertUserItemAsync(string userId, Items item, double quantity)
     {
-        return await _userItemsRepository.UpdateUserItemQuantityAsync(item);
+        return await _userItemsRepository.InsertUserItemAsync(userId, item, quantity);
     }
-    public async Task<Items> UpdateUserItemQuantityAsync(Items item, double quantity)
+
+    public async Task<Items> UpdateUserItemQuantityAsync(string userId, Items item)
     {
-        return await _userItemsRepository.UpdateUserItemQuantityAsync(item, quantity);
+        return await _userItemsRepository.UpdateUserItemQuantityAsync(userId, item);
     }
-    public List<Items> GetItemForLevelAsync(string type)
+    public async Task<Items> UpdateUserItemQuantityAsync(string userId, Items item, double quantity)
+    {
+        return await _userItemsRepository.UpdateUserItemQuantityAsync(userId, item, quantity);
+    }
+    public List<Items> GetItemForLevelAsync(string userId, string type)
     {
         List<Items> items = new List<Items>();
         // switch (type)
         // {
         //     case AppConstants.MainType.CARD_HERO:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV6));
         //         break;
         //     case AppConstants.MainType.BOOK:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOOKS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOOKS));
         //         break;
         //     case AppConstants.MainType.AVATAR:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_AVATARS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_AVATARS));
         //         break;
         //     case AppConstants.MainType.BORDER:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BORDERS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BORDERS));
         //         break;
         //     case AppConstants.MainType.CARD_CAPTAIN:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV6));
         //         break;
         //     case AppConstants.MainType.PET:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_PETS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_PETS));
         //         break;
         //     case AppConstants.MainType.COLLABORATION_EQUIPMENT:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_COLLABORATION_EQUIPMENTS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_COLLABORATION_EQUIPMENTS));
         //         break;
         //     case AppConstants.MainType.CARD_MILITARY:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_MILITARY));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_CARD_MILITARY));
         //         break;
         //     case AppConstants.MainType.CARD_SPELL:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_SPELLS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_CARD_SPELLS));
         //         break;
         //     case AppConstants.MainType.COLLABORATION:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_COLLABORATIONS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_COLLABORATIONS));
         //         break;
         //     case AppConstants.MainType.CARD_MONSTER:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_MONSTERS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_CARD_MONSTERS));
         //         break;
         //     case AppConstants.MainType.EQUIPMENT:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_EQUIPMENTS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_EQUIPMENTS));
         //         break;
         //     case AppConstants.MainType.MEDAL:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_MEDALS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_MEDALS));
         //         break;
         //     case AppConstants.MainType.SKILL:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SKILLS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_SKILLS));
         //         break;
         //     case AppConstants.MainType.SYMBOL:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SYMBOLS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_SYMBOLS));
         //         break;
         //     case AppConstants.MainType.TITLE:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_TITLES));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_TITLES));
         //         break;
         //     case AppConstants.MainType.MAGIC_FORMATION_CIRCLE:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_MAGIC_FORMATION_CIRCLES));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_MAGIC_FORMATION_CIRCLES));
         //         break;
         //     case AppConstants.MainType.RELIC:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_RELICS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_RELICS));
         //         break;
         //     case AppConstants.MainType.CARD_COLONEL:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV6));
         //         break;
         //     case AppConstants.MainType.CARD_GENERAL:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV6));
         //         break;
         //     case AppConstants.MainType.CARD_ADMIRAL:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV6));
         //         break;
         //     case AppConstants.MainType.CARD_LIFE:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_LIVES));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_CARD_LIVES));
         //         break;
         //     case AppConstants.MainType.SPIRIT_BEAST:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SPIRIT_BEASTS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_SPIRIT_BEASTS));
         //         break;
         //     case AppConstants.MainType.ACHIEVEMENT:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ACHIEVEMENTS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_ACHIEVEMENTS));
         //         break;
         //     case AppConstants.MainType.ALCHEMY:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ALCHEMIES));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_ALCHEMIES));
         //         break;
         //     case AppConstants.MainType.PUPPET:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_PUPPETS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_PUPPETS));
         //         break;
         //     case AppConstants.MainType.TALISMAN:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_TALISMANS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_TALISMANS));
         //         break;
         //     case AppConstants.MainType.FORGE:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_FORGES));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_FORGES));
         //         break;
         //     case AppConstants.MainType.ARCHITECTURE:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ARCHITECTURES));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_ARCHITECTURES));
         //         break;
         //     case AppConstants.MainType.ARTWORK:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ARTWORKS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_ARTWORKS));
         //         break;
         //     case AppConstants.MainType.BADGE:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BADGES));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BADGES));
         //         break;
         //     case AppConstants.MainType.FOOD:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_FOODS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_FOODS));
         //         break;
         //     case AppConstants.MainType.BEVERAGE:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BEVERAGES));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BEVERAGES));
         //         break;
         //     case AppConstants.MainType.BUILDING:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BUILDINGS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BUILDINGS));
         //         break;
         //     case AppConstants.MainType.ARTIFACT:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ARTIFACTS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_ARTIFACTS));
         //         break;
         //     case AppConstants.MainType.CORE:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CORES));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_CORES));
         //         break;
         //     case AppConstants.MainType.FURNITURE:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_FURNITURES));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_FURNITURES));
         //         break;
         //     case AppConstants.MainType.MECHA_BEAST:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_MECHA_BEASTS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_MECHA_BEASTS));
         //         break;
         //     case AppConstants.MainType.PLANT:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_PLANTS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_PLANTS));
         //         break;
         //     case AppConstants.MainType.ROBOT:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_ROBOTS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_ROBOTS));
         //         break;
         //     case AppConstants.MainType.RUNE:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_RUNES));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_RUNES));
         //         break;
         //     case AppConstants.MainType.SPIRIT_CARD:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_SPIRIT_CARDS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_SPIRIT_CARDS));
         //         break;
         //     case AppConstants.MainType.TECHNOLOGY:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_TECHNOLOGIES));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_TECHNOLOGIES));
         //         break;
         //     case AppConstants.MainType.VEHICLE:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_VEHICLES));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_VEHICLES));
         //         break;
         //     case AppConstants.MainType.WEAPON:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_WEAPONS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_WEAPONS));
         //         break;
         //     case AppConstants.MainType.EMOJI:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_EMOJIS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_EMOJIS));
         //         break;
         //     case AppConstants.MainType.CARD_SOLDIER:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_CARD_SOLDIERS));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_CARD_SOLDIERS));
         //         break;
         //     default:
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV1));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV2));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV3));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV4));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV5));
-        //         items.Add(await GetUserItemByNameAsync(ItemConstants.Experiment.EXP_BOTTOLE_LV6));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV1));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV2));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV3));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV4));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV5));
+        //         items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Experiment.EXP_BOTTOLE_LV6));
         //         break;
         // }
         return items;
     }
-    public async Task<List<Items>> GetItemForBreakthourghAsync(string type)
+    public async Task<List<Items>> GetItemForBreakthourghAsync(string userId, string type)
     {
         List<Items> items = new List<Items>();
         switch (type)
         {
             case AppConstants.MainType.CARD_HERO:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_CARD_HEROES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_CARD_HEROES));
                 break;
             case AppConstants.MainType.BOOK:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_BOOKS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_BOOKS));
                 break;
             case AppConstants.MainType.CARD_CAPTAIN:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_CARD_CAPTAINS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_CARD_CAPTAINS));
                 break;
             case AppConstants.MainType.PET:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_PETS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_PETS));
                 break;
             case AppConstants.MainType.COLLABORATION_EQUIPMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_COLLABORATION_EQUIPMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_COLLABORATION_EQUIPMENTS));
                 break;
             case AppConstants.MainType.CARD_MILITARY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_CARD_MILITARIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_CARD_MILITARIES));
                 break;
             case AppConstants.MainType.CARD_SPELL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_CARD_SPELLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_CARD_SPELLS));
                 break;
             case AppConstants.MainType.COLLABORATION:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_COLLABORATIONS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_COLLABORATIONS));
                 break;
             case AppConstants.MainType.CARD_MONSTER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_CARD_MONSTERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_CARD_MONSTERS));
                 break;
             case AppConstants.MainType.EQUIPMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_EQUIPMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_EQUIPMENTS));
                 break;
             case AppConstants.MainType.MEDAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_MEDALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_MEDALS));
                 break;
             case AppConstants.MainType.SKILL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_SKILLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_SKILLS));
                 break;
             case AppConstants.MainType.SYMBOL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_SYMBOLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_SYMBOLS));
                 break;
             case AppConstants.MainType.TITLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_TITLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_TITLES));
                 break;
             case AppConstants.MainType.MAGIC_FORMATION_CIRCLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_MAGIC_FORMATION_CIRCLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_MAGIC_FORMATION_CIRCLES));
                 break;
             case AppConstants.MainType.RELIC:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_RELICS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_RELICS));
                 break;
             case AppConstants.MainType.CARD_COLONEL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_CARD_COLONELS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_CARD_COLONELS));
                 break;
             case AppConstants.MainType.CARD_GENERAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_CARD_GENERALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_CARD_GENERALS));
                 break;
             case AppConstants.MainType.CARD_ADMIRAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_CARD_ADMIRALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_CARD_ADMIRALS));
                 break;
             case AppConstants.MainType.CARD_LIFE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_CARD_LIVES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_CARD_LIVES));
                 break;
             case AppConstants.MainType.SPIRIT_BEAST:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_SPIRIT_BEASTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_SPIRIT_BEASTS));
                 break;
             case AppConstants.MainType.SPIRIT_CARD:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_SPIRIT_CARDS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_SPIRIT_CARDS));
                 break;
             case AppConstants.MainType.ACHIEVEMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_ACHIEVEMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_ACHIEVEMENTS));
                 break;
             case AppConstants.MainType.AVATAR:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_AVATARS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_AVATARS));
                 break;
             case AppConstants.MainType.BORDER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_BORDERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_BORDERS));
                 break;
             case AppConstants.MainType.ALCHEMY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_ALCHEMIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_ALCHEMIES));
                 break;
             case AppConstants.MainType.PUPPET:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_PUPPETS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_PUPPETS));
                 break;
             case AppConstants.MainType.TALISMAN:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_TALISMANS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_TALISMANS));
                 break;
             case AppConstants.MainType.FORGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_FORGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_FORGES));
                 break;
             case AppConstants.MainType.ARCHITECTURE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_ARCHITECTURES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_ARCHITECTURES));
                 break;
             case AppConstants.MainType.ARTWORK:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_ARTWORKS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_ARTWORKS));
                 break;
             case AppConstants.MainType.BADGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_BADGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_BADGES));
                 break;
             case AppConstants.MainType.BEVERAGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_BEVERAGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_BEVERAGES));
                 break;
             case AppConstants.MainType.FOOD:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_FOODS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_FOODS));
                 break;
             case AppConstants.MainType.BUILDING:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_BUILDINGS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_BUILDINGS));
                 break;
             case AppConstants.MainType.ARTIFACT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_ARTIFACTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_ARTIFACTS));
                 break;
             case AppConstants.MainType.CORE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_CORES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_CORES));
                 break;
             case AppConstants.MainType.FURNITURE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_FURNITURES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_FURNITURES));
                 break;
             case AppConstants.MainType.MECHA_BEAST:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_MECHA_BEASTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_MECHA_BEASTS));
                 break;
             case AppConstants.MainType.PLANT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_PLANTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_PLANTS));
                 break;
             case AppConstants.MainType.ROBOT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_ROBOTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_ROBOTS));
                 break;
             case AppConstants.MainType.RUNE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_RUNES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_RUNES));
                 break;
             case AppConstants.MainType.TECHNOLOGY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_TECHNOLOGIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_TECHNOLOGIES));
                 break;
             case AppConstants.MainType.VEHICLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_VEHICLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_VEHICLES));
                 break;
             case AppConstants.MainType.WEAPON:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_WEAPONS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_WEAPONS));
                 break;
             case AppConstants.MainType.EMOJI:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_EMOJIS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_EMOJIS));
                 break;
             case AppConstants.MainType.CARD_SOLDIER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.LIMIT_BREAK_CARD_SOLDIERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.LIMIT_BREAK_CARD_SOLDIERS));
                 break;
             default:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Breakthrough.BREAK_THROUGH_TOKEN));
                 break;
         }
         return items;
     }
-    public async Task<List<Items>> GetItemForAwakeningAsync(string type)
+    public async Task<List<Items>> GetItemForAwakeningAsync(string userId, string type)
     {
         List<Items> items = new List<Items>();
         switch (type)
         {
             case AppConstants.MainType.CARD_HERO:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_CARD_HEROES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_CARD_HEROES));
                 break;
             case AppConstants.MainType.BOOK:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_BOOKS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_BOOKS));
                 break;
             case AppConstants.MainType.CARD_CAPTAIN:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_CARD_CAPTAINS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_CARD_CAPTAINS));
                 break;
             case AppConstants.MainType.PET:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_PETS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_PETS));
                 break;
             case AppConstants.MainType.COLLABORATION_EQUIPMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_COLLABORATION_EQUIPMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_COLLABORATION_EQUIPMENTS));
                 break;
             case AppConstants.MainType.CARD_MILITARY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_CARD_MILITARIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_CARD_MILITARIES));
                 break;
             case AppConstants.MainType.CARD_SPELL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_CARD_SPELLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_CARD_SPELLS));
                 break;
             case AppConstants.MainType.COLLABORATION:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_COLLABORATIONS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_COLLABORATIONS));
                 break;
             case AppConstants.MainType.CARD_MONSTER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_CARD_MONSTERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_CARD_MONSTERS));
                 break;
             case AppConstants.MainType.EQUIPMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_EQUIPMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_EQUIPMENTS));
                 break;
             case AppConstants.MainType.MEDAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_MEDALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_MEDALS));
                 break;
             case AppConstants.MainType.SKILL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_SKILLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_SKILLS));
                 break;
             case AppConstants.MainType.SYMBOL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_SYMBOLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_SYMBOLS));
                 break;
             case AppConstants.MainType.TITLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_TITLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_TITLES));
                 break;
             case AppConstants.MainType.MAGIC_FORMATION_CIRCLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_MAGIC_FORMATION_CIRCLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_MAGIC_FORMATION_CIRCLES));
                 break;
             case AppConstants.MainType.RELIC:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_RELICS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_RELICS));
                 break;
             case AppConstants.MainType.CARD_COLONEL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_CARD_COLONELS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_CARD_COLONELS));
                 break;
             case AppConstants.MainType.CARD_GENERAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_CARD_GENERALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_CARD_GENERALS));
                 break;
             case AppConstants.MainType.CARD_ADMIRAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_CARD_ADMIRALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_CARD_ADMIRALS));
                 break;
             case AppConstants.MainType.CARD_LIFE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_CARD_LIVES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_CARD_LIVES));
                 break;
             case AppConstants.MainType.SPIRIT_BEAST:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_SPIRIT_BEASTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_SPIRIT_BEASTS));
                 break;
             case AppConstants.MainType.SPIRIT_CARD:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_SPIRIT_CARDS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_SPIRIT_CARDS));
                 break;
             case AppConstants.MainType.ACHIEVEMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_ACHIEVEMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_ACHIEVEMENTS));
                 break;
             case AppConstants.MainType.AVATAR:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_AVATARS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_AVATARS));
                 break;
             case AppConstants.MainType.BORDER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_BORDERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_BORDERS));
                 break;
             case AppConstants.MainType.ALCHEMY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_ALCHEMIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_ALCHEMIES));
                 break;
             case AppConstants.MainType.PUPPET:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_PUPPETS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_PUPPETS));
                 break;
             case AppConstants.MainType.TALISMAN:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_TALISMANS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_TALISMANS));
                 break;
             case AppConstants.MainType.FORGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_FORGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_FORGES));
                 break;
             case AppConstants.MainType.ARCHITECTURE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_ARCHITECTURES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_ARCHITECTURES));
                 break;
             case AppConstants.MainType.ARTWORK:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_ARTWORKS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_ARTWORKS));
                 break;
             case AppConstants.MainType.BADGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_BADGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_BADGES));
                 break;
             case AppConstants.MainType.BEVERAGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_BEVERAGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_BEVERAGES));
                 break;
             case AppConstants.MainType.FOOD:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_FOODS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_FOODS));
                 break;
             case AppConstants.MainType.BUILDING:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_BUILDINGS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_BUILDINGS));
                 break;
             case AppConstants.MainType.ARTIFACT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_ARTIFACTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_ARTIFACTS));
                 break;
             case AppConstants.MainType.CORE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_CORES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_CORES));
                 break;
             case AppConstants.MainType.FURNITURE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_FURNITURES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_FURNITURES));
                 break;
             case AppConstants.MainType.MECHA_BEAST:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_MECHA_BEASTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_MECHA_BEASTS));
                 break;
             case AppConstants.MainType.PLANT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_PLANTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_PLANTS));
                 break;
             case AppConstants.MainType.ROBOT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_ROBOTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_ROBOTS));
                 break;
             case AppConstants.MainType.RUNE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_RUNES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_RUNES));
                 break;
             case AppConstants.MainType.TECHNOLOGY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_TECHNOLOGIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_TECHNOLOGIES));
                 break;
             case AppConstants.MainType.VEHICLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_VEHICLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_VEHICLES));
                 break;
             case AppConstants.MainType.WEAPON:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_WEAPONS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_WEAPONS));
                 break;
             case AppConstants.MainType.EMOJI:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_EMOJIS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_EMOJIS));
                 break;
             case AppConstants.MainType.CARD_SOLDIER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_CARD_SOLDIERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_CARD_SOLDIERS));
                 break;
             default:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Awakening.AWAKENING_CARD_HEROES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Awakening.AWAKENING_CARD_HEROES));
                 break;
         }
         return items;
     }
-    public async Task<List<Items>> GetItemForAscensionAsync(string type)
+    public async Task<List<Items>> GetItemForAscensionAsync(string userId, string type)
     {
         List<Items> items = new List<Items>();
         switch (type)
         {
             case AppConstants.MainType.CARD_HERO:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_CARD_HEROES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_CARD_HEROES));
                 break;
             case AppConstants.MainType.BOOK:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_BOOKS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_BOOKS));
                 break;
             case AppConstants.MainType.CARD_CAPTAIN:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_CARD_CAPTAINS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_CARD_CAPTAINS));
                 break;
             case AppConstants.MainType.PET:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_PETS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_PETS));
                 break;
             case AppConstants.MainType.COLLABORATION_EQUIPMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_COLLABORATION_EQUIPMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_COLLABORATION_EQUIPMENTS));
                 break;
             case AppConstants.MainType.CARD_MILITARY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_CARD_MILITARIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_CARD_MILITARIES));
                 break;
             case AppConstants.MainType.CARD_SPELL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_CARD_SPELLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_CARD_SPELLS));
                 break;
             case AppConstants.MainType.COLLABORATION:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_COLLABORATIONS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_COLLABORATIONS));
                 break;
             case AppConstants.MainType.CARD_MONSTER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_CARD_MONSTERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_CARD_MONSTERS));
                 break;
             case AppConstants.MainType.EQUIPMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_EQUIPMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_EQUIPMENTS));
                 break;
             case AppConstants.MainType.MEDAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_MEDALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_MEDALS));
                 break;
             case AppConstants.MainType.SKILL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_SKILLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_SKILLS));
                 break;
             case AppConstants.MainType.SYMBOL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_SYMBOLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_SYMBOLS));
                 break;
             case AppConstants.MainType.TITLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_TITLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_TITLES));
                 break;
             case AppConstants.MainType.MAGIC_FORMATION_CIRCLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_MAGIC_FORMATION_CIRCLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_MAGIC_FORMATION_CIRCLES));
                 break;
             case AppConstants.MainType.RELIC:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_RELICS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_RELICS));
                 break;
             case AppConstants.MainType.CARD_COLONEL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_CARD_COLONELS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_CARD_COLONELS));
                 break;
             case AppConstants.MainType.CARD_GENERAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_CARD_GENERALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_CARD_GENERALS));
                 break;
             case AppConstants.MainType.CARD_ADMIRAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_CARD_ADMIRALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_CARD_ADMIRALS));
                 break;
             case AppConstants.MainType.CARD_LIFE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_CARD_LIVES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_CARD_LIVES));
                 break;
             case AppConstants.MainType.SPIRIT_BEAST:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_SPIRIT_BEASTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_SPIRIT_BEASTS));
                 break;
             case AppConstants.MainType.SPIRIT_CARD:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_SPIRIT_CARDS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_SPIRIT_CARDS));
                 break;
             case AppConstants.MainType.ACHIEVEMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_ACHIEVEMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_ACHIEVEMENTS));
                 break;
             case AppConstants.MainType.AVATAR:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_AVATARS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_AVATARS));
                 break;
             case AppConstants.MainType.BORDER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_BORDERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_BORDERS));
                 break;
             case AppConstants.MainType.ALCHEMY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_ALCHEMIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_ALCHEMIES));
                 break;
             case AppConstants.MainType.PUPPET:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_PUPPETS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_PUPPETS));
                 break;
             case AppConstants.MainType.TALISMAN:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_TALISMANS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_TALISMANS));
                 break;
             case AppConstants.MainType.FORGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_FORGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_FORGES));
                 break;
             case AppConstants.MainType.ARCHITECTURE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_ARCHITECTURES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_ARCHITECTURES));
                 break;
             case AppConstants.MainType.ARTWORK:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_ARTWORKS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_ARTWORKS));
                 break;
             case AppConstants.MainType.BADGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_BADGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_BADGES));
                 break;
             case AppConstants.MainType.BEVERAGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_BEVERAGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_BEVERAGES));
                 break;
             case AppConstants.MainType.FOOD:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_FOODS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_FOODS));
                 break;
             case AppConstants.MainType.BUILDING:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_BUILDINGS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_BUILDINGS));
                 break;
             case AppConstants.MainType.ARTIFACT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_ARTIFACTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_ARTIFACTS));
                 break;
             case AppConstants.MainType.CORE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_CORES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_CORES));
                 break;
             case AppConstants.MainType.FURNITURE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_FURNITURES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_FURNITURES));
                 break;
             case AppConstants.MainType.MECHA_BEAST:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_MECHA_BEASTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_MECHA_BEASTS));
                 break;
             case AppConstants.MainType.PLANT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_PLANTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_PLANTS));
                 break;
             case AppConstants.MainType.ROBOT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_ROBOTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_ROBOTS));
                 break;
             case AppConstants.MainType.RUNE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_RUNES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_RUNES));
                 break;
             case AppConstants.MainType.TECHNOLOGY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_TECHNOLOGIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_TECHNOLOGIES));
                 break;
             case AppConstants.MainType.VEHICLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_VEHICLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_VEHICLES));
                 break;
             case AppConstants.MainType.WEAPON:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_WEAPONS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_WEAPONS));
                 break;
             case AppConstants.MainType.EMOJI:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_EMOJIS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_EMOJIS));
                 break;
             case AppConstants.MainType.CARD_SOLDIER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_CARD_SOLDIERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_CARD_SOLDIERS));
                 break;
             default:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Ascension.ASCENSION_CARD_HEROES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Ascension.ASCENSION_CARD_HEROES));
                 break;
         }
         return items;
     }
-    public async Task<List<Items>> GetItemForResonanceAsync(string type)
+    public async Task<List<Items>> GetItemForResonanceAsync(string userId, string type)
     {
         List<Items> items = new List<Items>();
         switch (type)
         {
             case AppConstants.MainType.CARD_HERO:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_CARD_HEROES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_CARD_HEROES));
                 break;
             case AppConstants.MainType.BOOK:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_BOOKS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_BOOKS));
                 break;
             case AppConstants.MainType.CARD_CAPTAIN:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_CARD_CAPTAINS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_CARD_CAPTAINS));
                 break;
             case AppConstants.MainType.PET:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_PETS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_PETS));
                 break;
             case AppConstants.MainType.COLLABORATION_EQUIPMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_COLLABORATION_EQUIPMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_COLLABORATION_EQUIPMENTS));
                 break;
             case AppConstants.MainType.CARD_MILITARY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_CARD_MILITARIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_CARD_MILITARIES));
                 break;
             case AppConstants.MainType.CARD_SPELL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_CARD_SPELLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_CARD_SPELLS));
                 break;
             case AppConstants.MainType.COLLABORATION:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_COLLABORATIONS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_COLLABORATIONS));
                 break;
             case AppConstants.MainType.CARD_MONSTER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_CARD_MONSTERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_CARD_MONSTERS));
                 break;
             case AppConstants.MainType.EQUIPMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_EQUIPMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_EQUIPMENTS));
                 break;
             case AppConstants.MainType.MEDAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_MEDALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_MEDALS));
                 break;
             case AppConstants.MainType.SKILL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_SKILLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_SKILLS));
                 break;
             case AppConstants.MainType.SYMBOL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_SYMBOLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_SYMBOLS));
                 break;
             case AppConstants.MainType.TITLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_TITLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_TITLES));
                 break;
             case AppConstants.MainType.MAGIC_FORMATION_CIRCLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_MAGIC_FORMATION_CIRCLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_MAGIC_FORMATION_CIRCLES));
                 break;
             case AppConstants.MainType.RELIC:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_RELICS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_RELICS));
                 break;
             case AppConstants.MainType.CARD_COLONEL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_CARD_COLONELS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_CARD_COLONELS));
                 break;
             case AppConstants.MainType.CARD_GENERAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_CARD_GENERALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_CARD_GENERALS));
                 break;
             case AppConstants.MainType.CARD_ADMIRAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_CARD_ADMIRALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_CARD_ADMIRALS));
                 break;
             case AppConstants.MainType.CARD_LIFE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_CARD_LIVES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_CARD_LIVES));
                 break;
             case AppConstants.MainType.SPIRIT_BEAST:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_SPIRIT_BEASTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_SPIRIT_BEASTS));
                 break;
             case AppConstants.MainType.SPIRIT_CARD:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_SPIRIT_CARDS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_SPIRIT_CARDS));
                 break;
             case AppConstants.MainType.ACHIEVEMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_ACHIEVEMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_ACHIEVEMENTS));
                 break;
             case AppConstants.MainType.AVATAR:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_AVATARS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_AVATARS));
                 break;
             case AppConstants.MainType.BORDER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_BORDERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_BORDERS));
                 break;
             case AppConstants.MainType.ALCHEMY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_ALCHEMIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_ALCHEMIES));
                 break;
             case AppConstants.MainType.PUPPET:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_PUPPETS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_PUPPETS));
                 break;
             case AppConstants.MainType.TALISMAN:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_TALISMANS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_TALISMANS));
                 break;
             case AppConstants.MainType.FORGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_FORGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_FORGES));
                 break;
             case AppConstants.MainType.ARCHITECTURE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_ARCHITECTURES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_ARCHITECTURES));
                 break;
             case AppConstants.MainType.ARTWORK:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_ARTWORKS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_ARTWORKS));
                 break;
             case AppConstants.MainType.BADGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_BADGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_BADGES));
                 break;
             case AppConstants.MainType.BEVERAGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_BEVERAGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_BEVERAGES));
                 break;
             case AppConstants.MainType.FOOD:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_FOODS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_FOODS));
                 break;
             case AppConstants.MainType.BUILDING:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_BUILDINGS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_BUILDINGS));
                 break;
             case AppConstants.MainType.ARTIFACT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_ARTIFACTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_ARTIFACTS));
                 break;
             case AppConstants.MainType.CORE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_CORES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_CORES));
                 break;
             case AppConstants.MainType.FURNITURE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_FURNITURES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_FURNITURES));
                 break;
             case AppConstants.MainType.MECHA_BEAST:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_MECHA_BEASTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_MECHA_BEASTS));
                 break;
             case AppConstants.MainType.PLANT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_PLANTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_PLANTS));
                 break;
             case AppConstants.MainType.ROBOT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_ROBOTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_ROBOTS));
                 break;
             case AppConstants.MainType.RUNE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_RUNES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_RUNES));
                 break;
             case AppConstants.MainType.TECHNOLOGY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_TECHNOLOGIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_TECHNOLOGIES));
                 break;
             case AppConstants.MainType.VEHICLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_VEHICLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_VEHICLES));
                 break;
             case AppConstants.MainType.WEAPON:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_WEAPONS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_WEAPONS));
                 break;
             case AppConstants.MainType.EMOJI:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_EMOJIS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_EMOJIS));
                 break;
             case AppConstants.MainType.CARD_SOLDIER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_CARD_SOLDIERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_CARD_SOLDIERS));
                 break;
             default:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Resonance.RESONANCE_CARD_HEROES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Resonance.RESONANCE_CARD_HEROES));
                 break;
         }
         return items;
     }
-    public async Task<List<Items>> GetItemForEnhancementAsync(string type)
+    public async Task<List<Items>> GetItemForEnhancementAsync(string userId, string type)
     {
         List<Items> items = new List<Items>();
         switch (type)
         {
             case AppConstants.MainType.CARD_HERO:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_CARD_HEROES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_CARD_HEROES));
                 break;
             case AppConstants.MainType.BOOK:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_BOOKS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_BOOKS));
                 break;
             case AppConstants.MainType.CARD_CAPTAIN:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_CARD_CAPTAINS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_CARD_CAPTAINS));
                 break;
             case AppConstants.MainType.PET:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_PETS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_PETS));
                 break;
             case AppConstants.MainType.COLLABORATION_EQUIPMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_COLLABORATION_EQUIPMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_COLLABORATION_EQUIPMENTS));
                 break;
             case AppConstants.MainType.CARD_MILITARY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_CARD_MILITARIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_CARD_MILITARIES));
                 break;
             case AppConstants.MainType.CARD_SPELL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_CARD_SPELLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_CARD_SPELLS));
                 break;
             case AppConstants.MainType.COLLABORATION:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_COLLABORATIONS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_COLLABORATIONS));
                 break;
             case AppConstants.MainType.CARD_MONSTER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_CARD_MONSTERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_CARD_MONSTERS));
                 break;
             case AppConstants.MainType.EQUIPMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_EQUIPMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_EQUIPMENTS));
                 break;
             case AppConstants.MainType.MEDAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_MEDALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_MEDALS));
                 break;
             case AppConstants.MainType.SKILL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_SKILLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_SKILLS));
                 break;
             case AppConstants.MainType.SYMBOL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_SYMBOLS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_SYMBOLS));
                 break;
             case AppConstants.MainType.TITLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_TITLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_TITLES));
                 break;
             case AppConstants.MainType.MAGIC_FORMATION_CIRCLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_MAGIC_FORMATION_CIRCLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_MAGIC_FORMATION_CIRCLES));
                 break;
             case AppConstants.MainType.RELIC:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_RELICS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_RELICS));
                 break;
             case AppConstants.MainType.CARD_COLONEL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_CARD_COLONELS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_CARD_COLONELS));
                 break;
             case AppConstants.MainType.CARD_GENERAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_CARD_GENERALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_CARD_GENERALS));
                 break;
             case AppConstants.MainType.CARD_ADMIRAL:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_CARD_ADMIRALS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_CARD_ADMIRALS));
                 break;
             case AppConstants.MainType.CARD_LIFE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_CARD_LIVES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_CARD_LIVES));
                 break;
             case AppConstants.MainType.SPIRIT_BEAST:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_SPIRIT_BEASTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_SPIRIT_BEASTS));
                 break;
             case AppConstants.MainType.SPIRIT_CARD:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_SPIRIT_CARDS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_SPIRIT_CARDS));
                 break;
             case AppConstants.MainType.ACHIEVEMENT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_ACHIEVEMENTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_ACHIEVEMENTS));
                 break;
             case AppConstants.MainType.AVATAR:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_AVATARS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_AVATARS));
                 break;
             case AppConstants.MainType.BORDER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_BORDERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_BORDERS));
                 break;
             case AppConstants.MainType.ALCHEMY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_ALCHEMIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_ALCHEMIES));
                 break;
             case AppConstants.MainType.PUPPET:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_PUPPETS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_PUPPETS));
                 break;
             case AppConstants.MainType.TALISMAN:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_TALISMANS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_TALISMANS));
                 break;
             case AppConstants.MainType.FORGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_FORGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_FORGES));
                 break;
             case AppConstants.MainType.ARCHITECTURE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_ARCHITECTURES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_ARCHITECTURES));
                 break;
             case AppConstants.MainType.ARTWORK:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_ARTWORKS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_ARTWORKS));
                 break;
             case AppConstants.MainType.BADGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_BADGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_BADGES));
                 break;
             case AppConstants.MainType.BEVERAGE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_BEVERAGES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_BEVERAGES));
                 break;
             case AppConstants.MainType.FOOD:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_FOODS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_FOODS));
                 break;
             case AppConstants.MainType.BUILDING:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_BUILDINGS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_BUILDINGS));
                 break;
             case AppConstants.MainType.ARTIFACT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_ARTIFACTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_ARTIFACTS));
                 break;
             case AppConstants.MainType.CORE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_CORES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_CORES));
                 break;
             case AppConstants.MainType.FURNITURE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_FURNITURES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_FURNITURES));
                 break;
             case AppConstants.MainType.MECHA_BEAST:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_MECHA_BEASTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_MECHA_BEASTS));
                 break;
             case AppConstants.MainType.PLANT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_PLANTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_PLANTS));
                 break;
             case AppConstants.MainType.ROBOT:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_ROBOTS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_ROBOTS));
                 break;
             case AppConstants.MainType.RUNE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_RUNES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_RUNES));
                 break;
             case AppConstants.MainType.TECHNOLOGY:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_TECHNOLOGIES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_TECHNOLOGIES));
                 break;
             case AppConstants.MainType.VEHICLE:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_VEHICLES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_VEHICLES));
                 break;
             case AppConstants.MainType.WEAPON:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_WEAPONS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_WEAPONS));
                 break;
             case AppConstants.MainType.EMOJI:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_EMOJIS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_EMOJIS));
                 break;
             case AppConstants.MainType.CARD_SOLDIER:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_CARD_SOLDIERS));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_CARD_SOLDIERS));
                 break;
             default:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Enhancement.ENHANCEMENT_CARD_HEROES));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Enhancement.ENHANCEMENT_CARD_HEROES));
                 break;
         }
         return items;
     }
-    public async Task<List<Items>> GetItemForRankAsync(string type)
+    public async Task<List<Items>> GetItemForRankAsync(string userId, string type)
     {
         List<Items> items = new List<Items>();
         switch (type)
         {
             case "Affinity":
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_1));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_2));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_3));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_4));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_5));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_6));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_7));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_8));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_9));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_10));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_11));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_12));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_14));
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_15));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_1));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_2));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_3));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_4));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_5));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_6));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_7));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_8));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_9));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_10));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_11));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_12));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_14));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_15));
                 break;
             default:
-                items.Add(await GetUserItemByNameAsync(ItemConstants.Affinity.AFFINITY_NUMBER_1));
+                items.Add(await GetUserItemByNameAsync(userId, ItemConstants.Affinity.AFFINITY_NUMBER_1));
                 break;
         }
         return items;
     }
 
-    public async Task<bool> InsertOrUpdateUserItemsBatchAsync(List<(Items item, double quantity)> items)
+    public async Task<bool> InsertOrUpdateUserItemsBatchAsync(string userId, List<(Items item, double quantity)> items)
     {
-        return await _userItemsRepository.InsertOrUpdateUserItemsBatchAsync(items);
+        return await _userItemsRepository.InsertOrUpdateUserItemsBatchAsync(userId, items);
     }
 
     public async Task<bool> InsertOrUpdateUserItemQuantityAsync(string userId, Items item, double quantity)

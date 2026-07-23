@@ -72,14 +72,14 @@ public class UserModulesService : IUserModulesService
         return _instance;
     }
 
-    public async Task<UserModules> GetUserModulesAsync(string moduleId, IStats stat)
+    public async Task<UserModules> GetUserModulesAsync(string userId, string moduleId, IStats stat)
     {
         if (!ModuleMappings.TryGetValue(stat.GetType(), out var mapping))
         {
             throw new NotSupportedException(
                 $"Unsupported stat type: {stat.GetType().Name}");
         }
-        return await _userModulesRepository.GetUserModulesAsync(moduleId, mapping.Table, mapping.Column);
+        return await _userModulesRepository.GetUserModulesAsync(userId, moduleId, mapping.Table, mapping.Column);
     }
 
     public async Task<UserModules> GetSumUserModulesAsync(string userId, IStats stat)

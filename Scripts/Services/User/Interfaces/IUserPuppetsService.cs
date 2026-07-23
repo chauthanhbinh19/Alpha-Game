@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 public interface IUserPuppetsService
 {
-    Task<List<Puppets>> GetUserPuppetsAsync(string user_id, string search, string type, int pageSize, int offset, string rare);
-    Task<int> GetUserPuppetsCountAsync(string user_id, string search, string type, string rare);
+    Task<List<Puppets>> GetUserPuppetsAsync(string userId, string search, string type, int pageSize, int offset, string rare);
+    Task<int> GetUserPuppetsCountAsync(string userId, string search, string type, string rare);
     Task<bool> InsertUserPuppetAsync(Puppets puppet, string userId);
-    Task<bool> InsertOrUpdateUserPuppetsBatchAsync(List<Puppets> puppets);
-    Task<bool> UpdatePuppetLevelAsync(Puppets puppet);
-    Task<bool> UpdatePuppetStarAsync(Puppets puppet);
-    Task<bool> UpdatePuppetBreakthroughAsync(Puppets puppet, int star, double quantity);
-    Task<Puppets> GetUserPuppetByIdAsync(string user_id, string Id);
-    Task<Puppets> SumPowerUserPuppetsAsync();
+    Task<bool> InsertOrUpdateUserPuppetsBatchAsync(string userId, List<Puppets> puppets);
+    Task<bool> UpdateUserPuppetLevelAsync(string userId, Puppets puppet);
+    Task<bool> UpdateUserPuppetStarAsync(string userId, Puppets puppet);
+    Task<bool> UpdatePuppetBreakthroughAsync(string userId, Puppets puppet, int star, double quantity);
+    Task<Puppets> GetUserPuppetByIdAsync(string userId, string Id);
+    Task<Puppets> SumPowerUserPuppetsAsync(string userId);
 }

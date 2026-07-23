@@ -489,7 +489,7 @@ public class UserFoodsRepository : IUserFoodsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", UserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -524,7 +524,7 @@ public class UserFoodsRepository : IUserFoodsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@food_id", food.Id);
                     updateCommand.Parameters.AddWithValue("@level", food.Level);
                     updateCommand.Parameters.AddWithValue("@experience", food.Experience);
@@ -564,7 +564,7 @@ public class UserFoodsRepository : IUserFoodsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@food_id", food.Id);
                     updateCommand.Parameters.AddWithValue("@star", food.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", food.Quantity);
@@ -624,7 +624,7 @@ public class UserFoodsRepository : IUserFoodsRepository
                 WHERE user_id = @user_id AND food_id = @food_id;";
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@food_id", food.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -853,7 +853,7 @@ public class UserFoodsRepository : IUserFoodsRepository
             ";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", UserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

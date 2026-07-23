@@ -19,14 +19,14 @@ public class UserHICBsService : IUserHICBsService
         return _instance;
     }
 
-    public async Task<UserHICBs> GetUserHICBsAsync(string id)
+    public async Task<UserHICBs> GetUserHICBsAsync(string userId, string id)
     {
-        return await _userHICBsRepository.GetUserHICBsAsync(id);
+        return await _userHICBsRepository.GetUserHICBsAsync(userId, id);
     }
 
-    public async Task<UserHICBs> GetSumUserHICBsAsync(string user_id)
+    public async Task<UserHICBs> GetSumUserHICBsAsync(string userId)
     {
-        return await _userHICBsRepository.GetSumUserHICBsAsync(user_id);
+        return await _userHICBsRepository.GetSumUserHICBsAsync(userId);
     }
 
     public async Task InsertOrUpdateUserHICBsAsync(string userId, UserHICBs HICBs, string id)

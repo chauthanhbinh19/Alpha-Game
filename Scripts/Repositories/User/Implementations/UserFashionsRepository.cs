@@ -511,7 +511,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
-                command.Parameters.AddWithValue("@user_id", UserId);
+                command.Parameters.AddWithValue("@user_id", userId);
                 command.Parameters.AddRange(parameters.ToArray());
 
                 await command.ExecuteNonQueryAsync();
@@ -546,7 +546,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
                     updateCommand.Parameters.AddWithValue("@level", fashion.Level);
                     updateCommand.Parameters.AddWithValue("@experience", fashion.Experience);
@@ -586,7 +586,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
                     updateCommand.Parameters.AddWithValue("@star", fashion.Star);
                     updateCommand.Parameters.AddWithValue("@quantity", fashion.Quantity);
@@ -650,7 +650,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", UserId);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
                     updateCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
                     updateCommand.Parameters.AddWithValue("@star", star);
                     updateCommand.Parameters.AddWithValue("@quantity", quantity);
@@ -886,7 +886,7 @@ public class UserFashionsRepository : IUserFashionsRepository
 
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", UserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

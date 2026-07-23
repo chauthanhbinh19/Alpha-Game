@@ -25,14 +25,14 @@ public class UserCurrenciesService : IUserCurrenciesService
         return await _userCurrenciesRepository.GetUserCurrencyAsync(userId);
     }
 
-    public async Task<Currencies> GetUserCurrencyByIdAsync(string Id)
+    public async Task<Currencies> GetUserCurrencyByIdAsync(string userId, string Id)
     {
-        return await _userCurrenciesRepository.GetUserCurrencyByIdAsync(Id);
+        return await _userCurrenciesRepository.GetUserCurrencyByIdAsync(userId, Id);
     }
 
-    public async Task<Currencies> GetUserCurrencyByNameAsync(string currencyName)
+    public async Task<Currencies> GetUserCurrencyByNameAsync(string userId, string currencyName)
     {
-        return await _userCurrenciesRepository.GetUserCurrencyByNameAsync(currencyName);
+        return await _userCurrenciesRepository.GetUserCurrencyByNameAsync(userId, currencyName);
     }
 
     public async Task InitiateUserCurrencyAsync(string userId)
@@ -40,9 +40,9 @@ public class UserCurrenciesService : IUserCurrenciesService
         await _userCurrenciesRepository.InitiateUserCurrencyAsync(userId);
     }
 
-    public async Task UpdateUserCurrencyAsync(string currency_id, double price)
+    public async Task UpdateUserCurrencyAsync(string userId, string currency_id, double price)
     {
-        await _userCurrenciesRepository.UpdateUserCurrencyAsync(currency_id, price);
+        await _userCurrenciesRepository.UpdateUserCurrencyAsync(userId, currency_id, price);
     }
 
     public async Task<List<Currencies>> GetEquipmentsCurrencyAsync(string type)

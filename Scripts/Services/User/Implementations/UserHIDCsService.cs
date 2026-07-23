@@ -19,14 +19,14 @@ public class UserHIDCsService : IUserHIDCsService
         return _instance;
     }
 
-    public async Task<UserHIDCs> GetUserHIDCsAsync(string id)
+    public async Task<UserHIDCs> GetUserHIDCsAsync(string userId, string id)
     {
-        return await _userHIDCsRepository.GetUserHIDCsAsync(id);
+        return await _userHIDCsRepository.GetUserHIDCsAsync(userId, id);
     }
 
-    public async Task<UserHIDCs> GetSumUserHIDCsAsync(string user_id)
+    public async Task<UserHIDCs> GetSumUserHIDCsAsync(string userId)
     {
-        return await _userHIDCsRepository.GetSumUserHIDCsAsync(user_id);
+        return await _userHIDCsRepository.GetSumUserHIDCsAsync(userId);
     }
 
     public async Task InsertOrUpdateUserHIDCsAsync(string userId, UserHIDCs HIDCs, string id)

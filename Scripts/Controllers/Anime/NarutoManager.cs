@@ -224,7 +224,7 @@ public class NarutoManager : MonoBehaviour
         
         Animes universe = await AnimesService.Create().GetAnimeByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserAnimes userAnime = await UserAnimesService.Create().GetUserAnimesAsync(featureId);
+        UserAnimes userAnime = await UserAnimesService.Create().GetUserAnimesAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -254,7 +254,7 @@ public class NarutoManager : MonoBehaviour
         levelText.text = currentLevel.ToString();
         async Task RefreshPanelAsync()
         {
-            userAnime = await UserAnimesService.Create().GetUserAnimesAsync(featureId);
+            userAnime = await UserAnimesService.Create().GetUserAnimesAsync(User.CurrentUserId, featureId);
             currentLevel = userAnime?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

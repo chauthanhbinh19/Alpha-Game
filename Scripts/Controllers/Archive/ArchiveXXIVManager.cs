@@ -233,7 +233,7 @@ public class ArchiveXXIVManager : MonoBehaviour
         AnimationController.Instance.CreateArchiveAnimation(currentObject);
         Archives archive = await ArchivesService.Create().GetArchiveByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserArchives userArchive = await UserArchivesService.Create().GetUserArchivesAsync(featureId);
+        UserArchives userArchive = await UserArchivesService.Create().GetUserArchivesAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -264,7 +264,7 @@ public class ArchiveXXIVManager : MonoBehaviour
 
         async Task RefreshPanelAsync()
         {
-            userArchive = await UserArchivesService.Create().GetUserArchivesAsync(featureId);
+            userArchive = await UserArchivesService.Create().GetUserArchivesAsync(User.CurrentUserId, featureId);
             currentLevel = userArchive?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 
 public interface IUserArtifactsService
 {
-    Task<List<Artifacts>> GetUserArtifactsAsync(string user_id, string search, int pageSize, int offset, string rare);
-    Task<int> GetUserArtifactsCountAsync(string user_id, string search, string rare);
+    Task<List<Artifacts>> GetUserArtifactsAsync(string userId, string search, int pageSize, int offset, string rare);
+    Task<int> GetUserArtifactsCountAsync(string userId, string search, string rare);
     Task<bool> InsertUserArtifactAsync(Artifacts artifact, string userId);
-    Task<bool> InsertOrUpdateUserArtifactsBatchAsync(List<Artifacts> artifacts);
-    Task<bool> UpdateArtifactLevelAsync(Artifacts artifact);
-    Task<bool> UpdateArtifactStarAsync(Artifacts artifact);
-    Task<bool> UpdateArtifactBreakthroughAsync(Artifacts artifact, int star, double quantity);
-    Task<Artifacts> GetUserArtifactByIdAsync(string user_id, string Id);
-    Task<Artifacts> SumPowerUserArtifactsAsync();
+    Task<bool> InsertOrUpdateUserArtifactsBatchAsync(string userId, List<Artifacts> artifacts);
+    Task<bool> UpdateUserArtifactLevelAsync(string userId, Artifacts artifact);
+    Task<bool> UpdateUserArtifactStarAsync(string userId, Artifacts artifact);
+    Task<bool> UpdateUserArtifactBreakthroughAsync(string userId, Artifacts artifact, int star, double quantity);
+    Task<Artifacts> GetUserArtifactByIdAsync(string userId, string Id);
+    Task<Artifacts> SumPowerUserArtifactsAsync(string userId);
 }

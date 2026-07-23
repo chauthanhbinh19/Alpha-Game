@@ -20,17 +20,17 @@ public class UserBuildingsService : IUserBuildingsService
         return _instance;
     }
 
-    public async Task<List<Buildings>> GetUserBuildingsAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Buildings>> GetUserBuildingsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Buildings> list = await _userBuildingsRepository.GetUserBuildingsAsync(user_id, search, type, pageSize, offset, rare);
+        List<Buildings> list = await _userBuildingsRepository.GetUserBuildingsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserBuildingsCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserBuildingsCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userBuildingsRepository.GetUserBuildingsCountAsync(user_id, search, type, rare);
+        return await _userBuildingsRepository.GetUserBuildingsCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserBuildingAsync(Buildings building, string userId)
@@ -38,33 +38,33 @@ public class UserBuildingsService : IUserBuildingsService
         return await _userBuildingsRepository.InsertUserBuildingAsync(building, userId);
     }
 
-    public async Task<bool> UpdateBuildingLevelAsync(Buildings building)
+    public async Task<bool> UpdateUserBuildingLevelAsync(string userId, Buildings building)
     {
-        return await _userBuildingsRepository.UpdateBuildingLevelAsync(building);
+        return await _userBuildingsRepository.UpdateUserBuildingLevelAsync(userId, building);
     }
 
-    public async Task<bool> UpdateBuildingStarAsync(Buildings building)
+    public async Task<bool> UpdateUserBuildingStarAsync(string userId, Buildings building)
     {
-        return await _userBuildingsRepository.UpdateBuildingStarAsync(building);
+        return await _userBuildingsRepository.UpdateUserBuildingStarAsync(userId, building);
     }
 
-    public async Task<bool> UpdateBuildingBreakthroughAsync(Buildings building, int star, double quantity)
+    public async Task<bool> UpdateUserBuildingBreakthroughAsync(string userId, Buildings building, int star, double quantity)
     {
-        return await _userBuildingsRepository.UpdateBuildingBreakthroughAsync(building, star, quantity);
+        return await _userBuildingsRepository.UpdateUserBuildingBreakthroughAsync(userId, building, star, quantity);
     }
 
-    public async Task<Buildings> GetUserBuildingByIdAsync(string user_id, string Id)
+    public async Task<Buildings> GetUserBuildingByIdAsync(string userId, string Id)
     {
-        return await _userBuildingsRepository.GetUserBuildingByIdAsync(user_id, Id);
+        return await _userBuildingsRepository.GetUserBuildingByIdAsync(userId, Id);
     }
 
-    public async Task<Buildings> SumPowerUserBuildingsAsync()
+    public async Task<Buildings> SumPowerUserBuildingsAsync(string userId)
     {
-        return await _userBuildingsRepository.SumPowerUserBuildingsAsync();
+        return await _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserBuildingsBatchAsync(List<Buildings> buildings)
+    public async Task<bool> InsertOrUpdateUserBuildingsBatchAsync(string userId, List<Buildings> buildings)
     {
-        return await _userBuildingsRepository.InsertOrUpdateUserBuildingsBatchAsync(buildings);
+        return await _userBuildingsRepository.InsertOrUpdateUserBuildingsBatchAsync(userId, buildings);
     }
 }

@@ -20,51 +20,51 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         return _instance;
     }
 
-    public async Task<List<SpiritCards>> GetUserSpiritCardAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<SpiritCards>> GetUserSpiritCardAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<SpiritCards> list = await _userSpiritCardsRepository.GetUserSpiritCardsAsync(user_id, search, type, pageSize, offset, rare);
+        List<SpiritCards> list = await _userSpiritCardsRepository.GetUserSpiritCardsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserSpiritCardCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserSpiritCardCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userSpiritCardsRepository.GetUserSpiritCardsCountAsync(user_id, search, type, rare);
+        return await _userSpiritCardsRepository.GetUserSpiritCardsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<bool> InsertUserSpiritCardAsync(SpiritCards spiritCard)
+    public async Task<bool> InsertUserSpiritCardAsync(string userId, SpiritCards spiritCard)
     {
-        return await _userSpiritCardsRepository.InsertUserSpiritCardAsync(spiritCard);
+        return await _userSpiritCardsRepository.InsertUserSpiritCardAsync(userId, spiritCard);
     }
 
-    public async Task<bool> UpdateSpiritCardLevelAsync(SpiritCards spiritCard)
+    public async Task<bool> UpdateUserSpiritCardLevelAsync(string userId, SpiritCards spiritCard)
     {
-        return await _userSpiritCardsRepository.UpdateSpiritCardLevelAsync(spiritCard);
+        return await _userSpiritCardsRepository.UpdateUserSpiritCardLevelAsync(userId, spiritCard);
     }
 
-    public async Task<bool> UpdateSpiritCardStarAsync(SpiritCards spiritCard)
+    public async Task<bool> UpdateUserSpiritCardStarAsync(string userId, SpiritCards spiritCard)
     {
-        return await _userSpiritCardsRepository.UpdateSpiritCardStarAsync(spiritCard);
+        return await _userSpiritCardsRepository.UpdateUserSpiritCardStarAsync(userId, spiritCard);
     }
 
-    public async Task<bool> UpdateSpiritCardBreakthroughAsync(SpiritCards spiritCard, int star, double quantity)
+    public async Task<bool> UpdateUserSpiritCardBreakthroughAsync(string userId, SpiritCards spiritCard, int star, double quantity)
     {
-        return await _userSpiritCardsRepository.UpdateSpiritCardBreakthroughAsync(spiritCard, star, quantity);
+        return await _userSpiritCardsRepository.UpdateUserSpiritCardBreakthroughAsync(userId, spiritCard, star, quantity);
     }
 
-    public async Task<SpiritCards> GetUserSpiritCardByIdAsync(string user_id, string Id)
+    public async Task<SpiritCards> GetUserSpiritCardByIdAsync(string userId, string Id)
     {
-        return await _userSpiritCardsRepository.GetUserSpiritCardByIdAsync(user_id, Id);
+        return await _userSpiritCardsRepository.GetUserSpiritCardByIdAsync(userId, Id);
     }
 
-    public async Task<SpiritCards> SumPowerUserSpiritCardsAsync()
+    public async Task<SpiritCards> SumPowerUserSpiritCardsAsync(string userId)
     {
-        return await _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync();
+        return await _userSpiritCardsRepository.SumPowerUserSpiritCardsAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserSpiritCardsBatchAsync(List<SpiritCards> spiritCards)
+    public async Task<bool> InsertOrUpdateUserSpiritCardsBatchAsync(string userId, List<SpiritCards> spiritCards)
     {
-        return await _userSpiritCardsRepository.InsertOrUpdateUserSpiritCardsBatchAsync(spiritCards);
+        return await _userSpiritCardsRepository.InsertOrUpdateUserSpiritCardsBatchAsync(userId, spiritCards);
     }
 }

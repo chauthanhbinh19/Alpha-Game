@@ -770,7 +770,7 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
 
         return result;
     }
-    public async Task<bool> UpdateUserTeamCardMilitaryAsync(string userId, string teamId, string position, string cardId)
+    public async Task<bool> UpdateTeamUserCardMilitaryAsync(string userId, string teamId, string position, string cardId)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

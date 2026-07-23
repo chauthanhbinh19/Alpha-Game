@@ -20,17 +20,17 @@ public class UserBeveragesService : IUserBeveragesService
         return _instance;
     }
 
-    public async Task<List<Beverages>> GetUserBeveragesAsync(string user_id, string search, int pageSize, int offset, string rare)
+    public async Task<List<Beverages>> GetUserBeveragesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
-        List<Beverages> list = await _userBeveragesRepository.GetUserBeveragesAsync(user_id, search, pageSize, offset, rare);
+        List<Beverages> list = await _userBeveragesRepository.GetUserBeveragesAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserBeveragesCountAsync(string user_id, string search, string rare)
+    public async Task<int> GetUserBeveragesCountAsync(string userId, string search, string rare)
     {
-        return await _userBeveragesRepository.GetUserBeveragesCountAsync(user_id, search, rare);
+        return await _userBeveragesRepository.GetUserBeveragesCountAsync(userId, search, rare);
     }
 
     public async Task<bool> InsertUserBeverageAsync(Beverages beverage, string userId)
@@ -38,33 +38,33 @@ public class UserBeveragesService : IUserBeveragesService
         return await _userBeveragesRepository.InsertUserBeverageAsync(beverage, userId);
     }
 
-    public async Task<bool> UpdateBeverageLevelAsync(Beverages beverage)
+    public async Task<bool> UpdateUserBeverageLevelAsync(string userId, Beverages beverage)
     {
-        return await _userBeveragesRepository.UpdateBeverageLevelAsync(beverage);
+        return await _userBeveragesRepository.UpdateUserBeverageLevelAsync(userId, beverage);
     }
 
-    public async Task<bool> UpdateBeverageStarAsync(Beverages beverage)
+    public async Task<bool> UpdateUserBeverageStarAsync(string userId, Beverages beverage)
     {
-        return await _userBeveragesRepository.UpdateBeverageStarAsync(beverage);
+        return await _userBeveragesRepository.UpdateUserBeverageStarAsync(userId, beverage);
     }
 
-    public async Task<bool> UpdateBeverageBreakthroughAsync(Beverages beverage, int star, double quantity)
+    public async Task<bool> UpdateUserBeverageBreakthroughAsync(string userId, Beverages beverage, int star, double quantity)
     {
-        return await _userBeveragesRepository.UpdateBeverageBreakthroughAsync(beverage, star, quantity);
+        return await _userBeveragesRepository.UpdateUserBeverageBreakthroughAsync(userId, beverage, star, quantity);
     }
 
-    public async Task<Beverages> GetUserBeverageByIdAsync(string user_id, string Id)
+    public async Task<Beverages> GetUserBeverageByIdAsync(string userId, string Id)
     {
-        return await _userBeveragesRepository.GetUserBeverageByIdAsync(user_id, Id);
+        return await _userBeveragesRepository.GetUserBeverageByIdAsync(userId, Id);
     }
 
-    public async Task<Beverages> SumPowerUserBeveragesAsync()
+    public async Task<Beverages> SumPowerUserBeveragesAsync(string userId)
     {
-        return await _userBeveragesRepository.SumPowerUserBeveragesAsync();
+        return await _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserBeveragesBatchAsync(List<Beverages> beverages)
+    public async Task<bool> InsertOrUpdateUserBeveragesBatchAsync(string userId, List<Beverages> beverages)
     {
-        return await _userBeveragesRepository.InsertOrUpdateUserBeveragesBatchAsync(beverages);
+        return await _userBeveragesRepository.InsertOrUpdateUserBeveragesBatchAsync(userId, beverages);
     }
 }

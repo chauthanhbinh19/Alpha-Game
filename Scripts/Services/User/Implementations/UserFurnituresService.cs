@@ -20,17 +20,17 @@ public class UserFurnituresService : IUserFurnituresService
         return _instance;
     }
 
-    public async Task<List<Furnitures>> GetUserFurnituresAsync(string user_id, string search, string type, int pageSize, int offset, string rare)
+    public async Task<List<Furnitures>> GetUserFurnituresAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
-        List<Furnitures> list = await _userFurnituresRepository.GetUserFurnituresAsync(user_id, search, type, pageSize, offset, rare);
+        List<Furnitures> list = await _userFurnituresRepository.GetUserFurnituresAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
 
-    public async Task<int> GetUserFurnituresCountAsync(string user_id, string search, string type, string rare)
+    public async Task<int> GetUserFurnituresCountAsync(string userId, string search, string type, string rare)
     {
-        return await _userFurnituresRepository.GetUserFurnituresCountAsync(user_id, search, type, rare);
+        return await _userFurnituresRepository.GetUserFurnituresCountAsync(userId, search, type, rare);
     }
 
     public async Task<bool> InsertUserFurnitureAsync(Furnitures furniture, string userId)
@@ -38,33 +38,33 @@ public class UserFurnituresService : IUserFurnituresService
         return await _userFurnituresRepository.InsertUserFurnitureAsync(furniture, userId);
     }
 
-    public async Task<bool> UpdateFurnitureLevelAsync(Furnitures furniture)
+    public async Task<bool> UpdateUserFurnitureLevelAsync(string userId, Furnitures furniture)
     {
-        return await _userFurnituresRepository.UpdateUserFurnitureLevelAsync(furniture);
+        return await _userFurnituresRepository.UpdateUserFurnitureLevelAsync(userId, furniture);
     }
 
-    public async Task<bool> UpdateFurnitureStarAsync(Furnitures furniture)
+    public async Task<bool> UpdateUserFurnitureStarAsync(string userId, Furnitures furniture)
     {
-        return await _userFurnituresRepository.UpdateUserFurnitureStarAsync(furniture);
+        return await _userFurnituresRepository.UpdateUserFurnitureStarAsync(userId, furniture);
     }
 
-    public async Task<bool> UpdateFurnitureBreakthroughAsync(Furnitures furniture, int star, double quantity)
+    public async Task<bool> UpdateUserFurnitureBreakthroughAsync(string userId, Furnitures furniture, int star, double quantity)
     {
-        return await _userFurnituresRepository.UpdateUserFurnitureBreakthroughAsync(furniture, star, quantity);
+        return await _userFurnituresRepository.UpdateUserFurnitureBreakthroughAsync(userId, furniture, star, quantity);
     }
 
-    public async Task<Furnitures> GetUserFurnitureByIdAsync(string user_id, string Id)
+    public async Task<Furnitures> GetUserFurnitureByIdAsync(string userId, string Id)
     {
-        return await _userFurnituresRepository.GetUserFurnitureByIdAsync(user_id, Id);
+        return await _userFurnituresRepository.GetUserFurnitureByIdAsync(userId, Id);
     }
 
-    public async Task<Furnitures> SumPowerUserFurnituresAsync()
+    public async Task<Furnitures> SumPowerUserFurnituresAsync(string userId)
     {
-        return await _userFurnituresRepository.SumPowerUserFurnituresAsync();
+        return await _userFurnituresRepository.SumPowerUserFurnituresAsync(userId);
     }
 
-    public async Task<bool> InsertOrUpdateUserFurnituresBatchAsync(List<Furnitures> furnitures)
+    public async Task<bool> InsertOrUpdateUserFurnituresBatchAsync(string userId, List<Furnitures> furnitures)
     {
-        return await _userFurnituresRepository.InsertOrUpdateUserFurnituresBatchAsync(furnitures);
+        return await _userFurnituresRepository.InsertOrUpdateUserFurnituresBatchAsync(userId, furnitures);
     }
 }

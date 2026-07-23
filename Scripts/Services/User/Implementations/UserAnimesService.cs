@@ -24,9 +24,9 @@ public class UserAnimesService : IUserAnimesService
         return await _userAnimesRepository.GetUserAnimesAsync(userId, id);
     }
 
-    public async Task<UserAnimes> GetSumUserAnimesAsync(string user_id)
+    public async Task<UserAnimes> GetSumUserAnimesAsync(string userId)
     {
-        return await _userAnimesRepository.GetSumUserAnimesAsync(user_id);
+        return await _userAnimesRepository.GetSumUserAnimesAsync(userId);
     }
 
     public async Task InsertOrUpdateUserAnimesAsync(string userId, UserAnimes Animes, string id)

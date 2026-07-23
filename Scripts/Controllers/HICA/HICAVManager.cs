@@ -233,7 +233,7 @@ public class HICAVManager : MonoBehaviour
         AnimationController.Instance.CreateHICAAnimation(currentObject);
         HICAs hica = await HICAsService.Create().GetHICAByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserHICAs userHICA = await UserHICAsService.Create().GetUserHICAsAsync(featureId);
+        UserHICAs userHICA = await UserHICAsService.Create().GetUserHICAsAsync(User.CurrentUserId, featureId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -264,7 +264,7 @@ public class HICAVManager : MonoBehaviour
 
         async Task RefreshPanelAsync()
         {
-            userHICA = await UserHICAsService.Create().GetUserHICAsAsync(featureId);
+            userHICA = await UserHICAsService.Create().GetUserHICAsAsync(User.CurrentUserId, featureId);
             currentLevel = userHICA?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 

@@ -279,7 +279,7 @@ public class GachaSystem : MonoBehaviour
             if (item.Quantity < quantity) return false;
 
             item.Quantity -= quantity;
-            await UserItemsService.Create().UpdateUserItemQuantityAsync(item);
+            await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, item);
         }
         return true;
     }
@@ -317,7 +317,7 @@ public class GachaSystem : MonoBehaviour
                 if (card is CardHeroes cardHero)
                 {
                     cardHero.Quantity += 1;
-                    await UserCardHeroesService.Create().InsertUserCardHeroAsync(cardHero);
+                    await UserCardHeroesService.Create().InsertUserCardHeroAsync(User.CurrentUserId, cardHero);
                     await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync(cardHero.Id);
                 }
                 break;
@@ -325,7 +325,7 @@ public class GachaSystem : MonoBehaviour
                 if (card is Books book)
                 {
                     book.Quantity += 1;
-                    await UserBooksService.Create().InsertUserBookAsync(book);
+                    await UserBooksService.Create().InsertUserBookAsync(User.CurrentUserId, book);
                     await BooksGalleryService.Create().InsertBookGalleryAsync(book.Id);
                 }
                 break;
@@ -333,7 +333,7 @@ public class GachaSystem : MonoBehaviour
                 if (card is CardCaptains cardCaptain)
                 {
                     cardCaptain.Quantity += 1;
-                    await UserCardCaptainsService.Create().InsertUserCardCaptainAsync(cardCaptain);
+                    await UserCardCaptainsService.Create().InsertUserCardCaptainAsync(User.CurrentUserId, cardCaptain);
                     await CardCaptainsGalleryService.Create().InsertCardCaptainGalleryAsync(cardCaptain.Id);
                 }
                 break;
@@ -341,7 +341,7 @@ public class GachaSystem : MonoBehaviour
                 if (card is CardMonsters cardMonster)
                 {
                     cardMonster.Quantity += 1;
-                    await UserCardMonstersService.Create().InsertUserCardMonsterAsync(cardMonster);
+                    await UserCardMonstersService.Create().InsertUserCardMonsterAsync(User.CurrentUserId, cardMonster);
                     await CardMonstersGalleryService.Create().InsertCardMonsterGalleryAsync(cardMonster.Id);
                 }
                 break;
@@ -349,7 +349,7 @@ public class GachaSystem : MonoBehaviour
                 if (card is CardMilitaries cardMilitary)
                 {
                     cardMilitary.Quantity += 1;
-                    await UserCardMilitariesService.Create().InsertUserCardMilitaryAsync(cardMilitary);
+                    await UserCardMilitariesService.Create().InsertUserCardMilitaryAsync(User.CurrentUserId, cardMilitary);
                     await CardMilitariesGalleryService.Create().InsertCardMilitaryGalleryAsync(cardMilitary.Id);
                 }
                 break;
@@ -357,7 +357,7 @@ public class GachaSystem : MonoBehaviour
                 if (card is CardSpells cardSpell)
                 {
                     cardSpell.Quantity += 1;
-                    await UserCardSpellsService.Create().InsertUserCardSpellAsync(cardSpell);
+                    await UserCardSpellsService.Create().InsertUserCardSpellAsync(User.CurrentUserId, cardSpell);
                     await CardSpellsGalleryService.Create().InsertCardSpellGalleryAsync(cardSpell.Id);
                 }
                 break;
@@ -365,7 +365,7 @@ public class GachaSystem : MonoBehaviour
                 if (card is CardColonels cardColonel)
                 {
                     cardColonel.Quantity += 1;
-                    await UserCardColonelsService.Create().InsertUserCardColonelAsync(cardColonel);
+                    await UserCardColonelsService.Create().InsertUserCardColonelAsync(User.CurrentUserId, cardColonel);
                     await CardColonelsGalleryService.Create().InsertCardColonelGalleryAsync(cardColonel.Id);
                 }
                 break;
@@ -373,7 +373,7 @@ public class GachaSystem : MonoBehaviour
                 if (card is CardGenerals cardGeneral)
                 {
                     cardGeneral.Quantity += 1;
-                    await UserCardGeneralsService.Create().InsertUserCardGeneralAsync(cardGeneral);
+                    await UserCardGeneralsService.Create().InsertUserCardGeneralAsync(User.CurrentUserId, cardGeneral);
                     await CardGeneralsGalleryService.Create().InsertCardGeneralGalleryAsync(cardGeneral.Id);
                 }
                 break;
@@ -381,7 +381,7 @@ public class GachaSystem : MonoBehaviour
                 if (card is CardAdmirals cardAdmiral)
                 {
                     cardAdmiral.Quantity += 1;
-                    await UserCardAdmiralsService.Create().InsertUserCardAdmiralAsync(cardAdmiral);
+                    await UserCardAdmiralsService.Create().InsertUserCardAdmiralAsync(User.CurrentUserId, cardAdmiral);
                     await CardAdmiralsGalleryService.Create().InsertCardAdmiralGalleryAsync(cardAdmiral.Id);
                 }
                 break;
