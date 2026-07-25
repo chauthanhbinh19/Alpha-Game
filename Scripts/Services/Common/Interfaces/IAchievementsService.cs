@@ -9,5 +9,5 @@ public interface IAchievementsService
     Task<Achievements> GetAchievementByIdAsync(string id);
     Task<List<Achievements>> GetAchievementsWithPriceAsync(int pageSize, int offset);
     Task<int> GetAchievementsWithPriceCountAsync();
-    Task<Achievements> SumPowerAchievementsPercentAsync();
+    Task<Achievements> SumPowerAchievementsPercentAsync(string userId);
 }

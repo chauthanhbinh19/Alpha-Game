@@ -552,7 +552,7 @@ public class CoresRepository : ICoresRepository
 
         return core;
     }
-    public async Task<Cores> SumPowerCoresPercentAsync()
+    public async Task<Cores> SumPowerCoresPercentAsync(string userId)
     {
         Cores sumCores = new Cores();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -583,7 +583,7 @@ public class CoresRepository : ICoresRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

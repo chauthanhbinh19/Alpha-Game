@@ -54,9 +54,9 @@ public class SymbolsService : ISymbolsService
         return await _symbolsRepository.GetSymbolByIdAsync(Id);
     }
 
-    public async Task<Symbols> SumPowerSymbolsPercentAsync()
+    public async Task<Symbols> SumPowerSymbolsPercentAsync(string userId)
     {
-        return await _symbolsRepository.SumPowerSymbolsPercentAsync();
+        return await _symbolsRepository.SumPowerSymbolsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueSymbolsIdAsync()

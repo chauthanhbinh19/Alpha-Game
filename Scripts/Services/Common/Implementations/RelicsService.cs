@@ -53,9 +53,9 @@ public class RelicsService : IRelicsService
         return await _relicsRepository.GetRelicByIdAsync(Id);
     }
 
-    public async Task<Relics> SumPowerRelicsPercentAsync()
+    public async Task<Relics> SumPowerRelicsPercentAsync(string userId)
     {
-        return await _relicsRepository.SumPowerRelicsPercentAsync();
+        return await _relicsRepository.SumPowerRelicsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueRelicsIdAsync()

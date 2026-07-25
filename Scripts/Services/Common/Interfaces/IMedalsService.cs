@@ -10,5 +10,5 @@ public interface IMedalsService
     Task<List<Medals>> GetMedalsWithPriceAsync(int pageSize, int offset);
     Task<int> GetMedalsWithPriceCountAsync();
     Task<Medals> GetMedalByIdAsync(string Id);
-    Task<Medals> SumPowerMedalsPercentAsync();
+    Task<Medals> SumPowerMedalsPercentAsync(string userId);
 }

@@ -10,5 +10,5 @@ public interface IRunesService
     Task<List<Runes>> GetRunesWithPriceAsync(int pageSize, int offset);
     Task<int> GetRunesWithPriceCountAsync();
     Task<Runes> GetRuneByIdAsync(string id);
-    Task<Runes> SumPowerRunesPercentAsync();
+    Task<Runes> SumPowerRunesPercentAsync(string userId);
 }

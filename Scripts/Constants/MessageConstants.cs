@@ -17,12 +17,15 @@ public static class MessageConstants
     public const string UPGRADE_PREVIEW_SUCCESS = "Upgrade preview success";
     public const string IMAGE_IS_NULL = "Your image not found in Resources!";
     public const string PREFAB_IS_NULL = "Your prefab is null! Check if the prefab is correctly loaded.";
-    public const string USERNAME_NOT_EXIST = "Your account does not exist";
-    public const string USERNAME_ALREADY_EXIST = "Account already exists!";
-    public const string USERNAME_IS_EMPTY = "Username can not be empty!";
-    public const string PASSWORD_IS_EMPTY = "Password can not be empty!";
-    public const string CONFIRM_PASSWORD_IS_EMPTY = "Confirm password can not be empty!";
-    public const string PASSWORDS_DO_NOT_MATCH = "Passwords do not match!";
+    public const string USERNAME_NOT_EXIST = "Notification.UsernameNotExist";
+    public const string USERNAME_ALREADY_EXIST = "Notification.UsernameAlreadyExist";
+    public const string EMAIL_ALREADY_EXIST = "Notification.EmailAlreadyExist";
+    public const string INVALID_EMAIL_FORMAT = "Notification.InvalidEmailFormat";
+    public const string USERNAME_IS_EMPTY = "Notification.UsernameCanNotBeEmpty";
+    public const string EMAIL_IS_EMPTY = "Notification.EmailCanNotBeEmpty";
+    public const string PASSWORD_IS_EMPTY = "Notification.PasswordCanNotBeEmpty";
+    public const string CONFIRM_PASSWORD_IS_EMPTY = "Notification.ConfirmPasswordCanNotBeEmpty";
+    public const string PASSWORDS_DO_NOT_MATCH = "Notification.PasswordsDoNotMatch";
     public const string ERROR_UNSUPPORTED_DATA_TYPE = "Unsupported data type!";
     public const string CARD_ALREADY_USED_IN_ANOTHER_POSITION = "Message.MessageNumber1";
 
@@ -32,14 +35,14 @@ public static class MessageConstants
     public const string PLEASE_SELECT_QUANTITY = "Notification.PleaseSelectQuantity";
     public const string READY_TO_UPGRADE = "Notification.ReadyToUpgrade";
     public const string MAX_LEVEL_REACHED = "Notification.MaxLevelReached";
-    public const string UPGRADE_ALREADY_MAX = "This Upgrade is already max.";
+    public const string UPGRADE_ALREADY_MAX = "Notification.UpgradeAlreadyMax";
     public const string PROCESSING_UPGRADE = "Notification.ProcessingUpgrade";
     public const string UPGRADE_SUCCESS = "Notification.UpgradeSuccess";
     public const string UPGRADE_FAILED = "Notification.UpgradeFailed";
     public const string SERVER_ERROR = "Notification.ServerError";
     public const string INVALID_FILTER = "Notification.InvalidFilter";
     #endregion
-    
+
     public static string WaringLevel(int value)
     {
         return $"Your level is too low. Required level: {value}. Please level up and try again.";

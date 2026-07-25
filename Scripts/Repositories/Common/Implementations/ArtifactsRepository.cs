@@ -505,7 +505,7 @@ public class ArtifactsRepository : IArtifactsRepository
 
         return artifact;
     }
-    public async Task<Artifacts> SumPowerArtifactsPercentAsync()
+    public async Task<Artifacts> SumPowerArtifactsPercentAsync(string userId)
     {
         Artifacts sumArtifacts = new Artifacts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -534,7 +534,7 @@ public class ArtifactsRepository : IArtifactsRepository
         ";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
 
             await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())

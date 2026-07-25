@@ -49,9 +49,9 @@ public class MechaBeastsService : IMechaBeastsService
         return await _mechaBeastsRepository.GetMechaBeastByIdAsync(Id);
     }
 
-    public async Task<MechaBeasts> SumPowerMechaBeastsPercentAsync()
+    public async Task<MechaBeasts> SumPowerMechaBeastsPercentAsync(string userId)
     {
-        return await _mechaBeastsRepository.SumPowerMechaBeastsPercentAsync();
+        return await _mechaBeastsRepository.SumPowerMechaBeastsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueMechaBeastsIdAsync()

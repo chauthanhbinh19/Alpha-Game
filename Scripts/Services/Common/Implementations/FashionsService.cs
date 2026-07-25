@@ -54,9 +54,9 @@ public class FashionsService : IFashionsService
         return await _fashionsRepository.GetFashionByIdAsync(Id);
     }
 
-    public async Task<Fashions> SumPowerFashionsPercentAsync()
+    public async Task<Fashions> SumPowerFashionsPercentAsync(string userId)
     {
-        return await _fashionsRepository.SumPowerFashionsPercentAsync();
+        return await _fashionsRepository.SumPowerFashionsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueFashionsIdAsync()

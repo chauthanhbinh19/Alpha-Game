@@ -50,9 +50,9 @@ public class AchievementsService : IAchievementsService
         return await _achievementsRepository.GetAchievementsWithPriceCountAsync();
     }
     
-    public async Task<Achievements> SumPowerAchievementsPercentAsync()
+    public async Task<Achievements> SumPowerAchievementsPercentAsync(string userId)
     {
-        return await _achievementsRepository.SumPowerAchievementsPercentAsync();
+        return await _achievementsRepository.SumPowerAchievementsPercentAsync(userId);
     }
 
     public async Task<List<Achievements>> GetAchievementsWithoutLimitAsync()

@@ -599,7 +599,7 @@ public class OutfitsRepository : IOutfitsRepository
 
         return outfit;
     }
-    public async Task<Outfits> SumPowerOutfitsPercentAsync()
+    public async Task<Outfits> SumPowerOutfitsPercentAsync(string userId)
     {
         Outfits sumOutfits = new Outfits();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -630,7 +630,7 @@ public class OutfitsRepository : IOutfitsRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

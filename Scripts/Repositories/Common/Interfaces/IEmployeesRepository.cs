@@ -9,5 +9,5 @@ public interface IEmployeesRepository
     Task<List<Employees>> GetEmployeesWithPriceAsync(int pageSize, int offset);
     Task<int> GetEmployeesWithPriceCountAsync();
     Task<Employees> GetEmployeeByIdAsync(string id);
-    Task<Employees> SumPowerEmployeesPercentAsync();
+    Task<Employees> SumPowerEmployeesPercentAsync(string userId);
 }

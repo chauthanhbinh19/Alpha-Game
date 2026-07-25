@@ -49,9 +49,9 @@ public class BadgesService : IBadgesService
         return await _badgesRepository.GetBadgeByIdAsync(Id);
     }
 
-    public async Task<Badges> SumPowerBadgesPercentAsync()
+    public async Task<Badges> SumPowerBadgesPercentAsync(string userId)
     {
-        return await _badgesRepository.SumPowerBadgesPercentAsync();
+        return await _badgesRepository.SumPowerBadgesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueBadgesIdAsync()

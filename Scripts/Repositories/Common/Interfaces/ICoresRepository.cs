@@ -10,5 +10,5 @@ public interface ICoresRepository
     Task<List<Cores>> GetCoresWithPriceAsync(int pageSize, int offset);
     Task<int> GetCoresWithPriceCountAsync();
     Task<Cores> GetCoreByIdAsync(string Id);
-    Task<Cores> SumPowerCoresPercentAsync();
+    Task<Cores> SumPowerCoresPercentAsync(string userId);
 }

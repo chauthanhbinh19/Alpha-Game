@@ -11,5 +11,5 @@ public interface IPuppetsRepository
     Task<List<Puppets>> GetPuppetsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetPuppetsWithPriceCountAsync(string type);
     Task<Puppets> GetPuppetByIdAsync(string Id);
-    Task<Puppets> SumPowerPuppetsPercentAsync();
+    Task<Puppets> SumPowerPuppetsPercentAsync(string userId);
 }

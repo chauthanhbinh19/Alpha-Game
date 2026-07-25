@@ -49,9 +49,9 @@ public class FoodsService : IFoodsService
         return await _foodsRepository.GetFoodByIdAsync(Id);
     }
 
-    public async Task<Foods> SumPowerFoodsPercentAsync()
+    public async Task<Foods> SumPowerFoodsPercentAsync(string userId)
     {
-        return await _foodsRepository.SumPowerFoodsPercentAsync();
+        return await _foodsRepository.SumPowerFoodsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueFoodsIdAsync()

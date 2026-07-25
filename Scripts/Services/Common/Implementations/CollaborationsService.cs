@@ -49,9 +49,9 @@ public class CollaborationsService : ICollaborationsService
         return await _collaborationsRepository.GetCollaborationByIdAsync(Id);
     }
 
-    public async Task<Collaborations> SumPowerCollaborationsPercentAsync()
+    public async Task<Collaborations> SumPowerCollaborationsPercentAsync(string userId)
     {
-        return await _collaborationsRepository.SumPowerCollaborationsPercentAsync();
+        return await _collaborationsRepository.SumPowerCollaborationsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueCollaborationsIdAsync()

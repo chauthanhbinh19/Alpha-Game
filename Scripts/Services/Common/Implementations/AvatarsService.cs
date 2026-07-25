@@ -49,9 +49,9 @@ public class AvatarsService : IAvatarsService
         return await _avatarsRepository.GetAvatarByIdAsync(Id);
     }
 
-    public async Task<Avatars> SumPowerAvatarsPercentAsync()
+    public async Task<Avatars> SumPowerAvatarsPercentAsync(string userId)
     {
-        return await _avatarsRepository.SumPowerAvatarsPercentAsync();
+        return await _avatarsRepository.SumPowerAvatarsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueAvatarsIdAsync()

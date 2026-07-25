@@ -11,5 +11,5 @@ public interface IMagicFormationCirclesRepository
     Task<List<MagicFormationCircles>> GetMagicFormationCirclesWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetMagicFormationCirclesWithPriceCountAsync(string type);
     Task<MagicFormationCircles> GetMagicFormationCircleByIdAsync(string Id);
-    Task<MagicFormationCircles> SumPowerMagicFormationCirclesPercentAsync();
+    Task<MagicFormationCircles> SumPowerMagicFormationCirclesPercentAsync(string userId);
 }

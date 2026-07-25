@@ -610,7 +610,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
 
         return magicFormationCircle;
     }
-    public async Task<MagicFormationCircles> SumPowerMagicFormationCirclesPercentAsync()
+    public async Task<MagicFormationCircles> SumPowerMagicFormationCirclesPercentAsync(string userId)
     {
         MagicFormationCircles sumMagicFormationCircles = new MagicFormationCircles();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -641,7 +641,7 @@ public class MagicFormationCirclesRepository : IMagicFormationCirclesRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

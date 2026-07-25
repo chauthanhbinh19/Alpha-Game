@@ -49,9 +49,9 @@ public class BasesService : IBasesService
         return await _basesRepository.GetBaseByIdAsync(Id);
     }
 
-    public async Task<Bases> SumPowerBasesPercentAsync()
+    public async Task<Bases> SumPowerBasesPercentAsync(string userId)
     {
-        return await _basesRepository.SumPowerBasesPercentAsync();
+        return await _basesRepository.SumPowerBasesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueBasesIdAsync()

@@ -540,7 +540,7 @@ public class RobotsRepository : IRobotsRepository
 
         return robot;
     }
-    public async Task<Robots> SumPowerRobotsPercentAsync()
+    public async Task<Robots> SumPowerRobotsPercentAsync(string userId)
     {
         Robots sumRobots = new Robots();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -571,7 +571,7 @@ public class RobotsRepository : IRobotsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

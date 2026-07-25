@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 public interface IUserRepository
 {
     Task<User> GetUserByUsernameAsync(string username);
-    Task<string> RegisterUserAsync(string username, string password);
+    Task<AuthResult> RegisterUserAsync(string username, string email, string password);
     Task<User> SignInWithUsernameAndPasswordAsync(string username, string password);
     Task<User> SignInWithoutUsernameAndPasswordAsync(string userId);
     Task<User> GetUserByIdAsync(string Id);

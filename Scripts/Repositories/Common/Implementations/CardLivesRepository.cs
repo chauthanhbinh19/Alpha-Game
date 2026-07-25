@@ -556,7 +556,7 @@ public class CardLivesRepository : ICardLivesRepository
 
         return cardLife;
     }
-    public async Task<CardLives> SumPowerCardLivesPercentAsync()
+    public async Task<CardLives> SumPowerCardLivesPercentAsync(string userId)
     {
         CardLives sumCardLives = new CardLives();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -585,7 +585,7 @@ public class CardLivesRepository : ICardLivesRepository
         ";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
 
             await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())

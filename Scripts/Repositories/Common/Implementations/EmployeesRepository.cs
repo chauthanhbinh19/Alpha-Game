@@ -425,7 +425,7 @@ public class EmployeesRepository : IEmployeesRepository
 
         return employee;
     }
-    public async Task<Employees> SumPowerEmployeesPercentAsync()
+    public async Task<Employees> SumPowerEmployeesPercentAsync(string userId)
     {
         Employees sumEmployees = new Employees();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -456,7 +456,7 @@ public class EmployeesRepository : IEmployeesRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

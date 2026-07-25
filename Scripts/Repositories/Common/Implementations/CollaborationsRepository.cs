@@ -541,7 +541,7 @@ public class CollaborationsRepository : ICollaborationsRepository
 
         return collaboration;
     }
-    public async Task<Collaborations> SumPowerCollaborationsPercentAsync()
+    public async Task<Collaborations> SumPowerCollaborationsPercentAsync(string userId)
     {
         Collaborations sumCollaborations = new Collaborations();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -572,7 +572,7 @@ public class CollaborationsRepository : ICollaborationsRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

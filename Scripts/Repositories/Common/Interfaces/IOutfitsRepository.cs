@@ -11,5 +11,5 @@ public interface IOutfitsRepository
     Task<List<Outfits>> GetOutfitsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetOutfitsWithPriceCountAsync(string type);
     Task<Outfits> GetOutfitByIdAsync(string id);
-    Task<Outfits> SumPowerOutfitsPercentAsync();
+    Task<Outfits> SumPowerOutfitsPercentAsync(string userId);
 }

@@ -49,9 +49,9 @@ public class TechnologiesService : ITechnologiesService
         return await _technologiesRepository.GetTechnologyByIdAsync(Id);
     }
 
-    public async Task<Technologies> SumPowerTechnologiesPercentAsync()
+    public async Task<Technologies> SumPowerTechnologiesPercentAsync(string userId)
     {
-        return await _technologiesRepository.SumPowerTechnologiesPercentAsync();
+        return await _technologiesRepository.SumPowerTechnologiesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueTechnologiesIdAsync()

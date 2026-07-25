@@ -10,5 +10,5 @@ public interface ITechnologiesRepository
     Task<List<Technologies>> GetTechnologiesWithPriceAsync(int pageSize, int offset);
     Task<int> GetTechnologiesWithPriceCountAsync();
     Task<Technologies> GetTechnologyByIdAsync(string id);
-    Task<Technologies> SumPowerTechnologiesPercentAsync();
+    Task<Technologies> SumPowerTechnologiesPercentAsync(string userId);
 }

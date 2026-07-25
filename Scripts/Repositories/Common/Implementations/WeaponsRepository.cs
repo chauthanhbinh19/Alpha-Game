@@ -599,7 +599,7 @@ public class WeaponsRepository : IWeaponsRepository
 
         return weapon;
     }
-    public async Task<Weapons> SumPowerWeaponsPercentAsync()
+    public async Task<Weapons> SumPowerWeaponsPercentAsync(string userId)
     {
         Weapons sumWeapons = new Weapons();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -630,7 +630,7 @@ public class WeaponsRepository : IWeaponsRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

@@ -49,9 +49,9 @@ public class EmojisService : IEmojisService
         return await _emojisRepository.GetEmojiByIdAsync(Id);
     }
 
-    public async Task<Emojis> SumPowerEmojisPercentAsync()
+    public async Task<Emojis> SumPowerEmojisPercentAsync(string userId)
     {
-        return await _emojisRepository.SumPowerEmojisPercentAsync();
+        return await _emojisRepository.SumPowerEmojisPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueEmojisIdAsync()

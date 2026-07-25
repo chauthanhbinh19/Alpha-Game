@@ -523,7 +523,7 @@ public class BadgesRepository : IBadgesRepository
 
         return badge;
     }
-    public async Task<Badges> SumPowerBadgesPercentAsync()
+    public async Task<Badges> SumPowerBadgesPercentAsync(string userId)
     {
         Badges sumBadges = new Badges();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -552,7 +552,7 @@ public class BadgesRepository : IBadgesRepository
         ";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
 
             await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())

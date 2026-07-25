@@ -54,9 +54,9 @@ public class PuppetsService : IPuppetsService
         return await _puppetsRepository.GetPuppetByIdAsync(Id);
     }
 
-    public async Task<Puppets> SumPowerPuppetsPercentAsync()
+    public async Task<Puppets> SumPowerPuppetsPercentAsync(string userId)
     {
-        return await _puppetsRepository.SumPowerPuppetsPercentAsync();
+        return await _puppetsRepository.SumPowerPuppetsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniquePuppetsIdAsync()

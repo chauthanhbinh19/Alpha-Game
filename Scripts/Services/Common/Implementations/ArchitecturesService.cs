@@ -49,9 +49,9 @@ public class ArchitecturesService : IArchitecturesService
         return await _architecturesRepository.GetArchitectureByIdAsync(Id);
     }
 
-    public async Task<Architectures> SumPowerArchitecturesPercentAsync()
+    public async Task<Architectures> SumPowerArchitecturesPercentAsync(string userId)
     {
-        return await _architecturesRepository.SumPowerArchitecturesPercentAsync();
+        return await _architecturesRepository.SumPowerArchitecturesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueArchitecturesIdAsync()

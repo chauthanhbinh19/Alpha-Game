@@ -541,7 +541,7 @@ public class MedalsRepository : IMedalsRepository
 
         return medal;
     }
-    public async Task<Medals> SumPowerMedalsPercentAsync()
+    public async Task<Medals> SumPowerMedalsPercentAsync(string userId)
     {
         Medals sumMedals = new Medals();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -572,7 +572,7 @@ public class MedalsRepository : IMedalsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

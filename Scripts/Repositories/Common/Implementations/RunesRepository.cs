@@ -542,7 +542,7 @@ public class RunesRepository : IRunesRepository
 
         return rune;
     }
-    public async Task<Runes> SumPowerRunesPercentAsync()
+    public async Task<Runes> SumPowerRunesPercentAsync(string userId)
     {
         Runes sumRunes = new Runes();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -573,7 +573,7 @@ public class RunesRepository : IRunesRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

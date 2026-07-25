@@ -545,7 +545,7 @@ public class SpiritBeastsRepository : ISpiritBeastsRepository
 
         return spiritBeast;
     }
-    public async Task<SpiritBeasts> SumPowerSpiritBeastsPercentAsync()
+    public async Task<SpiritBeasts> SumPowerSpiritBeastsPercentAsync(string userId)
     {
         SpiritBeasts sumSpiritBeasts = new SpiritBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -576,7 +576,7 @@ public class SpiritBeastsRepository : ISpiritBeastsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

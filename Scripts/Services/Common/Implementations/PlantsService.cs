@@ -49,9 +49,9 @@ public class PlantsService : IPlantsService
         return await _plantsRepository.GetPlantByIdAsync(Id);
     }
 
-    public async Task<Plants> SumPowerPlantsPercentAsync()
+    public async Task<Plants> SumPowerPlantsPercentAsync(string userId)
     {
-        return await _plantsRepository.SumPowerPlantsPercentAsync();
+        return await _plantsRepository.SumPowerPlantsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniquePlantsIdAsync()

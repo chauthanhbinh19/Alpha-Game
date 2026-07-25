@@ -54,9 +54,9 @@ public class FurnituresService : IFurnituresService
         return await _furnituresRepository.GetFurnitureByIdAsync(Id);
     }
 
-    public async Task<Furnitures> SumPowerFurnituresPercentAsync()
+    public async Task<Furnitures> SumPowerFurnituresPercentAsync(string userId)
     {
-        return await _furnituresRepository.SumPowerFurnituresPercentAsync();
+        return await _furnituresRepository.SumPowerFurnituresPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueFurnituresIdAsync()

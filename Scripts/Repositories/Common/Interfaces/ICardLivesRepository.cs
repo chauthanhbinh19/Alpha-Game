@@ -11,5 +11,5 @@ public interface ICardLivesRepository
     Task<List<CardLives>> GetCardLivesWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetCardLivesWithPriceCountAsync(string type);
     Task<CardLives> GetCardLifeByIdAsync(string Id);
-    Task<CardLives> SumPowerCardLivesPercentAsync();
+    Task<CardLives> SumPowerCardLivesPercentAsync(string userId);
 }

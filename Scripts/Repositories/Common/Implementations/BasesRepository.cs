@@ -386,7 +386,7 @@ public class BasesRepository : IBasesRepository
 
         return bases;
     }
-    public async Task<Bases> SumPowerBasesPercentAsync()
+    public async Task<Bases> SumPowerBasesPercentAsync(string userId)
     {
         Bases sumBases = new Bases();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -415,7 +415,7 @@ public class BasesRepository : IBasesRepository
         ";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
 
             await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())

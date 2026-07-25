@@ -541,7 +541,7 @@ public class MechaBeastsRepository : IMechaBeastsRepository
 
         return mechaBeast;
     }
-    public async Task<MechaBeasts> SumPowerMechaBeastsPercentAsync()
+    public async Task<MechaBeasts> SumPowerMechaBeastsPercentAsync(string userId)
     {
         MechaBeasts sumMechaBeasts = new MechaBeasts();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -571,7 +571,7 @@ public class MechaBeastsRepository : IMechaBeastsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

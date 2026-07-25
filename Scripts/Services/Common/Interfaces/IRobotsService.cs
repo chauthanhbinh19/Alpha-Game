@@ -10,5 +10,5 @@ public interface IRobotsService
     Task<List<Robots>> GetRobotsWithPriceAsync(int pageSize, int offset);
     Task<int> GetRobotsWithPriceCountAsync();
     Task<Robots> GetRobotByIdAsync(string Id);
-    Task<Robots> SumPowerRobotsPercentAsync();
+    Task<Robots> SumPowerRobotsPercentAsync(string userId);
 }

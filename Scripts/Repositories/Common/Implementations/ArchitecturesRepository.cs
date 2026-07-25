@@ -538,7 +538,7 @@ public class ArchitecturesRepository : IArchitecturesRepository
 
         return architecture;
     }
-    public async Task<Architectures> SumPowerArchitecturesPercentAsync()
+    public async Task<Architectures> SumPowerArchitecturesPercentAsync(string userId)
     {
         Architectures sumArchitectures = new Architectures();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -569,7 +569,7 @@ public class ArchitecturesRepository : IArchitecturesRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

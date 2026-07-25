@@ -588,7 +588,7 @@ public class FurnituresRepository : IFurnituresRepository
 
         return furniture;
     }
-    public async Task<Furnitures> SumPowerFurnituresPercentAsync()
+    public async Task<Furnitures> SumPowerFurnituresPercentAsync(string userId)
     {
         Furnitures sumFurnitures = new Furnitures();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -619,7 +619,7 @@ public class FurnituresRepository : IFurnituresRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

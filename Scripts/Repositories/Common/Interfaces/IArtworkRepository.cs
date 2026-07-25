@@ -11,5 +11,5 @@ public interface IArtworksRepository
     Task<List<Artworks>> GetArtworksWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetArtworksWithPriceCountAsync(string type);
     Task<Artworks> GetArtworkByIdAsync(string id);
-    Task<Artworks> SumPowerArtworksPercentAsync();
+    Task<Artworks> SumPowerArtworksPercentAsync(string userId);
 }

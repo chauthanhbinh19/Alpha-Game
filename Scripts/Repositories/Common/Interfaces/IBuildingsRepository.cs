@@ -11,5 +11,5 @@ public interface IBuildingsRepository
     Task<List<Buildings>> GetBuildingsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetBuildingsWithPriceCountAsync(string type);
     Task<Buildings> GetBuildingByIdAsync(string Id);
-    Task<Buildings> SumPowerBuildingsPercentAsync();
+    Task<Buildings> SumPowerBuildingsPercentAsync(string userId);
 }

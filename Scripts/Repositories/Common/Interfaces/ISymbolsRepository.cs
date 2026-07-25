@@ -11,5 +11,5 @@ public interface ISymbolsRepository
     Task<List<Symbols>> GetSymbolsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetSymbolsWithPriceCountAsync(string type);
     Task<Symbols> GetSymbolByIdAsync(string Id);
-    Task<Symbols> SumPowerSymbolsPercentAsync();
+    Task<Symbols> SumPowerSymbolsPercentAsync(string userId);
 }

@@ -10,5 +10,5 @@ public interface IMechaBeastsRepository
     Task<List<MechaBeasts>> GetMechaBeastsWithPriceAsync(int pageSize, int offset);
     Task<int> GetMechaBeastsWithPriceCountAsync();
     Task<MechaBeasts> GetMechaBeastByIdAsync(string Id);
-    Task<MechaBeasts> SumPowerMechaBeastsPercentAsync();
+    Task<MechaBeasts> SumPowerMechaBeastsPercentAsync(string userId);
 }

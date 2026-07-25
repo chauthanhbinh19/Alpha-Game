@@ -551,7 +551,7 @@ public class FoodsRepository : IFoodsRepository
 
         return food;
     }
-    public async Task<Foods> SumPowerFoodsPercentAsync()
+    public async Task<Foods> SumPowerFoodsPercentAsync(string userId)
     {
         Foods sumFoods = new Foods();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -582,7 +582,7 @@ public class FoodsRepository : IFoodsRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

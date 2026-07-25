@@ -588,7 +588,7 @@ public class FashionsRepository : IFashionsRepository
 
         return fashion;
     }
-    public async Task<Fashions> SumPowerFashionsPercentAsync()
+    public async Task<Fashions> SumPowerFashionsPercentAsync(string userId)
     {
         Fashions sumFashions = new Fashions();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -619,7 +619,7 @@ public class FashionsRepository : IFashionsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

@@ -10,5 +10,5 @@ public interface ITitlesRepository
     Task<List<Titles>> GetTitlesWithPriceAsync(int pageSize, int offset);
     Task<int> GetTitlesWithPriceCountAsync();
     Task<Titles> GetTitleByIdAsync(string id);
-    Task<Titles> SumPowerTitlesPercentAsync();
+    Task<Titles> SumPowerTitlesPercentAsync(string userId);
 }

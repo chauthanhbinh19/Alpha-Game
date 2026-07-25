@@ -591,7 +591,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
 
         return spiritCard;
     }
-    public async Task<SpiritCards> SumPowerSpiritCardsPercentAsync()
+    public async Task<SpiritCards> SumPowerSpiritCardsPercentAsync(string userId)
     {
         SpiritCards sumSpiritCards = new SpiritCards();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -622,7 +622,7 @@ public class SpiritCardsRepository : ISpiritCardsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

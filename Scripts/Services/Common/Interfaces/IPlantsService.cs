@@ -10,5 +10,5 @@ public interface IPlantsService
     Task<List<Plants>> GetPlantsWithPriceAsync(int pageSize, int offset);
     Task<int> GetPlantsWithPriceCountAsync();
     Task<Plants> GetPlantByIdAsync(string id);
-    Task<Plants> SumPowerPlantsPercentAsync();
+    Task<Plants> SumPowerPlantsPercentAsync(string userId);
 }

@@ -11,5 +11,5 @@ public interface IVehiclesRepository
     Task<List<Vehicles>> GetVehiclesWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetVehiclesWithPriceCountAsync(string type);
     Task<Vehicles> GetVehicleByIdAsync(string Id);
-    Task<Vehicles> SumPowerVehiclesPercentAsync();
+    Task<Vehicles> SumPowerVehiclesPercentAsync(string userId);
 }

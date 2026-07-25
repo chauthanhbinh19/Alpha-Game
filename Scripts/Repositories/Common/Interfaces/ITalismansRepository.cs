@@ -11,5 +11,5 @@ public interface ITalismansRepository
     Task<List<Talismans>> GetTalismansWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetTalismansWithPriceCountAsync(string type);
     Task<Talismans> GetTalismanByIdAsync(string Id);
-    Task<Talismans> SumPowerTalismansPercentAsync();
+    Task<Talismans> SumPowerTalismansPercentAsync(string userId);
 }

@@ -551,7 +551,7 @@ public class TechnologiesRepository : ITechnologiesRepository
 
         return technology;
     }
-    public async Task<Technologies> SumPowerTechnologiesPercentAsync()
+    public async Task<Technologies> SumPowerTechnologiesPercentAsync(string userId)
     {
         Technologies sumTechnologies = new Technologies();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -582,7 +582,7 @@ public class TechnologiesRepository : ITechnologiesRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

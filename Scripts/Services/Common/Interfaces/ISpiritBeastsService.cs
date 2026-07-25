@@ -10,5 +10,5 @@ public interface ISpiritBeastsService
     Task<List<SpiritBeasts>> GetSpiritBeastsWithPriceAsync(int pageSize, int offset);
     Task<int> GetSpiritBeastsWithPriceCountAsync();
     Task<SpiritBeasts> GetSpiritBeastByIdAsync(string Id);
-    Task<SpiritBeasts> SumPowerSpiritBeastsPercentAsync();
+    Task<SpiritBeasts> SumPowerSpiritBeastsPercentAsync(string userId);
 }

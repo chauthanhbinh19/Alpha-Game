@@ -588,7 +588,7 @@ public class PuppetsRepository : IPuppetsRepository
 
         return puppet;
     }
-    public async Task<Puppets> SumPowerPuppetsPercentAsync()
+    public async Task<Puppets> SumPowerPuppetsPercentAsync(string userId)
     {
         Puppets sumPuppets = new Puppets();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -619,7 +619,7 @@ public class PuppetsRepository : IPuppetsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

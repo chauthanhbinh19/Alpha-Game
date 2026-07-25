@@ -49,9 +49,9 @@ public class RobotsService : IRobotsService
         return await _robotsRepository.GetRobotByIdAsync(Id);
     }
 
-    public async Task<Robots> SumPowerRobotsPercentAsync()
+    public async Task<Robots> SumPowerRobotsPercentAsync(string userId)
     {
-        return await _robotsRepository.SumPowerRobotsPercentAsync();
+        return await _robotsRepository.SumPowerRobotsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueRobotsIdAsync()

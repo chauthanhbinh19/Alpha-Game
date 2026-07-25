@@ -54,9 +54,9 @@ public class OutfitsService : IOutfitsService
         return await _weaponsRepository.GetOutfitByIdAsync(Id);
     }
 
-    public async Task<Outfits> SumPowerOutfitsPercentAsync()
+    public async Task<Outfits> SumPowerOutfitsPercentAsync(string userId)
     {
-        return await _weaponsRepository.SumPowerOutfitsPercentAsync();
+        return await _weaponsRepository.SumPowerOutfitsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueOutfitsIdAsync()

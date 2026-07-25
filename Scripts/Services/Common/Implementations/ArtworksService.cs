@@ -54,9 +54,9 @@ public class ArtworksService : IArtworksService
         return await _artworksRepository.GetArtworkByIdAsync(Id);
     }
 
-    public async Task<Artworks> SumPowerArtworksPercentAsync()
+    public async Task<Artworks> SumPowerArtworksPercentAsync(string userId)
     {
-        return await _artworksRepository.SumPowerArtworksPercentAsync();
+        return await _artworksRepository.SumPowerArtworksPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueArtworksIdAsync()

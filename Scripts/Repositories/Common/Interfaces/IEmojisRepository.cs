@@ -10,5 +10,5 @@ public interface IEmojisRepository
     Task<List<Emojis>> GetEmojisWithPriceAsync(int pageSize, int offset);
     Task<int> GetEmojisWithPriceCountAsync();
     Task<Emojis> GetEmojiByIdAsync(string Id);
-    Task<Emojis> SumPowerEmojisPercentAsync();
+    Task<Emojis> SumPowerEmojisPercentAsync(string userId);
 }

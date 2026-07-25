@@ -10,5 +10,5 @@ public interface IArchitecturesRepository
     Task<List<Architectures>> GetArchitecturesWithPriceAsync(int pageSize, int offset);
     Task<int> GetArchitecturesWithPriceCountAsync();
     Task<Architectures> GetArchitectureByIdAsync(string id);
-    Task<Architectures> SumPowerArchitecturesPercentAsync();
+    Task<Architectures> SumPowerArchitecturesPercentAsync(string userId);
 }

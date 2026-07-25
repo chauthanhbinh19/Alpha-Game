@@ -49,9 +49,9 @@ public class TalismansService : ITalismansService
         return await _talismansRepository.GetTalismanByIdAsync(Id);
     }
 
-    public async Task<Talismans> SumPowerTalismansPercentAsync()
+    public async Task<Talismans> SumPowerTalismansPercentAsync(string userId)
     {
-        return await _talismansRepository.SumPowerTalismansPercentAsync();
+        return await _talismansRepository.SumPowerTalismansPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueTalismansTypesAsync()

@@ -11,5 +11,5 @@ public interface IFurnituresRepository
     Task<List<Furnitures>> GetFurnituresWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetFurnituresWithPriceCountAsync(string type);
     Task<Furnitures> GetFurnitureByIdAsync(string Id);
-    Task<Furnitures> SumPowerFurnituresPercentAsync();
+    Task<Furnitures> SumPowerFurnituresPercentAsync(string userId);
 }

@@ -579,7 +579,7 @@ public class ArtworksRepository : IArtworksRepository
 
         return artwork;
     }
-    public async Task<Artworks> SumPowerArtworksPercentAsync()
+    public async Task<Artworks> SumPowerArtworksPercentAsync(string userId)
     {
         Artworks sumArtworks = new Artworks();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -608,7 +608,7 @@ public class ArtworksRepository : IArtworksRepository
         ";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
 
             await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())

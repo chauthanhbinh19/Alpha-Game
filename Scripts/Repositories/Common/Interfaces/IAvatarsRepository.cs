@@ -10,5 +10,5 @@ public interface IAvatarsRepository
     Task<List<Avatars>> GetAvatarsWithPriceAsync(int pageSize, int offset);
     Task<int> GetAvatarsWithPriceCountAsync();
     Task<Avatars> GetAvatarByIdAsync(string Id);
-    Task<Avatars> SumPowerAvatarsPercentAsync();
+    Task<Avatars> SumPowerAvatarsPercentAsync(string userId);
 }

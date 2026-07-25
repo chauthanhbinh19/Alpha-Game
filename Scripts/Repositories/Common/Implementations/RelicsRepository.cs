@@ -591,7 +591,7 @@ public class RelicsRepository : IRelicsRepository
 
         return relic;
     }
-    public async Task<Relics> SumPowerRelicsPercentAsync()
+    public async Task<Relics> SumPowerRelicsPercentAsync(string userId)
     {
         Relics sumRelics = new Relics();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -622,7 +622,7 @@ public class RelicsRepository : IRelicsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

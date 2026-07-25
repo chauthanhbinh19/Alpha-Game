@@ -589,7 +589,7 @@ public class VehiclesRepository : IVehiclesRepository
 
         return vehicle;
     }
-    public async Task<Vehicles> SumPowerVehiclesPercentAsync()
+    public async Task<Vehicles> SumPowerVehiclesPercentAsync(string userId)
     {
         Vehicles sumVehicles = new Vehicles();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -620,7 +620,7 @@ public class VehiclesRepository : IVehiclesRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

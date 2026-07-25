@@ -49,9 +49,9 @@ public class RunesService : IRunesService
         return await _runesRepository.GetRuneByIdAsync(Id);
     }
 
-    public async Task<Runes> SumPowerRunesPercentAsync()
+    public async Task<Runes> SumPowerRunesPercentAsync(string userId)
     {
-        return await _runesRepository.SumPowerRunesPercentAsync();
+        return await _runesRepository.SumPowerRunesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueRunesIdAsync()

@@ -9,5 +9,5 @@ public interface IWorldsRepository
     Task<List<Worlds>> GetWorldsWithPriceAsync(int pageSize, int offset);
     Task<int> GetWorldsWithPriceCountAsync();
     Task<Worlds> GetWorldByIdAsync(string id);
-    Task<Worlds> SumPowerWorldsPercentAsync();
+    Task<Worlds> SumPowerWorldsPercentAsync(string userId);
 }

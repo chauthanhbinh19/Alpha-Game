@@ -11,5 +11,5 @@ public interface ISpiritCardsService
     Task<List<SpiritCards>> GetSpiritCardsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetSpiritCardsWithPriceCountAsync(string type);
     Task<SpiritCards> GetSpiritCardByIdAsync(string Id);
-    Task<SpiritCards> SumPowerSpiritCardsPercentAsync();
+    Task<SpiritCards> SumPowerSpiritCardsPercentAsync(string userId);
 }

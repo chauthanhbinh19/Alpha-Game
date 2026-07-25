@@ -54,9 +54,9 @@ public class CardLivesService : ICardLivesService
         return await _cardLivesRepository.GetCardLifeByIdAsync(Id);
     }
 
-    public async Task<CardLives> SumPowerCardLivesPercentAsync()
+    public async Task<CardLives> SumPowerCardLivesPercentAsync(string userId)
     {
-        return await _cardLivesRepository.SumPowerCardLivesPercentAsync();
+        return await _cardLivesRepository.SumPowerCardLivesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueCardLivesIdAsync()

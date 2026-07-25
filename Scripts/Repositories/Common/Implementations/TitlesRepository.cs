@@ -551,7 +551,7 @@ public class TitlesRepository : ITitlesRepository
 
         return title;
     }
-    public async Task<Titles> SumPowerTitlesPercentAsync()
+    public async Task<Titles> SumPowerTitlesPercentAsync(string userId)
     {
         Titles sumTitles = new Titles();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -582,7 +582,7 @@ public class TitlesRepository : ITitlesRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

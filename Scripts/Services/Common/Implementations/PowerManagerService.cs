@@ -323,7 +323,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += userAchievements.ResistanceToSameFactionRate;
 
         // Percent Achievements
-        Achievements percentAchievements = await AchievementsService.Create().SumPowerAchievementsPercentAsync();
+        Achievements percentAchievements = await AchievementsService.Create().SumPowerAchievementsPercentAsync(userId);
 
         powerManager.PercentAllHealth += percentAchievements.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += percentAchievements.PercentAllPhysicalAttack;
@@ -428,7 +428,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += userAvatars.ResistanceToSameFactionRate;
 
         // Percent Avatars
-        Avatars percentAvatars = await AvatarsService.Create().SumPowerAvatarsPercentAsync();
+        Avatars percentAvatars = await AvatarsService.Create().SumPowerAvatarsPercentAsync(userId);
 
         powerManager.PercentAllHealth += percentAvatars.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += percentAvatars.PercentAllPhysicalAttack;
@@ -533,7 +533,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += userBorders.ResistanceToSameFactionRate;
 
         // Percent Borders
-        Borders percentBorders = await BordersService.Create().SumPowerBordersPercentAsync();
+        Borders percentBorders = await BordersService.Create().SumPowerBordersPercentAsync(userId);
 
         powerManager.PercentAllHealth += percentBorders.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += percentBorders.PercentAllPhysicalAttack;
@@ -1121,7 +1121,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += collaboration.ResistanceToSameFactionRate;
 
         // Phần cộng dồn percent từ Collaboration Percent
-        collaboration = await CollaborationsService.Create().SumPowerCollaborationsPercentAsync();
+        collaboration = await CollaborationsService.Create().SumPowerCollaborationsPercentAsync(userId);
         powerManager.PercentAllHealth += collaboration.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += collaboration.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += collaboration.PercentAllPhysicalDefense;
@@ -1365,7 +1365,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += magicFormationCircle.ResistanceToSameFactionRate;
 
         // Percent
-        magicFormationCircle = await MagicFormationCirclesService.Create().SumPowerMagicFormationCirclesPercentAsync();
+        magicFormationCircle = await MagicFormationCirclesService.Create().SumPowerMagicFormationCirclesPercentAsync(userId);
         powerManager.PercentAllHealth += magicFormationCircle.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += magicFormationCircle.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += magicFormationCircle.PercentAllPhysicalDefense;
@@ -1468,7 +1468,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += relic.ResistanceToSameFactionRate;
 
         // Percent
-        relic = await RelicsService.Create().SumPowerRelicsPercentAsync();
+        relic = await RelicsService.Create().SumPowerRelicsPercentAsync(userId);
         powerManager.PercentAllHealth += relic.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += relic.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += relic.PercentAllPhysicalDefense;
@@ -1570,7 +1570,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += medal.ResistanceToSameFactionRate;
 
         // Percent
-        medal = await MedalsService.Create().SumPowerMedalsPercentAsync();
+        medal = await MedalsService.Create().SumPowerMedalsPercentAsync(userId);
         powerManager.PercentAllHealth += medal.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += medal.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += medal.PercentAllPhysicalDefense;
@@ -1726,7 +1726,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += symbol.ResistanceToSameFactionRate;
 
         // Percent
-        symbol = await SymbolsService.Create().SumPowerSymbolsPercentAsync();
+        symbol = await SymbolsService.Create().SumPowerSymbolsPercentAsync(userId);
         powerManager.PercentAllHealth += symbol.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += symbol.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += symbol.PercentAllPhysicalDefense;
@@ -1881,7 +1881,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += title.ResistanceToSameFactionRate;
 
         // Percent
-        title = await TitlesService.Create().SumPowerTitlesPercentAsync();
+        title = await TitlesService.Create().SumPowerTitlesPercentAsync(userId);
         powerManager.PercentAllHealth += title.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += title.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += title.PercentAllPhysicalDefense;
@@ -1983,7 +1983,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += talisman.ResistanceToSameFactionRate;
 
         // Percent
-        talisman = await TalismansService.Create().SumPowerTalismansPercentAsync();
+        talisman = await TalismansService.Create().SumPowerTalismansPercentAsync(userId);
         powerManager.PercentAllHealth += talisman.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += talisman.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += talisman.PercentAllPhysicalDefense;
@@ -2085,7 +2085,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += puppet.ResistanceToSameFactionRate;
 
         // Percent
-        puppet = await PuppetsService.Create().SumPowerPuppetsPercentAsync();
+        puppet = await PuppetsService.Create().SumPowerPuppetsPercentAsync(userId);
         powerManager.PercentAllHealth += puppet.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += puppet.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += puppet.PercentAllPhysicalDefense;
@@ -2187,7 +2187,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += alchemy.ResistanceToSameFactionRate;
 
         // Percent
-        alchemy = await AlchemiesService.Create().SumPowerAlchemiesPercentAsync();
+        alchemy = await AlchemiesService.Create().SumPowerAlchemiesPercentAsync(userId);
         powerManager.PercentAllHealth += alchemy.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += alchemy.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += alchemy.PercentAllPhysicalDefense;
@@ -2289,7 +2289,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += forge.ResistanceToSameFactionRate;
 
         // Percent
-        forge = await ForgesService.Create().SumPowerForgesPercentAsync();
+        forge = await ForgesService.Create().SumPowerForgesPercentAsync(userId);
         powerManager.PercentAllHealth += forge.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += forge.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += forge.PercentAllPhysicalDefense;
@@ -2391,7 +2391,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += cardLife.ResistanceToSameFactionRate;
 
         // Percent
-        cardLife = await CardLivesService.Create().SumPowerCardLivesPercentAsync();
+        cardLife = await CardLivesService.Create().SumPowerCardLivesPercentAsync(userId);
         powerManager.PercentAllHealth += cardLife.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += cardLife.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += cardLife.PercentAllPhysicalDefense;
@@ -2493,7 +2493,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += artwork.ResistanceToSameFactionRate;
 
         // Percent
-        artwork = await ArtworksService.Create().SumPowerArtworksPercentAsync();
+        artwork = await ArtworksService.Create().SumPowerArtworksPercentAsync(userId);
         powerManager.PercentAllHealth += artwork.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += artwork.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += artwork.PercentAllPhysicalDefense;
@@ -2595,7 +2595,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += spiritBeast.ResistanceToSameFactionRate;
 
         // Percent
-        spiritBeast = await SpiritBeastsService.Create().SumPowerSpiritBeastsPercentAsync();
+        spiritBeast = await SpiritBeastsService.Create().SumPowerSpiritBeastsPercentAsync(userId);
         powerManager.PercentAllHealth += spiritBeast.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += spiritBeast.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += spiritBeast.PercentAllPhysicalDefense;
@@ -2697,7 +2697,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += spiritCard.ResistanceToSameFactionRate;
 
         // Percent
-        spiritCard = await SpiritCardsService.Create().SumPowerSpiritCardsPercentAsync();
+        spiritCard = await SpiritCardsService.Create().SumPowerSpiritCardsPercentAsync(userId);
         powerManager.PercentAllHealth += spiritCard.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += spiritCard.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += spiritCard.PercentAllPhysicalDefense;
@@ -2799,7 +2799,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += vehicle.ResistanceToSameFactionRate;
 
         // Percent
-        vehicle = await VehiclesService.Create().SumPowerVehiclesPercentAsync();
+        vehicle = await VehiclesService.Create().SumPowerVehiclesPercentAsync(userId);
         powerManager.PercentAllHealth += vehicle.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += vehicle.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += vehicle.PercentAllPhysicalDefense;
@@ -2901,7 +2901,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += artifact.ResistanceToSameFactionRate;
 
         // Percent
-        artifact = await ArtifactsService.Create().SumPowerArtifactsPercentAsync();
+        artifact = await ArtifactsService.Create().SumPowerArtifactsPercentAsync(userId);
         powerManager.PercentAllHealth += artifact.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += artifact.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += artifact.PercentAllPhysicalDefense;
@@ -3003,7 +3003,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += technology.ResistanceToSameFactionRate;
 
         // Percent
-        technology = await TechnologiesService.Create().SumPowerTechnologiesPercentAsync();
+        technology = await TechnologiesService.Create().SumPowerTechnologiesPercentAsync(userId);
         powerManager.PercentAllHealth += technology.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += technology.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += technology.PercentAllPhysicalDefense;
@@ -3105,7 +3105,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += architecture.ResistanceToSameFactionRate;
 
         // Percent
-        architecture =  await ArchitecturesService.Create().SumPowerArchitecturesPercentAsync();
+        architecture =  await ArchitecturesService.Create().SumPowerArchitecturesPercentAsync(userId);
         powerManager.PercentAllHealth += architecture.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += architecture.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += architecture.PercentAllPhysicalDefense;
@@ -3207,7 +3207,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += core.ResistanceToSameFactionRate;
 
         // Percent
-        core =  await CoresService.Create().SumPowerCoresPercentAsync();
+        core =  await CoresService.Create().SumPowerCoresPercentAsync(userId);
         powerManager.PercentAllHealth += core.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += core.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += core.PercentAllPhysicalDefense;
@@ -3309,7 +3309,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += weapon.ResistanceToSameFactionRate;
 
         // Percent
-        weapon =  await WeaponsService.Create().SumPowerWeaponsPercentAsync();
+        weapon =  await WeaponsService.Create().SumPowerWeaponsPercentAsync(userId);
         powerManager.PercentAllHealth += weapon.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += weapon.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += weapon.PercentAllPhysicalDefense;
@@ -3411,7 +3411,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += robot.ResistanceToSameFactionRate;
 
         // Percent
-        robot =  await RobotsService.Create().SumPowerRobotsPercentAsync();
+        robot =  await RobotsService.Create().SumPowerRobotsPercentAsync(userId);
         powerManager.PercentAllHealth += robot.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += robot.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += robot.PercentAllPhysicalDefense;
@@ -3513,7 +3513,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += badge.ResistanceToSameFactionRate;
 
         // Percent
-        badge =  await BadgesService.Create().SumPowerBadgesPercentAsync();
+        badge =  await BadgesService.Create().SumPowerBadgesPercentAsync(userId);
         powerManager.PercentAllHealth += badge.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += badge.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += badge.PercentAllPhysicalDefense;
@@ -3615,7 +3615,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += mechaBeast.ResistanceToSameFactionRate;
 
         // Percent
-        mechaBeast =  await MechaBeastsService.Create().SumPowerMechaBeastsPercentAsync();
+        mechaBeast =  await MechaBeastsService.Create().SumPowerMechaBeastsPercentAsync(userId);
         powerManager.PercentAllHealth += mechaBeast.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += mechaBeast.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += mechaBeast.PercentAllPhysicalDefense;
@@ -3717,7 +3717,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += rune.ResistanceToSameFactionRate;
 
         // Percent
-        rune =  await RunesService.Create().SumPowerRunesPercentAsync();
+        rune =  await RunesService.Create().SumPowerRunesPercentAsync(userId);
         powerManager.PercentAllHealth += rune.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += rune.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += rune.PercentAllPhysicalDefense;
@@ -3819,7 +3819,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += furniture.ResistanceToSameFactionRate;
 
         // Percent
-        furniture = await FurnituresService.Create().SumPowerFurnituresPercentAsync();
+        furniture = await FurnituresService.Create().SumPowerFurnituresPercentAsync(userId);
         powerManager.PercentAllHealth += furniture.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += furniture.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += furniture.PercentAllPhysicalDefense;
@@ -3921,7 +3921,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += food.ResistanceToSameFactionRate;
 
         // Percent
-        food =  await FoodsService.Create().SumPowerFoodsPercentAsync();
+        food =  await FoodsService.Create().SumPowerFoodsPercentAsync(userId);
         powerManager.PercentAllHealth += food.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += food.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += food.PercentAllPhysicalDefense;
@@ -4023,7 +4023,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += beverage.ResistanceToSameFactionRate;
 
         // Percent
-        beverage =  await BeveragesService.Create().SumPowerBeveragesPercentAsync();
+        beverage =  await BeveragesService.Create().SumPowerBeveragesPercentAsync(userId);
         powerManager.PercentAllHealth += beverage.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += beverage.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += beverage.PercentAllPhysicalDefense;
@@ -4125,7 +4125,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += building.ResistanceToSameFactionRate;
 
         // Percent
-        building = await BuildingsService.Create().SumPowerBuildingsPercentAsync();
+        building = await BuildingsService.Create().SumPowerBuildingsPercentAsync(userId);
         powerManager.PercentAllHealth += building.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += building.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += building.PercentAllPhysicalDefense;
@@ -4227,7 +4227,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += plant.ResistanceToSameFactionRate;
 
         // Percent
-        plant =  await PlantsService.Create().SumPowerPlantsPercentAsync();
+        plant =  await PlantsService.Create().SumPowerPlantsPercentAsync(userId);
         powerManager.PercentAllHealth += plant.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += plant.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += plant.PercentAllPhysicalDefense;
@@ -4329,7 +4329,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += fashion.ResistanceToSameFactionRate;
 
         // Percent
-        fashion = await FashionsService.Create().SumPowerFashionsPercentAsync();
+        fashion = await FashionsService.Create().SumPowerFashionsPercentAsync(userId);
         powerManager.PercentAllHealth += fashion.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += fashion.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += fashion.PercentAllPhysicalDefense;
@@ -4484,7 +4484,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += emoji.ResistanceToSameFactionRate;
 
         // Percent
-        emoji = await EmojisService.Create().SumPowerEmojisPercentAsync();
+        emoji = await EmojisService.Create().SumPowerEmojisPercentAsync(userId);
         powerManager.PercentAllHealth += emoji.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += emoji.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += emoji.PercentAllPhysicalDefense;
@@ -4586,7 +4586,7 @@ public class PowerManagerService : IPowerManagerService
         powerManager.ResistanceToSameFactionRate += outfit.ResistanceToSameFactionRate;
 
         // Percent
-        outfit = await OutfitsService.Create().SumPowerOutfitsPercentAsync();
+        outfit = await OutfitsService.Create().SumPowerOutfitsPercentAsync(userId);
         powerManager.PercentAllHealth += outfit.PercentAllHealth;
         powerManager.PercentAllPhysicalAttack += outfit.PercentAllPhysicalAttack;
         powerManager.PercentAllPhysicalDefense += outfit.PercentAllPhysicalDefense;

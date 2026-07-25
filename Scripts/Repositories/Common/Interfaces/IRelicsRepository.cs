@@ -10,5 +10,5 @@ public interface IRelicsRepository
     Task<List<Relics>> GetRelicsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetRelicsWithPriceCountAsync(string type);
     Task<Relics> GetRelicByIdAsync(string id);
-    Task<Relics> SumPowerRelicsPercentAsync();
+    Task<Relics> SumPowerRelicsPercentAsync(string userId);
 }

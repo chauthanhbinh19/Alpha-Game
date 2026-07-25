@@ -54,9 +54,9 @@ public class VehiclesService : IVehiclesService
         return await _vehiclesRepository.GetVehicleByIdAsync(Id);
     }
 
-    public async Task<Vehicles> SumPowerVehiclesPercentAsync()
+    public async Task<Vehicles> SumPowerVehiclesPercentAsync(string userId)
     {
-        return await _vehiclesRepository.SumPowerVehiclesPercentAsync();
+        return await _vehiclesRepository.SumPowerVehiclesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueVehiclesIdAsync()

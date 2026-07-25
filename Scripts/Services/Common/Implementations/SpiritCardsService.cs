@@ -54,9 +54,9 @@ public class SpiritCardsService : ISpiritCardsService
         return await _spiritCardsRepository.GetSpiritCardByIdAsync(Id);
     }
 
-    public async Task<SpiritCards> SumPowerSpiritCardsPercentAsync()
+    public async Task<SpiritCards> SumPowerSpiritCardsPercentAsync(string userId)
     {
-        return await _spiritCardsRepository.SumPowerSpiritCardsPercentAsync();
+        return await _spiritCardsRepository.SumPowerSpiritCardsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueSpiritCardsIdAsync()

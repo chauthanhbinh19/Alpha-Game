@@ -11,5 +11,5 @@ public interface IAlchemiesService
     Task<List<Alchemies>> GetAlchemiesWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetAlchemiesWithPriceCountAsync(string type);
     Task<Alchemies> GetAlchemyByIdAsync(string id);
-    Task<Alchemies> SumPowerAlchemiesPercentAsync();
+    Task<Alchemies> SumPowerAlchemiesPercentAsync(string userId);
 }

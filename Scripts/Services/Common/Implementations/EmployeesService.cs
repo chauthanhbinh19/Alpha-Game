@@ -49,9 +49,9 @@ public class EmployeesService : IEmployeesService
         return await _employeesRepository.GetEmployeeByIdAsync(Id);
     }
 
-    public async Task<Employees> SumPowerEmployeesPercentAsync()
+    public async Task<Employees> SumPowerEmployeesPercentAsync(string userId)
     {
-        return await _employeesRepository.SumPowerEmployeesPercentAsync();
+        return await _employeesRepository.SumPowerEmployeesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueEmployeesIdAsync()

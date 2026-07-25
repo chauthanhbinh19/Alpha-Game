@@ -425,7 +425,7 @@ public class WorldsRepository : IWorldsRepository
 
         return world;
     }
-    public async Task<Worlds> SumPowerWorldsPercentAsync()
+    public async Task<Worlds> SumPowerWorldsPercentAsync(string userId)
     {
         Worlds sumWorlds = new Worlds();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -456,7 +456,7 @@ public class WorldsRepository : IWorldsRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

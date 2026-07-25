@@ -10,5 +10,5 @@ public interface IBadgesService
     Task<List<Badges>> GetBadgesWithPriceAsync(int pageSize, int offset);
     Task<int> GetBadgesWithPriceCountAsync();
     Task<Badges> GetBadgeByIdAsync(string id);
-    Task<Badges> SumPowerBadgesPercentAsync();
+    Task<Badges> SumPowerBadgesPercentAsync(string userId);
 }

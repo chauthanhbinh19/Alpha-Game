@@ -9,5 +9,5 @@ public interface IBasesRepository
     Task<List<Bases>> GetBasesWithPriceAsync(int pageSize, int offset);
     Task<int> GetBasesWithPriceCountAsync();
     Task<Bases> GetBaseByIdAsync(string Id);
-    Task<Bases> SumPowerBasesPercentAsync();
+    Task<Bases> SumPowerBasesPercentAsync(string userId);
 }

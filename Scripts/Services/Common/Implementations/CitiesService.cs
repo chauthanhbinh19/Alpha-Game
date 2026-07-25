@@ -49,9 +49,9 @@ public class CitiesService : ICitiesService
         return await _citiesRepository.GetCityByIdAsync(Id);
     }
 
-    public async Task<Cities> SumPowerCitiesPercentAsync()
+    public async Task<Cities> SumPowerCitiesPercentAsync(string userId)
     {
-        return await _citiesRepository.SumPowerCitiesPercentAsync();
+        return await _citiesRepository.SumPowerCitiesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueCitieIdAsync()

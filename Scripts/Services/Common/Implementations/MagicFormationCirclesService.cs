@@ -54,9 +54,9 @@ public class MagicFormationCirclesService : IMagicFormationCirclesService
         return await _magicFormationCirclesRepository.GetMagicFormationCircleByIdAsync(Id);
     }
 
-    public async Task<MagicFormationCircles> SumPowerMagicFormationCirclesPercentAsync()
+    public async Task<MagicFormationCircles> SumPowerMagicFormationCirclesPercentAsync(string userId)
     {
-        return await _magicFormationCirclesRepository.SumPowerMagicFormationCirclesPercentAsync();
+        return await _magicFormationCirclesRepository.SumPowerMagicFormationCirclesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueMagicFormationCirclesIdAsync()

@@ -49,9 +49,9 @@ public class WorldsService : IWorldsService
         return await _worldsRepository.GetWorldByIdAsync(Id);
     }
 
-    public async Task<Worlds> SumPowerWorldsPercentAsync()
+    public async Task<Worlds> SumPowerWorldsPercentAsync(string userId)
     {
-        return await _worldsRepository.SumPowerWorldsPercentAsync();
+        return await _worldsRepository.SumPowerWorldsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueWorldsIdAsync()

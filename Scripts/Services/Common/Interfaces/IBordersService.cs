@@ -10,5 +10,5 @@ public interface IBordersService
     Task<List<Borders>> GetBordersWithPriceAsync(int pageSize, int offset);
     Task<int> GetBordersWithPriceCountAsync();
     Task<Borders> GetBorderByIdAsync(string id);
-    Task<Borders> SumPowerBordersPercentAsync();
+    Task<Borders> SumPowerBordersPercentAsync(string userId);
 }

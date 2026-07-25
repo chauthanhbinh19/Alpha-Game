@@ -10,5 +10,5 @@ public interface IFoodsService
     Task<List<Foods>> GetFoodsWithPriceAsync(int pageSize, int offset);
     Task<int> GetFoodsWithPriceCountAsync();
     Task<Foods> GetFoodByIdAsync(string id);
-    Task<Foods> SumPowerFoodsPercentAsync();
+    Task<Foods> SumPowerFoodsPercentAsync(string userId);
 }

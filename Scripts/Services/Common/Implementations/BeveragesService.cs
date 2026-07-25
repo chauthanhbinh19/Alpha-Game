@@ -49,9 +49,9 @@ public class BeveragesService : IBeveragesService
         return await _beveragesRepository.GetBeverageByIdAsync(Id);
     }
 
-    public async Task<Beverages> SumPowerBeveragesPercentAsync()
+    public async Task<Beverages> SumPowerBeveragesPercentAsync(string userId)
     {
-        return await _beveragesRepository.SumPowerBeveragesPercentAsync();
+        return await _beveragesRepository.SumPowerBeveragesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueBeveragesIdAsync()

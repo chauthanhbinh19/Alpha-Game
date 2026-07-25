@@ -54,9 +54,9 @@ public class AlchemiesService : IAlchemiesService
         return await _alchemiesRepository.GetAlchemyByIdAsync(Id);
     }
 
-    public async Task<Alchemies> SumPowerAlchemiesPercentAsync()
+    public async Task<Alchemies> SumPowerAlchemiesPercentAsync(string userId)
     {
-        return await _alchemiesRepository.SumPowerAlchemiesPercentAsync();
+        return await _alchemiesRepository.SumPowerAlchemiesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueAlchemiesIdAsync()

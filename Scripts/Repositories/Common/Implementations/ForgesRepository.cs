@@ -593,7 +593,7 @@ public class ForgesRepository : IForgesRepository
 
         return forge;
     }
-    public async Task<Forges> SumPowerForgesPercentAsync()
+    public async Task<Forges> SumPowerForgesPercentAsync(string userId)
     {
         Forges sumForges = new Forges();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -623,7 +623,7 @@ public class ForgesRepository : IForgesRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

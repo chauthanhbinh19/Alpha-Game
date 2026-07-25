@@ -54,9 +54,9 @@ public class BuildingsService : IBuildingsService
         return await _buildingsRepository.GetBuildingByIdAsync(Id);
     }
 
-    public async Task<Buildings> SumPowerBuildingsPercentAsync()
+    public async Task<Buildings> SumPowerBuildingsPercentAsync(string userId)
     {
-        return await _buildingsRepository.SumPowerBuildingsPercentAsync();
+        return await _buildingsRepository.SumPowerBuildingsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueBuildingsIdAsync()

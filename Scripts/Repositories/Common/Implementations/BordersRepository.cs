@@ -513,7 +513,7 @@ public class BordersRepository : IBordersRepository
 
         return border;
     }
-    public async Task<Borders> SumPowerBordersPercentAsync()
+    public async Task<Borders> SumPowerBordersPercentAsync(string userId)
     {
         Borders sumBorders = new Borders();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -542,7 +542,7 @@ public class BordersRepository : IBordersRepository
         ";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
 
             await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())

@@ -49,9 +49,9 @@ public class TrainsService : ITrainsService
         return await _trainsRepository.GetTrainByIdAsync(Id);
     }
 
-    public async Task<Trains> SumPowerTrainsPercentAsync()
+    public async Task<Trains> SumPowerTrainsPercentAsync(string userId)
     {
-        return await _trainsRepository.SumPowerTrainsPercentAsync();
+        return await _trainsRepository.SumPowerTrainsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueTrainsIdAsync()

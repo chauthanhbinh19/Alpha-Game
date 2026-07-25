@@ -552,7 +552,7 @@ public class EmojisRepository : IEmojisRepository
 
         return emoji;
     }
-    public async Task<Emojis> SumPowerEmojisPercentAsync()
+    public async Task<Emojis> SumPowerEmojisPercentAsync(string userId)
     {
         Emojis sumEmojis = new Emojis();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -583,7 +583,7 @@ public class EmojisRepository : IEmojisRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

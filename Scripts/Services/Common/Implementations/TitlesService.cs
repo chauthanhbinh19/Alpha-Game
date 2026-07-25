@@ -49,9 +49,9 @@ public class TitlesService : ITitlesService
         return await _titlesRepository.GetTitleByIdAsync(Id);
     }
 
-    public async Task<Titles> SumPowerTitlesPercentAsync()
+    public async Task<Titles> SumPowerTitlesPercentAsync(string userId)
     {
-        return await _titlesRepository.SumPowerTitlesPercentAsync();
+        return await _titlesRepository.SumPowerTitlesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueTitlesIdAsync()

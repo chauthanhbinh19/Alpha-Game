@@ -588,7 +588,7 @@ public class SymbolsRepository : ISymbolsRepository
 
         return symbol;
     }
-    public async Task<Symbols> SumPowerSymbolsPercentAsync()
+    public async Task<Symbols> SumPowerSymbolsPercentAsync(string userId)
     {
         Symbols sumSymbols = new Symbols();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -619,7 +619,7 @@ public class SymbolsRepository : ISymbolsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

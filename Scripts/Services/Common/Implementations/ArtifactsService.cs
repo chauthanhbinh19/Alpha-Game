@@ -49,9 +49,9 @@ public class ArtifactsService : IArtifactsService
         return await _artifactsRepository.GetArtifactByIdAsync(Id);
     }
 
-    public async Task<Artifacts> SumPowerArtifactsPercentAsync()
+    public async Task<Artifacts> SumPowerArtifactsPercentAsync(string userId)
     {
-        return await _artifactsRepository.SumPowerArtifactsPercentAsync();
+        return await _artifactsRepository.SumPowerArtifactsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueArtifactsIdAsync()

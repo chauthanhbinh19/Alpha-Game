@@ -11,5 +11,5 @@ public interface IForgesService
     Task<List<Forges>> GetForgesWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetForgesWithPriceCountAsync(string type);
     Task<Forges> GetForgeByIdAsync(string Id);
-    Task<Forges> SumPowerForgesPercentAsync();
+    Task<Forges> SumPowerForgesPercentAsync(string userId);
 }

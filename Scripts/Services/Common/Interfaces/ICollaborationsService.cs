@@ -10,5 +10,5 @@ public interface ICollaborationsService
     Task<List<Collaborations>> GetCollaborationsWithPriceAsync(int pageSize, int offset);
     Task<int> GetCollaborationsWithPriceCountAsync();
     Task<Collaborations> GetCollaborationByIdAsync(string id);
-    Task<Collaborations> SumPowerCollaborationsPercentAsync();
+    Task<Collaborations> SumPowerCollaborationsPercentAsync(string userId);
 }

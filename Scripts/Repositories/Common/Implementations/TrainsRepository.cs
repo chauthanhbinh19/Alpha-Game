@@ -425,7 +425,7 @@ public class TrainsRepository : ITrainsRepository
 
         return employee;
     }
-    public async Task<Trains> SumPowerTrainsPercentAsync()
+    public async Task<Trains> SumPowerTrainsPercentAsync(string userId)
     {
         Trains sumTrains = new Trains();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -456,7 +456,7 @@ public class TrainsRepository : ITrainsRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

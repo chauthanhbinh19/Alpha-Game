@@ -49,9 +49,9 @@ public class CoresService : ICoresService
         return await _coresRepository.GetCoreByIdAsync(Id);
     }
 
-    public async Task<Cores> SumPowerCoresPercentAsync()
+    public async Task<Cores> SumPowerCoresPercentAsync(string userId)
     {
-        return await _coresRepository.SumPowerCoresPercentAsync();
+        return await _coresRepository.SumPowerCoresPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueCoresIdAsync()

@@ -54,9 +54,9 @@ public class ForgesService : IForgesService
         return await _forgesRepository.GetForgeByIdAsync(Id);
     }
 
-    public async Task<Forges> SumPowerForgesPercentAsync()
+    public async Task<Forges> SumPowerForgesPercentAsync(string userId)
     {
-        return await _forgesRepository.SumPowerForgesPercentAsync();
+        return await _forgesRepository.SumPowerForgesPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueForgesIdAsync()

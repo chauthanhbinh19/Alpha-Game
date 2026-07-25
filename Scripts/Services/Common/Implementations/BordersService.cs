@@ -49,9 +49,9 @@ public class BordersService : IBordersService
         return await _bordersRepository.GetBorderByIdAsync(Id);
     }
 
-    public async Task<Borders> SumPowerBordersPercentAsync()
+    public async Task<Borders> SumPowerBordersPercentAsync(string userId)
     {
-        return await _bordersRepository.SumPowerBordersPercentAsync();
+        return await _bordersRepository.SumPowerBordersPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueBordersIdAsync()

@@ -554,7 +554,7 @@ public class BeveragesRepository : IBeveragesRepository
 
         return beverage;
     }
-    public async Task<Beverages> SumPowerBeveragesPercentAsync()
+    public async Task<Beverages> SumPowerBeveragesPercentAsync(string userId)
     {
         Beverages sumBeverages = new Beverages();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -585,7 +585,7 @@ public class BeveragesRepository : IBeveragesRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

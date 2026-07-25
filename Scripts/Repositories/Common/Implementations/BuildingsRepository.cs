@@ -588,7 +588,7 @@ public class BuildingsRepository : IBuildingsRepository
 
         return symbol;
     }
-    public async Task<Buildings> SumPowerBuildingsPercentAsync()
+    public async Task<Buildings> SumPowerBuildingsPercentAsync(string userId)
     {
         Buildings sumBuildings = new Buildings();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -619,7 +619,7 @@ public class BuildingsRepository : IBuildingsRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

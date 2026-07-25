@@ -11,5 +11,5 @@ public interface IWeaponsRepository
     Task<List<Weapons>> GetWeaponsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetWeaponsWithPriceCountAsync(string type);
     Task<Weapons> GetWeaponByIdAsync(string id);
-    Task<Weapons> SumPowerWeaponsPercentAsync();
+    Task<Weapons> SumPowerWeaponsPercentAsync(string userId);
 }

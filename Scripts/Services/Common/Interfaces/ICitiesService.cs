@@ -8,5 +8,5 @@ public interface ICitiesService
     Task<List<Cities>> GetCitiesWithPriceAsync(int pageSize, int offset);
     Task<int> GetCitiesWithPriceCountAsync();
     Task<Cities> GetCityByIdAsync(string Id);
-    Task<Cities> SumPowerCitiesPercentAsync();
+    Task<Cities> SumPowerCitiesPercentAsync(string userId);
 }

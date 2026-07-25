@@ -10,5 +10,5 @@ public interface IBeveragesRepository
     Task<List<Beverages>> GetBeveragesWithPriceAsync(int pageSize, int offset);
     Task<int> GetBeveragesWithPriceCountAsync();
     Task<Beverages> GetBeverageByIdAsync(string id);
-    Task<Beverages> SumPowerBeveragesPercentAsync();
+    Task<Beverages> SumPowerBeveragesPercentAsync(string userId);
 }

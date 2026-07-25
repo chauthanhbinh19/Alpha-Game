@@ -12,101 +12,177 @@ public class UserRepository : IUserRepository
     public async Task<User> GetUserByUsernameAsync(string username)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-
-        await using (var connection = new MySqlConnection(connectionString))
+        try
         {
-            try
+            using (var connection = new MySqlConnection(connectionString))
             {
                 await connection.OpenAsync();
-
-                string selectSQL = "SELECT * FROM users WHERE username = @username";
-                await using (var selectCommand = new MySqlCommand(selectSQL, connection))
+                string sql = "SELECT * FROM users WHERE username = @username LIMIT 1";
+                using (var cmd = new MySqlCommand(sql, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@username", username);
-
-                    await using (var reader = await selectCommand.ExecuteReaderAsync())
+                    cmd.Parameters.AddWithValue("@username", username);
+                    using (var reader = await cmd.ExecuteReaderAsync())
                     {
-                        if (await reader.ReadAsync())
+                        if (!await reader.ReadAsync()) return null;
+
+                        return new User
                         {
-                            return new User
-                            {
-                                Id = reader["id"].ToString(),
-                                Username = reader.GetStringSafe("username"),
-                                Password = reader.GetStringSafe("password"),
-                                Name = reader["name"].ToString(),
-                                Level = reader.GetIntSafe("level"),
-                                Experiment = reader.GetDoubleSafe("experience"),
-                                Vip = reader.GetIntSafe("vip"),
-                                Power = reader.GetDoubleSafe("power")
-                            };
-                        }
+                            Id = reader["id"] != DBNull.Value ? reader["id"].ToString() : "",
+                            Name = reader["name"] != DBNull.Value ? reader["name"].ToString() : "",
+                            Username = reader["username"] != DBNull.Value ? reader["username"].ToString() : "",
+                            Password = reader["password"] != DBNull.Value ? reader["password"].ToString() : "",
+                            Level = reader["level"] != DBNull.Value ? Convert.ToInt32(reader["level"]) : 1,
+                            Vip = reader["vip"] != DBNull.Value ? Convert.ToInt32(reader["vip"]) : 0,
+                            Power = reader["power"] != DBNull.Value ? Convert.ToDouble(reader["power"]) : 0,
+                            Experiment = reader["experience"] != DBNull.Value ? Convert.ToDouble(reader["experience"]) : 0,
+                            Image = "",
+                            Border = ""
+                        };
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
-
-        return null;
+        catch (Exception ex)
+        {
+            Debug.LogError($"[GetUserByUsername Exception]: {ex.Message}");
+            return null;
+        }
     }
-    public async Task<string> RegisterUserAsync(string username, string password)
+    public async Task<AuthResult> RegisterUserAsync(string username, string email, string password)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (var connection = new MySqlConnection(connectionString))
+        try
         {
-            await connection.OpenAsync(); // mở connection async
-
-            // --- Kiểm tra username đã tồn tại ---
-            string checkSQL = "SELECT COUNT(*) FROM Users WHERE username = @username";
-            using (var checkCommand = new MySqlCommand(checkSQL, connection))
+            using (var connection = new MySqlConnection(connectionString))
             {
-                checkCommand.Parameters.AddWithValue("@username", username);
+                await connection.OpenAsync();
 
-                object result = await checkCommand.ExecuteScalarAsync();
-                int count = Convert.ToInt32(result);
-
-                if (count > 0)
+                // 1. Kiểm tra Username hoặc Email đã tồn tại chưa
+                string checkSQL = "SELECT username, email FROM Users WHERE username = @username OR email = @email LIMIT 1";
+                using (var checkCommand = new MySqlCommand(checkSQL, connection))
                 {
-                    return null; // username đã tồn tại
+                    checkCommand.Parameters.AddWithValue("@username", username);
+                    checkCommand.Parameters.AddWithValue("@email", email ?? "");
+
+                    using (var reader = await checkCommand.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            string existingUsername = reader.GetStringSafe("username");
+                            string existingEmail = reader.GetStringSafe("email");
+
+                            // Trùng Username
+                            if (existingUsername.Equals(username, StringComparison.OrdinalIgnoreCase))
+                            {
+                                return new AuthResult
+                                {
+                                    Success = false,
+                                    ErrorField = AppConstants.MainType.USERNAME,
+                                    ErrorMessage = MessageConstants.USERNAME_ALREADY_EXIST, // Hoặc "Tên đăng nhập đã tồn tại!"
+                                    User = null
+                                };
+                            }
+
+                            // Trùng Email
+                            if (!string.IsNullOrEmpty(email) && existingEmail.Equals(email, StringComparison.OrdinalIgnoreCase))
+                            {
+                                return new AuthResult
+                                {
+                                    Success = false,
+                                    ErrorField = AppConstants.MainType.EMAIL,
+                                    ErrorMessage = MessageConstants.EMAIL_ALREADY_EXIST,
+                                    User = null
+                                };
+                            }
+                        }
+                    }
+                }
+
+                // 2. Insert User mới vào Database
+                string userId = DateTime.Now.Ticks.ToString();
+                string insertSQL = @"
+                    INSERT INTO Users (id, username, email, password, name, level, experience, vip, power) 
+                    VALUES (@id, @username, @email, @password, @name, @level, @experience, @vip, @power)";
+
+                using (var insertCommand = new MySqlCommand(insertSQL, connection))
+                {
+                    insertCommand.Parameters.AddWithValue("@id", userId);
+                    insertCommand.Parameters.AddWithValue("@username", username);
+                    insertCommand.Parameters.AddWithValue("@email", email ?? "");
+                    insertCommand.Parameters.AddWithValue("@password", password);
+                    insertCommand.Parameters.AddWithValue("@name", "");
+                    insertCommand.Parameters.AddWithValue("@level", 1);
+                    insertCommand.Parameters.AddWithValue("@experience", 0);
+                    insertCommand.Parameters.AddWithValue("@vip", 0);
+                    insertCommand.Parameters.AddWithValue("@power", 0);
+
+                    await insertCommand.ExecuteNonQueryAsync();
+                    Debug.Log($"User [{username}] registered successfully with ID: {userId}");
+
+                    User newUser = new User
+                    {
+                        Id = userId,
+                        Username = username,
+                        Name = "",
+                        Level = 1,
+                        Power = 0
+                    };
+
+                    return new AuthResult
+                    {
+                        Success = true,
+                        ErrorField = "",
+                        ErrorMessage = "",
+                        User = newUser
+                    };
                 }
             }
-
-            // --- Tạo user mới ---
-            string userId = DateTime.Now.Ticks.ToString();
-            string selectSQL = @"
-            INSERT INTO users (id, username, password, name, level, experience, vip, power) 
-            VALUES (@id, @username, @password, @name, @level, @experience, @vip, @power)";
-
-            using (var selectCommand = new MySqlCommand(selectSQL, connection))
+        }
+        catch (MySqlException ex)
+        {
+            // Bắt lỗi Unique Index trong MySQL (Mã lỗi 1062)
+            if (ex.Number == 1062)
             {
-                selectCommand.Parameters.AddWithValue("@id", userId);
-                selectCommand.Parameters.AddWithValue("@username", username);
-                selectCommand.Parameters.AddWithValue("@password", password);
-                selectCommand.Parameters.AddWithValue("@name", "");
-                selectCommand.Parameters.AddWithValue("@level", 1);
-                selectCommand.Parameters.AddWithValue("@experience", 0);
-                selectCommand.Parameters.AddWithValue("@vip", 0);
-                selectCommand.Parameters.AddWithValue("@power", 0);
+                if (ex.Message.Contains("username"))
+                {
+                    return new AuthResult
+                    {
+                        Success = false,
+                        ErrorField = AppConstants.MainType.USERNAME,
+                        ErrorMessage = MessageConstants.USERNAME_ALREADY_EXIST,
+                        User = null
+                    };
+                }
 
-                try
+                return new AuthResult
                 {
-                    await selectCommand.ExecuteNonQueryAsync(); // chạy selectSQL async
-                    Debug.Log("User registered successfully!");
-                    return userId;
-                }
-                catch (Exception ex)
-                {
-                    Debug.LogError("Error while registering user: " + ex.Message);
-                    return null;
-                }
+                    Success = false,
+                    ErrorField = AppConstants.MainType.EMAIL,
+                    ErrorMessage = "Email đã được sử dụng!",
+                    User = null
+                };
             }
+
+            Debug.LogError($"[Register MySqlException]: {ex.Message}");
+            return new AuthResult
+            {
+                Success = false,
+                ErrorField = "",
+                ErrorMessage = "Lỗi kết nối cơ sở dữ liệu!",
+                User = null
+            };
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[Register Exception]: {ex.Message}");
+            return new AuthResult
+            {
+                Success = false,
+                ErrorField = "",
+                ErrorMessage = "Lỗi hệ thống không xác định!",
+                User = null
+            };
         }
     }
     public async Task<User> SignInWithUsernameAndPasswordAsync(string username, string password)
@@ -116,117 +192,108 @@ public class UserRepository : IUserRepository
 
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (var connection = new MySqlConnection(connectionString))
+        try
         {
-            await connection.OpenAsync(); // mở connection async
-
-            // --- Lấy thông tin user ---
-            string selectSQL = "SELECT * FROM Users WHERE username = @username AND password = @password";
-            using (var selectCommand = new MySqlCommand(selectSQL, connection))
+            using (var connection = new MySqlConnection(connectionString))
             {
-                selectCommand.Parameters.AddWithValue("@username", username);
-                selectCommand.Parameters.AddWithValue("@password", password);
+                await connection.OpenAsync();
 
-                using (var reader = await selectCommand.ExecuteReaderAsync())
+                string selectSQL = "SELECT * FROM users WHERE username = @username AND password = @password LIMIT 1";
+                using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    if (!await reader.ReadAsync())
-                        return null; // đăng nhập thất bại
+                    selectCommand.Parameters.AddWithValue("@username", username);
+                    selectCommand.Parameters.AddWithValue("@password", password);
 
-                    string userId = reader.GetStringSafe("id");
-                    string name = reader.GetStringSafe("name");
-                    string Username = reader.GetStringSafe("username");
-                    string Password = reader.GetStringSafe("password");
-                    int level = reader.GetIntSafe("level");
-                    int vip = reader.GetIntSafe("vip");
-                    double power = reader.GetDoubleSafe("power");
-                    double experience = reader.GetDoubleSafe("experience");
-
-                    // Cập nhật các biến static của User
-                    User.CurrentUserId = userId;
-                    User.CurrentUserName = name;
-                    User.SavedUsername = Username;
-                    User.SavedPassword = Password;
-                    User.CurrentUserLevel = level;
-                    User.CurrentUserPower = power;
-
-                    reader.Close(); // đóng reader trước khi truy vấn khác
-
-                    // --- Tạo object user ---
-                    var user = new User
+                    using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
-                        Id = userId,
-                        Name = name,
-                        Username = username,
-                        Password = password,
-                        Level = level,
-                        Vip = vip,
-                        Experiment = experience,
-                        Power = power,
-                        Image = "",
-                        Border = ""
-                    };
+                        if (!await reader.ReadAsync()) return null;
 
-                    return user;
+                        User user = new User
+                        {
+                            Id = reader["id"] != DBNull.Value ? reader["id"].ToString() : "",
+                            Name = reader["name"] != DBNull.Value ? reader["name"].ToString() : "",
+                            Username = reader["username"] != DBNull.Value ? reader["username"].ToString() : "",
+                            Password = reader["password"] != DBNull.Value ? reader["password"].ToString() : "",
+                            Level = reader["level"] != DBNull.Value ? Convert.ToInt32(reader["level"]) : 1,
+                            Vip = reader["vip"] != DBNull.Value ? Convert.ToInt32(reader["vip"]) : 0,
+                            Power = reader["power"] != DBNull.Value ? Convert.ToDouble(reader["power"]) : 0,
+                            Experiment = reader["experience"] != DBNull.Value ? Convert.ToDouble(reader["experience"]) : 0,
+                            Image = "",
+                            Border = ""
+                        };
+
+                        // Cập nhật Cache Static
+                        User.CurrentUserId = user.Id;
+                        User.CurrentUserName = user.Name;
+                        User.SavedUsername = user.Username;
+                        User.SavedPassword = user.Password;
+                        User.CurrentUserLevel = user.Level;
+                        User.CurrentUserPower = user.Power;
+
+                        return user;
+                    }
                 }
             }
         }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[SignInWithUsernameAndPassword Exception]: {ex.Message}");
+            return null;
+        }
     }
+
     public async Task<User> SignInWithoutUsernameAndPasswordAsync(string userId)
     {
+        if (string.IsNullOrEmpty(userId)) return null;
+
         string connectionString = DatabaseConfig.ConnectionString;
 
-        using (var connection = new MySqlConnection(connectionString))
+        try
         {
-            await connection.OpenAsync(); // mở connection async
-
-            // --- Lấy thông tin user ---
-            string selectSQL = "SELECT * FROM Users WHERE id = @id";
-            using (var selectCommand = new MySqlCommand(selectSQL, connection))
+            using (var connection = new MySqlConnection(connectionString))
             {
-                selectCommand.Parameters.AddWithValue("@id", userId);
+                await connection.OpenAsync();
 
-                using (var reader = await selectCommand.ExecuteReaderAsync())
+                string selectSQL = "SELECT * FROM users WHERE id = @id LIMIT 1";
+                using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    if (!await reader.ReadAsync())
-                        return null; // không tìm thấy user
+                    selectCommand.Parameters.AddWithValue("@id", userId);
 
-                    string id = reader.GetStringSafe("id");
-                    string name = reader.GetStringSafe("name");
-                    string username = reader.GetStringSafe("username");
-                    string password = reader.GetStringSafe("password");
-                    int level = reader.GetIntSafe("level");
-                    int vip = reader.GetIntSafe("vip");
-                    double power = reader["power"] != DBNull.Value ? Convert.ToDouble(reader["power"]) : 0;
-                    double experience = reader["experience"] != DBNull.Value ? Convert.ToDouble(reader["experience"]) : 0;
-
-                    // Cập nhật các biến static của User
-                    User.CurrentUserId = userId;
-                    User.CurrentUserName = name;
-                    User.SavedUsername = username;
-                    User.SavedPassword = password;
-                    User.CurrentUserLevel = level;
-                    User.CurrentUserPower = power;
-
-                    reader.Close(); // đóng reader trước khi thực hiện truy vấn khác
-
-                    // --- Tạo object user ---
-                    var user = new User
+                    using (var reader = await selectCommand.ExecuteReaderAsync())
                     {
-                        Id = userId,
-                        Name = name,
-                        Username = username,
-                        Password = password,
-                        Level = level,
-                        Vip = vip,
-                        Experiment = experience,
-                        Power = power,
-                        Image = "",
-                        Border = ""
-                    };
+                        if (!await reader.ReadAsync()) return null;
 
-                    return user;
+                        User user = new User
+                        {
+                            Id = reader["id"] != DBNull.Value ? reader["id"].ToString() : "",
+                            Name = reader["name"] != DBNull.Value ? reader["name"].ToString() : "",
+                            Username = reader["username"] != DBNull.Value ? reader["username"].ToString() : "",
+                            Password = reader["password"] != DBNull.Value ? reader["password"].ToString() : "",
+                            Level = reader["level"] != DBNull.Value ? Convert.ToInt32(reader["level"]) : 1,
+                            Vip = reader["vip"] != DBNull.Value ? Convert.ToInt32(reader["vip"]) : 0,
+                            Power = reader["power"] != DBNull.Value ? Convert.ToDouble(reader["power"]) : 0,
+                            Experiment = reader["experience"] != DBNull.Value ? Convert.ToDouble(reader["experience"]) : 0,
+                            Image = "",
+                            Border = ""
+                        };
+
+                        // Cập nhật Cache Static
+                        User.CurrentUserId = user.Id;
+                        User.CurrentUserName = user.Name;
+                        User.SavedUsername = user.Username;
+                        User.SavedPassword = user.Password;
+                        User.CurrentUserLevel = user.Level;
+                        User.CurrentUserPower = user.Power;
+
+                        return user;
+                    }
                 }
             }
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"[SignInWithoutUsernameAndPassword Exception]: {ex.Message}");
+            return null;
         }
     }
     public async Task<User> GetUserByIdAsync(string Id)

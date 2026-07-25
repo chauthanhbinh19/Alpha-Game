@@ -529,7 +529,7 @@ public class AchievementsRepository : IAchievementsRepository
 
         return count;
     }
-    public async Task<Achievements> SumPowerAchievementsPercentAsync()
+    public async Task<Achievements> SumPowerAchievementsPercentAsync(string userId)
     {
         Achievements sumAchievements = new Achievements();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -558,7 +558,7 @@ public class AchievementsRepository : IAchievementsRepository
         ";
 
             await using var selectCommand = new MySqlConnector.MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
 
             await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())

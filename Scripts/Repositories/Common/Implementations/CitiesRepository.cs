@@ -388,7 +388,7 @@ public class CitiesRepository : ICitiesRepository
 
         return city;
     }
-    public async Task<Cities> SumPowerCitiesPercentAsync()
+    public async Task<Cities> SumPowerCitiesPercentAsync(string userId)
     {
         Cities sumCities = new Cities();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -416,7 +416,7 @@ public class CitiesRepository : ICitiesRepository
             WHERE ua.user_id = @user_id;";
 
             await using var selectCommand = new MySqlCommand(selectSQL, connection);
-            selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
 
             await using var reader = await selectCommand.ExecuteReaderAsync();
             if (await reader.ReadAsync())

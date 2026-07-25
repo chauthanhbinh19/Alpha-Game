@@ -10,5 +10,5 @@ public interface IArtifactsService
     Task<List<Artifacts>> GetArtifactsWithPriceAsync(int pageSize, int offset);
     Task<int> GetArtifactsWithPriceCountAsync();
     Task<Artifacts> GetArtifactByIdAsync(string Id);
-    Task<Artifacts> SumPowerArtifactsPercentAsync();
+    Task<Artifacts> SumPowerArtifactsPercentAsync(string userId);
 }

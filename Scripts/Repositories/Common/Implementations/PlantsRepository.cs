@@ -551,7 +551,7 @@ public class PlantsRepository : IPlantsRepository
 
         return plant;
     }
-    public async Task<Plants> SumPowerPlantsPercentAsync()
+    public async Task<Plants> SumPowerPlantsPercentAsync(string userId)
     {
         Plants sumPlants = new Plants();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -582,7 +582,7 @@ public class PlantsRepository : IPlantsRepository
 
                 await using (var selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     await using (var reader = await selectCommand.ExecuteReaderAsync())
                     {

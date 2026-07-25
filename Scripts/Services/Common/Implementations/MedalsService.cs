@@ -49,9 +49,9 @@ public class MedalsService : IMedalsService
         return await _medalsRepository.GetMedalByIdAsync(Id);
     }
 
-    public async Task<Medals> SumPowerMedalsPercentAsync()
+    public async Task<Medals> SumPowerMedalsPercentAsync(string userId)
     {
-        return await _medalsRepository.SumPowerMedalsPercentAsync();
+        return await _medalsRepository.SumPowerMedalsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueMedalsIdAsync()

@@ -588,7 +588,7 @@ public class TalismansRepository : ITalismansRepository
 
         return talisman;
     }
-    public async Task<Talismans> SumPowerTalismansPercentAsync()
+    public async Task<Talismans> SumPowerTalismansPercentAsync(string userId)
     {
         Talismans sumTalismans = new Talismans();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -619,7 +619,7 @@ public class TalismansRepository : ITalismansRepository
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
-                    selectCommand.Parameters.AddWithValue("@user_id", User.CurrentUserId);
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
 
                     using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
                     {

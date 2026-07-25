@@ -49,9 +49,9 @@ public class SpiritBeastsService : ISpiritBeastsService
         return await _spiritBeastsRepository.GetSpiritBeastByIdAsync(Id);
     }
 
-    public async Task<SpiritBeasts> SumPowerSpiritBeastsPercentAsync()
+    public async Task<SpiritBeasts> SumPowerSpiritBeastsPercentAsync(string userId)
     {
-        return await _spiritBeastsRepository.SumPowerSpiritBeastsPercentAsync();
+        return await _spiritBeastsRepository.SumPowerSpiritBeastsPercentAsync(userId);
     }
 
     public async Task<List<string>> GetUniqueSpiritBeastsIdAsync()

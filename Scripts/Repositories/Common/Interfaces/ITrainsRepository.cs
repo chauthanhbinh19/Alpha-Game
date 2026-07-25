@@ -9,5 +9,5 @@ public interface ITrainsRepository
     Task<List<Trains>> GetTrainsWithPriceAsync(int pageSize, int offset);
     Task<int> GetTrainsWithPriceCountAsync();
     Task<Trains> GetTrainByIdAsync(string id);
-    Task<Trains> SumPowerTrainsPercentAsync();
+    Task<Trains> SumPowerTrainsPercentAsync(string userId);
 }
