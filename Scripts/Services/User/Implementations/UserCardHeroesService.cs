@@ -368,16 +368,16 @@ public class UserCardHeroesService : IUserCardHeroesService
 
         List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
         
-        var skillsTask = UserSkillsService.Create().GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
+        // var skillsTask = UserSkillsService.Create().GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
 
-        var skillData = await skillsTask;
-        foreach (var skill in skillData)
-        {
-            if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
-            {
-                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
-            }
-        }
+        // var skillData = await skillsTask;
+        // foreach (var skill in skillData)
+        // {
+        //     if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
+        //     {
+        //         skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+        //     }
+        // }
 
         UserStatsContextDTO context = sharedContext;
         if (context == null)
@@ -385,7 +385,7 @@ public class UserCardHeroesService : IUserCardHeroesService
             context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
         }
 
-        var skillsLookup = skillData.ToLookup(s => s.CardId);
+        // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(context.PowerManagerData);
@@ -415,9 +415,9 @@ public class UserCardHeroesService : IUserCardHeroesService
             card.ApplyTotalBuffs(totalBuffs);
 
             // Gán Skills an toàn, tránh tạo List thừa
-            card.Skills = skillsLookup.Contains(card.Id)
-                ? skillsLookup[card.Id].ToList()
-                : new List<Skills>();
+            // card.Skills = skillsLookup.Contains(card.Id)
+            //     ? skillsLookup[card.Id].ToList()
+            //     : new List<Skills>();
 
             // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
             card.RecalculatePower();

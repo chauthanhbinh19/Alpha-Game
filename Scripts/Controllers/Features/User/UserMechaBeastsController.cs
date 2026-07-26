@@ -117,11 +117,11 @@ public class UserMechaBeastsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MECHA_BEAST);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.MECHA_BEAST_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.MECHA_BEAST);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.MECHA_BEAST);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(mechaBeast, currentObject);

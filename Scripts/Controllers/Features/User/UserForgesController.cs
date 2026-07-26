@@ -118,11 +118,11 @@ public class UserForgesController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FORGE);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FORGE_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.FORGE);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.FORGE);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(forge, currentObject);

@@ -16,7 +16,7 @@ public class PatternsRepository : IPatternsRepository
         // 1. Sắp xếp theo phần số đứng TRƯỚC chữ 'P' (Ví dụ: 1, 2, 3... 10) bằng CAST AS UNSIGNED
         // 2. Sau đó sắp xếp theo phần số thứ tự của Pattern đứng SAU chữ 'P'
         string query = @"
-            SELECT p.id AS pattern_id, p.name AS pattern_name
+            SELECT p.id AS pattern_id, p.name AS pattern_name, p.cell_number
             FROM patterns p
             ORDER BY 
                 CAST(SUBSTRING_INDEX(p.id, 'P', 1) AS UNSIGNED) ASC,
@@ -65,7 +65,7 @@ public class PatternsRepository : IPatternsRepository
         string connectionString = DatabaseConfig.ConnectionString;
         // Câu lệnh SQL JOIN tối ưu để lấy cả cha lẫn con trong 1 lần Query
         string query = @"
-            SELECT p.id AS pattern_id, p.name AS pattern_name, 
+            SELECT p.id AS pattern_id, p.name AS pattern_name, p.cell_number,
                    c.id AS cell_id, c.offset_x, c.offset_y, c.is_main
             FROM patterns p
             LEFT JOIN pattern_cells c ON p.id = c.pattern_id

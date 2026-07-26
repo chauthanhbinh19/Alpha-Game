@@ -114,11 +114,11 @@ public class UserAvatarsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.AVATAR);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.AVATAR_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.AVATAR);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.AVATAR);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(avatar, currentObject);

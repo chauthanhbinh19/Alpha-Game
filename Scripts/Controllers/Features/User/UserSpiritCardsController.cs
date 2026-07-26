@@ -117,11 +117,11 @@ public class UserSpiritCardsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SPIRIT_CARD);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SPIRIT_CARD_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.SPIRIT_CARD);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.SPIRIT_CARD);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(spiritCard, currentObject);

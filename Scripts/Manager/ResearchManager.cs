@@ -59,8 +59,8 @@ public class ResearchManager : MonoBehaviour
         });
         TextMeshProUGUI titleText = transform.Find("Title").GetComponent<TextMeshProUGUI>();
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.RESEARCH);
-        TextMeshProUGUI titleText2 = transform.Find("ResearchContent/TitleText").GetComponent<TextMeshProUGUI>();
-        titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RESEARCH);
+        // TextMeshProUGUI titleText2 = transform.Find("ResearchContent/TitleText").GetComponent<TextMeshProUGUI>();
+        // titleText2.text = LocalizationManager.Get(AppDisplayConstants.MainType.RESEARCH);
 
         CreateResearchButtonUI(1, AppDisplayConstants.Research.HOUSING, TextureHelper.LoadTexture2DCached(ImageConstants.Research.HOUSING_URL), research1Panel);
         CreateResearchButtonUI(2, AppDisplayConstants.Research.INFRASTRUCTURE, TextureHelper.LoadTexture2DCached(ImageConstants.Research.INFRASTRUCTURE_URL), research1Panel);

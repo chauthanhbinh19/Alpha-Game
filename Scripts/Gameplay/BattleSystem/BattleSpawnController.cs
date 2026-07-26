@@ -126,7 +126,7 @@ public class BattleSpawnController : MonoBehaviour
         if (!prepareScheduled && GridManager.IsGridReady())
         {
             // Grid is ready now: start loading and deploying
-            _ = ContinuePrepareAndDeployAsync();
+            // _ = ContinuePrepareAndDeployAsync();
         }
     }
 

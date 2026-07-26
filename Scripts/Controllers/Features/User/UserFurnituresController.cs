@@ -118,11 +118,11 @@ public class UserFurnituresController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FURNITURE);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FURNITURE_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.FURNITURE);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.FURNITURE);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(furniture, currentObject);

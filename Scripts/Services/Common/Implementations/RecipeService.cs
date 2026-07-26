@@ -20,7 +20,7 @@ public class RecipeService : IRecipeService
     }
     public Task<List<RecipeItemDto>> GetRecipeItemsAsync(string featureName,int level,string userId)
     {
-        return _recipeRepository.GetRecipeItemsAsync(featureName,level,userId);
+        return _recipeRepository.GetRecipeItemsAsync(featureName, level, userId);
     }
     public Task DeductItemsAsync(string userId, List<RecipeItemDto> items)
     {

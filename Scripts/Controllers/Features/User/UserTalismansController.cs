@@ -118,11 +118,11 @@ public class UserTalismansController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TALISMAN);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.TALISMAN_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.TALISMAN);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.TALISMAN);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(talisman, currentObject);

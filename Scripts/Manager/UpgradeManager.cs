@@ -60,7 +60,7 @@ public class UpgradeManager : MonoBehaviour
         // CreateUpgradeButtonUI(9, AppDisplayConstants.Upgrade.Upgrade_IX, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.Upgrade_IX_URL), contentPanel);
         // CreateUpgradeButtonUI(10, AppDisplayConstants.Upgrade.Upgrade_X, TextureHelper.LoadTexture2DCached(ImageConstants.Upgrade.Upgrade_X_URL), contentPanel);
 
-        // CreateUpgradeButtonEvent(contentPanel);
+        CreateUpgradeButtonEvent(stat, contentPanel);
     }
     private void CreateUpgradeButtonUI(int index, string itemName, Texture2D _itemImage, Transform panel)
     {
@@ -83,17 +83,17 @@ public class UpgradeManager : MonoBehaviour
             nameText.text = LocalizationManager.Get(itemName);
         }
     }
-    // public void CreateUpgradeButtonEvent(Transform panel)
-    // {
-    //     ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await UpgradeIManager.Instance.CreateUpgradeIManagerAsync());
-    //     ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await UpgradeIIManager.Instance.CreateUpgradeIIManagerAsync());
-    //     ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await UpgradeIIIManager.Instance.CreateUpgradeIIIManagerAsync());
-    //     ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await UpgradeIVManager.Instance.CreateUpgradeIVManagerAsync());
-    //     ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await UpgradeVManager.Instance.CreateUpgradeVManagerAsync());
-    //     ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await UpgradeVIManager.Instance.CreateUpgradeVIManagerAsync());
-    //     ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await UpgradeVIIManager.Instance.CreateUpgradeVIIManagerAsync());
-    //     ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await UpgradeVIIIManager.Instance.CreateUpgradeVIIIManagerAsync());
-    //     ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await UpgradeIXManager.Instance.CreateUpgradeIXManagerAsync());
-    //     ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await UpgradeXManager.Instance.CreateUpgradeXManagerAsync());
-    // }
+    public void CreateUpgradeButtonEvent(IStats stat, Transform panel)
+    {
+        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await UpgradeIManager.Instance.CreateUpgradeIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await UpgradeIIManager.Instance.CreateUpgradeIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await UpgradeAscensionManager.Instance.CreateUpgradeAscensionManagerAsync(stat));
+        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await UpgradeIVManager.Instance.CreateUpgradeIVManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await UpgradeVManager.Instance.CreateUpgradeVManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await UpgradeVIManager.Instance.CreateUpgradeVIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await UpgradeVIIManager.Instance.CreateUpgradeVIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await UpgradeVIIIManager.Instance.CreateUpgradeVIIIManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await UpgradeIXManager.Instance.CreateUpgradeIXManagerAsync());
+        // ButtonEvent.Instance.AssignButtonEvent("Button_10", panel, async () => await UpgradeXManager.Instance.CreateUpgradeXManagerAsync());
+    }
 }

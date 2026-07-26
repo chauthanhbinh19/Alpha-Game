@@ -177,11 +177,11 @@ public class UserCardCaptainsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_CAPTAIN);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_CAPTAIN_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_CAPTAIN);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.CARD_CAPTAIN);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(cardCaptain, currentObject);

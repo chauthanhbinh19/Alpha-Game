@@ -117,11 +117,11 @@ public class UserArchitecturesController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ARCHITECTURE);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ARCHITECTURE_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.ARCHITECTURE);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.ARCHITECTURE);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(architecture, currentObject);

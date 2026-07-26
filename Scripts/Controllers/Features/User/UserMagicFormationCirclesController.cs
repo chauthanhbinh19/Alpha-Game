@@ -118,11 +118,11 @@ public class UserMagicFormationCirclesController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MAGIC_FORMATION_CIRCLE);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.MAGIC_FORMATION_CIRCLE_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.MAGIC_FORMATION_CIRCLE);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.MAGIC_FORMATION_CIRCLE);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(magicFormationCircle, currentObject);

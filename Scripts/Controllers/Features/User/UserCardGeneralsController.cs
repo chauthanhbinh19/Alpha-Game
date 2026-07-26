@@ -172,11 +172,11 @@ public class UserCardGeneralsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_GENERAL);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_GENERAL_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_GENERAL);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.CARD_GENERAL);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(cardGeneral, currentObject);

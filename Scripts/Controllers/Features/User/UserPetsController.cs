@@ -120,11 +120,11 @@ public class UserPetsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.PET);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.PET_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.PET);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.PET);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(pet, currentObject);

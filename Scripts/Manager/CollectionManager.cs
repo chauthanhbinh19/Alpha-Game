@@ -28,6 +28,7 @@ public class CollectionManager : MonoBehaviour
     private string Search = "";
     private string Type = AppConstants.Type.ALL;
     private string Rare = AppConstants.Rare.ALL;
+    private bool IsSearchingOrFiltering = false;
     public static CollectionManager Instance { get; private set; }
     private void Awake()
     {
@@ -425,6 +426,7 @@ public class CollectionManager : MonoBehaviour
             CurrentPage = 1;
             string searchText = searchInputField.text;
             Search = searchText;
+            IsSearchingOrFiltering = true;
             _ = LoadCurrentPageAsync();
         });
 
@@ -445,7 +447,7 @@ public class CollectionManager : MonoBehaviour
                 // Lấy text đang chọn
                 string selectedRare = rareDropdown.options[index].text;
                 Rare = selectedRare;
-
+                IsSearchingOrFiltering = true;
                 // Gọi async (fire & forget an toàn)
                 _ = LoadCurrentPageAsync();
             });
@@ -472,7 +474,7 @@ public class CollectionManager : MonoBehaviour
                 // Lấy text đang chọn
                 string selectedType = typeDropdown.options[index].text;
                 Type = selectedType;
-
+                IsSearchingOrFiltering = true;
                 // Gọi async (fire & forget an toàn)
                 _ = LoadCurrentPageAsync();
             });
@@ -480,7 +482,7 @@ public class CollectionManager : MonoBehaviour
             typeDropdown.value = 0;
             typeDropdown.RefreshShownValue();
         }
-
+        IsSearchingOrFiltering = true;
         await LoadCurrentPageAsync();
 
         LoadAnimation();
@@ -884,7 +886,7 @@ public class CollectionManager : MonoBehaviour
 
         TotalItems = totalRecord;
 
-        if (PaginationManager != null)
+        if (IsSearchingOrFiltering && PaginationManager != null)
         {
             // Tạm thời gỡ sự kiện để việc Init không kích hoạt ngược lại hàm Load lần nữa
             PaginationManager.OnPageChanged -= OnPageSelected;
@@ -936,6 +938,7 @@ public class CollectionManager : MonoBehaviour
     {
         CurrentPage = pageNumber;
         Offset = (CurrentPage - 1) * PAGE_SIZE;
+        IsSearchingOrFiltering = false;
         _ = LoadCurrentPageAsync();
     }
 

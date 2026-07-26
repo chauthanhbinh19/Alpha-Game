@@ -117,11 +117,11 @@ public class UserMedalsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.MEDAL);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.MEDAL_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.MEDAL);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.MEDAL);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(medal, currentObject);

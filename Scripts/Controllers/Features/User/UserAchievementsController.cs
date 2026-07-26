@@ -117,11 +117,11 @@ public class UserAchievementsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ACHIEVEMENT);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ACHIEVEMENT_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.ACHIEVEMENT);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.ACHIEVEMENT);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(achievement, currentObject);

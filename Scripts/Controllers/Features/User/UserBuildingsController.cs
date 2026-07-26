@@ -118,11 +118,11 @@ public class UserBuildingsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BUILDING);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BUILDING_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.BUILDING);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.BUILDING);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(building, currentObject);

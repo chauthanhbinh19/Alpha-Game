@@ -30,12 +30,14 @@ public class PaginationManager : MonoBehaviour
     {
         this.totalItems = totalItems;
         this.itemsPerPage = itemsPerPage > 0 ? itemsPerPage : 10;
-        
+
         // Tính tổng số trang (làm tròn lên)
         this.totalPages = Mathf.CeilToInt((float)this.totalItems / this.itemsPerPage);
         if (this.totalPages < 1) this.totalPages = 1;
 
-        GoToPage(startPage);
+        // Cập nhật currentPage và chỉ vẽ lại UI
+        this.currentPage = Mathf.Clamp(startPage, 1, this.totalPages);
+        RenderPagination(); // ✅ Gọi thẳng Render, KHÔNG gọi GoToPage() để tránh kích hoạt OnPageChanged
     }
 
     // Hàm chuyển trang công khai
@@ -43,7 +45,7 @@ public class PaginationManager : MonoBehaviour
     {
         currentPage = Mathf.Clamp(page, 1, totalPages);
         RenderPagination();
-        
+
         // Phát sự kiện ra ngoài
         OnPageChanged?.Invoke(currentPage);
     }
@@ -68,7 +70,7 @@ public class PaginationManager : MonoBehaviour
 
         // 3. LOGIC HIỂN THỊ ĐỘNG THEO HÌNH ẢNH (Khi tổng trang >= 6)
         int pageBuffer = 2; // Hiển thị 2 trang xung quanh trang hiện tại (TrangHiệnTại - 2 và TrangHiệnTại + 2)
-        
+
         bool showLeftEllipsis = currentPage > (1 + pageBuffer + 1); // Hiện ... bên trái khi currentPage > 4
         bool showRightEllipsis = currentPage < (totalPages - pageBuffer - 1); // Hiện ... bên phải khi currentPage < (Cuối - 3)
 
@@ -80,7 +82,7 @@ public class PaginationManager : MonoBehaviour
         {
             // Trạng thái Gần Cuối: 1 ... 12 13 14 15 16
             CreateEllipsisButton(); // Hiện "..." bên trái
-            int startPage = totalPages - 4; 
+            int startPage = totalPages - 4;
             for (int i = startPage; i < totalPages; i++)
             {
                 CreatePageButton(i);
@@ -99,12 +101,12 @@ public class PaginationManager : MonoBehaviour
         {
             // Trạng thái Ở Giữa (Hình 1): 1 ... 8 9 10 11 12 ... 16
             CreateEllipsisButton(); // Hiện "..." bên trái
-            
+
             for (int i = currentPage - pageBuffer; i <= currentPage + pageBuffer; i++)
             {
                 CreatePageButton(i);
             }
-            
+
             CreateEllipsisButton(); // Hiện "..." bên phải
         }
 
@@ -130,8 +132,8 @@ public class PaginationManager : MonoBehaviour
         if (image != null) image.color = isCurrent ? activeColor : inactiveColor;
         if (text != null) text.color = isCurrent ? Color.white : Color.black;
 
-        button.interactable = true; 
-        
+        button.interactable = true;
+
         // Xóa hết sự kiện cũ (để an toàn) và gán sự kiện click chuyển trang
         button.onClick.RemoveAllListeners();
         button.onClick.AddListener(() =>
@@ -154,10 +156,10 @@ public class PaginationManager : MonoBehaviour
             text.text = "...";
             text.color = Color.black;
         }
-        
+
         if (image != null) image.color = ellipsisColor;
 
         // Khóa tương tác để người chơi không click được vào ô "..."
-        button.interactable = false; 
+        button.interactable = false;
     }
 }

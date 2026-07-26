@@ -117,11 +117,11 @@ public class UserTitlesController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.TITLE);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.TITLE_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.TITLE);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.TITLE);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(title, currentObject);

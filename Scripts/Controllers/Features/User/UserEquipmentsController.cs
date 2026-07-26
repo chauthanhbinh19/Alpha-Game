@@ -53,11 +53,11 @@ public class UserEquipmentsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.EQUIPMENT);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.EQUIPMENT_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.EQUIPMENT);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.EQUIPMENT);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(equipment, currentObject);

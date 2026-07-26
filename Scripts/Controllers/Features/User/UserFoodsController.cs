@@ -117,11 +117,11 @@ public class UserFoodsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.FOOD);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.FOOD_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.FOOD);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.FOOD);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(food, currentObject);

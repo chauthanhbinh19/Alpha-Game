@@ -117,11 +117,11 @@ public class UserOutfitsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.OUTFIT);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.OUTFIT_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.OUTFIT);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.OUTFIT);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(outfit, currentObject);

@@ -177,11 +177,11 @@ public class UserCardMonstersController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.CARD_MONSTER);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.CARD_MONSTER_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.CARD_MONSTER);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.CARD_MONSTER);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(cardMonster, currentObject);

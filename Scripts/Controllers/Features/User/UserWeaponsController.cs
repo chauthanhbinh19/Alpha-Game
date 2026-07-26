@@ -117,11 +117,11 @@ public class UserWeaponsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.WEAPON);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.WEAPON_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.WEAPON);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.WEAPON);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(weapon, currentObject);

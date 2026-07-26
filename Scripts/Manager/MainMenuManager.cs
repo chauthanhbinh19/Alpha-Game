@@ -17,6 +17,7 @@ public class MainMenuManager : MonoBehaviour
     private GameObject PopupButtonPanelPrefab;
     private Transform MainPanel;
     private Transform DictionaryContentPanel;
+    private GameObject CurrentMainMenuObject;
     private Button CloseButton;
     private Button HomeButton;
     private Transform RightScrollViewContentPanel;
@@ -36,6 +37,7 @@ public class MainMenuManager : MonoBehaviour
     private string Search = "";
     private string Type = AppConstants.Type.ALL;
     private string Rare = AppConstants.Rare.ALL;
+    private bool IsSearchingOrFiltering = false;
     public static MainMenuManager Instance { get; private set; }
     private void Awake()
     {
@@ -471,75 +473,85 @@ public class MainMenuManager : MonoBehaviour
     public void GetMainButtonEvent(GameObject popupButtonObject)
     {
         Transform contentPanel = popupButtonObject.transform.Find("Scroll View/Viewport/Content");
-        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, () => GetType(AppConstants.MainType.CARD_HERO));
-        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, () => GetType(AppConstants.MainType.BOOK));
-        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, () => GetType(AppConstants.MainType.PET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, () => GetType(AppConstants.MainType.CARD_CAPTAIN));
-        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, () => GetType(AppConstants.MainType.CARD_COLONEL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, () => GetType(AppConstants.MainType.CARD_GENERAL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, () => GetType(AppConstants.MainType.CARD_ADMIRAL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, () => GetType(AppConstants.MainType.CARD_MILITARY));
-        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, () => GetType(AppConstants.MainType.CARD_SPELL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, () => GetType(AppConstants.MainType.CARD_MONSTER));
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CARD_HERO));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.BOOK));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.PET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CARD_CAPTAIN));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CARD_COLONEL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CARD_GENERAL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_7", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CARD_ADMIRAL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_8", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CARD_MILITARY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_9", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CARD_SPELL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CARD_MONSTER));
         // Button_13 Equipments có thể được thêm lại nếu cần
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, () => GetType(AppConstants.MainType.ITEM));
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, () => GetType(AppConstants.MainType.COLLABORATION_EQUIPMENT));
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, () => GetType(AppConstants.MainType.COLLABORATION));
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, () => GetType(AppConstants.MainType.MEDAL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, () => GetType(AppConstants.MainType.SKILL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, () => GetType(AppConstants.MainType.SYMBOL));
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, () => GetType(AppConstants.MainType.TITLE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, () => GetType(AppConstants.MainType.MAGIC_FORMATION_CIRCLE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, () => GetType(AppConstants.MainType.RELIC));
-        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, () => GetType(AppConstants.MainType.TALISMAN));
-        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, () => GetType(AppConstants.MainType.PUPPET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, () => GetType(AppConstants.MainType.ALCHEMY));
-        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, () => GetType(AppConstants.MainType.FORGE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_24", contentPanel, () => GetType(AppConstants.MainType.CARD_LIFE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_25", contentPanel, () => GetType(AppConstants.MainType.ARTWORK));
-        ButtonEvent.Instance.AssignButtonEvent("Button_26", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_BEAST));
-        ButtonEvent.Instance.AssignButtonEvent("Button_27", contentPanel, () => GetType(AppConstants.MainType.SPIRIT_CARD));
-        ButtonEvent.Instance.AssignButtonEvent("Button_28", contentPanel, () => GetType(AppConstants.MainType.ARTIFACT));
-        ButtonEvent.Instance.AssignButtonEvent("Button_29", contentPanel, () => GetType(AppConstants.MainType.ARCHITECTURE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_30", contentPanel, () => GetType(AppConstants.MainType.TECHNOLOGY));
-        ButtonEvent.Instance.AssignButtonEvent("Button_31", contentPanel, () => GetType(AppConstants.MainType.VEHICLE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_32", contentPanel, () => GetType(AppConstants.MainType.CORE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_33", contentPanel, () => GetType(AppConstants.MainType.WEAPON));
-        ButtonEvent.Instance.AssignButtonEvent("Button_34", contentPanel, () => GetType(AppConstants.MainType.ROBOT));
-        ButtonEvent.Instance.AssignButtonEvent("Button_35", contentPanel, () => GetType(AppConstants.MainType.BADGE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_36", contentPanel, () => GetType(AppConstants.MainType.MECHA_BEAST));
-        ButtonEvent.Instance.AssignButtonEvent("Button_37", contentPanel, () => GetType(AppConstants.MainType.RUNE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_38", contentPanel, () => GetType(AppConstants.MainType.FURNITURE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_39", contentPanel, () => GetType(AppConstants.MainType.FOOD));
-        ButtonEvent.Instance.AssignButtonEvent("Button_40", contentPanel, () => GetType(AppConstants.MainType.BEVERAGE));
-        ButtonEvent.Instance.AssignButtonEvent("Button_41", contentPanel, () => GetType(AppConstants.MainType.BUILDING));
-        ButtonEvent.Instance.AssignButtonEvent("Button_42", contentPanel, () => GetType(AppConstants.MainType.PLANT));
-        ButtonEvent.Instance.AssignButtonEvent("Button_43", contentPanel, () => GetType(AppConstants.MainType.FASHION));
-        ButtonEvent.Instance.AssignButtonEvent("Button_44", contentPanel, () => GetType(AppConstants.MainType.EMOJI));
-        ButtonEvent.Instance.AssignButtonEvent("Button_45", contentPanel, () => GetType(AppConstants.MainType.CARD_SOLDIER));
-        ButtonEvent.Instance.AssignButtonEvent("Button_46", contentPanel, () => GetType(AppConstants.MainType.OUTFIT));
-        ButtonEvent.Instance.AssignButtonEvent("Button_47", contentPanel, () => GetType(AppConstants.MainType.ACHIEVEMENT));
-        ButtonEvent.Instance.AssignButtonEvent("Button_48", contentPanel, () => GetType(AppConstants.MainType.AVATAR));
-        ButtonEvent.Instance.AssignButtonEvent("Button_49", contentPanel, () => GetType(AppConstants.MainType.BORDER));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.ITEM));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.COLLABORATION_EQUIPMENT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.COLLABORATION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.MEDAL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.SKILL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.SYMBOL));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.TITLE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.MAGIC_FORMATION_CIRCLE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_19", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.RELIC));
+        ButtonEvent.Instance.AssignButtonEvent("Button_20", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.TALISMAN));
+        ButtonEvent.Instance.AssignButtonEvent("Button_21", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.PUPPET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_22", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.ALCHEMY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_23", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.FORGE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_24", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CARD_LIFE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_25", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.ARTWORK));
+        ButtonEvent.Instance.AssignButtonEvent("Button_26", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.SPIRIT_BEAST));
+        ButtonEvent.Instance.AssignButtonEvent("Button_27", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.SPIRIT_CARD));
+        ButtonEvent.Instance.AssignButtonEvent("Button_28", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.ARTIFACT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_29", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.ARCHITECTURE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_30", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.TECHNOLOGY));
+        ButtonEvent.Instance.AssignButtonEvent("Button_31", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.VEHICLE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_32", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CORE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_33", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.WEAPON));
+        ButtonEvent.Instance.AssignButtonEvent("Button_34", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.ROBOT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_35", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.BADGE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_36", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.MECHA_BEAST));
+        ButtonEvent.Instance.AssignButtonEvent("Button_37", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.RUNE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_38", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.FURNITURE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_39", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.FOOD));
+        ButtonEvent.Instance.AssignButtonEvent("Button_40", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.BEVERAGE));
+        ButtonEvent.Instance.AssignButtonEvent("Button_41", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.BUILDING));
+        ButtonEvent.Instance.AssignButtonEvent("Button_42", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.PLANT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_43", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.FASHION));
+        ButtonEvent.Instance.AssignButtonEvent("Button_44", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.EMOJI));
+        ButtonEvent.Instance.AssignButtonEvent("Button_45", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CARD_SOLDIER));
+        ButtonEvent.Instance.AssignButtonEvent("Button_46", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.OUTFIT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_47", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.ACHIEVEMENT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_48", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.AVATAR));
+        ButtonEvent.Instance.AssignButtonEvent("Button_49", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.BORDER));
     }
     public void GetButtonEvent(GameObject popupButtonObject)
     {
         Transform contentPanel = popupButtonObject.transform.Find("Scroll View/Viewport/Content");
         // ButtonEvent.Instance.AssignButtonEvent("Button_10", contentPanel, () => GetType(AppConstants.MainType.ANIME));
         // ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, () => GetType(AppConstants.MainType.GUILD));
-        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, () => GetType(AppConstants.MainType.TOWER));
-        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, () => GetType(AppConstants.MainType.EVENT));
-        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, () => GetType(AppConstants.MainType.DAILY_CHECKIN));
-        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, () => GetType(AppConstants.Market.RARE_MARKET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, () => GetType(AppConstants.Market.ULTRA_RARE_MARKET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, () => GetType(AppConstants.Market.LEGENDARY_MARKET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, () => GetType(AppConstants.Market.MYSTIC_MARKET));
-        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, () => GetType(AppConstants.MainType.CHIP));
+        ButtonEvent.Instance.AssignButtonEvent("Button_11", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.TOWER));
+        ButtonEvent.Instance.AssignButtonEvent("Button_12", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.EVENT));
+        ButtonEvent.Instance.AssignButtonEvent("Button_13", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.DAILY_CHECKIN));
+        ButtonEvent.Instance.AssignButtonEvent("Button_14", contentPanel, async () => await GetTypeAsync(AppConstants.Market.RARE_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_15", contentPanel, async () => await GetTypeAsync(AppConstants.Market.ULTRA_RARE_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_16", contentPanel, async () => await GetTypeAsync(AppConstants.Market.LEGENDARY_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_17", contentPanel, async () => await GetTypeAsync(AppConstants.Market.MYSTIC_MARKET));
+        ButtonEvent.Instance.AssignButtonEvent("Button_18", contentPanel, async () => await GetTypeAsync(AppConstants.MainType.CHIP));
     }
-    public void GetType(string type)
+    public async Task GetTypeAsync(string type)
     {
         MainType = type; // Gán giá trị cho mainType
-        _ = CreateMainMenuManagerAsync(); // Gọi hàm xử lý
+
+        // 1. Dọn dẹp Panel cũ nếu đã tồn tại trước khi Instantiate cái mới
+        if (CurrentMainMenuObject != null)
+        {
+            Destroy(CurrentMainMenuObject);
+            CurrentMainMenuObject = null;
+        }
+
+        // 2. Chờ khởi tạo xong hoàn toàn UI mới
+        await CreateMainMenuManagerAsync();
+
         if (TitleText != null)
         {
             TitleText.text = LocalizationManager.Get(type);
@@ -592,8 +604,8 @@ public class MainMenuManager : MonoBehaviour
         }
         else
         {
-            GameObject mainMenuObject = Instantiate(DictionaryPanelPrefab, MainPanel);
-            Transform transform = mainMenuObject.transform;
+            CurrentMainMenuObject = Instantiate(DictionaryPanelPrefab, MainPanel);
+            Transform transform = CurrentMainMenuObject.transform;
             DictionaryContentPanel = transform.Find("DictionaryCards/Scroll View/Viewport/MainContent");
             RightScrollViewContentPanel = transform.Find("RightScrollView/Viewport/Content");
             LeftScrollViewContentPanel = transform.Find("Scroll View/Viewport/ButtonContent");
@@ -607,7 +619,7 @@ public class MainMenuManager : MonoBehaviour
             {
                 AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
                 ClosePanel();
-                Destroy(mainMenuObject);
+                Destroy(CurrentMainMenuObject);
             });
             HomeButton = transform.Find("DictionaryCards/HomeButton").GetComponent<Button>();
             HomeButton.onClick.AddListener(() =>
@@ -635,6 +647,7 @@ public class MainMenuManager : MonoBehaviour
                 CurrentPage = 1;
                 string searchText = searchInputField.text;
                 Search = searchText;
+                IsSearchingOrFiltering = true;
                 _ = LoadCurrentPageAsync();
             });
 
@@ -655,7 +668,7 @@ public class MainMenuManager : MonoBehaviour
                     // Lấy text đang chọn
                     string selectedRare = rareDropdown.options[index].text;
                     Rare = selectedRare;
-
+                    IsSearchingOrFiltering = true;
                     // Gọi async (fire & forget an toàn)
                     _ = LoadCurrentPageAsync();
                 });
@@ -682,7 +695,7 @@ public class MainMenuManager : MonoBehaviour
                     // Lấy text đang chọn
                     string selectedType = typeDropdown.options[index].text;
                     Type = selectedType;
-
+                    IsSearchingOrFiltering = true;
                     // Gọi async (fire & forget an toàn)
                     _ = LoadCurrentPageAsync();
                 });
@@ -690,7 +703,7 @@ public class MainMenuManager : MonoBehaviour
                 typeDropdown.value = 0;
                 typeDropdown.RefreshShownValue();
             }
-
+            IsSearchingOrFiltering = true;
             await LoadCurrentPageAsync();
         }
         LoadAnimation();
@@ -1135,7 +1148,7 @@ public class MainMenuManager : MonoBehaviour
         else if (MainType.Equals(AppConstants.MainType.CARD_SOLDIER))
         {
             UserStatsContextDTO sharedContext = await UserStatsService.Create().GetUserStatsContextAsync(User.CurrentUserId);
-            List<CardSoldiers> cardSoldiers = await UserCardSoldiersService.Create().GetUserCardSoldiersAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare ,sharedContext);
+            List<CardSoldiers> cardSoldiers = await UserCardSoldiersService.Create().GetUserCardSoldiersAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare, sharedContext);
             Close(DictionaryContentPanel);
             UserCardSoldiersController.Instance.CreateUserCardSoldiers(cardSoldiers, DictionaryContentPanel);
             listCount = cardSoldiers.Count;
@@ -1157,7 +1170,7 @@ public class MainMenuManager : MonoBehaviour
             TotalItems = totalRecord;
         }
 
-        if (PaginationManager != null)
+        if (IsSearchingOrFiltering && PaginationManager != null)
         {
             // Tạm thời gỡ sự kiện để việc Init không kích hoạt ngược lại hàm Load lần nữa
             PaginationManager.OnPageChanged -= OnPageSelected;
@@ -1218,6 +1231,7 @@ public class MainMenuManager : MonoBehaviour
     {
         CurrentPage = pageNumber;
         Offset = (CurrentPage - 1) * PAGE_SIZE;
+        IsSearchingOrFiltering = false;
         _ = LoadCurrentPageAsync();
     }
 

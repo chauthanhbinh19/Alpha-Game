@@ -117,11 +117,11 @@ public class UserSpiritBeastsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SPIRIT_BEAST);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SPIRIT_BEAST_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.SPIRIT_BEAST);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.SPIRIT_BEAST);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(spiritBeast, currentObject);

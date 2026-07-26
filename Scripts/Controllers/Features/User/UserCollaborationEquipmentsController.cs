@@ -117,11 +117,11 @@ public class UserCollaborationEquipmentsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.COLLABORATION_EQUIPMENT);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.COLLABORATION_EQUIPMENT_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.COLLABORATION_EQUIPMENT);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.COLLABORATION_EQUIPMENT);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(collaborationEquipment, currentObject);

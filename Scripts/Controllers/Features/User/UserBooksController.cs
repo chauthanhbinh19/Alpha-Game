@@ -171,11 +171,11 @@ public class UserBooksController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BOOK);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BOOK_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.BOOK);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.BOOK);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(book, currentObject);

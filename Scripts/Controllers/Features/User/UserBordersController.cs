@@ -114,11 +114,11 @@ public class UserBordersController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.BORDER);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.BORDER_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.BORDER);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.BORDER);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(border, currentObject);

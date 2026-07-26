@@ -241,7 +241,6 @@ public class UserRepository : IUserRepository
             return null;
         }
     }
-
     public async Task<User> SignInWithoutUsernameAndPasswordAsync(string userId)
     {
         if (string.IsNullOrEmpty(userId)) return null;

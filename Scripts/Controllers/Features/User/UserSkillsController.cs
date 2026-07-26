@@ -119,11 +119,11 @@ public class UserSkillsController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.SKILL);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.SKILL_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.SKILL);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.SKILL);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(skill, currentObject);

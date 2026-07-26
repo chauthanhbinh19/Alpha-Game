@@ -118,11 +118,11 @@ public class UserAlchemiesController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.ALCHEMY);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.ALCHEMY_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.ALCHEMY);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.ALCHEMY);
         });
         TempCurrentObject =currentObject;
         CreateDetailsUI(alchemy, currentObject);

@@ -117,11 +117,11 @@ public class UserEmojisController : MonoBehaviour
         titleText.text = LocalizationManager.Get(AppDisplayConstants.MainType.EMOJI);
         Texture texture = TextureHelper.LoadTextureCached(ImageConstants.Background.EMOJI_BACKGROUND_URL);
         cardBackground.texture = texture;
-        closeButton.onClick.AddListener(() =>
+        closeButton.onClick.AddListener(async () =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(currentObject);
-            MainMenuManager.Instance.GetType(AppConstants.MainType.EMOJI);
+            await MainMenuManager.Instance.GetTypeAsync(AppConstants.MainType.EMOJI);
         });
         TempCurrentObject = currentObject;
         CreateDetailsUI(emoji, currentObject);

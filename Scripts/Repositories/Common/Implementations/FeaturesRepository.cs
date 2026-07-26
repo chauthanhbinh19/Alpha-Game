@@ -866,13 +866,13 @@ public class FeaturesRepository : IFeaturesRepository
             ON m.id = u.master_id
             AND u.{objectColumn} = @object_id
         WHERE f.type = @type
-            AND f.code_name = @code_name";
+            -- AND f.code_name = @code_name";
 
         using MySqlCommand command = new(selectSQL, connection);
 
         command.Parameters.AddWithValue("@object_id", objectId);
         command.Parameters.AddWithValue("@type", type);
-        command.Parameters.AddWithValue("@code_name", featureCodeName);
+        // command.Parameters.AddWithValue("@code_name", featureCodeName);
 
         using MySqlDataReader reader = await command.ExecuteReaderAsync();
 
@@ -915,13 +915,13 @@ public class FeaturesRepository : IFeaturesRepository
             ON m.id = u.rank_id
             AND u.{objectColumn} = @object_id
         WHERE f.type = @type
-            AND f.code_name = @code_name";
+        -- AND f.code_name = @code_name";
 
         using MySqlCommand command = new(selectSQL, connection);
 
         command.Parameters.AddWithValue("@object_id", objectId);
         command.Parameters.AddWithValue("@type", type);
-        command.Parameters.AddWithValue("@code_name", featureCodeName);
+        // command.Parameters.AddWithValue("@code_name", featureCodeName);
 
         using MySqlDataReader reader = await command.ExecuteReaderAsync();
 

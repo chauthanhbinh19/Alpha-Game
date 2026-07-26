@@ -73,7 +73,7 @@ public class UpgradeAscensionManager : MonoBehaviour
                 .Values
                 .FirstOrDefault();
 
-        await CreateMainUpgradePanelAsync(FeatureUpgradeDTO.Id, FeatureUpgradeDTO.CodeName, stat);
+        await CreateMainUpgradePanelAsync(FeatureUpgradeDTO.Id, FeatureUpgradeDTO.FeatureName, stat);
     }
     public async Task CreateMainUpgradePanelAsync(string featureId, string featureName, IStats stat)
     {
@@ -97,6 +97,7 @@ public class UpgradeAscensionManager : MonoBehaviour
             
         });
 
+        AnimationController.Instance.CreateUpgradeAnimation(currentObject);
         Upgrades upgrade = await UpgradesService.Create().GetUpgradeByIdAsync(featureId);
         List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserUpgrades userUpgrade = await UserUpgradesService.Create().GetUserUpgradesAsync(User.CurrentUserId, featureId, stat);
