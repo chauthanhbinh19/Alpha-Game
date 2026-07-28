@@ -591,7 +591,12 @@ public class UserCardMilitariesService : IUserCardMilitariesService
 
     public async Task<bool> InsertUserCardMilitaryAsync(string userId, CardMilitaries cardMilitary)
     {
-        return await _userCardMilitariesRepository.InsertUserCardMilitaryAsync(userId, cardMilitary);
+        var result = await _userCardMilitariesRepository.InsertUserCardMilitaryAsync(userId, cardMilitary);
+        if (result)
+        {
+            await CardMilitariesGalleryService.Create().InsertCardMilitaryGalleryAsync(userId, cardMilitary.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardMilitaryLevelAsync(string userId, CardMilitaries cardMilitary)
@@ -601,7 +606,12 @@ public class UserCardMilitariesService : IUserCardMilitariesService
 
     public async Task<bool> UpdateUserCardMilitaryStarAsync(string userId, CardMilitaries cardMilitary)
     {
-        return await _userCardMilitariesRepository.UpdateUserCardMilitaryStarAsync(userId, cardMilitary);
+        var result = await _userCardMilitariesRepository.UpdateUserCardMilitaryStarAsync(userId, cardMilitary);
+        if (result)
+        {
+            await CardMilitariesGalleryService.Create().UpdateStarCardMilitaryGalleryAsync(userId, cardMilitary.Id, cardMilitary.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardMilitaryBreakthroughAsync(string userId, CardMilitaries cardMilitary, int star, double quantity)

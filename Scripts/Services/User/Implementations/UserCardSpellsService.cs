@@ -591,7 +591,12 @@ public class UserCardSpellsService : IUserCardSpellsService
 
     public async Task<bool> InsertUserCardSpellAsync(string userId, CardSpells cardSpell)
     {
-        return await _userCardSpellsRepository.InsertUserCardSpellAsync(userId, cardSpell);
+        var result = await _userCardSpellsRepository.InsertUserCardSpellAsync(userId, cardSpell);
+        if (result)
+        {
+            await CardSpellsGalleryService.Create().InsertCardSpellGalleryAsync(userId, cardSpell.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardSpellLevelAsync(string userId, CardSpells cardSpell)
@@ -601,7 +606,12 @@ public class UserCardSpellsService : IUserCardSpellsService
 
     public async Task<bool> UpdateUserCardSpellStarAsync(string userId, CardSpells cardSpell)
     {
-        return await _userCardSpellsRepository.UpdateUserCardSpellStarAsync(userId, cardSpell);
+        var result = await _userCardSpellsRepository.UpdateUserCardSpellStarAsync(userId, cardSpell);
+        if (result)
+        {
+            await CardSpellsGalleryService.Create().UpdateStarCardSpellGalleryAsync(userId, cardSpell.Id, cardSpell.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardSpellBreakthroughAsync(string userId, CardSpells cardSpell, int star, double quantity)

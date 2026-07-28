@@ -36,9 +36,14 @@ public class UserCardLivesService : IUserCardLivesService
         return await _userCardLivesRepository.GetUserCardLivesCountAsync(userId, search, type, rare);
     }
 
-    public async Task<bool> InsertUserCardLifeAsync(CardLives cardLife, string userId)
+    public async Task<bool> InsertUserCardLifeAsync(CardLives cardLive, string userId)
     {
-        return await _userCardLivesRepository.InsertUserCardLifeAsync(cardLife, userId);
+        var result = await _userCardLivesRepository.InsertUserCardLifeAsync(cardLive, userId);
+        if (result)
+        {
+            await CardLivesGalleryService.Create().InsertCardLifeGalleryAsync(userId, cardLive.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
@@ -46,9 +51,14 @@ public class UserCardLivesService : IUserCardLivesService
         return await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLive)
     {
-        return await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var result = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLive);
+        if (result)
+        {
+            await CardLivesGalleryService.Create().UpdateStarCardLifeGalleryAsync(userId, cardLive.Id, cardLive.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardLifeBreakthroughAsync(string userId, CardLives cardLife, int star, double quantity)

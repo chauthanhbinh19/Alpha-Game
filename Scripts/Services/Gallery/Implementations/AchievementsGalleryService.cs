@@ -33,9 +33,11 @@ public class AchievementsGalleryService : IAchievementsGalleryService
         return await _achievementsGalleryRepository.GetAchievementsCountAsync(search, rare);
     }
 
-    public async Task InsertAchievementsGalleryAsync(string userId, string Id, Achievements AchievementFromDB)
+    public async Task InsertAchievementGalleryAsync(string userId, string Id)
     {
-        await _achievementsGalleryRepository.InsertAchievementsGalleryAsync(userId, Id, AchievementFromDB);
+        IAchievementsRepository _repository = new AchievementsRepository();
+        AchievementsService _service = new AchievementsService(_repository);
+        await _achievementsGalleryRepository.InsertAchievementGalleryAsync(userId, Id, await _service.GetAchievementByIdAsync(Id));
     }
 
     public async Task<Achievements> SumPowerAchievementsGalleryAsync(string userId)
@@ -43,18 +45,18 @@ public class AchievementsGalleryService : IAchievementsGalleryService
         return await _achievementsGalleryRepository.SumPowerAchievementsGalleryAsync(userId);
     }
 
-    public async Task UpdateAchievementsGalleryPowerAsync(string userId, string Id, Achievements AchievementFromDB)
+    public async Task UpdateAchievementGalleryPowerAsync(string userId, string Id, Achievements AchievementFromDB)
     {
-        await _achievementsGalleryRepository.UpdateAchievementsGalleryPowerAsync(userId, Id, AchievementFromDB);
+        await _achievementsGalleryRepository.UpdateAchievementGalleryPowerAsync(userId, Id, AchievementFromDB);
     }
 
-    public async Task UpdateStarAchievementsGalleryAsync(string userId, string Id, double star)
+    public async Task UpdateStarAchievementGalleryAsync(string userId, string Id, double star)
     {
-        await _achievementsGalleryRepository.UpdateStarAchievementsGalleryAsync(userId, Id, star);
+        await _achievementsGalleryRepository.UpdateStarAchievementGalleryAsync(userId, Id, star);
     }
 
-    public async Task UpdateStatusAchievementsGalleryAsync(string userId, string Id)
+    public async Task UpdateStatusAchievementGalleryAsync(string userId, string Id)
     {
-        await _achievementsGalleryRepository.UpdateStatusAchievementsGalleryAsync(userId, Id);
+        await _achievementsGalleryRepository.UpdateStatusAchievementGalleryAsync(userId, Id);
     }
 }

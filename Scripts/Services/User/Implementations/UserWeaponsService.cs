@@ -35,7 +35,12 @@ public class UserWeaponsService : IUserWeaponsService
 
     public async Task<bool> InsertUserWeaponAsync(Weapons weapon, string userId)
     {
-        return await _userWeaponsRepository.InsertUserWeaponAsync(weapon, userId);
+        var result = await _userWeaponsRepository.InsertUserWeaponAsync(weapon, userId);
+        if (result)
+        {
+            await WeaponsGalleryService.Create().InsertWeaponGalleryAsync(userId, weapon.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserWeaponLevelAsync(string userId, Weapons weapon)
@@ -45,7 +50,12 @@ public class UserWeaponsService : IUserWeaponsService
 
     public async Task<bool> UpdateUserWeaponStarAsync(string userId, Weapons weapon)
     {
-        return await _userWeaponsRepository.UpdateUserWeaponStarAsync(userId, weapon);
+        var result = await _userWeaponsRepository.UpdateUserWeaponStarAsync(userId, weapon);
+        if (result)
+        {
+            await WeaponsGalleryService.Create().UpdateStarWeaponGalleryAsync(userId, weapon.Id, weapon. Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserWeaponBreakthroughAsync(string userId, Weapons weapon, int star, double quantity)

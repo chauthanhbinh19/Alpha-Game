@@ -35,7 +35,12 @@ public class UserBordersService : IUserBordersService
 
     public async Task<bool> InsertUserBorderAsync(Borders border, string userId)
     {
-        return await _userBordersRepository.InsertUserBorderAsync(border, userId);
+        var result = await _userBordersRepository.InsertUserBorderAsync(border, userId);
+        if (result)
+        {
+            await BordersGalleryService.Create().InsertBorderGalleryAsync(userId, border.Id);
+        }
+        return result;
     }
 
     public async Task<bool> InsertUserBorderByIdAsync(string borderId, string userId)
@@ -52,7 +57,12 @@ public class UserBordersService : IUserBordersService
 
     public async Task<bool> UpdateUserBorderStarAsync(string userId, Borders border)
     {
-        return await _userBordersRepository.UpdateUserBorderStarAsync(userId, border);
+        var result = await _userBordersRepository.UpdateUserBorderStarAsync(userId, border);
+        if (result)
+        {
+            await BordersGalleryService.Create().UpdateStarBorderGalleryAsync(userId, border.Id, border.Star);
+        }
+        return result;
     }
 
     public async Task<Borders> GetUserBorderByUsedAsync(string userId)

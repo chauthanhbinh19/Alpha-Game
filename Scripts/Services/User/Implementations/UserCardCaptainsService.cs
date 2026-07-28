@@ -591,7 +591,12 @@ public class UserCardCaptainsService : IUserCardCaptainsService
 
     public async Task<bool> InsertUserCardCaptainAsync(string userId, CardCaptains cardCaptain)
     {
-        return await _userCardCaptainsRepository.InsertUserCardCaptainAsync(userId, cardCaptain);
+        var result = await _userCardCaptainsRepository.InsertUserCardCaptainAsync(userId, cardCaptain);
+        if (result)
+        {
+            await CardCaptainsGalleryService.Create().InsertCardCaptainGalleryAsync(userId, cardCaptain.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardCaptainLevelAsync(string userId, CardCaptains cardCaptain)
@@ -601,7 +606,12 @@ public class UserCardCaptainsService : IUserCardCaptainsService
 
     public async Task<bool> UpdateUserCardCaptainStarAsync(string userId, CardCaptains cardCaptain)
     {
-        return await _userCardCaptainsRepository.UpdateUserCardCaptainStarAsync(userId, cardCaptain);
+        var result = await _userCardCaptainsRepository.UpdateUserCardCaptainStarAsync(userId, cardCaptain);
+        if (result)
+        {
+            await CardCaptainsGalleryService.Create().UpdateStarCardCaptainGalleryAsync(userId, cardCaptain.Id, cardCaptain.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardCaptainBreakthroughAsync(string userId, CardCaptains cardCaptain, int star, double quantity)
@@ -683,7 +693,7 @@ public class UserCardCaptainsService : IUserCardCaptainsService
 
     public async Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null)
     {
-       var totalStats = await _userCardCaptainsRepository.GetTeamTotalStatsAsync(userId);
+        var totalStats = await _userCardCaptainsRepository.GetTeamTotalStatsAsync(userId);
         var baseStats = await _userCardCaptainsRepository.GetTeamTotalStatsWithoutQualityAsync(userId);
 
         UserStatsContextDTO context = sharedContext;

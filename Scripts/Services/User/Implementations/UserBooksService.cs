@@ -418,7 +418,12 @@ public class UserBooksService : IUserBooksService
 
     public async Task<bool> InsertUserBookAsync(string userId, Books book)
     {
-        return await _userBooksRepository.InsertUserBookAsync(userId, book);
+        var result = await _userBooksRepository.InsertUserBookAsync(userId, book);
+        if (result)
+        {
+            await BooksGalleryService.Create().InsertBookGalleryAsync(userId, book.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserBookLevelAsync(string userId, Books book)
@@ -428,7 +433,12 @@ public class UserBooksService : IUserBooksService
 
     public async Task<bool> UpdateUserBookStarAsync(string userId, Books book)
     {
-        return await _userBooksRepository.UpdateUserBookStarAsync(userId, book);
+        var result = await _userBooksRepository.UpdateUserBookStarAsync(userId, book);
+        if (result)
+        {
+            await BooksGalleryService.Create().UpdateStarBookGalleryAsync(userId, book.Id, book.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserBookBreakthroughAsync(string userId, Books book, int star, double quantity)

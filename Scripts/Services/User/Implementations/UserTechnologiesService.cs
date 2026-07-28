@@ -35,7 +35,12 @@ public class UserTechnologiesService : IUserTechnologiesService
 
     public async Task<bool> InsertUserTechnologyAsync(Technologies technology, string userId)
     {
-        return await _userTechnologiesRepository.InsertUserTechnologyAsync(technology, userId);
+        var result = await _userTechnologiesRepository.InsertUserTechnologyAsync(technology, userId);
+        if (result)
+        {
+            await TechnologiesGalleryService.Create().InsertTechnologyGalleryAsync(userId, technology.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserTechnologyLevelAsync(string userId, Technologies technology)
@@ -45,7 +50,12 @@ public class UserTechnologiesService : IUserTechnologiesService
 
     public async Task<bool> UpdateUserTechnologyStarAsync(string userId, Technologies technology)
     {
-        return await _userTechnologiesRepository.UpdateUserTechnologyStarAsync(userId, technology);
+        var result = await _userTechnologiesRepository.UpdateUserTechnologyStarAsync(userId, technology);
+        if (result)
+        {
+            await TechnologiesGalleryService.Create().UpdateStarTechnologyGalleryAsync(userId, technology.Id, technology.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserTechnologyBreakthroughAsync(string userId, Technologies technology, int star, double quantity)

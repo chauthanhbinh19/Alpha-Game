@@ -589,9 +589,14 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         return await _userCardSoldiersRepository.GetUserCardSoldiersTeamsCountAsync(userId, teamId);
     }
 
-    public async Task<bool> InsertUserCardSoldierAsync(string userId, CardSoldiers cardAdmiral)
+    public async Task<bool> InsertUserCardSoldierAsync(string userId, CardSoldiers cardSoldier)
     {
-        return await _userCardSoldiersRepository.InsertUserCardSoldierAsync(userId, cardAdmiral);
+        var result = await _userCardSoldiersRepository.InsertUserCardSoldierAsync(userId, cardSoldier);
+        if (result)
+        {
+            await CardSoldiersGalleryService.Create().InsertCardSoldierGalleryAsync(userId, cardSoldier.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardSoldierLevelAsync(string userId, CardSoldiers cardAdmiral)
@@ -599,9 +604,14 @@ public class UserCardSoldiersService : IUserCardSoldiersService
         return await _userCardSoldiersRepository.UpdateUserCardSoldierLevelAsync(userId, cardAdmiral);
     }
 
-    public async Task<bool> UpdateUserCardSoldierStarAsync(string userId, CardSoldiers cardAdmiral)
+    public async Task<bool> UpdateUserCardSoldierStarAsync(string userId, CardSoldiers cardSoldier)
     {
-        return await _userCardSoldiersRepository.UpdateUserCardSoldierStarAsync(userId, cardAdmiral);
+        var result = await _userCardSoldiersRepository.UpdateUserCardSoldierStarAsync(userId, cardSoldier);
+        if (result)
+        {
+            await CardSoldiersGalleryService.Create().UpdateStarCardSoldierGalleryAsync(userId, cardSoldier.Id, cardSoldier.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardSoldierBreakthroughAsync(string userId, CardSoldiers cardAdmiral, int star, double quantity)

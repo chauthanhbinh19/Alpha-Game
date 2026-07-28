@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 public static class StarEvaluatorHelper
 {
@@ -5,7 +6,8 @@ public static class StarEvaluatorHelper
     {
         foreach (var c in list)
         {
-            double multiplier = c.Star;
+            int effectiveStar = Math.Max(1, c.Star);
+            double multiplier = effectiveStar;
 
             c.Health *= multiplier;
             c.PhysicalAttack *= multiplier;

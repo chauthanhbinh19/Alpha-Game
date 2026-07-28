@@ -35,7 +35,12 @@ public class UserCoresService : IUserCoresService
 
     public async Task<bool> InsertUserCoreAsync(Cores core, string userId)
     {
-        return await _userCoresRepository.InsertUserCoreAsync(core, userId);
+        var result = await _userCoresRepository.InsertUserCoreAsync(core, userId);
+        if (result)
+        {
+            await CoresGalleryService.Create().InsertCoreGalleryAsync(userId, core.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCoreLevelAsync(string userId, Cores core)
@@ -45,7 +50,12 @@ public class UserCoresService : IUserCoresService
 
     public async Task<bool> UpdateUserCoreStarAsync(string userId, Cores core)
     {
-        return await _userCoresRepository.UpdateUserCoreStarAsync(userId, core);
+        var result = await _userCoresRepository.UpdateUserCoreStarAsync(userId, core);
+        if (result)
+        {
+            await CoresGalleryService.Create().UpdateStarCoreGalleryAsync(userId, core.Id, core.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCoreBreakthroughAsync(string userId, Cores core, int star, double quantity)

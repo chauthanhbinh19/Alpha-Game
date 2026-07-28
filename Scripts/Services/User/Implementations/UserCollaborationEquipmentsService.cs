@@ -35,7 +35,12 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
 
     public async Task<bool> InsertUserCollaborationEquipmentAsync(CollaborationEquipments collaborationEquipment, string userId)
     {
-        return await _userCollaborationEquipmentsRepository.InsertUserCollaborationEquipmentAsync(collaborationEquipment, userId);
+        var result = await _userCollaborationEquipmentsRepository.InsertUserCollaborationEquipmentAsync(collaborationEquipment, userId);
+        if (result)
+        {
+            await CollaborationEquipmentsGalleryService.Create().InsertCollaborationEquipmentGalleryAsync(userId, collaborationEquipment.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCollaborationEquipmentLevelAsync(string userId, CollaborationEquipments collaborationEquipment)
@@ -45,7 +50,12 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
 
     public async Task<bool> UpdateUserCollaborationEquipmentStarAsync(string userId, CollaborationEquipments collaborationEquipment)
     {
-        return await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentStarAsync(userId, collaborationEquipment);
+        var result = await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentStarAsync(userId, collaborationEquipment);
+        if (result)
+        {
+            await CollaborationEquipmentsGalleryService.Create().UpdateStarCollaborationEquipmentGalleryAsync(userId, collaborationEquipment.Id, collaborationEquipment.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCollaborationEquipmentBreakthroughAsync(string userId, CollaborationEquipments collaborationEquipment, int star, double quantity)

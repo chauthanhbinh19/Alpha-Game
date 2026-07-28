@@ -412,7 +412,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
             }
         }
     }
-    public async Task UpdateStarMagicFormationCircleGalleryAsync(string userId, string Id, double star)
+    public async Task UpdateStarMagicFormationCircleGalleryAsync(string userId, string magicFormationCircleId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -422,50 +422,25 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
-                string checkSQL = @"
-                SELECT current_star, temp_star
-                FROM magic_formation_circles_gallery 
-                WHERE user_id = @user_id AND mfc_id = @mfc_id;
-            ";
+                string updateSQL = @"
+                UPDATE magic_formation_circles_gallery 
+                SET temp_star = @temp_star 
+                WHERE user_id = @user_id 
+                  AND mfc_id = @magic_formation_circle_id 
+                  AND (temp_star IS NULL OR temp_star < @temp_star);";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@mfc_id", Id);
-
-                await using (var reader = await checkCommand.ExecuteReaderAsync())
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    if (await reader.ReadAsync())
-                    {
-                        double tempStar = reader.IsDBNull(reader.GetOrdinal("temp_star")) ? 0 : reader.GetDoubleSafe("temp_star");
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
+                    updateCommand.Parameters.AddWithValue("@magic_formation_circle_id", magicFormationCircleId);
+                    updateCommand.Parameters.AddWithValue("@temp_star", star);
 
-                        if (tempStar < star)
-                        {
-                            reader.Close(); // Đóng reader trước khi thực hiện update
-
-                            string updateSQL = @"
-                            UPDATE magic_formation_circles_gallery 
-                            SET temp_star = @temp_star 
-                            WHERE user_id = @user_id AND mfc_id = @mfc_id;
-                        ";
-
-                            MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@mfc_id", Id);
-                            updateCommand.Parameters.AddWithValue("@temp_star", star);
-
-                            await updateCommand.ExecuteNonQueryAsync();
-                        }
-                    }
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
             }
         }
     }

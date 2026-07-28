@@ -114,7 +114,12 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         IEquipmentsRepository _repository = new EquipmentsRepository();
         EquipmentsService _service = new EquipmentsService(_repository);
-        return await _userEquipmentsRepository.InsertUserEquipmentAsync(userId, Id, await _service.GetEquipmentByIdAsync(Id), quantity);
+        var result = await _userEquipmentsRepository.InsertUserEquipmentAsync(userId, Id, await _service.GetEquipmentByIdAsync(Id), quantity);
+        if (result)
+        {
+            await EquipmentsGalleryService.Create().InsertEquipmentGalleryAsync(userId, Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserEquipmentLevelAsync(string userId, Equipments equipments)
@@ -122,9 +127,14 @@ public class UserEquipmentsService : IUserEquipmentsService
         return await _userEquipmentsRepository.UpdateUserEquipmentsLevelAsync(userId, equipments);
     }
 
-    public async Task<bool> UpdateUserEquipmentStarAsync(string userId, Equipments equipments)
+    public async Task<bool> UpdateUserEquipmentStarAsync(string userId, Equipments equipment)
     {
-        return await _userEquipmentsRepository.UpdateUserEquipmentsStarAsync(userId, equipments);
+        var result = await _userEquipmentsRepository.UpdateUserEquipmentStarAsync(userId, equipment);
+        if (result)
+        {
+            await EquipmentsGalleryService.Create().UpdateStarEquipmentGalleryAsync(userId, equipment.Id, equipment.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserEquipmentsBreakthroughAsync(string userId, Equipments equipments, int star, double quantity)

@@ -35,7 +35,12 @@ public class UserRobotsService : IUserRobotsService
 
     public async Task<bool> InsertUserRobotAsync(Robots robot, string userId)
     {
-        return await _userRobotsRepository.InsertUserRobotAsync(robot, userId);
+        var result = await _userRobotsRepository.InsertUserRobotAsync(robot, userId);
+        if (result)
+        {
+            await RobotsGalleryService.Create().InsertRobotGalleryAsync(userId, robot.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserRobotLevelAsync(string userId, Robots robot)
@@ -45,7 +50,12 @@ public class UserRobotsService : IUserRobotsService
 
     public async Task<bool> UpdateUserRobotStarAsync(string userId, Robots robot)
     {
-        return await _userRobotsRepository.UpdateUserRobotStarAsync(userId, robot);
+        var result = await _userRobotsRepository.UpdateUserRobotStarAsync(userId, robot);
+        if (result)
+        {
+            await RobotsGalleryService.Create().UpdateStarRobotGalleryAsync(userId, robot.Id, robot.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserRobotBreakthroughAsync(string userId, Robots robot, int star, double quantity)

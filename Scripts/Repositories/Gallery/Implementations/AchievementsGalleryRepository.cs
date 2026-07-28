@@ -203,7 +203,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
 
         return count;
     }
-    public async Task InsertAchievementsGalleryAsync(string userId, string Id, Achievements achievement)
+    public async Task InsertAchievementGalleryAsync(string userId, string id, Achievements achievement)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -224,7 +224,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@achievement_id", Id);
+                    checkCommand.Parameters.AddWithValue("@achievement_id", id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -272,7 +272,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@achievement_id", Id);
+                            insertCommand.Parameters.AddWithValue("@achievement_id", id);
                             insertCommand.Parameters.AddWithValue("@status", "pending");
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
                             insertCommand.Parameters.AddWithValue("@temp_star", 0);
@@ -365,7 +365,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusAchievementsGalleryAsync(string userId, string Id)
+    public async Task UpdateStatusAchievementGalleryAsync(string userId, string id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -382,7 +382,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@achievement_id", Id);
+                    updateCommand.Parameters.AddWithValue("@achievement_id", id);
                     updateCommand.Parameters.AddWithValue("@status", "available");
 
                     await updateCommand.ExecuteNonQueryAsync();
@@ -398,7 +398,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarAchievementsGalleryAsync(string userId, string id, double star)
+    public async Task UpdateStarAchievementGalleryAsync(string userId, string achievementId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -408,59 +408,31 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                // Lấy current_star và temp_star
-                string checkSQL = @"
-                SELECT current_star, temp_star 
-                FROM achievements_gallery 
-                WHERE user_id = @user_id AND achievement_id = @achievement_id;
-                ";
+                // Gộp cả logic kiểm tra điều kiện vào SQL
+                string updateSQL = @"
+                UPDATE achievements_gallery 
+                SET temp_star = @temp_star 
+                WHERE user_id = @user_id 
+                  AND achievement_id = @achievement_id 
+                  AND (temp_star IS NULL OR temp_star < @temp_star);";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@achievement_id", id);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
+                    updateCommand.Parameters.AddWithValue("@achievement_id", achievementId);
+                    updateCommand.Parameters.AddWithValue("@temp_star", star);
 
-                    await using (var reader = await checkCommand.ExecuteReaderAsync())
-                    {
-                        if (await reader.ReadAsync())
-                        {
-                            double tempStar = reader.GetDoubleSafe("temp_star");
-
-                            // Nếu star mới cao hơn star tạm, cập nhật
-                            if (tempStar < star)
-                            {
-                                reader.Close(); // đóng trước khi chạy lệnh khác
-
-                                string updateSQL = @"
-                                UPDATE achievements_gallery 
-                                SET temp_star = @temp_star 
-                                WHERE user_id = @user_id AND achievement_id = @achievement_id;
-                            ";
-
-                                using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
-                                {
-                                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                                    updateCommand.Parameters.AddWithValue("@achievement_id", id);
-                                    updateCommand.Parameters.AddWithValue("@temp_star", star);
-
-                                    await updateCommand.ExecuteNonQueryAsync();
-                                }
-                            }
-                        }
-                    }
+                    // Thực thi trực tiếp, MySQL sẽ tự kiểm tra điều kiện temp_star < star
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
     }
-    public async Task UpdateAchievementsGalleryPowerAsync(string userId, string id, Achievements achievement)
+    public async Task UpdateAchievementGalleryPowerAsync(string userId, string id, Achievements achievement)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

@@ -38,7 +38,12 @@ public class UserPlantsService : IUserPlantsService
 
     public async Task<bool> InsertUserPlantAsync(Plants plant, string userId)
     {
-        return await _userPlantsRepository.InsertUserPlantAsync(plant, userId);
+        var result = await _userPlantsRepository.InsertUserPlantAsync(plant, userId);
+        if (result)
+        {
+            await PlantsGalleryService.Create().InsertPlantGalleryAsync(userId, plant.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserPlantLevelAsync(string userId, Plants plant)
@@ -48,7 +53,12 @@ public class UserPlantsService : IUserPlantsService
 
     public async Task<bool> UpdateUserPlantStarAsync(string userId, Plants plant)
     {
-        return await _userPlantsRepository.UpdateUserPlantStarAsync(userId, plant);
+        var result = await _userPlantsRepository.UpdateUserPlantStarAsync(userId, plant);
+        if (result)
+        {
+            await PlantsGalleryService.Create().UpdateStarPlantGalleryAsync(userId, plant.Id, plant.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserPlantBreakthroughAsync(string userId, Plants plant, int star, double quantity)

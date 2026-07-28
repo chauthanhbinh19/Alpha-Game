@@ -38,7 +38,12 @@ public class UserAchievementsService : IUserAchievementsService
 
     public async Task<bool> InsertUserAchievementAsync(Achievements achievement, string userId)
     {
-        return await _userAchievementsRepository.InsertUserAchievementsAsync(achievement, userId);
+        var result = await _userAchievementsRepository.InsertUserAchievementsAsync(achievement, userId);
+        if (result)
+        {
+            await AchievementsGalleryService.Create().InsertAchievementGalleryAsync(userId, achievement.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserAchievementLevelAsync(string userId, Achievements achievement)
@@ -48,7 +53,12 @@ public class UserAchievementsService : IUserAchievementsService
 
     public async Task<bool> UpdateUserAchievementStarAsync(string userId, Achievements achievement)
     {
-        return await _userAchievementsRepository.UpdateUserAchievementStarAsync(userId, achievement);
+        var result = await _userAchievementsRepository.UpdateUserAchievementStarAsync(userId, achievement);
+        if (result)
+        {
+            await AchievementsGalleryService.Create().UpdateStarAchievementGalleryAsync(userId, achievement.Id, achievement.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserAchievementBreakthroughAsync(string userId, Achievements achievement, int star, double quantity)

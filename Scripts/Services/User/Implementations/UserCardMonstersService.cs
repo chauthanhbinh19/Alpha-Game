@@ -586,7 +586,12 @@ public class UserCardMonstersService : IUserCardMonstersService
 
     public async Task<bool> InsertUserCardMonsterAsync(string userId, CardMonsters cardMonster)
     {
-        return await _userCardMonstersRepository.InsertUserCardMonsterAsync(userId, cardMonster);
+        var result = await _userCardMonstersRepository.InsertUserCardMonsterAsync(userId, cardMonster);
+        if (result)
+        {
+            await CardMonstersGalleryService.Create().InsertCardMonsterGalleryAsync(userId, cardMonster.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardMonsterLevelAsync(string userId, CardMonsters cardMonster)
@@ -596,7 +601,12 @@ public class UserCardMonstersService : IUserCardMonstersService
 
     public async Task<bool> UpdateUserCardMonsterStarAsync(string userId, CardMonsters cardMonster)
     {
-        return await _userCardMonstersRepository.UpdateUserCardMonsterStarAsync(userId, cardMonster);
+        var result = await _userCardMonstersRepository.UpdateUserCardMonsterStarAsync(userId, cardMonster);
+        if (result)
+        {
+            await CardMonstersGalleryService.Create().UpdateStarCardMonsterGalleryAsync(userId, cardMonster.Id, cardMonster.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardMonsterBreakthroughAsync(string userId, CardMonsters cardMonster, int star, double quantity)

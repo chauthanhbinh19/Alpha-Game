@@ -367,7 +367,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         List<CardHeroes> list = await _userCardHeroesRepository.GetUserCardHeroesAsync(userId, search, type, pageSize, offset, rare);
 
         List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
-        
+
         // var skillsTask = UserSkillsService.Create().GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
 
         // var skillData = await skillsTask;
@@ -431,7 +431,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         List<CardHeroes> list = await _userCardHeroesRepository.GetUserCardHeroesTeamAsync(userId, teamId, position);
 
         List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
-        
+
         // var skillsTask = UserSkillsService.Create().GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
 
         // var skillData = await skillsTask;
@@ -495,7 +495,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         List<CardHeroes> list = await _userCardHeroesRepository.GetUserCardHeroesTeamWithoutPositionAsync(userId, teamId);
 
         List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
-        
+
         // var skillsTask = UserSkillsService.Create().GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
 
         // var skillData = await skillsTask;
@@ -668,7 +668,12 @@ public class UserCardHeroesService : IUserCardHeroesService
 
     public async Task<bool> InsertUserCardHeroAsync(string userId, CardHeroes cardHero)
     {
-        return await _userCardHeroesRepository.InsertUserCardHeroAsync(userId, cardHero);
+        var result = await _userCardHeroesRepository.InsertUserCardHeroAsync(userId, cardHero);
+        if (result)
+        {
+            await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync(userId, cardHero.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardHeroLevelAsync(string userId, CardHeroes cardHero)
@@ -678,7 +683,12 @@ public class UserCardHeroesService : IUserCardHeroesService
 
     public async Task<bool> UpdateUserCardHeroStarAsync(string userId, CardHeroes cardHero)
     {
-        return await _userCardHeroesRepository.UpdateUserCardHeroStarAsync(userId, cardHero);
+        var result = await _userCardHeroesRepository.UpdateUserCardHeroStarAsync(userId, cardHero);
+        if (result)
+        {
+            await CardHeroesGalleryService.Create().UpdateStarCardHeroGalleryAsync(userId, cardHero.Id, cardHero.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardHeroBreakthroughAsync(string userId, CardHeroes cardHero, int star, double quantity)
@@ -700,7 +710,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         List<CardHeroes> list = new List<CardHeroes> { cardHero };
 
         List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
-        
+
         var skillsTask = UserSkillsService.Create().GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
 
         var skillData = await skillsTask;

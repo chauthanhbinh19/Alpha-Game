@@ -298,7 +298,7 @@ public class SkillsController : MonoBehaviour
             {
                 skill.Quantity = skill.Quantity + quantity;
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, skill.Currency.Id, price);
-                bool success = await UserSkillsService.Create().InsertUserSkillsAsync(User.CurrentUserId, skill);
+                bool success = await UserSkillsService.Create().InsertUserSkillAsync(User.CurrentUserId, skill);
                 if (!success)
                 {
                     allSuccess = false;

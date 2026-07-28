@@ -420,7 +420,12 @@ public class UserPetsService : IUserPetsService
 
     public async Task<bool> InsertUserPetAsync(Pets pet, string userId)
     {
-        return await _userPetsRepository.InsertUserPetAsync(pet, userId);
+        var result = await _userPetsRepository.InsertUserPetAsync(pet, userId);
+        if (result)
+        {
+            await PetsGalleryService.Create().InsertPetGalleryAsync(userId, pet.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserPetLevelAsync(string userId, Pets pet)
@@ -430,7 +435,12 @@ public class UserPetsService : IUserPetsService
 
     public async Task<bool> UpdateUserPetStarAsync(string userId, Pets pet)
     {
-        return await _userPetsRepository.UpdateUserPetStarAsync(userId, pet);
+        var result = await _userPetsRepository.UpdateUserPetStarAsync(userId, pet);
+        if (result)
+        {
+            await PetsGalleryService.Create().UpdateStarPetGalleryAsync(userId, pet.Id, pet.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserPetBreakthroughAsync(string userId, Pets pet, int star, double quantity)

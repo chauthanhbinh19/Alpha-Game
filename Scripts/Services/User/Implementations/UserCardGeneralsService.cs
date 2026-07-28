@@ -591,7 +591,12 @@ public class UserCardGeneralsService : IUserCardGeneralsService
 
     public async Task<bool> InsertUserCardGeneralAsync(string userId, CardGenerals cardGeneral)
     {
-        return await _userCardGeneralsRepository.InsertUserCardGeneralAsync(userId, cardGeneral);
+        var result = await _userCardGeneralsRepository.InsertUserCardGeneralAsync(userId, cardGeneral);
+        if (result)
+        {
+            await CardGeneralsGalleryService.Create().InsertCardGeneralGalleryAsync(userId, cardGeneral.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardGeneralLevelAsync(string userId, CardGenerals cardGeneral)
@@ -601,7 +606,12 @@ public class UserCardGeneralsService : IUserCardGeneralsService
 
     public async Task<bool> UpdateUserCardGeneralStarAsync(string userId, CardGenerals cardGeneral)
     {
-        return await _userCardGeneralsRepository.UpdateUserCardGeneralStarAsync(userId, cardGeneral);
+        var result = await _userCardGeneralsRepository.UpdateUserCardGeneralStarAsync(userId, cardGeneral);
+        if (result)
+        {
+            await CardGeneralsGalleryService.Create().UpdateStarCardGeneralGalleryAsync(userId, cardGeneral.Id, cardGeneral.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardGeneralBreakthroughAsync(string userId, CardGenerals cardGeneral, int star, double quantity)

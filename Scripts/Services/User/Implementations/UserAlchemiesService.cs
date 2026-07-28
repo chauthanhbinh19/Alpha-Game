@@ -36,7 +36,12 @@ public class UserAlchemiesService : IUserAlchemiesService
 
     public async Task<bool> InsertUserAlchemyAsync(Alchemies alchemy, string userId)
     {
-        return await _userAlchemiesRepository.InsertUserAlchemyAsync(alchemy, userId);
+        var result = await _userAlchemiesRepository.InsertUserAlchemyAsync(alchemy, userId);
+        if (result)
+        {
+            await AlchemiesGalleryService.Create().InsertAlchemyGalleryAsync(userId, alchemy.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserAlchemyLevelAsync(string userId, Alchemies alchemy)
@@ -46,7 +51,12 @@ public class UserAlchemiesService : IUserAlchemiesService
 
     public async Task<bool> UpdateUserAlchemyStarAsync(string userId, Alchemies alchemy)
     {
-        return await _userAlchemiesRepository.UpdateUserAlchemyStarAsync(userId, alchemy);
+        var result = await _userAlchemiesRepository.UpdateUserAlchemyStarAsync(userId, alchemy);
+        if (result)
+        {
+            await AlchemiesGalleryService.Create().UpdateStarAlchemyGalleryAsync(userId, alchemy.Id, alchemy.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserAlchemyBreakthroughAsync(string userId, Alchemies alchemy, int star, double quantity)

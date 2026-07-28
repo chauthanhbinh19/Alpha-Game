@@ -36,7 +36,12 @@ public class UserArtworksService : IUserArtworksService
 
     public async Task<bool> InsertUserArtworkAsync(Artworks artwork, string userId)
     {
-        return await _userArtworksRepository.InsertUserArtworkAsync(artwork, userId);
+        var result = await _userArtworksRepository.InsertUserArtworkAsync(artwork, userId);
+        if (result)
+        {
+            await ArtworksGalleryService.Create().InsertArtworkGalleryAsync(userId, artwork.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserArtworkLevelAsync(string userId, Artworks artwork)
@@ -46,7 +51,12 @@ public class UserArtworksService : IUserArtworksService
 
     public async Task<bool> UpdateUserArtworkStarAsync(string userId, Artworks artwork)
     {
-        return await _userArtworksRepository.UpdateUserArtworkStarAsync(userId, artwork);
+        var result = await _userArtworksRepository.UpdateUserArtworkStarAsync(userId, artwork);
+        if (result)
+        {
+            await ArtworksGalleryService.Create().UpdateStarArtworkGalleryAsync(userId, artwork.Id, artwork.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserArtworkBreakthroughAsync(string userId, Artworks artwork, int star, double quantity)

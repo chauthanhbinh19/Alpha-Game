@@ -35,7 +35,12 @@ public class UserBeveragesService : IUserBeveragesService
 
     public async Task<bool> InsertUserBeverageAsync(Beverages beverage, string userId)
     {
-        return await _userBeveragesRepository.InsertUserBeverageAsync(beverage, userId);
+        var result = await _userBeveragesRepository.InsertUserBeverageAsync(beverage, userId);
+        if (result)
+        {
+            await BeveragesGalleryService.Create().InsertBeverageGalleryAsync(userId, beverage.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserBeverageLevelAsync(string userId, Beverages beverage)
@@ -45,7 +50,12 @@ public class UserBeveragesService : IUserBeveragesService
 
     public async Task<bool> UpdateUserBeverageStarAsync(string userId, Beverages beverage)
     {
-        return await _userBeveragesRepository.UpdateUserBeverageStarAsync(userId, beverage);
+        var result = await _userBeveragesRepository.UpdateUserBeverageStarAsync(userId, beverage);
+        if (result)
+        {
+            await BeveragesGalleryService.Create().UpdateStarBeverageGalleryAsync(userId, beverage.Id, beverage.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserBeverageBreakthroughAsync(string userId, Beverages beverage, int star, double quantity)

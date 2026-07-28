@@ -286,7 +286,7 @@ public class CardHeroesGalleryRepository : ICardHeroesGalleryRepository
 
         return count;
     }
-    public async Task InsertCardHeroGalleryAsync(string userId, string Id, CardHeroes cardHero)
+    public async Task InsertCardHeroGalleryAsync(string userId, string id, CardHeroes cardHero)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(cardHero.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -306,7 +306,7 @@ public class CardHeroesGalleryRepository : ICardHeroesGalleryRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@card_hero_id", Id);
+                checkCommand.Parameters.AddWithValue("@card_hero_id", id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -365,7 +365,7 @@ public class CardHeroesGalleryRepository : ICardHeroesGalleryRepository
 
                     // Thêm param
                     insertCommand.Parameters.AddWithValue("@user_id", userId);
-                    insertCommand.Parameters.AddWithValue("@card_hero_id", Id);
+                    insertCommand.Parameters.AddWithValue("@card_hero_id", id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
                     insertCommand.Parameters.AddWithValue("@temp_star", 0);
@@ -448,7 +448,7 @@ public class CardHeroesGalleryRepository : ICardHeroesGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusCardHeroGalleryAsync(string userId, string Id)
+    public async Task UpdateStatusCardHeroGalleryAsync(string userId, string id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -461,7 +461,7 @@ public class CardHeroesGalleryRepository : ICardHeroesGalleryRepository
                 string updateSQL = "UPDATE card_heroes_gallery SET status=@status WHERE user_id=@user_id AND card_hero_id=@card_hero_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                 updateCommand.Parameters.AddWithValue("@user_id", userId);
-                updateCommand.Parameters.AddWithValue("@card_hero_id", Id);
+                updateCommand.Parameters.AddWithValue("@card_hero_id", id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
                 await updateCommand.ExecuteNonQueryAsync();
@@ -476,7 +476,7 @@ public class CardHeroesGalleryRepository : ICardHeroesGalleryRepository
             }
         }
     }
-    public async Task UpdateStarCardHeroGalleryAsync(string userId, string Id, double star)
+    public async Task UpdateStarCardHeroGalleryAsync(string userId, string cardHeroId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -486,54 +486,31 @@ public class CardHeroesGalleryRepository : ICardHeroesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
-                string checkSQL = @"
-                SELECT current_star, temp_star
-                FROM card_heroes_gallery 
-                WHERE user_id = @user_id AND card_hero_id = @card_hero_id;
-            ";
+                // Gộp cả logic kiểm tra điều kiện vào SQL
+                string updateSQL = @"
+                UPDATE card_heroes_gallery 
+                SET temp_star = @temp_star 
+                WHERE user_id = @user_id 
+                  AND card_hero_id = @card_hero_id 
+                  AND (temp_star IS NULL OR temp_star < @temp_star);";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@card_hero_id", Id);
-
-                await using (var reader = await checkCommand.ExecuteReaderAsync())
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    if (await reader.ReadAsync())
-                    {
-                        double tempStar = reader.IsDBNull(reader.GetOrdinal("temp_star")) ? 0 : reader.GetDoubleSafe("temp_star");
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
+                    updateCommand.Parameters.AddWithValue("@card_hero_id", cardHeroId);
+                    updateCommand.Parameters.AddWithValue("@temp_star", star);
 
-                        if (tempStar < star)
-                        {
-                            reader.Close(); // Đóng reader trước khi thực hiện update
-
-                            string updateSQL = @"
-                            UPDATE card_heroes_gallery 
-                            SET temp_star = @temp_star 
-                            WHERE user_id = @user_id AND card_hero_id = @card_hero_id;
-                        ";
-
-                            MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@card_hero_id", Id);
-                            updateCommand.Parameters.AddWithValue("@temp_star", star);
-
-                            await updateCommand.ExecuteNonQueryAsync();
-                        }
-                    }
+                    // Thực thi trực tiếp, MySQL sẽ tự kiểm tra điều kiện temp_star < star
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
     }
-    public async Task UpdateCardHeroGalleryPowerAsync(string userId, string Id, CardHeroes cardHero)
+    public async Task UpdateCardHeroGalleryPowerAsync(string userId, string id, CardHeroes cardHero)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -614,7 +591,7 @@ public class CardHeroesGalleryRepository : ICardHeroesGalleryRepository
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                 updateCommand.Parameters.AddWithValue("@user_id", userId);
-                updateCommand.Parameters.AddWithValue("@card_hero_id", Id);
+                updateCommand.Parameters.AddWithValue("@card_hero_id", id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
                 updateCommand.Parameters.AddWithValue("@power", cardHero.Power);

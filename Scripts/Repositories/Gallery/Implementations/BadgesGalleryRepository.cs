@@ -201,7 +201,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
 
         return count;
     }
-    public async Task InsertBadgeGalleryAsync(string userId, string Id, Badges badge)
+    public async Task InsertBadgeGalleryAsync(string userId, string id, Badges badge)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -222,7 +222,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@badge_id", Id);
+                    checkCommand.Parameters.AddWithValue("@badge_id", id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -270,7 +270,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
                         using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@badge_id", Id);
+                            insertCommand.Parameters.AddWithValue("@badge_id", id);
                             insertCommand.Parameters.AddWithValue("@status", "pending");
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
                             insertCommand.Parameters.AddWithValue("@temp_star", 0);
@@ -361,7 +361,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusBadgeGalleryAsync(string userId, string Id)
+    public async Task UpdateStatusBadgeGalleryAsync(string userId, string id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -378,7 +378,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@badge_id", Id);
+                    updateCommand.Parameters.AddWithValue("@badge_id", id);
                     updateCommand.Parameters.AddWithValue("@status", "available");
 
                     await updateCommand.ExecuteNonQueryAsync();
@@ -394,7 +394,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
             }
         }
     }
-    public async Task UpdateStarBadgeGalleryAsync(string userId, string id, double star)
+    public async Task UpdateStarBadgeGalleryAsync(string userId, string badgeId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -404,55 +404,27 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                // Lấy current_star và temp_star
-                string checkSQL = @"
-                    SELECT current_star, temp_star 
-                    FROM badges_gallery 
-                    WHERE user_id = @user_id AND badge_id = @badge_id;
-                ";
+                // Gộp cả logic kiểm tra điều kiện vào SQL
+                string updateSQL = @"
+                UPDATE badges_gallery 
+                SET temp_star = @temp_star 
+                WHERE user_id = @user_id 
+                  AND badge_id = @badge_id 
+                  AND (temp_star IS NULL OR temp_star < @temp_star);";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@badge_id", id);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
+                    updateCommand.Parameters.AddWithValue("@badge_id", badgeId);
+                    updateCommand.Parameters.AddWithValue("@temp_star", star);
 
-                    await using (var reader = await checkCommand.ExecuteReaderAsync())
-                    {
-                        if (await reader.ReadAsync())
-                        {
-                            double tempStar = reader.GetDoubleSafe("temp_star");
-
-                            // Nếu star mới cao hơn star tạm, cập nhật
-                            if (tempStar < star)
-                            {
-                                reader.Close(); // đóng trước khi chạy lệnh khác
-
-                                string updateSQL = @"
-                                UPDATE badges_gallery 
-                                SET temp_star = @temp_star 
-                                WHERE user_id = @user_id AND badge_id = @badge_id;
-                            ";
-
-                                using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
-                                {
-                                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                                    updateCommand.Parameters.AddWithValue("@badge_id", id);
-                                    updateCommand.Parameters.AddWithValue("@temp_star", star);
-
-                                    await updateCommand.ExecuteNonQueryAsync();
-                                }
-                            }
-                        }
-                    }
+                    // Thực thi trực tiếp, MySQL sẽ tự kiểm tra điều kiện temp_star < star
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
             }
         }
     }

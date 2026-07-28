@@ -35,7 +35,12 @@ public class UserBadgesService : IUserBadgesService
 
     public async Task<bool> InsertUserBadgeAsync(Badges badge, string userId)
     {
-        return await _userBadgesRepository.InsertUserBadgeAsync(badge, userId);
+        var result = await _userBadgesRepository.InsertUserBadgeAsync(badge, userId);
+        if (result)
+        {
+            await BadgesGalleryService.Create().InsertBadgeGalleryAsync(userId, badge.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserBadgeLevelAsync(string userId, Badges badge)
@@ -45,7 +50,12 @@ public class UserBadgesService : IUserBadgesService
 
     public async Task<bool> UpdateUserBadgeStarAsync(string userId, Badges badge)
     {
-        return await _userBadgesRepository.UpdateUserBadgeStarAsync(userId, badge);
+        var result = await _userBadgesRepository.UpdateUserBadgeStarAsync(userId, badge);
+        if (result)
+        {
+            await BadgesGalleryService.Create().UpdateStarBadgeGalleryAsync(userId, badge.Id, badge.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserBadgeBreakthroughAsync(string userId, Badges badge, int star, double quantity)

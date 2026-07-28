@@ -35,7 +35,12 @@ public class UserCollaborationsService : IUserCollaborationsService
 
     public async Task<bool> InsertUserCollaborationAsync(Collaborations collaboration, string userId)
     {
-        return await _userCollaborationsRepository.InsertUserCollaborationAsync(collaboration, userId);
+        var result = await _userCollaborationsRepository.InsertUserCollaborationAsync(collaboration, userId);
+        if (result)
+        {
+            await CollaborationsGalleryService.Create().InsertCollaborationGalleryAsync(userId, collaboration.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCollaborationLevelAsync(string userId, Collaborations collaboration)
@@ -45,7 +50,12 @@ public class UserCollaborationsService : IUserCollaborationsService
 
     public async Task<bool> UpdateUserCollaborationStarAsync(string userId, Collaborations collaboration)
     {
-        return await _userCollaborationsRepository.UpdateUserCollaborationStarAsync(userId, collaboration);
+        var result = await _userCollaborationsRepository.UpdateUserCollaborationStarAsync(userId, collaboration);
+        if (result)
+        {
+            await CollaborationsGalleryService.Create().UpdateStarCollaborationGalleryAsync(userId, collaboration.Id, collaboration.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCollaborationBreakthroughAsync(string userId, Collaborations collaboration, int star, double quantity)

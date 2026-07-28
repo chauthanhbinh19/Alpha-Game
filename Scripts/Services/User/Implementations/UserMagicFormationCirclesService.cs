@@ -35,7 +35,12 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
 
     public async Task<bool> InsertUserMagicFormationCircleAsync(MagicFormationCircles magicFormationCircle, string userId)
     {
-        return await _userMagicFormationCirclesRepository.InsertUserMagicFormationCircleAsync(magicFormationCircle, userId);
+        var result = await _userMagicFormationCirclesRepository.InsertUserMagicFormationCircleAsync(magicFormationCircle, userId);
+        if (result)
+        {
+            await MagicFormationCirclesGalleryService.Create().InsertMagicFormationCircleGalleryAsync(userId, magicFormationCircle.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserMagicFormationCircleLevelAsync(string userId, MagicFormationCircles magicFormationCircle)
@@ -45,7 +50,12 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
 
     public async Task<bool> UpdateUserMagicFormationCircleStarAsync(string userId, MagicFormationCircles magicFormationCircle)
     {
-        return await _userMagicFormationCirclesRepository.UpdateUserMagicFormationCircleStarAsync(userId, magicFormationCircle);
+        var result = await _userMagicFormationCirclesRepository.UpdateUserMagicFormationCircleStarAsync(userId, magicFormationCircle);
+        if (result)
+        {
+            await MagicFormationCirclesGalleryService.Create().UpdateStarMagicFormationCircleGalleryAsync(userId, magicFormationCircle.Id, magicFormationCircle.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserMagicFormationCircleBreakthroughAsync(string userId, MagicFormationCircles magicFormationCircle, int star, double quantity)

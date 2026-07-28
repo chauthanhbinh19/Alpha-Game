@@ -40,9 +40,14 @@ public class UserSkillsService : IUserSkillsService
         return await _userSkillsRepository.GetUserSkillsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<bool> InsertUserSkillsAsync(string userId, Skills skill)
+    public async Task<bool> InsertUserSkillAsync(string userId, Skills skill)
     {
-        return await _userSkillsRepository.InsertUserSkillAsync(userId, skill);
+        var result = await _userSkillsRepository.InsertUserSkillAsync(userId, skill);
+        if (result)
+        {
+            await SkillsGalleryService.Create().InsertSkillGalleryAsync(userId, skill.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserSkillLevelAsync(string userId, Skills skill)
@@ -52,10 +57,15 @@ public class UserSkillsService : IUserSkillsService
 
     public async Task<bool> UpdateUserSkillStarAsync(string userId, Skills skill)
     {
-        return await _userSkillsRepository.UpdateUserSkillStarAsync(userId, skill);
+        var result = await _userSkillsRepository.UpdateUserSkillStarAsync(userId, skill);
+        if (result)
+        {
+            await SkillsGalleryService.Create().UpdateStarSkillGalleryAsync(userId, skill.Id, skill.Star);
+        }
+        return result;
     }
 
-    public async Task<bool> UpdateUserSkillsBreakthroughAsync(string userId, Skills skill, int star, double quantity)
+    public async Task<bool> UpdateUserSkillBreakthroughAsync(string userId, Skills skill, int star, double quantity)
     {
         return await _userSkillsRepository.UpdateUserSkillBreakthroughAsync(userId, skill, star, quantity);
     }

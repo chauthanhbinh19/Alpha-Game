@@ -586,7 +586,12 @@ public class UserCardColonelsService : IUserCardColonelsService
 
     public async Task<bool> InsertUserCardColonelAsync(string userId, CardColonels cardColonel)
     {
-        return await _userCardColonelsRepository.InsertUserCardColonelAsync(userId, cardColonel);
+        var result = await _userCardColonelsRepository.InsertUserCardColonelAsync(userId, cardColonel);
+        if (result)
+        {
+            await CardColonelsGalleryService.Create().InsertCardColonelGalleryAsync(userId, cardColonel.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardColonelLevelAsync(string userId, CardColonels cardColonel)
@@ -596,7 +601,12 @@ public class UserCardColonelsService : IUserCardColonelsService
 
     public async Task<bool> UpdateUserCardColonelStarAsync(string userId, CardColonels cardColonel)
     {
-        return await _userCardColonelsRepository.UpdateUserCardColonelStarAsync(userId, cardColonel);
+        var result = await _userCardColonelsRepository.UpdateUserCardColonelStarAsync(userId, cardColonel);
+        if (result)
+        {
+            await CardColonelsGalleryService.Create().UpdateStarCardColonelGalleryAsync(userId, cardColonel.Id, cardColonel.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardColonelBreakthroughAsync(string userId, CardColonels cardColonel, int star, double quantity)

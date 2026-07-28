@@ -51,7 +51,12 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
 
     public async Task<bool> InsertUserSpiritBeastAsync(string userId, SpiritBeasts spiritBeast)
     {
-        return await _userSpiritBeastsRepository.InsertUserSpiritBeastAsync(userId, spiritBeast);
+        var result = await _userSpiritBeastsRepository.InsertUserSpiritBeastAsync(userId, spiritBeast);
+        if (result)
+        {
+            await SpiritBeastsGalleryService.Create().InsertSpiritBeastGalleryAsync(userId, spiritBeast.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast)
@@ -61,9 +66,14 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
 
     public async Task<bool> UpdateUserSpiritBeastStarAsync(string userId, SpiritBeasts spiritBeast)
     {
-        return await _userSpiritBeastsRepository.UpdateUserSpiritBeastStarAsync(userId, spiritBeast);
+        var result = await _userSpiritBeastsRepository.UpdateUserSpiritBeastStarAsync(userId, spiritBeast);
+        if (result)
+        {
+            await SpiritBeastsGalleryService.Create().UpdateStarSpiritBeastGalleryAsync(userId, spiritBeast.Id, spiritBeast.Star);
+        }
+        return result;
     }
-
+    
     public async Task<bool> UpdateUserSpiritBeastBreakthroughAsync(string userId, SpiritBeasts spiritBeast, int star, double quantity)
     {
         return await _userSpiritBeastsRepository.UpdateUserSpiritBeastBreakthroughAsync(userId, spiritBeast, star, quantity);

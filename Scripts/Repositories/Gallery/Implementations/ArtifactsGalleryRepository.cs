@@ -201,7 +201,7 @@ public class ArtifactsGalleryRepository : IArtifactsGalleryRepository
 
         return count;
     }
-    public async Task InsertArtifactGalleryAsync(string userId, string Id, Artifacts artifact)
+    public async Task InsertArtifactGalleryAsync(string userId, string id, Artifacts artifact)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -222,7 +222,7 @@ public class ArtifactsGalleryRepository : IArtifactsGalleryRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@artifact_id", Id);
+                    checkCommand.Parameters.AddWithValue("@artifact_id", id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -270,7 +270,7 @@ public class ArtifactsGalleryRepository : IArtifactsGalleryRepository
                         await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@artifact_id", Id);
+                            insertCommand.Parameters.AddWithValue("@artifact_id", id);
                             insertCommand.Parameters.AddWithValue("@status", "pending");
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
                             insertCommand.Parameters.AddWithValue("@temp_star", 0);
@@ -361,7 +361,7 @@ public class ArtifactsGalleryRepository : IArtifactsGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusArtifactGalleryAsync(string userId, string Id)
+    public async Task UpdateStatusArtifactGalleryAsync(string userId, string id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -378,7 +378,7 @@ public class ArtifactsGalleryRepository : IArtifactsGalleryRepository
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@artifact_id", Id);
+                    updateCommand.Parameters.AddWithValue("@artifact_id", id);
                     updateCommand.Parameters.AddWithValue("@status", "available");
 
                     await updateCommand.ExecuteNonQueryAsync();
@@ -394,7 +394,7 @@ public class ArtifactsGalleryRepository : IArtifactsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarArtifactGalleryAsync(string userId, string id, double star)
+    public async Task UpdateStarArtifactGalleryAsync(string userId, string artifactId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -404,55 +404,27 @@ public class ArtifactsGalleryRepository : IArtifactsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                // Lấy current_star và temp_star
-                string checkSQL = @"
-                SELECT current_star, temp_star 
-                FROM artifacts_gallery 
-                WHERE user_id = @user_id AND artifact_id = @artifact_id;
-            ";
+                // Gộp cả logic kiểm tra điều kiện vào SQL
+                string updateSQL = @"
+                UPDATE artifacts_gallery 
+                SET temp_star = @temp_star 
+                WHERE user_id = @user_id 
+                  AND artifact_id = @artifact_id 
+                  AND (temp_star IS NULL OR temp_star < @temp_star);";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@artifact_id", id);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
+                    updateCommand.Parameters.AddWithValue("@artifact_id", artifactId);
+                    updateCommand.Parameters.AddWithValue("@temp_star", star);
 
-                    await using (var reader = await checkCommand.ExecuteReaderAsync())
-                    {
-                        if (await reader.ReadAsync())
-                        {
-                            double tempStar = reader.GetDoubleSafe("temp_star");
-
-                            // Nếu star mới cao hơn star tạm, cập nhật
-                            if (tempStar < star)
-                            {
-                                reader.Close(); // đóng trước khi chạy lệnh khác
-
-                                string updateSQL = @"
-                                UPDATE artifacts_gallery 
-                                SET temp_star = @temp_star 
-                                WHERE user_id = @user_id AND artifact_id = @artifact_id;
-                            ";
-
-                                using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
-                                {
-                                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                                    updateCommand.Parameters.AddWithValue("@artifact_id", id);
-                                    updateCommand.Parameters.AddWithValue("@temp_star", star);
-
-                                    await updateCommand.ExecuteNonQueryAsync();
-                                }
-                            }
-                        }
-                    }
+                    // Thực thi trực tiếp, MySQL sẽ tự kiểm tra điều kiện temp_star < star
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
             }
         }
     }

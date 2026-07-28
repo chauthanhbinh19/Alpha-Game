@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 public static class LevelEvaluatorHelper
 {
@@ -5,7 +6,8 @@ public static class LevelEvaluatorHelper
     {
         foreach (var c in list)
         {
-            double multiplier = 1 + c.Level / 100.0;
+            int effectiveLevel = Math.Max(1, c.Level);
+            double multiplier = 1 + effectiveLevel / 100.0;
 
             c.Health *= multiplier;
             c.PhysicalAttack *= multiplier;

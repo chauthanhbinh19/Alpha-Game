@@ -35,7 +35,12 @@ public class UserVehiclesService : IUserVehiclesService
 
     public async Task<bool> InsertUserVehicleAsync(Vehicles vehicle, string userId)
     {
-        return await _userVehiclesRepository.InsertUserVehicleAsync(vehicle, userId);
+        var result = await _userVehiclesRepository.InsertUserVehicleAsync(vehicle, userId);
+        if (result)
+        {
+            await VehiclesGalleryService.Create().InsertVehicleGalleryAsync(userId, vehicle.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserVehicleLevelAsync(string userId, Vehicles vehicle)
@@ -45,7 +50,12 @@ public class UserVehiclesService : IUserVehiclesService
 
     public async Task<bool> UpdateUserVehicleStarAsync(string userId, Vehicles vehicle)
     {
-        return await _userVehiclesRepository.UpdateUserVehicleStarAsync(userId, vehicle);
+        var result = await _userVehiclesRepository.UpdateUserVehicleStarAsync(userId, vehicle);
+        if (result)
+        {
+            await VehiclesGalleryService.Create().UpdateStarVehicleGalleryAsync(userId, vehicle.Id, vehicle.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserVehicleBreakthroughAsync(string userId, Vehicles vehicle, int star, double quantity)

@@ -412,7 +412,7 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarSkillGalleryAsync(string userId, string Id, double star)
+    public async Task UpdateStarSkillGalleryAsync(string userId, string skillId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -422,50 +422,25 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
-                string checkSQL = @"
-                SELECT current_star, temp_star
-                FROM skills_gallery 
-                WHERE user_id = @user_id AND skill_id = @skill_id;
-            ";
+                string updateSQL = @"
+                UPDATE skills_gallery 
+                SET temp_star = @temp_star 
+                WHERE user_id = @user_id 
+                  AND skill_id = @skill_id 
+                  AND (temp_star IS NULL OR temp_star < @temp_star);";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@skill_id", Id);
-
-                await using (var reader = await checkCommand.ExecuteReaderAsync())
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    if (await reader.ReadAsync())
-                    {
-                        double tempStar = reader.IsDBNull(reader.GetOrdinal("temp_star")) ? 0 : reader.GetDoubleSafe("temp_star");
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
+                    updateCommand.Parameters.AddWithValue("@skill_id", skillId);
+                    updateCommand.Parameters.AddWithValue("@temp_star", star);
 
-                        if (tempStar < star)
-                        {
-                            reader.Close(); // Đóng reader trước khi thực hiện update
-
-                            string updateSQL = @"
-                            UPDATE skills_gallery 
-                            SET temp_star = @temp_star 
-                            WHERE user_id = @user_id AND skill_id = @skill_id;
-                        ";
-
-                            MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@skill_id", Id);
-                            updateCommand.Parameters.AddWithValue("@temp_star", star);
-
-                            await updateCommand.ExecuteNonQueryAsync();
-                        }
-                    }
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
             }
         }
     }

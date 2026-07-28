@@ -35,7 +35,12 @@ public class UserBuildingsService : IUserBuildingsService
 
     public async Task<bool> InsertUserBuildingAsync(Buildings building, string userId)
     {
-        return await _userBuildingsRepository.InsertUserBuildingAsync(building, userId);
+        var result = await _userBuildingsRepository.InsertUserBuildingAsync(building, userId);
+        if (result)
+        {
+            await BuildingsGalleryService.Create().InsertBuildingGalleryAsync(userId, building.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserBuildingLevelAsync(string userId, Buildings building)
@@ -45,7 +50,12 @@ public class UserBuildingsService : IUserBuildingsService
 
     public async Task<bool> UpdateUserBuildingStarAsync(string userId, Buildings building)
     {
-        return await _userBuildingsRepository.UpdateUserBuildingStarAsync(userId, building);
+        var result = await _userBuildingsRepository.UpdateUserBuildingStarAsync(userId, building);
+        if (result)
+        {
+            await BuildingsGalleryService.Create().UpdateStarBuildingGalleryAsync(userId, building.Id, building.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserBuildingBreakthroughAsync(string userId, Buildings building, int star, double quantity)

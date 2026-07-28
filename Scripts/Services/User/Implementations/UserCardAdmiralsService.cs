@@ -675,7 +675,12 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
 
     public async Task<bool> InsertUserCardAdmiralAsync(string userId, CardAdmirals cardAdmiral)
     {
-        return await _userCardAdmiralsRepository.InsertUserCardAdmiralAsync(userId, cardAdmiral);
+        var result = await _userCardAdmiralsRepository.InsertUserCardAdmiralAsync(userId, cardAdmiral);
+        if (result)
+        {
+            await CardAdmiralsGalleryService.Create().InsertCardAdmiralGalleryAsync(userId, cardAdmiral.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardAdmiralLevelAsync(string userId, CardAdmirals cardAdmiral)
@@ -685,7 +690,12 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
 
     public async Task<bool> UpdateUserCardAdmiralStarAsync(string userId, CardAdmirals cardAdmiral)
     {
-        return await _userCardAdmiralsRepository.UpdateUserCardAdmiralStarAsync(userId, cardAdmiral);
+        var result = await _userCardAdmiralsRepository.UpdateUserCardAdmiralStarAsync(userId, cardAdmiral);
+        if (result)
+        {
+            await CardAdmiralsGalleryService.Create().UpdateStarCardAdmiralGalleryAsync(userId, cardAdmiral.Id, cardAdmiral.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserCardAdmiralBreakthroughAsync(string userId, CardAdmirals cardAdmiral, int star, double quantity)

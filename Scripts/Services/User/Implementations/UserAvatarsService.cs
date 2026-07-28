@@ -35,7 +35,12 @@ public class UserAvatarsService : IUserAvatarsService
 
     public async Task<bool> InsertUserAvatarAsync(Avatars avatar, string userId)
     {
-        return await _userAvatarsRepository.InsertUserAvatarAsync(avatar, userId);
+        var result = await _userAvatarsRepository.InsertUserAvatarAsync(avatar, userId);
+        if (result)
+        {
+            await AvatarsGalleryService.Create().InsertAvatarGalleryAsync(userId, avatar.Id);
+        }
+        return result;
     }
 
     public async Task<bool> InsertUserAvatarByIdAsync(string avatarId, string userId)
@@ -52,7 +57,12 @@ public class UserAvatarsService : IUserAvatarsService
 
     public async Task<bool> UpdateUserAvatarStarAsync(string userId, Avatars avatar)
     {
-        return await _userAvatarsRepository.UpdateUserAvatarStarAsync(userId, avatar);
+        var result = await _userAvatarsRepository.UpdateUserAvatarStarAsync(userId, avatar);
+        if (result)
+        {
+            await AvatarsGalleryService.Create().UpdateStarAvatarGalleryAsync(userId, avatar.Id, avatar.Star);
+        }
+        return result;
     }
 
     public async Task<Avatars> GetUserAvatarByUsedAsync(string userId)

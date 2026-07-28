@@ -414,7 +414,7 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarWeaponGalleryAsync(string userId, string id, double star)
+    public async Task UpdateStarWeaponGalleryAsync(string userId, string weaponId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -424,55 +424,25 @@ public class WeaponsGalleryRepository : IWeaponsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                // Lấy current_star và temp_star
-                string checkSQL = @"
-                SELECT current_star, temp_star 
-                FROM weapons_gallery 
-                WHERE user_id = @user_id AND weapon_id = @weapon_id;
-            ";
+                string updateSQL = @"
+                UPDATE weapons_gallery 
+                SET temp_star = @temp_star 
+                WHERE user_id = @user_id 
+                  AND weapon_id = @weapon_id 
+                  AND (temp_star IS NULL OR temp_star < @temp_star);";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@weapon_id", id);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
+                    updateCommand.Parameters.AddWithValue("@weapon_id", weaponId);
+                    updateCommand.Parameters.AddWithValue("@temp_star", star);
 
-                    await using (var reader = await checkCommand.ExecuteReaderAsync())
-                    {
-                        if (await reader.ReadAsync())
-                        {
-                            double tempStar = reader.GetDoubleSafe("temp_star");
-
-                            // Nếu star mới cao hơn star tạm, cập nhật
-                            if (tempStar < star)
-                            {
-                                reader.Close(); // đóng trước khi chạy lệnh khác
-
-                                string updateSQL = @"
-                                UPDATE weapons_gallery 
-                                SET temp_star = @temp_star 
-                                WHERE user_id = @user_id AND weapon_id = @weapon_id;
-                            ";
-
-                                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
-                                {
-                                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                                    updateCommand.Parameters.AddWithValue("@weapon_id", id);
-                                    updateCommand.Parameters.AddWithValue("@temp_star", star);
-
-                                    await updateCommand.ExecuteNonQueryAsync();
-                                }
-                            }
-                        }
-                    }
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
             }
         }
     }

@@ -201,7 +201,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
 
         return count;
     }
-    public async Task InsertArchitectureGalleryAsync(string userId, string Id, Architectures architecture)
+    public async Task InsertArchitectureGalleryAsync(string userId, string id, Architectures architecture)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -222,7 +222,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@architecture_id", Id);
+                    checkCommand.Parameters.AddWithValue("@architecture_id", id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -270,7 +270,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
                         using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@architecture_id", Id);
+                            insertCommand.Parameters.AddWithValue("@architecture_id", id);
                             insertCommand.Parameters.AddWithValue("@status", "pending");
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
                             insertCommand.Parameters.AddWithValue("@temp_star", 0);
@@ -362,7 +362,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusArchitectureGalleryAsync(string userId, string Id)
+    public async Task UpdateStatusArchitectureGalleryAsync(string userId, string id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -379,7 +379,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@architecture_id", Id);
+                    updateCommand.Parameters.AddWithValue("@architecture_id", id);
                     updateCommand.Parameters.AddWithValue("@status", "available");
 
                     await updateCommand.ExecuteNonQueryAsync();
@@ -395,7 +395,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             }
         }
     }
-    public async Task UpdateStarArchitectureGalleryAsync(string userId, string id, double star)
+    public async Task UpdateStarArchitectureGalleryAsync(string userId, string architectureId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -405,55 +405,27 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             {
                 await connection.OpenAsync();
 
-                // Lấy current_star và temp_star
-                string checkSQL = @"
-                    SELECT current_star, temp_star 
-                    FROM architectures_gallery 
-                    WHERE user_id = @user_id AND architecture_id = @architecture_id;
-                ";
+                // Gộp cả logic kiểm tra điều kiện vào SQL
+                string updateSQL = @"
+                UPDATE architectures_gallery 
+                SET temp_star = @temp_star 
+                WHERE user_id = @user_id 
+                  AND architecture_id = @architecture_id 
+                  AND (temp_star IS NULL OR temp_star < @temp_star);";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@architecture_id", id);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
+                    updateCommand.Parameters.AddWithValue("@architecture_id", architectureId);
+                    updateCommand.Parameters.AddWithValue("@temp_star", star);
 
-                    await using (var reader = await checkCommand.ExecuteReaderAsync())
-                    {
-                        if (await reader.ReadAsync())
-                        {
-                            double tempStar = reader.GetDoubleSafe("temp_star");
-
-                            // Nếu star mới cao hơn star tạm, cập nhật
-                            if (tempStar < star)
-                            {
-                                reader.Close(); // đóng trước khi chạy lệnh khác
-
-                                string updateSQL = @"
-                                UPDATE architectures_gallery 
-                                SET temp_star = @temp_star 
-                                WHERE user_id = @user_id AND architecture_id = @architecture_id;
-                            ";
-
-                                using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
-                                {
-                                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                                    updateCommand.Parameters.AddWithValue("@architecture_id", id);
-                                    updateCommand.Parameters.AddWithValue("@temp_star", star);
-
-                                    await updateCommand.ExecuteNonQueryAsync();
-                                }
-                            }
-                        }
-                    }
+                    // Thực thi trực tiếp, MySQL sẽ tự kiểm tra điều kiện temp_star < star
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
             }
         }
     }

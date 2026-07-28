@@ -35,7 +35,12 @@ public class UserSpiritCardsService : IUserSpiritCardsService
 
     public async Task<bool> InsertUserSpiritCardAsync(string userId, SpiritCards spiritCard)
     {
-        return await _userSpiritCardsRepository.InsertUserSpiritCardAsync(userId, spiritCard);
+        var result = await _userSpiritCardsRepository.InsertUserSpiritCardAsync(userId, spiritCard);
+        if (result)
+        {
+            await SpiritCardsGalleryService.Create().InsertSpiritCardGalleryAsync(userId, spiritCard.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserSpiritCardLevelAsync(string userId, SpiritCards spiritCard)
@@ -45,7 +50,12 @@ public class UserSpiritCardsService : IUserSpiritCardsService
 
     public async Task<bool> UpdateUserSpiritCardStarAsync(string userId, SpiritCards spiritCard)
     {
-        return await _userSpiritCardsRepository.UpdateUserSpiritCardStarAsync(userId, spiritCard);
+        var result = await _userSpiritCardsRepository.UpdateUserSpiritCardStarAsync(userId, spiritCard);
+        if (result)
+        {
+            await SpiritCardsGalleryService.Create().UpdateStarSpiritCardGalleryAsync(userId, spiritCard.Id, spiritCard.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserSpiritCardBreakthroughAsync(string userId, SpiritCards spiritCard, int star, double quantity)

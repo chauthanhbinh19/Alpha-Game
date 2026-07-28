@@ -35,7 +35,12 @@ public class UserMechaBeastsService : IUserMechaBeastsService
 
     public async Task<bool> InsertUserMechaBeastAsync(MechaBeasts mechaBeast, string userId)
     {
-        return await _userMechaBeastsRepository.InsertUserMechaBeastAsync(mechaBeast, userId);
+        var result = await _userMechaBeastsRepository.InsertUserMechaBeastAsync(mechaBeast, userId);
+        if (result)
+        {
+            await MechaBeastsGalleryService.Create().InsertMechaBeastGalleryAsync(userId, mechaBeast.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserMechaBeastLevelAsync(string userId, MechaBeasts mechaBeast)
@@ -45,7 +50,12 @@ public class UserMechaBeastsService : IUserMechaBeastsService
 
     public async Task<bool> UpdateUserMechaBeastStarAsync(string userId, MechaBeasts mechaBeast)
     {
-        return await _userMechaBeastsRepository.UpdateUserMechaBeastStarAsync(userId, mechaBeast);
+        var result = await _userMechaBeastsRepository.UpdateUserMechaBeastStarAsync(userId, mechaBeast);
+        if (result)
+        {
+            await MechaBeastsGalleryService.Create().UpdateStarMechaBeastGalleryAsync(userId, mechaBeast.Id, mechaBeast.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserMechaBeastBreakthroughAsync(string userId, MechaBeasts mechaBeast, int star, double quantity)

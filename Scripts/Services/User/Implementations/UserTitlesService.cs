@@ -35,7 +35,12 @@ public class UserTitlesService : IUserTitlesService
 
     public async Task<bool> InsertUserTitleAsync(Titles title, string userId)
     {
-        return await _userTitlesRepository.InsertUserTitleAsync(title, userId);
+        var result = await _userTitlesRepository.InsertUserTitleAsync(title, userId);
+        if (result)
+        {
+            await TitlesGalleryService.Create().InsertTitleGalleryAsync(userId, title.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserTitleLevelAsync(string userId, Titles title)
@@ -45,7 +50,12 @@ public class UserTitlesService : IUserTitlesService
 
     public async Task<bool> UpdateUserTitleStarAsync(string userId, Titles title)
     {
-        return await _userTitlesRepository.UpdateUserTitleStarAsync(userId, title);
+        var result = await _userTitlesRepository.UpdateUserTitleStarAsync(userId, title);
+        if (result)
+        {
+            await TitlesGalleryService.Create().UpdateStarTitleGalleryAsync(userId, title.Id, title.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserTitleBreakthroughAsync(string userId, Titles title, int star, double quantity)

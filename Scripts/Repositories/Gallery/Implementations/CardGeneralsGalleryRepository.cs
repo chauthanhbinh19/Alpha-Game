@@ -286,7 +286,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
 
         return count;
     }
-    public async Task InsertCardGeneralGalleryAsync(string userId, string Id, CardGenerals cardGeneral)
+    public async Task InsertCardGeneralGalleryAsync(string userId, string id, CardGenerals cardGeneral)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(cardGeneral.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -306,7 +306,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@card_general_id", Id);
+                checkCommand.Parameters.AddWithValue("@card_general_id", id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -365,7 +365,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
 
                     // Thêm param
                     insertCommand.Parameters.AddWithValue("@user_id", userId);
-                    insertCommand.Parameters.AddWithValue("@card_general_id", Id);
+                    insertCommand.Parameters.AddWithValue("@card_general_id", id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
                     insertCommand.Parameters.AddWithValue("@temp_star", 0);
@@ -448,7 +448,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusCardGeneralGalleryAsync(string userId, string Id)
+    public async Task UpdateStatusCardGeneralGalleryAsync(string userId, string id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -461,7 +461,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
                 string updateSQL = "UPDATE card_generals_gallery SET status=@status WHERE user_id=@user_id AND card_general_id=@card_general_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                 updateCommand.Parameters.AddWithValue("@user_id", userId);
-                updateCommand.Parameters.AddWithValue("@card_general_id", Id);
+                updateCommand.Parameters.AddWithValue("@card_general_id", id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
                 await updateCommand.ExecuteNonQueryAsync();
@@ -476,7 +476,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             }
         }
     }
-    public async Task UpdateStarCardGeneralGalleryAsync(string userId, string Id, double star)
+    public async Task UpdateStarCardGeneralGalleryAsync(string userId, string cardGeneralId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -486,54 +486,31 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
-                string checkSQL = @"
-                SELECT current_star, temp_star
-                FROM card_generals_gallery 
-                WHERE user_id = @user_id AND card_general_id = @card_general_id;
-            ";
+                // Gộp cả logic kiểm tra điều kiện vào SQL
+                string updateSQL = @"
+                UPDATE card_generals_gallery 
+                SET temp_star = @temp_star 
+                WHERE user_id = @user_id 
+                  AND card_general_id = @card_general_id 
+                  AND (temp_star IS NULL OR temp_star < @temp_star);";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@card_general_id", Id);
-
-                await using (var reader = await checkCommand.ExecuteReaderAsync())
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    if (await reader.ReadAsync())
-                    {
-                        double tempStar = reader.IsDBNull(reader.GetOrdinal("temp_star")) ? 0 : reader.GetDoubleSafe("temp_star");
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
+                    updateCommand.Parameters.AddWithValue("@card_general_id", cardGeneralId);
+                    updateCommand.Parameters.AddWithValue("@temp_star", star);
 
-                        if (tempStar < star)
-                        {
-                            reader.Close(); // Đóng reader trước khi thực hiện update
-
-                            string updateSQL = @"
-                            UPDATE card_generals_gallery 
-                            SET temp_star = @temp_star 
-                            WHERE user_id = @user_id AND card_general_id = @card_general_id;
-                        ";
-
-                            MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@card_general_id", Id);
-                            updateCommand.Parameters.AddWithValue("@temp_star", star);
-
-                            await updateCommand.ExecuteNonQueryAsync();
-                        }
-                    }
+                    // Thực thi trực tiếp, MySQL sẽ tự kiểm tra điều kiện temp_star < star
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
     }
-    public async Task UpdateCardGeneralGalleryPowerAsync(string userId, string Id, CardGenerals cardGeneral)
+    public async Task UpdateCardGeneralGalleryPowerAsync(string userId, string id, CardGenerals cardGeneral)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -614,7 +591,7 @@ public class CardGeneralsGalleryRepository : ICardGeneralsGalleryRepository
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                 updateCommand.Parameters.AddWithValue("@user_id", userId);
-                updateCommand.Parameters.AddWithValue("@card_general_id", Id);
+                updateCommand.Parameters.AddWithValue("@card_general_id", id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
                 updateCommand.Parameters.AddWithValue("@power", cardGeneral.Power);

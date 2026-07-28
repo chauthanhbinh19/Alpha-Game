@@ -10,7 +10,7 @@ public interface IUserEquipmentsRepository
     Task<bool> InsertUserEquipmentAsync(string userId, string Id, Equipments EquipmentFromDB, double quantity);
     Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(string userId, List<(Equipments data, double quantity)> list);
     Task<bool> UpdateUserEquipmentsLevelAsync(string userId, Equipments equipment);
-    Task<bool> UpdateUserEquipmentsStarAsync(string userId, Equipments equipment);
+    Task<bool> UpdateUserEquipmentStarAsync(string userId, Equipments equipment);
     Task<bool> UpdateUserEquipmentsBreakthroughAsync(string userId, Equipments equipment, int star, double quantity);
     Task UpdateUserCurrencyAsync(string userId, string Id, double amount);
     Task InsertUserCardHeroEquipmentsAsync(string userId, string Id, Equipments equipment, int position);

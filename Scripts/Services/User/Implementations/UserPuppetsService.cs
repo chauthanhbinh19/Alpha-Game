@@ -38,7 +38,12 @@ public class UserPuppetsService : IUserPuppetsService
 
     public async Task<bool> InsertUserPuppetAsync(Puppets puppet, string userId)
     {
-        return await _userPuppetsRepository.InsertUserPuppetAsync(puppet, userId);
+        var result = await _userPuppetsRepository.InsertUserPuppetAsync(puppet, userId);
+        if (result)
+        {
+            await PuppetsGalleryService.Create().InsertPuppetGalleryAsync(userId, puppet.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserPuppetLevelAsync(string userId, Puppets puppet)
@@ -48,9 +53,14 @@ public class UserPuppetsService : IUserPuppetsService
 
     public async Task<bool> UpdateUserPuppetStarAsync(string userId, Puppets puppet)
     {
-        return await _userPuppetsRepository.UpdateUserPuppetStarAsync(userId, puppet);
+        var result = await _userPuppetsRepository.UpdateUserPuppetStarAsync(userId, puppet);
+        if (result)
+        {
+            await PuppetsGalleryService.Create().UpdateStarPuppetGalleryAsync(userId, puppet.Id, puppet.Star);
+        }
+        return result;
     }
-
+    
     public async Task<bool> UpdatePuppetBreakthroughAsync(string userId, Puppets puppet, int star, double quantity)
     {
         return await _userPuppetsRepository.UpdateUserPuppetBreakthroughAsync(userId, puppet, star, quantity);

@@ -222,7 +222,7 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
 
         return count;
     }
-    public async Task InsertCollaborationEquipmentGalleryAsync(string userId, string Id, CollaborationEquipments collaborationEquipment)
+    public async Task InsertCollaborationEquipmentGalleryAsync(string userId, string id, CollaborationEquipments collaborationEquipment)
     {
         int percent = QualityEvaluatorHelper.CheckQuality(collaborationEquipment.Type);
         string connectionString = DatabaseConfig.ConnectionString;
@@ -242,7 +242,7 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
 
                 MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
                 checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@collaboration_equipment_id", Id);
+                checkCommand.Parameters.AddWithValue("@collaboration_equipment_id", id);
 
                 int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -301,7 +301,7 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
 
                     // Thêm param
                     insertCommand.Parameters.AddWithValue("@user_id", userId);
-                    insertCommand.Parameters.AddWithValue("@collaboration_equipment_id", Id);
+                    insertCommand.Parameters.AddWithValue("@collaboration_equipment_id", id);
                     insertCommand.Parameters.AddWithValue("@status", "pending");
                     insertCommand.Parameters.AddWithValue("@current_star", 0);
                     insertCommand.Parameters.AddWithValue("@temp_star", 0);
@@ -384,7 +384,7 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
             }
         }
     }
-    public async Task UpdateStatusCollaborationEquipmentGalleryAsync(string userId, string Id)
+    public async Task UpdateStatusCollaborationEquipmentGalleryAsync(string userId, string id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -397,7 +397,7 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
                 string updateSQL = "UPDATE collaboration_equipments_gallery SET status=@status WHERE user_id=@user_id AND collaboration_equipment_id=@collaboration_equipment_id";
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                 updateCommand.Parameters.AddWithValue("@user_id", userId);
-                updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", Id);
+                updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", id);
                 updateCommand.Parameters.AddWithValue("@status", "available");
 
                 await updateCommand.ExecuteNonQueryAsync();
@@ -412,7 +412,7 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
             }
         }
     }
-    public async Task UpdateStarCollaborationEquipmentGalleryAsync(string userId, string Id, double star)
+    public async Task UpdateStarCollaborationEquipmentGalleryAsync(string userId, string collaborationEquipmentId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -422,54 +422,31 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
             {
                 await connection.OpenAsync();
 
-                // Kiểm tra bản ghi đã tồn tại và lấy temp_star hiện tại
-                string checkSQL = @"
-                SELECT current_star, temp_star
-                FROM collaboration_equipments_gallery 
-                WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
-            ";
+                // Gộp cả logic kiểm tra điều kiện vào SQL
+                string updateSQL = @"
+                UPDATE collaboration_equipments_gallery 
+                SET temp_star = @temp_star 
+                WHERE user_id = @user_id 
+                  AND collaboration_equipment_id = @collaboration_equipment_id 
+                  AND (temp_star IS NULL OR temp_star < @temp_star);";
 
-                MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@collaboration_equipment_id", Id);
-
-                await using (var reader = await checkCommand.ExecuteReaderAsync())
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    if (await reader.ReadAsync())
-                    {
-                        double tempStar = reader.IsDBNull(reader.GetOrdinal("temp_star")) ? 0 : reader.GetDoubleSafe("temp_star");
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
+                    updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipmentId);
+                    updateCommand.Parameters.AddWithValue("@temp_star", star);
 
-                        if (tempStar < star)
-                        {
-                            reader.Close(); // Đóng reader trước khi thực hiện update
-
-                            string updateSQL = @"
-                            UPDATE collaboration_equipments_gallery 
-                            SET temp_star = @temp_star 
-                            WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
-                        ";
-
-                            MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                            updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", Id);
-                            updateCommand.Parameters.AddWithValue("@temp_star", star);
-
-                            await updateCommand.ExecuteNonQueryAsync();
-                        }
-                    }
+                    // Thực thi trực tiếp, MySQL sẽ tự kiểm tra điều kiện temp_star < star
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
         }
     }
-    public async Task UpdateCollaborationEquipmentGalleryPowerAsync(string userId, string Id, CollaborationEquipments collaborationEquipment)
+    public async Task UpdateCollaborationEquipmentGalleryPowerAsync(string userId, string id, CollaborationEquipments collaborationEquipment)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -550,7 +527,7 @@ public class CollaborationEquipmentsGalleryRepository : ICollaborationEquipments
 
                 MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
                 updateCommand.Parameters.AddWithValue("@user_id", userId);
-                updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", Id);
+                updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", id);
                 updateCommand.Parameters.AddWithValue("@status", "pending");
                 updateCommand.Parameters.AddWithValue("@current_star", 0);
                 updateCommand.Parameters.AddWithValue("@power", collaborationEquipment.Power);

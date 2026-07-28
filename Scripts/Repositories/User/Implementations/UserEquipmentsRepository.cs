@@ -964,7 +964,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return true;
     }
-    public async Task<bool> UpdateUserEquipmentsStarAsync(string userId, Equipments equipment)
+    public async Task<bool> UpdateUserEquipmentStarAsync(string userId, Equipments equipment)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

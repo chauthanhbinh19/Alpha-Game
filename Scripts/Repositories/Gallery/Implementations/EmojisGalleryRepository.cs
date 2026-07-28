@@ -202,7 +202,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
 
         return count;
     }
-    public async Task InsertEmojiGalleryAsync(string userId, string Id, Emojis emoji)
+    public async Task InsertEmojiGalleryAsync(string userId, string id, Emojis emoji)
     {
         int percent = 20;
         string connectionString = DatabaseConfig.ConnectionString;
@@ -223,7 +223,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
                 await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
                 {
                     checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@emoji_id", Id);
+                    checkCommand.Parameters.AddWithValue("@emoji_id", id);
 
                     int recordCount = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
 
@@ -271,7 +271,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
                         using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
                         {
                             insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@emoji_id", Id);
+                            insertCommand.Parameters.AddWithValue("@emoji_id", id);
                             insertCommand.Parameters.AddWithValue("@status", "pending");
                             insertCommand.Parameters.AddWithValue("@current_star", 0);
                             insertCommand.Parameters.AddWithValue("@temp_star", 0);
@@ -362,7 +362,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
             }
         }
     }
-    public async Task UpdateStatusEmojiGalleryAsync(string userId, string Id)
+    public async Task UpdateStatusEmojiGalleryAsync(string userId, string id)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -379,7 +379,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
                 await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
                     updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@emoji_id", Id);
+                    updateCommand.Parameters.AddWithValue("@emoji_id", id);
                     updateCommand.Parameters.AddWithValue("@status", "available");
 
                     await updateCommand.ExecuteNonQueryAsync();
@@ -395,7 +395,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
             }
         }
     }
-    public async Task UpdateStarEmojiGalleryAsync(string userId, string id, double star)
+    public async Task UpdateStarEmojiGalleryAsync(string userId, string emojiId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -405,55 +405,27 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
             {
                 await connection.OpenAsync();
 
-                // Lấy current_star và temp_star
-                string checkSQL = @"
-                SELECT current_star, temp_star 
-                FROM emojis_gallery 
-                WHERE user_id = @user_id AND emoji_id = @emoji_id;
-            ";
+                // Gộp cả logic kiểm tra điều kiện vào SQL
+                string updateSQL = @"
+                UPDATE emojis_gallery 
+                SET temp_star = @temp_star 
+                WHERE user_id = @user_id 
+                  AND emoji_id = @emoji_id 
+                  AND (temp_star IS NULL OR temp_star < @temp_star);";
 
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
+                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
                 {
-                    checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@emoji_id", id);
+                    updateCommand.Parameters.AddWithValue("@user_id", userId);
+                    updateCommand.Parameters.AddWithValue("@emoji_id", emojiId);
+                    updateCommand.Parameters.AddWithValue("@temp_star", star);
 
-                    await using (var reader = await checkCommand.ExecuteReaderAsync())
-                    {
-                        if (await reader.ReadAsync())
-                        {
-                            double tempStar = reader.GetDoubleSafe("temp_star");
-
-                            // Nếu star mới cao hơn star tạm, cập nhật
-                            if (tempStar < star)
-                            {
-                                reader.Close(); // đóng trước khi chạy lệnh khác
-
-                                string updateSQL = @"
-                                UPDATE emojis_gallery 
-                                SET temp_star = @temp_star 
-                                WHERE user_id = @user_id AND emoji_id = @emoji_id;
-                            ";
-
-                                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
-                                {
-                                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                                    updateCommand.Parameters.AddWithValue("@emoji_id", id);
-                                    updateCommand.Parameters.AddWithValue("@temp_star", star);
-
-                                    await updateCommand.ExecuteNonQueryAsync();
-                                }
-                            }
-                        }
-                    }
+                    // Thực thi trực tiếp, MySQL sẽ tự kiểm tra điều kiện temp_star < star
+                    await updateCommand.ExecuteNonQueryAsync();
                 }
             }
             catch (MySqlException ex)
             {
                 Debug.LogError("Error: " + ex.Message);
-            }
-            finally
-            {
-                await connection.CloseAsync();
             }
         }
     }

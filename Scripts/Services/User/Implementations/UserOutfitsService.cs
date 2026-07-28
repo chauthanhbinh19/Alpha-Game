@@ -35,7 +35,12 @@ public class UserOutfitsService : IUserOutfitsService
 
     public async Task<bool> InsertUserOutfitAsync(Outfits outfit, string userId)
     {
-        return await _userOutfitsRepository.InsertUserOutfitAsync(outfit, userId);
+        var result = await _userOutfitsRepository.InsertUserOutfitAsync(outfit, userId);
+        if (result)
+        {
+            await OutfitsGalleryService.Create().InsertOutfitGalleryAsync(userId, outfit.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserOutfitLevelAsync(string userId, Outfits outfit)
@@ -45,7 +50,12 @@ public class UserOutfitsService : IUserOutfitsService
 
     public async Task<bool> UpdateUserOutfitStarAsync(string userId, Outfits outfit)
     {
-        return await _userOutfitsRepository.UpdateUserOutfitStarAsync(userId, outfit);
+        var result = await _userOutfitsRepository.UpdateUserOutfitStarAsync(userId, outfit);
+        if (result)
+        {
+            await OutfitsGalleryService.Create().UpdateStarOutfitGalleryAsync(userId, outfit.Id, outfit.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserOutfitBreakthroughAsync(string userId, Outfits outfit, int star, double quantity)

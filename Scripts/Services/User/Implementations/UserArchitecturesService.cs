@@ -35,7 +35,12 @@ public class UserArchitecturesService : IUserArchitecturesService
 
     public async Task<bool> InsertUserArchitectureAsync(Architectures architecture, string userId)
     {
-        return await _userArchitecturesRepository.InsertUserArchitectureAsync(architecture, userId);
+        var result = await _userArchitecturesRepository.InsertUserArchitectureAsync(architecture, userId);
+        if (result)
+        {
+            await ArchitecturesGalleryService.Create().InsertArchitectureGalleryAsync(userId, architecture.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserArchitectureLevelAsync(string userId, Architectures architecture)
@@ -45,7 +50,12 @@ public class UserArchitecturesService : IUserArchitecturesService
 
     public async Task<bool> UpdateUserArchitectureStarAsync(string userId, Architectures architecture)
     {
-        return await _userArchitecturesRepository.UpdateUserArchitectureStarAsync(userId, architecture);
+        var result = await _userArchitecturesRepository.UpdateUserArchitectureStarAsync(userId, architecture);
+        if (result)
+        {
+            await ArchitecturesGalleryService.Create().UpdateStarArchitectureGalleryAsync(userId, architecture.Id, architecture.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserArchitectureBreakthroughAsync(string userId, Architectures architecture, int star, double quantity)

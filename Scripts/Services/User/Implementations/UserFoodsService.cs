@@ -35,7 +35,12 @@ public class UserFoodsService : IUserFoodsService
 
     public async Task<bool> InsertUserFoodAsync(Foods food, string userId)
     {
-        return await _userFoodsRepository.InsertUserFoodAsync(food, userId);
+        var result = await _userFoodsRepository.InsertUserFoodAsync(food, userId);
+        if (result)
+        {
+            await FoodsGalleryService.Create().InsertFoodGalleryAsync(userId, food.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserFoodLevelAsync(string userId, Foods food)
@@ -45,7 +50,12 @@ public class UserFoodsService : IUserFoodsService
 
     public async Task<bool> UpdateUserFoodStarAsync(string userId, Foods food)
     {
-        return await _userFoodsRepository.UpdateUserFoodStarAsync(userId, food);
+        var result = await _userFoodsRepository.UpdateUserFoodStarAsync(userId, food);
+        if (result)
+        {
+            await FoodsGalleryService.Create().UpdateStarFoodGalleryAsync(userId, food.Id, food.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserFoodBreakthroughAsync(string userId, Foods food, int star, double quantity)

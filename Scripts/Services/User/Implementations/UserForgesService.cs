@@ -35,7 +35,12 @@ public class UserForgesService : IUserForgesService
 
     public async Task<bool> InsertUserForgeAsync(Forges forge, string userId)
     {
-        return await _userForgesRepository.InsertUserForgeAsync(forge, userId);
+        var result = await _userForgesRepository.InsertUserForgeAsync(forge, userId);
+        if (result)
+        {
+            await ForgesGalleryService.Create().InsertForgeGalleryAsync(userId, forge.Id);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserForgeLevelAsync(string userId, Forges forge)
@@ -45,7 +50,12 @@ public class UserForgesService : IUserForgesService
 
     public async Task<bool> UpdateUserForgeStarAsync(string userId, Forges forge)
     {
-        return await _userForgesRepository.UpdateUserForgeStarAsync(userId, forge);
+        var result = await _userForgesRepository.UpdateUserForgeStarAsync(userId, forge);
+        if (result)
+        {
+            await ForgesGalleryService.Create().UpdateStarForgeGalleryAsync(userId, forge.Id, forge.Star);
+        }
+        return result;
     }
 
     public async Task<bool> UpdateUserForgeBreakthroughAsync(string userId, Forges forge, int star, double quantity)
