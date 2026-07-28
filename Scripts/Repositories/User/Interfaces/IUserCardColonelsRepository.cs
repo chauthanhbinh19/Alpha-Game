@@ -17,5 +17,6 @@ public interface IUserCardColonelsRepository
     Task<bool> UpdateUserCardColonelStarAsync(string userId, CardColonels cardColonel);
     Task<bool> UpdateUserCardColonelBreakthroughAsync(string userId, CardColonels cardColonel, int star, double quantity);
     Task<CardColonels> GetUserCardColonelByIdAsync(string userId, string Id);
-    Task<List<CardColonels>> GetAllUserCardColonelsInTeamAsync(string userId);
+    Task<BaseStats> GetTeamTotalStatsAsync(string userId);
+    Task<BaseStats> GetTeamTotalStatsWithoutQualityAsync(string userId);
 }

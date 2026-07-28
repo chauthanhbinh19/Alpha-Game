@@ -17,5 +17,6 @@ public interface IUserCardSoldiersRepository
     Task<bool> UpdateUserCardSoldierStarAsync(string userId, CardSoldiers cardSoldier);
     Task<bool> UpdateUserCardSoldierBreakthroughAsync(string userId, CardSoldiers cardSoldier, int star, double quantity);
     Task<CardSoldiers> GetUserCardSoldierByIdAsync(string userId, string Id);
-    Task<List<CardSoldiers>> GetAllUserCardSoldiersInTeamAsync(string userId);
+    Task<BaseStats> GetTeamTotalStatsAsync(string userId);
+    Task<BaseStats> GetTeamTotalStatsWithoutQualityAsync(string userId);
 }

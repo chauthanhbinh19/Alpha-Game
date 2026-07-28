@@ -22,5 +22,5 @@ public interface IUserCardSpellsService
     Task<bool> UpdateUserCardSpellStarAsync(string userId, CardSpells cardSpell);
     Task<bool> UpdateUserCardSpellBreakthroughAsync(string userId, CardSpells cardSpell, int star, double quantity);
     Task<CardSpells> GetUserCardSpellByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
-    Task<List<CardSpells>> GetAllUserCardSpellsInTeamAsync(string userId, UserStatsContextDTO sharedContext = null);
+    Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
 }

@@ -39,7 +39,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@userId", userId);
-                    
+
                     if (!string.IsNullOrEmpty(rare) && rare != "All")
                     {
                         selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -167,7 +167,7 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
                 MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
                 selectCommand.Parameters.AddWithValue("@userId", userId);
-                
+
                 if (!string.IsNullOrEmpty(rare) && rare != "All")
                 {
                     selectCommand.Parameters.AddWithValue("@rare", rare);
@@ -810,57 +810,57 @@ public class UserAchievementsRepository : IUserAchievementsRepository
 
                 string selectSQL = @"
                 SELECT 
-                    SUM(power * (1 + quality / 10.0)) AS total_power,
-                    SUM(health * (1 + quality / 10.0)) AS total_health,
-                    SUM(mana * (1 + quality / 10.0)) AS total_mana,
-                    SUM(physical_attack * (1 + quality / 10.0)) AS total_physical_attack,
-                    SUM(physical_defense * (1 + quality / 10.0)) AS total_physical_defense,
-                    SUM(magical_attack * (1 + quality / 10.0)) AS total_magical_attack,
-                    SUM(magical_defense * (1 + quality / 10.0)) AS total_magical_defense,
-                    SUM(chemical_attack * (1 + quality / 10.0)) AS total_chemical_attack,
-                    SUM(chemical_defense * (1 + quality / 10.0)) AS total_chemical_defense,
-                    SUM(atomic_attack * (1 + quality / 10.0)) AS total_atomic_attack,
-                    SUM(atomic_defense * (1 + quality / 10.0)) AS total_atomic_defense,
-                    SUM(mental_attack * (1 + quality / 10.0)) AS total_mental_attack,
-                    SUM(mental_defense * (1 + quality / 10.0)) AS total_mental_defense,
-                    SUM(speed * (1 + quality / 10.0)) AS total_speed,
-                    SUM(critical_damage_rate * (1 + quality / 10.0)) AS total_critical_damage_rate,
-                    SUM(critical_rate * (1 + quality / 10.0)) AS total_critical_rate,
-                    SUM(critical_resistance_rate * (1 + quality / 10.0)) AS total_critical_resistance_rate,
-                    SUM(ignore_critical_rate * (1 + quality / 10.0)) AS total_ignore_critical_rate,
-                    SUM(penetration_rate * (1 + quality / 10.0)) AS total_penetration_rate,
-                    SUM(penetration_resistance_rate * (1 + quality / 10.0)) AS total_penetration_resistance_rate,
-                    SUM(evasion_rate * (1 + quality / 10.0)) AS total_evasion_rate,
-                    SUM(damage_absorption_rate * (1 + quality / 10.0)) AS total_damage_absorption_rate,
-                    SUM(ignore_damage_absorption_rate * (1 + quality / 10.0)) AS total_ignore_damage_absorption_rate,
-                    SUM(absorbed_damage_rate * (1 + quality / 10.0)) AS total_absorbed_damage_rate,
-                    SUM(vitality_regeneration_rate * (1 + quality / 10.0)) AS total_vitality_regeneration_rate,
-                    SUM(vitality_regeneration_resistance_rate * (1 + quality / 10.0)) AS total_vitality_regeneration_resistance_rate,
-                    SUM(accuracy_rate * (1 + quality / 10.0)) AS total_accuracy_rate,
-                    SUM(lifesteal_rate * (1 + quality / 10.0)) AS total_lifesteal_rate,
-                    SUM(shield_strength * (1 + quality / 10.0)) AS total_shield_strength,
-                    SUM(tenacity * (1 + quality / 10.0)) AS total_tenacity,
-                    SUM(resistance_rate * (1 + quality / 10.0)) AS total_resistance_rate,
-                    SUM(combo_rate * (1 + quality / 10.0)) AS total_combo_rate,
-                    SUM(ignore_combo_rate * (1 + quality / 10.0)) AS total_ignore_combo_rate,
-                    SUM(combo_damage_rate * (1 + quality / 10.0)) AS total_combo_damage_rate,
-                    SUM(combo_resistance_rate * (1 + quality / 10.0)) AS total_combo_resistance_rate,
-                    SUM(stun_rate * (1 + quality / 10.0)) AS total_stun_rate,
-                    SUM(ignore_stun_rate * (1 + quality / 10.0)) AS total_ignore_stun_rate,
-                    SUM(reflection_rate * (1 + quality / 10.0)) AS total_reflection_rate,
-                    SUM(ignore_reflection_rate * (1 + quality / 10.0)) AS total_ignore_reflection_rate,
-                    SUM(reflection_damage_rate * (1 + quality / 10.0)) AS total_reflection_damage_rate,
-                    SUM(reflection_resistance_rate * (1 + quality / 10.0)) AS total_reflection_resistance_rate,
-                    SUM(mana_regeneration_rate * (1 + quality / 10.0)) AS total_mana_regeneration_rate,
-                    SUM(damage_to_different_faction_rate * (1 + quality / 10.0)) AS total_damage_to_different_faction_rate,
-                    SUM(resistance_to_different_faction_rate * (1 + quality / 10.0)) AS total_resistance_to_different_faction_rate,
-                    SUM(damage_to_same_faction_rate * (1 + quality / 10.0)) AS total_damage_to_same_faction_rate,
-                    SUM(resistance_to_same_faction_rate * (1 + quality / 10.0)) AS total_resistance_to_same_faction_rate,
-                    SUM(normal_damage_rate * (1 + quality / 10.0)) AS total_normal_damage_rate,
-                    SUM(normal_resistance_rate * (1 + quality / 10.0)) AS total_normal_resistance_rate,
-                    SUM(skill_damage_rate * (1 + quality / 10.0)) AS total_skill_damage_rate,
-                    SUM(skill_resistance_rate * (1 + quality / 10.0)) AS total_skill_resistance_rate
-                FROM user_achievements
+                    -- Tính SUM trực tiếp áp dụng Quality, Star (min = 1) và Level (min = 1)
+                SUM(uc.health * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS health,
+                SUM(uc.physical_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS physical_attack,
+                SUM(uc.physical_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS physical_defense,
+                SUM(uc.magical_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS magical_attack,
+                SUM(uc.magical_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS magical_defense,
+                SUM(uc.chemical_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS chemical_attack,
+                SUM(uc.chemical_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS chemical_defense,
+                SUM(uc.atomic_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS atomic_attack,
+                SUM(uc.atomic_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS atomic_defense,
+                SUM(uc.mental_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS mental_attack,
+                SUM(uc.mental_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS mental_defense,
+                SUM(uc.speed * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS speed,
+                SUM(uc.critical_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS critical_damage_rate,
+                SUM(uc.critical_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS critical_rate,
+                SUM(uc.critical_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS critical_resistance_rate,
+                SUM(uc.ignore_critical_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_critical_rate,
+                SUM(uc.penetration_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS penetration_rate,
+                SUM(uc.penetration_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS penetration_resistance_rate,
+                SUM(uc.evasion_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS evasion_rate,
+                SUM(uc.damage_absorption_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS damage_absorption_rate,
+                SUM(uc.ignore_damage_absorption_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_damage_absorption_rate,
+                SUM(uc.absorbed_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS absorbed_damage_rate,
+                SUM(uc.vitality_regeneration_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS vitality_regeneration_rate,
+                SUM(uc.vitality_regeneration_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS vitality_regeneration_resistance_rate,
+                SUM(uc.accuracy_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS accuracy_rate,
+                SUM(uc.lifesteal_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS lifesteal_rate,
+                SUM(uc.shield_strength * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS shield_strength,
+                SUM(uc.tenacity * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS tenacity,
+                SUM(uc.resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS resistance_rate,
+                SUM(uc.combo_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS combo_rate,
+                SUM(uc.ignore_combo_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_combo_rate,
+                SUM(uc.combo_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS combo_damage_rate,
+                SUM(uc.combo_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS combo_resistance_rate,
+                SUM(uc.stun_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS stun_rate,
+                SUM(uc.ignore_stun_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_stun_rate,
+                SUM(uc.reflection_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS reflection_rate,
+                SUM(uc.ignore_reflection_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_reflection_rate,
+                SUM(uc.reflection_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS reflection_damage_rate,
+                SUM(uc.reflection_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS reflection_resistance_rate,
+                SUM(uc.mana * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS mana,
+                SUM(uc.mana_regeneration_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS mana_regeneration_rate,
+                SUM(uc.damage_to_different_faction_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS damage_to_different_faction_rate,
+                SUM(uc.resistance_to_different_faction_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS resistance_to_different_faction_rate,
+                SUM(uc.damage_to_same_faction_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS damage_to_same_faction_rate,
+                SUM(uc.resistance_to_same_faction_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS resistance_to_same_faction_rate,
+                SUM(uc.normal_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS normal_damage_rate,
+                SUM(uc.normal_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS normal_resistance_rate,
+                SUM(uc.skill_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS skill_damage_rate,
+                SUM(uc.skill_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS skill_resistance_rate
+                FROM user_achievements uc
                 WHERE user_id = @user_id;
             ";
 
@@ -872,56 +872,55 @@ public class UserAchievementsRepository : IUserAchievementsRepository
                     {
                         if (await reader.ReadAsync())
                         {
-                            sumAchievements.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDoubleSafe("total_power");
-                            sumAchievements.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDoubleSafe("total_health");
-                            sumAchievements.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDoubleSafe("total_mana");
-                            sumAchievements.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDoubleSafe("total_physical_attack");
-                            sumAchievements.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDoubleSafe("total_physical_defense");
-                            sumAchievements.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDoubleSafe("total_magical_attack");
-                            sumAchievements.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDoubleSafe("total_magical_defense");
-                            sumAchievements.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_chemical_attack");
-                            sumAchievements.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_chemical_defense");
-                            sumAchievements.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_atomic_attack");
-                            sumAchievements.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_atomic_defense");
-                            sumAchievements.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDoubleSafe("total_mental_attack");
-                            sumAchievements.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDoubleSafe("total_mental_defense");
-                            sumAchievements.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDoubleSafe("total_speed");
-                            sumAchievements.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDoubleSafe("total_critical_damage_rate");
-                            sumAchievements.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDoubleSafe("total_critical_rate");
-                            sumAchievements.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_critical_resistance_rate");
-                            sumAchievements.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_critical_rate");
-                            sumAchievements.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_rate");
-                            sumAchievements.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_resistance_rate");
-                            sumAchievements.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDoubleSafe("total_evasion_rate");
-                            sumAchievements.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_damage_absorption_rate");
-                            sumAchievements.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_damage_absorption_rate");
-                            sumAchievements.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDoubleSafe("total_absorbed_damage_rate");
-                            sumAchievements.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_rate");
-                            sumAchievements.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_resistance_rate");
-                            sumAchievements.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDoubleSafe("total_accuracy_rate");
-                            sumAchievements.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDoubleSafe("total_lifesteal_rate");
-                            sumAchievements.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDoubleSafe("total_shield_strength");
-                            sumAchievements.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDoubleSafe("total_tenacity");
-                            sumAchievements.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_rate");
-                            sumAchievements.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDoubleSafe("total_combo_rate");
-                            sumAchievements.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_combo_rate");
-                            sumAchievements.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDoubleSafe("total_combo_damage_rate");
-                            sumAchievements.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_combo_resistance_rate");
-                            sumAchievements.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDoubleSafe("total_stun_rate");
-                            sumAchievements.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_stun_rate");
-                            sumAchievements.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_rate");
-                            sumAchievements.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_reflection_rate");
-                            sumAchievements.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_damage_rate");
-                            sumAchievements.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_resistance_rate");
-                            sumAchievements.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_mana_regeneration_rate");
-                            sumAchievements.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_different_faction_rate");
-                            sumAchievements.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_different_faction_rate");
-                            sumAchievements.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_same_faction_rate");
-                            sumAchievements.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_same_faction_rate");
-                            sumAchievements.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDoubleSafe("total_normal_damage_rate");
-                            sumAchievements.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_normal_resistance_rate");
-                            sumAchievements.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDoubleSafe("total_skill_damage_rate");
-                            sumAchievements.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_skill_resistance_rate");
+                            sumAchievements.Health = reader.GetDoubleSafe("health");
+                            sumAchievements.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
+                            sumAchievements.PhysicalDefense = reader.GetDoubleSafe("physical_defense");
+                            sumAchievements.MagicalAttack = reader.GetDoubleSafe("magical_attack");
+                            sumAchievements.MagicalDefense = reader.GetDoubleSafe("magical_defense");
+                            sumAchievements.ChemicalAttack = reader.GetDoubleSafe("chemical_attack");
+                            sumAchievements.ChemicalDefense = reader.GetDoubleSafe("chemical_defense");
+                            sumAchievements.AtomicAttack = reader.GetDoubleSafe("atomic_attack");
+                            sumAchievements.AtomicDefense = reader.GetDoubleSafe("atomic_defense");
+                            sumAchievements.MentalAttack = reader.GetDoubleSafe("mental_attack");
+                            sumAchievements.MentalDefense = reader.GetDoubleSafe("mental_defense");
+                            sumAchievements.Speed = reader.GetDoubleSafe("speed");
+                            sumAchievements.CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate");
+                            sumAchievements.CriticalRate = reader.GetDoubleSafe("critical_rate");
+                            sumAchievements.CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate");
+                            sumAchievements.IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate");
+                            sumAchievements.PenetrationRate = reader.GetDoubleSafe("penetration_rate");
+                            sumAchievements.PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate");
+                            sumAchievements.EvasionRate = reader.GetDoubleSafe("evasion_rate");
+                            sumAchievements.DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate");
+                            sumAchievements.IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate");
+                            sumAchievements.AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate");
+                            sumAchievements.VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate");
+                            sumAchievements.VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate");
+                            sumAchievements.AccuracyRate = reader.GetDoubleSafe("accuracy_rate");
+                            sumAchievements.LifestealRate = reader.GetDoubleSafe("lifesteal_rate");
+                            sumAchievements.ShieldStrength = reader.GetDoubleSafe("shield_strength");
+                            sumAchievements.Tenacity = reader.GetDoubleSafe("tenacity");
+                            sumAchievements.ResistanceRate = reader.GetDoubleSafe("resistance_rate");
+                            sumAchievements.ComboRate = reader.GetDoubleSafe("combo_rate");
+                            sumAchievements.IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate");
+                            sumAchievements.ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate");
+                            sumAchievements.ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate");
+                            sumAchievements.StunRate = reader.GetDoubleSafe("stun_rate");
+                            sumAchievements.IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate");
+                            sumAchievements.ReflectionRate = reader.GetDoubleSafe("reflection_rate");
+                            sumAchievements.IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate");
+                            sumAchievements.ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate");
+                            sumAchievements.ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate");
+                            sumAchievements.Mana = reader.GetDoubleSafe("mana");
+                            sumAchievements.ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate");
+                            sumAchievements.DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate");
+                            sumAchievements.ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate");
+                            sumAchievements.DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate");
+                            sumAchievements.ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate");
+                            sumAchievements.NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate");
+                            sumAchievements.NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate");
+                            sumAchievements.SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate");
+                            sumAchievements.SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate");
                         }
                     }
                 }

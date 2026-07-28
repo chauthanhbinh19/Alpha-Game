@@ -17,5 +17,5 @@ public interface IUserBooksService
     Task<bool> UpdateUserBookBreakthroughAsync(string userId, Books book, int star, double quantity);
     Task<bool> UpdateTeamUserBookAsync(string userId, string teamId, string position, string bookId);
     Task<Books> GetUserBookByIdAsync(string userId, string Id);
-    Task<List<Books>> GetAllUserBooksInTeamAsync(string userId);
+    Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
 }

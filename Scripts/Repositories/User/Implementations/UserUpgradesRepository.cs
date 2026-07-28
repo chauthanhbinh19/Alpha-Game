@@ -6,7 +6,7 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserUpgradesRepository : IUserUpgradesRepository
 {
-    public async Task<UserUpgrades> GetUserUpgradesAsync(string userId, string upgradeId, string userTable, string objectColumn)
+    public async Task<UserUpgrades> GetUserUpgradesAsync(string userId, string upgradeId, string objectId, string userTable, string objectColumn)
     {
         UserUpgrades userUpgrade = new UserUpgrades();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -18,15 +18,24 @@ public class UserUpgradesRepository : IUserUpgradesRepository
                 await connection.OpenAsync();
 
                 string selectSQL = $@"
-                SELECT {objectColumn},upgrade_id, current_level, current_multiplier
-                FROM {userTable}
-                WHERE user_id = @user_id AND upgrade_id = @upgrade_id;
+                SELECT 
+                    u.id AS upgrade_id,
+                    uchu.{objectColumn},
+                    COALESCE(uchu.current_level, 0) AS current_level,
+                    COALESCE(uchu.current_multiplier, 0) AS current_multiplier
+                FROM upgrades u
+                LEFT JOIN {userTable} uchu
+                    ON u.id = uchu.upgrade_id
+                    AND uchu.user_id = @user_id
+                    AND uchu.{objectColumn} = @object_id
+                WHERE u.id = @upgrade_id;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@upgrade_id", upgradeId);
+                    selectCommand.Parameters.AddWithValue("@object_id", objectId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

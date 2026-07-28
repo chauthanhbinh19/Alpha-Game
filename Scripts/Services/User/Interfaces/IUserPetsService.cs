@@ -17,5 +17,5 @@ public interface IUserPetsService
     Task<bool> UpdateUserPetBreakthroughAsync(string userId, Pets pet, int star, double quantity);
     Task<bool> UpdateTeamUserPetAsync(string userId, string teamId, string cardId);
     Task<Pets> GetUserPetByIdAsync(string userId, string Id);
-    Task<List<Pets>> GetAllUserPetsInTeamAsync(string userId);
+    Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
 }

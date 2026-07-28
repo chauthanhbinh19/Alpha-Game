@@ -955,7 +955,87 @@ public static class StatsHelper
         total.SkillDamageRate += source.SkillDamageRate;
         total.SkillResistanceRate += source.SkillResistanceRate;
     }
+    
+    public static void RecalculatePower(this BaseStats totalStats)
+    {
+        totalStats.Power = PowerHelper.CalculatePower(
+            totalStats.Health,
+            totalStats.PhysicalAttack, totalStats.PhysicalDefense,
+            totalStats.MagicalAttack, totalStats.MagicalDefense,
+            totalStats.ChemicalAttack, totalStats.ChemicalDefense,
+            totalStats.AtomicAttack, totalStats.AtomicDefense,
+            totalStats.MentalAttack, totalStats.MentalDefense,
+            totalStats.Speed,
+            totalStats.CriticalDamageRate, totalStats.CriticalRate, totalStats.CriticalResistanceRate, totalStats.IgnoreCriticalRate,
+            totalStats.PenetrationRate, totalStats.PenetrationResistanceRate, totalStats.EvasionRate,
+            totalStats.DamageAbsorptionRate, totalStats.IgnoreDamageAbsorptionRate, totalStats.AbsorbedDamageRate,
+            totalStats.VitalityRegenerationRate, totalStats.VitalityRegenerationResistanceRate,
+            totalStats.AccuracyRate, totalStats.LifestealRate,
+            totalStats.ShieldStrength, totalStats.Tenacity, totalStats.ResistanceRate,
+            totalStats.ComboRate, totalStats.IgnoreComboRate, totalStats.ComboDamageRate, totalStats.ComboResistanceRate,
+            totalStats.StunRate, totalStats.IgnoreStunRate,
+            totalStats.ReflectionRate, totalStats.IgnoreReflectionRate, totalStats.ReflectionDamageRate, totalStats.ReflectionResistanceRate,
+            totalStats.Mana, totalStats.ManaRegenerationRate,
+            totalStats.DamageToDifferentFactionRate, totalStats.ResistanceToDifferentFactionRate,
+            totalStats.DamageToSameFactionRate, totalStats.ResistanceToSameFactionRate,
+            totalStats.NormalDamageRate, totalStats.NormalResistanceRate,
+            totalStats.SkillDamageRate, totalStats.SkillResistanceRate
+        );
+    }
+    public static void ApplyTotalBuffs(this BaseStats totalStats, BaseStats baseStats, TotalBuffs total)
+    {
+        if (total == null) return;
+        totalStats.Health = totalStats.Health + total.Health + baseStats.Health * total.PercentAllHealth / 100;
+        totalStats.PhysicalAttack = totalStats.PhysicalAttack + total.PhysicalAttack + baseStats.PhysicalAttack * total.PercentAllPhysicalAttack / 100;
+        totalStats.PhysicalDefense = totalStats.PhysicalDefense + total.PhysicalDefense + baseStats.PhysicalDefense * total.PercentAllPhysicalDefense / 100;
+        totalStats.MagicalAttack = totalStats.MagicalAttack + total.MagicalAttack + baseStats.MagicalAttack * total.PercentAllMagicalAttack / 100;
+        totalStats.MagicalDefense = totalStats.MagicalDefense + total.MagicalDefense + baseStats.MagicalDefense * total.PercentAllMagicalDefense / 100;
+        totalStats.ChemicalAttack = totalStats.ChemicalAttack + total.ChemicalAttack + baseStats.ChemicalAttack * total.PercentAllChemicalAttack / 100;
+        totalStats.ChemicalDefense = totalStats.ChemicalDefense + total.ChemicalDefense + baseStats.ChemicalDefense * total.PercentAllChemicalDefense / 100;
+        totalStats.AtomicAttack = totalStats.AtomicAttack + total.AtomicAttack + baseStats.AtomicAttack * total.PercentAllAtomicAttack / 100;
+        totalStats.AtomicDefense = totalStats.AtomicDefense + total.AtomicDefense + baseStats.AtomicDefense * total.PercentAllAtomicDefense / 100;
+        totalStats.MentalAttack = totalStats.MentalAttack + total.MentalAttack + baseStats.MentalAttack * total.PercentAllMentalAttack / 100;
+        totalStats.MentalDefense = totalStats.MentalDefense + total.MentalDefense + baseStats.MentalDefense * total.PercentAllMentalDefense / 100;
 
+        totalStats.Speed += total.Speed;
+        totalStats.CriticalDamageRate += total.CriticalDamageRate;
+        totalStats.CriticalRate += total.CriticalRate;
+        totalStats.CriticalResistanceRate += total.CriticalResistanceRate;
+        totalStats.IgnoreCriticalRate += total.IgnoreCriticalRate;
+        totalStats.PenetrationRate += total.PenetrationRate;
+        totalStats.PenetrationResistanceRate += total.PenetrationResistanceRate;
+        totalStats.EvasionRate += total.EvasionRate;
+        totalStats.DamageAbsorptionRate += total.DamageAbsorptionRate;
+        totalStats.IgnoreDamageAbsorptionRate += total.IgnoreDamageAbsorptionRate;
+        totalStats.AbsorbedDamageRate += total.AbsorbedDamageRate;
+        totalStats.VitalityRegenerationRate += total.VitalityRegenerationRate;
+        totalStats.VitalityRegenerationResistanceRate += total.VitalityRegenerationResistanceRate;
+        totalStats.AccuracyRate += total.AccuracyRate;
+        totalStats.LifestealRate += total.LifestealRate;
+        totalStats.ShieldStrength += total.ShieldStrength;
+        totalStats.Tenacity += total.Tenacity;
+        totalStats.ResistanceRate += total.ResistanceRate;
+        totalStats.ComboRate += total.ComboRate;
+        totalStats.IgnoreComboRate += total.IgnoreComboRate;
+        totalStats.ComboDamageRate += total.ComboDamageRate;
+        totalStats.ComboResistanceRate += total.ComboResistanceRate;
+        totalStats.StunRate += total.StunRate;
+        totalStats.IgnoreStunRate += total.IgnoreStunRate;
+        totalStats.ReflectionRate += total.ReflectionRate;
+        totalStats.IgnoreReflectionRate += total.IgnoreReflectionRate;
+        totalStats.ReflectionDamageRate += total.ReflectionDamageRate;
+        totalStats.ReflectionResistanceRate += total.ReflectionResistanceRate;
+        totalStats.Mana += total.Mana;
+        totalStats.ManaRegenerationRate += total.ManaRegenerationRate;
+        totalStats.DamageToDifferentFactionRate += total.DamageToDifferentFactionRate;
+        totalStats.ResistanceToDifferentFactionRate += total.ResistanceToDifferentFactionRate;
+        totalStats.DamageToSameFactionRate += total.DamageToSameFactionRate;
+        totalStats.ResistanceToSameFactionRate += total.ResistanceToSameFactionRate;
+        totalStats.NormalDamageRate += total.NormalDamageRate;
+        totalStats.NormalResistanceRate += total.NormalResistanceRate;
+        totalStats.SkillDamageRate += total.SkillDamageRate;
+        totalStats.SkillResistanceRate += total.SkillResistanceRate;
+    }
     public static void ApplyTotalBuffs(this CardHeroes cardHero, TotalBuffs total)
     {
         if (total == null) return;

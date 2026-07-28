@@ -6,7 +6,7 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserModulesRepository : IUserModulesRepository
 {
-    public async Task<UserModules> GetUserModulesAsync(string userId, string moduleId, string userTable, string objectColumn)
+    public async Task<UserModules> GetUserModulesAsync(string userId, string moduleId, string objectId, string userTable, string objectColumn)
     {
         UserModules userModule = new UserModules();
         string connectionString = DatabaseConfig.ConnectionString;
@@ -18,15 +18,24 @@ public class UserModulesRepository : IUserModulesRepository
                 await connection.OpenAsync();
 
                 string selectSQL = $@"
-                SELECT {objectColumn},module_id, current_level, current_multiplier
-                FROM {userTable}
-                WHERE user_id = @user_id AND module_id = @module_id;
+                SELECT 
+                    u.id AS module_id,
+                    uchu.{objectColumn},
+                    COALESCE(uchu.current_level, 0) AS current_level,
+                    COALESCE(uchu.current_multiplier, 0) AS current_multiplier
+                FROM modules u
+                LEFT JOIN {userTable} uchu
+                    ON u.id = uchu.module_id
+                    AND uchu.user_id = @user_id
+                    AND uchu.{objectColumn} = @object_id
+                WHERE u.id = @module_id;
             ";
 
                 using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {
                     selectCommand.Parameters.AddWithValue("@user_id", userId);
                     selectCommand.Parameters.AddWithValue("@module_id", moduleId);
+                    selectCommand.Parameters.AddWithValue("@object_id", objectId);
 
                     using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
                     {

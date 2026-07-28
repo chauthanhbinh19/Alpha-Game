@@ -141,7 +141,6 @@ public class SignInHandler
             }
 
             AuthenticationManager.Instance.CheckLoggedIn();
-            await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
         }
         else
         {

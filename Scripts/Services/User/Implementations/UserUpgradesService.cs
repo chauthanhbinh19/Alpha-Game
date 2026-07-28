@@ -79,7 +79,7 @@ public class UserUpgradesService : IUserUpgradesService
             throw new NotSupportedException(
                 $"Unsupported stat type: {stat.GetType().Name}");
         }
-        return await _userUpgradesRepository.GetUserUpgradesAsync(userId, upgradeId, mapping.Table, mapping.Column);
+        return await _userUpgradesRepository.GetUserUpgradesAsync(userId, upgradeId, stat.Id, mapping.Table, mapping.Column);
     }
 
     public async Task<UserUpgrades> GetSumUserUpgradesAsync(string userId, IStats stat)

@@ -17,5 +17,6 @@ public interface IUserCardAdmiralsRepository
     Task<bool> UpdateUserCardAdmiralStarAsync(string userId, CardAdmirals cardAdmiral);
     Task<bool> UpdateUserCardAdmiralBreakthroughAsync(string userId, CardAdmirals cardAdmiral, int star, double quantity);
     Task<CardAdmirals> GetUserCardAdmiralByIdAsync(string userId, string Id);
-    Task<List<CardAdmirals>> GetAllUserCardAdmiralsInTeamAsync(string userId);
+    Task<BaseStats> GetTeamTotalStatsAsync(string userId);
+    Task<BaseStats> GetTeamTotalStatsWithoutQualityAsync(string userId);
 }

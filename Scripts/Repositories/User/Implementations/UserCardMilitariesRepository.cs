@@ -1558,9 +1558,9 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
 
         return cardMilitary;
     }
-    public async Task<List<CardMilitaries>> GetAllUserCardMilitariesInTeamAsync(string userId)
+    public async Task<BaseStats> GetTeamTotalStatsAsync(string userId)
     {
-        List<CardMilitaries> cardMilitaries = new List<CardMilitaries>();
+        BaseStats totalStats = new BaseStats();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using MySqlConnection connection = new MySqlConnection(connectionString);
@@ -1570,208 +1570,116 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
 
             string selectSQL = @"
             SELECT 
-                    uc.*, 
-                    c.name, 
-                    c.image, 
-                    c.type, 
-                    c.description, 
-                    (
-                        SELECT JSON_ARRAYAGG(
-                            JSON_OBJECT(
-                                'id', e.id,
-                                'name', e.name,
-                                'image', e.image,
-                                'type', e.type
-                            )
-                        )
-                        FROM card_military_emblem che
-                        JOIN emblems e ON che.emblem_id = e.id
-                        WHERE che.card_military_id = c.id
-                    ) AS emblems_json,
-                    (
-                        SELECT JSON_ARRAYAGG(
-                            JSON_OBJECT(
-                                'id', cl.id,
-                                'sub_type', cl.sub_type,
-                                'sub_image', cl.sub_image,
-                                'main_type', cl.main_type,
-                                'main_image', cl.main_image,
-                                'movement_range', cl.movement_range,
-                                'movement_point', cl.movement_point,
-                                'attack_range', cl.attack_range
-                            )
-                        )
-                        FROM card_military_class chc
-                        JOIN classes cl ON chc.class_id = cl.id
-                        WHERE chc.card_military_id = c.id
-                    ) AS classes_json
-                FROM user_card_militaries uc
-                LEFT JOIN card_militaries c ON c.id = uc.card_military_id 
-                LEFT JOIN teams t ON t.team_id = uc.team_id
-            WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL";
+                -- Tính SUM trực tiếp đã áp dụng Quality cho từng Stat
+                SUM(uc.health * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS health,
+                SUM(uc.physical_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS physical_attack,
+                SUM(uc.physical_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS physical_defense,
+                SUM(uc.magical_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS magical_attack,
+                SUM(uc.magical_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS magical_defense,
+                SUM(uc.chemical_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS chemical_attack,
+                SUM(uc.chemical_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS chemical_defense,
+                SUM(uc.atomic_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS atomic_attack,
+                SUM(uc.atomic_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS atomic_defense,
+                SUM(uc.mental_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS mental_attack,
+                SUM(uc.mental_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS mental_defense,
+                SUM(uc.speed * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS speed,
+                SUM(uc.critical_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS critical_damage_rate,
+                SUM(uc.critical_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS critical_rate,
+                SUM(uc.critical_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS critical_resistance_rate,
+                SUM(uc.ignore_critical_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_critical_rate,
+                SUM(uc.penetration_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS penetration_rate,
+                SUM(uc.penetration_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS penetration_resistance_rate,
+                SUM(uc.evasion_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS evasion_rate,
+                SUM(uc.damage_absorption_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS damage_absorption_rate,
+                SUM(uc.ignore_damage_absorption_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_damage_absorption_rate,
+                SUM(uc.absorbed_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS absorbed_damage_rate,
+                SUM(uc.vitality_regeneration_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS vitality_regeneration_rate,
+                SUM(uc.vitality_regeneration_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS vitality_regeneration_resistance_rate,
+                SUM(uc.accuracy_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS accuracy_rate,
+                SUM(uc.lifesteal_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS lifesteal_rate,
+                SUM(uc.shield_strength * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS shield_strength,
+                SUM(uc.tenacity * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS tenacity,
+                SUM(uc.resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS resistance_rate,
+                SUM(uc.combo_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS combo_rate,
+                SUM(uc.ignore_combo_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_combo_rate,
+                SUM(uc.combo_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS combo_damage_rate,
+                SUM(uc.combo_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS combo_resistance_rate,
+                SUM(uc.stun_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS stun_rate,
+                SUM(uc.ignore_stun_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_stun_rate,
+                SUM(uc.reflection_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS reflection_rate,
+                SUM(uc.ignore_reflection_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_reflection_rate,
+                SUM(uc.reflection_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS reflection_damage_rate,
+                SUM(uc.reflection_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS reflection_resistance_rate,
+                SUM(uc.mana * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS mana,
+                SUM(uc.mana_regeneration_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS mana_regeneration_rate,
+                SUM(uc.damage_to_different_faction_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS damage_to_different_faction_rate,
+                SUM(uc.resistance_to_different_faction_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS resistance_to_different_faction_rate,
+                SUM(uc.damage_to_same_faction_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS damage_to_same_faction_rate,
+                SUM(uc.resistance_to_same_faction_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS resistance_to_same_faction_rate,
+                SUM(uc.normal_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS normal_damage_rate,
+                SUM(uc.normal_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS normal_resistance_rate,
+                SUM(uc.skill_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS skill_damage_rate,
+                SUM(uc.skill_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS skill_resistance_rate
+            FROM user_card_militaries uc
+            WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL;";
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
             selectCommand.Parameters.AddWithValue("@user_id", userId);
 
             await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
-            while (await reader.ReadAsync())
+            // Chỉ có đúng 1 dòng trả về
+            if (await reader.ReadAsync())
             {
-                CardMilitaries cardMilitary = new CardMilitaries
-                {
-                    Id = reader.GetStringSafe("card_military_id"),
-                    Name = reader.GetStringSafe("name"),
-                    Image = reader.GetStringSafe("image"),
-                    Rarity = reader.GetStringSafe("rare"),
-                    Quality = reader.GetDoubleSafe("quality"),
-                    Type = reader.GetStringSafe("type"),
-                    Star = reader.GetIntSafe("star"),
-                    Level = reader.GetIntSafe("level"),
-                    Experience = reader.GetIntSafe("experience"),
-                    Quantity = reader.GetIntSafe("quantity"),
-                    Block = reader.GetBoolean("block"),
-                    TeamId = reader.IsDBNull(reader.GetOrdinal("team_id")) ? null : reader.GetStringSafe("team_id"),
-                    Position = reader.IsDBNull(reader.GetOrdinal("position")) ? null : reader.GetStringSafe("position"),
-                    Power = reader.GetDoubleSafe("power"),
-                    Health = reader.GetDoubleSafe("health"),
-                    PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
-                    PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
-                    MagicalAttack = reader.GetDoubleSafe("magical_attack"),
-                    MagicalDefense = reader.GetDoubleSafe("magical_defense"),
-                    ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
-                    ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
-                    AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
-                    AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
-                    MentalAttack = reader.GetDoubleSafe("mental_attack"),
-                    MentalDefense = reader.GetDoubleSafe("mental_defense"),
-                    Speed = reader.GetDoubleSafe("speed"),
-                    CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
-                    CriticalRate = reader.GetDoubleSafe("critical_rate"),
-                    CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
-                    IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
-                    PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
-                    PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
-                    EvasionRate = reader.GetDoubleSafe("evasion_rate"),
-                    DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
-                    IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
-                    AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
-                    VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
-                    VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
-                    AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
-                    LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
-                    ShieldStrength = reader.GetDoubleSafe("shield_strength"),
-                    Tenacity = reader.GetDoubleSafe("tenacity"),
-                    ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
-                    ComboRate = reader.GetDoubleSafe("combo_rate"),
-                    IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
-                    ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
-                    ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
-                    StunRate = reader.GetDoubleSafe("stun_rate"),
-                    IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
-                    ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
-                    IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
-                    ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
-                    ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
-                    Mana = reader.GetDoubleSafe("mana"),
-                    ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
-                    DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
-                    ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
-                    DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
-                    ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
-                    NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
-                    NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
-                    SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
-                    SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                    Description = reader.GetStringSafe("description"),
+                totalStats.Health = reader.GetDoubleSafe("health");
+                totalStats.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
+                totalStats.PhysicalDefense = reader.GetDoubleSafe("physical_defense");
+                totalStats.MagicalAttack = reader.GetDoubleSafe("magical_attack");
+                totalStats.MagicalDefense = reader.GetDoubleSafe("magical_defense");
+                totalStats.ChemicalAttack = reader.GetDoubleSafe("chemical_attack");
+                totalStats.ChemicalDefense = reader.GetDoubleSafe("chemical_defense");
+                totalStats.AtomicAttack = reader.GetDoubleSafe("atomic_attack");
+                totalStats.AtomicDefense = reader.GetDoubleSafe("atomic_defense");
+                totalStats.MentalAttack = reader.GetDoubleSafe("mental_attack");
+                totalStats.MentalDefense = reader.GetDoubleSafe("mental_defense");
+                totalStats.Speed = reader.GetDoubleSafe("speed");
+                totalStats.CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate");
+                totalStats.CriticalRate = reader.GetDoubleSafe("critical_rate");
+                totalStats.CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate");
+                totalStats.IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate");
+                totalStats.PenetrationRate = reader.GetDoubleSafe("penetration_rate");
+                totalStats.PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate");
+                totalStats.EvasionRate = reader.GetDoubleSafe("evasion_rate");
+                totalStats.DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate");
+                totalStats.IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate");
+                totalStats.AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate");
+                totalStats.VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate");
+                totalStats.VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate");
+                totalStats.AccuracyRate = reader.GetDoubleSafe("accuracy_rate");
+                totalStats.LifestealRate = reader.GetDoubleSafe("lifesteal_rate");
+                totalStats.ShieldStrength = reader.GetDoubleSafe("shield_strength");
+                totalStats.Tenacity = reader.GetDoubleSafe("tenacity");
+                totalStats.ResistanceRate = reader.GetDoubleSafe("resistance_rate");
+                totalStats.ComboRate = reader.GetDoubleSafe("combo_rate");
+                totalStats.IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate");
+                totalStats.ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate");
+                totalStats.ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate");
+                totalStats.StunRate = reader.GetDoubleSafe("stun_rate");
+                totalStats.IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate");
+                totalStats.ReflectionRate = reader.GetDoubleSafe("reflection_rate");
+                totalStats.IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate");
+                totalStats.ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate");
+                totalStats.ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate");
+                totalStats.Mana = reader.GetDoubleSafe("mana");
+                totalStats.ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate");
+                totalStats.DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate");
+                totalStats.ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate");
+                totalStats.DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate");
+                totalStats.ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate");
+                totalStats.NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate");
+                totalStats.NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate");
+                totalStats.SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate");
+                totalStats.SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate");
 
-                    BaseStats = new BaseStats
-                    {
-                        Power = reader.GetDoubleSafe("power"),
-                        Health = reader.GetDoubleSafe("health"),
-                        PhysicalAttack = reader.GetDoubleSafe("physical_attack"),
-                        PhysicalDefense = reader.GetDoubleSafe("physical_defense"),
-                        MagicalAttack = reader.GetDoubleSafe("magical_attack"),
-                        MagicalDefense = reader.GetDoubleSafe("magical_defense"),
-                        ChemicalAttack = reader.GetDoubleSafe("chemical_attack"),
-                        ChemicalDefense = reader.GetDoubleSafe("chemical_defense"),
-                        AtomicAttack = reader.GetDoubleSafe("atomic_attack"),
-                        AtomicDefense = reader.GetDoubleSafe("atomic_defense"),
-                        MentalAttack = reader.GetDoubleSafe("mental_attack"),
-                        MentalDefense = reader.GetDoubleSafe("mental_defense"),
-                        Speed = reader.GetDoubleSafe("speed"),
-                        CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate"),
-                        CriticalRate = reader.GetDoubleSafe("critical_rate"),
-                        CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate"),
-                        IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate"),
-                        PenetrationRate = reader.GetDoubleSafe("penetration_rate"),
-                        PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate"),
-                        EvasionRate = reader.GetDoubleSafe("evasion_rate"),
-                        DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate"),
-                        IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate"),
-                        AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate"),
-                        VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate"),
-                        VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate"),
-                        AccuracyRate = reader.GetDoubleSafe("accuracy_rate"),
-                        LifestealRate = reader.GetDoubleSafe("lifesteal_rate"),
-                        ShieldStrength = reader.GetDoubleSafe("shield_strength"),
-                        Tenacity = reader.GetDoubleSafe("tenacity"),
-                        ResistanceRate = reader.GetDoubleSafe("resistance_rate"),
-                        ComboRate = reader.GetDoubleSafe("combo_rate"),
-                        IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate"),
-                        ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate"),
-                        ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate"),
-                        StunRate = reader.GetDoubleSafe("stun_rate"),
-                        IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate"),
-                        ReflectionRate = reader.GetDoubleSafe("reflection_rate"),
-                        IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate"),
-                        ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate"),
-                        ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate"),
-                        Mana = reader.GetDoubleSafe("mana"),
-                        ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate"),
-                        DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate"),
-                        ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate"),
-                        DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate"),
-                        ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate"),
-                        NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate"),
-                        NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate"),
-                        SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate"),
-                        SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate"),
-                    }
-                };
-
-                // Đọc chuỗi JSON từ Database
-                string emblemsJson = reader.GetStringSafe("emblems_json");
-
-                if (!string.IsNullOrEmpty(emblemsJson))
-                {
-                    try
-                    {
-                        // Chuyển đổi chuỗi JSON thành List<Emblem> trong C#
-                        cardMilitary.Emblems = JsonHelper.DeserializeEmblems(emblemsJson);
-                    }
-                    catch
-                    {
-                        // Phòng trường hợp Hero không có emblem, MySQL sinh ra chuỗi "[null]"
-                        cardMilitary.Emblems = new List<Emblems>();
-                    }
-                }
-
-                string classesJson = reader.GetStringSafe("classes_json");
-
-                if (!string.IsNullOrEmpty(classesJson))
-                {
-                    try
-                    {
-                        // Chuyển đổi chuỗi JSON thành List<Classes> trong C#
-                        cardMilitary.Class = JsonHelper.DeserializeClasses(classesJson);
-                    }
-                    catch
-                    {
-                        // Phòng trường hợp Hero không có class, MySQL sinh ra chuỗi "[null]"
-                        cardMilitary.Class = new Classes();
-                    }
-                }
-
-                cardMilitaries.Add(cardMilitary);
             }
         }
         catch (MySqlException ex)
@@ -1779,6 +1687,137 @@ public class UserCardMilitariesRepository : IUserCardMilitariesRepository
             Debug.LogError("Error: " + ex.Message);
         }
 
-        return cardMilitaries;
+        return totalStats;
+    }
+    public async Task<BaseStats> GetTeamTotalStatsWithoutQualityAsync(string userId)
+    {
+        BaseStats totalStats = new BaseStats();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+        try
+        {
+            await connection.OpenAsync();
+
+            string selectSQL = @"
+           SELECT 
+                SUM(uc.health) AS health,
+                SUM(uc.physical_attack) AS physical_attack,
+                SUM(uc.physical_defense) AS physical_defense,
+                SUM(uc.magical_attack) AS magical_attack,
+                SUM(uc.magical_defense) AS magical_defense,
+                SUM(uc.chemical_attack) AS chemical_attack,
+                SUM(uc.chemical_defense) AS chemical_defense,
+                SUM(uc.atomic_attack) AS atomic_attack,
+                SUM(uc.atomic_defense) AS atomic_defense,
+                SUM(uc.mental_attack) AS mental_attack,
+                SUM(uc.mental_defense) AS mental_defense,
+                SUM(uc.speed) AS speed,
+                SUM(uc.critical_damage_rate) AS critical_damage_rate,
+                SUM(uc.critical_rate) AS critical_rate,
+                SUM(uc.critical_resistance_rate) AS critical_resistance_rate,
+                SUM(uc.ignore_critical_rate) AS ignore_critical_rate,
+                SUM(uc.penetration_rate) AS penetration_rate,
+                SUM(uc.penetration_resistance_rate) AS penetration_resistance_rate,
+                SUM(uc.evasion_rate) AS evasion_rate,
+                SUM(uc.damage_absorption_rate) AS damage_absorption_rate,
+                SUM(uc.ignore_damage_absorption_rate) AS ignore_damage_absorption_rate,
+                SUM(uc.absorbed_damage_rate) AS absorbed_damage_rate,
+                SUM(uc.vitality_regeneration_rate) AS vitality_regeneration_rate,
+                SUM(uc.vitality_regeneration_resistance_rate) AS vitality_regeneration_resistance_rate,
+                SUM(uc.accuracy_rate) AS accuracy_rate,
+                SUM(uc.lifesteal_rate) AS lifesteal_rate,
+                SUM(uc.shield_strength) AS shield_strength,
+                SUM(uc.tenacity) AS tenacity,
+                SUM(uc.resistance_rate) AS resistance_rate,
+                SUM(uc.combo_rate) AS combo_rate,
+                SUM(uc.ignore_combo_rate) AS ignore_combo_rate,
+                SUM(uc.combo_damage_rate) AS combo_damage_rate,
+                SUM(uc.combo_resistance_rate) AS combo_resistance_rate,
+                SUM(uc.stun_rate) AS stun_rate,
+                SUM(uc.ignore_stun_rate) AS ignore_stun_rate,
+                SUM(uc.reflection_rate) AS reflection_rate,
+                SUM(uc.ignore_reflection_rate) AS ignore_reflection_rate,
+                SUM(uc.reflection_damage_rate) AS reflection_damage_rate,
+                SUM(uc.reflection_resistance_rate) AS reflection_resistance_rate,
+                SUM(uc.mana) AS mana,
+                SUM(uc.mana_regeneration_rate) AS mana_regeneration_rate,
+                SUM(uc.damage_to_different_faction_rate) AS damage_to_different_faction_rate,
+                SUM(uc.resistance_to_different_faction_rate) AS resistance_to_different_faction_rate,
+                SUM(uc.damage_to_same_faction_rate) AS damage_to_same_faction_rate,
+                SUM(uc.resistance_to_same_faction_rate) AS resistance_to_same_faction_rate,
+                SUM(uc.normal_damage_rate) AS normal_damage_rate,
+                SUM(uc.normal_resistance_rate) AS normal_resistance_rate,
+                SUM(uc.skill_damage_rate) AS skill_damage_rate,
+                SUM(uc.skill_resistance_rate) AS skill_resistance_rate
+            FROM user_card_militaries uc
+            WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL;";
+
+            await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);
+            selectCommand.Parameters.AddWithValue("@user_id", userId);
+
+            await using MySqlDataReader reader = await selectCommand.ExecuteReaderAsync();
+            // Chỉ có đúng 1 dòng trả về
+            if (await reader.ReadAsync())
+            {
+                totalStats.Health = reader.GetDoubleSafe("health");
+                totalStats.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
+                totalStats.PhysicalDefense = reader.GetDoubleSafe("physical_defense");
+                totalStats.MagicalAttack = reader.GetDoubleSafe("magical_attack");
+                totalStats.MagicalDefense = reader.GetDoubleSafe("magical_defense");
+                totalStats.ChemicalAttack = reader.GetDoubleSafe("chemical_attack");
+                totalStats.ChemicalDefense = reader.GetDoubleSafe("chemical_defense");
+                totalStats.AtomicAttack = reader.GetDoubleSafe("atomic_attack");
+                totalStats.AtomicDefense = reader.GetDoubleSafe("atomic_defense");
+                totalStats.MentalAttack = reader.GetDoubleSafe("mental_attack");
+                totalStats.MentalDefense = reader.GetDoubleSafe("mental_defense");
+                totalStats.Speed = reader.GetDoubleSafe("speed");
+                totalStats.CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate");
+                totalStats.CriticalRate = reader.GetDoubleSafe("critical_rate");
+                totalStats.CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate");
+                totalStats.IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate");
+                totalStats.PenetrationRate = reader.GetDoubleSafe("penetration_rate");
+                totalStats.PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate");
+                totalStats.EvasionRate = reader.GetDoubleSafe("evasion_rate");
+                totalStats.DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate");
+                totalStats.IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate");
+                totalStats.AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate");
+                totalStats.VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate");
+                totalStats.VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate");
+                totalStats.AccuracyRate = reader.GetDoubleSafe("accuracy_rate");
+                totalStats.LifestealRate = reader.GetDoubleSafe("lifesteal_rate");
+                totalStats.ShieldStrength = reader.GetDoubleSafe("shield_strength");
+                totalStats.Tenacity = reader.GetDoubleSafe("tenacity");
+                totalStats.ResistanceRate = reader.GetDoubleSafe("resistance_rate");
+                totalStats.ComboRate = reader.GetDoubleSafe("combo_rate");
+                totalStats.IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate");
+                totalStats.ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate");
+                totalStats.ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate");
+                totalStats.StunRate = reader.GetDoubleSafe("stun_rate");
+                totalStats.IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate");
+                totalStats.ReflectionRate = reader.GetDoubleSafe("reflection_rate");
+                totalStats.IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate");
+                totalStats.ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate");
+                totalStats.ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate");
+                totalStats.Mana = reader.GetDoubleSafe("mana");
+                totalStats.ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate");
+                totalStats.DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate");
+                totalStats.ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate");
+                totalStats.DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate");
+                totalStats.ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate");
+                totalStats.NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate");
+                totalStats.NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate");
+                totalStats.SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate");
+                totalStats.SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate");
+
+            }
+
+        }
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error: " + ex.Message);
+        }
+
+        return totalStats;
     }
 }

@@ -79,7 +79,7 @@ public class UserModulesService : IUserModulesService
             throw new NotSupportedException(
                 $"Unsupported stat type: {stat.GetType().Name}");
         }
-        return await _userModulesRepository.GetUserModulesAsync(userId, moduleId, mapping.Table, mapping.Column);
+        return await _userModulesRepository.GetUserModulesAsync(userId, moduleId, stat.Id, mapping.Table, mapping.Column);
     }
 
     public async Task<UserModules> GetSumUserModulesAsync(string userId, IStats stat)

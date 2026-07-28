@@ -366,16 +366,16 @@ public class UserCardSpellsService : IUserCardSpellsService
 
         List<string> cardSpellIds = list.Select(hero => hero.Id).ToList();
 
-        var skillsTask = UserSkillsService.Create().GetUserCardSpellsSkillsAsync(userId, cardSpellIds);
+        // var skillsTask = UserSkillsService.Create().GetUserCardSpellsSkillsAsync(userId, cardSpellIds);
 
-        var skillData = await skillsTask;
-        foreach (var skill in skillData)
-        {
-            if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
-            {
-                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
-            }
-        }
+        // var skillData = await skillsTask;
+        // foreach (var skill in skillData)
+        // {
+        //     if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
+        //     {
+        //         skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+        //     }
+        // }
 
         UserStatsContextDTO context = sharedContext;
         if (context == null)
@@ -383,7 +383,7 @@ public class UserCardSpellsService : IUserCardSpellsService
             context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
         }
 
-        var skillsLookup = skillData.ToLookup(s => s.CardId);
+        // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(context.PowerManagerData);
@@ -417,9 +417,9 @@ public class UserCardSpellsService : IUserCardSpellsService
             card.ApplyTotalBuffs(totalBuffs);
 
             // Gán Skills an toàn, tránh tạo List thừa
-            card.Skills = skillsLookup.Contains(card.Id)
-                ? skillsLookup[card.Id].ToList()
-                : new List<Skills>();
+            // card.Skills = skillsLookup.Contains(card.Id)
+            //     ? skillsLookup[card.Id].ToList()
+            //     : new List<Skills>();
 
             // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
             card.RecalculatePower();
@@ -432,18 +432,18 @@ public class UserCardSpellsService : IUserCardSpellsService
     {
         List<CardSpells> list = await _userCardSpellsRepository.GetUserCardSpellsTeamAsync(userId, teamId, position);
 
-        List<string> cardSpellIds = list.Select(hero => hero.Id).ToList();
+        // List<string> cardSpellIds = list.Select(hero => hero.Id).ToList();
 
-        var skillsTask = UserSkillsService.Create().GetUserCardSpellsSkillsAsync(userId, cardSpellIds);
+        // var skillsTask = UserSkillsService.Create().GetUserCardSpellsSkillsAsync(userId, cardSpellIds);
 
-        var skillData = await skillsTask;
-        foreach (var skill in skillData)
-        {
-            if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
-            {
-                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
-            }
-        }
+        // var skillData = await skillsTask;
+        // foreach (var skill in skillData)
+        // {
+        //     if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
+        //     {
+        //         skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+        //     }
+        // }
 
         UserStatsContextDTO context = sharedContext;
         if (context == null)
@@ -451,7 +451,7 @@ public class UserCardSpellsService : IUserCardSpellsService
             context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
         }
 
-        var skillsLookup = skillData.ToLookup(s => s.CardId);
+        // var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(context.PowerManagerData);
@@ -485,9 +485,9 @@ public class UserCardSpellsService : IUserCardSpellsService
             card.ApplyTotalBuffs(totalBuffs);
 
             // Gán Skills an toàn, tránh tạo List thừa
-            card.Skills = skillsLookup.Contains(card.Id)
-                ? skillsLookup[card.Id].ToList()
-                : new List<Skills>();
+            // card.Skills = skillsLookup.Contains(card.Id)
+            //     ? skillsLookup[card.Id].ToList()
+            //     : new List<Skills>();
 
             // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
             card.RecalculatePower();
@@ -681,30 +681,16 @@ public class UserCardSpellsService : IUserCardSpellsService
         return list.FirstOrDefault();
     }
 
-    public async Task<List<CardSpells>> GetAllUserCardSpellsInTeamAsync(string userId, UserStatsContextDTO sharedContext = null)
+    public async Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null)
     {
-        List<CardSpells> list = await _userCardSpellsRepository.GetAllUserCardSpellsInTeamAsync(userId);
-
-        List<string> cardSpellIds = list.Select(hero => hero.Id).ToList();
-
-        var skillsTask = UserSkillsService.Create().GetUserCardSpellsSkillsAsync(userId, cardSpellIds);
-
-        var skillData = await skillsTask;
-        foreach (var skill in skillData)
-        {
-            if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
-            {
-                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
-            }
-        }
+        var totalStats = await _userCardSpellsRepository.GetTeamTotalStatsAsync(userId);
+        var baseStats = await _userCardSpellsRepository.GetTeamTotalStatsWithoutQualityAsync(userId);
 
         UserStatsContextDTO context = sharedContext;
         if (context == null)
         {
             context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
         }
-
-        var skillsLookup = skillData.ToLookup(s => s.CardId);
 
         TotalBuffs totalBuffs = new TotalBuffs();
         totalBuffs.AddBuff(context.PowerManagerData);
@@ -724,29 +710,10 @@ public class UserCardSpellsService : IUserCardSpellsService
         totalBuffs.AddBuff(context.HisnData);
         totalBuffs.AddBuff(context.AnimeStatsData);
 
-        // list = await GetAllSpiritBeastPowerAsync(userId, list);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(userId, list);
-        // list = await GetAllRankPowerAsync(userId, list);
-        // list = await GetAllMasterPowerAsync(userId, list);
-        // list = await GetSkillsAsync(userId, list);
-        foreach (var card in list)
-        {
-            if (card == null) continue; // Phòng hờ phần tử trong list bị null
+        totalStats.ApplyTotalBuffs(baseStats, totalBuffs);
+        totalStats.RecalculatePower();
 
-            // Áp dụng tổng buff (Flat + % Base stats)
-            card.ApplyTotalBuffs(totalBuffs);
-
-            // Gán Skills an toàn, tránh tạo List thừa
-            card.Skills = skillsLookup.Contains(card.Id)
-                ? skillsLookup[card.Id].ToList()
-                : new List<Skills>();
-
-            // Tính toán lại tổng lực chiến (Sau khi đã có đầy đủ chỉ số và Skills)
-            card.RecalculatePower();
-        }
-        ListSortHelper.SortByPower(list);
-        return list;
+        return totalStats;
     }
 
     public async Task<bool> InsertOrUpdateUserCardSpellsBatchAsync(string userId, List<CardSpells> cardSpells)

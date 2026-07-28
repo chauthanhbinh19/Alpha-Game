@@ -446,77 +446,40 @@ public class UserBooksService : IUserBooksService
         return await _userBooksRepository.GetUserBookByIdAsync(userId, Id);
     }
 
-    public async Task<List<Books>> GetAllUserBooksInTeamAsync(string userId)
+    public async Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null)
     {
-        List<Books> list = await _userBooksRepository.GetAllUserBooksInTeamAsync(userId);
+        var totalStats = await _userBooksRepository.GetTeamTotalStatsAsync(userId);
+        var baseStats = await _userBooksRepository.GetTeamTotalStatsWithoutQualityAsync(userId);
 
-        var powerManagerTask = PowerManagerService.Create().GetUserStatsAsync(userId);
-        var scienceFictionTask = UserScienceFictionsService.Create().GetSumUserScienceFictionsAsync(userId);
-        var researchTask = UserResearchsService.Create().GetSumUserResearchsAsync(userId);
-        var archiveTask = UserArchivesService.Create().GetSumUserArchivesAsync(userId);
-        var universeTask = UserUniversesService.Create().GetSumUserUniversesAsync(userId);
-        var hiinTask = UserHIINsService.Create().GetSumUserHIINsAsync(userId);
-        var sswnTask = UserSSWNsService.Create().GetSumUserSSWNsAsync(userId);
-        var hitnTask = UserHITNsService.Create().GetSumUserHITNsAsync(userId);
-        var hihnTask = UserHIHNsService.Create().GetSumUserHIHNsAsync(userId);
-        var hienTask = UserHIENsService.Create().GetSumUserHIENsAsync(userId);
-        var hicaTask = UserHICAsService.Create().GetSumUserHICAsAsync(userId);
-        var hirnTask = UserHIRNsService.Create().GetSumUserHIRNsAsync(userId);
-        var hidcTask = UserHIDCsService.Create().GetSumUserHIDCsAsync(userId);
-        var hicbTask = UserHICBsService.Create().GetSumUserHICBsAsync(userId);
-        var hisnTask = UserHISNsService.Create().GetSumUserHISNsAsync(userId);
-        var animeStatsTask = UserAnimesService.Create().GetSumUserAnimesAsync(userId);
-
-        await Task.WhenAll(powerManagerTask, scienceFictionTask, researchTask, archiveTask,
-        universeTask, hiinTask, sswnTask, hitnTask, hihnTask, hienTask, hicaTask, hirnTask,
-        hidcTask, hicbTask, hisnTask, animeStatsTask);
-
-        var powerManagerData = await powerManagerTask;
-        var scienceFictionData = await scienceFictionTask;
-        var researchData = await researchTask;
-        var archiveData = await archiveTask;
-        var universeData = await universeTask;
-        var hiinData = await hiinTask;
-        var sswnData = await sswnTask;
-        var hitnData = await hitnTask;
-        var hihnData = await hihnTask;
-        var hienData = await hienTask;
-        var hicaData = await hicaTask;
-        var hirnData = await hirnTask;
-        var hidcData = await hidcTask;
-        var hicbData = await hicbTask;
-        var hisnData = await hisnTask;
-        var animeStatsData = await animeStatsTask;
-
-        // list = await GetAllSpiritBeastPowerAsync(userId, list);
-        list = QualityEvaluatorHelper.GetQualityPower(list);
-        // list = await GetAllEquipmentPowerAsync(userId, list);
-        // list = await GetAllRankPowerAsync(userId, list);
-        // list = await GetAllMasterPowerAsync(userId, list);
-        foreach (var book in list)
+        UserStatsContextDTO context = sharedContext;
+        if (context == null)
         {
-            book.ApplyPowerStats(powerManagerData);
-            book.ApplyScienceFictionStats(scienceFictionData);
-            book.ApplyResearchStats(researchData);
-            book.ApplyArchiveStats(archiveData);
-            book.ApplyUniverseStats(universeData);
-            book.ApplyHIINStats(hiinData);
-            book.ApplySSWNStats(sswnData);
-            book.ApplyHITNStats(hitnData);
-            book.ApplyHIHNStats(hihnData);
-            book.ApplyHIENStats(hienData);
-            book.ApplyHICAStats(hicaData);
-            book.ApplyHIRNStats(hirnData);
-            book.ApplyHIDCStats(hidcData);
-            book.ApplyHICBStats(hicbData);
-            book.ApplyHISNStats(hisnData);
-            book.ApplyAllUserAnimes(animeStatsData);
-            book.RecalculatePower();
+            context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
         }
-        ListSortHelper.SortByPower(list);
-        return list;
-    }
 
+        TotalBuffs totalBuffs = new TotalBuffs();
+        totalBuffs.AddBuff(context.PowerManagerData);
+        totalBuffs.AddBuff(context.ScienceFictionData);
+        totalBuffs.AddBuff(context.ResearchData);
+        totalBuffs.AddBuff(context.ArchiveData);
+        totalBuffs.AddBuff(context.UniverseData);
+        totalBuffs.AddBuff(context.HiinData);
+        totalBuffs.AddBuff(context.SswnData);
+        totalBuffs.AddBuff(context.HitnData);
+        totalBuffs.AddBuff(context.HihnData);
+        totalBuffs.AddBuff(context.HienData);
+        totalBuffs.AddBuff(context.HicaData);
+        totalBuffs.AddBuff(context.HirnData);
+        totalBuffs.AddBuff(context.HidcData);
+        totalBuffs.AddBuff(context.HicbData);
+        totalBuffs.AddBuff(context.HisnData);
+        totalBuffs.AddBuff(context.AnimeStatsData);
+
+        totalStats.ApplyTotalBuffs(baseStats, totalBuffs);
+        totalStats.RecalculatePower();
+
+        return totalStats;
+    }
     public async Task<bool> InsertOrUpdateUserBooksBatchAsync(string userId, List<Books> books)
     {
         return await _userBooksRepository.InsertOrUpdateUserBooksBatchAsync(userId, books);

@@ -22,5 +22,5 @@ public interface IUserCardColonelsService
     Task<bool> UpdateUserCardColonelStarAsync(string userId, CardColonels cardColonel);
     Task<bool> UpdateUserCardColonelBreakthroughAsync(string userId, CardColonels cardColonel, int star, double quantity);
     Task<CardColonels> GetUserCardColonelByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
-    Task<List<CardColonels>> GetAllUserCardColonelsInTeamAsync(string userId, UserStatsContextDTO sharedContext = null);
+    Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
 }

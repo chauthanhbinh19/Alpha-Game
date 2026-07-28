@@ -22,5 +22,5 @@ public interface IUserCardMonstersService
     Task<bool> UpdateUserCardMonsterStarAsync(string userId, CardMonsters cardMonster);
     Task<bool> UpdateUserCardMonsterBreakthroughAsync(string userId, CardMonsters cardMonster, int star, double quantity);
     Task<CardMonsters> GetUserCardMonsterByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
-    Task<List<CardMonsters>> GetAllUserCardMonstersInTeamAsync(string userId, UserStatsContextDTO sharedContext = null);
+    Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
 }
