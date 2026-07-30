@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class UpgradesService : IUpgradesService
 {
-    private static UpgradesService _instance;
     private readonly IUpgradesRepository _upgradesRepository;
 
     public UpgradesService(IUpgradesRepository upgradesRepository)
@@ -15,14 +14,7 @@ public class UpgradesService : IUpgradesService
         _upgradesRepository = upgradesRepository;
     }
 
-    public static UpgradesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UpgradesService(new UpgradesRepository());
-        }
-        return _instance;
-    }
+    public static IUpgradesService Create() => ServiceContainer.GetService<IUpgradesService>();
 
     public async Task<Upgrades> GetUpgradeByIdAsync(string id)
     {

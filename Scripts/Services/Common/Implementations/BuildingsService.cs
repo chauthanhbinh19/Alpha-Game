@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class BuildingsService : IBuildingsService
 {
-    private static BuildingsService _instance;
     private readonly IBuildingsRepository _buildingsRepository;
 
     public BuildingsService(IBuildingsRepository buildingsRepository)
@@ -11,14 +10,7 @@ public class BuildingsService : IBuildingsService
         _buildingsRepository = buildingsRepository;
     }
 
-    public static BuildingsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new BuildingsService(new BuildingsRepository());
-        }
-        return _instance;
-    }
+    public static IBuildingsService Create() => ServiceContainer.GetService<IBuildingsService>();
 
     public async Task<List<string>> GetUniqueBuildingsTypesAsync()
     {

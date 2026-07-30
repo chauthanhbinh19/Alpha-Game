@@ -1,24 +1,24 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 public class EmojisGalleryService : IEmojisGalleryService
 {
-    private static EmojisGalleryService _instance;
     private readonly IEmojisGalleryRepository _emojisGalleryRepository;
+    private readonly IEmojisService _emojisService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public EmojisGalleryService(IEmojisGalleryRepository emojisGalleryRepository)
+    public EmojisGalleryService(
+        IEmojisGalleryRepository emojisGalleryRepository,
+        IEmojisService emojisService,
+        IPowerManagerService powerManagerService)
     {
         _emojisGalleryRepository = emojisGalleryRepository;
+        _emojisService = emojisService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static EmojisGalleryService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new EmojisGalleryService(new EmojisGalleryRepository());
-        }
-        return _instance;
-    }
+    public static IEmojisGalleryService Create() => ServiceContainer.GetService<IEmojisGalleryService>();
 
     public async Task<List<Emojis>> GetEmojisCollectionAsync(string userId, string search, int pageSize, int offset, string rare)
     {
@@ -32,16 +32,63 @@ public class EmojisGalleryService : IEmojisGalleryService
         return await _emojisGalleryRepository.GetEmojisCountAsync(search, rare);
     }
 
-    public async Task InsertEmojiGalleryAsync(string userId, string Id)
+    public async Task<bool> InsertEmojiGalleryAsync(string userId, string Id)
     {
-        IEmojisRepository _repository = new EmojisRepository();
-        EmojisService _service = new EmojisService(_repository);
-        await _emojisGalleryRepository.InsertEmojiGalleryAsync(userId, Id, await _service.GetEmojiByIdAsync(Id));
+        var insertResult = await _emojisGalleryRepository.InsertEmojiGalleryAsync(userId, Id, await _emojisService.GetEmojiByIdAsync(Id));
+
+        if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
+        {
+            return false;
+        }
+
+        return true;
     }
 
-    public async Task UpdateStatusEmojiGalleryAsync(string userId, string Id)
+    public async Task<bool> UpdateStatusEmojiGalleryAsync(string userId, string emojiId)
     {
-        await _emojisGalleryRepository.UpdateStatusEmojiGalleryAsync(userId, Id);
+        var updateResult = await _emojisGalleryRepository.UpdateStatusEmojiGalleryAsync(userId, emojiId);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return false;
+        }
+
+        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
+        Emojis emojiGallery = await GetEmojiCollectionByIdAsync(userId, emojiId) ?? new Emojis();
+        PowerManager newPowerManager = oldPowerManager + (PowerManager)emojiGallery;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
+
+        return true;
+    }
+
+    public async Task<bool> UpdateBatchStatusEmojisGalleryAsync(string userId)
+    {
+        Emojis oldEmoji = await SumPowerEmojisGalleryAsync(userId);
+
+        var updateResult = await _emojisGalleryRepository.UpdateBatchStatusEmojisGalleryAsync(userId);
+
+        if (updateResult == null ||
+        updateResult.OperationType != DatabaseOperationType.Updated ||
+        !updateResult.Data)
+        {
+            return false;
+        }
+
+        Emojis newEmoji = await SumPowerEmojisGalleryAsync(userId);
+        PowerManager deltaPower = (PowerManager)newEmoji - (PowerManager)oldEmoji;
+
+        if (deltaPower.Power == 0)
+        {
+            return false;
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return true;
     }
 
     public async Task<Emojis> SumPowerEmojisGalleryAsync(string userId)
@@ -49,9 +96,92 @@ public class EmojisGalleryService : IEmojisGalleryService
         return await _emojisGalleryRepository.SumPowerEmojisGalleryAsync(userId);
     }
 
-    public async Task UpdateStarEmojiGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateStarEmojiGalleryAsync(string userId, string Id, double star)
     {
-        await _emojisGalleryRepository.UpdateStarEmojiGalleryAsync(userId, Id, star);
+        var updateResult = await _emojisGalleryRepository.UpdateStarEmojiGalleryAsync(userId, Id, star);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public async Task<bool> UpdateCurrentStarEmojiGalleryAsync(string userId, string emojiId)
+    {
+        Emojis oldEmoji = await GetEmojiCollectionByIdAsync(userId, emojiId) ?? new Emojis();
+
+        var updateResult = await _emojisGalleryRepository.UpdateCurrentStarEmojiGalleryAsync(userId, emojiId);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
+        {
+            return false;
+        }
+
+        Emojis newEmoji = await GetEmojiCollectionByIdAsync(userId, emojiId) ?? new Emojis();
+        PowerManager deltaPower = (PowerManager)newEmoji - (PowerManager)oldEmoji;
+
+        if (deltaPower.Power == 0)
+        {
+            return false;
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return true;
+    }
+
+    public async Task<bool> UpdateBatchCurrentStarEmojisGalleryAsync(string userId)
+    {
+        Emojis oldEmoji = await SumPowerEmojisGalleryAsync(userId);
+
+        var updateResult = await _emojisGalleryRepository.UpdateBatchCurrentStarEmojisGalleryAsync(userId);
+
+        if (updateResult == null ||
+            updateResult.OperationType != DatabaseOperationType.Updated ||
+            updateResult.Data == null ||
+            !updateResult.Data.Any())
+        {
+            return false;
+        }
+
+        Emojis newEmoji = await SumPowerEmojisGalleryAsync(userId);
+        PowerManager deltaPower = (PowerManager)newEmoji - (PowerManager)oldEmoji;
+
+        if (deltaPower.Power == 0)
+        {
+            return false;
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return true;
+    }
+
+    public async Task<bool> InsertBatchEmojisGalleryAsync(string userId, List<Emojis> emojis)
+    {
+        var insertResult = await _emojisGalleryRepository.InsertBatchEmojisGalleryAsync(userId, emojis);
+
+        if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public async Task<Emojis> GetEmojiCollectionByIdAsync(string userId, string emojiId)
+    {
+        var result = await _emojisGalleryRepository.GetEmojiCollectionByIdAsync(userId, emojiId);
+        result = StarEvaluatorHelper.GetStarGalleryPower(result);
+        return result;
     }
 
     public async Task UpdateEmojiGalleryPowerAsync(string userId, string Id)

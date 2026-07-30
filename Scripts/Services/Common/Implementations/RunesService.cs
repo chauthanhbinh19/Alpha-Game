@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class RunesService : IRunesService
 {
-    private static RunesService _instance;
     private readonly IRunesRepository _runesRepository;
 
     public RunesService(IRunesRepository runesRepository)
@@ -11,14 +10,7 @@ public class RunesService : IRunesService
         _runesRepository = runesRepository;
     }
 
-    public static RunesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new RunesService(new RunesRepository());
-        }
-        return _instance;
-    }
+    public static IRunesService Create() => ServiceContainer.GetService<IRunesService>();
 
     public async Task<List<Runes>> GetRunesAsync(string search, string rare, int pageSize, int offset)
     {

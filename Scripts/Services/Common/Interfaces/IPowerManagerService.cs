@@ -5,6 +5,7 @@ public interface IPowerManagerService
 {
     Task InsertUserStatsAsync(string userId);
     Task UpdateUserStatsAsync(string userId);
+    Task UpdateUserStatsAsync(string userId, PowerManager powerManager);
     Task<PowerManager> GetUserStatsAsync(string userId);
     Task<PowerManager> GetAchievementsPowerAsync(string userId);
     Task<PowerManager> GetAvatarsPowerAsync(string userId);

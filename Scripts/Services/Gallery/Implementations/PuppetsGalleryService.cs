@@ -1,24 +1,24 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 public class PuppetsGalleryService : IPuppetsGalleryService
 {
-    private static PuppetsGalleryService _instance;
     private readonly IPuppetsGalleryRepository _puppetsGalleryRepository;
+    private readonly IPuppetsService _puppetsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public PuppetsGalleryService(IPuppetsGalleryRepository puppetsGalleryRepository)
+    public PuppetsGalleryService(
+        IPuppetsGalleryRepository puppetsGalleryRepository,
+        IPuppetsService puppetsService,
+        IPowerManagerService powerManagerService)
     {
         _puppetsGalleryRepository = puppetsGalleryRepository;
+        _puppetsService = puppetsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static PuppetsGalleryService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new PuppetsGalleryService(new PuppetsGalleryRepository());
-        }
-        return _instance;
-    }
+    public static IPuppetsGalleryService Create() => ServiceContainer.GetService<IPuppetsGalleryService>();
 
     public async Task<List<Puppets>> GetPuppetsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
@@ -32,16 +32,63 @@ public class PuppetsGalleryService : IPuppetsGalleryService
         return await _puppetsGalleryRepository.GetPuppetsCountAsync(search, type, rare);
     }
 
-    public async Task InsertPuppetGalleryAsync(string userId, string Id)
+    public async Task<bool> InsertPuppetGalleryAsync(string userId, string Id)
     {
-        IPuppetsRepository _repository = new PuppetsRepository();
-        PuppetsService _service = new PuppetsService(_repository);
-        await _puppetsGalleryRepository.InsertPuppetGalleryAsync(userId, Id, await _service.GetPuppetByIdAsync(Id));
+        var insertResult = await _puppetsGalleryRepository.InsertPuppetGalleryAsync(userId, Id, await _puppetsService.GetPuppetByIdAsync(Id));
+
+        if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
+        {
+            return false;
+        }
+
+        return true;
     }
 
-    public async Task UpdateStatusPuppetGalleryAsync(string userId, string Id)
+    public async Task<bool> UpdateStatusPuppetGalleryAsync(string userId, string puppetId)
     {
-        await _puppetsGalleryRepository.UpdateStatusPuppetGalleryAsync(userId, Id);
+        var updateResult = await _puppetsGalleryRepository.UpdateStatusPuppetGalleryAsync(userId, puppetId);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return false;
+        }
+
+        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
+        Puppets puppetGallery = await GetPuppetCollectionByIdAsync(userId, puppetId) ?? new Puppets();
+        PowerManager newPowerManager = oldPowerManager + (PowerManager)puppetGallery;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
+
+        return true;
+    }
+
+    public async Task<bool> UpdateBatchStatusPuppetsGalleryAsync(string userId)
+    {
+        Puppets oldPuppet = await SumPowerPuppetsGalleryAsync(userId);
+
+        var updateResult = await _puppetsGalleryRepository.UpdateBatchStatusPuppetsGalleryAsync(userId);
+
+        if (updateResult == null ||
+        updateResult.OperationType != DatabaseOperationType.Updated ||
+        !updateResult.Data)
+        {
+            return false;
+        }
+
+        Puppets newPuppet = await SumPowerPuppetsGalleryAsync(userId);
+        PowerManager deltaPower = (PowerManager)newPuppet - (PowerManager)oldPuppet;
+
+        if (deltaPower.Power == 0)
+        {
+            return false;
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return true;
     }
 
     public async Task<Puppets> SumPowerPuppetsGalleryAsync(string userId)
@@ -49,9 +96,92 @@ public class PuppetsGalleryService : IPuppetsGalleryService
         return await _puppetsGalleryRepository.SumPowerPuppetsGalleryAsync(userId);
     }
 
-    public async Task UpdateStarPuppetGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateStarPuppetGalleryAsync(string userId, string Id, double star)
     {
-        await _puppetsGalleryRepository.UpdateStarPuppetGalleryAsync(userId, Id, star);
+        var updateResult = await _puppetsGalleryRepository.UpdateStarPuppetGalleryAsync(userId, Id, star);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public async Task<bool> UpdateCurrentStarPuppetGalleryAsync(string userId, string puppetId)
+    {
+        Puppets oldPuppet = await GetPuppetCollectionByIdAsync(userId, puppetId) ?? new Puppets();
+
+        var updateResult = await _puppetsGalleryRepository.UpdateCurrentStarPuppetGalleryAsync(userId, puppetId);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
+        {
+            return false;
+        }
+
+        Puppets newPuppet = await GetPuppetCollectionByIdAsync(userId, puppetId) ?? new Puppets();
+        PowerManager deltaPower = (PowerManager)newPuppet - (PowerManager)oldPuppet;
+
+        if (deltaPower.Power == 0)
+        {
+            return false;
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return true;
+    }
+
+    public async Task<bool> UpdateBatchCurrentStarPuppetsGalleryAsync(string userId)
+    {
+        Puppets oldPuppet = await SumPowerPuppetsGalleryAsync(userId);
+
+        var updateResult = await _puppetsGalleryRepository.UpdateBatchCurrentStarPuppetsGalleryAsync(userId);
+
+        if (updateResult == null ||
+            updateResult.OperationType != DatabaseOperationType.Updated ||
+            updateResult.Data == null ||
+            !updateResult.Data.Any())
+        {
+            return false;
+        }
+
+        Puppets newPuppet = await SumPowerPuppetsGalleryAsync(userId);
+        PowerManager deltaPower = (PowerManager)newPuppet - (PowerManager)oldPuppet;
+
+        if (deltaPower.Power == 0)
+        {
+            return false;
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return true;
+    }
+
+    public async Task<bool> InsertBatchPuppetsGalleryAsync(string userId, List<Puppets> puppets)
+    {
+        var insertResult = await _puppetsGalleryRepository.InsertBatchPuppetsGalleryAsync(userId, puppets);
+
+        if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public async Task<Puppets> GetPuppetCollectionByIdAsync(string userId, string puppetId)
+    {
+        var result = await _puppetsGalleryRepository.GetPuppetCollectionByIdAsync(userId, puppetId);
+        result = StarEvaluatorHelper.GetStarGalleryPower(result);
+        return result;
     }
 
     public async Task UpdatePuppetGalleryPowerAsync(string userId, string Id)

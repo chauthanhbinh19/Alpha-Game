@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class ResearchsService : IResearchsService
 {
-    private static ResearchsService _instance;
     private readonly IResearchsRepository _researchsRepository;
 
     public ResearchsService(IResearchsRepository researchsRepository)
@@ -15,14 +14,7 @@ public class ResearchsService : IResearchsService
         _researchsRepository = researchsRepository;
     }
 
-    public static ResearchsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new ResearchsService(new ResearchsRepository());
-        }
-        return _instance;
-    }
+    public static IResearchsService Create() => ServiceContainer.GetService<IResearchsService>();
 
     public async Task<Researchs> GetResearchByIdAsync(string id)
     {

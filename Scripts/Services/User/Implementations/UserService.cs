@@ -5,22 +5,43 @@ using UnityEngine;
 
 public class UserService : IUserService
 {
-    private static UserService _instance;
     private readonly IUserRepository _userRepository;
+    private readonly IUserAvatarsService _userAvatarsService;
+    private readonly IUserBordersService _userBordersService;
+    private readonly IAvatarsGalleryService _avatarsGalleryService;
+    private readonly IBordersGalleryService _bordersGalleryService;
+    private readonly IUserCurrenciesService _userCurrenciesService;
+    private readonly IUserItemsService _userItemsService;
+    private readonly IPowerManagerService _powerManagerService;
+    private readonly IUserSettingsService _userSettingsService;
+    private readonly IUserDailyCheckinService _userDailyCheckinService;
 
-    public UserService(IUserRepository userRepository)
+    public UserService(
+    IUserRepository userRepository,
+    IUserAvatarsService userAvatarsService,
+    IUserBordersService userBordersService,
+    IAvatarsGalleryService avatarsGalleryService,
+    IBordersGalleryService bordersGalleryService,
+    IUserCurrenciesService userCurrenciesService,
+    IUserItemsService userItemsService,
+    IPowerManagerService powerManagerService,
+    IUserSettingsService userSettingsService,
+    IUserDailyCheckinService userDailyCheckinService
+)
     {
         _userRepository = userRepository;
+        _userAvatarsService = userAvatarsService;
+        _userBordersService = userBordersService;
+        _avatarsGalleryService = avatarsGalleryService;
+        _bordersGalleryService = bordersGalleryService;
+        _userCurrenciesService = userCurrenciesService;
+        _userItemsService = userItemsService;
+        _powerManagerService = powerManagerService;
+        _userSettingsService = userSettingsService;
+        _userDailyCheckinService = userDailyCheckinService;
     }
 
-    public static UserService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserService(new UserRepository());
-        }
-        return _instance;
-    }
+    public static IUserService Create() => ServiceContainer.GetService<IUserService>();
 
     private async Task GiveDefaultTicketsAsync(string userId)
     {
@@ -41,10 +62,10 @@ public class UserService : IUserService
         {
             try
             {
-                Items ticket = await UserItemsService.Create().GetUserItemByNameAsync(userId, ticketName);
+                Items ticket = await _userItemsService.GetUserItemByNameAsync(userId, ticketName);
                 if (ticket != null)
                 {
-                    await UserItemsService.Create().InsertUserItemAsync(userId, ticket, 1000000);
+                    await _userItemsService.InsertUserItemAsync(userId, ticket, 1000000);
                 }
             }
             catch (Exception ex)
@@ -73,21 +94,21 @@ public class UserService : IUserService
             string userId = registerResult.User.Id;
 
             // 2. Đăng ký DB thành công -> Khởi tạo các dữ liệu Tân thủ
-            await UserCurrenciesService.Create().InitiateUserCurrencyAsync(userId);
+            await _userCurrenciesService.InitiateUserCurrencyAsync(userId);
 
             // Border mặc định
-            await UserBordersService.Create().InsertUserBorderByIdAsync("BD359", userId);
-            await BordersGalleryService.Create().InsertBorderGalleryAsync(userId, "BD359");
-            await UserBordersService.Create().UpdateIsUsedUserBorderAsync("BD359", userId, true);
+            await _userBordersService.InsertUserBorderByIdAsync("BD359", userId);
+            await _bordersGalleryService.InsertBorderGalleryAsync(userId, "BD359");
+            await _userBordersService.UpdateIsUsedUserBorderAsync("BD359", userId, true);
 
             // Avatar mặc định
-            await UserAvatarsService.Create().InsertUserAvatarByIdAsync("AT1", userId);
-            await AvatarsGalleryService.Create().InsertAvatarGalleryAsync(userId, "AT1");
-            await UserAvatarsService.Create().UpdateIsUsedUserAvatarAsync("AT1", userId, true);
+            await _userAvatarsService.InsertUserAvatarByIdAsync("AT1", userId);
+            await _avatarsGalleryService.InsertAvatarGalleryAsync(userId, "AT1");
+            await _userAvatarsService.UpdateIsUsedUserAvatarAsync("AT1", userId, true);
 
             // Stats & Settings
-            await PowerManagerService.Create().InsertUserStatsAsync(userId);
-            await UserSettingsService.Create().CreateInitiateUserSettingsAsync(userId);
+            await _powerManagerService.InsertUserStatsAsync(userId);
+            await _userSettingsService.CreateInitiateUserSettingsAsync(userId);
 
             // Khởi tạo vé mặc định
             await GiveDefaultTicketsAsync(userId);
@@ -245,10 +266,10 @@ public class UserService : IUserService
         // 1. Load Border & Avatar
         try
         {
-            Borders border = await UserBordersService.Create().GetUserBorderByUsedAsync(user.Id);
+            Borders border = await _userBordersService.GetUserBorderByUsedAsync(user.Id);
             string borderImagePath = border != null ? border.Image : "";
 
-            Avatars avatar = await UserAvatarsService.Create().GetUserAvatarByUsedAsync(user.Id);
+            Avatars avatar = await _userAvatarsService.GetUserAvatarByUsedAsync(user.Id);
             string avatarImagePath = avatar != null ? avatar.Image : "";
 
             User.CurrentUserAvatar = avatarImagePath;
@@ -264,7 +285,7 @@ public class UserService : IUserService
         // 2. Load Currencies
         try
         {
-            List<Currencies> currencies = await UserCurrenciesService.Create().GetUserCurrencyAsync(user.Id);
+            List<Currencies> currencies = await _userCurrenciesService.GetUserCurrencyAsync(user.Id);
             user.Currencies = currencies ?? new List<Currencies>();
         }
         catch (Exception ex)
@@ -279,14 +300,14 @@ public class UserService : IUserService
             int year = now.Year;
             int month = now.Month;
 
-            bool isCheckinInit = await UserDailyCheckinService.Create().CheckUserDailyCheckinStatusAsync(user.Id, month, year);
+            bool isCheckinInit = await _userDailyCheckinService.CheckUserDailyCheckinStatusAsync(user.Id, month, year);
             if (!isCheckinInit)
             {
                 int daysInMonth = DateTime.DaysInMonth(year, month);
                 for (int day = 1; day <= daysInMonth; day++)
                 {
                     DateTime currentDate = new DateTime(year, month, day);
-                    await UserDailyCheckinService.Create().DeleteUserDailyCheckinAsync(user.Id, day.ToString());
+                    await _userDailyCheckinService.DeleteUserDailyCheckinAsync(user.Id, day.ToString());
 
                     UserDailyCheckin userDailyCheckin = new UserDailyCheckin
                     {
@@ -297,7 +318,7 @@ public class UserService : IUserService
                         Month = month,
                         Year = year
                     };
-                    await UserDailyCheckinService.Create().InsertUserDailyCheckinAsync(user.Id, userDailyCheckin);
+                    await _userDailyCheckinService.InsertUserDailyCheckinAsync(user.Id, userDailyCheckin);
                 }
             }
         }
@@ -309,7 +330,7 @@ public class UserService : IUserService
         // 4. Load User Settings
         try
         {
-            var settingList = await UserSettingsService.Create().GetUserSettingsAsync(user.Id);
+            var settingList = await _userSettingsService.GetUserSettingsAsync(user.Id);
             if (settingList != null && UserSettingsManager.Instance != null)
             {
                 UserSettingsManager.Instance.LoadUserSettings(settingList);
@@ -327,10 +348,10 @@ public class UserService : IUserService
     {
         User user = await _userRepository.GetUserByIdAsync(Id);
 
-        Borders border = await UserBordersService.Create().GetUserBorderByUsedAsync(user.Id);
+        Borders border = await _userBordersService.GetUserBorderByUsedAsync(user.Id);
         string borderImagePath = border.Image;
 
-        Avatars avatar = await UserAvatarsService.Create().GetUserAvatarByUsedAsync(user.Id);
+        Avatars avatar = await _userAvatarsService.GetUserAvatarByUsedAsync(user.Id);
         string avatarImagePath = avatar.Image;
 
         User.CurrentUserAvatar = avatarImagePath;

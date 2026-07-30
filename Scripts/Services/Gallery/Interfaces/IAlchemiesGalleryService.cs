@@ -5,9 +5,14 @@ public interface IAlchemiesGalleryService
 {
     Task<List<Alchemies>> GetAlchemiesCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetAlchemyCountAsync(string search, string type, string rare);
-    Task InsertAlchemyGalleryAsync(string userId, string Id);
-    Task UpdateStatusAlchemyGalleryAsync(string userId, string Id);
-    Task UpdateStarAlchemyGalleryAsync(string userId, string Id, double star);
+    Task<bool> InsertAlchemyGalleryAsync(string userId, string Id);
+    Task<bool> UpdateStatusAlchemyGalleryAsync(string userId, string Id);
+    Task<bool> UpdateBatchStatusAlchemiesGalleryAsync(string userId);
+    Task<bool> UpdateStarAlchemyGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateCurrentStarAlchemyGalleryAsync(string userId, string alchemyId);
+    Task<bool> UpdateBatchCurrentStarAlchemiesGalleryAsync(string userId);
+    Task<bool> InsertBatchAlchemiesGalleryAsync(string userId, List<Alchemies> alchemies);
+    Task<Alchemies> GetAlchemyCollectionByIdAsync(string userId, string objectId);
     Task UpdateAlchemyGalleryPowerAsync(string userId, string Id);
-    Task<Alchemies> SumPowerAlchemyGalleryAsync(string userId);
+    Task<Alchemies> SumPowerAlchemiesGalleryAsync(string userId);
 }

@@ -3,22 +3,18 @@ using System.Threading.Tasks;
 
 public class UserArchitecturesService : IUserArchitecturesService
 {
-    private static UserArchitecturesService _instance;
     private readonly IUserArchitecturesRepository _userArchitecturesRepository;
+    private readonly IArchitecturesGalleryService _architecturesGalleryService;
 
-    public UserArchitecturesService(IUserArchitecturesRepository userArchitecturesRepository)
+    public UserArchitecturesService(
+        IUserArchitecturesRepository userArchitecturesService,
+        IArchitecturesGalleryService architecturesGalleryService)
     {
-        _userArchitecturesRepository = userArchitecturesRepository;
+        _userArchitecturesRepository = userArchitecturesService;
+        _architecturesGalleryService = architecturesGalleryService;
     }
 
-    public static UserArchitecturesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserArchitecturesService(new UserArchitecturesRepository());
-        }
-        return _instance;
-    }
+    public static IUserArchitecturesService Create() => ServiceContainer.GetService<IUserArchitecturesService>();
 
     public async Task<List<Architectures>> GetUserArchitecturesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
@@ -38,7 +34,7 @@ public class UserArchitecturesService : IUserArchitecturesService
         var result = await _userArchitecturesRepository.InsertUserArchitectureAsync(architecture, userId);
         if (result)
         {
-            await ArchitecturesGalleryService.Create().InsertArchitectureGalleryAsync(userId, architecture.Id);
+            await _architecturesGalleryService.InsertArchitectureGalleryAsync(userId, architecture.Id);
         }
         return result;
     }
@@ -53,7 +49,7 @@ public class UserArchitecturesService : IUserArchitecturesService
         var result = await _userArchitecturesRepository.UpdateUserArchitectureStarAsync(userId, architecture);
         if (result)
         {
-            await ArchitecturesGalleryService.Create().UpdateStarArchitectureGalleryAsync(userId, architecture.Id, architecture.Star);
+            await _architecturesGalleryService.UpdateStarArchitectureGalleryAsync(userId, architecture.Id, architecture.Star);
         }
         return result;
     }

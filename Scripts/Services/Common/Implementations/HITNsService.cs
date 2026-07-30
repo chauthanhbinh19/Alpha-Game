@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class HITNsService : IHITNsService
 {
-    private static HITNsService _instance;
     private readonly IHITNsRepository _hitnsRepository;
 
     public HITNsService(IHITNsRepository hitnsRepository)
@@ -15,14 +14,7 @@ public class HITNsService : IHITNsService
         _hitnsRepository = hitnsRepository;
     }
 
-    public static HITNsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new HITNsService(new HITNsRepository());
-        }
-        return _instance;
-    }
+    public static IHITNsService Create() => ServiceContainer.GetService<IHITNsService>();
 
     public async Task<HITNs> GetHITNByIdAsync(string id)
     {

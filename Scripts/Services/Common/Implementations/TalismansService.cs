@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class TalismansService : ITalismansService
 {
-    private static TalismansService _instance;
     private readonly ITalismansRepository _talismansRepository;
 
     public TalismansService(ITalismansRepository talismansRepository)
@@ -11,14 +10,7 @@ public class TalismansService : ITalismansService
         _talismansRepository = talismansRepository;
     }
 
-    public static TalismansService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new TalismansService(new TalismansRepository());
-        }
-        return _instance;
-    }
+    public static ITalismansService Create() => ServiceContainer.GetService<ITalismansService>();
 
     public async Task<List<Talismans>> GetTalismansAsync(string search, string type, string rare, int pageSize, int offset)
     {

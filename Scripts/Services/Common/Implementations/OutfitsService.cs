@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class OutfitsService : IOutfitsService
 {
-    private static OutfitsService _instance;
     private readonly IOutfitsRepository _weaponsRepository;
 
     public OutfitsService(IOutfitsRepository weaponsRepository)
@@ -11,14 +10,7 @@ public class OutfitsService : IOutfitsService
         _weaponsRepository = weaponsRepository;
     }
 
-    public static OutfitsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new OutfitsService(new OutfitsRepository());
-        }
-        return _instance;
-    }
+    public static IOutfitsService Create() => ServiceContainer.GetService<IOutfitsService>();
 
     public async Task<List<string>> GetUniqueOutfitsTypesAsync()
     {

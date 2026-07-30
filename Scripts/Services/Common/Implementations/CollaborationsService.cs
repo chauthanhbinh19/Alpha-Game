@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class CollaborationsService : ICollaborationsService
 {
-    private static CollaborationsService _instance;
     private readonly ICollaborationsRepository _collaborationsRepository;
 
     public CollaborationsService(ICollaborationsRepository collaborationsRepository)
@@ -11,14 +10,7 @@ public class CollaborationsService : ICollaborationsService
         _collaborationsRepository = collaborationsRepository;
     }
 
-    public static CollaborationsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new CollaborationsService(new CollaborationsRepository());
-        }
-        return _instance;
-    }
+    public static ICollaborationsService Create() => ServiceContainer.GetService<ICollaborationsService>();
 
     public async Task<List<Collaborations>> GetCollaborationsAsync(string search, string rare, int pageSize, int offset)
     {

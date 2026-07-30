@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class ArtworksService : IArtworksService
 {
-    private static ArtworksService _instance;
     private readonly IArtworksRepository _artworksRepository;
 
     public ArtworksService(IArtworksRepository artworksRepository)
@@ -11,14 +10,7 @@ public class ArtworksService : IArtworksService
         _artworksRepository = artworksRepository;
     }
 
-    public static ArtworksService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new ArtworksService(new ArtworksRepository());
-        }
-        return _instance;
-    }
+    public static IArtworksService Create() => ServiceContainer.GetService<IArtworksService>();
 
     public async Task<List<string>> GetUniqueArtworksTypesAsync()
     {

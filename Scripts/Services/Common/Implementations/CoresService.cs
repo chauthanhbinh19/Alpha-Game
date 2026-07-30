@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class CoresService : ICoresService
 {
-    private static CoresService _instance;
     private readonly ICoresRepository _coresRepository;
 
     public CoresService(ICoresRepository coresRepository)
@@ -11,14 +10,7 @@ public class CoresService : ICoresService
         _coresRepository = coresRepository;
     }
 
-    public static CoresService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new CoresService(new CoresRepository());
-        }
-        return _instance;
-    }
+    public static ICoresService Create() => ServiceContainer.GetService<ICoresService>();
 
     public async Task<List<Cores>> GetCoresAsync(string search, string rare,int pageSize, int offset)
     {

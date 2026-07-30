@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class ArchitecturesService : IArchitecturesService
 {
-    private static ArchitecturesService _instance;
     private readonly IArchitecturesRepository _architecturesRepository;
 
     public ArchitecturesService(IArchitecturesRepository architecturesRepository)
@@ -11,14 +10,7 @@ public class ArchitecturesService : IArchitecturesService
         _architecturesRepository = architecturesRepository;
     }
 
-    public static ArchitecturesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new ArchitecturesService(new ArchitecturesRepository());
-        }
-        return _instance;
-    }
+    public static IArchitecturesService Create() => ServiceContainer.GetService<IArchitecturesService>();
 
     public async Task<List<Architectures>> GetArchitecturesAsync(string search, string rare, int pageSize, int offset)
     {

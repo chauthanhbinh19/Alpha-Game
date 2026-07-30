@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class TrainsService : ITrainsService
 {
-    private static TrainsService _instance;
     private readonly ITrainsRepository _trainsRepository;
 
     public TrainsService(ITrainsRepository trainsRepository)
@@ -11,14 +10,7 @@ public class TrainsService : ITrainsService
         _trainsRepository = trainsRepository;
     }
 
-    public static TrainsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new TrainsService(new TrainsRepository());
-        }
-        return _instance;
-    }
+    public static ITrainsService Create() => ServiceContainer.GetService<ITrainsService>();
 
     public async Task<List<Trains>> GetTrainsAsync(string userId, int pageSize, int offset)
     {

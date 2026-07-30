@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class RobotsService : IRobotsService
 {
-    private static RobotsService _instance;
     private readonly IRobotsRepository _robotsRepository;
 
     public RobotsService(IRobotsRepository robotsRepository)
@@ -11,14 +10,7 @@ public class RobotsService : IRobotsService
         _robotsRepository = robotsRepository;
     }
 
-    public static RobotsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new RobotsService(new RobotsRepository());
-        }
-        return _instance;
-    }
+    public static IRobotsService Create() => ServiceContainer.GetService<IRobotsService>();
 
     public async Task<List<Robots>> GetRobotsAsync(string search, string rare, int pageSize, int offset)
     {

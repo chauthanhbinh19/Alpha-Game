@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class MechaBeastsService : IMechaBeastsService
 {
-    private static MechaBeastsService _instance;
     private readonly IMechaBeastsRepository _mechaBeastsRepository;
 
     public MechaBeastsService(IMechaBeastsRepository mechaBeastsRepository)
@@ -11,14 +10,7 @@ public class MechaBeastsService : IMechaBeastsService
         _mechaBeastsRepository = mechaBeastsRepository;
     }
 
-    public static MechaBeastsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new MechaBeastsService(new MechaBeastsRepository());
-        }
-        return _instance;
-    }
+    public static IMechaBeastsService Create() => ServiceContainer.GetService<IMechaBeastsService>();
 
     public async Task<List<MechaBeasts>> GetMechaBeastsAsync(string search, string rare, int pageSize, int offset)
     {

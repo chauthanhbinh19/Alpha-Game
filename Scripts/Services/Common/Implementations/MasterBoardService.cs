@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class MasterBoardService : IMasterBoardService
 {
-    private static MasterBoardService _instance;
     private readonly IMasterBoardRepository _masterBoardRepository;
 
     public MasterBoardService(IMasterBoardRepository masterBoardRepository)
@@ -11,14 +10,7 @@ public class MasterBoardService : IMasterBoardService
         _masterBoardRepository = masterBoardRepository;
     }
 
-    public static MasterBoardService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new MasterBoardService(new MasterBoardRepository());
-        }
-        return _instance;
-    }
+    public static IMasterBoardService Create() => ServiceContainer.GetService<IMasterBoardService>();
 
     public async Task<List<string>> GetUniqueNameAsync()
     {

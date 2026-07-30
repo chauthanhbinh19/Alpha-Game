@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class CitiesService : ICitiesService
 {
-    private static CitiesService _instance;
     private readonly ICitiesRepository _citiesRepository;
 
     public CitiesService(ICitiesRepository citiesRepository)
@@ -11,14 +10,7 @@ public class CitiesService : ICitiesService
         _citiesRepository = citiesRepository;
     }
 
-    public static CitiesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new CitiesService(new CitiesRepository());
-        }
-        return _instance;
-    }
+    public static ICitiesService Create() => ServiceContainer.GetService<ICitiesService>();
 
     public async Task<List<Cities>> GetCitiesAsync(string userId, int pageSize, int offset)
     {

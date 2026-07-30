@@ -4,22 +4,18 @@ using System.Threading.Tasks;
 
 public class UserAlchemiesService : IUserAlchemiesService
 {
-    private static UserAlchemiesService _instance;
     private readonly IUserAlchemiesRepository _userAlchemiesRepository;
+    private readonly IAlchemiesGalleryService _alchemiesGalleryService;
 
-    public UserAlchemiesService(IUserAlchemiesRepository userAlchemiesRepository)
+    public UserAlchemiesService(
+        IUserAlchemiesRepository userAlchemiesService,
+        IAlchemiesGalleryService alchemiesGalleryService)
     {
-        _userAlchemiesRepository = userAlchemiesRepository;
+        _userAlchemiesRepository = userAlchemiesService;
+        _alchemiesGalleryService = alchemiesGalleryService;
     }
 
-    public static UserAlchemiesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserAlchemiesService(new UserAlchemiesRepository());
-        }
-        return _instance;
-    }
+    public static IUserAlchemiesService Create() => ServiceContainer.GetService<IUserAlchemiesService>();
 
     public async Task<List<Alchemies>> GetUserAlchemiesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
@@ -39,7 +35,7 @@ public class UserAlchemiesService : IUserAlchemiesService
         var result = await _userAlchemiesRepository.InsertUserAlchemyAsync(alchemy, userId);
         if (result)
         {
-            await AlchemiesGalleryService.Create().InsertAlchemyGalleryAsync(userId, alchemy.Id);
+            await _alchemiesGalleryService.InsertAlchemyGalleryAsync(userId, alchemy.Id);
         }
         return result;
     }
@@ -54,7 +50,7 @@ public class UserAlchemiesService : IUserAlchemiesService
         var result = await _userAlchemiesRepository.UpdateUserAlchemyStarAsync(userId, alchemy);
         if (result)
         {
-            await AlchemiesGalleryService.Create().UpdateStarAlchemyGalleryAsync(userId, alchemy.Id, alchemy.Star);
+            await _alchemiesGalleryService.UpdateStarAlchemyGalleryAsync(userId, alchemy.Id, alchemy.Star);
         }
         return result;
     }

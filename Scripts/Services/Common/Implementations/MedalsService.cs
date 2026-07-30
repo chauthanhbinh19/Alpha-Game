@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class MedalsService : IMedalsService
 {
-    private static MedalsService _instance;
     private readonly IMedalsRepository _medalsRepository;
 
     public MedalsService(IMedalsRepository medalsRepository)
@@ -11,14 +10,7 @@ public class MedalsService : IMedalsService
         _medalsRepository = medalsRepository;
     }
 
-    public static MedalsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new MedalsService(new MedalsRepository());
-        }
-        return _instance;
-    }
+    public static IMedalsService Create() => ServiceContainer.GetService<IMedalsService>();
 
     public async Task<List<Medals>> GetMedalsAsync(string search, string rare, int pageSize, int offset)
     {

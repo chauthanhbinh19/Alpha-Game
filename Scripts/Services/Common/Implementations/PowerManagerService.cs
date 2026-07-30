@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class PowerManagerService : IPowerManagerService
 {
-    private static PowerManagerService _instance;
     private readonly IPowerManagerRepository _powerManagerRepository;
 
     public PowerManagerService(IPowerManagerRepository powerManagerRepository)
@@ -11,23 +10,20 @@ public class PowerManagerService : IPowerManagerService
         _powerManagerRepository = powerManagerRepository;
     }
 
-    public static PowerManagerService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new PowerManagerService(new PowerManagerRepository());
-        }
-        return _instance;
-    }
+    public static IPowerManagerService Create() => ServiceContainer.GetService<IPowerManagerService>();
 
     public async Task InsertUserStatsAsync(string userId)
     {
-        PowerManager powerManager = await CalculateTotalPowerAsync(userId);
+        PowerManager powerManager = new PowerManager();
         await _powerManagerRepository.InsertUserStatsAsync(userId, powerManager);
     }
     public async Task UpdateUserStatsAsync(string userId)
     {
         PowerManager powerManager = await CalculateTotalPowerAsync(userId);
+        await _powerManagerRepository.UpdateUserStatsAsync(userId, powerManager);
+    }
+    public async Task UpdateUserStatsAsync(string userId, PowerManager powerManager)
+    {
         await _powerManagerRepository.UpdateUserStatsAsync(userId, powerManager);
     }
     public async Task<PowerManager> GetUserStatsAsync(string userId)
@@ -2105,7 +2101,7 @@ public class PowerManagerService : IPowerManagerService
         PowerManager powerManager = new PowerManager();
 
         // Gallery
-        Alchemies alchemy = await AlchemiesGalleryService.Create().SumPowerAlchemyGalleryAsync(userId);
+        Alchemies alchemy = await AlchemiesGalleryService.Create().SumPowerAlchemiesGalleryAsync(userId);
         powerManager.Power += alchemy.Power;
         powerManager.Health += alchemy.Health;
         powerManager.PhysicalAttack += alchemy.PhysicalAttack;

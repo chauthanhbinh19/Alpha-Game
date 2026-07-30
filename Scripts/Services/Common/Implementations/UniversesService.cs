@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class UniversesService : IUniversesService
 {
-    private static UniversesService _instance;
     private readonly IUniversesRepository _universesRepository;
 
     public UniversesService(IUniversesRepository universesRepository)
@@ -15,14 +14,7 @@ public class UniversesService : IUniversesService
         _universesRepository = universesRepository;
     }
 
-    public static UniversesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UniversesService(new UniversesRepository());
-        }
-        return _instance;
-    }
+    public static IUniversesService Create() => ServiceContainer.GetService<IUniversesService>();
 
     public async Task<Universes> GetUniverseByIdAsync(string id)
     {

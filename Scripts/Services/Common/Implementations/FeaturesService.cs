@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 public class FeaturesService : IFeaturesService
 {
-    private static FeaturesService _instance;
     private readonly IFeaturesRepository _featuresRepository;
 
     private static readonly Dictionary<Type, (string Table, string Column, string CodeName)> RankMappings = new()
@@ -148,14 +147,7 @@ public class FeaturesService : IFeaturesService
         _featuresRepository = featuresRepository;
     }
 
-    public static FeaturesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new FeaturesService(new FeaturesRepository());
-        }
-        return _instance;
-    }
+    public static IFeaturesService Create() => ServiceContainer.GetService<IFeaturesService>();
 
     public async Task<Dictionary<string, Features>> GetFeaturesByTypeAsync(string type)
     {

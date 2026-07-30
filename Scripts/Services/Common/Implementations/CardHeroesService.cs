@@ -7,7 +7,6 @@ using UnityEngine.Networking;
 
 public class CardHeroesService : ICardHeroesService
 {
-    private static CardHeroesService _instance;
     private readonly ICardHeroesRepository _cardHeroesRepository;
     private const string BaseUrl = "https://localhost:7116/api/CardHeroes";
 
@@ -16,14 +15,7 @@ public class CardHeroesService : ICardHeroesService
         _cardHeroesRepository = cardHeroesRepository;
     }
 
-    public static CardHeroesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new CardHeroesService(new CardHeroesRepository());
-        }
-        return _instance;
-    }
+    public static ICardHeroesService Create() => ServiceContainer.GetService<ICardHeroesService>();
 
     public async Task<List<string>> GetUniqueCardHeroesTypesAsync()
     {

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class EquipmentsService : IEquipmentsService
 {
-    private static EquipmentsService _instance;
     private readonly IEquipmentsRepository _equipmentsRepository;
 
     public EquipmentsService(IEquipmentsRepository equipmentsRepository)
@@ -11,14 +10,7 @@ public class EquipmentsService : IEquipmentsService
         _equipmentsRepository = equipmentsRepository;
     }
 
-    public static EquipmentsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new EquipmentsService(new EquipmentsRepository());
-        }
-        return _instance;
-    }
+    public static IEquipmentsService Create() => ServiceContainer.GetService<IEquipmentsService>();
 
     public async Task<List<string>> GetUniqueEquipmentsTypesAsync()
     {

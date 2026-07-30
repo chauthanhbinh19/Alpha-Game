@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class PuppetsService : IPuppetsService
 {
-    private static PuppetsService _instance;
     private readonly IPuppetsRepository _puppetsRepository;
 
     public PuppetsService(IPuppetsRepository puppetsRepository)
@@ -11,14 +10,7 @@ public class PuppetsService : IPuppetsService
         _puppetsRepository = puppetsRepository;
     }
 
-    public static PuppetsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new PuppetsService(new PuppetsRepository());
-        }
-        return _instance;
-    }
+    public static IPuppetsService Create() => ServiceContainer.GetService<IPuppetsService>();
 
     public async Task<List<string>> GetUniquePuppetsTypesAsync()
     {

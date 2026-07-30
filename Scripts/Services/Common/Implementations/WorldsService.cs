@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class WorldsService : IWorldsService
 {
-    private static WorldsService _instance;
     private readonly IWorldsRepository _worldsRepository;
 
     public WorldsService(IWorldsRepository worldsRepository)
@@ -11,14 +10,7 @@ public class WorldsService : IWorldsService
         _worldsRepository = worldsRepository;
     }
 
-    public static WorldsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new WorldsService(new WorldsRepository());
-        }
-        return _instance;
-    }
+    public static IWorldsService Create() => ServiceContainer.GetService<IWorldsService>();
 
     public async Task<List<Worlds>> GetWorldsAsync(string userId, int pageSize, int offset)
     {

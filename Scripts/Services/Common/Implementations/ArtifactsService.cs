@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class ArtifactsService : IArtifactsService
 {
-    private static ArtifactsService _instance;
     private readonly IArtifactsRepository _artifactsRepository;
 
     public ArtifactsService(IArtifactsRepository artifactsRepository)
@@ -11,14 +10,7 @@ public class ArtifactsService : IArtifactsService
         _artifactsRepository = artifactsRepository;
     }
 
-    public static ArtifactsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new ArtifactsService(new ArtifactsRepository());
-        }
-        return _instance;
-    }
+    public static IArtifactsService Create() => ServiceContainer.GetService<IArtifactsService>();
 
     public async Task<List<Artifacts>> GetArtifactsAsync(string search, string rare, int pageSize, int offset)
     {

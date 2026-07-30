@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class BordersService : IBordersService
 {
-    private static BordersService _instance;
     private readonly IBordersRepository _bordersRepository;
 
     public BordersService(IBordersRepository bordersRepository)
@@ -11,14 +10,7 @@ public class BordersService : IBordersService
         _bordersRepository = bordersRepository;
     }
 
-    public static BordersService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new BordersService(new BordersRepository());
-        }
-        return _instance;
-    }
+    public static IBordersService Create() => ServiceContainer.GetService<IBordersService>();
 
     public async Task<List<Borders>> GetBordersAsync(string search, string rare, int pageSize, int offset)
     {

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class BasesService : IBasesService
 {
-    private static BasesService _instance;
     private readonly IBasesRepository _basesRepository;
 
     public BasesService(IBasesRepository basesRepository)
@@ -11,14 +10,7 @@ public class BasesService : IBasesService
         _basesRepository = basesRepository;
     }
 
-    public static BasesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new BasesService(new BasesRepository());
-        }
-        return _instance;
-    }
+    public static IBasesService Create() => ServiceContainer.GetService<IBasesService>();
 
     public async Task<List<Bases>> GetBasesAsync(string userId, int pageSize, int offset)
     {

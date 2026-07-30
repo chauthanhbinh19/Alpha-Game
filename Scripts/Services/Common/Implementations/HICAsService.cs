@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class HICAsService : IHICAsService
 {
-    private static HICAsService _instance;
     private readonly IHICAsRepository _hicasRepository;
 
     public HICAsService(IHICAsRepository hicasRepository)
@@ -15,14 +14,8 @@ public class HICAsService : IHICAsService
         _hicasRepository = hicasRepository;
     }
 
-    public static HICAsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new HICAsService(new HICAsRepository());
-        }
-        return _instance;
-    }
+    public static IHICAsService Create() => ServiceContainer.GetService<IHICAsService>();
+
     public async Task<HICAs> GetHICAByIdAsync(string id)
     {
         return await _hicasRepository.GetHICAByIdAsync(id);

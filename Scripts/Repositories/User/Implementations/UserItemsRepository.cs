@@ -327,7 +327,7 @@ public class UserItemsRepository : IUserItemsRepository
                     else
                     {
                         // Cập nhật số lượng item đã tồn tại
-                        item.Quantity = (int)quantity;
+                        item.Quantity = quantity;
                         await UpdateUserItemQuantityAsync(userId, item); // Giả sử bạn đã có phiên bản async
                     }
                 }

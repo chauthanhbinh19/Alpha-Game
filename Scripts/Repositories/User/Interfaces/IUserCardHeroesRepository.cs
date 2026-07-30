@@ -11,7 +11,7 @@ public interface IUserCardHeroesRepository
     Task<int> GetUserCardHeroesCountAsync(string userId, string search, string type, string rare);
     Task<int> GetUserCardHeroesTeamsPositionCountAsync(string userId, string team_id, string position);
     Task<int> GetUserCardHeroesTeamsCountAsync(string userId, string team_id);
-    Task<bool> InsertUserCardHeroAsync(string userId, CardHeroes cardHero);
+    Task<InsertOrUpdateResult<CardHeroes>> InsertOrUpdateUserCardHeroAsync(string userId, CardHeroes cardHero);
     Task<bool> InsertOrUpdateUserCardHeroesBatchAsync(string userId, List<CardHeroes> cardHeroes);
     Task<bool> UpdateUserCardHeroLevelAsync(string userId, CardHeroes cardHero);
     Task<bool> UpdateUserCardHeroStarAsync(string userId, CardHeroes cardHero);

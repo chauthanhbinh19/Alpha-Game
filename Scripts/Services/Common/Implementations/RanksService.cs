@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class RanksService : IRanksService
 {
-    private static RanksService _instance;
     private readonly IRanksRepository _universesRepository;
 
     public RanksService(IRanksRepository universesRepository)
@@ -15,14 +14,7 @@ public class RanksService : IRanksService
         _universesRepository = universesRepository;
     }
 
-    public static RanksService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new RanksService(new RanksRepository());
-        }
-        return _instance;
-    }
+    public static IRanksService Create() => ServiceContainer.GetService<IRanksService>();
 
     public async Task<Ranks> GetRankByIdAsync(string id)
     {

@@ -3,21 +3,13 @@ using System.Threading.Tasks;
 
 public class DailyCheckinService : IDailyCheckinService
 {
-    private static DailyCheckinService _instance;
     private readonly IDailyCheckinRepository _dailyCheckinRepository;
 
     public DailyCheckinService(IDailyCheckinRepository dailyCheckinRepository)
     {
         _dailyCheckinRepository = dailyCheckinRepository;
     }
-    public static DailyCheckinService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new DailyCheckinService(new DailyCheckinRepository());
-        }
-        return _instance;
-    }
+    public static IDailyCheckinService Create() => ServiceContainer.GetService<IDailyCheckinService>();
 
     public async Task DeleteDailyCheckinAsync(string dailyCheckinId)
     {

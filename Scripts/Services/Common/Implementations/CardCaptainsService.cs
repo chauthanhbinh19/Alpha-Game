@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class CardCaptainsService : ICardCaptainsService
 {
-    private static CardCaptainsService _instance;
     private readonly ICardCaptainsRepository _cardCaptainsRepository;
 
     public CardCaptainsService(ICardCaptainsRepository cardCaptainsRepository)
@@ -11,14 +10,7 @@ public class CardCaptainsService : ICardCaptainsService
         _cardCaptainsRepository = cardCaptainsRepository;
     }
 
-    public static CardCaptainsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new CardCaptainsService(new CardCaptainsRepository());
-        }
-        return _instance;
-    }
+    public static ICardCaptainsService Create() => ServiceContainer.GetService<ICardCaptainsService>();
 
     public async Task<List<string>> GetUniqueCardCaptainsTypesAsync()
     {

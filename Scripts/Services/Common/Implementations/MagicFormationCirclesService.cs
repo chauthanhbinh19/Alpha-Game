@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class MagicFormationCirclesService : IMagicFormationCirclesService
 {
-    private static MagicFormationCirclesService _instance;
     private readonly IMagicFormationCirclesRepository _magicFormationCirclesRepository;
 
     public MagicFormationCirclesService(IMagicFormationCirclesRepository magicFormationCirclesRepository)
@@ -11,14 +10,7 @@ public class MagicFormationCirclesService : IMagicFormationCirclesService
         _magicFormationCirclesRepository = magicFormationCirclesRepository;
     }
 
-    public static MagicFormationCirclesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new MagicFormationCirclesService(new MagicFormationCirclesRepository());
-        }
-        return _instance;
-    }
+    public static IMagicFormationCirclesService Create() => ServiceContainer.GetService<IMagicFormationCirclesService>();
 
     public async Task<List<string>> GetUniqueMagicFormationCirclesTypesAsync()
     {

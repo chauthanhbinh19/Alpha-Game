@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class EmployeesService : IEmployeesService
 {
-    private static EmployeesService _instance;
     private readonly IEmployeesRepository _employeesRepository;
 
     public EmployeesService(IEmployeesRepository employeesRepository)
@@ -11,14 +10,7 @@ public class EmployeesService : IEmployeesService
         _employeesRepository = employeesRepository;
     }
 
-    public static EmployeesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new EmployeesService(new EmployeesRepository());
-        }
-        return _instance;
-    }
+    public static IEmployeesService Create() => ServiceContainer.GetService<IEmployeesService>();
 
     public async Task<List<Employees>> GetEmployeesAsync(string userId, int pageSize, int offset)
     {

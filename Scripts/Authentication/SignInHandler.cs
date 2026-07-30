@@ -126,8 +126,7 @@ public class SignInHandler
         SetInteractable(false);
 
         IUserRepository userRepository = new UserRepository();
-        UserService userService = new UserService(userRepository);
-        AuthResult authResult = await userService.SignInWithUsernameAndPasswordAsync(username, password);
+        AuthResult authResult = await UserService.Create().SignInWithUsernameAndPasswordAsync(username, password);
 
         SetInteractable(true);
 

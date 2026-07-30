@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class VehiclesService : IVehiclesService
 {
-    private static VehiclesService _instance;
     private readonly IVehiclesRepository _vehiclesRepository;
 
     public VehiclesService(IVehiclesRepository vehiclesRepository)
@@ -11,14 +10,7 @@ public class VehiclesService : IVehiclesService
         _vehiclesRepository = vehiclesRepository;
     }
 
-    public static VehiclesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new VehiclesService(new VehiclesRepository());
-        }
-        return _instance;
-    }
+    public static IVehiclesService Create() => ServiceContainer.GetService<IVehiclesService>();
 
     public async Task<List<string>> GetUniqueVehiclesTypesAsync()
     {

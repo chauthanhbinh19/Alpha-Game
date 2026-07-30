@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class WeaponsService : IWeaponsService
 {
-    private static WeaponsService _instance;
     private readonly IWeaponsRepository _weaponsRepository;
 
     public WeaponsService(IWeaponsRepository weaponsRepository)
@@ -11,14 +10,7 @@ public class WeaponsService : IWeaponsService
         _weaponsRepository = weaponsRepository;
     }
 
-    public static WeaponsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new WeaponsService(new WeaponsRepository());
-        }
-        return _instance;
-    }
+    public static IWeaponsService Create() => ServiceContainer.GetService<IWeaponsService>();
 
     public async Task<List<string>> GetUniqueWeaponsTypesAsync()
     {

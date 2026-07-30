@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class ForgesService : IForgesService
 {
-    private static ForgesService _instance;
     private readonly IForgesRepository _forgesRepository;
 
     public ForgesService(IForgesRepository forgesRepository)
@@ -11,14 +10,7 @@ public class ForgesService : IForgesService
         _forgesRepository = forgesRepository;
     }
 
-    public static ForgesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new ForgesService(new ForgesRepository());
-        }
-        return _instance;
-    }
+    public static IForgesService Create() => ServiceContainer.GetService<IForgesService>();
 
     public async Task<List<string>> GetUniqueForgesTypesAsync()
     {

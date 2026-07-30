@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 
 public class AnimeStatsService : IAnimeStatsService
 {
-    private static AnimeStatsService _instance;
     private readonly IAnimeStatsRepository _animeStatsRepository;
 
     public AnimeStatsService(IAnimeStatsRepository animeStatsRepository)
@@ -10,14 +9,7 @@ public class AnimeStatsService : IAnimeStatsService
         _animeStatsRepository = animeStatsRepository;
     }
 
-    public static AnimeStatsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new AnimeStatsService(new AnimeStatsRepository());
-        }
-        return _instance;
-    }
+    public static IAnimeStatsService Create() => ServiceContainer.GetService<IAnimeStatsService>();
 
     public async Task<AnimeStats> GetAnimeStatsAsync(string id, string user_id)
     {

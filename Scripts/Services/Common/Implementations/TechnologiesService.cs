@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class TechnologiesService : ITechnologiesService
 {
-    private static TechnologiesService _instance;
     private readonly ITechnologiesRepository _technologiesRepository;
 
     public TechnologiesService(ITechnologiesRepository technologiesRepository)
@@ -11,14 +10,7 @@ public class TechnologiesService : ITechnologiesService
         _technologiesRepository = technologiesRepository;
     }
 
-    public static TechnologiesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new TechnologiesService(new TechnologiesRepository());
-        }
-        return _instance;
-    }
+    public static ITechnologiesService Create() => ServiceContainer.GetService<ITechnologiesService>();
 
     public async Task<List<Technologies>> GetTechnologiesAsync(string search, string rare, int pageSize, int offset)
     {

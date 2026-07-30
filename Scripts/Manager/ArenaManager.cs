@@ -140,9 +140,7 @@ public class ArenaManager : MonoBehaviour
                 GameObject arenaSlotObject = Instantiate(ArenaSlotPrefab, arenaSlotGroup);
                 Transform arenaSlotTransform = arenaSlotObject.transform;
 
-                IUserRepository userRepository = new UserRepository();
-                UserService userService = new UserService(userRepository);
-                User user = await userService.GetUserByIdAsync(pair.Key.ToString());
+                User user = await UserService.Create().GetUserByIdAsync(pair.Key.ToString());
                 
                 RawImage arenaAvatarImage = arenaSlotTransform.Find("AvatarImage").GetComponent<RawImage>();
                 RawImage arenaBorderImage = arenaSlotTransform.Find("BorderImage").GetComponent<RawImage>();

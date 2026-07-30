@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class FurnituresService : IFurnituresService
 {
-    private static FurnituresService _instance;
     private readonly IFurnituresRepository _furnituresRepository;
 
     public FurnituresService(IFurnituresRepository furnituresRepository)
@@ -11,14 +10,7 @@ public class FurnituresService : IFurnituresService
         _furnituresRepository = furnituresRepository;
     }
 
-    public static FurnituresService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new FurnituresService(new FurnituresRepository());
-        }
-        return _instance;
-    }
+    public static IFurnituresService Create() => ServiceContainer.GetService<IFurnituresService>();
 
     public async Task<List<string>> GetUniqueFurnituresTypesAsync()
     {

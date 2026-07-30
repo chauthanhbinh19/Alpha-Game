@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class ArchivesService : IArchivesService
 {
-    private static ArchivesService _instance;
     private readonly IArchivesRepository _archivesRepository;
 
     public ArchivesService(IArchivesRepository archivesRepository)
@@ -15,14 +14,7 @@ public class ArchivesService : IArchivesService
         _archivesRepository = archivesRepository;
     }
 
-    public static ArchivesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new ArchivesService(new ArchivesRepository());
-        }
-        return _instance;
-    }
+    public static IArchivesService Create() => ServiceContainer.GetService<IArchivesService>();
 
     public async Task<Archives> GetArchiveByIdAsync(string id)
     {

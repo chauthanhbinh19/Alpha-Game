@@ -1,25 +1,25 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
 
 public class ForgesGalleryService : IForgesGalleryService
 {
-    private static ForgesGalleryService _instance;
     private readonly IForgesGalleryRepository _forgesGalleryRepository;
+    private readonly IForgesService _forgesService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public ForgesGalleryService(IForgesGalleryRepository forgesGalleryRepository)
+    public ForgesGalleryService(
+        IForgesGalleryRepository forgesGalleryRepository,
+        IForgesService forgesService,
+        IPowerManagerService powerManagerService)
     {
         _forgesGalleryRepository = forgesGalleryRepository;
+        _forgesService = forgesService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static ForgesGalleryService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new ForgesGalleryService(new ForgesGalleryRepository());
-        }
-        return _instance;
-    }
+    public static IForgesGalleryService Create() => ServiceContainer.GetService<IForgesGalleryService>();
 
     public async Task<List<Forges>> GetForgesCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
@@ -33,16 +33,63 @@ public class ForgesGalleryService : IForgesGalleryService
         return await _forgesGalleryRepository.GetForgesCountAsync(search, type, rare);
     }
 
-    public async Task InsertForgeGalleryAsync(string userId, string Id)
+    public async Task<bool> InsertForgeGalleryAsync(string userId, string Id)
     {
-        IForgesRepository _repository = new ForgesRepository();
-        ForgesService _service = new ForgesService(_repository);
-        await _forgesGalleryRepository.InsertForgeGalleryAsync(userId, Id, await _service.GetForgeByIdAsync(Id));
+        var insertResult = await _forgesGalleryRepository.InsertForgeGalleryAsync(userId, Id, await _forgesService.GetForgeByIdAsync(Id));
+
+        if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
+        {
+            return false;
+        }
+
+        return true;
     }
 
-    public async Task UpdateStatusForgeGalleryAsync(string userId, string Id)
+    public async Task<bool> UpdateStatusForgeGalleryAsync(string userId, string forgeId)
     {
-        await _forgesGalleryRepository.UpdateStatusForgeGalleryAsync(userId, Id);
+        var updateResult = await _forgesGalleryRepository.UpdateStatusForgeGalleryAsync(userId, forgeId);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return false;
+        }
+
+        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
+        Forges forgeGallery = await GetForgeCollectionByIdAsync(userId, forgeId) ?? new Forges();
+        PowerManager newPowerManager = oldPowerManager + (PowerManager)forgeGallery;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
+
+        return true;
+    }
+
+    public async Task<bool> UpdateBatchStatusForgesGalleryAsync(string userId)
+    {
+        Forges oldForge = await SumPowerForgesGalleryAsync(userId);
+
+        var updateResult = await _forgesGalleryRepository.UpdateBatchStatusForgesGalleryAsync(userId);
+
+        if (updateResult == null ||
+        updateResult.OperationType != DatabaseOperationType.Updated ||
+        !updateResult.Data)
+        {
+            return false;
+        }
+
+        Forges newForge = await SumPowerForgesGalleryAsync(userId);
+        PowerManager deltaPower = (PowerManager)newForge - (PowerManager)oldForge;
+
+        if (deltaPower.Power == 0)
+        {
+            return false;
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return true;
     }
 
     public async Task<Forges> SumPowerForgesGalleryAsync(string userId)
@@ -50,9 +97,92 @@ public class ForgesGalleryService : IForgesGalleryService
         return await _forgesGalleryRepository.SumPowerForgesGalleryAsync(userId);
     }
 
-    public async Task UpdateStarForgeGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateStarForgeGalleryAsync(string userId, string Id, double star)
     {
-        await _forgesGalleryRepository.UpdateStarForgeGalleryAsync(userId, Id, star);
+        var updateResult = await _forgesGalleryRepository.UpdateStarForgeGalleryAsync(userId, Id, star);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public async Task<bool> UpdateCurrentStarForgeGalleryAsync(string userId, string forgeId)
+    {
+        Forges oldForge = await GetForgeCollectionByIdAsync(userId, forgeId) ?? new Forges();
+
+        var updateResult = await _forgesGalleryRepository.UpdateCurrentStarForgeGalleryAsync(userId, forgeId);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
+        {
+            return false;
+        }
+
+        Forges newForge = await GetForgeCollectionByIdAsync(userId, forgeId) ?? new Forges();
+        PowerManager deltaPower = (PowerManager)newForge - (PowerManager)oldForge;
+
+        if (deltaPower.Power == 0)
+        {
+            return false;
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return true;
+    }
+
+    public async Task<bool> UpdateBatchCurrentStarForgesGalleryAsync(string userId)
+    {
+        Forges oldForge = await SumPowerForgesGalleryAsync(userId);
+
+        var updateResult = await _forgesGalleryRepository.UpdateBatchCurrentStarForgesGalleryAsync(userId);
+
+        if (updateResult == null ||
+            updateResult.OperationType != DatabaseOperationType.Updated ||
+            updateResult.Data == null ||
+            !updateResult.Data.Any())
+        {
+            return false;
+        }
+
+        Forges newForge = await SumPowerForgesGalleryAsync(userId);
+        PowerManager deltaPower = (PowerManager)newForge - (PowerManager)oldForge;
+
+        if (deltaPower.Power == 0)
+        {
+            return false;
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return true;
+    }
+
+    public async Task<bool> InsertBatchForgesGalleryAsync(string userId, List<Forges> forges)
+    {
+        var insertResult = await _forgesGalleryRepository.InsertBatchForgesGalleryAsync(userId, forges);
+
+        if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public async Task<Forges> GetForgeCollectionByIdAsync(string userId, string forgeId)
+    {
+        var result = await _forgesGalleryRepository.GetForgeCollectionByIdAsync(userId, forgeId);
+        result = StarEvaluatorHelper.GetStarGalleryPower(result);
+        return result;
     }
 
     public async Task UpdateForgeGalleryPowerAsync(string userId, string Id)

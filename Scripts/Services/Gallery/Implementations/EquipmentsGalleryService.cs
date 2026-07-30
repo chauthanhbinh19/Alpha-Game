@@ -1,24 +1,24 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 public class EquipmentsGalleryService : IEquipmentsGalleryService
 {
-    private static EquipmentsGalleryService _instance;
     private readonly IEquipmentsGalleryRepository _equipmentsGalleryRepository;
+    private readonly IEquipmentsService _equipmentsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public EquipmentsGalleryService(IEquipmentsGalleryRepository equipmentsGalleryRepository)
+    public EquipmentsGalleryService(
+        IEquipmentsGalleryRepository equipmentsGalleryRepository,
+        IEquipmentsService equipmentsService,
+        IPowerManagerService powerManagerService)
     {
         _equipmentsGalleryRepository = equipmentsGalleryRepository;
+        _equipmentsService = equipmentsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static EquipmentsGalleryService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new EquipmentsGalleryService(new EquipmentsGalleryRepository());
-        }
-        return _instance;
-    }
+    public static IEquipmentsGalleryService Create() => ServiceContainer.GetService<IEquipmentsGalleryService>();
 
     public async Task<List<Equipments>> GetEquipmentsCollectionAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
@@ -32,16 +32,63 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
         return await _equipmentsGalleryRepository.GetEquipmentsCountAsync(search, type, rare);
     }
 
-    public async Task InsertEquipmentGalleryAsync(string userId, string Id)
+    public async Task<bool> InsertEquipmentGalleryAsync(string userId, string Id)
     {
-        IEquipmentsRepository _repository = new EquipmentsRepository();
-        EquipmentsService _service = new EquipmentsService(_repository);
-        await _equipmentsGalleryRepository.InsertEquipmentGalleryAsync(userId, Id, await _service.GetEquipmentByIdAsync(Id));
+        var insertResult = await _equipmentsGalleryRepository.InsertEquipmentGalleryAsync(userId, Id, await _equipmentsService.GetEquipmentByIdAsync(Id));
+
+        if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
+        {
+            return false;
+        }
+
+        return true;
     }
 
-    public async Task UpdateStatusEquipmentGalleryAsync(string userId, string Id)
+    public async Task<bool> UpdateStatusEquipmentGalleryAsync(string userId, string equipmentId)
     {
-        await _equipmentsGalleryRepository.UpdateStatusEquipmentGalleryAsync(userId, Id);
+        var updateResult = await _equipmentsGalleryRepository.UpdateStatusEquipmentGalleryAsync(userId, equipmentId);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return false;
+        }
+
+        PowerManager oldPowerManager = await _powerManagerService.GetUserStatsAsync(userId);
+        Equipments equipmentGallery = await GetEquipmentCollectionByIdAsync(userId, equipmentId) ?? new Equipments();
+        PowerManager newPowerManager = oldPowerManager + (PowerManager)equipmentGallery;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, newPowerManager);
+
+        return true;
+    }
+
+    public async Task<bool> UpdateBatchStatusEquipmentsGalleryAsync(string userId)
+    {
+        Equipments oldEquipment = await SumPowerEquipmentsGalleryAsync(userId);
+
+        var updateResult = await _equipmentsGalleryRepository.UpdateBatchStatusEquipmentsGalleryAsync(userId);
+
+        if (updateResult == null ||
+        updateResult.OperationType != DatabaseOperationType.Updated ||
+        !updateResult.Data)
+        {
+            return false;
+        }
+
+        Equipments newEquipment = await SumPowerEquipmentsGalleryAsync(userId);
+        PowerManager deltaPower = (PowerManager)newEquipment - (PowerManager)oldEquipment;
+
+        if (deltaPower.Power == 0)
+        {
+            return false;
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return true;
     }
 
     public async Task<Equipments> SumPowerEquipmentsGalleryAsync(string userId)
@@ -49,9 +96,92 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
         return await _equipmentsGalleryRepository.SumPowerEquipmentsGalleryAsync(userId);
     }
 
-    public async Task UpdateStarEquipmentGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateStarEquipmentGalleryAsync(string userId, string Id, double star)
     {
-        await _equipmentsGalleryRepository.UpdateStarEquipmentGalleryAsync(userId, Id, star);
+        var updateResult = await _equipmentsGalleryRepository.UpdateStarEquipmentGalleryAsync(userId, Id, star);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public async Task<bool> UpdateCurrentStarEquipmentGalleryAsync(string userId, string equipmentId)
+    {
+        Equipments oldEquipment = await GetEquipmentCollectionByIdAsync(userId, equipmentId) ?? new Equipments();
+
+        var updateResult = await _equipmentsGalleryRepository.UpdateCurrentStarEquipmentGalleryAsync(userId, equipmentId);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
+        {
+            return false;
+        }
+
+        Equipments newEquipment = await GetEquipmentCollectionByIdAsync(userId, equipmentId) ?? new Equipments();
+        PowerManager deltaPower = (PowerManager)newEquipment - (PowerManager)oldEquipment;
+
+        if (deltaPower.Power == 0)
+        {
+            return false;
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return true;
+    }
+
+    public async Task<bool> UpdateBatchCurrentStarEquipmentsGalleryAsync(string userId)
+    {
+        Equipments oldEquipment = await SumPowerEquipmentsGalleryAsync(userId);
+
+        var updateResult = await _equipmentsGalleryRepository.UpdateBatchCurrentStarEquipmentsGalleryAsync(userId);
+
+        if (updateResult == null ||
+            updateResult.OperationType != DatabaseOperationType.Updated ||
+            updateResult.Data == null ||
+            !updateResult.Data.Any())
+        {
+            return false;
+        }
+
+        Equipments newEquipment = await SumPowerEquipmentsGalleryAsync(userId);
+        PowerManager deltaPower = (PowerManager)newEquipment - (PowerManager)oldEquipment;
+
+        if (deltaPower.Power == 0)
+        {
+            return false;
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return true;
+    }
+
+    public async Task<bool> InsertBatchEquipmentsGalleryAsync(string userId, List<Equipments> equipments)
+    {
+        var insertResult = await _equipmentsGalleryRepository.InsertBatchEquipmentsGalleryAsync(userId, equipments);
+
+        if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Inserted)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public async Task<Equipments> GetEquipmentCollectionByIdAsync(string userId, string equipmentId)
+    {
+        var result = await _equipmentsGalleryRepository.GetEquipmentCollectionByIdAsync(userId, equipmentId);
+        result = StarEvaluatorHelper.GetStarGalleryPower(result);
+        return result;
     }
 
     public async Task UpdateEquipmentGalleryPowerAsync(string userId, string Id)

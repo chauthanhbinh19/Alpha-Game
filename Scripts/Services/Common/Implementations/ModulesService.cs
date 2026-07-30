@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class ModulesService : IModulesService
 {
-    private static ModulesService _instance;
     private readonly IModulesRepository _modulesRepository;
 
     public ModulesService(IModulesRepository modulesRepository)
@@ -15,14 +14,7 @@ public class ModulesService : IModulesService
         _modulesRepository = modulesRepository;
     }
 
-    public static ModulesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new ModulesService(new ModulesRepository());
-        }
-        return _instance;
-    }
+    public static IModulesService Create() => ServiceContainer.GetService<IModulesService>();
 
     public async Task<Modules> GetModuleByIdAsync(string id)
     {

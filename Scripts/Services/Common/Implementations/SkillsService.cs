@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class SkillsService : ISkillsService
 {
-    private static SkillsService _instance;
     private readonly ISkillsRepository _skillsRepository;
 
     public SkillsService(ISkillsRepository skillsRepository)
@@ -11,14 +10,7 @@ public class SkillsService : ISkillsService
         _skillsRepository = skillsRepository;
     }
 
-    public static SkillsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new SkillsService(new SkillsRepository());
-        }
-        return _instance;
-    }
+    public static ISkillsService Create() => ServiceContainer.GetService<ISkillsService>();
 
     public async Task<List<string>> GetUniqueSkillsTypesAsync()
     {

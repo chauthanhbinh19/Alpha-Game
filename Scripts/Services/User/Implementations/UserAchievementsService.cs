@@ -6,22 +6,18 @@ using System.Threading.Tasks;
 
 public class UserAchievementsService : IUserAchievementsService
 {
-    private static UserAchievementsService _instance;
     private readonly IUserAchievementsRepository _userAchievementsRepository;
+    private readonly IAchievementsGalleryService _achievementsGalleryService;
 
-    public UserAchievementsService(IUserAchievementsRepository userAchievementsService)
+    public UserAchievementsService(
+        IUserAchievementsRepository userAchievementsService,
+        IAchievementsGalleryService achievementsGalleryService)
     {
         _userAchievementsRepository = userAchievementsService;
+        _achievementsGalleryService = achievementsGalleryService;
     }
 
-    public static UserAchievementsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserAchievementsService(new UserAchievementsRepository());
-        }
-        return _instance;
-    }
+    public static IUserAchievementsService Create() => ServiceContainer.GetService<IUserAchievementsService>();
 
     public async Task<List<Achievements>> GetUserAchievementsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
@@ -41,7 +37,7 @@ public class UserAchievementsService : IUserAchievementsService
         var result = await _userAchievementsRepository.InsertUserAchievementsAsync(achievement, userId);
         if (result)
         {
-            await AchievementsGalleryService.Create().InsertAchievementGalleryAsync(userId, achievement.Id);
+            await _achievementsGalleryService.InsertAchievementGalleryAsync(userId, achievement.Id);
         }
         return result;
     }
@@ -56,7 +52,7 @@ public class UserAchievementsService : IUserAchievementsService
         var result = await _userAchievementsRepository.UpdateUserAchievementStarAsync(userId, achievement);
         if (result)
         {
-            await AchievementsGalleryService.Create().UpdateStarAchievementGalleryAsync(userId, achievement.Id, achievement.Star);
+            await _achievementsGalleryService.UpdateStarAchievementGalleryAsync(userId, achievement.Id, achievement.Star);
         }
         return result;
     }

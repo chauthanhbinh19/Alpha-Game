@@ -927,157 +927,133 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
 
         return count;
     }
-    public async Task<bool> InsertUserCardHeroAsync(string userId, CardHeroes cardHero)
+    public async Task<InsertOrUpdateResult<CardHeroes>> InsertOrUpdateUserCardHeroAsync(string userId, CardHeroes cardHero)
     {
         string connectionString = DatabaseConfig.ConnectionString;
-
         await using MySqlConnection connection = new MySqlConnection(connectionString);
 
         try
         {
             await connection.OpenAsync();
 
-            // Kiểm tra xem bản ghi đã tồn tại chưa
-            string checkSQL = @"
-            SELECT COUNT(*) 
-            FROM user_card_heroes
-            WHERE user_id = @user_id AND card_hero_id = @card_hero_id;
-        ";
+            // Query thực hiện Insert hoặc Update nếu đã tồn tại Composite Primary Key (user_id, card_hero_id)
+            string upsertSQL = @"
+            INSERT INTO user_card_heroes (
+                user_id, card_hero_id, rare, level, experience, star, quality, block, quantity,
+                power, health, physical_attack, physical_defense, magical_attack, magical_defense,
+                chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
+                speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                penetration_rate, penetration_resistance_rate,
+                evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                vitality_regeneration_rate, vitality_regeneration_resistance_rate,
+                accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
+                combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                stun_rate, ignore_stun_rate,
+                reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
+                mana, mana_regeneration_rate,
+                damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                normal_damage_rate, normal_resistance_rate,
+                skill_damage_rate, skill_resistance_rate
+            ) VALUES (
+                @user_id, @card_hero_id, @rare, 0, 0, 0, @quality, false, @quantity,
+                @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
+                @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
+                @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+                @penetration_rate, @penetration_resistance_rate,
+                @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+                @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
+                @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
+                @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
+                @stun_rate, @ignore_stun_rate,
+                @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
+                @mana, @mana_regeneration_rate,
+                @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
+                @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+                @normal_damage_rate, @normal_resistance_rate,
+                @skill_damage_rate, @skill_resistance_rate
+            )
+            ON DUPLICATE KEY UPDATE 
+                quantity = VALUES(quantity);";
 
-            await using MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection);
-            checkCommand.Parameters.AddWithValue("@user_id", userId);
-            checkCommand.Parameters.AddWithValue("@card_hero_id", cardHero.Id);
+            await using MySqlCommand command = new MySqlCommand(upsertSQL, connection);
 
-            int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
+            // Add Parameters
+            command.Parameters.AddWithValue("@user_id", userId);
+            command.Parameters.AddWithValue("@card_hero_id", cardHero.Id);
+            command.Parameters.AddWithValue("@rare", cardHero.Rarity);
+            command.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(cardHero.Rarity));
+            command.Parameters.AddWithValue("@quantity", cardHero.Quantity);
+            command.Parameters.AddWithValue("@power", cardHero.Power);
+            command.Parameters.AddWithValue("@health", cardHero.Health);
+            command.Parameters.AddWithValue("@physical_attack", cardHero.PhysicalAttack);
+            command.Parameters.AddWithValue("@physical_defense", cardHero.PhysicalDefense);
+            command.Parameters.AddWithValue("@magical_attack", cardHero.MagicalAttack);
+            command.Parameters.AddWithValue("@magical_defense", cardHero.MagicalDefense);
+            command.Parameters.AddWithValue("@chemical_attack", cardHero.ChemicalAttack);
+            command.Parameters.AddWithValue("@chemical_defense", cardHero.ChemicalDefense);
+            command.Parameters.AddWithValue("@atomic_attack", cardHero.AtomicAttack);
+            command.Parameters.AddWithValue("@atomic_defense", cardHero.AtomicDefense);
+            command.Parameters.AddWithValue("@mental_attack", cardHero.MentalAttack);
+            command.Parameters.AddWithValue("@mental_defense", cardHero.MentalDefense);
+            command.Parameters.AddWithValue("@speed", cardHero.Speed);
+            command.Parameters.AddWithValue("@critical_damage_rate", cardHero.CriticalDamageRate);
+            command.Parameters.AddWithValue("@critical_rate", cardHero.CriticalRate);
+            command.Parameters.AddWithValue("@critical_resistance_rate", cardHero.CriticalResistanceRate);
+            command.Parameters.AddWithValue("@ignore_critical_rate", cardHero.IgnoreCriticalRate);
+            command.Parameters.AddWithValue("@penetration_rate", cardHero.PenetrationRate);
+            command.Parameters.AddWithValue("@penetration_resistance_rate", cardHero.PenetrationResistanceRate);
+            command.Parameters.AddWithValue("@evasion_rate", cardHero.EvasionRate);
+            command.Parameters.AddWithValue("@damage_absorption_rate", cardHero.DamageAbsorptionRate);
+            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardHero.IgnoreDamageAbsorptionRate);
+            command.Parameters.AddWithValue("@absorbed_damage_rate", cardHero.AbsorbedDamageRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_rate", cardHero.VitalityRegenerationRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardHero.VitalityRegenerationResistanceRate);
+            command.Parameters.AddWithValue("@accuracy_rate", cardHero.AccuracyRate);
+            command.Parameters.AddWithValue("@lifesteal_rate", cardHero.LifestealRate);
+            command.Parameters.AddWithValue("@shield_strength", cardHero.ShieldStrength);
+            command.Parameters.AddWithValue("@tenacity", cardHero.Tenacity);
+            command.Parameters.AddWithValue("@resistance_rate", cardHero.ResistanceRate);
+            command.Parameters.AddWithValue("@combo_rate", cardHero.ComboRate);
+            command.Parameters.AddWithValue("@ignore_combo_rate", cardHero.IgnoreComboRate);
+            command.Parameters.AddWithValue("@combo_damage_rate", cardHero.ComboDamageRate);
+            command.Parameters.AddWithValue("@combo_resistance_rate", cardHero.ComboResistanceRate);
+            command.Parameters.AddWithValue("@stun_rate", cardHero.StunRate);
+            command.Parameters.AddWithValue("@ignore_stun_rate", cardHero.IgnoreStunRate);
+            command.Parameters.AddWithValue("@reflection_rate", cardHero.ReflectionRate);
+            command.Parameters.AddWithValue("@ignore_reflection_rate", cardHero.IgnoreReflectionRate);
+            command.Parameters.AddWithValue("@reflection_damage_rate", cardHero.ReflectionDamageRate);
+            command.Parameters.AddWithValue("@reflection_resistance_rate", cardHero.ReflectionResistanceRate);
+            command.Parameters.AddWithValue("@mana", cardHero.Mana);
+            command.Parameters.AddWithValue("@mana_regeneration_rate", cardHero.ManaRegenerationRate);
+            command.Parameters.AddWithValue("@damage_to_different_faction_rate", cardHero.DamageToDifferentFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardHero.ResistanceToDifferentFactionRate);
+            command.Parameters.AddWithValue("@damage_to_same_faction_rate", cardHero.DamageToSameFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardHero.ResistanceToSameFactionRate);
+            command.Parameters.AddWithValue("@normal_damage_rate", cardHero.NormalDamageRate);
+            command.Parameters.AddWithValue("@normal_resistance_rate", cardHero.NormalResistanceRate);
+            command.Parameters.AddWithValue("@skill_damage_rate", cardHero.SkillDamageRate);
+            command.Parameters.AddWithValue("@skill_resistance_rate", cardHero.SkillResistanceRate);
 
-            if (count == 0)
+            int rowsAffected = await command.ExecuteNonQueryAsync();
+
+            // MySQL quy ước: Insert mới = 1, Update = 2, Không thay đổi = 0
+            if (rowsAffected == 1)
             {
-                string insertSQL = @"
-                INSERT INTO user_card_heroes (
-                    user_id, card_hero_id, rare, level, experience, star, quality, block, quantity,
-                    power, health, physical_attack, physical_defense, magical_attack, magical_defense,
-                    chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
-                    speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                    penetration_rate, penetration_resistance_rate,
-                    evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                    vitality_regeneration_rate, vitality_regeneration_resistance_rate,
-                    accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
-                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                    stun_rate, ignore_stun_rate,
-                    reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
-                    mana, mana_regeneration_rate,
-                    damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                    damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                    normal_damage_rate, normal_resistance_rate,
-                    skill_damage_rate, skill_resistance_rate
-                ) VALUES (
-                    @user_id, @card_hero_id, @rare, @level, @experience, @star, @quality, @block, @quantity,
-                    @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
-                    @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
-                    @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
-                    @penetration_rate, @penetration_resistance_rate,
-                    @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
-                    @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
-                    @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
-                    @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
-                    @stun_rate, @ignore_stun_rate,
-                    @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
-                    @mana, @mana_regeneration_rate,
-                    @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
-                    @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
-                    @normal_damage_rate, @normal_resistance_rate,
-                    @skill_damage_rate, @skill_resistance_rate
-                );
-            ";
-
-                await using MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection);
-
-                insertCommand.Parameters.AddWithValue("@user_id", userId);
-                insertCommand.Parameters.AddWithValue("@card_hero_id", cardHero.Id);
-                insertCommand.Parameters.AddWithValue("@rare", cardHero.Rarity);
-                insertCommand.Parameters.AddWithValue("@level", 0);
-                insertCommand.Parameters.AddWithValue("@experience", 0);
-                insertCommand.Parameters.AddWithValue("@star", 0);
-                insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(cardHero.Rarity));
-                insertCommand.Parameters.AddWithValue("@block", false);
-                insertCommand.Parameters.AddWithValue("@quantity", cardHero.Quantity);
-                insertCommand.Parameters.AddWithValue("@power", cardHero.Power);
-                insertCommand.Parameters.AddWithValue("@health", cardHero.Health);
-                insertCommand.Parameters.AddWithValue("@physical_attack", cardHero.PhysicalAttack);
-                insertCommand.Parameters.AddWithValue("@physical_defense", cardHero.PhysicalDefense);
-                insertCommand.Parameters.AddWithValue("@magical_attack", cardHero.MagicalAttack);
-                insertCommand.Parameters.AddWithValue("@magical_defense", cardHero.MagicalDefense);
-                insertCommand.Parameters.AddWithValue("@chemical_attack", cardHero.ChemicalAttack);
-                insertCommand.Parameters.AddWithValue("@chemical_defense", cardHero.ChemicalDefense);
-                insertCommand.Parameters.AddWithValue("@atomic_attack", cardHero.AtomicAttack);
-                insertCommand.Parameters.AddWithValue("@atomic_defense", cardHero.AtomicDefense);
-                insertCommand.Parameters.AddWithValue("@mental_attack", cardHero.MentalAttack);
-                insertCommand.Parameters.AddWithValue("@mental_defense", cardHero.MentalDefense);
-                insertCommand.Parameters.AddWithValue("@speed", cardHero.Speed);
-                insertCommand.Parameters.AddWithValue("@critical_damage_rate", cardHero.CriticalDamageRate);
-                insertCommand.Parameters.AddWithValue("@critical_rate", cardHero.CriticalRate);
-                insertCommand.Parameters.AddWithValue("@critical_resistance_rate", cardHero.CriticalResistanceRate);
-                insertCommand.Parameters.AddWithValue("@ignore_critical_rate", cardHero.IgnoreCriticalRate);
-                insertCommand.Parameters.AddWithValue("@penetration_rate", cardHero.PenetrationRate);
-                insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", cardHero.PenetrationResistanceRate);
-                insertCommand.Parameters.AddWithValue("@evasion_rate", cardHero.EvasionRate);
-                insertCommand.Parameters.AddWithValue("@damage_absorption_rate", cardHero.DamageAbsorptionRate);
-                insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", cardHero.IgnoreDamageAbsorptionRate);
-                insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", cardHero.AbsorbedDamageRate);
-                insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", cardHero.VitalityRegenerationRate);
-                insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", cardHero.VitalityRegenerationResistanceRate);
-                insertCommand.Parameters.AddWithValue("@accuracy_rate", cardHero.AccuracyRate);
-                insertCommand.Parameters.AddWithValue("@lifesteal_rate", cardHero.LifestealRate);
-                insertCommand.Parameters.AddWithValue("@shield_strength", cardHero.ShieldStrength);
-                insertCommand.Parameters.AddWithValue("@tenacity", cardHero.Tenacity);
-                insertCommand.Parameters.AddWithValue("@resistance_rate", cardHero.ResistanceRate);
-                insertCommand.Parameters.AddWithValue("@combo_rate", cardHero.ComboRate);
-                insertCommand.Parameters.AddWithValue("@ignore_combo_rate", cardHero.IgnoreComboRate);
-                insertCommand.Parameters.AddWithValue("@combo_damage_rate", cardHero.ComboDamageRate);
-                insertCommand.Parameters.AddWithValue("@combo_resistance_rate", cardHero.ComboResistanceRate);
-                insertCommand.Parameters.AddWithValue("@stun_rate", cardHero.StunRate);
-                insertCommand.Parameters.AddWithValue("@ignore_stun_rate", cardHero.IgnoreStunRate);
-                insertCommand.Parameters.AddWithValue("@reflection_rate", cardHero.ReflectionRate);
-                insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", cardHero.IgnoreReflectionRate);
-                insertCommand.Parameters.AddWithValue("@reflection_damage_rate", cardHero.ReflectionDamageRate);
-                insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", cardHero.ReflectionResistanceRate);
-                insertCommand.Parameters.AddWithValue("@mana", cardHero.Mana);
-                insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", cardHero.ManaRegenerationRate);
-                insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", cardHero.DamageToDifferentFactionRate);
-                insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", cardHero.ResistanceToDifferentFactionRate);
-                insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", cardHero.DamageToSameFactionRate);
-                insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", cardHero.ResistanceToSameFactionRate);
-                insertCommand.Parameters.AddWithValue("@normal_damage_rate", cardHero.NormalDamageRate);
-                insertCommand.Parameters.AddWithValue("@normal_resistance_rate", cardHero.NormalResistanceRate);
-                insertCommand.Parameters.AddWithValue("@skill_damage_rate", cardHero.SkillDamageRate);
-                insertCommand.Parameters.AddWithValue("@skill_resistance_rate", cardHero.SkillResistanceRate);
-
-                await insertCommand.ExecuteNonQueryAsync();
+                return InsertOrUpdateResult<CardHeroes>.Inserted(cardHero);
             }
-            else
+            else if (rowsAffected == 2 || rowsAffected == 0)
             {
-                // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                string updateSQL = @"
-                UPDATE user_card_heroes
-                SET quantity = @quantity
-                WHERE user_id = @user_id AND card_hero_id = @card_hero_id;
-            ";
-
-                await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", userId);
-                updateCommand.Parameters.AddWithValue("@card_hero_id", cardHero.Id);
-                updateCommand.Parameters.AddWithValue("@quantity", cardHero.Quantity);
-
-                await updateCommand.ExecuteNonQueryAsync();
+                return InsertOrUpdateResult<CardHeroes>.Updated(cardHero);
             }
+
+            return InsertOrUpdateResult<CardHeroes>.Failure();
         }
         catch (MySqlException ex)
         {
-            Debug.LogError("Error: " + ex.Message);
-            return false;
+            Debug.LogError("Database Error: " + ex.Message);
+            return InsertOrUpdateResult<CardHeroes>.Failure(ex.Message);
         }
-
-        return true;
     }
     public async Task<bool> InsertOrUpdateUserCardHeroesBatchAsync(string userId, List<CardHeroes> cardHeroes)
     {

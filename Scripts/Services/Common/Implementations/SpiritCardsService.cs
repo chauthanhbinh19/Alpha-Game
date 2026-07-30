@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class SpiritCardsService : ISpiritCardsService
 {
-    private static SpiritCardsService _instance;
     private readonly ISpiritCardsRepository _spiritCardsRepository;
 
     public SpiritCardsService(ISpiritCardsRepository spiritCardsRepository)
@@ -11,14 +10,7 @@ public class SpiritCardsService : ISpiritCardsService
         _spiritCardsRepository = spiritCardsRepository;
     }
 
-    public static SpiritCardsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new SpiritCardsService(new SpiritCardsRepository());
-        }
-        return _instance;
-    }
+    public static ISpiritCardsService Create() => ServiceContainer.GetService<ISpiritCardsService>();
 
     public async Task<List<string>> GetUniqueSpiritCardsTypesAsync()
     {

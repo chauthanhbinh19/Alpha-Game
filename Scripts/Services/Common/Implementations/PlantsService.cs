@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class PlantsService : IPlantsService
 {
-    private static PlantsService _instance;
     private readonly IPlantsRepository _plantsRepository;
 
     public PlantsService(IPlantsRepository PlantsRepository)
@@ -11,14 +10,7 @@ public class PlantsService : IPlantsService
         _plantsRepository = PlantsRepository;
     }
 
-    public static PlantsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new PlantsService(new PlantsRepository());
-        }
-        return _instance;
-    }
+    public static IPlantsService Create() => ServiceContainer.GetService<IPlantsService>();
 
     public async Task<List<Plants>> GetPlantsAsync(string search, string rare, int pageSize, int offset)
     {

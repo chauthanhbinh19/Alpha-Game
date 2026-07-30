@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class FashionsService : IFashionsService
 {
-    private static FashionsService _instance;
     private readonly IFashionsRepository _fashionsRepository;
 
     public FashionsService(IFashionsRepository fashionsRepository)
@@ -11,14 +10,7 @@ public class FashionsService : IFashionsService
         _fashionsRepository = fashionsRepository;
     }
 
-    public static FashionsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new FashionsService(new FashionsRepository());
-        }
-        return _instance;
-    }
+    public static IFashionsService Create() => ServiceContainer.GetService<IFashionsService>();
 
     public async Task<List<string>> GetUniqueFashionsTypesAsync()
     {

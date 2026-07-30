@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class PetsService : IPetsService
 {
-    private static PetsService _instance;
     private readonly IPetsRepository _petsRepository;
 
     public PetsService(IPetsRepository petsRepository)
@@ -11,14 +10,7 @@ public class PetsService : IPetsService
         _petsRepository = petsRepository;
     }
 
-    public static PetsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new PetsService(new PetsRepository());
-        }
-        return _instance;
-    }
+    public static IPetsService Create() => ServiceContainer.GetService<IPetsService>();
 
     public async Task<List<string>> GetUniquePetsTypesAsync()
     {

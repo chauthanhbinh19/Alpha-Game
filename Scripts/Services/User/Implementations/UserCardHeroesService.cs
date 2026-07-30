@@ -668,12 +668,14 @@ public class UserCardHeroesService : IUserCardHeroesService
 
     public async Task<bool> InsertUserCardHeroAsync(string userId, CardHeroes cardHero)
     {
-        var result = await _userCardHeroesRepository.InsertUserCardHeroAsync(userId, cardHero);
-        if (result)
+        var result = await _userCardHeroesRepository.InsertOrUpdateUserCardHeroAsync(userId, cardHero);
+        if (result.Data != null)
         {
             await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync(userId, cardHero.Id);
+
+            return true;
         }
-        return result;
+        return false;
     }
 
     public async Task<bool> UpdateUserCardHeroLevelAsync(string userId, CardHeroes cardHero)

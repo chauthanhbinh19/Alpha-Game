@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class SSWNsService : ISSWNsService
 {
-    private static SSWNsService _instance;
     private readonly ISSWNsRepository _sswnsRepository;
 
     public SSWNsService(ISSWNsRepository sswnsRepository)
@@ -15,14 +14,7 @@ public class SSWNsService : ISSWNsService
         _sswnsRepository = sswnsRepository;
     }
 
-    public static SSWNsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new SSWNsService(new SSWNsRepository());
-        }
-        return _instance;
-    }
+    public static ISSWNsService Create() => ServiceContainer.GetService<ISSWNsService>();
 
     public async Task<SSWNs> GetSSWNByIdAsync(string id)
     {

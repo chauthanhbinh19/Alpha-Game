@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class PatternsService : IPatternsService
 {
-    private static PatternsService _instance;
     private readonly IPatternsRepository _patternsRepository;
     private readonly Dictionary<string, Patterns> _masterPatterns = new Dictionary<string, Patterns>();
 
@@ -14,14 +13,7 @@ public class PatternsService : IPatternsService
         _patternsRepository = patternsRepository;
     }
 
-    public static PatternsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new PatternsService(new PatternsRepository());
-        }
-        return _instance;
-    }
+    public static IPatternsService Create() => ServiceContainer.GetService<IPatternsService>();
 
     public Task<List<Patterns>> GetAllPatternsAsync()
     {

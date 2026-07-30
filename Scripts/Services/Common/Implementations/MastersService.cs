@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class MastersService : IMastersService
 {
-    private static MastersService _instance;
     private readonly IMastersRepository _mastersRepository;
 
     public MastersService(IMastersRepository mastersRepository)
@@ -15,14 +14,7 @@ public class MastersService : IMastersService
         _mastersRepository = mastersRepository;
     }
 
-    public static MastersService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new MastersService(new MastersRepository());
-        }
-        return _instance;
-    }
+    public static IMastersService Create() => ServiceContainer.GetService<IMastersService>();
 
     public async Task<Masters> GetMasterByIdAsync(string id)
     {

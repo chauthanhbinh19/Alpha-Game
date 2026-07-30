@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class CollaborationEquipmentsService : ICollaborationEquipmentsService
 {
-    private static CollaborationEquipmentsService _instance;
     private readonly ICollaborationEquipmentsRepository _collaborationEquipmentsRepository;
 
     public CollaborationEquipmentsService(ICollaborationEquipmentsRepository collaborationEquipmentsRepository)
@@ -11,15 +10,7 @@ public class CollaborationEquipmentsService : ICollaborationEquipmentsService
         _collaborationEquipmentsRepository = collaborationEquipmentsRepository;
     }
 
-    public static CollaborationEquipmentsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new CollaborationEquipmentsService(new CollaborationEquipmentsRepository());
-        }
-        return _instance;
-    }
-
+    public static ICollaborationEquipmentsService Create() => ServiceContainer.GetService<ICollaborationEquipmentsService>();
 
     public async Task<List<string>> GetUniqueCollaborationEquipmentsTypesAsync()
     {

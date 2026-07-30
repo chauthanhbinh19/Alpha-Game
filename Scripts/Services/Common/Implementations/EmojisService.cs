@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class EmojisService : IEmojisService
 {
-    private static EmojisService _instance;
     private readonly IEmojisRepository _emojisRepository;
 
     public EmojisService(IEmojisRepository emojisRepository)
@@ -11,14 +10,7 @@ public class EmojisService : IEmojisService
         _emojisRepository = emojisRepository;
     }
 
-    public static EmojisService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new EmojisService(new EmojisRepository());
-        }
-        return _instance;
-    }
+    public static IEmojisService Create() => ServiceContainer.GetService<IEmojisService>();
 
     public async Task<List<Emojis>> GetEmojisAsync(string search, string rare,int pageSize, int offset)
     {

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 public class HICBsService : IHICBsService
 {
-    private static HICBsService _instance;
     private readonly IHICBsRepository _hicbsRepository;
 
     public HICBsService(IHICBsRepository hicbsRepository)
@@ -15,14 +14,7 @@ public class HICBsService : IHICBsService
         _hicbsRepository = hicbsRepository;
     }
 
-    public static HICBsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new HICBsService(new HICBsRepository());
-        }
-        return _instance;
-    }
+    public static IHICBsService Create() => ServiceContainer.GetService<IHICBsService>();
 
     public async Task<HICBs> GetHICBByIdAsync(string id)
     {

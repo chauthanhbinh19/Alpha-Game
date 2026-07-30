@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class SpiritBeastsService : ISpiritBeastsService
 {
-    private static SpiritBeastsService _instance;
     private readonly ISpiritBeastsRepository _spiritBeastsRepository;
 
     public SpiritBeastsService(ISpiritBeastsRepository spiritBeastsRepository)
@@ -11,14 +10,7 @@ public class SpiritBeastsService : ISpiritBeastsService
         _spiritBeastsRepository = spiritBeastsRepository;
     }
 
-    public static SpiritBeastsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new SpiritBeastsService(new SpiritBeastsRepository());
-        }
-        return _instance;
-    }
+    public static ISpiritBeastsService Create() => ServiceContainer.GetService<ISpiritBeastsService>();
 
     public async Task<List<SpiritBeasts>> GetSpiritBeastsAsync(string search, string rare, int pageSize, int offset)
     {

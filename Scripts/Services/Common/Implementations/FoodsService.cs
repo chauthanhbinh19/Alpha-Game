@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class FoodsService : IFoodsService
 {
-    private static FoodsService _instance;
     private readonly IFoodsRepository _foodsRepository;
 
     public FoodsService(IFoodsRepository foodsRepository)
@@ -11,14 +10,7 @@ public class FoodsService : IFoodsService
         _foodsRepository = foodsRepository;
     }
 
-    public static FoodsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new FoodsService(new FoodsRepository());
-        }
-        return _instance;
-    }
+    public static IFoodsService Create() => ServiceContainer.GetService<IFoodsService>();
 
     public async Task<List<Foods>> GetFoodsAsync(string search, string rare, int pageSize, int offset)
     {

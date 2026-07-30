@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class BadgesService : IBadgesService
 {
-    private static BadgesService _instance;
     private readonly IBadgesRepository _badgesRepository;
 
     public BadgesService(IBadgesRepository badgesRepository)
@@ -11,14 +10,7 @@ public class BadgesService : IBadgesService
         _badgesRepository = badgesRepository;
     }
 
-    public static BadgesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new BadgesService(new BadgesRepository());
-        }
-        return _instance;
-    }
+    public static IBadgesService Create() => ServiceContainer.GetService<IBadgesService>();
 
     public async Task<List<Badges>> GetBadgesAsync(string search, string rare, int pageSize, int offset)
     {
