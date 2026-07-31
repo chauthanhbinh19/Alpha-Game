@@ -667,7 +667,7 @@ public class EquipmentsGalleryRepository : IEquipmentsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarEquipmentGalleryAsync(string userId, string equipmentId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarEquipmentGalleryAsync(string userId, string equipmentId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

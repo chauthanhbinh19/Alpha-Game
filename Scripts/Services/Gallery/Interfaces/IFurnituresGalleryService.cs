@@ -8,7 +8,7 @@ public interface IFurnituresGalleryService
     Task<bool> InsertFurnitureGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusFurnitureGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusFurnituresGalleryAsync(string userId);
-    Task<bool> UpdateStarFurnitureGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarFurnitureGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarFurnitureGalleryAsync(string userId, string furnitureId);
     Task<bool> UpdateBatchCurrentStarFurnituresGalleryAsync(string userId);
     Task<bool> InsertBatchFurnituresGalleryAsync(string userId, List<Furnitures> furnitures);

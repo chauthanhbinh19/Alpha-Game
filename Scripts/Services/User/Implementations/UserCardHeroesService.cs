@@ -2,26 +2,32 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Threading.Tasks;
 
 public class UserCardHeroesService : IUserCardHeroesService
 {
-    private static UserCardHeroesService _instance;
     private readonly IUserCardHeroesRepository _userCardHeroesRepository;
+    private readonly ICardHeroesGalleryService _cardHeroesGalleryService;
+    private readonly IUserSkillsRepository _userSkillsRepository;
+    private readonly IPatternsService _patternsService;
+    private readonly IUserStatsService _userStatsService;
 
-    public UserCardHeroesService(IUserCardHeroesRepository userCardHeroesRepository)
+    public UserCardHeroesService(
+        IUserCardHeroesRepository userCardHeroesRepository,
+        ICardHeroesGalleryService cardHeroesGalleryService,
+        IUserSkillsRepository userSkillsRepository,
+        IPatternsService patternsService,
+        IUserStatsService userStatsService)
     {
         _userCardHeroesRepository = userCardHeroesRepository;
+        _cardHeroesGalleryService = cardHeroesGalleryService;
+        _userSkillsRepository = userSkillsRepository;
+        _patternsService = patternsService;
+        _userStatsService = userStatsService;
     }
 
-    public static UserCardHeroesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserCardHeroesService(new UserCardHeroesRepository());
-        }
-        return _instance;
-    }
+    public static IUserCardHeroesService Create() => ServiceContainer.GetService<IUserCardHeroesService>();
 
     public async Task<List<CardHeroes>> GetAllEquipmentPowerAsync(string userId, List<CardHeroes> CardHeroesList)
     {
@@ -351,38 +357,27 @@ public class UserCardHeroesService : IUserCardHeroesService
         return cardHeroes;
     }
 
-
-    public async Task<List<CardHeroes>> GetSkillsAsync(string userId, List<CardHeroes> CardHeroesList)
-    {
-        foreach (CardHeroes cardHeroes in CardHeroesList)
-        {
-            var skills = await UserSkillsService.Create().GetUserCardHeroesSkillsAsync(userId, cardHeroes.Id);
-            skills = skills.Where(x => x.Position != 0).ToList();
-            cardHeroes.Skills = skills;
-        }
-        return CardHeroesList;
-    }
     public async Task<List<CardHeroes>> GetUserCardHeroesAsync(string userId, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null)
     {
         List<CardHeroes> list = await _userCardHeroesRepository.GetUserCardHeroesAsync(userId, search, type, pageSize, offset, rare);
 
         List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
 
-        // var skillsTask = UserSkillsService.Create().GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
+        // var skillsTask = _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
 
         // var skillData = await skillsTask;
         // foreach (var skill in skillData)
         // {
         //     if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
         //     {
-        //         skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+        //         skill.Pattern = _patternsService.GetPatternFromCache(skill.Pattern.Id);
         //     }
         // }
 
         UserStatsContextDTO context = sharedContext;
         if (context == null)
         {
-            context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
+            context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
@@ -432,21 +427,21 @@ public class UserCardHeroesService : IUserCardHeroesService
 
         List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
 
-        // var skillsTask = UserSkillsService.Create().GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
+        // var skillsTask = _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
 
         // var skillData = await skillsTask;
         // foreach (var skill in skillData)
         // {
         //     if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
         //     {
-        //         skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+        //         skill.Pattern = _patternsService.GetPatternFromCache(skill.Pattern.Id);
         //     }
         // }
 
         UserStatsContextDTO context = sharedContext;
         if (context == null)
         {
-            context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
+            context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
@@ -496,21 +491,21 @@ public class UserCardHeroesService : IUserCardHeroesService
 
         List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
 
-        // var skillsTask = UserSkillsService.Create().GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
+        // var skillsTask = _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
 
         // var skillData = await skillsTask;
         // foreach (var skill in skillData)
         // {
         //     if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
         //     {
-        //         skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+        //         skill.Pattern = _patternsService.GetPatternFromCache(skill.Pattern.Id);
         //     }
         // }
 
         UserStatsContextDTO context = sharedContext;
         if (context == null)
         {
-            context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
+            context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
         // var skillsLookup = skillData.ToLookup(s => s.CardId);
@@ -583,7 +578,7 @@ public class UserCardHeroesService : IUserCardHeroesService
     //     }
 
     //     // Lấy danh sách kỹ năng dựa theo Id Hero
-    //     var skillsTask = MeasureTask(() => UserSkillsService.Create().GetUserCardHeroesSkillsAsync(userId, cardHeroIds), swSkills, "SkillsFetch");
+    //     var skillsTask = MeasureTask(() => _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds), swSkills, "SkillsFetch");
 
     //     // Đợi tất cả hoàn thành cùng nhau
     //     var swTotalParallel = Stopwatch.StartNew();
@@ -600,14 +595,14 @@ public class UserCardHeroesService : IUserCardHeroesService
     //     {
     //         if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
     //         {
-    //             skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+    //             skill.Pattern = _patternsService.GetPatternFromCache(skill.Pattern.Id);
     //         }
     //     }
 
     //     UserStatsContextDTO context = sharedContext;
     //     if (context == null)
     //     {
-    //         context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
+    //         context = await _userStatsService.GetUserStatsContextAsync(userId);
     //     }
 
     //     swCache.Stop();
@@ -666,36 +661,91 @@ public class UserCardHeroesService : IUserCardHeroesService
         return await _userCardHeroesRepository.GetUserCardHeroesTeamsCountAsync(userId, teamId);
     }
 
-    public async Task<bool> InsertUserCardHeroAsync(string userId, CardHeroes cardHero)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardHeroAsync(string userId, CardHeroes cardHero)
     {
-        var result = await _userCardHeroesRepository.InsertOrUpdateUserCardHeroAsync(userId, cardHero);
-        if (result.Data != null)
-        {
-            await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync(userId, cardHero.Id);
+        var insertOrUpdateResult = await _userCardHeroesRepository.InsertOrUpdateUserCardHeroAsync(userId, cardHero);
 
-            return true;
+        if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
-        return false;
+
+        if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        await _cardHeroesGalleryService.InsertCardHeroGalleryAsync(userId, cardHero.Id);
+
+        return InsertOrUpdateResult<bool>.Inserted(true);
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardHeroesBatchAsync(string userId, List<CardHeroes> cardHeroes)
+    {
+        var repositoryResult = await _userCardHeroesRepository.InsertOrUpdateUserCardHeroesBatchAsync(userId, cardHeroes);
+
+        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
+        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
+        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
+        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        {
+            await _cardHeroesGalleryService.InsertBatchCardHeroesGalleryAsync(userId, newlyInsertedCards);
+        }
+
+        // 3. Mapping kết quả OperationType trả về gọn gàng
+        return repositoryResult.OperationType switch
+        {
+            DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
+            DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
+            DatabaseOperationType.Updated => InsertOrUpdateResult<bool>.Updated(true),
+            _ => new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            }
+        };
     }
 
     public async Task<bool> UpdateUserCardHeroLevelAsync(string userId, CardHeroes cardHero)
     {
-        return await _userCardHeroesRepository.UpdateUserCardHeroLevelAsync(userId, cardHero);
+        var updateResult = await _userCardHeroesRepository.UpdateUserCardHeroLevelAsync(userId, cardHero);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public async Task<bool> UpdateUserCardHeroStarAsync(string userId, CardHeroes cardHero)
     {
-        var result = await _userCardHeroesRepository.UpdateUserCardHeroStarAsync(userId, cardHero);
-        if (result)
-        {
-            await CardHeroesGalleryService.Create().UpdateStarCardHeroGalleryAsync(userId, cardHero.Id, cardHero.Star);
-        }
-        return result;
-    }
+        var updateResult = await _userCardHeroesRepository.UpdateUserCardHeroStarAsync(userId, cardHero);
 
-    public async Task<bool> UpdateUserCardHeroBreakthroughAsync(string userId, CardHeroes cardHero, int star, double quantity)
-    {
-        return await _userCardHeroesRepository.UpdateUserCardHeroBreakthroughAsync(userId, cardHero, star, quantity);
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return false;
+        }
+
+        await _cardHeroesGalleryService.UpdateTempStarCardHeroGalleryAsync(userId, cardHero.Id, cardHero.Star);
+
+        return true;
     }
 
     public async Task<bool> UpdateTeamUserCardHeroAsync(string userId, string teamId, string position, string cardId)
@@ -713,21 +763,21 @@ public class UserCardHeroesService : IUserCardHeroesService
 
         List<string> cardHeroIds = list.Select(hero => hero.Id).ToList();
 
-        var skillsTask = UserSkillsService.Create().GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
+        var skillsTask = _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
 
         var skillData = await skillsTask;
         foreach (var skill in skillData)
         {
             if (skill.Pattern != null && !string.IsNullOrEmpty(skill.Pattern.Id))
             {
-                skill.Pattern = PatternsService.Create().GetPatternFromCache(skill.Pattern.Id);
+                skill.Pattern = _patternsService.GetPatternFromCache(skill.Pattern.Id);
             }
         }
 
         UserStatsContextDTO context = sharedContext;
         if (context == null)
         {
-            context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
+            context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
         var skillsLookup = skillData.ToLookup(s => s.CardId);
@@ -779,7 +829,7 @@ public class UserCardHeroesService : IUserCardHeroesService
         UserStatsContextDTO context = sharedContext;
         if (context == null)
         {
-            context = await UserStatsService.Create().GetUserStatsContextAsync(userId);
+            context = await _userStatsService.GetUserStatsContextAsync(userId);
         }
 
         TotalBuffs totalBuffs = new TotalBuffs();
@@ -806,8 +856,4 @@ public class UserCardHeroesService : IUserCardHeroesService
         return totalStats;
     }
 
-    public async Task<bool> InsertOrUpdateUserCardHeroesBatchAsync(string userId, List<CardHeroes> cardHeroes)
-    {
-        return await _userCardHeroesRepository.InsertOrUpdateUserCardHeroesBatchAsync(userId, cardHeroes);
-    }
 }

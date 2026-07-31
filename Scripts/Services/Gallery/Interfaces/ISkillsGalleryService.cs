@@ -8,7 +8,7 @@ public interface ISkillsGalleryService
     Task<bool> InsertSkillGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusSkillGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusSkillsGalleryAsync(string userId);
-    Task<bool> UpdateStarSkillGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarSkillGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarSkillGalleryAsync(string userId, string skillId);
     Task<bool> UpdateBatchCurrentStarSkillsGalleryAsync(string userId);
     Task<bool> InsertBatchSkillsGalleryAsync(string userId, List<Skills> skills);

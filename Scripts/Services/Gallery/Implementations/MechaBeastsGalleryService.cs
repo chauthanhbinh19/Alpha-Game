@@ -96,9 +96,9 @@ public class MechaBeastsGalleryService : IMechaBeastsGalleryService
         return await _mechaBeastsGalleryRepository.SumPowerMechaBeastsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarMechaBeastGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarMechaBeastGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _mechaBeastsGalleryRepository.UpdateStarMechaBeastGalleryAsync(userId, Id, star);
+        var updateResult = await _mechaBeastsGalleryRepository.UpdateTempStarMechaBeastGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

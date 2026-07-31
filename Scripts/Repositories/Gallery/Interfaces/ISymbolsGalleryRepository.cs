@@ -9,7 +9,7 @@ public interface ISymbolsGalleryRepository
     Task<InsertOrUpdateResult<Symbols>> InsertSymbolGalleryAsync(string userId, string Id, Symbols SymbolFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusSymbolGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusSymbolsGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarSymbolGalleryAsync(string userId, string Id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarSymbolGalleryAsync(string userId, string Id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarSymbolGalleryAsync(string userId, string symbolId);
     Task<InsertOrUpdateResult<List<(string SymbolId, double CurrentStar)>>> UpdateBatchCurrentStarSymbolsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Symbols>>> InsertBatchSymbolsGalleryAsync(string userId, List<Symbols> symbols);

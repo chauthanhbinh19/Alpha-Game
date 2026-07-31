@@ -8,7 +8,7 @@ public interface IFashionsGalleryService
     Task<bool> InsertFashionGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusFashionGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusFashionsGalleryAsync(string userId);
-    Task<bool> UpdateStarFashionGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarFashionGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarFashionGalleryAsync(string userId, string fashionId);
     Task<bool> UpdateBatchCurrentStarFashionsGalleryAsync(string userId);
     Task<bool> InsertBatchFashionsGalleryAsync(string userId, List<Fashions> fashions);

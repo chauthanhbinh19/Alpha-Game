@@ -96,9 +96,9 @@ public class CollaborationEquipmentsGalleryService : ICollaborationEquipmentsGal
         return await _collaborationEquipmentsGalleryRepository.SumPowerCollaborationEquipmentsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarCollaborationEquipmentGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarCollaborationEquipmentGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _collaborationEquipmentsGalleryRepository.UpdateStarCollaborationEquipmentGalleryAsync(userId, Id, star);
+        var updateResult = await _collaborationEquipmentsGalleryRepository.UpdateTempStarCollaborationEquipmentGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

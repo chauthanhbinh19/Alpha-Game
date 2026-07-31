@@ -666,7 +666,7 @@ public class OutfitsGalleryRepository : IOutfitsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarOutfitGalleryAsync(string userId, string outfitId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarOutfitGalleryAsync(string userId, string outfitId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

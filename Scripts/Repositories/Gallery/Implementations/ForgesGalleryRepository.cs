@@ -666,7 +666,7 @@ public class ForgesGalleryRepository : IForgesGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarForgeGalleryAsync(string userId, string forgeId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarForgeGalleryAsync(string userId, string forgeId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

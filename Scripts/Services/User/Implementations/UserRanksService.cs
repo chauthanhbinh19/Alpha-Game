@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public class UserRanksService : IUserRanksService
 {
-    private static UserRanksService _instance;
     private readonly IUserRanksRepository _userRanksRepository;
 
     public UserRanksService(IUserRanksRepository userRanksRepository)
@@ -10,14 +9,7 @@ public class UserRanksService : IUserRanksService
         _userRanksRepository = userRanksRepository;
     }
 
-    public static UserRanksService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserRanksService(new UserRanksRepository());
-        }
-        return _instance;
-    }
+    public static IUserRanksService Create() => ServiceContainer.GetService<IUserRanksService>();
 
     public async Task<UserRanks> GetUserRanksAsync(string userId, string id)
     {

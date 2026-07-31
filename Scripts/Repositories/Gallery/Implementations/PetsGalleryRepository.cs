@@ -667,7 +667,7 @@ public class PetsGalleryRepository : IPetsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarPetGalleryAsync(string userId, string petId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarPetGalleryAsync(string userId, string petId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

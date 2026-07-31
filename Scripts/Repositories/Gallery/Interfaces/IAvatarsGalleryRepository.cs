@@ -9,7 +9,7 @@ public interface IAvatarsGalleryRepository
     Task<InsertOrUpdateResult<Avatars>> InsertAvatarGalleryAsync(string userId, string Id, Avatars AvatarFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusAvatarGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusAvatarsGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarAvatarGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarAvatarGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarAvatarGalleryAsync(string userId, string avatarId);
     Task<InsertOrUpdateResult<List<(string AvatarId, double CurrentStar)>>> UpdateBatchCurrentStarAvatarsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Avatars>>> InsertBatchAvatarsGalleryAsync(string userId, List<Avatars> avatars);

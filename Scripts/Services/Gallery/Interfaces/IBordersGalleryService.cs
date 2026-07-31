@@ -8,7 +8,7 @@ public interface IBordersGalleryService
     Task<bool> InsertBorderGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusBorderGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusBordersGalleryAsync(string userId);
-    Task<bool> UpdateStarBorderGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarBorderGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarBorderGalleryAsync(string userId, string borderId);
     Task<bool> UpdateBatchCurrentStarBordersGalleryAsync(string userId);
     Task<bool> InsertBatchBordersGalleryAsync(string userId, List<Borders> borders);

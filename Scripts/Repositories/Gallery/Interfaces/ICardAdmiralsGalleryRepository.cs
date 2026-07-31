@@ -9,7 +9,7 @@ public interface ICardAdmiralsGalleryRepository
     Task<InsertOrUpdateResult<CardAdmirals>> InsertCardAdmiralGalleryAsync(string userId, string Id, CardAdmirals CardAdmiralFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusCardAdmiralGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusCardAdmiralsGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarCardAdmiralGalleryAsync(string userId, string Id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarCardAdmiralGalleryAsync(string userId, string Id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarCardAdmiralGalleryAsync(string userId, string cardAdmiralId);
     Task<InsertOrUpdateResult<List<(string CardAdmiralId, double CurrentStar)>>> UpdateBatchCurrentStarCardAdmiralsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<CardAdmirals>>> InsertBatchCardAdmiralsGalleryAsync(string userId, List<CardAdmirals> cardAdmirals);

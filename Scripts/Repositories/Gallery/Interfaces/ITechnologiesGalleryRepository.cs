@@ -8,7 +8,7 @@ public interface ITechnologiesGalleryRepository
     Task<InsertOrUpdateResult<Technologies>> InsertTechnologyGalleryAsync(string userId, string Id, Technologies TechnologyFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusTechnologyGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusTechnologiesGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarTechnologyGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarTechnologyGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarTechnologyGalleryAsync(string userId, string technologyId);
     Task<InsertOrUpdateResult<List<(string TechnologyId, double CurrentStar)>>> UpdateBatchCurrentStarTechnologiesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Technologies>>> InsertBatchTechnologiesGalleryAsync(string userId, List<Technologies> technologies);

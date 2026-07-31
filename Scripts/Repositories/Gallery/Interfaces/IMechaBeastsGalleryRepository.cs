@@ -9,7 +9,7 @@ public interface IMechaBeastsGalleryRepository
     Task<InsertOrUpdateResult<MechaBeasts>> InsertMechaBeastGalleryAsync(string userId, string Id, MechaBeasts MechaBeastFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusMechaBeastGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusMechaBeastsGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarMechaBeastGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarMechaBeastGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarMechaBeastGalleryAsync(string userId, string mechaBeastId);
     Task<InsertOrUpdateResult<List<(string MechaBeastId, double CurrentStar)>>> UpdateBatchCurrentStarMechaBeastsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<MechaBeasts>>> InsertBatchMechaBeastsGalleryAsync(string userId, List<MechaBeasts> mechaBeasts);

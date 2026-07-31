@@ -8,7 +8,7 @@ public interface IBuildingsGalleryService
     Task<bool> InsertBuildingGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusBuildingGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusBuildingsGalleryAsync(string userId);
-    Task<bool> UpdateStarBuildingGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarBuildingGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarBuildingGalleryAsync(string userId, string buildingId);
     Task<bool> UpdateBatchCurrentStarBuildingsGalleryAsync(string userId);
     Task<bool> InsertBatchBuildingsGalleryAsync(string userId, List<Buildings> buildings);

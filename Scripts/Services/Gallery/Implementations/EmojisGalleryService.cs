@@ -96,9 +96,9 @@ public class EmojisGalleryService : IEmojisGalleryService
         return await _emojisGalleryRepository.SumPowerEmojisGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarEmojiGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarEmojiGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _emojisGalleryRepository.UpdateStarEmojiGalleryAsync(userId, Id, star);
+        var updateResult = await _emojisGalleryRepository.UpdateTempStarEmojiGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

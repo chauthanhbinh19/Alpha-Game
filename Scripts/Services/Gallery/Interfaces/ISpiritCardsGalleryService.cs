@@ -8,7 +8,7 @@ public interface ISpiritCardsGalleryService
     Task<bool> InsertSpiritCardGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusSpiritCardGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusSpiritCardsGalleryAsync(string userId);
-    Task<bool> UpdateStarSpiritCardGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarSpiritCardGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarSpiritCardGalleryAsync(string userId, string spiritCardId);
     Task<bool> UpdateBatchCurrentStarSpiritCardsGalleryAsync(string userId);
     Task<bool> InsertBatchSpiritCardsGalleryAsync(string userId, List<SpiritCards> spiritCards);

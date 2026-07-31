@@ -645,7 +645,7 @@ public class BordersGalleryRepository : IBordersGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarBorderGalleryAsync(string userId, string borderId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarBorderGalleryAsync(string userId, string borderId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

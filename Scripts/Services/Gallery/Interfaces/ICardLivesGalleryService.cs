@@ -8,7 +8,7 @@ public interface ICardLivesGalleryService
     Task<bool> InsertCardLifeGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusCardLifeGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusCardLivesGalleryAsync(string userId);
-    Task<bool> UpdateStarCardLifeGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarCardLifeGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarCardLifeGalleryAsync(string userId, string cardLiveId);
     Task<bool> UpdateBatchCurrentStarCardLivesGalleryAsync(string userId);
     Task<bool> InsertBatchCardLivesGalleryAsync(string userId, List<CardLives> cardLives);

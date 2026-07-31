@@ -7,7 +7,7 @@ public interface IAchievementsGalleryService
     Task<bool> InsertAchievementGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusAchievementGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusAchievementsGalleryAsync(string userId);
-    Task<bool> UpdateStarAchievementGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarAchievementGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarAchievementGalleryAsync(string userId, string achievementId);
     Task<bool> UpdateBatchCurrentStarAchievementsGalleryAsync(string userId);
     Task<bool> InsertBatchAchievementsGalleryAsync(string userId, List<Achievements> achievements);

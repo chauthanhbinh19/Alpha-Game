@@ -8,7 +8,7 @@ public interface IBooksGalleryService
     Task<bool> InsertBookGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusBookGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusBooksGalleryAsync(string userId);
-    Task<bool> UpdateStarBookGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarBookGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarBookGalleryAsync(string userId, string bookId);
     Task<bool> UpdateBatchCurrentStarBooksGalleryAsync(string userId);
     Task<bool> InsertBatchBooksGalleryAsync(string userId, List<Books> books);

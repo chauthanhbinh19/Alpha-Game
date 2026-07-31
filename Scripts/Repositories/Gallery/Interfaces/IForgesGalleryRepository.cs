@@ -9,7 +9,7 @@ public interface IForgesGalleryRepository
     Task<InsertOrUpdateResult<Forges>> InsertForgeGalleryAsync(string userId, string Id, Forges ForgeFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusForgeGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusForgesGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarForgeGalleryAsync(string userId, string Id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarForgeGalleryAsync(string userId, string Id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarForgeGalleryAsync(string userId, string forgeId);
     Task<InsertOrUpdateResult<List<(string ForgeId, double CurrentStar)>>> UpdateBatchCurrentStarForgesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Forges>>> InsertBatchForgesGalleryAsync(string userId, List<Forges> forges);

@@ -96,9 +96,9 @@ public class BuildingsGalleryService : IBuildingsGalleryService
         return await _buildingsGalleryRepository.SumPowerBuildingsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarBuildingGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarBuildingGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _buildingsGalleryRepository.UpdateStarBuildingGalleryAsync(userId, Id, star);
+        var updateResult = await _buildingsGalleryRepository.UpdateTempStarBuildingGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

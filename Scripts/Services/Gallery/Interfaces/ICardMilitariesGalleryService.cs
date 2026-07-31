@@ -8,7 +8,7 @@ public interface ICardMilitariesGalleryService
     Task<bool> InsertCardMilitaryGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusCardMilitaryGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusCardMilitariesGalleryAsync(string userId);
-    Task<bool> UpdateStarCardMilitaryGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarCardMilitaryGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarCardMilitaryGalleryAsync(string userId, string cardMilitaryId);
     Task<bool> UpdateBatchCurrentStarCardMilitariesGalleryAsync(string userId);
     Task<bool> InsertBatchCardMilitariesGalleryAsync(string userId, List<CardMilitaries> cardMilitaries);

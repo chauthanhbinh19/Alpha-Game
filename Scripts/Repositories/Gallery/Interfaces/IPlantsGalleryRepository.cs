@@ -9,7 +9,7 @@ public interface IPlantsGalleryRepository
     Task<InsertOrUpdateResult<Plants>> InsertPlantGalleryAsync(string userId, string Id, Plants PlantFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusPlantGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusPlantsGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarPlantGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarPlantGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarPlantGalleryAsync(string userId, string plantId);
     Task<InsertOrUpdateResult<List<(string PlantId, double CurrentStar)>>> UpdateBatchCurrentStarPlantsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Plants>>> InsertBatchPlantsGalleryAsync(string userId, List<Plants> plants);

@@ -646,7 +646,7 @@ public class FoodsGalleryRepository : IFoodsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarFoodGalleryAsync(string userId, string foodId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarFoodGalleryAsync(string userId, string foodId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

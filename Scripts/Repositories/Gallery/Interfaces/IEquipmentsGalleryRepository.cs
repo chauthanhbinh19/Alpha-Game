@@ -9,7 +9,7 @@ public interface IEquipmentsGalleryRepository
     Task<InsertOrUpdateResult<Equipments>> InsertEquipmentGalleryAsync(string userId, string Id, Equipments EquipmentFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusEquipmentGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusEquipmentsGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarEquipmentGalleryAsync(string userId, string Id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarEquipmentGalleryAsync(string userId, string Id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarEquipmentGalleryAsync(string userId, string equipmentId);
     Task<InsertOrUpdateResult<List<(string EquipmentId, double CurrentStar)>>> UpdateBatchCurrentStarEquipmentsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Equipments>>> InsertBatchEquipmentsGalleryAsync(string userId, List<Equipments> equipments);

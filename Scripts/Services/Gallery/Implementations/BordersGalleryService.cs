@@ -96,9 +96,9 @@ public class BordersGalleryService : IBordersGalleryService
         return await _bordersGalleryRepository.SumPowerBordersGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarBorderGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarBorderGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _bordersGalleryRepository.UpdateStarBorderGalleryAsync(userId, Id, star);
+        var updateResult = await _bordersGalleryRepository.UpdateTempStarBorderGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

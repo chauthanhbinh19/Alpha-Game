@@ -561,4 +561,64 @@ public class CollaborationEquipmentsRepository : ICollaborationEquipmentsReposit
 
         return collaborationEquipment;
     }
+    public async Task<CollaborationEquipments> SumPowerCollaborationEquipmentsPercentAsync(string userId)
+    {
+        CollaborationEquipments sumCollaborationEquipments = new CollaborationEquipments();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"
+                SELECT 
+                    SUM(a.percent_all_health) AS total_percent_all_health, 
+                    SUM(a.percent_all_physical_attack) AS total_percent_all_physical_attack,
+                    SUM(a.percent_all_physical_defense) AS total_percent_all_physical_defense, 
+                    SUM(a.percent_all_magical_attack) AS total_percent_all_magical_attack,
+                    SUM(a.percent_all_magical_defense) AS total_percent_all_magical_defense, 
+                    SUM(a.percent_all_chemical_attack) AS total_percent_all_chemical_attack,
+                    SUM(a.percent_all_chemical_defense) AS total_percent_all_chemical_defense, 
+                    SUM(a.percent_all_atomic_attack) AS total_percent_all_atomic_attack,
+                    SUM(a.percent_all_atomic_defense) AS total_percent_all_atomic_defense, 
+                    SUM(a.percent_all_mental_attack) AS total_percent_all_mental_attack,
+                    SUM(a.percent_all_mental_defense) AS total_percent_all_mental_defense
+                FROM collaboration_equipments a
+                JOIN user_collaboration_equipments ua ON a.id = ua.collaboration_equipment_id
+                WHERE ua.user_id = @user_id;
+            ";
+
+                using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@user_id", userId);
+
+                    using (MySqlDataReader reader = (MySqlDataReader)await selectCommand.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            sumCollaborationEquipments.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("total_percent_all_health")) ? 0 : reader.GetDoubleSafe("total_percent_all_health");
+                            sumCollaborationEquipments.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_physical_attack");
+                            sumCollaborationEquipments.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_physical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_physical_defense");
+                            sumCollaborationEquipments.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_magical_attack");
+                            sumCollaborationEquipments.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_magical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_magical_defense");
+                            sumCollaborationEquipments.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_chemical_attack");
+                            sumCollaborationEquipments.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_chemical_defense");
+                            sumCollaborationEquipments.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_atomic_attack");
+                            sumCollaborationEquipments.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_atomic_defense");
+                            sumCollaborationEquipments.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_attack")) ? 0 : reader.GetDoubleSafe("total_percent_all_mental_attack");
+                            sumCollaborationEquipments.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("total_percent_all_mental_defense")) ? 0 : reader.GetDoubleSafe("total_percent_all_mental_defense");
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+        }
+
+        return sumCollaborationEquipments;
+    }
 }

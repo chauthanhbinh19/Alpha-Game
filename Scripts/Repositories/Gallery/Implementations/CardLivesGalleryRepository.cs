@@ -667,7 +667,7 @@ public class CardLivesGalleryRepository : ICardLivesGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarCardLifeGalleryAsync(string userId, string cardLifeId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarCardLifeGalleryAsync(string userId, string cardLifeId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

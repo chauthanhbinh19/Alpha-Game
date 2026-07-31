@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public class UserHIINsService : IUserHIINsService
 {
-    private static UserHIINsService _instance;
     private readonly IUserHIINsRepository _userHIINsRepository;
 
     public UserHIINsService(IUserHIINsRepository userHIINsRepository)
@@ -10,14 +9,7 @@ public class UserHIINsService : IUserHIINsService
         _userHIINsRepository = userHIINsRepository;
     }
 
-    public static UserHIINsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserHIINsService(new UserHIINsRepository());
-        }
-        return _instance;
-    }
+    public static IUserHIINsService Create() => ServiceContainer.GetService<IUserHIINsService>();
 
     public async Task<UserHIINs> GetUserHIINsAsync(string userId, string id)
     {

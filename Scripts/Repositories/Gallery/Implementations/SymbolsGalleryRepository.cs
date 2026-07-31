@@ -667,7 +667,7 @@ public class SymbolsGalleryRepository : ISymbolsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarSymbolGalleryAsync(string userId, string symbolId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarSymbolGalleryAsync(string userId, string symbolId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

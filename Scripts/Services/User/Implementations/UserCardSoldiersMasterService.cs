@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 
 public class UserCardSoldiersMasterService : IUserCardSoldiersMasterService
 {
-    private static UserCardSoldiersMasterService _instance;
     private readonly IUserCardSoldiersMasterRepository _userCardSoldiersMasterRepository;
 
     public UserCardSoldiersMasterService(IUserCardSoldiersMasterRepository userCardSoldiersMasterRepository)
@@ -10,14 +9,7 @@ public class UserCardSoldiersMasterService : IUserCardSoldiersMasterService
         _userCardSoldiersMasterRepository = userCardSoldiersMasterRepository;
     }
 
-    public static UserCardSoldiersMasterService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserCardSoldiersMasterService(new UserCardSoldiersMasterRepository());
-        }
-        return _instance;
-    }
+    public static IUserCardSoldiersMasterService Create() => ServiceContainer.GetService<IUserCardSoldiersMasterService>();
 
     public async Task<Master> GetUserCardSoldierMasterAsync(string userId, string id, string cardId)
     {

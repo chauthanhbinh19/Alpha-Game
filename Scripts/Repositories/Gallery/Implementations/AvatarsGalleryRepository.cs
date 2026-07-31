@@ -646,7 +646,7 @@ public class AvatarsGalleryRepository : IAvatarsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarAvatarGalleryAsync(string userId, string avatarId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarAvatarGalleryAsync(string userId, string avatarId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

@@ -96,9 +96,9 @@ public class CardSpellsGalleryService : ICardSpellsGalleryService
         return await _cardSpellsGalleryRepository.SumPowerCardSpellsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarCardSpellGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarCardSpellGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _cardSpellsGalleryRepository.UpdateStarCardSpellGalleryAsync(userId, Id, star);
+        var updateResult = await _cardSpellsGalleryRepository.UpdateTempStarCardSpellGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

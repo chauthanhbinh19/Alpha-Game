@@ -64,7 +64,7 @@ public class CardLivesGalleryService : ICardLivesGalleryService
 
     public async Task<bool> UpdateBatchStatusCardLivesGalleryAsync(string userId)
     {
-        CardLives oldCardLive = await SumPowerCardLivesGalleryAsync(userId);
+        CardLives oldCardLife = await SumPowerCardLivesGalleryAsync(userId);
 
         var updateResult = await _cardLivesGalleryRepository.UpdateBatchStatusCardLivesGalleryAsync(userId);
 
@@ -75,8 +75,8 @@ public class CardLivesGalleryService : ICardLivesGalleryService
             return false;
         }
 
-        CardLives newCardLive = await SumPowerCardLivesGalleryAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLive - (PowerManager)oldCardLive;
+        CardLives newCardLife = await SumPowerCardLivesGalleryAsync(userId);
+        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
 
         if (deltaPower.Power == 0)
         {
@@ -96,9 +96,9 @@ public class CardLivesGalleryService : ICardLivesGalleryService
         return await _cardLivesGalleryRepository.SumPowerCardLivesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarCardLifeGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarCardLifeGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _cardLivesGalleryRepository.UpdateStarCardLifeGalleryAsync(userId, Id, star);
+        var updateResult = await _cardLivesGalleryRepository.UpdateTempStarCardLifeGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

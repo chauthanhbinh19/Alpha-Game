@@ -646,7 +646,7 @@ public class TechnologiesGalleryRepository : ITechnologiesGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarTechnologyGalleryAsync(string userId, string technologyId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarTechnologyGalleryAsync(string userId, string technologyId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

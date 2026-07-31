@@ -96,9 +96,9 @@ public class SymbolsGalleryService : ISymbolsGalleryService
         return await _symbolsGalleryRepository.SumPowerSymbolsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarSymbolGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarSymbolGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _symbolsGalleryRepository.UpdateStarSymbolGalleryAsync(userId, Id, star);
+        var updateResult = await _symbolsGalleryRepository.UpdateTempStarSymbolGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

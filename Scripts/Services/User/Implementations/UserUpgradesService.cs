@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public class UserUpgradesService : IUserUpgradesService
 {
-    private static UserUpgradesService _instance;
     private readonly IUserUpgradesRepository _userUpgradesRepository;
     private static readonly Dictionary<Type, (string Table, string Column, string CodeName)> UpgradeMappings = new()
     {
@@ -63,14 +62,7 @@ public class UserUpgradesService : IUserUpgradesService
         _userUpgradesRepository = userUpgradesRepository;
     }
 
-    public static UserUpgradesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserUpgradesService(new UserUpgradesRepository());
-        }
-        return _instance;
-    }
+    public static IUserUpgradesService Create() => ServiceContainer.GetService<IUserUpgradesService>();
 
     public async Task<UserUpgrades> GetUserUpgradesAsync(string userId, string upgradeId, IStats stat)
     {

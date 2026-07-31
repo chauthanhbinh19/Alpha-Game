@@ -26,8 +26,9 @@ public static class MessageConstants
     public const string PASSWORD_IS_EMPTY = "Notification.PasswordCanNotBeEmpty";
     public const string CONFIRM_PASSWORD_IS_EMPTY = "Notification.ConfirmPasswordCanNotBeEmpty";
     public const string PASSWORDS_DO_NOT_MATCH = "Notification.PasswordsDoNotMatch";
-    public const string INSERT_SUCCESSFULLY = "Notification.InsertSuccessfully";
-    public const string UPDATE_SUCCESSFULLY = "Notification.UpdateSuccessfully";
+    public const string INSERTED_SUCCESSFULLY = "Notification.InsertedSuccessfully";
+    public const string UPDATED_SUCCESSFULLY = "Notification.UpdatedSuccessfully";
+    public const string MIXED_SUCCESSFULLY = "Notification.MixedSuccessfully";
     public const string FAILED_TO_EXECUTE_ACTION = "Notification.FailedToExecuteAction";
     public const string THIS_RECORD_ALREADY_EXISTS_IN_GALLERY = "Notification.ThisRecordAlreadyExistsInGallery";
     public const string NOTHING_WAS_INSERTED = "Notification.NothingWasInserted";

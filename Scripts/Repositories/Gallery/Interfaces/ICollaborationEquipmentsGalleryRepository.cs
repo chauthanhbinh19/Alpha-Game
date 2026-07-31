@@ -9,7 +9,7 @@ public interface ICollaborationEquipmentsGalleryRepository
     Task<InsertOrUpdateResult<CollaborationEquipments>> InsertCollaborationEquipmentGalleryAsync(string userId, string Id, CollaborationEquipments CollaborationEquipmentFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusCollaborationEquipmentGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusCollaborationEquipmentsGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarCollaborationEquipmentGalleryAsync(string userId, string Id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarCollaborationEquipmentGalleryAsync(string userId, string Id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarCollaborationEquipmentGalleryAsync(string userId, string collaborationEquipmentId);
     Task<InsertOrUpdateResult<List<(string CollaborationEquipmentId, double CurrentStar)>>> UpdateBatchCurrentStarCollaborationEquipmentsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<CollaborationEquipments>>> InsertBatchCollaborationEquipmentsGalleryAsync(string userId, List<CollaborationEquipments> collaborationEquipments);

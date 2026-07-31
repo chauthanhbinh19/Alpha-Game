@@ -96,9 +96,9 @@ public class CoresGalleryService : ICoresGalleryService
         return await _coresGalleryRepository.SumPowerCoresGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarCoreGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarCoreGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _coresGalleryRepository.UpdateStarCoreGalleryAsync(userId, Id, star);
+        var updateResult = await _coresGalleryRepository.UpdateTempStarCoreGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

@@ -96,9 +96,9 @@ public class PuppetsGalleryService : IPuppetsGalleryService
         return await _puppetsGalleryRepository.SumPowerPuppetsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarPuppetGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarPuppetGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _puppetsGalleryRepository.UpdateStarPuppetGalleryAsync(userId, Id, star);
+        var updateResult = await _puppetsGalleryRepository.UpdateTempStarPuppetGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

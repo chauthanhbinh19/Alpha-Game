@@ -96,9 +96,9 @@ public class ArchitecturesGalleryService : IArchitecturesGalleryService
         return await _architecturesGalleryRepository.SumPowerArchitecturesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarArchitectureGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarArchitectureGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _architecturesGalleryRepository.UpdateStarArchitectureGalleryAsync(userId, Id, star);
+        var updateResult = await _architecturesGalleryRepository.UpdateTempStarArchitectureGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

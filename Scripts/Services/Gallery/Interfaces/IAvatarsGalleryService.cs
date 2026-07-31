@@ -8,7 +8,7 @@ public interface IAvatarsGalleryService
     Task<bool> InsertAvatarGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusAvatarGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusAvatarsGalleryAsync(string userId);
-    Task<bool> UpdateStarAvatarGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarAvatarGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarAvatarGalleryAsync(string userId, string avatarId);
     Task<bool> UpdateBatchCurrentStarAvatarsGalleryAsync(string userId);
     Task<bool> InsertBatchAvatarsGalleryAsync(string userId, List<Avatars> avatars);

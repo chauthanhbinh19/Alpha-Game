@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class UserCurrenciesService : IUserCurrenciesService
 {
-    private static UserCurrenciesService _instance;
     private readonly IUserCurrenciesRepository _userCurrenciesRepository;
 
     public UserCurrenciesService(IUserCurrenciesRepository userCurrenciesRepository)
@@ -11,14 +10,7 @@ public class UserCurrenciesService : IUserCurrenciesService
         _userCurrenciesRepository = userCurrenciesRepository;
     }
 
-    public static UserCurrenciesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserCurrenciesService(new UserCurrenciesRepository());
-        }
-        return _instance;
-    }
+    public static IUserCurrenciesService Create() => ServiceContainer.GetService<IUserCurrenciesService>();
 
     public async Task<List<Currencies>> GetUserCurrencyAsync(string userId)
     {

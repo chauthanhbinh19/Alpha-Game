@@ -9,7 +9,7 @@ public interface IBooksGalleryRepository
     Task<InsertOrUpdateResult<Books>> InsertBookGalleryAsync(string userId, string Id, Books BookFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusBookGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusBooksGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarBookGalleryAsync(string userId, string Id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarBookGalleryAsync(string userId, string Id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarBookGalleryAsync(string userId, string bookId);
     Task<InsertOrUpdateResult<List<(string BookId, double CurrentStar)>>> UpdateBatchCurrentStarBooksGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Books>>> InsertBatchBooksGalleryAsync(string userId, List<Books> books);

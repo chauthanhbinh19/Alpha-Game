@@ -96,9 +96,9 @@ public class RelicsGalleryService : IRelicsGalleryService
         return await _relicsGalleryRepository.SumPowerRelicsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarRelicGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarRelicGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _relicsGalleryRepository.UpdateStarRelicGalleryAsync(userId, Id, star);
+        var updateResult = await _relicsGalleryRepository.UpdateTempStarRelicGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

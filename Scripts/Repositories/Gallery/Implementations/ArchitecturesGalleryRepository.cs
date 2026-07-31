@@ -646,7 +646,7 @@ public class ArchitecturesGalleryRepository : IArchitecturesGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarArchitectureGalleryAsync(string userId, string architectureId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarArchitectureGalleryAsync(string userId, string architectureId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

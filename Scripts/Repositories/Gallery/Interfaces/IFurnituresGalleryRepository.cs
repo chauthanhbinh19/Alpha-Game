@@ -9,7 +9,7 @@ public interface IFurnituresGalleryRepository
     Task<InsertOrUpdateResult<Furnitures>> InsertFurnitureGalleryAsync(string userId, string Id, Furnitures FurnitureFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusFurnitureGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusFurnituresGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarFurnitureGalleryAsync(string userId, string Id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarFurnitureGalleryAsync(string userId, string Id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarFurnitureGalleryAsync(string userId, string furnitureId);
     Task<InsertOrUpdateResult<List<(string FurnitureId, double CurrentStar)>>> UpdateBatchCurrentStarFurnituresGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Furnitures>>> InsertBatchFurnituresGalleryAsync(string userId, List<Furnitures> furnitures);

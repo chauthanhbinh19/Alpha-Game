@@ -97,9 +97,9 @@ public class ForgesGalleryService : IForgesGalleryService
         return await _forgesGalleryRepository.SumPowerForgesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarForgeGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarForgeGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _forgesGalleryRepository.UpdateStarForgeGalleryAsync(userId, Id, star);
+        var updateResult = await _forgesGalleryRepository.UpdateTempStarForgeGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

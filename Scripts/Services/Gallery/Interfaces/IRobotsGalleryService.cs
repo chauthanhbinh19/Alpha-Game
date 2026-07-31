@@ -8,7 +8,7 @@ public interface IRobotsGalleryService
     Task<bool> InsertRobotGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusRobotGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusRobotsGalleryAsync(string userId);
-    Task<bool> UpdateStarRobotGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarRobotGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarRobotGalleryAsync(string userId, string robotId);
     Task<bool> UpdateBatchCurrentStarRobotsGalleryAsync(string userId);
     Task<bool> InsertBatchRobotsGalleryAsync(string userId, List<Robots> robots);

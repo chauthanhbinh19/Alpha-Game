@@ -214,172 +214,146 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
 
         return count;
     }
-    public async Task<bool> InsertUserCollaborationEquipmentAsync(CollaborationEquipments collaborationEquipment, string userId)
+    public async Task<InsertOrUpdateResult<CollaborationEquipments>> InsertOrUpdateUserCollaborationEquipmentAsync(string userId, CollaborationEquipments collaborationEquipment)
     {
         string connectionString = DatabaseConfig.ConnectionString;
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
 
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Query thực hiện Insert hoặc Update nếu đã tồn tại Composite Primary Key (user_id, collaboration_equipment_id)
+            string upsertSQL = @"
+            INSERT INTO user_collaboration_equipments (
+                user_id, collaboration_equipment_id, rare, level, experience, star, quality, block, quantity,
+                power, health, physical_attack, physical_defense, magical_attack, magical_defense,
+                chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
+                speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                penetration_rate, penetration_resistance_rate,
+                evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                vitality_regeneration_rate, vitality_regeneration_resistance_rate,
+                accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
+                combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                stun_rate, ignore_stun_rate,
+                reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
+                mana, mana_regeneration_rate,
+                damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                normal_damage_rate, normal_resistance_rate,
+                skill_damage_rate, skill_resistance_rate
+            ) VALUES (
+                @user_id, @collaboration_equipment_id, @rare, 0, 0, 0, @quality, false, @quantity,
+                @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
+                @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
+                @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+                @penetration_rate, @penetration_resistance_rate,
+                @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+                @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
+                @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
+                @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
+                @stun_rate, @ignore_stun_rate,
+                @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
+                @mana, @mana_regeneration_rate,
+                @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
+                @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+                @normal_damage_rate, @normal_resistance_rate,
+                @skill_damage_rate, @skill_resistance_rate
+            )
+            ON DUPLICATE KEY UPDATE 
+                quantity = VALUES(quantity);";
+
+            await using MySqlCommand command = new MySqlCommand(upsertSQL, connection);
+
+            // Add Parameters
+            command.Parameters.AddWithValue("@user_id", userId);
+            command.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
+            command.Parameters.AddWithValue("@rare", collaborationEquipment.Rarity);
+            command.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(collaborationEquipment.Rarity));
+            command.Parameters.AddWithValue("@quantity", collaborationEquipment.Quantity);
+            command.Parameters.AddWithValue("@power", collaborationEquipment.Power);
+            command.Parameters.AddWithValue("@health", collaborationEquipment.Health);
+            command.Parameters.AddWithValue("@physical_attack", collaborationEquipment.PhysicalAttack);
+            command.Parameters.AddWithValue("@physical_defense", collaborationEquipment.PhysicalDefense);
+            command.Parameters.AddWithValue("@magical_attack", collaborationEquipment.MagicalAttack);
+            command.Parameters.AddWithValue("@magical_defense", collaborationEquipment.MagicalDefense);
+            command.Parameters.AddWithValue("@chemical_attack", collaborationEquipment.ChemicalAttack);
+            command.Parameters.AddWithValue("@chemical_defense", collaborationEquipment.ChemicalDefense);
+            command.Parameters.AddWithValue("@atomic_attack", collaborationEquipment.AtomicAttack);
+            command.Parameters.AddWithValue("@atomic_defense", collaborationEquipment.AtomicDefense);
+            command.Parameters.AddWithValue("@mental_attack", collaborationEquipment.MentalAttack);
+            command.Parameters.AddWithValue("@mental_defense", collaborationEquipment.MentalDefense);
+            command.Parameters.AddWithValue("@speed", collaborationEquipment.Speed);
+            command.Parameters.AddWithValue("@critical_damage_rate", collaborationEquipment.CriticalDamageRate);
+            command.Parameters.AddWithValue("@critical_rate", collaborationEquipment.CriticalRate);
+            command.Parameters.AddWithValue("@critical_resistance_rate", collaborationEquipment.CriticalResistanceRate);
+            command.Parameters.AddWithValue("@ignore_critical_rate", collaborationEquipment.IgnoreCriticalRate);
+            command.Parameters.AddWithValue("@penetration_rate", collaborationEquipment.PenetrationRate);
+            command.Parameters.AddWithValue("@penetration_resistance_rate", collaborationEquipment.PenetrationResistanceRate);
+            command.Parameters.AddWithValue("@evasion_rate", collaborationEquipment.EvasionRate);
+            command.Parameters.AddWithValue("@damage_absorption_rate", collaborationEquipment.DamageAbsorptionRate);
+            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", collaborationEquipment.IgnoreDamageAbsorptionRate);
+            command.Parameters.AddWithValue("@absorbed_damage_rate", collaborationEquipment.AbsorbedDamageRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_rate", collaborationEquipment.VitalityRegenerationRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", collaborationEquipment.VitalityRegenerationResistanceRate);
+            command.Parameters.AddWithValue("@accuracy_rate", collaborationEquipment.AccuracyRate);
+            command.Parameters.AddWithValue("@lifesteal_rate", collaborationEquipment.LifestealRate);
+            command.Parameters.AddWithValue("@shield_strength", collaborationEquipment.ShieldStrength);
+            command.Parameters.AddWithValue("@tenacity", collaborationEquipment.Tenacity);
+            command.Parameters.AddWithValue("@resistance_rate", collaborationEquipment.ResistanceRate);
+            command.Parameters.AddWithValue("@combo_rate", collaborationEquipment.ComboRate);
+            command.Parameters.AddWithValue("@ignore_combo_rate", collaborationEquipment.IgnoreComboRate);
+            command.Parameters.AddWithValue("@combo_damage_rate", collaborationEquipment.ComboDamageRate);
+            command.Parameters.AddWithValue("@combo_resistance_rate", collaborationEquipment.ComboResistanceRate);
+            command.Parameters.AddWithValue("@stun_rate", collaborationEquipment.StunRate);
+            command.Parameters.AddWithValue("@ignore_stun_rate", collaborationEquipment.IgnoreStunRate);
+            command.Parameters.AddWithValue("@reflection_rate", collaborationEquipment.ReflectionRate);
+            command.Parameters.AddWithValue("@ignore_reflection_rate", collaborationEquipment.IgnoreReflectionRate);
+            command.Parameters.AddWithValue("@reflection_damage_rate", collaborationEquipment.ReflectionDamageRate);
+            command.Parameters.AddWithValue("@reflection_resistance_rate", collaborationEquipment.ReflectionResistanceRate);
+            command.Parameters.AddWithValue("@mana", collaborationEquipment.Mana);
+            command.Parameters.AddWithValue("@mana_regeneration_rate", collaborationEquipment.ManaRegenerationRate);
+            command.Parameters.AddWithValue("@damage_to_different_faction_rate", collaborationEquipment.DamageToDifferentFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaborationEquipment.ResistanceToDifferentFactionRate);
+            command.Parameters.AddWithValue("@damage_to_same_faction_rate", collaborationEquipment.DamageToSameFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaborationEquipment.ResistanceToSameFactionRate);
+            command.Parameters.AddWithValue("@normal_damage_rate", collaborationEquipment.NormalDamageRate);
+            command.Parameters.AddWithValue("@normal_resistance_rate", collaborationEquipment.NormalResistanceRate);
+            command.Parameters.AddWithValue("@skill_damage_rate", collaborationEquipment.SkillDamageRate);
+            command.Parameters.AddWithValue("@skill_resistance_rate", collaborationEquipment.SkillResistanceRate);
+
+            int rowsAffected = await command.ExecuteNonQueryAsync();
+
+            // MySQL quy ước: Insert mới = 1, Update = 2, Không thay đổi = 0
+            if (rowsAffected == 1)
             {
-                await connection.OpenAsync();
-
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkSQL = @"
-                SELECT COUNT(*) 
-                FROM user_collaboration_equipments 
-                WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
-            ";
-
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
-                {
-                    checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
-
-                    int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
-
-                    if (count == 0)
-                    {
-                        string insertSQL = @"
-                        INSERT INTO user_collaboration_equipments (
-                            user_id, collaboration_equipment_id, rare, level, experience, star, quality, block, quantity,
-                            power, health, physical_attack, physical_defense, magical_attack, magical_defense,
-                            chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
-                            speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                            penetration_rate, penetration_resistance_rate,
-                            evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                            vitality_regeneration_rate, vitality_regeneration_resistance_rate,
-                            accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
-                            combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                            stun_rate, ignore_stun_rate,
-                            reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
-                            mana, mana_regeneration_rate,
-                            damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                            damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                            normal_damage_rate, normal_resistance_rate,
-                            skill_damage_rate, skill_resistance_rate
-                        ) VALUES (
-                            @user_id, @collaboration_equipment_id, @rare, @level, @experience, @star, @quality, @block, @quantity,
-                            @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
-                            @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
-                            @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
-                            @penetration_rate, @penetration_resistance_rate,
-                            @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
-                            @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
-                            @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
-                            @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
-                            @stun_rate, @ignore_stun_rate,
-                            @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
-                            @mana, @mana_regeneration_rate,
-                            @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
-                            @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
-                            @normal_damage_rate, @normal_resistance_rate,
-                            @skill_damage_rate, @skill_resistance_rate
-                        );
-                    ";
-
-                        using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
-                        {
-                            insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", collaborationEquipment.Rarity);
-                            insertCommand.Parameters.AddWithValue("@level", 0);
-                            insertCommand.Parameters.AddWithValue("@experience", 0);
-                            insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(collaborationEquipment.Rarity));
-                            insertCommand.Parameters.AddWithValue("@block", false);
-                            insertCommand.Parameters.AddWithValue("@quantity", collaborationEquipment.Quantity);
-                            insertCommand.Parameters.AddWithValue("@power", collaborationEquipment.Power);
-                            insertCommand.Parameters.AddWithValue("@health", collaborationEquipment.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", collaborationEquipment.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", collaborationEquipment.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", collaborationEquipment.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", collaborationEquipment.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", collaborationEquipment.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", collaborationEquipment.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", collaborationEquipment.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", collaborationEquipment.AtomicDefense);
-                            insertCommand.Parameters.AddWithValue("@mental_attack", collaborationEquipment.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", collaborationEquipment.MentalDefense);
-                            insertCommand.Parameters.AddWithValue("@speed", collaborationEquipment.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", collaborationEquipment.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", collaborationEquipment.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", collaborationEquipment.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", collaborationEquipment.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", collaborationEquipment.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", collaborationEquipment.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", collaborationEquipment.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", collaborationEquipment.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", collaborationEquipment.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", collaborationEquipment.AbsorbedDamageRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", collaborationEquipment.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", collaborationEquipment.VitalityRegenerationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", collaborationEquipment.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", collaborationEquipment.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", collaborationEquipment.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", collaborationEquipment.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", collaborationEquipment.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", collaborationEquipment.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", collaborationEquipment.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", collaborationEquipment.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", collaborationEquipment.ComboResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@stun_rate", collaborationEquipment.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", collaborationEquipment.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", collaborationEquipment.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", collaborationEquipment.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", collaborationEquipment.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", collaborationEquipment.ReflectionResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@mana", collaborationEquipment.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", collaborationEquipment.ManaRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", collaborationEquipment.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaborationEquipment.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", collaborationEquipment.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaborationEquipment.ResistanceToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", collaborationEquipment.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", collaborationEquipment.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", collaborationEquipment.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", collaborationEquipment.SkillResistanceRate);
-
-                            await insertCommand.ExecuteNonQueryAsync();
-                        }
-                    }
-                    else
-                    {
-                        // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateSQL = @"
-                        UPDATE user_collaboration_equipments
-                        SET quantity = @quantity
-                        WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
-                    ";
-
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
-                        {
-                            updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
-                            updateCommand.Parameters.AddWithValue("@quantity", collaborationEquipment.Quantity);
-
-                            await updateCommand.ExecuteNonQueryAsync();
-                        }
-                    }
-                }
+                return InsertOrUpdateResult<CollaborationEquipments>.Inserted(collaborationEquipment);
             }
-            catch (MySqlException ex)
+            else if (rowsAffected == 2 || rowsAffected == 0)
             {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
+                return InsertOrUpdateResult<CollaborationEquipments>.Updated(collaborationEquipment);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
+
+            return InsertOrUpdateResult<CollaborationEquipments>.Failure();
         }
-
-        return true;
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Database Error: " + ex.Message);
+            return InsertOrUpdateResult<CollaborationEquipments>.Failure(ex.Message);
+        }
     }
-    public async Task<bool> InsertOrUpdateUserCollaborationEquipmentsBatchAsync(string userId, List<CollaborationEquipments> collaborationEquipments)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<CollaborationEquipments>>> InsertOrUpdateUserCollaborationEquipmentsBatchAsync(
+    string userId, List<CollaborationEquipments> collaborationEquipments)
     {
         if (collaborationEquipments == null || collaborationEquipments.Count == 0)
-            return true;
+        {
+            return new InsertOrUpdateResult<BatchOperationResultDTO<CollaborationEquipments>>
+            {
+                Data = new BatchOperationResultDTO<CollaborationEquipments>(),
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
 
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -389,9 +363,38 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
         {
             await connection.OpenAsync();
 
+            // 1. Query lấy TOÀN BỘ collaboration_equipment_id hiện có của User (Cực nhanh nhờ Index user_id)
+            var existingIds = new HashSet<string>();
+            string checkSql = "SELECT collaboration_equipment_id FROM user_collaboration_equipments WHERE user_id = @user_id;";
+
+            await using (var checkCmd = new MySqlCommand(checkSql, connection))
+            {
+                checkCmd.Parameters.AddWithValue("@user_id", userId);
+                await using var reader = await checkCmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    existingIds.Add(reader.GetString(0));
+                }
+            }
+
+            // 2. Phân loại CollaborationEquipments giữ NGUYÊN VẸN OBJECT thuộc tính trong RAM C#
+            var batchResult = new BatchOperationResultDTO<CollaborationEquipments>();
+            foreach (var card in collaborationEquipments)
+            {
+                if (existingIds.Contains(card.Id))
+                {
+                    batchResult.UpdatedItems.Add(card); // Trả về full object card
+                }
+                else
+                {
+                    batchResult.InsertedItems.Add(card); // Trả về full object card để dùng truyền sang Gallery
+                }
+            }
+
+            // 3. Thực hiện Bulk Insert/Update
             await using var transaction = await connection.BeginTransactionAsync();
 
-            int batchSize = 500; // vì nhiều column → giảm size
+            int batchSize = 500; // Giảm batchSize vì câu lệnh có nhiều cột
 
             for (int i = 0; i < collaborationEquipments.Count; i += batchSize)
             {
@@ -401,113 +404,113 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
                 var parameters = new List<MySqlParameter>();
 
                 stringBuilder.Append(@"
-                INSERT INTO user_collaboration_equipments (
-                    user_id, collaboration_equipment_id, rare, level, experience, star, quality, block, quantity,
-                    power, health, physical_attack, physical_defense, magical_attack, magical_defense,
-                    chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
-                    speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                    penetration_rate, penetration_resistance_rate,
-                    evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                    vitality_regeneration_rate, vitality_regeneration_resistance_rate,
-                    accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
-                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                    stun_rate, ignore_stun_rate,
-                    reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
-                    mana, mana_regeneration_rate,
-                    damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                    damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                    normal_damage_rate, normal_resistance_rate,
-                    skill_damage_rate, skill_resistance_rate
-                ) VALUES ");
+            INSERT INTO user_collaboration_equipments (
+                user_id, collaboration_equipment_id, rare, level, experience, star, quality, block, quantity,
+                power, health, physical_attack, physical_defense, magical_attack, magical_defense,
+                chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
+                speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                penetration_rate, penetration_resistance_rate,
+                evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                vitality_regeneration_rate, vitality_regeneration_resistance_rate,
+                accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
+                combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                stun_rate, ignore_stun_rate,
+                reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
+                mana, mana_regeneration_rate,
+                damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                normal_damage_rate, normal_resistance_rate,
+                skill_damage_rate, skill_resistance_rate
+            ) VALUES ");
 
                 for (int j = 0; j < batch.Count; j++)
                 {
                     var c = batch[j];
 
                     stringBuilder.Append($@"
-                    (@user_id, @collaboration_equipment_id_{j}, @rare_{j}, 0, 0, 0, @quality_{j}, 0, @quantity_{j},
-                    @power_{j}, @health_{j}, @physical_attack_{j}, @physical_defense_{j}, @magical_attack_{j}, @magical_defense_{j},
-                    @chemical_attack_{j}, @chemical_defense_{j}, @atomic_attack_{j}, @atomic_defense_{j}, @mental_attack_{j}, @mental_defense_{j},
-                    @speed_{j}, @critical_damage_rate_{j}, @critical_rate_{j}, @critical_resistance_rate_{j}, @ignore_critical_rate_{j},
-                    @penetration_rate_{j}, @penetration_resistance_rate_{j},
-                    @evasion_rate_{j}, @damage_absorption_rate_{j}, @ignore_damage_absorption_rate_{j}, @absorbed_damage_rate_{j},
-                    @vitality_regeneration_rate_{j}, @vitality_regeneration_resistance_rate_{j},
-                    @accuracy_rate_{j}, @lifesteal_rate_{j}, @shield_strength_{j}, @tenacity_{j}, @resistance_rate_{j},
-                    @combo_rate_{j}, @ignore_combo_rate_{j}, @combo_damage_rate_{j}, @combo_resistance_rate_{j},
-                    @stun_rate_{j}, @ignore_stun_rate_{j},
-                    @reflection_rate_{j}, @ignore_reflection_rate_{j}, @reflection_damage_rate_{j}, @reflection_resistance_rate_{j},
-                    @mana_{j}, @mana_regeneration_rate_{j},
-                    @damage_to_different_faction_rate_{j}, @resistance_to_different_faction_rate_{j},
-                    @damage_to_same_faction_rate_{j}, @resistance_to_same_faction_rate_{j},
-                    @normal_damage_rate_{j}, @normal_resistance_rate_{j},
-                    @skill_damage_rate_{j}, @skill_resistance_rate_{j}
-                    ),");
+                (@user_id, @collaboration_equipment_id_{j}, @rare_{j}, 0, 0, 0, @quality_{j}, 0, @quantity_{j},
+                @power_{j}, @health_{j}, @physical_attack_{j}, @physical_defense_{j}, @magical_attack_{j}, @magical_defense_{j},
+                @chemical_attack_{j}, @chemical_defense_{j}, @atomic_attack_{j}, @atomic_defense_{j}, @mental_attack_{j}, @mental_defense_{j},
+                @speed_{j}, @critical_damage_rate_{j}, @critical_rate_{j}, @critical_resistance_rate_{j}, @ignore_critical_rate_{j},
+                @penetration_rate_{j}, @penetration_resistance_rate_{j},
+                @evasion_rate_{j}, @damage_absorption_rate_{j}, @ignore_damage_absorption_rate_{j}, @absorbed_damage_rate_{j},
+                @vitality_regeneration_rate_{j}, @vitality_regeneration_resistance_rate_{j},
+                @accuracy_rate_{j}, @lifesteal_rate_{j}, @shield_strength_{j}, @tenacity_{j}, @resistance_rate_{j},
+                @combo_rate_{j}, @ignore_combo_rate_{j}, @combo_damage_rate_{j}, @combo_resistance_rate_{j},
+                @stun_rate_{j}, @ignore_stun_rate_{j},
+                @reflection_rate_{j}, @ignore_reflection_rate_{j}, @reflection_damage_rate_{j}, @reflection_resistance_rate_{j},
+                @mana_{j}, @mana_regeneration_rate_{j},
+                @damage_to_different_faction_rate_{j}, @resistance_to_different_faction_rate_{j},
+                @damage_to_same_faction_rate_{j}, @resistance_to_same_faction_rate_{j},
+                @normal_damage_rate_{j}, @normal_resistance_rate_{j},
+                @skill_damage_rate_{j}, @skill_resistance_rate_{j}
+                ),");
 
                     parameters.AddRange(new[]
                     {
-                        new MySqlParameter($"@collaboration_equipment_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rarity),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
-                        new MySqlParameter($"@quantity_{j}", c.Quantity),
-                        new MySqlParameter($"@power_{j}", c.Power),
-                        new MySqlParameter($"@health_{j}", c.Health),
-                        new MySqlParameter($"@physical_attack_{j}", c.PhysicalAttack),
-                        new MySqlParameter($"@physical_defense_{j}", c.PhysicalDefense),
-                        new MySqlParameter($"@magical_attack_{j}", c.MagicalAttack),
-                        new MySqlParameter($"@magical_defense_{j}", c.MagicalDefense),
-                        new MySqlParameter($"@chemical_attack_{j}", c.ChemicalAttack),
-                        new MySqlParameter($"@chemical_defense_{j}", c.ChemicalDefense),
-                        new MySqlParameter($"@atomic_attack_{j}", c.AtomicAttack),
-                        new MySqlParameter($"@atomic_defense_{j}", c.AtomicDefense),
-                        new MySqlParameter($"@mental_attack_{j}", c.MentalAttack),
-                        new MySqlParameter($"@mental_defense_{j}", c.MentalDefense),
-                        new MySqlParameter($"@speed_{j}", c.Speed),
-                        new MySqlParameter($"@critical_damage_rate_{j}", c.CriticalDamageRate),
-                        new MySqlParameter($"@critical_rate_{j}", c.CriticalRate),
-                        new MySqlParameter($"@critical_resistance_rate_{j}", c.CriticalResistanceRate),
-                        new MySqlParameter($"@ignore_critical_rate_{j}", c.IgnoreCriticalRate),
-                        new MySqlParameter($"@penetration_rate_{j}", c.PenetrationRate),
-                        new MySqlParameter($"@penetration_resistance_rate_{j}", c.PenetrationResistanceRate),
-                        new MySqlParameter($"@evasion_rate_{j}", c.EvasionRate),
-                        new MySqlParameter($"@damage_absorption_rate_{j}", c.DamageAbsorptionRate),
-                        new MySqlParameter($"@ignore_damage_absorption_rate_{j}", c.IgnoreDamageAbsorptionRate),
-                        new MySqlParameter($"@absorbed_damage_rate_{j}", c.AbsorbedDamageRate),
-                        new MySqlParameter($"@vitality_regeneration_rate_{j}", c.VitalityRegenerationRate),
-                        new MySqlParameter($"@vitality_regeneration_resistance_rate_{j}", c.VitalityRegenerationResistanceRate),
-                        new MySqlParameter($"@accuracy_rate_{j}", c.AccuracyRate),
-                        new MySqlParameter($"@lifesteal_rate_{j}", c.LifestealRate),
-                        new MySqlParameter($"@shield_strength_{j}", c.ShieldStrength),
-                        new MySqlParameter($"@tenacity_{j}", c.Tenacity),
-                        new MySqlParameter($"@resistance_rate_{j}", c.ResistanceRate),
-                        new MySqlParameter($"@combo_rate_{j}", c.ComboRate),
-                        new MySqlParameter($"@ignore_combo_rate_{j}", c.IgnoreComboRate),
-                        new MySqlParameter($"@combo_damage_rate_{j}", c.ComboDamageRate),
-                        new MySqlParameter($"@combo_resistance_rate_{j}", c.ComboResistanceRate),
-                        new MySqlParameter($"@stun_rate_{j}", c.StunRate),
-                        new MySqlParameter($"@ignore_stun_rate_{j}", c.IgnoreStunRate),
-                        new MySqlParameter($"@reflection_rate_{j}", c.ReflectionRate),
-                        new MySqlParameter($"@ignore_reflection_rate_{j}", c.IgnoreReflectionRate),
-                        new MySqlParameter($"@reflection_damage_rate_{j}", c.ReflectionDamageRate),
-                        new MySqlParameter($"@reflection_resistance_rate_{j}", c.ReflectionResistanceRate),
-                        new MySqlParameter($"@mana_{j}", c.Mana),
-                        new MySqlParameter($"@mana_regeneration_rate_{j}", c.ManaRegenerationRate),
-                        new MySqlParameter($"@damage_to_different_faction_rate_{j}", c.DamageToDifferentFactionRate),
-                        new MySqlParameter($"@resistance_to_different_faction_rate_{j}", c.ResistanceToDifferentFactionRate),
-                        new MySqlParameter($"@damage_to_same_faction_rate_{j}", c.DamageToSameFactionRate),
-                        new MySqlParameter($"@resistance_to_same_faction_rate_{j}", c.ResistanceToSameFactionRate),
-                        new MySqlParameter($"@normal_damage_rate_{j}", c.NormalDamageRate),
-                        new MySqlParameter($"@normal_resistance_rate_{j}", c.NormalResistanceRate),
-                        new MySqlParameter($"@skill_damage_rate_{j}", c.SkillDamageRate),
-                        new MySqlParameter($"@skill_resistance_rate_{j}", c.SkillResistanceRate),
+                    new MySqlParameter($"@collaboration_equipment_id_{j}", c.Id),
+                    new MySqlParameter($"@rare_{j}", c.Rarity),
+                    new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
+                    new MySqlParameter($"@quantity_{j}", c.Quantity),
+                    new MySqlParameter($"@power_{j}", c.Power),
+                    new MySqlParameter($"@health_{j}", c.Health),
+                    new MySqlParameter($"@physical_attack_{j}", c.PhysicalAttack),
+                    new MySqlParameter($"@physical_defense_{j}", c.PhysicalDefense),
+                    new MySqlParameter($"@magical_attack_{j}", c.MagicalAttack),
+                    new MySqlParameter($"@magical_defense_{j}", c.MagicalDefense),
+                    new MySqlParameter($"@chemical_attack_{j}", c.ChemicalAttack),
+                    new MySqlParameter($"@chemical_defense_{j}", c.ChemicalDefense),
+                    new MySqlParameter($"@atomic_attack_{j}", c.AtomicAttack),
+                    new MySqlParameter($"@atomic_defense_{j}", c.AtomicDefense),
+                    new MySqlParameter($"@mental_attack_{j}", c.MentalAttack),
+                    new MySqlParameter($"@mental_defense_{j}", c.MentalDefense),
+                    new MySqlParameter($"@speed_{j}", c.Speed),
+                    new MySqlParameter($"@critical_damage_rate_{j}", c.CriticalDamageRate),
+                    new MySqlParameter($"@critical_rate_{j}", c.CriticalRate),
+                    new MySqlParameter($"@critical_resistance_rate_{j}", c.CriticalResistanceRate),
+                    new MySqlParameter($"@ignore_critical_rate_{j}", c.IgnoreCriticalRate),
+                    new MySqlParameter($"@penetration_rate_{j}", c.PenetrationRate),
+                    new MySqlParameter($"@penetration_resistance_rate_{j}", c.PenetrationResistanceRate),
+                    new MySqlParameter($"@evasion_rate_{j}", c.EvasionRate),
+                    new MySqlParameter($"@damage_absorption_rate_{j}", c.DamageAbsorptionRate),
+                    new MySqlParameter($"@ignore_damage_absorption_rate_{j}", c.IgnoreDamageAbsorptionRate),
+                    new MySqlParameter($"@absorbed_damage_rate_{j}", c.AbsorbedDamageRate),
+                    new MySqlParameter($"@vitality_regeneration_rate_{j}", c.VitalityRegenerationRate),
+                    new MySqlParameter($"@vitality_regeneration_resistance_rate_{j}", c.VitalityRegenerationResistanceRate),
+                    new MySqlParameter($"@accuracy_rate_{j}", c.AccuracyRate),
+                    new MySqlParameter($"@lifesteal_rate_{j}", c.LifestealRate),
+                    new MySqlParameter($"@shield_strength_{j}", c.ShieldStrength),
+                    new MySqlParameter($"@tenacity_{j}", c.Tenacity),
+                    new MySqlParameter($"@resistance_rate_{j}", c.ResistanceRate),
+                    new MySqlParameter($"@combo_rate_{j}", c.ComboRate),
+                    new MySqlParameter($"@ignore_combo_rate_{j}", c.IgnoreComboRate),
+                    new MySqlParameter($"@combo_damage_rate_{j}", c.ComboDamageRate),
+                    new MySqlParameter($"@combo_resistance_rate_{j}", c.ComboResistanceRate),
+                    new MySqlParameter($"@stun_rate_{j}", c.StunRate),
+                    new MySqlParameter($"@ignore_stun_rate_{j}", c.IgnoreStunRate),
+                    new MySqlParameter($"@reflection_rate_{j}", c.ReflectionRate),
+                    new MySqlParameter($"@ignore_reflection_rate_{j}", c.IgnoreReflectionRate),
+                    new MySqlParameter($"@reflection_damage_rate_{j}", c.ReflectionDamageRate),
+                    new MySqlParameter($"@reflection_resistance_rate_{j}", c.ReflectionResistanceRate),
+                    new MySqlParameter($"@mana_{j}", c.Mana),
+                    new MySqlParameter($"@mana_regeneration_rate_{j}", c.ManaRegenerationRate),
+                    new MySqlParameter($"@damage_to_different_faction_rate_{j}", c.DamageToDifferentFactionRate),
+                    new MySqlParameter($"@resistance_to_different_faction_rate_{j}", c.ResistanceToDifferentFactionRate),
+                    new MySqlParameter($"@damage_to_same_faction_rate_{j}", c.DamageToSameFactionRate),
+                    new MySqlParameter($"@resistance_to_same_faction_rate_{j}", c.ResistanceToSameFactionRate),
+                    new MySqlParameter($"@normal_damage_rate_{j}", c.NormalDamageRate),
+                    new MySqlParameter($"@normal_resistance_rate_{j}", c.NormalResistanceRate),
+                    new MySqlParameter($"@skill_damage_rate_{j}", c.SkillDamageRate),
+                    new MySqlParameter($"@skill_resistance_rate_{j}", c.SkillResistanceRate),
                 });
                 }
 
-                stringBuilder.Length--; // remove dấu ,
+                stringBuilder.Length--; // remove dấu phẩy thừa
 
                 stringBuilder.Append(@"
-                ON DUPLICATE KEY UPDATE
-                    quantity = COALESCE(user_collaboration_equipments.quantity, 0) + VALUES(quantity);
-                ");
+            ON DUPLICATE KEY UPDATE
+                quantity = COALESCE(user_collaboration_equipments.quantity, 0) + VALUES(quantity);
+            ");
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
@@ -518,208 +521,154 @@ public class UserCollaborationEquipmentsRepository : IUserCollaborationEquipment
             }
 
             await transaction.CommitAsync();
+
+            // 4. Trả về kết quả
+            var operationType = DatabaseOperationType.None;
+
+            if (batchResult.InsertedItems.Count > 0 && batchResult.UpdatedItems.Count > 0)
+            {
+                operationType = DatabaseOperationType.Mixed;
+            }
+            else if (batchResult.InsertedItems.Count > 0)
+            {
+                operationType = DatabaseOperationType.Inserted;
+            }
+            else if (batchResult.UpdatedItems.Count > 0)
+            {
+                operationType = DatabaseOperationType.Updated;
+            }
+
+            return new InsertOrUpdateResult<BatchOperationResultDTO<CollaborationEquipments>>
+            {
+                Data = batchResult,
+                OperationType = operationType
+            };
         }
         catch (Exception ex)
         {
             Debug.LogError("Batch Error: " + ex.Message);
-            return false;
+            return InsertOrUpdateResult<BatchOperationResultDTO<CollaborationEquipments>>.Failure(ex.Message);
+        }
+    }
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationEquipmentLevelAsync(string userId, CollaborationEquipments collaborationEquipment)
+    {
+        if (collaborationEquipment == null)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
-    }
-    public async Task<bool> UpdateUserCollaborationEquipmentLevelAsync(string userId, CollaborationEquipments collaborationEquipment)
-    {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
+            string updateSQL = @"
+            UPDATE user_collaboration_equipments
+            SET 
+                level = @level, 
+                experience = @experience
+            WHERE user_id = @user_id 
+              AND collaboration_equipment_id = @collaboration_equipment_id
+              AND (level != @level OR experience != @experience);
+        ";
+
+            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+
+            updateCommand.Parameters.AddWithValue("@user_id", userId);
+            updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
+            updateCommand.Parameters.AddWithValue("@level", collaborationEquipment.Level);
+            updateCommand.Parameters.AddWithValue("@experience", collaborationEquipment.Experience);
+
+            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
             {
-                await connection.OpenAsync();
-
-                string updateSQL = @"
-                UPDATE user_collaboration_equipments
-                SET 
-                    level = @level, experience = @experience
-                WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
-            ";
-
-                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                return InsertOrUpdateResult<bool>.Updated(true);
+            }
+            else
+            {
+                return new InsertOrUpdateResult<bool>
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
-                    updateCommand.Parameters.AddWithValue("@level", collaborationEquipment.Level);
-                    updateCommand.Parameters.AddWithValue("@experience", collaborationEquipment.Experience);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                    Data = false,
+                    OperationType = DatabaseOperationType.None,
+                    Message = MessageConstants.NOTHING_WAS_UPDATED
+                };
             }
         }
-
-        return true;
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error UpdateUserCollaborationEquipmentLevel: " + ex.Message);
+            return InsertOrUpdateResult<bool>.Failure(ex.Message);
+        }
     }
-    public async Task<bool> UpdateUserCollaborationEquipmentStarAsync(string userId, CollaborationEquipments collaborationEquipment)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserCollaborationEquipmentStarAsync(string userId, CollaborationEquipments collaborationEquipment)
     {
+        if (collaborationEquipment == null)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
+            string updateSQL = @"
+            UPDATE user_collaboration_equipments
+            SET 
+                star = @star, 
+                quantity = @quantity
+            WHERE user_id = @user_id 
+              AND collaboration_equipment_id = @collaboration_equipment_id
+              AND (star != @star OR quantity != @quantity);
+        ";
+
+            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+
+            updateCommand.Parameters.AddWithValue("@user_id", userId);
+            updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
+            updateCommand.Parameters.AddWithValue("@star", collaborationEquipment.Star);
+            updateCommand.Parameters.AddWithValue("@quantity", collaborationEquipment.Quantity);
+
+            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
             {
-                await connection.OpenAsync();
-
-                string updateSQL = @"
-                UPDATE user_collaboration_equipments
-                SET 
-                    star = @star, quantity = @quantity
-                WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
-            ";
-
-                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                return InsertOrUpdateResult<bool>.Updated(true);
+            }
+            else
+            {
+                return new InsertOrUpdateResult<bool>
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
-                    updateCommand.Parameters.AddWithValue("@star", collaborationEquipment.Star);
-                    updateCommand.Parameters.AddWithValue("@quantity", collaborationEquipment.Quantity);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                    Data = false,
+                    OperationType = DatabaseOperationType.None,
+                    Message = MessageConstants.NOTHING_WAS_UPDATED
+                };
             }
         }
-
-        return true;
-    }
-    public async Task<bool> UpdateUserCollaborationEquipmentBreakthroughAsync(string userId, CollaborationEquipments collaborationEquipment, int star, double quantity)
-    {
-        string connectionString = DatabaseConfig.ConnectionString;
-
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        catch (MySqlException ex)
         {
-            try
-            {
-                await connection.OpenAsync();
-
-                string updateSQL = @"
-                UPDATE user_collaboration_equipments
-                SET 
-                    star = @star, quantity = @quantity, power=@power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND collaboration_equipment_id = @collaboration_equipment_id;
-            ";
-
-                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
-                {
-                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@collaboration_equipment_id", collaborationEquipment.Id);
-                    updateCommand.Parameters.AddWithValue("@star", star);
-                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
-                    updateCommand.Parameters.AddWithValue("@power", collaborationEquipment.Power);
-                    updateCommand.Parameters.AddWithValue("@health", collaborationEquipment.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", collaborationEquipment.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", collaborationEquipment.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", collaborationEquipment.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", collaborationEquipment.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", collaborationEquipment.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", collaborationEquipment.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", collaborationEquipment.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", collaborationEquipment.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", collaborationEquipment.MentalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", collaborationEquipment.MentalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", collaborationEquipment.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", collaborationEquipment.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", collaborationEquipment.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", collaborationEquipment.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", collaborationEquipment.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", collaborationEquipment.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", collaborationEquipment.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", collaborationEquipment.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", collaborationEquipment.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", collaborationEquipment.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", collaborationEquipment.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", collaborationEquipment.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", collaborationEquipment.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", collaborationEquipment.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", collaborationEquipment.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", collaborationEquipment.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", collaborationEquipment.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", collaborationEquipment.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", collaborationEquipment.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", collaborationEquipment.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", collaborationEquipment.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", collaborationEquipment.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", collaborationEquipment.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", collaborationEquipment.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", collaborationEquipment.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", collaborationEquipment.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", collaborationEquipment.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", collaborationEquipment.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", collaborationEquipment.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", collaborationEquipment.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", collaborationEquipment.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", collaborationEquipment.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", collaborationEquipment.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", collaborationEquipment.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", collaborationEquipment.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", collaborationEquipment.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", collaborationEquipment.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", collaborationEquipment.SkillResistanceRate);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                await connection.CloseAsync();
-            }
+            Debug.LogError("Error UpdateUserCollaborationEquipmentStar: " + ex.Message);
+            return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
-
-        return true;
     }
     public async Task<CollaborationEquipments> GetUserCollaborationEquipmentByIdAsync(string userId, string Id)
     {

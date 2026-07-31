@@ -8,7 +8,7 @@ public interface IWeaponsGalleryService
     Task<bool> InsertWeaponGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusWeaponGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusWeaponsGalleryAsync(string userId);
-    Task<bool> UpdateStarWeaponGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarWeaponGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarWeaponGalleryAsync(string userId, string weaponId);
     Task<bool> UpdateBatchCurrentStarWeaponsGalleryAsync(string userId);
     Task<bool> InsertBatchWeaponsGalleryAsync(string userId, List<Weapons> weapons);

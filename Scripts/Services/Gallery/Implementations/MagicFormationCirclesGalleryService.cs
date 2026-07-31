@@ -96,9 +96,9 @@ public class MagicFormationCirclesGalleryService : IMagicFormationCirclesGallery
         return await _magicFormationCirclesGalleryRepository.SumPowerMagicFormationCirclesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarMagicFormationCircleGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarMagicFormationCircleGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _magicFormationCirclesGalleryRepository.UpdateStarMagicFormationCircleGalleryAsync(userId, Id, star);
+        var updateResult = await _magicFormationCirclesGalleryRepository.UpdateTempStarMagicFormationCircleGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

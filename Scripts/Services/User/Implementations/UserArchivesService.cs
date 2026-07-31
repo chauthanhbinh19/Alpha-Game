@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public class UserArchivesService : IUserArchivesService
 {
-    private static UserArchivesService _instance;
     private readonly IUserArchivesRepository _userArchivesRepository;
 
     public UserArchivesService(IUserArchivesRepository userArchivesRepository)
@@ -10,14 +9,7 @@ public class UserArchivesService : IUserArchivesService
         _userArchivesRepository = userArchivesRepository;
     }
 
-    public static UserArchivesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserArchivesService(new UserArchivesRepository());
-        }
-        return _instance;
-    }
+    public static IUserArchivesService Create() => ServiceContainer.GetService<IUserArchivesService>();
 
     public async Task<UserArchives> GetUserArchivesAsync(string userId, string id)
     {

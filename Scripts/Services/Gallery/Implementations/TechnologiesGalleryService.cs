@@ -96,9 +96,9 @@ public class TechnologiesGalleryService : ITechnologiesGalleryService
         return await _technologiesGalleryRepository.SumPowerTechnologiesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarTechnologyGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarTechnologyGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _technologiesGalleryRepository.UpdateStarTechnologyGalleryAsync(userId, Id, star);
+        var updateResult = await _technologiesGalleryRepository.UpdateTempStarTechnologyGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

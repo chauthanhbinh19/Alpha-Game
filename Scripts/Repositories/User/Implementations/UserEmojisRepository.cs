@@ -187,166 +187,146 @@ public class UserEmojisRepository : IUserEmojisRepository
 
         return count;
     }
-    public async Task<bool> InsertUserEmojiAsync(Emojis emoji, string userId)
+    public async Task<InsertOrUpdateResult<Emojis>> InsertOrUpdateUserEmojiAsync(string userId, Emojis emoji)
     {
         string connectionString = DatabaseConfig.ConnectionString;
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
 
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Query thực hiện Insert hoặc Update nếu đã tồn tại Composite Primary Key (user_id, emoji_id)
+            string upsertSQL = @"
+            INSERT INTO user_emojis (
+                user_id, emoji_id, rare, level, experience, star, quality, block, quantity,
+                power, health, physical_attack, physical_defense, magical_attack, magical_defense,
+                chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
+                speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                penetration_rate, penetration_resistance_rate,
+                evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                vitality_regeneration_rate, vitality_regeneration_resistance_rate,
+                accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
+                combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                stun_rate, ignore_stun_rate,
+                reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
+                mana, mana_regeneration_rate,
+                damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                normal_damage_rate, normal_resistance_rate,
+                skill_damage_rate, skill_resistance_rate
+            ) VALUES (
+                @user_id, @emoji_id, @rare, 0, 0, 0, @quality, false, @quantity,
+                @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
+                @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
+                @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+                @penetration_rate, @penetration_resistance_rate,
+                @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+                @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
+                @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
+                @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
+                @stun_rate, @ignore_stun_rate,
+                @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
+                @mana, @mana_regeneration_rate,
+                @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
+                @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+                @normal_damage_rate, @normal_resistance_rate,
+                @skill_damage_rate, @skill_resistance_rate
+            )
+            ON DUPLICATE KEY UPDATE 
+                quantity = VALUES(quantity);";
+
+            await using MySqlCommand command = new MySqlCommand(upsertSQL, connection);
+
+            // Add Parameters
+            command.Parameters.AddWithValue("@user_id", userId);
+            command.Parameters.AddWithValue("@emoji_id", emoji.Id);
+            command.Parameters.AddWithValue("@rare", emoji.Rarity);
+            command.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(emoji.Rarity));
+            command.Parameters.AddWithValue("@quantity", emoji.Quantity);
+            command.Parameters.AddWithValue("@power", emoji.Power);
+            command.Parameters.AddWithValue("@health", emoji.Health);
+            command.Parameters.AddWithValue("@physical_attack", emoji.PhysicalAttack);
+            command.Parameters.AddWithValue("@physical_defense", emoji.PhysicalDefense);
+            command.Parameters.AddWithValue("@magical_attack", emoji.MagicalAttack);
+            command.Parameters.AddWithValue("@magical_defense", emoji.MagicalDefense);
+            command.Parameters.AddWithValue("@chemical_attack", emoji.ChemicalAttack);
+            command.Parameters.AddWithValue("@chemical_defense", emoji.ChemicalDefense);
+            command.Parameters.AddWithValue("@atomic_attack", emoji.AtomicAttack);
+            command.Parameters.AddWithValue("@atomic_defense", emoji.AtomicDefense);
+            command.Parameters.AddWithValue("@mental_attack", emoji.MentalAttack);
+            command.Parameters.AddWithValue("@mental_defense", emoji.MentalDefense);
+            command.Parameters.AddWithValue("@speed", emoji.Speed);
+            command.Parameters.AddWithValue("@critical_damage_rate", emoji.CriticalDamageRate);
+            command.Parameters.AddWithValue("@critical_rate", emoji.CriticalRate);
+            command.Parameters.AddWithValue("@critical_resistance_rate", emoji.CriticalResistanceRate);
+            command.Parameters.AddWithValue("@ignore_critical_rate", emoji.IgnoreCriticalRate);
+            command.Parameters.AddWithValue("@penetration_rate", emoji.PenetrationRate);
+            command.Parameters.AddWithValue("@penetration_resistance_rate", emoji.PenetrationResistanceRate);
+            command.Parameters.AddWithValue("@evasion_rate", emoji.EvasionRate);
+            command.Parameters.AddWithValue("@damage_absorption_rate", emoji.DamageAbsorptionRate);
+            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", emoji.IgnoreDamageAbsorptionRate);
+            command.Parameters.AddWithValue("@absorbed_damage_rate", emoji.AbsorbedDamageRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_rate", emoji.VitalityRegenerationRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", emoji.VitalityRegenerationResistanceRate);
+            command.Parameters.AddWithValue("@accuracy_rate", emoji.AccuracyRate);
+            command.Parameters.AddWithValue("@lifesteal_rate", emoji.LifestealRate);
+            command.Parameters.AddWithValue("@shield_strength", emoji.ShieldStrength);
+            command.Parameters.AddWithValue("@tenacity", emoji.Tenacity);
+            command.Parameters.AddWithValue("@resistance_rate", emoji.ResistanceRate);
+            command.Parameters.AddWithValue("@combo_rate", emoji.ComboRate);
+            command.Parameters.AddWithValue("@ignore_combo_rate", emoji.IgnoreComboRate);
+            command.Parameters.AddWithValue("@combo_damage_rate", emoji.ComboDamageRate);
+            command.Parameters.AddWithValue("@combo_resistance_rate", emoji.ComboResistanceRate);
+            command.Parameters.AddWithValue("@stun_rate", emoji.StunRate);
+            command.Parameters.AddWithValue("@ignore_stun_rate", emoji.IgnoreStunRate);
+            command.Parameters.AddWithValue("@reflection_rate", emoji.ReflectionRate);
+            command.Parameters.AddWithValue("@ignore_reflection_rate", emoji.IgnoreReflectionRate);
+            command.Parameters.AddWithValue("@reflection_damage_rate", emoji.ReflectionDamageRate);
+            command.Parameters.AddWithValue("@reflection_resistance_rate", emoji.ReflectionResistanceRate);
+            command.Parameters.AddWithValue("@mana", emoji.Mana);
+            command.Parameters.AddWithValue("@mana_regeneration_rate", emoji.ManaRegenerationRate);
+            command.Parameters.AddWithValue("@damage_to_different_faction_rate", emoji.DamageToDifferentFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", emoji.ResistanceToDifferentFactionRate);
+            command.Parameters.AddWithValue("@damage_to_same_faction_rate", emoji.DamageToSameFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", emoji.ResistanceToSameFactionRate);
+            command.Parameters.AddWithValue("@normal_damage_rate", emoji.NormalDamageRate);
+            command.Parameters.AddWithValue("@normal_resistance_rate", emoji.NormalResistanceRate);
+            command.Parameters.AddWithValue("@skill_damage_rate", emoji.SkillDamageRate);
+            command.Parameters.AddWithValue("@skill_resistance_rate", emoji.SkillResistanceRate);
+
+            int rowsAffected = await command.ExecuteNonQueryAsync();
+
+            // MySQL quy ước: Insert mới = 1, Update = 2, Không thay đổi = 0
+            if (rowsAffected == 1)
             {
-                await connection.OpenAsync();
-
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkSQL = @"
-                SELECT COUNT(*) 
-                FROM user_emojis 
-                WHERE user_id = @user_id AND emoji_id = @emoji_id;
-            ";
-
-                await using var checkCommand = new MySqlCommand(checkSQL, connection);
-                checkCommand.Parameters.AddWithValue("@user_id", userId);
-                checkCommand.Parameters.AddWithValue("@emoji_id", emoji.Id);
-
-                int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
-
-                if (count == 0)
-                {
-                    string insertSQL = @"
-                    INSERT INTO user_emojis (
-                        user_id, emoji_id, rare, level, experience, star, quality, block, quantity,
-                        power, health, physical_attack, physical_defense, magical_attack, magical_defense,
-                        chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
-                        speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                        penetration_rate, penetration_resistance_rate,
-                        evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                        vitality_regeneration_rate, vitality_regeneration_resistance_rate,
-                        accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
-                        combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                        stun_rate, ignore_stun_rate,
-                        reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
-                        mana, mana_regeneration_rate,
-                        damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                        damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                        normal_damage_rate, normal_resistance_rate,
-                        skill_damage_rate, skill_resistance_rate
-                    ) VALUES (
-                        @user_id, @emoji_id, @rare, @level, @experience, @star, @quality, @block, @quantity,
-                        @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
-                        @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
-                        @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
-                        @penetration_rate, @penetration_resistance_rate,
-                        @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
-                        @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
-                        @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
-                        @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
-                        @stun_rate, @ignore_stun_rate,
-                        @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
-                        @mana, @mana_regeneration_rate,
-                        @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
-                        @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
-                        @normal_damage_rate, @normal_resistance_rate,
-                        @skill_damage_rate, @skill_resistance_rate
-                    );";
-
-                    await using var insertCommand = new MySqlCommand(insertSQL, connection);
-
-                    insertCommand.Parameters.AddWithValue("@user_id", userId);
-                    insertCommand.Parameters.AddWithValue("@emoji_id", emoji.Id);
-                    insertCommand.Parameters.AddWithValue("@rare", emoji.Rarity);
-                    insertCommand.Parameters.AddWithValue("@level", 0);
-                    insertCommand.Parameters.AddWithValue("@experience", 0);
-                    insertCommand.Parameters.AddWithValue("@star", 0);
-                    insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(emoji.Rarity));
-                    insertCommand.Parameters.AddWithValue("@block", false);
-                    insertCommand.Parameters.AddWithValue("@quantity", emoji.Quantity);
-                    insertCommand.Parameters.AddWithValue("@power", emoji.Power);
-                    insertCommand.Parameters.AddWithValue("@health", emoji.Health);
-                    insertCommand.Parameters.AddWithValue("@physical_attack", emoji.PhysicalAttack);
-                    insertCommand.Parameters.AddWithValue("@physical_defense", emoji.PhysicalDefense);
-                    insertCommand.Parameters.AddWithValue("@magical_attack", emoji.MagicalAttack);
-                    insertCommand.Parameters.AddWithValue("@magical_defense", emoji.MagicalDefense);
-                    insertCommand.Parameters.AddWithValue("@chemical_attack", emoji.ChemicalAttack);
-                    insertCommand.Parameters.AddWithValue("@chemical_defense", emoji.ChemicalDefense);
-                    insertCommand.Parameters.AddWithValue("@atomic_attack", emoji.AtomicAttack);
-                    insertCommand.Parameters.AddWithValue("@atomic_defense", emoji.AtomicDefense);
-                    insertCommand.Parameters.AddWithValue("@mental_attack", emoji.MentalAttack);
-                    insertCommand.Parameters.AddWithValue("@mental_defense", emoji.MentalDefense);
-                    insertCommand.Parameters.AddWithValue("@speed", emoji.Speed);
-                    insertCommand.Parameters.AddWithValue("@critical_damage_rate", emoji.CriticalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@critical_rate", emoji.CriticalRate);
-                    insertCommand.Parameters.AddWithValue("@critical_resistance_rate", emoji.CriticalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_critical_rate", emoji.IgnoreCriticalRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_rate", emoji.PenetrationRate);
-                    insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", emoji.PenetrationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@evasion_rate", emoji.EvasionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_absorption_rate", emoji.DamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", emoji.IgnoreDamageAbsorptionRate);
-                    insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", emoji.AbsorbedDamageRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", emoji.VitalityRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", emoji.VitalityRegenerationResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@accuracy_rate", emoji.AccuracyRate);
-                    insertCommand.Parameters.AddWithValue("@lifesteal_rate", emoji.LifestealRate);
-                    insertCommand.Parameters.AddWithValue("@shield_strength", emoji.ShieldStrength);
-                    insertCommand.Parameters.AddWithValue("@tenacity", emoji.Tenacity);
-                    insertCommand.Parameters.AddWithValue("@resistance_rate", emoji.ResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@combo_rate", emoji.ComboRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_combo_rate", emoji.IgnoreComboRate);
-                    insertCommand.Parameters.AddWithValue("@combo_damage_rate", emoji.ComboDamageRate);
-                    insertCommand.Parameters.AddWithValue("@combo_resistance_rate", emoji.ComboResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@stun_rate", emoji.StunRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_stun_rate", emoji.IgnoreStunRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_rate", emoji.ReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", emoji.IgnoreReflectionRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_damage_rate", emoji.ReflectionDamageRate);
-                    insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", emoji.ReflectionResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@mana", emoji.Mana);
-                    insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", emoji.ManaRegenerationRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", emoji.DamageToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", emoji.ResistanceToDifferentFactionRate);
-                    insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", emoji.DamageToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", emoji.ResistanceToSameFactionRate);
-                    insertCommand.Parameters.AddWithValue("@normal_damage_rate", emoji.NormalDamageRate);
-                    insertCommand.Parameters.AddWithValue("@normal_resistance_rate", emoji.NormalResistanceRate);
-                    insertCommand.Parameters.AddWithValue("@skill_damage_rate", emoji.SkillDamageRate);
-                    insertCommand.Parameters.AddWithValue("@skill_resistance_rate", emoji.SkillResistanceRate);
-
-                    await insertCommand.ExecuteNonQueryAsync();
-                }
-                else
-                {
-                    // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                    string updateSQL = @"
-                    UPDATE user_emojis
-                    SET quantity = @quantity
-                    WHERE user_id = @user_id AND emoji_id = @emoji_id;
-                ";
-
-                    await using var updateCommand = new MySqlCommand(updateSQL, connection);
-                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@emoji_id", emoji.Id);
-                    updateCommand.Parameters.AddWithValue("@quantity", emoji.Quantity);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
+                return InsertOrUpdateResult<Emojis>.Inserted(emoji);
             }
-            catch (MySqlException ex)
+            else if (rowsAffected == 2 || rowsAffected == 0)
             {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
+                return InsertOrUpdateResult<Emojis>.Updated(emoji);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
+
+            return InsertOrUpdateResult<Emojis>.Failure();
         }
-
-        return true;
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Database Error: " + ex.Message);
+            return InsertOrUpdateResult<Emojis>.Failure(ex.Message);
+        }
     }
-    public async Task<bool> InsertOrUpdateUserEmojisBatchAsync(string userId, List<Emojis> emojis)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Emojis>>> InsertOrUpdateUserEmojisBatchAsync(
+    string userId, List<Emojis> emojis)
     {
         if (emojis == null || emojis.Count == 0)
-            return true;
+        {
+            return new InsertOrUpdateResult<BatchOperationResultDTO<Emojis>>
+            {
+                Data = new BatchOperationResultDTO<Emojis>(),
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
 
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -356,9 +336,38 @@ public class UserEmojisRepository : IUserEmojisRepository
         {
             await connection.OpenAsync();
 
+            // 1. Query lấy TOÀN BỘ emoji_id hiện có của User (Cực nhanh nhờ Index user_id)
+            var existingIds = new HashSet<string>();
+            string checkSql = "SELECT emoji_id FROM user_emojis WHERE user_id = @user_id;";
+
+            await using (var checkCmd = new MySqlCommand(checkSql, connection))
+            {
+                checkCmd.Parameters.AddWithValue("@user_id", userId);
+                await using var reader = await checkCmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    existingIds.Add(reader.GetString(0));
+                }
+            }
+
+            // 2. Phân loại Emojis giữ NGUYÊN VẸN OBJECT thuộc tính trong RAM C#
+            var batchResult = new BatchOperationResultDTO<Emojis>();
+            foreach (var card in emojis)
+            {
+                if (existingIds.Contains(card.Id))
+                {
+                    batchResult.UpdatedItems.Add(card); // Trả về full object card
+                }
+                else
+                {
+                    batchResult.InsertedItems.Add(card); // Trả về full object card để dùng truyền sang Gallery
+                }
+            }
+
+            // 3. Thực hiện Bulk Insert/Update
             await using var transaction = await connection.BeginTransactionAsync();
 
-            int batchSize = 500; // vì nhiều column → giảm size
+            int batchSize = 500; // Giảm batchSize vì câu lệnh có nhiều cột
 
             for (int i = 0; i < emojis.Count; i += batchSize)
             {
@@ -368,113 +377,113 @@ public class UserEmojisRepository : IUserEmojisRepository
                 var parameters = new List<MySqlParameter>();
 
                 stringBuilder.Append(@"
-                INSERT INTO user_emojis (
-                    user_id, emoji_id, rare, level, experience, star, quality, block, quantity,
-                    power, health, physical_attack, physical_defense, magical_attack, magical_defense,
-                    chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
-                    speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                    penetration_rate, penetration_resistance_rate,
-                    evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                    vitality_regeneration_rate, vitality_regeneration_resistance_rate,
-                    accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
-                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                    stun_rate, ignore_stun_rate,
-                    reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
-                    mana, mana_regeneration_rate,
-                    damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                    damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                    normal_damage_rate, normal_resistance_rate,
-                    skill_damage_rate, skill_resistance_rate
-                ) VALUES ");
+            INSERT INTO user_emojis (
+                user_id, emoji_id, rare, level, experience, star, quality, block, quantity,
+                power, health, physical_attack, physical_defense, magical_attack, magical_defense,
+                chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
+                speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                penetration_rate, penetration_resistance_rate,
+                evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                vitality_regeneration_rate, vitality_regeneration_resistance_rate,
+                accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
+                combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                stun_rate, ignore_stun_rate,
+                reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
+                mana, mana_regeneration_rate,
+                damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                normal_damage_rate, normal_resistance_rate,
+                skill_damage_rate, skill_resistance_rate
+            ) VALUES ");
 
                 for (int j = 0; j < batch.Count; j++)
                 {
                     var c = batch[j];
 
                     stringBuilder.Append($@"
-                    (@user_id, @emoji_id_{j}, @rare_{j}, 0, 0, 0, @quality_{j}, 0, @quantity_{j},
-                    @power_{j}, @health_{j}, @physical_attack_{j}, @physical_defense_{j}, @magical_attack_{j}, @magical_defense_{j},
-                    @chemical_attack_{j}, @chemical_defense_{j}, @atomic_attack_{j}, @atomic_defense_{j}, @mental_attack_{j}, @mental_defense_{j},
-                    @speed_{j}, @critical_damage_rate_{j}, @critical_rate_{j}, @critical_resistance_rate_{j}, @ignore_critical_rate_{j},
-                    @penetration_rate_{j}, @penetration_resistance_rate_{j},
-                    @evasion_rate_{j}, @damage_absorption_rate_{j}, @ignore_damage_absorption_rate_{j}, @absorbed_damage_rate_{j},
-                    @vitality_regeneration_rate_{j}, @vitality_regeneration_resistance_rate_{j},
-                    @accuracy_rate_{j}, @lifesteal_rate_{j}, @shield_strength_{j}, @tenacity_{j}, @resistance_rate_{j},
-                    @combo_rate_{j}, @ignore_combo_rate_{j}, @combo_damage_rate_{j}, @combo_resistance_rate_{j},
-                    @stun_rate_{j}, @ignore_stun_rate_{j},
-                    @reflection_rate_{j}, @ignore_reflection_rate_{j}, @reflection_damage_rate_{j}, @reflection_resistance_rate_{j},
-                    @mana_{j}, @mana_regeneration_rate_{j},
-                    @damage_to_different_faction_rate_{j}, @resistance_to_different_faction_rate_{j},
-                    @damage_to_same_faction_rate_{j}, @resistance_to_same_faction_rate_{j},
-                    @normal_damage_rate_{j}, @normal_resistance_rate_{j},
-                    @skill_damage_rate_{j}, @skill_resistance_rate_{j}
-                    ),");
+                (@user_id, @emoji_id_{j}, @rare_{j}, 0, 0, 0, @quality_{j}, 0, @quantity_{j},
+                @power_{j}, @health_{j}, @physical_attack_{j}, @physical_defense_{j}, @magical_attack_{j}, @magical_defense_{j},
+                @chemical_attack_{j}, @chemical_defense_{j}, @atomic_attack_{j}, @atomic_defense_{j}, @mental_attack_{j}, @mental_defense_{j},
+                @speed_{j}, @critical_damage_rate_{j}, @critical_rate_{j}, @critical_resistance_rate_{j}, @ignore_critical_rate_{j},
+                @penetration_rate_{j}, @penetration_resistance_rate_{j},
+                @evasion_rate_{j}, @damage_absorption_rate_{j}, @ignore_damage_absorption_rate_{j}, @absorbed_damage_rate_{j},
+                @vitality_regeneration_rate_{j}, @vitality_regeneration_resistance_rate_{j},
+                @accuracy_rate_{j}, @lifesteal_rate_{j}, @shield_strength_{j}, @tenacity_{j}, @resistance_rate_{j},
+                @combo_rate_{j}, @ignore_combo_rate_{j}, @combo_damage_rate_{j}, @combo_resistance_rate_{j},
+                @stun_rate_{j}, @ignore_stun_rate_{j},
+                @reflection_rate_{j}, @ignore_reflection_rate_{j}, @reflection_damage_rate_{j}, @reflection_resistance_rate_{j},
+                @mana_{j}, @mana_regeneration_rate_{j},
+                @damage_to_different_faction_rate_{j}, @resistance_to_different_faction_rate_{j},
+                @damage_to_same_faction_rate_{j}, @resistance_to_same_faction_rate_{j},
+                @normal_damage_rate_{j}, @normal_resistance_rate_{j},
+                @skill_damage_rate_{j}, @skill_resistance_rate_{j}
+                ),");
 
                     parameters.AddRange(new[]
                     {
-                        new MySqlParameter($"@emoji_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rarity),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
-                        new MySqlParameter($"@quantity_{j}", c.Quantity),
-                        new MySqlParameter($"@power_{j}", c.Power),
-                        new MySqlParameter($"@health_{j}", c.Health),
-                        new MySqlParameter($"@physical_attack_{j}", c.PhysicalAttack),
-                        new MySqlParameter($"@physical_defense_{j}", c.PhysicalDefense),
-                        new MySqlParameter($"@magical_attack_{j}", c.MagicalAttack),
-                        new MySqlParameter($"@magical_defense_{j}", c.MagicalDefense),
-                        new MySqlParameter($"@chemical_attack_{j}", c.ChemicalAttack),
-                        new MySqlParameter($"@chemical_defense_{j}", c.ChemicalDefense),
-                        new MySqlParameter($"@atomic_attack_{j}", c.AtomicAttack),
-                        new MySqlParameter($"@atomic_defense_{j}", c.AtomicDefense),
-                        new MySqlParameter($"@mental_attack_{j}", c.MentalAttack),
-                        new MySqlParameter($"@mental_defense_{j}", c.MentalDefense),
-                        new MySqlParameter($"@speed_{j}", c.Speed),
-                        new MySqlParameter($"@critical_damage_rate_{j}", c.CriticalDamageRate),
-                        new MySqlParameter($"@critical_rate_{j}", c.CriticalRate),
-                        new MySqlParameter($"@critical_resistance_rate_{j}", c.CriticalResistanceRate),
-                        new MySqlParameter($"@ignore_critical_rate_{j}", c.IgnoreCriticalRate),
-                        new MySqlParameter($"@penetration_rate_{j}", c.PenetrationRate),
-                        new MySqlParameter($"@penetration_resistance_rate_{j}", c.PenetrationResistanceRate),
-                        new MySqlParameter($"@evasion_rate_{j}", c.EvasionRate),
-                        new MySqlParameter($"@damage_absorption_rate_{j}", c.DamageAbsorptionRate),
-                        new MySqlParameter($"@ignore_damage_absorption_rate_{j}", c.IgnoreDamageAbsorptionRate),
-                        new MySqlParameter($"@absorbed_damage_rate_{j}", c.AbsorbedDamageRate),
-                        new MySqlParameter($"@vitality_regeneration_rate_{j}", c.VitalityRegenerationRate),
-                        new MySqlParameter($"@vitality_regeneration_resistance_rate_{j}", c.VitalityRegenerationResistanceRate),
-                        new MySqlParameter($"@accuracy_rate_{j}", c.AccuracyRate),
-                        new MySqlParameter($"@lifesteal_rate_{j}", c.LifestealRate),
-                        new MySqlParameter($"@shield_strength_{j}", c.ShieldStrength),
-                        new MySqlParameter($"@tenacity_{j}", c.Tenacity),
-                        new MySqlParameter($"@resistance_rate_{j}", c.ResistanceRate),
-                        new MySqlParameter($"@combo_rate_{j}", c.ComboRate),
-                        new MySqlParameter($"@ignore_combo_rate_{j}", c.IgnoreComboRate),
-                        new MySqlParameter($"@combo_damage_rate_{j}", c.ComboDamageRate),
-                        new MySqlParameter($"@combo_resistance_rate_{j}", c.ComboResistanceRate),
-                        new MySqlParameter($"@stun_rate_{j}", c.StunRate),
-                        new MySqlParameter($"@ignore_stun_rate_{j}", c.IgnoreStunRate),
-                        new MySqlParameter($"@reflection_rate_{j}", c.ReflectionRate),
-                        new MySqlParameter($"@ignore_reflection_rate_{j}", c.IgnoreReflectionRate),
-                        new MySqlParameter($"@reflection_damage_rate_{j}", c.ReflectionDamageRate),
-                        new MySqlParameter($"@reflection_resistance_rate_{j}", c.ReflectionResistanceRate),
-                        new MySqlParameter($"@mana_{j}", c.Mana),
-                        new MySqlParameter($"@mana_regeneration_rate_{j}", c.ManaRegenerationRate),
-                        new MySqlParameter($"@damage_to_different_faction_rate_{j}", c.DamageToDifferentFactionRate),
-                        new MySqlParameter($"@resistance_to_different_faction_rate_{j}", c.ResistanceToDifferentFactionRate),
-                        new MySqlParameter($"@damage_to_same_faction_rate_{j}", c.DamageToSameFactionRate),
-                        new MySqlParameter($"@resistance_to_same_faction_rate_{j}", c.ResistanceToSameFactionRate),
-                        new MySqlParameter($"@normal_damage_rate_{j}", c.NormalDamageRate),
-                        new MySqlParameter($"@normal_resistance_rate_{j}", c.NormalResistanceRate),
-                        new MySqlParameter($"@skill_damage_rate_{j}", c.SkillDamageRate),
-                        new MySqlParameter($"@skill_resistance_rate_{j}", c.SkillResistanceRate),
+                    new MySqlParameter($"@emoji_id_{j}", c.Id),
+                    new MySqlParameter($"@rare_{j}", c.Rarity),
+                    new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
+                    new MySqlParameter($"@quantity_{j}", c.Quantity),
+                    new MySqlParameter($"@power_{j}", c.Power),
+                    new MySqlParameter($"@health_{j}", c.Health),
+                    new MySqlParameter($"@physical_attack_{j}", c.PhysicalAttack),
+                    new MySqlParameter($"@physical_defense_{j}", c.PhysicalDefense),
+                    new MySqlParameter($"@magical_attack_{j}", c.MagicalAttack),
+                    new MySqlParameter($"@magical_defense_{j}", c.MagicalDefense),
+                    new MySqlParameter($"@chemical_attack_{j}", c.ChemicalAttack),
+                    new MySqlParameter($"@chemical_defense_{j}", c.ChemicalDefense),
+                    new MySqlParameter($"@atomic_attack_{j}", c.AtomicAttack),
+                    new MySqlParameter($"@atomic_defense_{j}", c.AtomicDefense),
+                    new MySqlParameter($"@mental_attack_{j}", c.MentalAttack),
+                    new MySqlParameter($"@mental_defense_{j}", c.MentalDefense),
+                    new MySqlParameter($"@speed_{j}", c.Speed),
+                    new MySqlParameter($"@critical_damage_rate_{j}", c.CriticalDamageRate),
+                    new MySqlParameter($"@critical_rate_{j}", c.CriticalRate),
+                    new MySqlParameter($"@critical_resistance_rate_{j}", c.CriticalResistanceRate),
+                    new MySqlParameter($"@ignore_critical_rate_{j}", c.IgnoreCriticalRate),
+                    new MySqlParameter($"@penetration_rate_{j}", c.PenetrationRate),
+                    new MySqlParameter($"@penetration_resistance_rate_{j}", c.PenetrationResistanceRate),
+                    new MySqlParameter($"@evasion_rate_{j}", c.EvasionRate),
+                    new MySqlParameter($"@damage_absorption_rate_{j}", c.DamageAbsorptionRate),
+                    new MySqlParameter($"@ignore_damage_absorption_rate_{j}", c.IgnoreDamageAbsorptionRate),
+                    new MySqlParameter($"@absorbed_damage_rate_{j}", c.AbsorbedDamageRate),
+                    new MySqlParameter($"@vitality_regeneration_rate_{j}", c.VitalityRegenerationRate),
+                    new MySqlParameter($"@vitality_regeneration_resistance_rate_{j}", c.VitalityRegenerationResistanceRate),
+                    new MySqlParameter($"@accuracy_rate_{j}", c.AccuracyRate),
+                    new MySqlParameter($"@lifesteal_rate_{j}", c.LifestealRate),
+                    new MySqlParameter($"@shield_strength_{j}", c.ShieldStrength),
+                    new MySqlParameter($"@tenacity_{j}", c.Tenacity),
+                    new MySqlParameter($"@resistance_rate_{j}", c.ResistanceRate),
+                    new MySqlParameter($"@combo_rate_{j}", c.ComboRate),
+                    new MySqlParameter($"@ignore_combo_rate_{j}", c.IgnoreComboRate),
+                    new MySqlParameter($"@combo_damage_rate_{j}", c.ComboDamageRate),
+                    new MySqlParameter($"@combo_resistance_rate_{j}", c.ComboResistanceRate),
+                    new MySqlParameter($"@stun_rate_{j}", c.StunRate),
+                    new MySqlParameter($"@ignore_stun_rate_{j}", c.IgnoreStunRate),
+                    new MySqlParameter($"@reflection_rate_{j}", c.ReflectionRate),
+                    new MySqlParameter($"@ignore_reflection_rate_{j}", c.IgnoreReflectionRate),
+                    new MySqlParameter($"@reflection_damage_rate_{j}", c.ReflectionDamageRate),
+                    new MySqlParameter($"@reflection_resistance_rate_{j}", c.ReflectionResistanceRate),
+                    new MySqlParameter($"@mana_{j}", c.Mana),
+                    new MySqlParameter($"@mana_regeneration_rate_{j}", c.ManaRegenerationRate),
+                    new MySqlParameter($"@damage_to_different_faction_rate_{j}", c.DamageToDifferentFactionRate),
+                    new MySqlParameter($"@resistance_to_different_faction_rate_{j}", c.ResistanceToDifferentFactionRate),
+                    new MySqlParameter($"@damage_to_same_faction_rate_{j}", c.DamageToSameFactionRate),
+                    new MySqlParameter($"@resistance_to_same_faction_rate_{j}", c.ResistanceToSameFactionRate),
+                    new MySqlParameter($"@normal_damage_rate_{j}", c.NormalDamageRate),
+                    new MySqlParameter($"@normal_resistance_rate_{j}", c.NormalResistanceRate),
+                    new MySqlParameter($"@skill_damage_rate_{j}", c.SkillDamageRate),
+                    new MySqlParameter($"@skill_resistance_rate_{j}", c.SkillResistanceRate),
                 });
                 }
 
-                stringBuilder.Length--; // remove dấu ,
+                stringBuilder.Length--; // remove dấu phẩy thừa
 
                 stringBuilder.Append(@"
-                ON DUPLICATE KEY UPDATE
-                    quantity = COALESCE(user_emojis.quantity, 0) + VALUES(quantity);
-                ");
+            ON DUPLICATE KEY UPDATE
+                quantity = COALESCE(user_emojis.quantity, 0) + VALUES(quantity);
+            ");
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
@@ -485,206 +494,154 @@ public class UserEmojisRepository : IUserEmojisRepository
             }
 
             await transaction.CommitAsync();
+
+            // 4. Trả về kết quả
+            var operationType = DatabaseOperationType.None;
+
+            if (batchResult.InsertedItems.Count > 0 && batchResult.UpdatedItems.Count > 0)
+            {
+                operationType = DatabaseOperationType.Mixed;
+            }
+            else if (batchResult.InsertedItems.Count > 0)
+            {
+                operationType = DatabaseOperationType.Inserted;
+            }
+            else if (batchResult.UpdatedItems.Count > 0)
+            {
+                operationType = DatabaseOperationType.Updated;
+            }
+
+            return new InsertOrUpdateResult<BatchOperationResultDTO<Emojis>>
+            {
+                Data = batchResult,
+                OperationType = operationType
+            };
         }
         catch (Exception ex)
         {
             Debug.LogError("Batch Error: " + ex.Message);
-            return false;
+            return InsertOrUpdateResult<BatchOperationResultDTO<Emojis>>.Failure(ex.Message);
+        }
+    }
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserEmojiLevelAsync(string userId, Emojis emoji)
+    {
+        if (emoji == null)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
-    }
-    public async Task<bool> UpdateUserEmojiLevelAsync(string userId, Emojis emoji)
-    {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
+            string updateSQL = @"
+            UPDATE user_emojis
+            SET 
+                level = @level, 
+                experience = @experience
+            WHERE user_id = @user_id 
+              AND emoji_id = @emoji_id
+              AND (level != @level OR experience != @experience);
+        ";
+
+            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+
+            updateCommand.Parameters.AddWithValue("@user_id", userId);
+            updateCommand.Parameters.AddWithValue("@emoji_id", emoji.Id);
+            updateCommand.Parameters.AddWithValue("@level", emoji.Level);
+            updateCommand.Parameters.AddWithValue("@experience", emoji.Experience);
+
+            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
             {
-                await connection.OpenAsync();
-
-                string updateSQL = @"
-                UPDATE user_emojis
-                SET 
-                    level = @level, experience = @experience
-                WHERE user_id = @user_id AND emoji_id = @emoji_id;
-            ";
-
-                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                return InsertOrUpdateResult<bool>.Updated(true);
+            }
+            else
+            {
+                return new InsertOrUpdateResult<bool>
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@emoji_id", emoji.Id);
-                    updateCommand.Parameters.AddWithValue("@level", emoji.Level);
-                    updateCommand.Parameters.AddWithValue("@experience", emoji.Experience);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                    Data = false,
+                    OperationType = DatabaseOperationType.None,
+                    Message = MessageConstants.NOTHING_WAS_UPDATED
+                };
             }
         }
-
-        return true;
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error UpdateUserEmojiLevel: " + ex.Message);
+            return InsertOrUpdateResult<bool>.Failure(ex.Message);
+        }
     }
-    public async Task<bool> UpdateUserEmojiStarAsync(string userId, Emojis emoji)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserEmojiStarAsync(string userId, Emojis emoji)
     {
+        if (emoji == null)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
+            string updateSQL = @"
+            UPDATE user_emojis
+            SET 
+                star = @star, 
+                quantity = @quantity
+            WHERE user_id = @user_id 
+              AND emoji_id = @emoji_id
+              AND (star != @star OR quantity != @quantity);
+        ";
+
+            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+
+            updateCommand.Parameters.AddWithValue("@user_id", userId);
+            updateCommand.Parameters.AddWithValue("@emoji_id", emoji.Id);
+            updateCommand.Parameters.AddWithValue("@star", emoji.Star);
+            updateCommand.Parameters.AddWithValue("@quantity", emoji.Quantity);
+
+            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
             {
-                await connection.OpenAsync();
-
-                string updateSQL = @"
-                UPDATE user_emojis
-                SET 
-                    star = @star, quantity = @quantity
-                WHERE user_id = @user_id AND emoji_id = @emoji_id;
-            ";
-
-                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                return InsertOrUpdateResult<bool>.Updated(true);
+            }
+            else
+            {
+                return new InsertOrUpdateResult<bool>
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@emoji_id", emoji.Id);
-                    updateCommand.Parameters.AddWithValue("@star", emoji.Star);
-                    updateCommand.Parameters.AddWithValue("@quantity", emoji.Quantity);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                    Data = false,
+                    OperationType = DatabaseOperationType.None,
+                    Message = MessageConstants.NOTHING_WAS_UPDATED
+                };
             }
         }
-
-        return true;
-    }
-    public async Task<bool> UpdateUserEmojiBreakthroughAsync(string userId, Emojis emoji, int star, double quantity)
-    {
-        string connectionString = DatabaseConfig.ConnectionString;
-
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        catch (MySqlException ex)
         {
-            try
-            {
-                await connection.OpenAsync();
-
-                string updateSQL = @"
-                UPDATE user_emojis
-                SET 
-                    star = @star, quantity = @quantity, power=@power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, 
-                    ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND emoji_id = @emoji_id;";
-
-                await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
-                updateCommand.Parameters.AddWithValue("@user_id", userId);
-                updateCommand.Parameters.AddWithValue("@emoji_id", emoji.Id);
-                updateCommand.Parameters.AddWithValue("@star", star);
-                updateCommand.Parameters.AddWithValue("@quantity", quantity);
-                updateCommand.Parameters.AddWithValue("@power", emoji.Power);
-                updateCommand.Parameters.AddWithValue("@health", emoji.Health);
-                updateCommand.Parameters.AddWithValue("@physical_attack", emoji.PhysicalAttack);
-                updateCommand.Parameters.AddWithValue("@physical_defense", emoji.PhysicalDefense);
-                updateCommand.Parameters.AddWithValue("@magical_attack", emoji.MagicalAttack);
-                updateCommand.Parameters.AddWithValue("@magical_defense", emoji.MagicalDefense);
-                updateCommand.Parameters.AddWithValue("@chemical_attack", emoji.ChemicalAttack);
-                updateCommand.Parameters.AddWithValue("@chemical_defense", emoji.ChemicalDefense);
-                updateCommand.Parameters.AddWithValue("@atomic_attack", emoji.AtomicAttack);
-                updateCommand.Parameters.AddWithValue("@atomic_defense", emoji.AtomicDefense);
-                updateCommand.Parameters.AddWithValue("@mental_attack", emoji.MentalAttack);
-                updateCommand.Parameters.AddWithValue("@mental_defense", emoji.MentalDefense);
-                updateCommand.Parameters.AddWithValue("@speed", emoji.Speed);
-                updateCommand.Parameters.AddWithValue("@critical_damage_rate", emoji.CriticalDamageRate);
-                updateCommand.Parameters.AddWithValue("@critical_rate", emoji.CriticalRate);
-                updateCommand.Parameters.AddWithValue("@critical_resistance_rate", emoji.CriticalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@ignore_critical_rate", emoji.IgnoreCriticalRate);
-                updateCommand.Parameters.AddWithValue("@penetration_rate", emoji.PenetrationRate);
-                updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", emoji.PenetrationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@evasion_rate", emoji.EvasionRate);
-                updateCommand.Parameters.AddWithValue("@damage_absorption_rate", emoji.DamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", emoji.IgnoreDamageAbsorptionRate);
-                updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", emoji.AbsorbedDamageRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", emoji.VitalityRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", emoji.VitalityRegenerationResistanceRate);
-                updateCommand.Parameters.AddWithValue("@accuracy_rate", emoji.AccuracyRate);
-                updateCommand.Parameters.AddWithValue("@lifesteal_rate", emoji.LifestealRate);
-                updateCommand.Parameters.AddWithValue("@shield_strength", emoji.ShieldStrength);
-                updateCommand.Parameters.AddWithValue("@tenacity", emoji.Tenacity);
-                updateCommand.Parameters.AddWithValue("@resistance_rate", emoji.ResistanceRate);
-                updateCommand.Parameters.AddWithValue("@combo_rate", emoji.ComboRate);
-                updateCommand.Parameters.AddWithValue("@ignore_combo_rate", emoji.IgnoreComboRate);
-                updateCommand.Parameters.AddWithValue("@combo_damage_rate", emoji.ComboDamageRate);
-                updateCommand.Parameters.AddWithValue("@combo_resistance_rate", emoji.ComboResistanceRate);
-                updateCommand.Parameters.AddWithValue("@stun_rate", emoji.StunRate);
-                updateCommand.Parameters.AddWithValue("@ignore_stun_rate", emoji.IgnoreStunRate);
-                updateCommand.Parameters.AddWithValue("@reflection_rate", emoji.ReflectionRate);
-                updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", emoji.IgnoreReflectionRate);
-                updateCommand.Parameters.AddWithValue("@reflection_damage_rate", emoji.ReflectionDamageRate);
-                updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", emoji.ReflectionResistanceRate);
-                updateCommand.Parameters.AddWithValue("@mana", emoji.Mana);
-                updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", emoji.ManaRegenerationRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", emoji.DamageToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", emoji.ResistanceToDifferentFactionRate);
-                updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", emoji.DamageToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", emoji.ResistanceToSameFactionRate);
-                updateCommand.Parameters.AddWithValue("@normal_damage_rate", emoji.NormalDamageRate);
-                updateCommand.Parameters.AddWithValue("@normal_resistance_rate", emoji.NormalResistanceRate);
-                updateCommand.Parameters.AddWithValue("@skill_damage_rate", emoji.SkillDamageRate);
-                updateCommand.Parameters.AddWithValue("@skill_resistance_rate", emoji.SkillResistanceRate);
-
-                await updateCommand.ExecuteNonQueryAsync();
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                await connection.CloseAsync();
-            }
+            Debug.LogError("Error UpdateUserEmojiStar: " + ex.Message);
+            return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
-
-        return true;
     }
     public async Task<Emojis> GetUserEmojiByIdAsync(string userId, string Id)
     {

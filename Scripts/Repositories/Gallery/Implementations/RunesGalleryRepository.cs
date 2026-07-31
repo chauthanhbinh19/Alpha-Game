@@ -646,7 +646,7 @@ public class RunesGalleryRepository : IRunesGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarRuneGalleryAsync(string userId, string runeId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarRuneGalleryAsync(string userId, string runeId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

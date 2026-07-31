@@ -646,7 +646,7 @@ public class TitlesGalleryRepository : ITitlesGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarTitleGalleryAsync(string userId, string titleId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarTitleGalleryAsync(string userId, string titleId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

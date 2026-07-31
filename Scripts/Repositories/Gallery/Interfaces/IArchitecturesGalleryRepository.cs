@@ -9,7 +9,7 @@ public interface IArchitecturesGalleryRepository
     Task<InsertOrUpdateResult<Architectures>> InsertArchitectureGalleryAsync(string userId, string Id, Architectures ArchitectureFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusArchitectureGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusArchitecturesGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarArchitectureGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarArchitectureGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarArchitectureGalleryAsync(string userId, string architectureId);
     Task<InsertOrUpdateResult<List<(string ArchitectureId, double CurrentStar)>>> UpdateBatchCurrentStarArchitecturesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Architectures>>> InsertBatchArchitecturesGalleryAsync(string userId, List<Architectures> architectures);

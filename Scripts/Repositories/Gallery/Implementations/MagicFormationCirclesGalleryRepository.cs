@@ -667,7 +667,7 @@ public class MagicFormationCirclesGalleryRepository : IMagicFormationCirclesGall
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarMagicFormationCircleGalleryAsync(string userId, string magicFormationCircleId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarMagicFormationCircleGalleryAsync(string userId, string magicFormationCircleId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

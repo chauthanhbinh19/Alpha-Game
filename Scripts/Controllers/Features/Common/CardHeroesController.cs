@@ -317,7 +317,7 @@ public class CardHeroesController : MonoBehaviour
             {
                 cardHero.Quantity = cardHero.Quantity + quantity;
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, cardHero.Currency.Id, price);
-                bool success = await UserCardHeroesService.Create().InsertUserCardHeroAsync(User.CurrentUserId, cardHero);
+                bool success = await UserCardHeroesService.Create().InsertOrUpdateUserCardHeroAsync(User.CurrentUserId, cardHero);
                 if (!success)
                 {
                     allSuccess = false;

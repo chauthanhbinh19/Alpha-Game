@@ -96,9 +96,9 @@ public class FurnituresGalleryService : IFurnituresGalleryService
         return await _furnituresGalleryRepository.SumPowerFurnituresGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarFurnitureGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarFurnitureGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _furnituresGalleryRepository.UpdateStarFurnitureGalleryAsync(userId, Id, star);
+        var updateResult = await _furnituresGalleryRepository.UpdateTempStarFurnitureGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

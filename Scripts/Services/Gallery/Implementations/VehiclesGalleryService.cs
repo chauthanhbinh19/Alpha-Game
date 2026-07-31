@@ -96,9 +96,9 @@ public class VehiclesGalleryService : IVehiclesGalleryService
         return await _vehiclesGalleryRepository.SumPowerVehiclesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarVehicleGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarVehicleGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _vehiclesGalleryRepository.UpdateStarVehicleGalleryAsync(userId, Id, star);
+        var updateResult = await _vehiclesGalleryRepository.UpdateTempStarVehicleGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

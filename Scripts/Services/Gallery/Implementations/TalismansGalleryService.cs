@@ -96,9 +96,9 @@ public class TalismansGalleryService : ITalismansGalleryService
         return await _talismansGalleryRepository.SumPowerTalismansGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarTalismanGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarTalismanGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _talismansGalleryRepository.UpdateStarTalismanGalleryAsync(userId, Id, star);
+        var updateResult = await _talismansGalleryRepository.UpdateTempStarTalismanGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

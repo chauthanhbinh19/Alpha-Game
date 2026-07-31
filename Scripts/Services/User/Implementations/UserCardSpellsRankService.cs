@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 
 public class UserCardSpellsRankService : IUserCardSpellsRankService
 {
-    private static UserCardSpellsRankService _instance;
     private readonly IUserCardSpellsRankRepository _userCardSpellsRankRepository;
 
     public UserCardSpellsRankService(IUserCardSpellsRankRepository userCardSpellsRankRepository)
@@ -10,14 +9,7 @@ public class UserCardSpellsRankService : IUserCardSpellsRankService
         _userCardSpellsRankRepository = userCardSpellsRankRepository;
     }
 
-    public static UserCardSpellsRankService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserCardSpellsRankService(new UserCardSpellsRankRepository());
-        }
-        return _instance;
-    }
+    public static IUserCardSpellsRankService Create() => ServiceContainer.GetService<IUserCardSpellsRankService>();
 
     public async Task<Rank> GetUserCardSpellRankAsync(string userId, string id, string cardId)
     {

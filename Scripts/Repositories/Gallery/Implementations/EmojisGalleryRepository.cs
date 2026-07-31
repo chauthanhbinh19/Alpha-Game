@@ -647,7 +647,7 @@ public class EmojisGalleryRepository : IEmojisGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarEmojiGalleryAsync(string userId, string emojiId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarEmojiGalleryAsync(string userId, string emojiId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

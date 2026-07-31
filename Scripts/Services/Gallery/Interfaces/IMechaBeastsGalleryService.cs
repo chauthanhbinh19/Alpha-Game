@@ -8,7 +8,7 @@ public interface IMechaBeastsGalleryService
     Task<bool> InsertMechaBeastGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusMechaBeastGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusMechaBeastsGalleryAsync(string userId);
-    Task<bool> UpdateStarMechaBeastGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarMechaBeastGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarMechaBeastGalleryAsync(string userId, string mechaBeastId);
     Task<bool> UpdateBatchCurrentStarMechaBeastsGalleryAsync(string userId);
     Task<bool> InsertBatchMechaBeastsGalleryAsync(string userId, List<MechaBeasts> mechaBeasts);

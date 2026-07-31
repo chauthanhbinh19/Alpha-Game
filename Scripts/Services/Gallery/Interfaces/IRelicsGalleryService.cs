@@ -8,7 +8,7 @@ public interface IRelicsGalleryService
     Task<bool> InsertRelicGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusRelicGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusRelicsGalleryAsync(string userId);
-    Task<bool> UpdateStarRelicGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarRelicGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarRelicGalleryAsync(string userId, string relicId);
     Task<bool> UpdateBatchCurrentStarRelicsGalleryAsync(string userId);
     Task<bool> InsertBatchRelicsGalleryAsync(string userId, List<Relics> relics);

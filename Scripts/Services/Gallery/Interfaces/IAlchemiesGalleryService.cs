@@ -8,7 +8,7 @@ public interface IAlchemiesGalleryService
     Task<bool> InsertAlchemyGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusAlchemyGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusAlchemiesGalleryAsync(string userId);
-    Task<bool> UpdateStarAlchemyGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarAlchemyGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarAlchemyGalleryAsync(string userId, string alchemyId);
     Task<bool> UpdateBatchCurrentStarAlchemiesGalleryAsync(string userId);
     Task<bool> InsertBatchAlchemiesGalleryAsync(string userId, List<Alchemies> alchemies);

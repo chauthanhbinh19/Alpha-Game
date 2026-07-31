@@ -7,11 +7,10 @@ public interface IUserSpiritBeastsRepository
     Task<List<SpiritBeasts>> GetAllUserSpiritBeastsAsync(string userId, int pageSize, int offset);
     Task<List<SpiritBeasts>> GetUserSpiritBeastsByCardIdsAsync(string userId, List<string> cardIds);
     Task<int> GetUserSpiritBeastsCountAsync(string userId, string search, string rare);
-    Task<bool> InsertUserSpiritBeastAsync(string userId, SpiritBeasts spiritBeast);
-    Task<bool> InsertOrUpdateUserSpiritBeastsBatchAsync(string userId, List<SpiritBeasts> spiritBeasts);
-    Task<bool> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast);
-    Task<bool> UpdateUserSpiritBeastStarAsync(string userId, SpiritBeasts spiritBeast);
-    Task<bool> UpdateUserSpiritBeastBreakthroughAsync(string userId, SpiritBeasts spiritBeast, int star, double quantity);
+    Task<InsertOrUpdateResult<SpiritBeasts>> InsertOrUpdateUserSpiritBeastAsync(string userId, SpiritBeasts spiritBeast);
+    Task<InsertOrUpdateResult<BatchOperationResultDTO<SpiritBeasts>>> InsertOrUpdateUserSpiritBeastsBatchAsync(string userId, List<SpiritBeasts> spiritBeasts);
+    Task<InsertOrUpdateResult<bool>> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast);
+    Task<InsertOrUpdateResult<bool>> UpdateUserSpiritBeastStarAsync(string userId, SpiritBeasts spiritBeast);
     Task<SpiritBeasts> GetUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHeroes);
     Task<SpiritBeasts> GetUserCardCaptainSpiritBeastAsync(string userId, CardCaptains cardCaptains);
     Task<SpiritBeasts> GetUserCardColonelSpiritBeastAsync(string userId, CardColonels cardColonels);

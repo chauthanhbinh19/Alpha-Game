@@ -645,7 +645,7 @@ public class MedalsGalleryRepository : IMedalsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarMedalGalleryAsync(string userId, string medalId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarMedalGalleryAsync(string userId, string medalId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

@@ -9,7 +9,7 @@ public interface IBordersGalleryRepository
     Task<InsertOrUpdateResult<Borders>> InsertBorderGalleryAsync(string userId, string Id, Borders BorderFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusBorderGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusBordersGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarBorderGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarBorderGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarBorderGalleryAsync(string userId, string borderId);
     Task<InsertOrUpdateResult<List<(string BorderId, double CurrentStar)>>> UpdateBatchCurrentStarBordersGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Borders>>> InsertBatchBordersGalleryAsync(string userId, List<Borders> borders);

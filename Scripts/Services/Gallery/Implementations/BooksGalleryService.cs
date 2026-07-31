@@ -96,9 +96,9 @@ public class BooksGalleryService : IBooksGalleryService
         return await _booksGalleryRepository.SumPowerBooksGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarBookGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarBookGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _booksGalleryRepository.UpdateStarBookGalleryAsync(userId, Id, star);
+        var updateResult = await _booksGalleryRepository.UpdateTempStarBookGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

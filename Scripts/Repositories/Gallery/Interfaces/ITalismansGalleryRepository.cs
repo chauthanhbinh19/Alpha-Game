@@ -9,7 +9,7 @@ public interface ITalismansGalleryRepository
     Task<InsertOrUpdateResult<Talismans>> InsertTalismanGalleryAsync(string userId, string Id, Talismans TalismanFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusTalismanGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusTalismansGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarTalismanGalleryAsync(string userId, string Id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarTalismanGalleryAsync(string userId, string Id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarTalismanGalleryAsync(string userId, string talismanId);
     Task<InsertOrUpdateResult<List<(string TalismanId, double CurrentStar)>>> UpdateBatchCurrentStarTalismansGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Talismans>>> InsertBatchTalismansGalleryAsync(string userId, List<Talismans> talismans);

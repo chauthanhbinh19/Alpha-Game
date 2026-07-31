@@ -8,7 +8,7 @@ public interface IForgesGalleryService
     Task<bool> InsertForgeGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusForgeGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusForgesGalleryAsync(string userId);
-    Task<bool> UpdateStarForgeGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarForgeGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarForgeGalleryAsync(string userId, string forgeId);
     Task<bool> UpdateBatchCurrentStarForgesGalleryAsync(string userId);
     Task<bool> InsertBatchForgesGalleryAsync(string userId, List<Forges> forges);

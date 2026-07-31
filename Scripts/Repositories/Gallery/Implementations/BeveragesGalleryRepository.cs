@@ -646,7 +646,7 @@ public class BeveragesGalleryRepository : IBeveragesGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarBeverageGalleryAsync(string userId, string beverageId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarBeverageGalleryAsync(string userId, string beverageId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

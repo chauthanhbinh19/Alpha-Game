@@ -96,9 +96,9 @@ public class PetsGalleryService : IPetsGalleryService
         return await _petsGalleryRepository.SumPowerPetsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarPetGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarPetGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _petsGalleryRepository.UpdateStarPetGalleryAsync(userId, Id, star);
+        var updateResult = await _petsGalleryRepository.UpdateTempStarPetGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

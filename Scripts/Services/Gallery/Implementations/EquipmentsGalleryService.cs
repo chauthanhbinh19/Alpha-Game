@@ -96,9 +96,9 @@ public class EquipmentsGalleryService : IEquipmentsGalleryService
         return await _equipmentsGalleryRepository.SumPowerEquipmentsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarEquipmentGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarEquipmentGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _equipmentsGalleryRepository.UpdateStarEquipmentGalleryAsync(userId, Id, star);
+        var updateResult = await _equipmentsGalleryRepository.UpdateTempStarEquipmentGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

@@ -9,7 +9,7 @@ public interface ISpiritBeastsGalleryRepository
     Task<InsertOrUpdateResult<SpiritBeasts>> InsertSpiritBeastGalleryAsync(string userId, string Id, SpiritBeasts SpiritBeastFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusSpiritBeastGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusSpiritBeastsGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarSpiritBeastGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarSpiritBeastGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarSpiritBeastGalleryAsync(string userId, string spiritBeastId);
     Task<InsertOrUpdateResult<List<(string SpiritBeastId, double CurrentStar)>>> UpdateBatchCurrentStarSpiritBeastsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<SpiritBeasts>>> InsertBatchSpiritBeastsGalleryAsync(string userId, List<SpiritBeasts> spiritBeasts);

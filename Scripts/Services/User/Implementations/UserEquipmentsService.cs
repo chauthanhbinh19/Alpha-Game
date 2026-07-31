@@ -132,7 +132,7 @@ public class UserEquipmentsService : IUserEquipmentsService
         var result = await _userEquipmentsRepository.UpdateUserEquipmentStarAsync(userId, equipment);
         if (result)
         {
-            await EquipmentsGalleryService.Create().UpdateStarEquipmentGalleryAsync(userId, equipment.Id, equipment.Star);
+            await EquipmentsGalleryService.Create().UpdateTempStarEquipmentGalleryAsync(userId, equipment.Id, equipment.Star);
         }
         return result;
     }

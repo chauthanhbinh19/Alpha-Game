@@ -8,7 +8,7 @@ public interface IArtifactsGalleryService
     Task<bool> InsertArtifactGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusArtifactGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusArtifactsGalleryAsync(string userId);
-    Task<bool> UpdateStarArtifactGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarArtifactGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarArtifactGalleryAsync(string userId, string artifactId);
     Task<bool> UpdateBatchCurrentStarArtifactsGalleryAsync(string userId);
     Task<bool> InsertBatchArtifactsGalleryAsync(string userId, List<Artifacts> artifacts);

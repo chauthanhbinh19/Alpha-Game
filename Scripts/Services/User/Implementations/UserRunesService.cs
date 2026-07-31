@@ -33,34 +33,119 @@ public class UserRunesService : IUserRunesService
         return await _userRunesRepository.GetUserRunesCountAsync(userId, search, rare);
     }
 
-    public async Task<bool> InsertUserRuneAsync(Runes rune, string userId)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
     {
-        var result = await _userRunesRepository.InsertUserRuneAsync(rune, userId);
-        if (result)
+        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
+        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+
+        if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
-            await RunesGalleryService.Create().InsertRuneGalleryAsync(userId, rune.Id);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
-        return result;
-    }
 
-    public async Task<bool> UpdateUserRuneLevelAsync(string userId, Runes rune)
-    {
-        return await _userRunesRepository.UpdateUserRuneLevelAsync(userId, rune);
-    }
-
-    public async Task<bool> UpdateUserRuneStarAsync(string userId, Runes rune)
-    {
-        var result = await _userRunesRepository.UpdateUserRuneStarAsync(userId, rune);
-        if (result)
+        if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            await RunesGalleryService.Create().UpdateStarRuneGalleryAsync(userId, rune.Id, rune.Star);
+            return InsertOrUpdateResult<bool>.Updated(true);
         }
-        return result;
+
+        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+
+        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+
+        if (deltaPower.Power == 0)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(false);
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> UpdateUserRuneBreakthroughAsync(string userId, Runes rune, int star, double quantity)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
     {
-        return await _userRunesRepository.UpdateUserRuneBreakthroughAsync(userId, rune, star, quantity);
+        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
+        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+
+        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
+        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
+        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
+        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        {
+            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+        }
+
+        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+
+        if (deltaPower.Power == 0)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(false);
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        // 3. Mapping kết quả OperationType trả về gọn gàng
+        return repositoryResult.OperationType switch
+        {
+            DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
+            DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
+            DatabaseOperationType.Updated => InsertOrUpdateResult<bool>.Updated(true),
+            _ => new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            }
+        };
+    }
+
+    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    {
+        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    {
+        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return false;
+        }
+
+        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+
+        return true;
     }
 
     public async Task<Runes> GetUserRuneByIdAsync(string userId, string Id)
@@ -71,10 +156,5 @@ public class UserRunesService : IUserRunesService
     public async Task<Runes> SumPowerUserRunesAsync(string userId)
     {
         return await _userRunesRepository.SumPowerUserRunesAsync(userId);
-    }
-
-    public async Task<bool> InsertOrUpdateUserRunesBatchAsync(string userId, List<Runes> runes)
-    {
-        return await _userRunesRepository.InsertOrUpdateUserRunesBatchAsync(userId, runes);
     }
 }

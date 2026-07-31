@@ -8,7 +8,7 @@ public interface IPuppetsGalleryService
     Task<bool> InsertPuppetGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusPuppetGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusPuppetsGalleryAsync(string userId);
-    Task<bool> UpdateStarPuppetGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarPuppetGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarPuppetGalleryAsync(string userId, string puppetId);
     Task<bool> UpdateBatchCurrentStarPuppetsGalleryAsync(string userId);
     Task<bool> InsertBatchPuppetsGalleryAsync(string userId, List<Puppets> puppets);

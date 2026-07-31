@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 
 public class UserCardMonstersMasterService : IUserCardMonstersMasterService
 {
-    private static UserCardMonstersMasterService _instance;
     private readonly IUserCardMonstersMasterRepository _userCardMonstersMasterRepository;
 
     public UserCardMonstersMasterService(IUserCardMonstersMasterRepository userCardMonstersMasterRepository)
@@ -10,14 +9,7 @@ public class UserCardMonstersMasterService : IUserCardMonstersMasterService
         _userCardMonstersMasterRepository = userCardMonstersMasterRepository;
     }
 
-    public static UserCardMonstersMasterService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserCardMonstersMasterService(new UserCardMonstersMasterRepository());
-        }
-        return _instance;
-    }
+    public static IUserCardMonstersMasterService Create() => ServiceContainer.GetService<IUserCardMonstersMasterService>();
 
     public async Task<Master> GetUserCardMonsterMasterAsync(string userId, string id, string cardId)
     {

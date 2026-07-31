@@ -667,7 +667,7 @@ public class PuppetsGalleryRepository : IPuppetsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarPuppetGalleryAsync(string userId, string puppetId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarPuppetGalleryAsync(string userId, string puppetId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

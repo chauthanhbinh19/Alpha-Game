@@ -96,9 +96,9 @@ public class RunesGalleryService : IRunesGalleryService
         return await _runesGalleryRepository.SumPowerRunesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarRuneGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarRuneGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _runesGalleryRepository.UpdateStarRuneGalleryAsync(userId, Id, star);
+        var updateResult = await _runesGalleryRepository.UpdateTempStarRuneGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

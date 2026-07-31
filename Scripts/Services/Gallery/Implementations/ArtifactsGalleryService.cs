@@ -96,9 +96,9 @@ public class ArtifactsGalleryService : IArtifactsGalleryService
         return await _artifactsGalleryRepository.SumPowerArtifactsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarArtifactGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarArtifactGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _artifactsGalleryRepository.UpdateStarArtifactGalleryAsync(userId, Id, star);
+        var updateResult = await _artifactsGalleryRepository.UpdateTempStarArtifactGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

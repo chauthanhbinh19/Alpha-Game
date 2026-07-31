@@ -9,7 +9,7 @@ public interface IArtworksGalleryRepository
     Task<InsertOrUpdateResult<Artworks>> InsertArtworkGalleryAsync(string userId, string Id, Artworks ArtworkFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusArtworkGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusArtworksGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarArtworkGalleryAsync(string userId, string Id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarArtworkGalleryAsync(string userId, string Id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarArtworkGalleryAsync(string userId, string artworkId);
     Task<InsertOrUpdateResult<List<(string ArtworkId, double CurrentStar)>>> UpdateBatchCurrentStarArtworksGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Artworks>>> InsertBatchArtworksGalleryAsync(string userId, List<Artworks> artworks);

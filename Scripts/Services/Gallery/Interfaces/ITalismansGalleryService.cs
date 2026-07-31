@@ -8,7 +8,7 @@ public interface ITalismansGalleryService
     Task<bool> InsertTalismanGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusTalismanGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusTalismansGalleryAsync(string userId);
-    Task<bool> UpdateStarTalismanGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarTalismanGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarTalismanGalleryAsync(string userId, string talismanId);
     Task<bool> UpdateBatchCurrentStarTalismansGalleryAsync(string userId);
     Task<bool> InsertBatchTalismansGalleryAsync(string userId, List<Talismans> talismans);

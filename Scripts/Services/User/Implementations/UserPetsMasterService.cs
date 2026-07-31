@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class UserPetsMasterService : IUserPetsMasterService
 {
-    private static UserPetsMasterService _instance;
     private readonly IUserPetsMasterRepository _userPetsMasterRepository;
 
     // Constructor để inject dependency của repository
@@ -12,14 +11,7 @@ public class UserPetsMasterService : IUserPetsMasterService
         _userPetsMasterRepository = userPetsMasterRepository;
     }
 
-    public static UserPetsMasterService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserPetsMasterService(new UserPetsMasterRepository());
-        }
-        return _instance;
-    }
+    public static IUserPetsMasterService Create() => ServiceContainer.GetService<IUserPetsMasterService>();
 
     public async Task<Master> GetUserPetMasterAsync(string userId, string id, string cardId)
     {

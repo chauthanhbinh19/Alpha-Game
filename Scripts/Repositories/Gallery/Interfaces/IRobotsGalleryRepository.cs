@@ -9,7 +9,7 @@ public interface IRobotsGalleryRepository
     Task<InsertOrUpdateResult<Robots>> InsertRobotGalleryAsync(string userId, string Id, Robots RobotFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusRobotGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusRobotsGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarRobotGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarRobotGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarRobotGalleryAsync(string userId, string robotId);
     Task<InsertOrUpdateResult<List<(string RobotId, double CurrentStar)>>> UpdateBatchCurrentStarRobotsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Robots>>> InsertBatchRobotsGalleryAsync(string userId, List<Robots> robots);

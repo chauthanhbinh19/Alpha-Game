@@ -8,7 +8,7 @@ public interface ICollaborationsGalleryService
     Task<bool> InsertCollaborationGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusCollaborationGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusCollaborationsGalleryAsync(string userId);
-    Task<bool> UpdateStarCollaborationGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarCollaborationGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarCollaborationGalleryAsync(string userId, string collaborationId);
     Task<bool> UpdateBatchCurrentStarCollaborationsGalleryAsync(string userId);
     Task<bool> InsertBatchCollaborationsGalleryAsync(string userId, List<Collaborations> collaborations);

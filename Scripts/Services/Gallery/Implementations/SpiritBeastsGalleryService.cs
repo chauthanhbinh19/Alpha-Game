@@ -96,9 +96,9 @@ public class SpiritBeastsGalleryService : ISpiritBeastsGalleryService
         return await _spiritBeastsGalleryRepository.SumPowerSpiritBeastsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarSpiritBeastGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarSpiritBeastGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _spiritBeastsGalleryRepository.UpdateStarSpiritBeastGalleryAsync(userId, Id, star);
+        var updateResult = await _spiritBeastsGalleryRepository.UpdateTempStarSpiritBeastGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

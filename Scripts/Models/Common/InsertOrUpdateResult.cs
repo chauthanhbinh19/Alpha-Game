@@ -23,7 +23,7 @@ public class InsertOrUpdateResult<T>
 
     // === Factory Methods giúp tạo object nhanh & viết code sạch hơn ===
 
-    public static InsertOrUpdateResult<T> Inserted(T data, string message = MessageConstants.INSERT_SUCCESSFULLY)
+    public static InsertOrUpdateResult<T> Inserted(T data, string message = MessageConstants.INSERTED_SUCCESSFULLY)
     {
         return new InsertOrUpdateResult<T>
         {
@@ -33,12 +33,22 @@ public class InsertOrUpdateResult<T>
         };
     }
 
-    public static InsertOrUpdateResult<T> Updated(T data, string message = MessageConstants.UPDATE_SUCCESSFULLY)
+    public static InsertOrUpdateResult<T> Updated(T data, string message = MessageConstants.UPDATED_SUCCESSFULLY)
     {
         return new InsertOrUpdateResult<T>
         {
             Data = data,
             OperationType = DatabaseOperationType.Updated,
+            Message = message
+        };
+    }
+
+    public static InsertOrUpdateResult<T> Mixed(T data, string message = MessageConstants.UPDATED_SUCCESSFULLY)
+    {
+        return new InsertOrUpdateResult<T>
+        {
+            Data = data,
+            OperationType = DatabaseOperationType.Mixed,
             Message = message
         };
     }

@@ -8,7 +8,7 @@ public interface ISymbolsGalleryService
     Task<bool> InsertSymbolGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusSymbolGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusSymbolsGalleryAsync(string userId);
-    Task<bool> UpdateStarSymbolGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarSymbolGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarSymbolGalleryAsync(string userId, string symbolId);
     Task<bool> UpdateBatchCurrentStarSymbolsGalleryAsync(string userId);
     Task<bool> InsertBatchSymbolsGalleryAsync(string userId, List<Symbols> symbols);

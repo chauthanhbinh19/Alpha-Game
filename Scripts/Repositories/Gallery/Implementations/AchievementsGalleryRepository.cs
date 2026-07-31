@@ -648,7 +648,7 @@ public class AchievementsGalleryRepository : IAchievementsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarAchievementGalleryAsync(string userId, string achievementId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarAchievementGalleryAsync(string userId, string achievementId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

@@ -96,9 +96,9 @@ public class SkillsGalleryService : ISkillsGalleryService
         return await _skillsGalleryRepository.SumPowerSkillsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarSkillGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarSkillGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _skillsGalleryRepository.UpdateStarSkillGalleryAsync(userId, Id, star);
+        var updateResult = await _skillsGalleryRepository.UpdateTempStarSkillGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

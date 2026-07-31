@@ -317,7 +317,7 @@ public class GachaSystem : MonoBehaviour
                 if (card is CardHeroes cardHero)
                 {
                     cardHero.Quantity += 1;
-                    await UserCardHeroesService.Create().InsertUserCardHeroAsync(User.CurrentUserId, cardHero);
+                    await UserCardHeroesService.Create().InsertOrUpdateUserCardHeroAsync(User.CurrentUserId, cardHero);
                     await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync(User.CurrentUserId, cardHero.Id);
                 }
                 break;

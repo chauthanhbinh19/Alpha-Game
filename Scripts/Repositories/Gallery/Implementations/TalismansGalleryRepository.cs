@@ -667,7 +667,7 @@ public class TalismansGalleryRepository : ITalismansGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarTalismanGalleryAsync(string userId, string talismanId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarTalismanGalleryAsync(string userId, string talismanId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

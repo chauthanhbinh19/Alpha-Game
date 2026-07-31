@@ -8,7 +8,7 @@ public interface IPetsGalleryService
     Task<bool> InsertPetGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusPetGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusPetsGalleryAsync(string userId);
-    Task<bool> UpdateStarPetGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarPetGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarPetGalleryAsync(string userId, string petId);
     Task<bool> UpdateBatchCurrentStarPetsGalleryAsync(string userId);
     Task<bool> InsertBatchPetsGalleryAsync(string userId, List<Pets> pets);

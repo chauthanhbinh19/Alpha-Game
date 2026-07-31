@@ -96,9 +96,9 @@ public class CardMonstersGalleryService : ICardMonstersGalleryService
         return await _cardMonstersGalleryRepository.SumPowerCardMonstersGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarCardMonsterGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarCardMonsterGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _cardMonstersGalleryRepository.UpdateStarCardMonsterGalleryAsync(userId, Id, star);
+        var updateResult = await _cardMonstersGalleryRepository.UpdateTempStarCardMonsterGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

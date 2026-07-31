@@ -8,7 +8,7 @@ public interface ITechnologiesGalleryService
     Task<bool> InsertTechnologyGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusTechnologyGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusTechnologiesGalleryAsync(string userId);
-    Task<bool> UpdateStarTechnologyGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarTechnologyGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarTechnologyGalleryAsync(string userId, string technologyId);
     Task<bool> UpdateBatchCurrentStarTechnologiesGalleryAsync(string userId);
     Task<bool> InsertBatchTechnologiesGalleryAsync(string userId, List<Technologies> technologies);

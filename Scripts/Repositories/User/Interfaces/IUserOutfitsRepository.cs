@@ -5,11 +5,10 @@ public interface IUserOutfitsRepository
 {
     Task<List<Outfits>> GetUserOutfitsAsync(string userId, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetUserOutfitsCountAsync(string userId, string search, string type, string rare);
-    Task<bool> InsertUserOutfitAsync(Outfits outfit, string userId);
-    Task<bool> InsertOrUpdateUserOutfitsBatchAsync(string userId, List<Outfits> outfits);
-    Task<bool> UpdateUserOutfitLevelAsync(string userId, Outfits outfit);
-    Task<bool> UpdateUserOutfitStarAsync(string userId, Outfits outfit);
-    Task<bool> UpdateUserOutfitBreakthroughAsync(string userId, Outfits outfit, int star, double quantity);
+    Task<InsertOrUpdateResult<Outfits>> InsertOrUpdateUserOutfitAsync(string userId, Outfits outfit);
+    Task<InsertOrUpdateResult<BatchOperationResultDTO<Outfits>>> InsertOrUpdateUserOutfitsBatchAsync(string userId, List<Outfits> outfits);
+    Task<InsertOrUpdateResult<bool>> UpdateUserOutfitLevelAsync(string userId, Outfits outfit);
+    Task<InsertOrUpdateResult<bool>> UpdateUserOutfitStarAsync(string userId, Outfits outfit);
     Task<Outfits> GetUserOutfitByIdAsync(string userId, string Id);
     Task<Outfits> SumPowerUserOutfitsAsync(string userId);
 }

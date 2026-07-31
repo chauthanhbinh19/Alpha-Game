@@ -96,9 +96,9 @@ public class WeaponsGalleryService : IWeaponsGalleryService
         return await _weaponsGalleryRepository.SumPowerWeaponsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarWeaponGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarWeaponGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _weaponsGalleryRepository.UpdateStarWeaponGalleryAsync(userId, Id, star);
+        var updateResult = await _weaponsGalleryRepository.UpdateTempStarWeaponGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

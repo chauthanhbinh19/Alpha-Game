@@ -96,9 +96,9 @@ public class RobotsGalleryService : IRobotsGalleryService
         return await _robotsGalleryRepository.SumPowerRobotsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarRobotGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarRobotGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _robotsGalleryRepository.UpdateStarRobotGalleryAsync(userId, Id, star);
+        var updateResult = await _robotsGalleryRepository.UpdateTempStarRobotGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

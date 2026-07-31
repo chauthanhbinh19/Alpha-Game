@@ -214,172 +214,146 @@ public class UserFashionsRepository : IUserFashionsRepository
 
         return count;
     }
-    public async Task<bool> InsertUserFashionAsync(Fashions fashion, string userId)
+    public async Task<InsertOrUpdateResult<Fashions>> InsertOrUpdateUserFashionAsync(string userId, Fashions fashion)
     {
         string connectionString = DatabaseConfig.ConnectionString;
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
 
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Query thực hiện Insert hoặc Update nếu đã tồn tại Composite Primary Key (user_id, fashion_id)
+            string upsertSQL = @"
+            INSERT INTO user_fashions (
+                user_id, fashion_id, rare, level, experience, star, quality, block, quantity,
+                power, health, physical_attack, physical_defense, magical_attack, magical_defense,
+                chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
+                speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                penetration_rate, penetration_resistance_rate,
+                evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                vitality_regeneration_rate, vitality_regeneration_resistance_rate,
+                accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
+                combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                stun_rate, ignore_stun_rate,
+                reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
+                mana, mana_regeneration_rate,
+                damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                normal_damage_rate, normal_resistance_rate,
+                skill_damage_rate, skill_resistance_rate
+            ) VALUES (
+                @user_id, @fashion_id, @rare, 0, 0, 0, @quality, false, @quantity,
+                @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
+                @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
+                @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+                @penetration_rate, @penetration_resistance_rate,
+                @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+                @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
+                @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
+                @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
+                @stun_rate, @ignore_stun_rate,
+                @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
+                @mana, @mana_regeneration_rate,
+                @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
+                @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+                @normal_damage_rate, @normal_resistance_rate,
+                @skill_damage_rate, @skill_resistance_rate
+            )
+            ON DUPLICATE KEY UPDATE 
+                quantity = VALUES(quantity);";
+
+            await using MySqlCommand command = new MySqlCommand(upsertSQL, connection);
+
+            // Add Parameters
+            command.Parameters.AddWithValue("@user_id", userId);
+            command.Parameters.AddWithValue("@fashion_id", fashion.Id);
+            command.Parameters.AddWithValue("@rare", fashion.Rarity);
+            command.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(fashion.Rarity));
+            command.Parameters.AddWithValue("@quantity", fashion.Quantity);
+            command.Parameters.AddWithValue("@power", fashion.Power);
+            command.Parameters.AddWithValue("@health", fashion.Health);
+            command.Parameters.AddWithValue("@physical_attack", fashion.PhysicalAttack);
+            command.Parameters.AddWithValue("@physical_defense", fashion.PhysicalDefense);
+            command.Parameters.AddWithValue("@magical_attack", fashion.MagicalAttack);
+            command.Parameters.AddWithValue("@magical_defense", fashion.MagicalDefense);
+            command.Parameters.AddWithValue("@chemical_attack", fashion.ChemicalAttack);
+            command.Parameters.AddWithValue("@chemical_defense", fashion.ChemicalDefense);
+            command.Parameters.AddWithValue("@atomic_attack", fashion.AtomicAttack);
+            command.Parameters.AddWithValue("@atomic_defense", fashion.AtomicDefense);
+            command.Parameters.AddWithValue("@mental_attack", fashion.MentalAttack);
+            command.Parameters.AddWithValue("@mental_defense", fashion.MentalDefense);
+            command.Parameters.AddWithValue("@speed", fashion.Speed);
+            command.Parameters.AddWithValue("@critical_damage_rate", fashion.CriticalDamageRate);
+            command.Parameters.AddWithValue("@critical_rate", fashion.CriticalRate);
+            command.Parameters.AddWithValue("@critical_resistance_rate", fashion.CriticalResistanceRate);
+            command.Parameters.AddWithValue("@ignore_critical_rate", fashion.IgnoreCriticalRate);
+            command.Parameters.AddWithValue("@penetration_rate", fashion.PenetrationRate);
+            command.Parameters.AddWithValue("@penetration_resistance_rate", fashion.PenetrationResistanceRate);
+            command.Parameters.AddWithValue("@evasion_rate", fashion.EvasionRate);
+            command.Parameters.AddWithValue("@damage_absorption_rate", fashion.DamageAbsorptionRate);
+            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", fashion.IgnoreDamageAbsorptionRate);
+            command.Parameters.AddWithValue("@absorbed_damage_rate", fashion.AbsorbedDamageRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_rate", fashion.VitalityRegenerationRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", fashion.VitalityRegenerationResistanceRate);
+            command.Parameters.AddWithValue("@accuracy_rate", fashion.AccuracyRate);
+            command.Parameters.AddWithValue("@lifesteal_rate", fashion.LifestealRate);
+            command.Parameters.AddWithValue("@shield_strength", fashion.ShieldStrength);
+            command.Parameters.AddWithValue("@tenacity", fashion.Tenacity);
+            command.Parameters.AddWithValue("@resistance_rate", fashion.ResistanceRate);
+            command.Parameters.AddWithValue("@combo_rate", fashion.ComboRate);
+            command.Parameters.AddWithValue("@ignore_combo_rate", fashion.IgnoreComboRate);
+            command.Parameters.AddWithValue("@combo_damage_rate", fashion.ComboDamageRate);
+            command.Parameters.AddWithValue("@combo_resistance_rate", fashion.ComboResistanceRate);
+            command.Parameters.AddWithValue("@stun_rate", fashion.StunRate);
+            command.Parameters.AddWithValue("@ignore_stun_rate", fashion.IgnoreStunRate);
+            command.Parameters.AddWithValue("@reflection_rate", fashion.ReflectionRate);
+            command.Parameters.AddWithValue("@ignore_reflection_rate", fashion.IgnoreReflectionRate);
+            command.Parameters.AddWithValue("@reflection_damage_rate", fashion.ReflectionDamageRate);
+            command.Parameters.AddWithValue("@reflection_resistance_rate", fashion.ReflectionResistanceRate);
+            command.Parameters.AddWithValue("@mana", fashion.Mana);
+            command.Parameters.AddWithValue("@mana_regeneration_rate", fashion.ManaRegenerationRate);
+            command.Parameters.AddWithValue("@damage_to_different_faction_rate", fashion.DamageToDifferentFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", fashion.ResistanceToDifferentFactionRate);
+            command.Parameters.AddWithValue("@damage_to_same_faction_rate", fashion.DamageToSameFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", fashion.ResistanceToSameFactionRate);
+            command.Parameters.AddWithValue("@normal_damage_rate", fashion.NormalDamageRate);
+            command.Parameters.AddWithValue("@normal_resistance_rate", fashion.NormalResistanceRate);
+            command.Parameters.AddWithValue("@skill_damage_rate", fashion.SkillDamageRate);
+            command.Parameters.AddWithValue("@skill_resistance_rate", fashion.SkillResistanceRate);
+
+            int rowsAffected = await command.ExecuteNonQueryAsync();
+
+            // MySQL quy ước: Insert mới = 1, Update = 2, Không thay đổi = 0
+            if (rowsAffected == 1)
             {
-                await connection.OpenAsync();
-
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkSQL = @"
-                SELECT COUNT(*) 
-                FROM user_fashions 
-                WHERE user_id = @user_id AND fashion_id = @fashion_id;
-            ";
-
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
-                {
-                    checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
-
-                    int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
-
-                    if (count == 0)
-                    {
-                        string insertSQL = @"
-                        INSERT INTO user_fashions (
-                            user_id, fashion_id, rare, level, experience, star, quality, block, quantity,
-                            power, health, physical_attack, physical_defense, magical_attack, magical_defense,
-                            chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
-                            speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                            penetration_rate, penetration_resistance_rate,
-                            evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                            vitality_regeneration_rate, vitality_regeneration_resistance_rate,
-                            accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
-                            combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                            stun_rate, ignore_stun_rate,
-                            reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
-                            mana, mana_regeneration_rate,
-                            damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                            damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                            normal_damage_rate, normal_resistance_rate,
-                            skill_damage_rate, skill_resistance_rate
-                        ) VALUES (
-                            @user_id, @fashion_id, @rare, @level, @experience, @star, @quality, @block, @quantity,
-                            @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
-                            @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
-                            @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
-                            @penetration_rate, @penetration_resistance_rate,
-                            @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
-                            @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
-                            @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
-                            @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
-                            @stun_rate, @ignore_stun_rate,
-                            @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
-                            @mana, @mana_regeneration_rate,
-                            @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
-                            @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
-                            @normal_damage_rate, @normal_resistance_rate,
-                            @skill_damage_rate, @skill_resistance_rate
-                        );
-                    ";
-
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
-                        {
-                            insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", fashion.Rarity);
-                            insertCommand.Parameters.AddWithValue("@level", 0);
-                            insertCommand.Parameters.AddWithValue("@experience", 0);
-                            insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(fashion.Rarity));
-                            insertCommand.Parameters.AddWithValue("@block", false);
-                            insertCommand.Parameters.AddWithValue("@quantity", fashion.Quantity);
-                            insertCommand.Parameters.AddWithValue("@power", fashion.Power);
-                            insertCommand.Parameters.AddWithValue("@health", fashion.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", fashion.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", fashion.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", fashion.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", fashion.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", fashion.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", fashion.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", fashion.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", fashion.AtomicDefense);
-                            insertCommand.Parameters.AddWithValue("@mental_attack", fashion.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", fashion.MentalDefense);
-                            insertCommand.Parameters.AddWithValue("@speed", fashion.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", fashion.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", fashion.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", fashion.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", fashion.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", fashion.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", fashion.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", fashion.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", fashion.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", fashion.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", fashion.AbsorbedDamageRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", fashion.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", fashion.VitalityRegenerationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", fashion.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", fashion.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", fashion.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", fashion.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", fashion.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", fashion.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", fashion.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", fashion.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", fashion.ComboResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@stun_rate", fashion.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", fashion.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", fashion.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", fashion.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", fashion.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", fashion.ReflectionResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@mana", fashion.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", fashion.ManaRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", fashion.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", fashion.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", fashion.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", fashion.ResistanceToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", fashion.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", fashion.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", fashion.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", fashion.SkillResistanceRate);
-
-                            await insertCommand.ExecuteNonQueryAsync();
-                        }
-                    }
-                    else
-                    {
-                        // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateSQL = @"
-                        UPDATE user_fashions
-                        SET quantity = @quantity
-                        WHERE user_id = @user_id AND fashion_id = @fashion_id;
-                    ";
-
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
-                        {
-                            updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
-                            updateCommand.Parameters.AddWithValue("@quantity", fashion.Quantity);
-
-                            await updateCommand.ExecuteNonQueryAsync();
-                        }
-                    }
-                }
+                return InsertOrUpdateResult<Fashions>.Inserted(fashion);
             }
-            catch (MySqlException ex)
+            else if (rowsAffected == 2 || rowsAffected == 0)
             {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
+                return InsertOrUpdateResult<Fashions>.Updated(fashion);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
+
+            return InsertOrUpdateResult<Fashions>.Failure();
         }
-
-        return true;
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Database Error: " + ex.Message);
+            return InsertOrUpdateResult<Fashions>.Failure(ex.Message);
+        }
     }
-    public async Task<bool> InsertOrUpdateUserFashionsBatchAsync(string userId, List<Fashions> fashions)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Fashions>>> InsertOrUpdateUserFashionsBatchAsync(
+    string userId, List<Fashions> fashions)
     {
         if (fashions == null || fashions.Count == 0)
-            return true;
+        {
+            return new InsertOrUpdateResult<BatchOperationResultDTO<Fashions>>
+            {
+                Data = new BatchOperationResultDTO<Fashions>(),
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
 
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -389,9 +363,38 @@ public class UserFashionsRepository : IUserFashionsRepository
         {
             await connection.OpenAsync();
 
+            // 1. Query lấy TOÀN BỘ fashion_id hiện có của User (Cực nhanh nhờ Index user_id)
+            var existingIds = new HashSet<string>();
+            string checkSql = "SELECT fashion_id FROM user_fashions WHERE user_id = @user_id;";
+
+            await using (var checkCmd = new MySqlCommand(checkSql, connection))
+            {
+                checkCmd.Parameters.AddWithValue("@user_id", userId);
+                await using var reader = await checkCmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    existingIds.Add(reader.GetString(0));
+                }
+            }
+
+            // 2. Phân loại Fashions giữ NGUYÊN VẸN OBJECT thuộc tính trong RAM C#
+            var batchResult = new BatchOperationResultDTO<Fashions>();
+            foreach (var card in fashions)
+            {
+                if (existingIds.Contains(card.Id))
+                {
+                    batchResult.UpdatedItems.Add(card); // Trả về full object card
+                }
+                else
+                {
+                    batchResult.InsertedItems.Add(card); // Trả về full object card để dùng truyền sang Gallery
+                }
+            }
+
+            // 3. Thực hiện Bulk Insert/Update
             await using var transaction = await connection.BeginTransactionAsync();
 
-            int batchSize = 500; // vì nhiều column → giảm size
+            int batchSize = 500; // Giảm batchSize vì câu lệnh có nhiều cột
 
             for (int i = 0; i < fashions.Count; i += batchSize)
             {
@@ -401,113 +404,113 @@ public class UserFashionsRepository : IUserFashionsRepository
                 var parameters = new List<MySqlParameter>();
 
                 stringBuilder.Append(@"
-                INSERT INTO user_fashions (
-                    user_id, fashion_id, rare, level, experience, star, quality, block, quantity,
-                    power, health, physical_attack, physical_defense, magical_attack, magical_defense,
-                    chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
-                    speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                    penetration_rate, penetration_resistance_rate,
-                    evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                    vitality_regeneration_rate, vitality_regeneration_resistance_rate,
-                    accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
-                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                    stun_rate, ignore_stun_rate,
-                    reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
-                    mana, mana_regeneration_rate,
-                    damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                    damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                    normal_damage_rate, normal_resistance_rate,
-                    skill_damage_rate, skill_resistance_rate
-                ) VALUES ");
+            INSERT INTO user_fashions (
+                user_id, fashion_id, rare, level, experience, star, quality, block, quantity,
+                power, health, physical_attack, physical_defense, magical_attack, magical_defense,
+                chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
+                speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                penetration_rate, penetration_resistance_rate,
+                evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                vitality_regeneration_rate, vitality_regeneration_resistance_rate,
+                accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
+                combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                stun_rate, ignore_stun_rate,
+                reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
+                mana, mana_regeneration_rate,
+                damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                normal_damage_rate, normal_resistance_rate,
+                skill_damage_rate, skill_resistance_rate
+            ) VALUES ");
 
                 for (int j = 0; j < batch.Count; j++)
                 {
                     var c = batch[j];
 
                     stringBuilder.Append($@"
-                    (@user_id, @fashion_id_{j}, @rare_{j}, 0, 0, 0, @quality_{j}, 0, @quantity_{j},
-                    @power_{j}, @health_{j}, @physical_attack_{j}, @physical_defense_{j}, @magical_attack_{j}, @magical_defense_{j},
-                    @chemical_attack_{j}, @chemical_defense_{j}, @atomic_attack_{j}, @atomic_defense_{j}, @mental_attack_{j}, @mental_defense_{j},
-                    @speed_{j}, @critical_damage_rate_{j}, @critical_rate_{j}, @critical_resistance_rate_{j}, @ignore_critical_rate_{j},
-                    @penetration_rate_{j}, @penetration_resistance_rate_{j},
-                    @evasion_rate_{j}, @damage_absorption_rate_{j}, @ignore_damage_absorption_rate_{j}, @absorbed_damage_rate_{j},
-                    @vitality_regeneration_rate_{j}, @vitality_regeneration_resistance_rate_{j},
-                    @accuracy_rate_{j}, @lifesteal_rate_{j}, @shield_strength_{j}, @tenacity_{j}, @resistance_rate_{j},
-                    @combo_rate_{j}, @ignore_combo_rate_{j}, @combo_damage_rate_{j}, @combo_resistance_rate_{j},
-                    @stun_rate_{j}, @ignore_stun_rate_{j},
-                    @reflection_rate_{j}, @ignore_reflection_rate_{j}, @reflection_damage_rate_{j}, @reflection_resistance_rate_{j},
-                    @mana_{j}, @mana_regeneration_rate_{j},
-                    @damage_to_different_faction_rate_{j}, @resistance_to_different_faction_rate_{j},
-                    @damage_to_same_faction_rate_{j}, @resistance_to_same_faction_rate_{j},
-                    @normal_damage_rate_{j}, @normal_resistance_rate_{j},
-                    @skill_damage_rate_{j}, @skill_resistance_rate_{j}
-                    ),");
+                (@user_id, @fashion_id_{j}, @rare_{j}, 0, 0, 0, @quality_{j}, 0, @quantity_{j},
+                @power_{j}, @health_{j}, @physical_attack_{j}, @physical_defense_{j}, @magical_attack_{j}, @magical_defense_{j},
+                @chemical_attack_{j}, @chemical_defense_{j}, @atomic_attack_{j}, @atomic_defense_{j}, @mental_attack_{j}, @mental_defense_{j},
+                @speed_{j}, @critical_damage_rate_{j}, @critical_rate_{j}, @critical_resistance_rate_{j}, @ignore_critical_rate_{j},
+                @penetration_rate_{j}, @penetration_resistance_rate_{j},
+                @evasion_rate_{j}, @damage_absorption_rate_{j}, @ignore_damage_absorption_rate_{j}, @absorbed_damage_rate_{j},
+                @vitality_regeneration_rate_{j}, @vitality_regeneration_resistance_rate_{j},
+                @accuracy_rate_{j}, @lifesteal_rate_{j}, @shield_strength_{j}, @tenacity_{j}, @resistance_rate_{j},
+                @combo_rate_{j}, @ignore_combo_rate_{j}, @combo_damage_rate_{j}, @combo_resistance_rate_{j},
+                @stun_rate_{j}, @ignore_stun_rate_{j},
+                @reflection_rate_{j}, @ignore_reflection_rate_{j}, @reflection_damage_rate_{j}, @reflection_resistance_rate_{j},
+                @mana_{j}, @mana_regeneration_rate_{j},
+                @damage_to_different_faction_rate_{j}, @resistance_to_different_faction_rate_{j},
+                @damage_to_same_faction_rate_{j}, @resistance_to_same_faction_rate_{j},
+                @normal_damage_rate_{j}, @normal_resistance_rate_{j},
+                @skill_damage_rate_{j}, @skill_resistance_rate_{j}
+                ),");
 
                     parameters.AddRange(new[]
                     {
-                        new MySqlParameter($"@fashion_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rarity),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
-                        new MySqlParameter($"@quantity_{j}", c.Quantity),
-                        new MySqlParameter($"@power_{j}", c.Power),
-                        new MySqlParameter($"@health_{j}", c.Health),
-                        new MySqlParameter($"@physical_attack_{j}", c.PhysicalAttack),
-                        new MySqlParameter($"@physical_defense_{j}", c.PhysicalDefense),
-                        new MySqlParameter($"@magical_attack_{j}", c.MagicalAttack),
-                        new MySqlParameter($"@magical_defense_{j}", c.MagicalDefense),
-                        new MySqlParameter($"@chemical_attack_{j}", c.ChemicalAttack),
-                        new MySqlParameter($"@chemical_defense_{j}", c.ChemicalDefense),
-                        new MySqlParameter($"@atomic_attack_{j}", c.AtomicAttack),
-                        new MySqlParameter($"@atomic_defense_{j}", c.AtomicDefense),
-                        new MySqlParameter($"@mental_attack_{j}", c.MentalAttack),
-                        new MySqlParameter($"@mental_defense_{j}", c.MentalDefense),
-                        new MySqlParameter($"@speed_{j}", c.Speed),
-                        new MySqlParameter($"@critical_damage_rate_{j}", c.CriticalDamageRate),
-                        new MySqlParameter($"@critical_rate_{j}", c.CriticalRate),
-                        new MySqlParameter($"@critical_resistance_rate_{j}", c.CriticalResistanceRate),
-                        new MySqlParameter($"@ignore_critical_rate_{j}", c.IgnoreCriticalRate),
-                        new MySqlParameter($"@penetration_rate_{j}", c.PenetrationRate),
-                        new MySqlParameter($"@penetration_resistance_rate_{j}", c.PenetrationResistanceRate),
-                        new MySqlParameter($"@evasion_rate_{j}", c.EvasionRate),
-                        new MySqlParameter($"@damage_absorption_rate_{j}", c.DamageAbsorptionRate),
-                        new MySqlParameter($"@ignore_damage_absorption_rate_{j}", c.IgnoreDamageAbsorptionRate),
-                        new MySqlParameter($"@absorbed_damage_rate_{j}", c.AbsorbedDamageRate),
-                        new MySqlParameter($"@vitality_regeneration_rate_{j}", c.VitalityRegenerationRate),
-                        new MySqlParameter($"@vitality_regeneration_resistance_rate_{j}", c.VitalityRegenerationResistanceRate),
-                        new MySqlParameter($"@accuracy_rate_{j}", c.AccuracyRate),
-                        new MySqlParameter($"@lifesteal_rate_{j}", c.LifestealRate),
-                        new MySqlParameter($"@shield_strength_{j}", c.ShieldStrength),
-                        new MySqlParameter($"@tenacity_{j}", c.Tenacity),
-                        new MySqlParameter($"@resistance_rate_{j}", c.ResistanceRate),
-                        new MySqlParameter($"@combo_rate_{j}", c.ComboRate),
-                        new MySqlParameter($"@ignore_combo_rate_{j}", c.IgnoreComboRate),
-                        new MySqlParameter($"@combo_damage_rate_{j}", c.ComboDamageRate),
-                        new MySqlParameter($"@combo_resistance_rate_{j}", c.ComboResistanceRate),
-                        new MySqlParameter($"@stun_rate_{j}", c.StunRate),
-                        new MySqlParameter($"@ignore_stun_rate_{j}", c.IgnoreStunRate),
-                        new MySqlParameter($"@reflection_rate_{j}", c.ReflectionRate),
-                        new MySqlParameter($"@ignore_reflection_rate_{j}", c.IgnoreReflectionRate),
-                        new MySqlParameter($"@reflection_damage_rate_{j}", c.ReflectionDamageRate),
-                        new MySqlParameter($"@reflection_resistance_rate_{j}", c.ReflectionResistanceRate),
-                        new MySqlParameter($"@mana_{j}", c.Mana),
-                        new MySqlParameter($"@mana_regeneration_rate_{j}", c.ManaRegenerationRate),
-                        new MySqlParameter($"@damage_to_different_faction_rate_{j}", c.DamageToDifferentFactionRate),
-                        new MySqlParameter($"@resistance_to_different_faction_rate_{j}", c.ResistanceToDifferentFactionRate),
-                        new MySqlParameter($"@damage_to_same_faction_rate_{j}", c.DamageToSameFactionRate),
-                        new MySqlParameter($"@resistance_to_same_faction_rate_{j}", c.ResistanceToSameFactionRate),
-                        new MySqlParameter($"@normal_damage_rate_{j}", c.NormalDamageRate),
-                        new MySqlParameter($"@normal_resistance_rate_{j}", c.NormalResistanceRate),
-                        new MySqlParameter($"@skill_damage_rate_{j}", c.SkillDamageRate),
-                        new MySqlParameter($"@skill_resistance_rate_{j}", c.SkillResistanceRate),
+                    new MySqlParameter($"@fashion_id_{j}", c.Id),
+                    new MySqlParameter($"@rare_{j}", c.Rarity),
+                    new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
+                    new MySqlParameter($"@quantity_{j}", c.Quantity),
+                    new MySqlParameter($"@power_{j}", c.Power),
+                    new MySqlParameter($"@health_{j}", c.Health),
+                    new MySqlParameter($"@physical_attack_{j}", c.PhysicalAttack),
+                    new MySqlParameter($"@physical_defense_{j}", c.PhysicalDefense),
+                    new MySqlParameter($"@magical_attack_{j}", c.MagicalAttack),
+                    new MySqlParameter($"@magical_defense_{j}", c.MagicalDefense),
+                    new MySqlParameter($"@chemical_attack_{j}", c.ChemicalAttack),
+                    new MySqlParameter($"@chemical_defense_{j}", c.ChemicalDefense),
+                    new MySqlParameter($"@atomic_attack_{j}", c.AtomicAttack),
+                    new MySqlParameter($"@atomic_defense_{j}", c.AtomicDefense),
+                    new MySqlParameter($"@mental_attack_{j}", c.MentalAttack),
+                    new MySqlParameter($"@mental_defense_{j}", c.MentalDefense),
+                    new MySqlParameter($"@speed_{j}", c.Speed),
+                    new MySqlParameter($"@critical_damage_rate_{j}", c.CriticalDamageRate),
+                    new MySqlParameter($"@critical_rate_{j}", c.CriticalRate),
+                    new MySqlParameter($"@critical_resistance_rate_{j}", c.CriticalResistanceRate),
+                    new MySqlParameter($"@ignore_critical_rate_{j}", c.IgnoreCriticalRate),
+                    new MySqlParameter($"@penetration_rate_{j}", c.PenetrationRate),
+                    new MySqlParameter($"@penetration_resistance_rate_{j}", c.PenetrationResistanceRate),
+                    new MySqlParameter($"@evasion_rate_{j}", c.EvasionRate),
+                    new MySqlParameter($"@damage_absorption_rate_{j}", c.DamageAbsorptionRate),
+                    new MySqlParameter($"@ignore_damage_absorption_rate_{j}", c.IgnoreDamageAbsorptionRate),
+                    new MySqlParameter($"@absorbed_damage_rate_{j}", c.AbsorbedDamageRate),
+                    new MySqlParameter($"@vitality_regeneration_rate_{j}", c.VitalityRegenerationRate),
+                    new MySqlParameter($"@vitality_regeneration_resistance_rate_{j}", c.VitalityRegenerationResistanceRate),
+                    new MySqlParameter($"@accuracy_rate_{j}", c.AccuracyRate),
+                    new MySqlParameter($"@lifesteal_rate_{j}", c.LifestealRate),
+                    new MySqlParameter($"@shield_strength_{j}", c.ShieldStrength),
+                    new MySqlParameter($"@tenacity_{j}", c.Tenacity),
+                    new MySqlParameter($"@resistance_rate_{j}", c.ResistanceRate),
+                    new MySqlParameter($"@combo_rate_{j}", c.ComboRate),
+                    new MySqlParameter($"@ignore_combo_rate_{j}", c.IgnoreComboRate),
+                    new MySqlParameter($"@combo_damage_rate_{j}", c.ComboDamageRate),
+                    new MySqlParameter($"@combo_resistance_rate_{j}", c.ComboResistanceRate),
+                    new MySqlParameter($"@stun_rate_{j}", c.StunRate),
+                    new MySqlParameter($"@ignore_stun_rate_{j}", c.IgnoreStunRate),
+                    new MySqlParameter($"@reflection_rate_{j}", c.ReflectionRate),
+                    new MySqlParameter($"@ignore_reflection_rate_{j}", c.IgnoreReflectionRate),
+                    new MySqlParameter($"@reflection_damage_rate_{j}", c.ReflectionDamageRate),
+                    new MySqlParameter($"@reflection_resistance_rate_{j}", c.ReflectionResistanceRate),
+                    new MySqlParameter($"@mana_{j}", c.Mana),
+                    new MySqlParameter($"@mana_regeneration_rate_{j}", c.ManaRegenerationRate),
+                    new MySqlParameter($"@damage_to_different_faction_rate_{j}", c.DamageToDifferentFactionRate),
+                    new MySqlParameter($"@resistance_to_different_faction_rate_{j}", c.ResistanceToDifferentFactionRate),
+                    new MySqlParameter($"@damage_to_same_faction_rate_{j}", c.DamageToSameFactionRate),
+                    new MySqlParameter($"@resistance_to_same_faction_rate_{j}", c.ResistanceToSameFactionRate),
+                    new MySqlParameter($"@normal_damage_rate_{j}", c.NormalDamageRate),
+                    new MySqlParameter($"@normal_resistance_rate_{j}", c.NormalResistanceRate),
+                    new MySqlParameter($"@skill_damage_rate_{j}", c.SkillDamageRate),
+                    new MySqlParameter($"@skill_resistance_rate_{j}", c.SkillResistanceRate),
                 });
                 }
 
-                stringBuilder.Length--; // remove dấu ,
+                stringBuilder.Length--; // remove dấu phẩy thừa
 
                 stringBuilder.Append(@"
-                ON DUPLICATE KEY UPDATE
-                    quantity = COALESCE(user_fashions.quantity, 0) + VALUES(quantity);
-                ");
+            ON DUPLICATE KEY UPDATE
+                quantity = COALESCE(user_fashions.quantity, 0) + VALUES(quantity);
+            ");
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
@@ -518,208 +521,154 @@ public class UserFashionsRepository : IUserFashionsRepository
             }
 
             await transaction.CommitAsync();
+
+            // 4. Trả về kết quả
+            var operationType = DatabaseOperationType.None;
+
+            if (batchResult.InsertedItems.Count > 0 && batchResult.UpdatedItems.Count > 0)
+            {
+                operationType = DatabaseOperationType.Mixed;
+            }
+            else if (batchResult.InsertedItems.Count > 0)
+            {
+                operationType = DatabaseOperationType.Inserted;
+            }
+            else if (batchResult.UpdatedItems.Count > 0)
+            {
+                operationType = DatabaseOperationType.Updated;
+            }
+
+            return new InsertOrUpdateResult<BatchOperationResultDTO<Fashions>>
+            {
+                Data = batchResult,
+                OperationType = operationType
+            };
         }
         catch (Exception ex)
         {
             Debug.LogError("Batch Error: " + ex.Message);
-            return false;
+            return InsertOrUpdateResult<BatchOperationResultDTO<Fashions>>.Failure(ex.Message);
+        }
+    }
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFashionLevelAsync(string userId, Fashions fashion)
+    {
+        if (fashion == null)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
-    }
-    public async Task<bool> UpdateUserFashionLevelAsync(string userId, Fashions fashion)
-    {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
+            string updateSQL = @"
+            UPDATE user_fashions
+            SET 
+                level = @level, 
+                experience = @experience
+            WHERE user_id = @user_id 
+              AND fashion_id = @fashion_id
+              AND (level != @level OR experience != @experience);
+        ";
+
+            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+
+            updateCommand.Parameters.AddWithValue("@user_id", userId);
+            updateCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
+            updateCommand.Parameters.AddWithValue("@level", fashion.Level);
+            updateCommand.Parameters.AddWithValue("@experience", fashion.Experience);
+
+            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
             {
-                await connection.OpenAsync();
-
-                string updateSQL = @"
-                UPDATE user_fashions
-                SET 
-                    level = @level, experience = @experience
-                WHERE user_id = @user_id AND fashion_id = @fashion_id;
-            ";
-
-                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                return InsertOrUpdateResult<bool>.Updated(true);
+            }
+            else
+            {
+                return new InsertOrUpdateResult<bool>
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
-                    updateCommand.Parameters.AddWithValue("@level", fashion.Level);
-                    updateCommand.Parameters.AddWithValue("@experience", fashion.Experience);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                    Data = false,
+                    OperationType = DatabaseOperationType.None,
+                    Message = MessageConstants.NOTHING_WAS_UPDATED
+                };
             }
         }
-
-        return true;
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error UpdateUserFashionLevel: " + ex.Message);
+            return InsertOrUpdateResult<bool>.Failure(ex.Message);
+        }
     }
-    public async Task<bool> UpdateUserFashionStarAsync(string userId, Fashions fashion)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserFashionStarAsync(string userId, Fashions fashion)
     {
+        if (fashion == null)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
+            string updateSQL = @"
+            UPDATE user_fashions
+            SET 
+                star = @star, 
+                quantity = @quantity
+            WHERE user_id = @user_id 
+              AND fashion_id = @fashion_id
+              AND (star != @star OR quantity != @quantity);
+        ";
+
+            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+
+            updateCommand.Parameters.AddWithValue("@user_id", userId);
+            updateCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
+            updateCommand.Parameters.AddWithValue("@star", fashion.Star);
+            updateCommand.Parameters.AddWithValue("@quantity", fashion.Quantity);
+
+            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
             {
-                await connection.OpenAsync();
-
-                string updateSQL = @"
-                UPDATE user_fashions
-                SET 
-                    star = @star, quantity = @quantity
-                WHERE user_id = @user_id AND fashion_id = @fashion_id;
-            ";
-
-                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                return InsertOrUpdateResult<bool>.Updated(true);
+            }
+            else
+            {
+                return new InsertOrUpdateResult<bool>
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
-                    updateCommand.Parameters.AddWithValue("@star", fashion.Star);
-                    updateCommand.Parameters.AddWithValue("@quantity", fashion.Quantity);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                    Data = false,
+                    OperationType = DatabaseOperationType.None,
+                    Message = MessageConstants.NOTHING_WAS_UPDATED
+                };
             }
         }
-
-        return true;
-    }
-    public async Task<bool> UpdateUserFashionBreakthroughAsync(string userId, Fashions fashion, int star, double quantity)
-    {
-        string connectionString = DatabaseConfig.ConnectionString;
-
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        catch (MySqlException ex)
         {
-            try
-            {
-                await connection.OpenAsync();
-
-                string updateSQL = @"
-                UPDATE user_fashions
-                SET 
-                    star = @star, quantity = @quantity, power=@power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND fashion_id = @fashion_id;
-            ";
-
-                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
-                {
-                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@fashion_id", fashion.Id);
-                    updateCommand.Parameters.AddWithValue("@star", star);
-                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
-                    updateCommand.Parameters.AddWithValue("@power", fashion.Power);
-                    updateCommand.Parameters.AddWithValue("@health", fashion.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", fashion.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", fashion.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", fashion.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", fashion.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", fashion.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", fashion.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", fashion.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", fashion.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", fashion.MentalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", fashion.MentalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", fashion.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", fashion.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", fashion.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", fashion.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", fashion.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", fashion.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", fashion.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", fashion.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", fashion.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", fashion.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", fashion.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", fashion.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", fashion.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", fashion.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", fashion.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", fashion.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", fashion.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", fashion.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", fashion.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", fashion.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", fashion.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", fashion.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", fashion.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", fashion.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", fashion.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", fashion.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", fashion.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", fashion.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", fashion.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", fashion.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", fashion.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", fashion.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", fashion.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", fashion.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", fashion.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", fashion.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", fashion.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", fashion.SkillResistanceRate);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                await connection.CloseAsync();
-            }
+            Debug.LogError("Error UpdateUserFashionStar: " + ex.Message);
+            return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
-
-        return true;
     }
     public async Task<Fashions> GetUserFashionByIdAsync(string userId, string Id)
     {

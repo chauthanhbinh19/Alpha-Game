@@ -8,7 +8,7 @@ public interface ITitlesGalleryRepository
     Task<InsertOrUpdateResult<Titles>> InsertTitleGalleryAsync(string userId, string Id, Titles TitleFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusTitleGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusTitlesGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarTitleGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarTitleGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarTitleGalleryAsync(string userId, string titleId);
     Task<InsertOrUpdateResult<List<(string TitleId, double CurrentStar)>>> UpdateBatchCurrentStarTitlesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Titles>>> InsertBatchTitlesGalleryAsync(string userId, List<Titles> titles);

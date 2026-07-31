@@ -3,21 +3,13 @@ using System.Threading.Tasks;
 
 public class UserDailyCheckinService : IUserDailyCheckinService
 {
-    private static UserDailyCheckinService _instance;
     private readonly IUserDailyCheckinRepository _userDailyCheckinRepository;
 
     public UserDailyCheckinService(IUserDailyCheckinRepository userDailyCheckinRepository)
     {
         _userDailyCheckinRepository = userDailyCheckinRepository;
     }
-    public static UserDailyCheckinService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserDailyCheckinService(new UserDailyCheckinRepository());
-        }
-        return _instance;
-    }
+    public static IUserDailyCheckinService Create() => ServiceContainer.GetService<IUserDailyCheckinService>();
 
     public async Task<bool> CheckUserDailyCheckinStatusAsync(string userId, int month, int year)
     {

@@ -646,7 +646,7 @@ public class SpiritBeastsGalleryRepository : ISpiritBeastsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarSpiritBeastGalleryAsync(string userId, string spiritBeastId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarSpiritBeastGalleryAsync(string userId, string spiritBeastId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

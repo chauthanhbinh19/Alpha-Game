@@ -8,7 +8,7 @@ public interface IBeveragesGalleryService
     Task<bool> InsertBeverageGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusBeverageGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusBeveragesGalleryAsync(string userId);
-    Task<bool> UpdateStarBeverageGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarBeverageGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarBeverageGalleryAsync(string userId, string beverageId);
     Task<bool> UpdateBatchCurrentStarBeveragesGalleryAsync(string userId);
     Task<bool> InsertBatchBeveragesGalleryAsync(string userId, List<Beverages> beverages);

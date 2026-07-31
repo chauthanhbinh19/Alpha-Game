@@ -732,7 +732,7 @@ public class CardMilitariesGalleryRepository : ICardMilitariesGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarCardMilitaryGalleryAsync(string userId, string cardMilitaryId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarCardMilitaryGalleryAsync(string userId, string cardMilitaryId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

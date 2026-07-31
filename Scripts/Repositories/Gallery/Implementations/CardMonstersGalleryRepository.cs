@@ -732,7 +732,7 @@ public class CardMonstersGalleryRepository : ICardMonstersGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarCardMonsterGalleryAsync(string userId, string cardMonsterId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarCardMonsterGalleryAsync(string userId, string cardMonsterId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

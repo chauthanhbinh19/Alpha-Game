@@ -9,7 +9,7 @@ public interface IOutfitsGalleryRepository
     Task<InsertOrUpdateResult<Outfits>> InsertOutfitGalleryAsync(string userId, string Id, Outfits OutfitFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusOutfitGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusOutfitsGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarOutfitGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarOutfitGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarOutfitGalleryAsync(string userId, string outfitId);
     Task<InsertOrUpdateResult<List<(string OutfitId, double CurrentStar)>>> UpdateBatchCurrentStarOutfitsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Outfits>>> InsertBatchOutfitsGalleryAsync(string userId, List<Outfits> outfits);

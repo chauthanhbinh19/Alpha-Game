@@ -8,7 +8,7 @@ public interface IFoodsGalleryService
     Task<bool> InsertFoodGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusFoodGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusFoodsGalleryAsync(string userId);
-    Task<bool> UpdateStarFoodGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarFoodGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarFoodGalleryAsync(string userId, string foodId);
     Task<bool> UpdateBatchCurrentStarFoodsGalleryAsync(string userId);
     Task<bool> InsertBatchFoodsGalleryAsync(string userId, List<Foods> foods);

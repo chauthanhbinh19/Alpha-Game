@@ -96,9 +96,9 @@ public class FoodsGalleryService : IFoodsGalleryService
         return await _foodsGalleryRepository.SumPowerFoodsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarFoodGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarFoodGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _foodsGalleryRepository.UpdateStarFoodGalleryAsync(userId, Id, star);
+        var updateResult = await _foodsGalleryRepository.UpdateTempStarFoodGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

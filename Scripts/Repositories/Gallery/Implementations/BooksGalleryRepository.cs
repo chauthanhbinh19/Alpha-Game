@@ -666,7 +666,7 @@ public class BooksGalleryRepository : IBooksGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarBookGalleryAsync(string userId, string bookId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarBookGalleryAsync(string userId, string bookId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

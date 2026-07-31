@@ -6,11 +6,10 @@ public interface IUserArtworksRepository
 {
     Task<List<Artworks>> GetUserArtworksAsync(string userId, string search, string type, int pageSize, int offset, string rare);
     Task<int> GetUserArtworksCountAsync(string userId, string search, string type, string rare);
-    Task<bool> InsertUserArtworkAsync(Artworks artwork, string userId);
-    Task<bool> InsertOrUpdateUserArtworksBatchAsync(string userId, List<Artworks> artworks);
-    Task<bool> UpdateUserArtworkLevelAsync(string userId, Artworks artwork);
-    Task<bool> UpdateUserArtworkStarAsync(string userId, Artworks artwork);
-    Task<bool> UpdateUserArtworkBreakthroughAsync(string userId, Artworks artwork, int star, double quantity);
+    Task<InsertOrUpdateResult<Artworks>> InsertOrUpdateUserArtworkAsync(string userId, Artworks artwork);
+    Task<InsertOrUpdateResult<BatchOperationResultDTO<Artworks>>> InsertOrUpdateUserArtworksBatchAsync(string userId, List<Artworks> artworks);
+    Task<InsertOrUpdateResult<bool>> UpdateUserArtworkLevelAsync(string userId, Artworks artwork);
+    Task<InsertOrUpdateResult<bool>> UpdateUserArtworkStarAsync(string userId, Artworks artwork);
     Task<Artworks> GetUserArtworkByIdAsync(string userId, string Id);
     Task<Artworks> SumPowerUserArtworksAsync(string userId);
 }

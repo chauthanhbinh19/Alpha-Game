@@ -96,9 +96,9 @@ public class BeveragesGalleryService : IBeveragesGalleryService
         return await _beveragesGalleryRepository.SumPowerBeveragesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarBeverageGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarBeverageGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _beveragesGalleryRepository.UpdateStarBeverageGalleryAsync(userId, Id, star);
+        var updateResult = await _beveragesGalleryRepository.UpdateTempStarBeverageGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

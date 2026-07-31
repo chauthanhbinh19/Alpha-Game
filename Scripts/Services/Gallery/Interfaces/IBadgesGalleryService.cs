@@ -8,7 +8,7 @@ public interface IBadgesGalleryService
     Task<bool> InsertBadgeGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusBadgeGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusBadgesGalleryAsync(string userId);
-    Task<bool> UpdateStarBadgeGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarBadgeGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarBadgeGalleryAsync(string userId, string badgeId);
     Task<bool> UpdateBatchCurrentStarBadgesGalleryAsync(string userId);
     Task<bool> InsertBatchBadgesGalleryAsync(string userId, List<Badges> badges);

@@ -8,7 +8,7 @@ public interface ICoresGalleryService
     Task<bool> InsertCoreGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusCoreGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusCoresGalleryAsync(string userId);
-    Task<bool> UpdateStarCoreGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarCoreGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarCoreGalleryAsync(string userId, string coreId);
     Task<bool> UpdateBatchCurrentStarCoresGalleryAsync(string userId);
     Task<bool> InsertBatchCoresGalleryAsync(string userId, List<Cores> cores);

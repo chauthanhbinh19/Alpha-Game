@@ -55,9 +55,9 @@ public class AchievementsGalleryService : IAchievementsGalleryService
         await _achievementsGalleryRepository.UpdateAchievementGalleryPowerAsync(userId, Id, AchievementFromDB);
     }
 
-    public async Task<bool> UpdateStarAchievementGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarAchievementGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _achievementsGalleryRepository.UpdateStarAchievementGalleryAsync(userId, Id, star);
+        var updateResult = await _achievementsGalleryRepository.UpdateTempStarAchievementGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

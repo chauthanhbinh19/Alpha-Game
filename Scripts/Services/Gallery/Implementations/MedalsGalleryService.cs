@@ -96,9 +96,9 @@ public class MedalsGalleryService : IMedalsGalleryService
         return await _medalsGalleryRepository.SumPowerMedalsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarMedalGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarMedalGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _medalsGalleryRepository.UpdateStarMedalGalleryAsync(userId, Id, star);
+        var updateResult = await _medalsGalleryRepository.UpdateTempStarMedalGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

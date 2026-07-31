@@ -645,7 +645,7 @@ public class RobotsGalleryRepository : IRobotsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarRobotGalleryAsync(string userId, string robotId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarRobotGalleryAsync(string userId, string robotId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

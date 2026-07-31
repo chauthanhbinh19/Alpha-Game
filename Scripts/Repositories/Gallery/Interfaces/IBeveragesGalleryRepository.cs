@@ -9,7 +9,7 @@ public interface IBeveragesGalleryRepository
     Task<InsertOrUpdateResult<Beverages>> InsertBeverageGalleryAsync(string userId, string Id, Beverages BeverageFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusBeverageGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusBeveragesGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarBeverageGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarBeverageGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarBeverageGalleryAsync(string userId, string beverageId);
     Task<InsertOrUpdateResult<List<(string BeverageId, double CurrentStar)>>> UpdateBatchCurrentStarBeveragesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Beverages>>> InsertBatchBeveragesGalleryAsync(string userId, List<Beverages> beverages);

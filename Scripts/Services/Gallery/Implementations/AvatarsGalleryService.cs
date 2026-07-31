@@ -94,9 +94,9 @@ public class AvatarsGalleryService : IAvatarsGalleryService
         return await _avatarsGalleryRepository.SumPowerAvatarsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarAvatarGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarAvatarGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _avatarsGalleryRepository.UpdateStarAvatarGalleryAsync(userId, Id, star);
+        var updateResult = await _avatarsGalleryRepository.UpdateTempStarAvatarGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

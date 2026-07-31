@@ -9,7 +9,7 @@ public interface IBadgesGalleryRepository
     Task<InsertOrUpdateResult<Badges>> InsertBadgeGalleryAsync(string userId, string Id, Badges BadgeFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusBadgeGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusBadgesGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarBadgeGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarBadgeGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarBadgeGalleryAsync(string userId, string badgeId);
     Task<InsertOrUpdateResult<List<(string BadgeId, double CurrentStar)>>> UpdateBatchCurrentStarBadgesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Badges>>> InsertBatchBadgesGalleryAsync(string userId, List<Badges> badges);

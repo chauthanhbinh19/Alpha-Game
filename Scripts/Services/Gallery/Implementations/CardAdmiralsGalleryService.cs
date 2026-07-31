@@ -96,9 +96,9 @@ public class CardAdmiralsGalleryService : ICardAdmiralsGalleryService
         return await _cardAdmiralsGalleryRepository.SumPowerCardAdmiralsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarCardAdmiralGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarCardAdmiralGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _cardAdmiralsGalleryRepository.UpdateStarCardAdmiralGalleryAsync(userId, Id, star);
+        var updateResult = await _cardAdmiralsGalleryRepository.UpdateTempStarCardAdmiralGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

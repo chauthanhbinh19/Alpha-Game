@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 public class UserPetsRankService : IUserPetsRankService
 {
-    private static UserPetsRankService _instance;
     private readonly IUserPetsRankRepository _userPetsRankRepository;
 
     // Constructor để inject dependency của repository
@@ -12,14 +11,7 @@ public class UserPetsRankService : IUserPetsRankService
         _userPetsRankRepository = userPetsRankRepository;
     }
 
-    public static UserPetsRankService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserPetsRankService(new UserPetsRankRepository());
-        }
-        return _instance;
-    }
+    public static IUserPetsRankService Create() => ServiceContainer.GetService<IUserPetsRankService>();
 
     public async Task<Rank> GetUserPetRankAsync(string userId, string id, string cardId)
     {

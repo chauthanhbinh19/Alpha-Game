@@ -667,7 +667,7 @@ public class SkillsGalleryRepository : ISkillsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarSkillGalleryAsync(string userId, string skillId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarSkillGalleryAsync(string userId, string skillId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

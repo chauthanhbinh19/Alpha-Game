@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public class UserModulesService : IUserModulesService
 {
-    private static UserModulesService _instance;
     private readonly IUserModulesRepository _userModulesRepository;
     private static readonly Dictionary<Type, (string Table, string Column, string CodeName)> ModuleMappings = new()
     {
@@ -63,14 +62,7 @@ public class UserModulesService : IUserModulesService
         _userModulesRepository = userModulesRepository;
     }
 
-    public static UserModulesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserModulesService(new UserModulesRepository());
-        }
-        return _instance;
-    }
+    public static IUserModulesService Create() => ServiceContainer.GetService<IUserModulesService>();
 
     public async Task<UserModules> GetUserModulesAsync(string userId, string moduleId, IStats stat)
     {

@@ -9,7 +9,7 @@ public interface IRunesGalleryRepository
     Task<InsertOrUpdateResult<Runes>> InsertRuneGalleryAsync(string userId, string Id, Runes RuneFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusRuneGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusRunesGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarRuneGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarRuneGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarRuneGalleryAsync(string userId, string runeId);
     Task<InsertOrUpdateResult<List<(string RuneId, double CurrentStar)>>> UpdateBatchCurrentStarRunesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Runes>>> InsertBatchRunesGalleryAsync(string userId, List<Runes> runes);

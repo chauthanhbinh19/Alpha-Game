@@ -96,9 +96,9 @@ public class TitlesGalleryService : ITitlesGalleryService
         return await _titlesGalleryRepository.SumPowerTitlesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarTitleGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarTitleGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _titlesGalleryRepository.UpdateStarTitleGalleryAsync(userId, Id, star);
+        var updateResult = await _titlesGalleryRepository.UpdateTempStarTitleGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

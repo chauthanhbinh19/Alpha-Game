@@ -668,7 +668,7 @@ public class AlchemiesGalleryRepository : IAlchemiesGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarAlchemyGalleryAsync(string userId, string alchemyId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarAlchemyGalleryAsync(string userId, string alchemyId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

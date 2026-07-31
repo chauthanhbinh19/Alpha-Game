@@ -8,7 +8,7 @@ public interface IMedalsGalleryService
     Task<bool> InsertMedalGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusMedalGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusMedalsGalleryAsync(string userId);
-    Task<bool> UpdateStarMedalGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarMedalGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarMedalGalleryAsync(string userId, string medalId);
     Task<bool> UpdateBatchCurrentStarMedalsGalleryAsync(string userId);
     Task<bool> InsertBatchMedalsGalleryAsync(string userId, List<Medals> medals);

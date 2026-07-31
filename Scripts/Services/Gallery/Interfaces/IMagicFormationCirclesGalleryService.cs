@@ -8,7 +8,7 @@ public interface IMagicFormationCirclesGalleryService
     Task<bool> InsertMagicFormationCircleGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusMagicFormationCircleGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusMagicFormationCirclesGalleryAsync(string userId);
-    Task<bool> UpdateStarMagicFormationCircleGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarMagicFormationCircleGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarMagicFormationCircleGalleryAsync(string userId, string magicFormationCircleId);
     Task<bool> UpdateBatchCurrentStarMagicFormationCirclesGalleryAsync(string userId);
     Task<bool> InsertBatchMagicFormationCirclesGalleryAsync(string userId, List<MagicFormationCircles> magicFormationCircles);

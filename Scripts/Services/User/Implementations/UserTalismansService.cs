@@ -33,34 +33,119 @@ public class UserTalismansService : IUserTalismansService
         return await _userTalismansRepository.GetUserTalismansCountAsync(userId, search, type, rare);
     }
 
-    public async Task<bool> InsertUserTalismanAsync(Talismans talisman, string userId)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
     {
-        var result = await _userTalismansRepository.InsertUserTalismanAsync(talisman, userId);
-        if (result)
+        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
+        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+
+        if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
-            await TalismansGalleryService.Create().InsertTalismanGalleryAsync(userId, talisman.Id);
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
-        return result;
-    }
 
-    public async Task<bool> UpdateUserTalismanLevelAsync(string userId, Talismans talisman)
-    {
-        return await _userTalismansRepository.UpdateUserTalismanLevelAsync(userId, talisman);
-    }
-
-    public async Task<bool> UpdateUserTalismanStarAsync(string userId, Talismans talisman)
-    {
-        var result = await _userTalismansRepository.UpdateUserTalismanStarAsync(userId, talisman);
-        if (result)
+        if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
         {
-            await TalismansGalleryService.Create().UpdateStarTalismanGalleryAsync(userId, talisman.Id, talisman.Star);
+            return InsertOrUpdateResult<bool>.Updated(true);
         }
-        return result;
+
+        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+
+        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+
+        if (deltaPower.Power == 0)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(false);
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<bool> UpdateUserTalismanBreakthroughAsync(string userId, Talismans talisman, int star, double quantity)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
     {
-        return await _userTalismansRepository.UpdateUserTalismanBreakthroughAsync(userId, talisman, star, quantity);
+        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
+        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+
+        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
+        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
+        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
+        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        {
+            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+        }
+
+        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+
+        if (deltaPower.Power == 0)
+        {
+            return InsertOrUpdateResult<bool>.Inserted(false);
+        }
+
+        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+        PowerManager updatedPower = currentPower + deltaPower;
+
+        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+
+        // 3. Mapping kết quả OperationType trả về gọn gàng
+        return repositoryResult.OperationType switch
+        {
+            DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
+            DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
+            DatabaseOperationType.Updated => InsertOrUpdateResult<bool>.Updated(true),
+            _ => new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            }
+        };
+    }
+
+    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    {
+        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    {
+        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return false;
+        }
+
+        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+
+        return true;
     }
 
     public async Task<Talismans> GetUserTalismanByIdAsync(string userId, string Id)
@@ -71,10 +156,5 @@ public class UserTalismansService : IUserTalismansService
     public async Task<Talismans> SumPowerUserTalismansAsync(string userId)
     {
         return await _userTalismansRepository.SumPowerUserTalismansAsync(userId);
-    }
-
-    public async Task<bool> InsertOrUpdateUserTalismansBatchAsync(string userId, List<Talismans> talismans)
-    {
-        return await _userTalismansRepository.InsertOrUpdateUserTalismansBatchAsync(userId, talismans);
     }
 }

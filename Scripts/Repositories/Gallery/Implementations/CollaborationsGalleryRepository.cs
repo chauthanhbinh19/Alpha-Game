@@ -646,7 +646,7 @@ public class CollaborationsGalleryRepository : ICollaborationsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarCollaborationGalleryAsync(string userId, string collaborationId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarCollaborationGalleryAsync(string userId, string collaborationId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

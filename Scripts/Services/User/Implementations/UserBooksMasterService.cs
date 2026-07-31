@@ -2,7 +2,6 @@ using System.Threading.Tasks;
 
 public class UserBooksMasterService : IUserBooksMasterService
 {
-    private static UserBooksMasterService _instance;
     private readonly IUserBooksMasterRepository _userBooksMasterRepository;
 
     public UserBooksMasterService(IUserBooksMasterRepository userBooksMasterRepository)
@@ -10,14 +9,7 @@ public class UserBooksMasterService : IUserBooksMasterService
         _userBooksMasterRepository = userBooksMasterRepository;
     }
 
-    public static UserBooksMasterService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserBooksMasterService(new UserBooksMasterRepository());
-        }
-        return _instance;
-    }
+    public static IUserBooksMasterService Create() => ServiceContainer.GetService<IUserBooksMasterService>();
 
     public async Task<Master> GetUserBookMasterAsync(string userId, string id, string cardId)
     {

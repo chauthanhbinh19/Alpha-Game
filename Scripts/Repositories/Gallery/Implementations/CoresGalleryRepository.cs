@@ -647,7 +647,7 @@ public class CoresGalleryRepository : ICoresGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarCoreGalleryAsync(string userId, string coreId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarCoreGalleryAsync(string userId, string coreId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

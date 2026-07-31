@@ -96,9 +96,9 @@ public class AlchemiesGalleryService : IAlchemiesGalleryService
         return await _alchemiesGalleryRepository.SumPowerAlchemyGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarAlchemyGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarAlchemyGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _alchemiesGalleryRepository.UpdateStarAlchemyGalleryAsync(userId, Id, star);
+        var updateResult = await _alchemiesGalleryRepository.UpdateTempStarAlchemyGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

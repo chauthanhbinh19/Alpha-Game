@@ -214,172 +214,146 @@ public class UserRelicsRepository : IUserRelicsRepository
 
         return count;
     }
-    public async Task<bool> InsertUserRelicAsync(Relics relic, string userId)
+    public async Task<InsertOrUpdateResult<Relics>> InsertOrUpdateUserRelicAsync(string userId, Relics relic)
     {
         string connectionString = DatabaseConfig.ConnectionString;
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
 
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Query thực hiện Insert hoặc Update nếu đã tồn tại Composite Primary Key (user_id, relic_id)
+            string upsertSQL = @"
+            INSERT INTO user_relics (
+                user_id, relic_id, rare, level, experience, star, quality, block, quantity,
+                power, health, physical_attack, physical_defense, magical_attack, magical_defense,
+                chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
+                speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                penetration_rate, penetration_resistance_rate,
+                evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                vitality_regeneration_rate, vitality_regeneration_resistance_rate,
+                accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
+                combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                stun_rate, ignore_stun_rate,
+                reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
+                mana, mana_regeneration_rate,
+                damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                normal_damage_rate, normal_resistance_rate,
+                skill_damage_rate, skill_resistance_rate
+            ) VALUES (
+                @user_id, @relic_id, @rare, 0, 0, 0, @quality, false, @quantity,
+                @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
+                @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
+                @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
+                @penetration_rate, @penetration_resistance_rate,
+                @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
+                @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
+                @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
+                @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
+                @stun_rate, @ignore_stun_rate,
+                @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
+                @mana, @mana_regeneration_rate,
+                @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
+                @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
+                @normal_damage_rate, @normal_resistance_rate,
+                @skill_damage_rate, @skill_resistance_rate
+            )
+            ON DUPLICATE KEY UPDATE 
+                quantity = VALUES(quantity);";
+
+            await using MySqlCommand command = new MySqlCommand(upsertSQL, connection);
+
+            // Add Parameters
+            command.Parameters.AddWithValue("@user_id", userId);
+            command.Parameters.AddWithValue("@relic_id", relic.Id);
+            command.Parameters.AddWithValue("@rare", relic.Rarity);
+            command.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(relic.Rarity));
+            command.Parameters.AddWithValue("@quantity", relic.Quantity);
+            command.Parameters.AddWithValue("@power", relic.Power);
+            command.Parameters.AddWithValue("@health", relic.Health);
+            command.Parameters.AddWithValue("@physical_attack", relic.PhysicalAttack);
+            command.Parameters.AddWithValue("@physical_defense", relic.PhysicalDefense);
+            command.Parameters.AddWithValue("@magical_attack", relic.MagicalAttack);
+            command.Parameters.AddWithValue("@magical_defense", relic.MagicalDefense);
+            command.Parameters.AddWithValue("@chemical_attack", relic.ChemicalAttack);
+            command.Parameters.AddWithValue("@chemical_defense", relic.ChemicalDefense);
+            command.Parameters.AddWithValue("@atomic_attack", relic.AtomicAttack);
+            command.Parameters.AddWithValue("@atomic_defense", relic.AtomicDefense);
+            command.Parameters.AddWithValue("@mental_attack", relic.MentalAttack);
+            command.Parameters.AddWithValue("@mental_defense", relic.MentalDefense);
+            command.Parameters.AddWithValue("@speed", relic.Speed);
+            command.Parameters.AddWithValue("@critical_damage_rate", relic.CriticalDamageRate);
+            command.Parameters.AddWithValue("@critical_rate", relic.CriticalRate);
+            command.Parameters.AddWithValue("@critical_resistance_rate", relic.CriticalResistanceRate);
+            command.Parameters.AddWithValue("@ignore_critical_rate", relic.IgnoreCriticalRate);
+            command.Parameters.AddWithValue("@penetration_rate", relic.PenetrationRate);
+            command.Parameters.AddWithValue("@penetration_resistance_rate", relic.PenetrationResistanceRate);
+            command.Parameters.AddWithValue("@evasion_rate", relic.EvasionRate);
+            command.Parameters.AddWithValue("@damage_absorption_rate", relic.DamageAbsorptionRate);
+            command.Parameters.AddWithValue("@ignore_damage_absorption_rate", relic.IgnoreDamageAbsorptionRate);
+            command.Parameters.AddWithValue("@absorbed_damage_rate", relic.AbsorbedDamageRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_rate", relic.VitalityRegenerationRate);
+            command.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relic.VitalityRegenerationResistanceRate);
+            command.Parameters.AddWithValue("@accuracy_rate", relic.AccuracyRate);
+            command.Parameters.AddWithValue("@lifesteal_rate", relic.LifestealRate);
+            command.Parameters.AddWithValue("@shield_strength", relic.ShieldStrength);
+            command.Parameters.AddWithValue("@tenacity", relic.Tenacity);
+            command.Parameters.AddWithValue("@resistance_rate", relic.ResistanceRate);
+            command.Parameters.AddWithValue("@combo_rate", relic.ComboRate);
+            command.Parameters.AddWithValue("@ignore_combo_rate", relic.IgnoreComboRate);
+            command.Parameters.AddWithValue("@combo_damage_rate", relic.ComboDamageRate);
+            command.Parameters.AddWithValue("@combo_resistance_rate", relic.ComboResistanceRate);
+            command.Parameters.AddWithValue("@stun_rate", relic.StunRate);
+            command.Parameters.AddWithValue("@ignore_stun_rate", relic.IgnoreStunRate);
+            command.Parameters.AddWithValue("@reflection_rate", relic.ReflectionRate);
+            command.Parameters.AddWithValue("@ignore_reflection_rate", relic.IgnoreReflectionRate);
+            command.Parameters.AddWithValue("@reflection_damage_rate", relic.ReflectionDamageRate);
+            command.Parameters.AddWithValue("@reflection_resistance_rate", relic.ReflectionResistanceRate);
+            command.Parameters.AddWithValue("@mana", relic.Mana);
+            command.Parameters.AddWithValue("@mana_regeneration_rate", relic.ManaRegenerationRate);
+            command.Parameters.AddWithValue("@damage_to_different_faction_rate", relic.DamageToDifferentFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_different_faction_rate", relic.ResistanceToDifferentFactionRate);
+            command.Parameters.AddWithValue("@damage_to_same_faction_rate", relic.DamageToSameFactionRate);
+            command.Parameters.AddWithValue("@resistance_to_same_faction_rate", relic.ResistanceToSameFactionRate);
+            command.Parameters.AddWithValue("@normal_damage_rate", relic.NormalDamageRate);
+            command.Parameters.AddWithValue("@normal_resistance_rate", relic.NormalResistanceRate);
+            command.Parameters.AddWithValue("@skill_damage_rate", relic.SkillDamageRate);
+            command.Parameters.AddWithValue("@skill_resistance_rate", relic.SkillResistanceRate);
+
+            int rowsAffected = await command.ExecuteNonQueryAsync();
+
+            // MySQL quy ước: Insert mới = 1, Update = 2, Không thay đổi = 0
+            if (rowsAffected == 1)
             {
-                await connection.OpenAsync();
-
-                // Kiểm tra xem bản ghi đã tồn tại chưa
-                string checkSQL = @"
-                    SELECT COUNT(*) 
-                    FROM user_relics
-                    WHERE user_id = @user_id AND relic_id = @relic_id;
-                ";
-
-                await using (MySqlCommand checkCommand = new MySqlCommand(checkSQL, connection))
-                {
-                    checkCommand.Parameters.AddWithValue("@user_id", userId);
-                    checkCommand.Parameters.AddWithValue("@relic_id", relic.Id);
-
-                    int count = Convert.ToInt32(await checkCommand.ExecuteScalarAsync());
-
-                    if (count == 0)
-                    {
-                        string insertSQL = @"
-                        INSERT INTO user_relics (
-                            user_id, relic_id, rare, level, experience, star, quality, block, quantity,
-                            power, health, physical_attack, physical_defense, magical_attack, magical_defense,
-                            chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
-                            speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                            penetration_rate, penetration_resistance_rate,
-                            evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                            vitality_regeneration_rate, vitality_regeneration_resistance_rate,
-                            accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
-                            combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                            stun_rate, ignore_stun_rate,
-                            reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
-                            mana, mana_regeneration_rate,
-                            damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                            damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                            normal_damage_rate, normal_resistance_rate,
-                            skill_damage_rate, skill_resistance_rate
-                        ) VALUES (
-                            @user_id, @relic_id, @rare, @level, @experience, @star, @quality, @block, @quantity,
-                            @power, @health, @physical_attack, @physical_defense, @magical_attack, @magical_defense,
-                            @chemical_attack, @chemical_defense, @atomic_attack, @atomic_defense, @mental_attack, @mental_defense,
-                            @speed, @critical_damage_rate, @critical_rate, @critical_resistance_rate, @ignore_critical_rate,
-                            @penetration_rate, @penetration_resistance_rate,
-                            @evasion_rate, @damage_absorption_rate, @ignore_damage_absorption_rate, @absorbed_damage_rate,
-                            @vitality_regeneration_rate, @vitality_regeneration_resistance_rate,
-                            @accuracy_rate, @lifesteal_rate, @shield_strength, @tenacity, @resistance_rate,
-                            @combo_rate, @ignore_combo_rate, @combo_damage_rate, @combo_resistance_rate,
-                            @stun_rate, @ignore_stun_rate,
-                            @reflection_rate, @ignore_reflection_rate, @reflection_damage_rate, @reflection_resistance_rate,
-                            @mana, @mana_regeneration_rate,
-                            @damage_to_different_faction_rate, @resistance_to_different_faction_rate,
-                            @damage_to_same_faction_rate, @resistance_to_same_faction_rate,
-                            @normal_damage_rate, @normal_resistance_rate,
-                            @skill_damage_rate, @skill_resistance_rate
-                        );
-                    ";
-
-                        await using (MySqlCommand insertCommand = new MySqlCommand(insertSQL, connection))
-                        {
-                            insertCommand.Parameters.AddWithValue("@user_id", userId);
-                            insertCommand.Parameters.AddWithValue("@relic_id", relic.Id);
-                            insertCommand.Parameters.AddWithValue("@rare", relic.Rarity);
-                            insertCommand.Parameters.AddWithValue("@level", 0);
-                            insertCommand.Parameters.AddWithValue("@experience", 0);
-                            insertCommand.Parameters.AddWithValue("@star", 0);
-                            insertCommand.Parameters.AddWithValue("@quality", QualityEvaluatorHelper.CheckQuality(relic.Rarity));
-                            insertCommand.Parameters.AddWithValue("@block", false);
-                            insertCommand.Parameters.AddWithValue("@quantity", relic.Quantity);
-                            insertCommand.Parameters.AddWithValue("@power", relic.Power);
-                            insertCommand.Parameters.AddWithValue("@health", relic.Health);
-                            insertCommand.Parameters.AddWithValue("@physical_attack", relic.PhysicalAttack);
-                            insertCommand.Parameters.AddWithValue("@physical_defense", relic.PhysicalDefense);
-                            insertCommand.Parameters.AddWithValue("@magical_attack", relic.MagicalAttack);
-                            insertCommand.Parameters.AddWithValue("@magical_defense", relic.MagicalDefense);
-                            insertCommand.Parameters.AddWithValue("@chemical_attack", relic.ChemicalAttack);
-                            insertCommand.Parameters.AddWithValue("@chemical_defense", relic.ChemicalDefense);
-                            insertCommand.Parameters.AddWithValue("@atomic_attack", relic.AtomicAttack);
-                            insertCommand.Parameters.AddWithValue("@atomic_defense", relic.AtomicDefense);
-                            insertCommand.Parameters.AddWithValue("@mental_attack", relic.MentalAttack);
-                            insertCommand.Parameters.AddWithValue("@mental_defense", relic.MentalDefense);
-                            insertCommand.Parameters.AddWithValue("@speed", relic.Speed);
-                            insertCommand.Parameters.AddWithValue("@critical_damage_rate", relic.CriticalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@critical_rate", relic.CriticalRate);
-                            insertCommand.Parameters.AddWithValue("@critical_resistance_rate", relic.CriticalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_critical_rate", relic.IgnoreCriticalRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_rate", relic.PenetrationRate);
-                            insertCommand.Parameters.AddWithValue("@penetration_resistance_rate", relic.PenetrationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@evasion_rate", relic.EvasionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_absorption_rate", relic.DamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", relic.IgnoreDamageAbsorptionRate);
-                            insertCommand.Parameters.AddWithValue("@absorbed_damage_rate", relic.AbsorbedDamageRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_rate", relic.VitalityRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relic.VitalityRegenerationResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@accuracy_rate", relic.AccuracyRate);
-                            insertCommand.Parameters.AddWithValue("@lifesteal_rate", relic.LifestealRate);
-                            insertCommand.Parameters.AddWithValue("@shield_strength", relic.ShieldStrength);
-                            insertCommand.Parameters.AddWithValue("@tenacity", relic.Tenacity);
-                            insertCommand.Parameters.AddWithValue("@resistance_rate", relic.ResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@combo_rate", relic.ComboRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_combo_rate", relic.IgnoreComboRate);
-                            insertCommand.Parameters.AddWithValue("@combo_damage_rate", relic.ComboDamageRate);
-                            insertCommand.Parameters.AddWithValue("@combo_resistance_rate", relic.ComboResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@stun_rate", relic.StunRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_stun_rate", relic.IgnoreStunRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_rate", relic.ReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@ignore_reflection_rate", relic.IgnoreReflectionRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_damage_rate", relic.ReflectionDamageRate);
-                            insertCommand.Parameters.AddWithValue("@reflection_resistance_rate", relic.ReflectionResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@mana", relic.Mana);
-                            insertCommand.Parameters.AddWithValue("@mana_regeneration_rate", relic.ManaRegenerationRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", relic.DamageToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", relic.ResistanceToDifferentFactionRate);
-                            insertCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", relic.DamageToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", relic.ResistanceToSameFactionRate);
-                            insertCommand.Parameters.AddWithValue("@normal_damage_rate", relic.NormalDamageRate);
-                            insertCommand.Parameters.AddWithValue("@normal_resistance_rate", relic.NormalResistanceRate);
-                            insertCommand.Parameters.AddWithValue("@skill_damage_rate", relic.SkillDamageRate);
-                            insertCommand.Parameters.AddWithValue("@skill_resistance_rate", relic.SkillResistanceRate);
-
-                            await insertCommand.ExecuteNonQueryAsync();
-                        }
-                    }
-                    else
-                    {
-                        // Nếu bản ghi đã tồn tại, thực hiện UPDATE
-                        string updateSQL = @"
-                            UPDATE user_relics
-                            SET quantity = @quantity
-                            WHERE user_id = @user_id AND relic_id = @relic_id;
-                        ";
-
-                        await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
-                        {
-                            updateCommand.Parameters.AddWithValue("@user_id", userId);
-                            updateCommand.Parameters.AddWithValue("@relic_id", relic.Id);
-                            updateCommand.Parameters.AddWithValue("@quantity", relic.Quantity);
-
-                            await updateCommand.ExecuteNonQueryAsync();
-                        }
-                    }
-                }
+                return InsertOrUpdateResult<Relics>.Inserted(relic);
             }
-            catch (MySqlException ex)
+            else if (rowsAffected == 2 || rowsAffected == 0)
             {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
+                return InsertOrUpdateResult<Relics>.Updated(relic);
             }
-            finally
-            {
-                await connection.CloseAsync();
-            }
+
+            return InsertOrUpdateResult<Relics>.Failure();
         }
-
-        return true;
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Database Error: " + ex.Message);
+            return InsertOrUpdateResult<Relics>.Failure(ex.Message);
+        }
     }
-    public async Task<bool> InsertOrUpdateUserRelicsBatchAsync(string userId, List<Relics> relics)
+    public async Task<InsertOrUpdateResult<BatchOperationResultDTO<Relics>>> InsertOrUpdateUserRelicsBatchAsync(
+    string userId, List<Relics> relics)
     {
         if (relics == null || relics.Count == 0)
-            return true;
+        {
+            return new InsertOrUpdateResult<BatchOperationResultDTO<Relics>>
+            {
+                Data = new BatchOperationResultDTO<Relics>(),
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
 
         string connectionString = DatabaseConfig.ConnectionString;
 
@@ -389,9 +363,38 @@ public class UserRelicsRepository : IUserRelicsRepository
         {
             await connection.OpenAsync();
 
+            // 1. Query lấy TOÀN BỘ relic_id hiện có của User (Cực nhanh nhờ Index user_id)
+            var existingIds = new HashSet<string>();
+            string checkSql = "SELECT relic_id FROM user_relics WHERE user_id = @user_id;";
+
+            await using (var checkCmd = new MySqlCommand(checkSql, connection))
+            {
+                checkCmd.Parameters.AddWithValue("@user_id", userId);
+                await using var reader = await checkCmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    existingIds.Add(reader.GetString(0));
+                }
+            }
+
+            // 2. Phân loại Relics giữ NGUYÊN VẸN OBJECT thuộc tính trong RAM C#
+            var batchResult = new BatchOperationResultDTO<Relics>();
+            foreach (var card in relics)
+            {
+                if (existingIds.Contains(card.Id))
+                {
+                    batchResult.UpdatedItems.Add(card); // Trả về full object card
+                }
+                else
+                {
+                    batchResult.InsertedItems.Add(card); // Trả về full object card để dùng truyền sang Gallery
+                }
+            }
+
+            // 3. Thực hiện Bulk Insert/Update
             await using var transaction = await connection.BeginTransactionAsync();
 
-            int batchSize = 500; // vì nhiều column → giảm size
+            int batchSize = 500; // Giảm batchSize vì câu lệnh có nhiều cột
 
             for (int i = 0; i < relics.Count; i += batchSize)
             {
@@ -401,113 +404,113 @@ public class UserRelicsRepository : IUserRelicsRepository
                 var parameters = new List<MySqlParameter>();
 
                 stringBuilder.Append(@"
-                INSERT INTO user_relics (
-                    user_id, relic_id, rare, level, experience, star, quality, block, quantity,
-                    power, health, physical_attack, physical_defense, magical_attack, magical_defense,
-                    chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
-                    speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
-                    penetration_rate, penetration_resistance_rate,
-                    evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
-                    vitality_regeneration_rate, vitality_regeneration_resistance_rate,
-                    accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
-                    combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
-                    stun_rate, ignore_stun_rate,
-                    reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
-                    mana, mana_regeneration_rate,
-                    damage_to_different_faction_rate, resistance_to_different_faction_rate,
-                    damage_to_same_faction_rate, resistance_to_same_faction_rate,
-                    normal_damage_rate, normal_resistance_rate,
-                    skill_damage_rate, skill_resistance_rate
-                ) VALUES ");
+            INSERT INTO user_relics (
+                user_id, relic_id, rare, level, experience, star, quality, block, quantity,
+                power, health, physical_attack, physical_defense, magical_attack, magical_defense,
+                chemical_attack, chemical_defense, atomic_attack, atomic_defense, mental_attack, mental_defense,
+                speed, critical_damage_rate, critical_rate, critical_resistance_rate, ignore_critical_rate,
+                penetration_rate, penetration_resistance_rate,
+                evasion_rate, damage_absorption_rate, ignore_damage_absorption_rate, absorbed_damage_rate,
+                vitality_regeneration_rate, vitality_regeneration_resistance_rate,
+                accuracy_rate, lifesteal_rate, shield_strength, tenacity, resistance_rate,
+                combo_rate, ignore_combo_rate, combo_damage_rate, combo_resistance_rate,
+                stun_rate, ignore_stun_rate,
+                reflection_rate, ignore_reflection_rate, reflection_damage_rate, reflection_resistance_rate,
+                mana, mana_regeneration_rate,
+                damage_to_different_faction_rate, resistance_to_different_faction_rate,
+                damage_to_same_faction_rate, resistance_to_same_faction_rate,
+                normal_damage_rate, normal_resistance_rate,
+                skill_damage_rate, skill_resistance_rate
+            ) VALUES ");
 
                 for (int j = 0; j < batch.Count; j++)
                 {
                     var c = batch[j];
 
                     stringBuilder.Append($@"
-                    (@user_id, @relic_id_{j}, @rare_{j}, 0, 0, 0, @quality_{j}, 0, @quantity_{j},
-                    @power_{j}, @health_{j}, @physical_attack_{j}, @physical_defense_{j}, @magical_attack_{j}, @magical_defense_{j},
-                    @chemical_attack_{j}, @chemical_defense_{j}, @atomic_attack_{j}, @atomic_defense_{j}, @mental_attack_{j}, @mental_defense_{j},
-                    @speed_{j}, @critical_damage_rate_{j}, @critical_rate_{j}, @critical_resistance_rate_{j}, @ignore_critical_rate_{j},
-                    @penetration_rate_{j}, @penetration_resistance_rate_{j},
-                    @evasion_rate_{j}, @damage_absorption_rate_{j}, @ignore_damage_absorption_rate_{j}, @absorbed_damage_rate_{j},
-                    @vitality_regeneration_rate_{j}, @vitality_regeneration_resistance_rate_{j},
-                    @accuracy_rate_{j}, @lifesteal_rate_{j}, @shield_strength_{j}, @tenacity_{j}, @resistance_rate_{j},
-                    @combo_rate_{j}, @ignore_combo_rate_{j}, @combo_damage_rate_{j}, @combo_resistance_rate_{j},
-                    @stun_rate_{j}, @ignore_stun_rate_{j},
-                    @reflection_rate_{j}, @ignore_reflection_rate_{j}, @reflection_damage_rate_{j}, @reflection_resistance_rate_{j},
-                    @mana_{j}, @mana_regeneration_rate_{j},
-                    @damage_to_different_faction_rate_{j}, @resistance_to_different_faction_rate_{j},
-                    @damage_to_same_faction_rate_{j}, @resistance_to_same_faction_rate_{j},
-                    @normal_damage_rate_{j}, @normal_resistance_rate_{j},
-                    @skill_damage_rate_{j}, @skill_resistance_rate_{j}
-                    ),");
+                (@user_id, @relic_id_{j}, @rare_{j}, 0, 0, 0, @quality_{j}, 0, @quantity_{j},
+                @power_{j}, @health_{j}, @physical_attack_{j}, @physical_defense_{j}, @magical_attack_{j}, @magical_defense_{j},
+                @chemical_attack_{j}, @chemical_defense_{j}, @atomic_attack_{j}, @atomic_defense_{j}, @mental_attack_{j}, @mental_defense_{j},
+                @speed_{j}, @critical_damage_rate_{j}, @critical_rate_{j}, @critical_resistance_rate_{j}, @ignore_critical_rate_{j},
+                @penetration_rate_{j}, @penetration_resistance_rate_{j},
+                @evasion_rate_{j}, @damage_absorption_rate_{j}, @ignore_damage_absorption_rate_{j}, @absorbed_damage_rate_{j},
+                @vitality_regeneration_rate_{j}, @vitality_regeneration_resistance_rate_{j},
+                @accuracy_rate_{j}, @lifesteal_rate_{j}, @shield_strength_{j}, @tenacity_{j}, @resistance_rate_{j},
+                @combo_rate_{j}, @ignore_combo_rate_{j}, @combo_damage_rate_{j}, @combo_resistance_rate_{j},
+                @stun_rate_{j}, @ignore_stun_rate_{j},
+                @reflection_rate_{j}, @ignore_reflection_rate_{j}, @reflection_damage_rate_{j}, @reflection_resistance_rate_{j},
+                @mana_{j}, @mana_regeneration_rate_{j},
+                @damage_to_different_faction_rate_{j}, @resistance_to_different_faction_rate_{j},
+                @damage_to_same_faction_rate_{j}, @resistance_to_same_faction_rate_{j},
+                @normal_damage_rate_{j}, @normal_resistance_rate_{j},
+                @skill_damage_rate_{j}, @skill_resistance_rate_{j}
+                ),");
 
                     parameters.AddRange(new[]
                     {
-                        new MySqlParameter($"@relic_id_{j}", c.Id),
-                        new MySqlParameter($"@rare_{j}", c.Rarity),
-                        new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
-                        new MySqlParameter($"@quantity_{j}", c.Quantity),
-                        new MySqlParameter($"@power_{j}", c.Power),
-                        new MySqlParameter($"@health_{j}", c.Health),
-                        new MySqlParameter($"@physical_attack_{j}", c.PhysicalAttack),
-                        new MySqlParameter($"@physical_defense_{j}", c.PhysicalDefense),
-                        new MySqlParameter($"@magical_attack_{j}", c.MagicalAttack),
-                        new MySqlParameter($"@magical_defense_{j}", c.MagicalDefense),
-                        new MySqlParameter($"@chemical_attack_{j}", c.ChemicalAttack),
-                        new MySqlParameter($"@chemical_defense_{j}", c.ChemicalDefense),
-                        new MySqlParameter($"@atomic_attack_{j}", c.AtomicAttack),
-                        new MySqlParameter($"@atomic_defense_{j}", c.AtomicDefense),
-                        new MySqlParameter($"@mental_attack_{j}", c.MentalAttack),
-                        new MySqlParameter($"@mental_defense_{j}", c.MentalDefense),
-                        new MySqlParameter($"@speed_{j}", c.Speed),
-                        new MySqlParameter($"@critical_damage_rate_{j}", c.CriticalDamageRate),
-                        new MySqlParameter($"@critical_rate_{j}", c.CriticalRate),
-                        new MySqlParameter($"@critical_resistance_rate_{j}", c.CriticalResistanceRate),
-                        new MySqlParameter($"@ignore_critical_rate_{j}", c.IgnoreCriticalRate),
-                        new MySqlParameter($"@penetration_rate_{j}", c.PenetrationRate),
-                        new MySqlParameter($"@penetration_resistance_rate_{j}", c.PenetrationResistanceRate),
-                        new MySqlParameter($"@evasion_rate_{j}", c.EvasionRate),
-                        new MySqlParameter($"@damage_absorption_rate_{j}", c.DamageAbsorptionRate),
-                        new MySqlParameter($"@ignore_damage_absorption_rate_{j}", c.IgnoreDamageAbsorptionRate),
-                        new MySqlParameter($"@absorbed_damage_rate_{j}", c.AbsorbedDamageRate),
-                        new MySqlParameter($"@vitality_regeneration_rate_{j}", c.VitalityRegenerationRate),
-                        new MySqlParameter($"@vitality_regeneration_resistance_rate_{j}", c.VitalityRegenerationResistanceRate),
-                        new MySqlParameter($"@accuracy_rate_{j}", c.AccuracyRate),
-                        new MySqlParameter($"@lifesteal_rate_{j}", c.LifestealRate),
-                        new MySqlParameter($"@shield_strength_{j}", c.ShieldStrength),
-                        new MySqlParameter($"@tenacity_{j}", c.Tenacity),
-                        new MySqlParameter($"@resistance_rate_{j}", c.ResistanceRate),
-                        new MySqlParameter($"@combo_rate_{j}", c.ComboRate),
-                        new MySqlParameter($"@ignore_combo_rate_{j}", c.IgnoreComboRate),
-                        new MySqlParameter($"@combo_damage_rate_{j}", c.ComboDamageRate),
-                        new MySqlParameter($"@combo_resistance_rate_{j}", c.ComboResistanceRate),
-                        new MySqlParameter($"@stun_rate_{j}", c.StunRate),
-                        new MySqlParameter($"@ignore_stun_rate_{j}", c.IgnoreStunRate),
-                        new MySqlParameter($"@reflection_rate_{j}", c.ReflectionRate),
-                        new MySqlParameter($"@ignore_reflection_rate_{j}", c.IgnoreReflectionRate),
-                        new MySqlParameter($"@reflection_damage_rate_{j}", c.ReflectionDamageRate),
-                        new MySqlParameter($"@reflection_resistance_rate_{j}", c.ReflectionResistanceRate),
-                        new MySqlParameter($"@mana_{j}", c.Mana),
-                        new MySqlParameter($"@mana_regeneration_rate_{j}", c.ManaRegenerationRate),
-                        new MySqlParameter($"@damage_to_different_faction_rate_{j}", c.DamageToDifferentFactionRate),
-                        new MySqlParameter($"@resistance_to_different_faction_rate_{j}", c.ResistanceToDifferentFactionRate),
-                        new MySqlParameter($"@damage_to_same_faction_rate_{j}", c.DamageToSameFactionRate),
-                        new MySqlParameter($"@resistance_to_same_faction_rate_{j}", c.ResistanceToSameFactionRate),
-                        new MySqlParameter($"@normal_damage_rate_{j}", c.NormalDamageRate),
-                        new MySqlParameter($"@normal_resistance_rate_{j}", c.NormalResistanceRate),
-                        new MySqlParameter($"@skill_damage_rate_{j}", c.SkillDamageRate),
-                        new MySqlParameter($"@skill_resistance_rate_{j}", c.SkillResistanceRate),
+                    new MySqlParameter($"@relic_id_{j}", c.Id),
+                    new MySqlParameter($"@rare_{j}", c.Rarity),
+                    new MySqlParameter($"@quality_{j}", QualityEvaluatorHelper.CheckQuality(c.Rarity)),
+                    new MySqlParameter($"@quantity_{j}", c.Quantity),
+                    new MySqlParameter($"@power_{j}", c.Power),
+                    new MySqlParameter($"@health_{j}", c.Health),
+                    new MySqlParameter($"@physical_attack_{j}", c.PhysicalAttack),
+                    new MySqlParameter($"@physical_defense_{j}", c.PhysicalDefense),
+                    new MySqlParameter($"@magical_attack_{j}", c.MagicalAttack),
+                    new MySqlParameter($"@magical_defense_{j}", c.MagicalDefense),
+                    new MySqlParameter($"@chemical_attack_{j}", c.ChemicalAttack),
+                    new MySqlParameter($"@chemical_defense_{j}", c.ChemicalDefense),
+                    new MySqlParameter($"@atomic_attack_{j}", c.AtomicAttack),
+                    new MySqlParameter($"@atomic_defense_{j}", c.AtomicDefense),
+                    new MySqlParameter($"@mental_attack_{j}", c.MentalAttack),
+                    new MySqlParameter($"@mental_defense_{j}", c.MentalDefense),
+                    new MySqlParameter($"@speed_{j}", c.Speed),
+                    new MySqlParameter($"@critical_damage_rate_{j}", c.CriticalDamageRate),
+                    new MySqlParameter($"@critical_rate_{j}", c.CriticalRate),
+                    new MySqlParameter($"@critical_resistance_rate_{j}", c.CriticalResistanceRate),
+                    new MySqlParameter($"@ignore_critical_rate_{j}", c.IgnoreCriticalRate),
+                    new MySqlParameter($"@penetration_rate_{j}", c.PenetrationRate),
+                    new MySqlParameter($"@penetration_resistance_rate_{j}", c.PenetrationResistanceRate),
+                    new MySqlParameter($"@evasion_rate_{j}", c.EvasionRate),
+                    new MySqlParameter($"@damage_absorption_rate_{j}", c.DamageAbsorptionRate),
+                    new MySqlParameter($"@ignore_damage_absorption_rate_{j}", c.IgnoreDamageAbsorptionRate),
+                    new MySqlParameter($"@absorbed_damage_rate_{j}", c.AbsorbedDamageRate),
+                    new MySqlParameter($"@vitality_regeneration_rate_{j}", c.VitalityRegenerationRate),
+                    new MySqlParameter($"@vitality_regeneration_resistance_rate_{j}", c.VitalityRegenerationResistanceRate),
+                    new MySqlParameter($"@accuracy_rate_{j}", c.AccuracyRate),
+                    new MySqlParameter($"@lifesteal_rate_{j}", c.LifestealRate),
+                    new MySqlParameter($"@shield_strength_{j}", c.ShieldStrength),
+                    new MySqlParameter($"@tenacity_{j}", c.Tenacity),
+                    new MySqlParameter($"@resistance_rate_{j}", c.ResistanceRate),
+                    new MySqlParameter($"@combo_rate_{j}", c.ComboRate),
+                    new MySqlParameter($"@ignore_combo_rate_{j}", c.IgnoreComboRate),
+                    new MySqlParameter($"@combo_damage_rate_{j}", c.ComboDamageRate),
+                    new MySqlParameter($"@combo_resistance_rate_{j}", c.ComboResistanceRate),
+                    new MySqlParameter($"@stun_rate_{j}", c.StunRate),
+                    new MySqlParameter($"@ignore_stun_rate_{j}", c.IgnoreStunRate),
+                    new MySqlParameter($"@reflection_rate_{j}", c.ReflectionRate),
+                    new MySqlParameter($"@ignore_reflection_rate_{j}", c.IgnoreReflectionRate),
+                    new MySqlParameter($"@reflection_damage_rate_{j}", c.ReflectionDamageRate),
+                    new MySqlParameter($"@reflection_resistance_rate_{j}", c.ReflectionResistanceRate),
+                    new MySqlParameter($"@mana_{j}", c.Mana),
+                    new MySqlParameter($"@mana_regeneration_rate_{j}", c.ManaRegenerationRate),
+                    new MySqlParameter($"@damage_to_different_faction_rate_{j}", c.DamageToDifferentFactionRate),
+                    new MySqlParameter($"@resistance_to_different_faction_rate_{j}", c.ResistanceToDifferentFactionRate),
+                    new MySqlParameter($"@damage_to_same_faction_rate_{j}", c.DamageToSameFactionRate),
+                    new MySqlParameter($"@resistance_to_same_faction_rate_{j}", c.ResistanceToSameFactionRate),
+                    new MySqlParameter($"@normal_damage_rate_{j}", c.NormalDamageRate),
+                    new MySqlParameter($"@normal_resistance_rate_{j}", c.NormalResistanceRate),
+                    new MySqlParameter($"@skill_damage_rate_{j}", c.SkillDamageRate),
+                    new MySqlParameter($"@skill_resistance_rate_{j}", c.SkillResistanceRate),
                 });
                 }
 
-                stringBuilder.Length--; // remove dấu ,
+                stringBuilder.Length--; // remove dấu phẩy thừa
 
                 stringBuilder.Append(@"
-                ON DUPLICATE KEY UPDATE
-                    quantity = COALESCE(user_relics.quantity, 0) + VALUES(quantity);
-                ");
+            ON DUPLICATE KEY UPDATE
+                quantity = COALESCE(user_relics.quantity, 0) + VALUES(quantity);
+            ");
 
                 await using var command = new MySqlCommand(stringBuilder.ToString(), connection, (MySqlTransaction)transaction);
 
@@ -518,208 +521,154 @@ public class UserRelicsRepository : IUserRelicsRepository
             }
 
             await transaction.CommitAsync();
+
+            // 4. Trả về kết quả
+            var operationType = DatabaseOperationType.None;
+
+            if (batchResult.InsertedItems.Count > 0 && batchResult.UpdatedItems.Count > 0)
+            {
+                operationType = DatabaseOperationType.Mixed;
+            }
+            else if (batchResult.InsertedItems.Count > 0)
+            {
+                operationType = DatabaseOperationType.Inserted;
+            }
+            else if (batchResult.UpdatedItems.Count > 0)
+            {
+                operationType = DatabaseOperationType.Updated;
+            }
+
+            return new InsertOrUpdateResult<BatchOperationResultDTO<Relics>>
+            {
+                Data = batchResult,
+                OperationType = operationType
+            };
         }
         catch (Exception ex)
         {
             Debug.LogError("Batch Error: " + ex.Message);
-            return false;
+            return InsertOrUpdateResult<BatchOperationResultDTO<Relics>>.Failure(ex.Message);
+        }
+    }
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRelicLevelAsync(string userId, Relics relic)
+    {
+        if (relic == null)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.NOTHING_WAS_UPDATED
+            };
         }
 
-        return true;
-    }
-    public async Task<bool> UpdateUserRelicLevelAsync(string userId, Relics relic)
-    {
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Thêm điều kiện (level != @level OR experience != @experience) để tránh update thừa khi dữ liệu trùng khớp
+            string updateSQL = @"
+            UPDATE user_relics
+            SET 
+                level = @level, 
+                experience = @experience
+            WHERE user_id = @user_id 
+              AND relic_id = @relic_id
+              AND (level != @level OR experience != @experience);
+        ";
+
+            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+
+            updateCommand.Parameters.AddWithValue("@user_id", userId);
+            updateCommand.Parameters.AddWithValue("@relic_id", relic.Id);
+            updateCommand.Parameters.AddWithValue("@level", relic.Level);
+            updateCommand.Parameters.AddWithValue("@experience", relic.Experience);
+
+            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
             {
-                await connection.OpenAsync();
-
-                string updateSQL = @"
-                UPDATE user_Relics
-                SET 
-                    level = @level, experience = @experience
-                WHERE user_id = @user_id AND relic_id = @relic_id;
-            ";
-
-                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                return InsertOrUpdateResult<bool>.Updated(true);
+            }
+            else
+            {
+                return new InsertOrUpdateResult<bool>
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@relic_id", relic.Id);
-                    updateCommand.Parameters.AddWithValue("@level", relic.Level);
-                    updateCommand.Parameters.AddWithValue("@experience", relic.Experience);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                    Data = false,
+                    OperationType = DatabaseOperationType.None,
+                    Message = MessageConstants.NOTHING_WAS_UPDATED
+                };
             }
         }
-
-        return true;
+        catch (MySqlException ex)
+        {
+            Debug.LogError("Error UpdateUserRelicLevel: " + ex.Message);
+            return InsertOrUpdateResult<bool>.Failure(ex.Message);
+        }
     }
-    public async Task<bool> UpdateUserRelicStarAsync(string userId, Relics relic)
+    public async Task<InsertOrUpdateResult<bool>> UpdateUserRelicStarAsync(string userId, Relics relic)
     {
+        if (relic == null)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
         string connectionString = DatabaseConfig.ConnectionString;
 
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        await using MySqlConnection connection = new MySqlConnection(connectionString);
+
+        try
         {
-            try
+            await connection.OpenAsync();
+
+            // Kiểm tra (star != @star OR quantity != @quantity) để không tốn I/O nếu dữ liệu không đổi
+            string updateSQL = @"
+            UPDATE user_relics
+            SET 
+                star = @star, 
+                quantity = @quantity
+            WHERE user_id = @user_id 
+              AND relic_id = @relic_id
+              AND (star != @star OR quantity != @quantity);
+        ";
+
+            await using MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection);
+
+            updateCommand.Parameters.AddWithValue("@user_id", userId);
+            updateCommand.Parameters.AddWithValue("@relic_id", relic.Id);
+            updateCommand.Parameters.AddWithValue("@star", relic.Star);
+            updateCommand.Parameters.AddWithValue("@quantity", relic.Quantity);
+
+            int rowsAffected = await updateCommand.ExecuteNonQueryAsync();
+
+            if (rowsAffected > 0)
             {
-                await connection.OpenAsync();
-
-                string updateSQL = @"
-                UPDATE user_Relics
-                SET 
-                    star = @star, quantity = @quantity
-                WHERE user_id = @user_id AND relic_id = @relic_id;
-            ";
-
-                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
+                return InsertOrUpdateResult<bool>.Updated(true);
+            }
+            else
+            {
+                return new InsertOrUpdateResult<bool>
                 {
-                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@relic_id", relic.Id);
-                    updateCommand.Parameters.AddWithValue("@star", relic.Star);
-                    updateCommand.Parameters.AddWithValue("@quantity", relic.Quantity);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                await connection.CloseAsync();
+                    Data = false,
+                    OperationType = DatabaseOperationType.None,
+                    Message = MessageConstants.NOTHING_WAS_UPDATED
+                };
             }
         }
-
-        return true;
-    }
-    public async Task<bool> UpdateUserRelicBreakthroughAsync(string userId, Relics relic, int star, double quantity)
-    {
-        string connectionString = DatabaseConfig.ConnectionString;
-
-        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        catch (MySqlException ex)
         {
-            try
-            {
-                await connection.OpenAsync();
-
-                string updateSQL = @"
-                UPDATE user_Relics
-                SET 
-                    star = @star, quantity = @quantity, power=@power, health = @health, 
-                    physical_attack = @physical_attack, physical_defense = @physical_defense, 
-                    magical_attack = @magical_attack, magical_defense = @magical_defense, 
-                    chemical_attack = @chemical_attack, chemical_defense = @chemical_defense, 
-                    atomic_attack = @atomic_attack, atomic_defense = @atomic_defense, 
-                    mental_attack = @mental_attack, mental_defense = @mental_defense, 
-                    speed = @speed, critical_damage_rate = @critical_damage_rate, 
-                    critical_rate = @critical_rate, critical_resistance_rate = @critical_resistance_rate, ignore_critical_rate = @ignore_critical_rate,
-                    penetration_rate = @penetration_rate, penetration_resistance_rate = @penetration_resistance_rate,
-                    evasion_rate = @evasion_rate, damage_absorption_rate = @damage_absorption_rate, 
-                    ignore_damage_absorption_rate = @ignore_damage_absorption_rate, absorbed_damage_rate = @absorbed_damage_rate,
-                    vitality_regeneration_rate = @vitality_regeneration_rate, vitality_regeneration_resistance_rate = @vitality_regeneration_resistance_rate, 
-                    accuracy_rate = @accuracy_rate, lifesteal_rate = @lifesteal_rate, shield_strength = @shield_strength, 
-                    tenacity = @tenacity, resistance_rate = @resistance_rate, 
-                    combo_rate = @combo_rate, ignore_combo_rate = @ignore_combo_rate, combo_damage_rate = @combo_damage_rate, combo_resistance_rate = @combo_resistance_rate,
-                    stun_rate = @stun_rate, ignore_stun_rate = @ignore_stun_rate,
-                    reflection_rate = @reflection_rate, ignore_reflection_rate = @ignore_reflection_rate, 
-                    reflection_damage_rate = @reflection_damage_rate, reflection_resistance_rate = @reflection_resistance_rate,
-                    mana = @mana, mana_regeneration_rate = @mana_regeneration_rate, 
-                    damage_to_different_faction_rate = @damage_to_different_faction_rate, 
-                    resistance_to_different_faction_rate = @resistance_to_different_faction_rate, 
-                    damage_to_same_faction_rate = @damage_to_same_faction_rate, 
-                    resistance_to_same_faction_rate = @resistance_to_same_faction_rate,
-                    normal_damage_rate = @normal_damage_rate, normal_resistance_rate = @normal_resistance_rate,
-                    skill_damage_rate = @skill_damage_rate, skill_resistance_rate = @skill_resistance_rate
-                WHERE user_id = @user_id AND relic_id = @relic_id;
-            ";
-
-                await using (MySqlCommand updateCommand = new MySqlCommand(updateSQL, connection))
-                {
-                    updateCommand.Parameters.AddWithValue("@user_id", userId);
-                    updateCommand.Parameters.AddWithValue("@relic_id", relic.Id);
-                    updateCommand.Parameters.AddWithValue("@star", star);
-                    updateCommand.Parameters.AddWithValue("@quantity", quantity);
-                    updateCommand.Parameters.AddWithValue("@power", relic.Power);
-                    updateCommand.Parameters.AddWithValue("@health", relic.Health);
-                    updateCommand.Parameters.AddWithValue("@physical_attack", relic.PhysicalAttack);
-                    updateCommand.Parameters.AddWithValue("@physical_defense", relic.PhysicalDefense);
-                    updateCommand.Parameters.AddWithValue("@magical_attack", relic.MagicalAttack);
-                    updateCommand.Parameters.AddWithValue("@magical_defense", relic.MagicalDefense);
-                    updateCommand.Parameters.AddWithValue("@chemical_attack", relic.ChemicalAttack);
-                    updateCommand.Parameters.AddWithValue("@chemical_defense", relic.ChemicalDefense);
-                    updateCommand.Parameters.AddWithValue("@atomic_attack", relic.AtomicAttack);
-                    updateCommand.Parameters.AddWithValue("@atomic_defense", relic.AtomicDefense);
-                    updateCommand.Parameters.AddWithValue("@mental_attack", relic.MentalAttack);
-                    updateCommand.Parameters.AddWithValue("@mental_defense", relic.MentalDefense);
-                    updateCommand.Parameters.AddWithValue("@speed", relic.Speed);
-                    updateCommand.Parameters.AddWithValue("@critical_damage_rate", relic.CriticalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@critical_rate", relic.CriticalRate);
-                    updateCommand.Parameters.AddWithValue("@critical_resistance_rate", relic.CriticalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_critical_rate", relic.IgnoreCriticalRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_rate", relic.PenetrationRate);
-                    updateCommand.Parameters.AddWithValue("@penetration_resistance_rate", relic.PenetrationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@evasion_rate", relic.EvasionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_absorption_rate", relic.DamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_damage_absorption_rate", relic.IgnoreDamageAbsorptionRate);
-                    updateCommand.Parameters.AddWithValue("@absorbed_damage_rate", relic.AbsorbedDamageRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_rate", relic.VitalityRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@vitality_regeneration_resistance_rate", relic.VitalityRegenerationResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@accuracy_rate", relic.AccuracyRate);
-                    updateCommand.Parameters.AddWithValue("@lifesteal_rate", relic.LifestealRate);
-                    updateCommand.Parameters.AddWithValue("@shield_strength", relic.ShieldStrength);
-                    updateCommand.Parameters.AddWithValue("@tenacity", relic.Tenacity);
-                    updateCommand.Parameters.AddWithValue("@resistance_rate", relic.ResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@combo_rate", relic.ComboRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_combo_rate", relic.IgnoreComboRate);
-                    updateCommand.Parameters.AddWithValue("@combo_damage_rate", relic.ComboDamageRate);
-                    updateCommand.Parameters.AddWithValue("@combo_resistance_rate", relic.ComboResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@stun_rate", relic.StunRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_stun_rate", relic.IgnoreStunRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_rate", relic.ReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@ignore_reflection_rate", relic.IgnoreReflectionRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_damage_rate", relic.ReflectionDamageRate);
-                    updateCommand.Parameters.AddWithValue("@reflection_resistance_rate", relic.ReflectionResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@mana", relic.Mana);
-                    updateCommand.Parameters.AddWithValue("@mana_regeneration_rate", relic.ManaRegenerationRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_different_faction_rate", relic.DamageToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_different_faction_rate", relic.ResistanceToDifferentFactionRate);
-                    updateCommand.Parameters.AddWithValue("@damage_to_same_faction_rate", relic.DamageToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@resistance_to_same_faction_rate", relic.ResistanceToSameFactionRate);
-                    updateCommand.Parameters.AddWithValue("@normal_damage_rate", relic.NormalDamageRate);
-                    updateCommand.Parameters.AddWithValue("@normal_resistance_rate", relic.NormalResistanceRate);
-                    updateCommand.Parameters.AddWithValue("@skill_damage_rate", relic.SkillDamageRate);
-                    updateCommand.Parameters.AddWithValue("@skill_resistance_rate", relic.SkillResistanceRate);
-
-                    await updateCommand.ExecuteNonQueryAsync();
-                }
-            }
-            catch (MySqlException ex)
-            {
-                Debug.LogError("Error: " + ex.Message);
-                return false;
-            }
-            finally
-            {
-                await connection.CloseAsync();
-            }
+            Debug.LogError("Error UpdateUserRelicStar: " + ex.Message);
+            return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
-
-        return true;
     }
     public async Task<Relics> GetUserRelicByIdAsync(string userId, string Id)
     {

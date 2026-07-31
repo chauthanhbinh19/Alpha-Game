@@ -9,7 +9,7 @@ public interface IMedalsGalleryRepository
     Task<InsertOrUpdateResult<Medals>> InsertMedalGalleryAsync(string userId, string Id, Medals MedalFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusMedalGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusMedalsGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarMedalGalleryAsync(string userId, string id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarMedalGalleryAsync(string userId, string id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarMedalGalleryAsync(string userId, string medalId);
     Task<InsertOrUpdateResult<List<(string MedalId, double CurrentStar)>>> UpdateBatchCurrentStarMedalsGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Medals>>> InsertBatchMedalsGalleryAsync(string userId, List<Medals> medals);

@@ -8,7 +8,7 @@ public interface ISpiritBeastsGalleryService
     Task<bool> InsertSpiritBeastGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusSpiritBeastGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusSpiritBeastsGalleryAsync(string userId);
-    Task<bool> UpdateStarSpiritBeastGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarSpiritBeastGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarSpiritBeastGalleryAsync(string userId, string spiritBeastId);
     Task<bool> UpdateBatchCurrentStarSpiritBeastsGalleryAsync(string userId);
     Task<bool> InsertBatchSpiritBeastsGalleryAsync(string userId, List<SpiritBeasts> spiritBeasts);

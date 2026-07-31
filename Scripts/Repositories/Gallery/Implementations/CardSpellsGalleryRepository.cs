@@ -732,7 +732,7 @@ public class CardSpellsGalleryRepository : ICardSpellsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarCardSpellGalleryAsync(string userId, string cardSpellId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarCardSpellGalleryAsync(string userId, string cardSpellId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

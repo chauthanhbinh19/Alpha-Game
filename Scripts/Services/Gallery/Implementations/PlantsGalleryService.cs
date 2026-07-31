@@ -96,9 +96,9 @@ public class PlantsGalleryService : IPlantsGalleryService
         return await _plantsGalleryRepository.SumPowerPlantsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarPlantGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarPlantGalleryAsync(string userId, string Id, double star)
     {
-        var insertResult = await _plantsGalleryRepository.UpdateStarPlantGalleryAsync(userId, Id, star);
+        var insertResult = await _plantsGalleryRepository.UpdateTempStarPlantGalleryAsync(userId, Id, star);
 
         if (insertResult == null || insertResult.OperationType != DatabaseOperationType.Updated)
         {

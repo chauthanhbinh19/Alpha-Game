@@ -8,7 +8,7 @@ public interface IVehiclesGalleryService
     Task<bool> InsertVehicleGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusVehicleGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusVehiclesGalleryAsync(string userId);
-    Task<bool> UpdateStarVehicleGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarVehicleGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarVehicleGalleryAsync(string userId, string vehicleId);
     Task<bool> UpdateBatchCurrentStarVehiclesGalleryAsync(string userId);
     Task<bool> InsertBatchVehiclesGalleryAsync(string userId, List<Vehicles> vehicles);

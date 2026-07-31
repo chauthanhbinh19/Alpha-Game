@@ -7,7 +7,6 @@ public interface IUserCardHeroesService
     Task<List<CardHeroes>> GetAllRankPowerAsync(string userId, List<CardHeroes> cardHeroList);
     Task<List<CardHeroes>> GetAllMasterPowerAsync(string userId, List<CardHeroes> cardHeroList);
     Task<List<CardHeroes>> GetAllSpiritBeastPowerAsync(string userId, List<CardHeroes> cardHeroList);
-    Task<List<CardHeroes>> GetSkillsAsync(string userId, List<CardHeroes> cardHeroList);
     Task<List<CardHeroes>> GetUserCardHeroesAsync(string userId, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null);
     Task<List<CardHeroes>> GetUserCardHeroesTeamAsync(string userId, string teamId, string position, UserStatsContextDTO sharedContext = null);
     Task<List<CardHeroes>> GetUserCardHeroesTeamWithoutPositionAsync(string userId, string teamId, UserStatsContextDTO sharedContext = null);
@@ -16,11 +15,10 @@ public interface IUserCardHeroesService
     Task<int> GetUserCardHeroesCountAsync(string userId, string search, string type, string rare);
     Task<int> GetUserCardHeroesTeamsPositionCountAsync(string userId, string teamId, string position);
     Task<int> GetUserCardHeroesTeamsCountAsync(string userId, string teamId);
-    Task<bool> InsertUserCardHeroAsync(string userId, CardHeroes cardHero);
-    Task<bool> InsertOrUpdateUserCardHeroesBatchAsync(string userId, List<CardHeroes> cardHeroes);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardHeroAsync(string userId, CardHeroes cardHero);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardHeroesBatchAsync(string userId, List<CardHeroes> cardHeroes);
     Task<bool> UpdateUserCardHeroLevelAsync(string userId, CardHeroes cardHero);
     Task<bool> UpdateUserCardHeroStarAsync(string userId, CardHeroes cardHero);
-    Task<bool> UpdateUserCardHeroBreakthroughAsync(string userId, CardHeroes cardHero, int star, double quantity);
     Task<CardHeroes> GetUserCardHeroByIdAsync(string userId, string Id, UserStatsContextDTO sharedContext = null);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);
 }

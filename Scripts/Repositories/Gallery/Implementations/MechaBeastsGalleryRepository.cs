@@ -646,7 +646,7 @@ public class MechaBeastsGalleryRepository : IMechaBeastsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarMechaBeastGalleryAsync(string userId, string mechaBeastId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarMechaBeastGalleryAsync(string userId, string mechaBeastId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

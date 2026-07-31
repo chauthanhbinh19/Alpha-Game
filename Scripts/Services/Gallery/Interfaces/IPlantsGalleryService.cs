@@ -8,7 +8,7 @@ public interface IPlantsGalleryService
     Task<bool> InsertPlantGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusPlantGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusPlantsGalleryAsync(string userId);
-    Task<bool> UpdateStarPlantGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarPlantGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarPlantGalleryAsync(string userId, string plantId);
     Task<bool> UpdateBatchCurrentStarPlantsGalleryAsync(string userId);
     Task<bool> InsertBatchPlantsGalleryAsync(string userId, List<Plants> plants);

@@ -732,7 +732,7 @@ public class CardColonelsGalleryRepository : ICardColonelsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarCardColonelGalleryAsync(string userId, string cardColonelId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarCardColonelGalleryAsync(string userId, string cardColonelId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

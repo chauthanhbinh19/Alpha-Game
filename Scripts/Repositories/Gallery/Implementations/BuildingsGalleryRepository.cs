@@ -667,7 +667,7 @@ public class BuildingsGalleryRepository : IBuildingsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarBuildingGalleryAsync(string userId, string buildingId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarBuildingGalleryAsync(string userId, string buildingId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

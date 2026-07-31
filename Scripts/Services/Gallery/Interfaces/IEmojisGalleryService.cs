@@ -8,7 +8,7 @@ public interface IEmojisGalleryService
     Task<bool> InsertEmojiGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusEmojiGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusEmojisGalleryAsync(string userId);
-    Task<bool> UpdateStarEmojiGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarEmojiGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarEmojiGalleryAsync(string userId, string emojiId);
     Task<bool> UpdateBatchCurrentStarEmojisGalleryAsync(string userId);
     Task<bool> InsertBatchEmojisGalleryAsync(string userId, List<Emojis> emojis);

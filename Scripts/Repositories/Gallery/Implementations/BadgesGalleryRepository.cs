@@ -646,7 +646,7 @@ public class BadgesGalleryRepository : IBadgesGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarBadgeGalleryAsync(string userId, string badgeId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarBadgeGalleryAsync(string userId, string badgeId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

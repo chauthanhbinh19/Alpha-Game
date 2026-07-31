@@ -9,7 +9,7 @@ public interface IAlchemiesGalleryRepository
     Task<InsertOrUpdateResult<Alchemies>> InsertAlchemyGalleryAsync(string userId, string Id, Alchemies AlchemyFromDB);
     Task<InsertOrUpdateResult<bool>> UpdateStatusAlchemyGalleryAsync(string userId, string id, string status = "available");
     Task<InsertOrUpdateResult<bool>> UpdateBatchStatusAlchemiesGalleryAsync(string userId, string status = "available");
-    Task<InsertOrUpdateResult<double>> UpdateStarAlchemyGalleryAsync(string userId, string Id, double star);
+    Task<InsertOrUpdateResult<double>> UpdateTempStarAlchemyGalleryAsync(string userId, string Id, double star);
     Task<InsertOrUpdateResult<double>> UpdateCurrentStarAlchemyGalleryAsync(string userId, string alchemyId);
     Task<InsertOrUpdateResult<List<(string AlchemyId, double CurrentStar)>>> UpdateBatchCurrentStarAlchemiesGalleryAsync(string userId);
     Task<InsertOrUpdateResult<List<Alchemies>>> InsertBatchAlchemiesGalleryAsync(string userId, List<Alchemies> alchemies);

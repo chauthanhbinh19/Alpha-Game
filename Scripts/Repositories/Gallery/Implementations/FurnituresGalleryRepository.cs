@@ -667,7 +667,7 @@ public class FurnituresGalleryRepository : IFurnituresGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarFurnitureGalleryAsync(string userId, string furnitureId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarFurnitureGalleryAsync(string userId, string furnitureId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

@@ -667,7 +667,7 @@ public class RelicsGalleryRepository : IRelicsGalleryRepository
             return InsertOrUpdateResult<bool>.Failure(ex.Message);
         }
     }
-    public async Task<InsertOrUpdateResult<double>> UpdateStarRelicGalleryAsync(string userId, string relicId, double star)
+    public async Task<InsertOrUpdateResult<double>> UpdateTempStarRelicGalleryAsync(string userId, string relicId, double star)
     {
         string connectionString = DatabaseConfig.ConnectionString;
 

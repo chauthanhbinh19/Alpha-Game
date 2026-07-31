@@ -96,9 +96,9 @@ public class FashionsGalleryService : IFashionsGalleryService
         return await _fashionsGalleryRepository.SumPowerFashionsGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarFashionGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarFashionGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _fashionsGalleryRepository.UpdateStarFashionGalleryAsync(userId, Id, star);
+        var updateResult = await _fashionsGalleryRepository.UpdateTempStarFashionGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {

@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 public class UserMastersService : IUserMastersService
 {
-    private static UserMastersService _instance;
     private readonly IUserMastersRepository _userMastersRepository;
 
     public UserMastersService(IUserMastersRepository userMastersRepository)
@@ -10,14 +9,7 @@ public class UserMastersService : IUserMastersService
         _userMastersRepository = userMastersRepository;
     }
 
-    public static UserMastersService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserMastersService(new UserMastersRepository());
-        }
-        return _instance;
-    }
+    public static IUserMastersService Create() => ServiceContainer.GetService<IUserMastersService>();
 
     public async Task<UserMasters> GetUserMastersAsync(string userId, string id)
     {

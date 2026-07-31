@@ -8,7 +8,7 @@ public interface ITitlesGalleryService
     Task<bool> InsertTitleGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusTitleGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusTitlesGalleryAsync(string userId);
-    Task<bool> UpdateStarTitleGalleryAsync(string userId, string id, double star);
+    Task<bool> UpdateTempStarTitleGalleryAsync(string userId, string id, double star);
     Task<bool> UpdateCurrentStarTitleGalleryAsync(string userId, string titleId);
     Task<bool> UpdateBatchCurrentStarTitlesGalleryAsync(string userId);
     Task<bool> InsertBatchTitlesGalleryAsync(string userId, List<Titles> titles);

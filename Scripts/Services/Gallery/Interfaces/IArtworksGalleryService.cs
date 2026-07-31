@@ -9,7 +9,7 @@ public interface IArtworksGalleryService
     Task<bool> InsertArtworkGalleryAsync(string userId, string Id);
     Task<bool> UpdateStatusArtworkGalleryAsync(string userId, string Id);
     Task<bool> UpdateBatchStatusArtworksGalleryAsync(string userId);
-    Task<bool> UpdateStarArtworkGalleryAsync(string userId, string Id, double star);
+    Task<bool> UpdateTempStarArtworkGalleryAsync(string userId, string Id, double star);
     Task<bool> UpdateCurrentStarArtworkGalleryAsync(string userId, string artworkId);
     Task<bool> UpdateBatchCurrentStarArtworksGalleryAsync(string userId);
     Task<bool> InsertBatchArtworksGalleryAsync(string userId, List<Artworks> artworks);

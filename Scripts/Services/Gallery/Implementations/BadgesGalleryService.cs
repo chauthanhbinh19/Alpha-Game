@@ -96,9 +96,9 @@ public class BadgesGalleryService : IBadgesGalleryService
         return await _badgesGalleryRepository.SumPowerBadgesGalleryAsync(userId);
     }
 
-    public async Task<bool> UpdateStarBadgeGalleryAsync(string userId, string Id, double star)
+    public async Task<bool> UpdateTempStarBadgeGalleryAsync(string userId, string Id, double star)
     {
-        var updateResult = await _badgesGalleryRepository.UpdateStarBadgeGalleryAsync(userId, Id, star);
+        var updateResult = await _badgesGalleryRepository.UpdateTempStarBadgeGalleryAsync(userId, Id, star);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated)
         {
