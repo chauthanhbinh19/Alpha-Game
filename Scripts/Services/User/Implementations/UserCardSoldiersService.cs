@@ -399,6 +399,8 @@ public class UserCardSoldiersService : IUserCardSoldiersService
 
         // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         // list = await GetAllEquipmentPowerAsync(userId, list);
         // list = await GetAllRankPowerAsync(userId, list);
         // list = await GetAllMasterPowerAsync(userId, list);
@@ -467,6 +469,8 @@ public class UserCardSoldiersService : IUserCardSoldiersService
 
         // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         // list = await GetAllEquipmentPowerAsync(userId, list);
         // list = await GetAllRankPowerAsync(userId, list);
         // list = await GetAllMasterPowerAsync(userId, list);
@@ -535,6 +539,8 @@ public class UserCardSoldiersService : IUserCardSoldiersService
 
         // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         // list = await GetAllEquipmentPowerAsync(userId, list);
         // list = await GetAllRankPowerAsync(userId, list);
         // list = await GetAllMasterPowerAsync(userId, list);
@@ -719,6 +725,8 @@ public class UserCardSoldiersService : IUserCardSoldiersService
 
         // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         // list = await GetAllEquipmentPowerAsync(userId, list);
         // list = await GetAllRankPowerAsync(userId, list);
         // list = await GetAllMasterPowerAsync(userId, list);

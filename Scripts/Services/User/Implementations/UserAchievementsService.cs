@@ -8,13 +8,19 @@ public class UserAchievementsService : IUserAchievementsService
 {
     private readonly IUserAchievementsRepository _userAchievementsRepository;
     private readonly IAchievementsGalleryService _achievementsGalleryService;
+    private readonly IAchievementsService _achievementsService;
+    private readonly IPowerManagerService _powerManagerService;
 
     public UserAchievementsService(
-        IUserAchievementsRepository userAchievementsService,
-        IAchievementsGalleryService achievementsGalleryService)
+        IUserAchievementsRepository userAchievementsRepository,
+        IAchievementsGalleryService achievementsGalleryService,
+        IAchievementsService achievementsService,
+        IPowerManagerService powerManagerService)
     {
-        _userAchievementsRepository = userAchievementsService;
+        _userAchievementsRepository = userAchievementsRepository;
         _achievementsGalleryService = achievementsGalleryService;
+        _achievementsService = achievementsService;
+        _powerManagerService = powerManagerService;
     }
 
     public static IUserAchievementsService Create() => ServiceContainer.GetService<IUserAchievementsService>();
@@ -23,6 +29,8 @@ public class UserAchievementsService : IUserAchievementsService
     {
         List<Achievements> list = await _userAchievementsRepository.GetUserAchievementsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -32,10 +40,10 @@ public class UserAchievementsService : IUserAchievementsService
         return await _userAchievementsRepository.GetUserArchievementsCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAchievementAsync(string userId, Achievements achievement)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Achievements oldAchievement = await _achievementsService.SumPowerAchievementsPercentAsync(userId);
+        var insertOrUpdateResult = await _userAchievementsRepository.InsertOrUpdateUserAchievementAsync(userId, achievement);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -52,10 +60,10 @@ public class UserAchievementsService : IUserAchievementsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _achievementsGalleryService.InsertAchievementGalleryAsync(userId, achievement.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Achievements newAchievement = await _achievementsService.SumPowerAchievementsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newAchievement - (PowerManager)oldAchievement;
 
         if (deltaPower.Power == 0)
         {
@@ -70,10 +78,10 @@ public class UserAchievementsService : IUserAchievementsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAchievementsBatchAsync(string userId, List<Achievements> achievementes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Achievements oldAchievement = await _achievementsService.SumPowerAchievementsPercentAsync(userId);
+        var repositoryResult = await _userAchievementsRepository.InsertOrUpdateUserAchievementsBatchAsync(userId, achievementes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -90,11 +98,11 @@ public class UserAchievementsService : IUserAchievementsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _achievementsGalleryService.InsertBatchAchievementsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Achievements newAchievement = await _achievementsService.SumPowerAchievementsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newAchievement - (PowerManager)oldAchievement;
 
         if (deltaPower.Power == 0)
         {
@@ -121,9 +129,9 @@ public class UserAchievementsService : IUserAchievementsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserAchievementLevelAsync(string userId, Achievements achievement)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userAchievementsRepository.UpdateUserAchievementLevelAsync(userId, achievement);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -133,23 +141,29 @@ public class UserAchievementsService : IUserAchievementsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserAchievementStarAsync(string userId, Achievements achievement)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userAchievementsRepository.UpdateUserAchievementStarAsync(userId, achievement);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _achievementsGalleryService.UpdateTempStarAchievementGalleryAsync(userId, achievement.Id, achievement.Star);
 
         return true;
     }
 
     public async Task<Achievements> GetUserAchievementByIdAsync(string userId, string Id)
     {
-        return await _userAchievementsRepository.GetUserAchievementByIdAsync(userId, Id);
+        var result = await _userAchievementsRepository.GetUserAchievementByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Achievements> SumPowerUserAchievementsAsync(string userId)

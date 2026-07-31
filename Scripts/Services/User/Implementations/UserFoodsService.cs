@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserFoodsService : IUserFoodsService
 {
-    private static UserFoodsService _instance;
     private readonly IUserFoodsRepository _userFoodsRepository;
+    private readonly IFoodsGalleryService _foodsGalleryService;
+    private readonly IFoodsService _foodsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserFoodsService(IUserFoodsRepository userFoodsRepository)
+    public UserFoodsService(
+        IUserFoodsRepository userFoodsRepository,
+        IFoodsGalleryService foodsGalleryService,
+        IFoodsService foodsService,
+        IPowerManagerService powerManagerService)
     {
         _userFoodsRepository = userFoodsRepository;
+        _foodsGalleryService = foodsGalleryService;
+        _foodsService = foodsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserFoodsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserFoodsService(new UserFoodsRepository());
-        }
-        return _instance;
-    }
+    public static IUserFoodsService Create() => ServiceContainer.GetService<IUserFoodsService>();
 
     public async Task<List<Foods>> GetUserFoodsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Foods> list = await _userFoodsRepository.GetUserFoodsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserFoodsService : IUserFoodsService
         return await _userFoodsRepository.GetUserFoodsCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFoodAsync(string userId, Foods food)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Foods oldFood = await _foodsService.SumPowerFoodsPercentAsync(userId);
+        var insertOrUpdateResult = await _userFoodsRepository.InsertOrUpdateUserFoodAsync(userId, food);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserFoodsService : IUserFoodsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _foodsGalleryService.InsertFoodGalleryAsync(userId, food.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Foods newFood = await _foodsService.SumPowerFoodsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newFood - (PowerManager)oldFood;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserFoodsService : IUserFoodsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFoodsBatchAsync(string userId, List<Foods> foodes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Foods oldFood = await _foodsService.SumPowerFoodsPercentAsync(userId);
+        var repositoryResult = await _userFoodsRepository.InsertOrUpdateUserFoodsBatchAsync(userId, foodes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserFoodsService : IUserFoodsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _foodsGalleryService.InsertBatchFoodsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Foods newFood = await _foodsService.SumPowerFoodsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newFood - (PowerManager)oldFood;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserFoodsService : IUserFoodsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserFoodLevelAsync(string userId, Foods food)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userFoodsRepository.UpdateUserFoodLevelAsync(userId, food);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserFoodsService : IUserFoodsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserFoodStarAsync(string userId, Foods food)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userFoodsRepository.UpdateUserFoodStarAsync(userId, food);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _foodsGalleryService.UpdateTempStarFoodGalleryAsync(userId, food.Id, food.Star);
 
         return true;
     }
 
     public async Task<Foods> GetUserFoodByIdAsync(string userId, string Id)
     {
-        return await _userFoodsRepository.GetUserFoodByIdAsync(userId, Id);
+        var result = await _userFoodsRepository.GetUserFoodByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Foods> SumPowerUserFoodsAsync(string userId)

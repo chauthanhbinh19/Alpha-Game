@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserFurnituresService : IUserFurnituresService
 {
-    private static UserFurnituresService _instance;
     private readonly IUserFurnituresRepository _userFurnituresRepository;
+    private readonly IFurnituresGalleryService _furnituresGalleryService;
+    private readonly IFurnituresService _furnituresService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserFurnituresService(IUserFurnituresRepository userFurnituresRepository)
+    public UserFurnituresService(
+        IUserFurnituresRepository userFurnituresRepository,
+        IFurnituresGalleryService furnituresGalleryService,
+        IFurnituresService furnituresService,
+        IPowerManagerService powerManagerService)
     {
         _userFurnituresRepository = userFurnituresRepository;
+        _furnituresGalleryService = furnituresGalleryService;
+        _furnituresService = furnituresService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserFurnituresService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserFurnituresService(new UserFurnituresRepository());
-        }
-        return _instance;
-    }
+    public static IUserFurnituresService Create() => ServiceContainer.GetService<IUserFurnituresService>();
 
     public async Task<List<Furnitures>> GetUserFurnituresAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Furnitures> list = await _userFurnituresRepository.GetUserFurnituresAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserFurnituresService : IUserFurnituresService
         return await _userFurnituresRepository.GetUserFurnituresCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFurnitureAsync(string userId, Furnitures furniture)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Furnitures oldFurniture = await _furnituresService.SumPowerFurnituresPercentAsync(userId);
+        var insertOrUpdateResult = await _userFurnituresRepository.InsertOrUpdateUserFurnitureAsync(userId, furniture);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserFurnituresService : IUserFurnituresService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _furnituresGalleryService.InsertFurnitureGalleryAsync(userId, furniture.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Furnitures newFurniture = await _furnituresService.SumPowerFurnituresPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newFurniture - (PowerManager)oldFurniture;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserFurnituresService : IUserFurnituresService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFurnituresBatchAsync(string userId, List<Furnitures> furniturees)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Furnitures oldFurniture = await _furnituresService.SumPowerFurnituresPercentAsync(userId);
+        var repositoryResult = await _userFurnituresRepository.InsertOrUpdateUserFurnituresBatchAsync(userId, furniturees);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserFurnituresService : IUserFurnituresService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _furnituresGalleryService.InsertBatchFurnituresGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Furnitures newFurniture = await _furnituresService.SumPowerFurnituresPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newFurniture - (PowerManager)oldFurniture;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserFurnituresService : IUserFurnituresService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserFurnitureLevelAsync(string userId, Furnitures furniture)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userFurnituresRepository.UpdateUserFurnitureLevelAsync(userId, furniture);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserFurnituresService : IUserFurnituresService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserFurnitureStarAsync(string userId, Furnitures furniture)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userFurnituresRepository.UpdateUserFurnitureStarAsync(userId, furniture);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _furnituresGalleryService.UpdateTempStarFurnitureGalleryAsync(userId, furniture.Id, furniture.Star);
 
         return true;
     }
 
     public async Task<Furnitures> GetUserFurnitureByIdAsync(string userId, string Id)
     {
-        return await _userFurnituresRepository.GetUserFurnitureByIdAsync(userId, Id);
+        var result = await _userFurnituresRepository.GetUserFurnitureByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Furnitures> SumPowerUserFurnituresAsync(string userId)

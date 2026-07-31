@@ -11,4 +11,5 @@ public interface ICollaborationEquipmentsService
     Task<List<CollaborationEquipments>> GetCollaborationEquipmentsWithPriceAsync(string type, int pageSize, int offset);
     Task<int> GetCollaborationEquipmentsWithPriceCountAsync(string type);
     Task<CollaborationEquipments> GetCollaborationEquipmentByIdAsync(string id);
+    Task<CollaborationEquipments> SumPowerCollaborationEquipmentsPercentAsync(string userId);
 }

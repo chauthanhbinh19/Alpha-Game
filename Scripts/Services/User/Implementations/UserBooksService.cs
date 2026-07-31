@@ -3,22 +3,24 @@ using System.Threading.Tasks;
 
 public class UserBooksService : IUserBooksService
 {
-    private static UserBooksService _instance;
     private readonly IUserBooksRepository _userBooksRepository;
+    private readonly IBooksGalleryService _booksGalleryService;
+    private readonly IBooksService _booksService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserBooksService(IUserBooksRepository userBooksRepository)
+    public UserBooksService(
+        IUserBooksRepository userBooksRepository,
+        IBooksGalleryService booksGalleryService,
+        IBooksService booksService,
+        IPowerManagerService powerManagerService)
     {
         _userBooksRepository = userBooksRepository;
+        _booksGalleryService = booksGalleryService;
+        _booksService = booksService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserBooksService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserBooksService(new UserBooksRepository());
-        }
-        return _instance;
-    }
+    public static IUserBooksService Create() => ServiceContainer.GetService<IUserBooksService>();
 
     public async Task<List<Books>> GetAllEquipmentPowerAsync(string userId, List<Books> BooksList)
     {
@@ -308,6 +310,8 @@ public class UserBooksService : IUserBooksService
 
         // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         // list = await GetAllEquipmentPowerAsync(userId, list);
         // list = await GetAllRankPowerAsync(userId, list);
         // list = await GetAllMasterPowerAsync(userId, list);
@@ -379,6 +383,8 @@ public class UserBooksService : IUserBooksService
 
         // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         // list = await GetAllEquipmentPowerAsync(userId, list);
         // list = await GetAllRankPowerAsync(userId, list);
         // list = await GetAllMasterPowerAsync(userId, list);
@@ -416,10 +422,9 @@ public class UserBooksService : IUserBooksService
         return await _userBooksRepository.GetUserBooksCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBookAsync(string userId, Books book)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        var insertOrUpdateResult = await _userBooksRepository.InsertOrUpdateUserBookAsync(userId, book);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -436,28 +441,14 @@ public class UserBooksService : IUserBooksService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
-
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        await _booksGalleryService.InsertBookGalleryAsync(userId, book.Id);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBooksBatchAsync(string userId, List<Books> bookes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        var repositoryResult = await _userBooksRepository.InsertOrUpdateUserBooksBatchAsync(userId, bookes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -474,21 +465,8 @@ public class UserBooksService : IUserBooksService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _booksGalleryService.InsertBatchBooksGalleryAsync(userId, newlyInsertedCards);
         }
-
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         // 3. Mapping kết quả OperationType trả về gọn gàng
         return repositoryResult.OperationType switch
@@ -505,9 +483,9 @@ public class UserBooksService : IUserBooksService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserBookLevelAsync(string userId, Books book)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userBooksRepository.UpdateUserBookLevelAsync(userId, book);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -517,16 +495,16 @@ public class UserBooksService : IUserBooksService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserBookStarAsync(string userId, Books book)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userBooksRepository.UpdateUserBookStarAsync(userId, book);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _booksGalleryService.UpdateTempStarBookGalleryAsync(userId, book.Id, book.Star);
 
         return true;
     }
@@ -538,7 +516,13 @@ public class UserBooksService : IUserBooksService
 
     public async Task<Books> GetUserBookByIdAsync(string userId, string Id)
     {
-        return await _userBooksRepository.GetUserBookByIdAsync(userId, Id);
+        var result =  await _userBooksRepository.GetUserBookByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null)

@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserBordersService : IUserBordersService
 {
-    private static UserBordersService _instance;
     private readonly IUserBordersRepository _userBordersRepository;
+    private readonly IBordersGalleryService _bordersGalleryService;
+    private readonly IBordersService _bordersService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserBordersService(IUserBordersRepository userBordersRepository)
+    public UserBordersService(
+        IUserBordersRepository userBordersRepository,
+        IBordersGalleryService bordersGalleryService,
+        IBordersService bordersService,
+        IPowerManagerService powerManagerService)
     {
         _userBordersRepository = userBordersRepository;
+        _bordersGalleryService = bordersGalleryService;
+        _bordersService = bordersService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserBordersService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserBordersService(new UserBordersRepository());
-        }
-        return _instance;
-    }
+    public static IUserBordersService Create() => ServiceContainer.GetService<IUserBordersService>();
 
     public async Task<List<Borders>> GetUserBordersAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Borders> list = await _userBordersRepository.GetUserBordersAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -40,10 +44,10 @@ public class UserBordersService : IUserBordersService
         return await _userBordersRepository.InsertUserBorderByIdAsync(await _service.GetBorderByIdAsync(borderId), userId);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBorderAsync(string userId, Borders border)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Borders oldBorder = await _bordersService.SumPowerBordersPercentAsync(userId);
+        var insertOrUpdateResult = await _userBordersRepository.InsertOrUpdateUserBorderAsync(userId, border);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -60,10 +64,10 @@ public class UserBordersService : IUserBordersService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _bordersGalleryService.InsertBorderGalleryAsync(userId, border.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Borders newBorder = await _bordersService.SumPowerBordersPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newBorder - (PowerManager)oldBorder;
 
         if (deltaPower.Power == 0)
         {
@@ -78,10 +82,10 @@ public class UserBordersService : IUserBordersService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBordersBatchAsync(string userId, List<Borders> borderes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Borders oldBorder = await _bordersService.SumPowerBordersPercentAsync(userId);
+        var repositoryResult = await _userBordersRepository.InsertOrUpdateUserBordersBatchAsync(userId, borderes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -98,11 +102,11 @@ public class UserBordersService : IUserBordersService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _bordersGalleryService.InsertBatchBordersGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Borders newBorder = await _bordersService.SumPowerBordersPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newBorder - (PowerManager)oldBorder;
 
         if (deltaPower.Power == 0)
         {
@@ -129,9 +133,9 @@ public class UserBordersService : IUserBordersService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserBorderLevelAsync(string userId, Borders border)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userBordersRepository.UpdateUserBorderLevelAsync(userId, border);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -141,16 +145,16 @@ public class UserBordersService : IUserBordersService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserBorderStarAsync(string userId, Borders border)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userBordersRepository.UpdateUserBorderStarAsync(userId, border);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _bordersGalleryService.UpdateTempStarBorderGalleryAsync(userId, border.Id, border.Star);
 
         return true;
     }

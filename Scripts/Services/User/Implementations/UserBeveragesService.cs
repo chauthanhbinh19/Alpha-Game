@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserBeveragesService : IUserBeveragesService
 {
-    private static UserBeveragesService _instance;
     private readonly IUserBeveragesRepository _userBeveragesRepository;
+    private readonly IBeveragesGalleryService _beveragesGalleryService;
+    private readonly IBeveragesService _beveragesService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserBeveragesService(IUserBeveragesRepository userBeveragesRepository)
+    public UserBeveragesService(
+        IUserBeveragesRepository userBeveragesRepository,
+        IBeveragesGalleryService beveragesGalleryService,
+        IBeveragesService beveragesService,
+        IPowerManagerService powerManagerService)
     {
         _userBeveragesRepository = userBeveragesRepository;
+        _beveragesGalleryService = beveragesGalleryService;
+        _beveragesService = beveragesService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserBeveragesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserBeveragesService(new UserBeveragesRepository());
-        }
-        return _instance;
-    }
+    public static IUserBeveragesService Create() => ServiceContainer.GetService<IUserBeveragesService>();
 
     public async Task<List<Beverages>> GetUserBeveragesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Beverages> list = await _userBeveragesRepository.GetUserBeveragesAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserBeveragesService : IUserBeveragesService
         return await _userBeveragesRepository.GetUserBeveragesCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBeverageAsync(string userId, Beverages beverage)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Beverages oldBeverage = await _beveragesService.SumPowerBeveragesPercentAsync(userId);
+        var insertOrUpdateResult = await _userBeveragesRepository.InsertOrUpdateUserBeverageAsync(userId, beverage);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserBeveragesService : IUserBeveragesService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _beveragesGalleryService.InsertBeverageGalleryAsync(userId, beverage.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Beverages newBeverage = await _beveragesService.SumPowerBeveragesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newBeverage - (PowerManager)oldBeverage;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserBeveragesService : IUserBeveragesService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBeveragesBatchAsync(string userId, List<Beverages> beveragees)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Beverages oldBeverage = await _beveragesService.SumPowerBeveragesPercentAsync(userId);
+        var repositoryResult = await _userBeveragesRepository.InsertOrUpdateUserBeveragesBatchAsync(userId, beveragees);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserBeveragesService : IUserBeveragesService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _beveragesGalleryService.InsertBatchBeveragesGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Beverages newBeverage = await _beveragesService.SumPowerBeveragesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newBeverage - (PowerManager)oldBeverage;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserBeveragesService : IUserBeveragesService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserBeverageLevelAsync(string userId, Beverages beverage)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userBeveragesRepository.UpdateUserBeverageLevelAsync(userId, beverage);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserBeveragesService : IUserBeveragesService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserBeverageStarAsync(string userId, Beverages beverage)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userBeveragesRepository.UpdateUserBeverageStarAsync(userId, beverage);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _beveragesGalleryService.UpdateTempStarBeverageGalleryAsync(userId, beverage.Id, beverage.Star);
 
         return true;
     }
 
     public async Task<Beverages> GetUserBeverageByIdAsync(string userId, string Id)
     {
-        return await _userBeveragesRepository.GetUserBeverageByIdAsync(userId, Id);
+        var result = await _userBeveragesRepository.GetUserBeverageByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Beverages> SumPowerUserBeveragesAsync(string userId)

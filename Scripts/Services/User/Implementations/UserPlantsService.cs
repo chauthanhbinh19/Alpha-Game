@@ -3,30 +3,31 @@ using System.Threading.Tasks;
 
 public class UserPlantsService : IUserPlantsService
 {
-    private static UserPlantsService _instance;
     private readonly IUserPlantsRepository _userPlantsRepository;
+    private readonly IPlantsGalleryService _plantsGalleryService;
+    private readonly IPlantsService _plantsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserPlantsService(IUserPlantsRepository userPlantsRepository)
+    public UserPlantsService(
+        IUserPlantsRepository userPlantsRepository,
+        IPlantsGalleryService plantsGalleryService,
+        IPlantsService plantsService,
+        IPowerManagerService powerManagerService)
     {
         _userPlantsRepository = userPlantsRepository;
+        _plantsGalleryService = plantsGalleryService;
+        _plantsService = plantsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserPlantsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserPlantsService(new UserPlantsRepository());
-        }
-        return _instance;
-    }
-
-
-
+    public static IUserPlantsService Create() => ServiceContainer.GetService<IUserPlantsService>();
 
     public async Task<List<Plants>> GetUserPlantsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Plants> list = await _userPlantsRepository.GetUserPlantsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -36,10 +37,10 @@ public class UserPlantsService : IUserPlantsService
         return await _userPlantsRepository.GetUserPlantsCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPlantAsync(string userId, Plants plant)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Plants oldPlant = await _plantsService.SumPowerPlantsPercentAsync(userId);
+        var insertOrUpdateResult = await _userPlantsRepository.InsertOrUpdateUserPlantAsync(userId, plant);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -56,10 +57,10 @@ public class UserPlantsService : IUserPlantsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _plantsGalleryService.InsertPlantGalleryAsync(userId, plant.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Plants newPlant = await _plantsService.SumPowerPlantsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newPlant - (PowerManager)oldPlant;
 
         if (deltaPower.Power == 0)
         {
@@ -74,10 +75,10 @@ public class UserPlantsService : IUserPlantsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPlantsBatchAsync(string userId, List<Plants> plantes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Plants oldPlant = await _plantsService.SumPowerPlantsPercentAsync(userId);
+        var repositoryResult = await _userPlantsRepository.InsertOrUpdateUserPlantsBatchAsync(userId, plantes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -94,11 +95,11 @@ public class UserPlantsService : IUserPlantsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _plantsGalleryService.InsertBatchPlantsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Plants newPlant = await _plantsService.SumPowerPlantsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newPlant - (PowerManager)oldPlant;
 
         if (deltaPower.Power == 0)
         {
@@ -125,9 +126,9 @@ public class UserPlantsService : IUserPlantsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserPlantLevelAsync(string userId, Plants plant)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userPlantsRepository.UpdateUserPlantLevelAsync(userId, plant);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -137,23 +138,29 @@ public class UserPlantsService : IUserPlantsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserPlantStarAsync(string userId, Plants plant)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userPlantsRepository.UpdateUserPlantStarAsync(userId, plant);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _plantsGalleryService.UpdateTempStarPlantGalleryAsync(userId, plant.Id, plant.Star);
 
         return true;
     }
 
     public async Task<Plants> GetUserPlantByIdAsync(string userId, string Id)
     {
-        return await _userPlantsRepository.GetUserPlantByIdAsync(userId, Id);
+        var result = await _userPlantsRepository.GetUserPlantByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Plants> SumPowerUserPlantsAsync(string userId)

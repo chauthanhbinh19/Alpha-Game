@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserSpiritCardsService : IUserSpiritCardsService
 {
-    private static UserSpiritCardsService _instance;
     private readonly IUserSpiritCardsRepository _userSpiritCardsRepository;
+    private readonly ISpiritCardsGalleryService _spiritCardsGalleryService;
+    private readonly ISpiritCardsService _spiritCardsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserSpiritCardsService(IUserSpiritCardsRepository userSpiritCardsRepository)
+    public UserSpiritCardsService(
+        IUserSpiritCardsRepository userSpiritCardsRepository,
+        ISpiritCardsGalleryService spiritCardsGalleryService,
+        ISpiritCardsService spiritCardsService,
+        IPowerManagerService powerManagerService)
     {
         _userSpiritCardsRepository = userSpiritCardsRepository;
+        _spiritCardsGalleryService = spiritCardsGalleryService;
+        _spiritCardsService = spiritCardsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserSpiritCardsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserSpiritCardsService(new UserSpiritCardsRepository());
-        }
-        return _instance;
-    }
+    public static IUserSpiritCardsService Create() => ServiceContainer.GetService<IUserSpiritCardsService>();
 
     public async Task<List<SpiritCards>> GetUserSpiritCardAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<SpiritCards> list = await _userSpiritCardsRepository.GetUserSpiritCardsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         return await _userSpiritCardsRepository.GetUserSpiritCardsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritCardAsync(string userId, SpiritCards spiritCard)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        SpiritCards oldSpiritCard = await _spiritCardsService.SumPowerSpiritCardsPercentAsync(userId);
+        var insertOrUpdateResult = await _userSpiritCardsRepository.InsertOrUpdateUserSpiritCardAsync(userId, spiritCard);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserSpiritCardsService : IUserSpiritCardsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _spiritCardsGalleryService.InsertSpiritCardGalleryAsync(userId, spiritCard.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        SpiritCards newSpiritCard = await _spiritCardsService.SumPowerSpiritCardsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newSpiritCard - (PowerManager)oldSpiritCard;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritCardsBatchAsync(string userId, List<SpiritCards> spiritCardes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        SpiritCards oldSpiritCard = await _spiritCardsService.SumPowerSpiritCardsPercentAsync(userId);
+        var repositoryResult = await _userSpiritCardsRepository.InsertOrUpdateUserSpiritCardsBatchAsync(userId, spiritCardes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _spiritCardsGalleryService.InsertBatchSpiritCardsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        SpiritCards newSpiritCard = await _spiritCardsService.SumPowerSpiritCardsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newSpiritCard - (PowerManager)oldSpiritCard;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserSpiritCardLevelAsync(string userId, SpiritCards spiritCard)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userSpiritCardsRepository.UpdateUserSpiritCardLevelAsync(userId, spiritCard);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserSpiritCardsService : IUserSpiritCardsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserSpiritCardStarAsync(string userId, SpiritCards spiritCard)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userSpiritCardsRepository.UpdateUserSpiritCardStarAsync(userId, spiritCard);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _spiritCardsGalleryService.UpdateTempStarSpiritCardGalleryAsync(userId, spiritCard.Id, spiritCard.Star);
 
         return true;
     }
 
     public async Task<SpiritCards> GetUserSpiritCardByIdAsync(string userId, string Id)
     {
-        return await _userSpiritCardsRepository.GetUserSpiritCardByIdAsync(userId, Id);
+        var result = await _userSpiritCardsRepository.GetUserSpiritCardByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<SpiritCards> SumPowerUserSpiritCardsAsync(string userId)

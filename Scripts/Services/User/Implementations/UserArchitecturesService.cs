@@ -5,13 +5,19 @@ public class UserArchitecturesService : IUserArchitecturesService
 {
     private readonly IUserArchitecturesRepository _userArchitecturesRepository;
     private readonly IArchitecturesGalleryService _architecturesGalleryService;
+    private readonly IArchitecturesService _architecturesService;
+    private readonly IPowerManagerService _powerManagerService;
 
     public UserArchitecturesService(
-        IUserArchitecturesRepository userArchitecturesService,
-        IArchitecturesGalleryService architecturesGalleryService)
+        IUserArchitecturesRepository userArchitecturesRepository,
+        IArchitecturesGalleryService architecturesGalleryService,
+        IArchitecturesService architecturesService,
+        IPowerManagerService powerManagerService)
     {
-        _userArchitecturesRepository = userArchitecturesService;
+        _userArchitecturesRepository = userArchitecturesRepository;
         _architecturesGalleryService = architecturesGalleryService;
+        _architecturesService = architecturesService;
+        _powerManagerService = powerManagerService;
     }
 
     public static IUserArchitecturesService Create() => ServiceContainer.GetService<IUserArchitecturesService>();
@@ -20,6 +26,8 @@ public class UserArchitecturesService : IUserArchitecturesService
     {
         List<Architectures> list = await _userArchitecturesRepository.GetUserArchitecturesAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -29,10 +37,10 @@ public class UserArchitecturesService : IUserArchitecturesService
         return await _userArchitecturesRepository.GetUserArchitecturesCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArchitectureAsync(string userId, Architectures architecture)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Architectures oldArchitecture = await _architecturesService.SumPowerArchitecturesPercentAsync(userId);
+        var insertOrUpdateResult = await _userArchitecturesRepository.InsertOrUpdateUserArchitectureAsync(userId, architecture);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -49,10 +57,10 @@ public class UserArchitecturesService : IUserArchitecturesService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _architecturesGalleryService.InsertArchitectureGalleryAsync(userId, architecture.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Architectures newArchitecture = await _architecturesService.SumPowerArchitecturesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newArchitecture - (PowerManager)oldArchitecture;
 
         if (deltaPower.Power == 0)
         {
@@ -67,10 +75,10 @@ public class UserArchitecturesService : IUserArchitecturesService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArchitecturesBatchAsync(string userId, List<Architectures> architecturees)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Architectures oldArchitecture = await _architecturesService.SumPowerArchitecturesPercentAsync(userId);
+        var repositoryResult = await _userArchitecturesRepository.InsertOrUpdateUserArchitecturesBatchAsync(userId, architecturees);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -87,11 +95,11 @@ public class UserArchitecturesService : IUserArchitecturesService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _architecturesGalleryService.InsertBatchArchitecturesGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Architectures newArchitecture = await _architecturesService.SumPowerArchitecturesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newArchitecture - (PowerManager)oldArchitecture;
 
         if (deltaPower.Power == 0)
         {
@@ -118,9 +126,9 @@ public class UserArchitecturesService : IUserArchitecturesService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserArchitectureLevelAsync(string userId, Architectures architecture)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userArchitecturesRepository.UpdateUserArchitectureLevelAsync(userId, architecture);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -130,23 +138,29 @@ public class UserArchitecturesService : IUserArchitecturesService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserArchitectureStarAsync(string userId, Architectures architecture)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userArchitecturesRepository.UpdateUserArchitectureStarAsync(userId, architecture);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _architecturesGalleryService.UpdateTempStarArchitectureGalleryAsync(userId, architecture.Id, architecture.Star);
 
         return true;
     }
 
     public async Task<Architectures> GetUserArchitectureByIdAsync(string userId, string Id)
     {
-        return await _userArchitecturesRepository.GetUserArchitectureByIdAsync(userId, Id);
+        var result = await _userArchitecturesRepository.GetUserArchitectureByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Architectures> SumPowerUserArchitecturesAsync(string userId)

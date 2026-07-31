@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserRobotsService : IUserRobotsService
 {
-    private static UserRobotsService _instance;
     private readonly IUserRobotsRepository _userRobotsRepository;
+    private readonly IRobotsGalleryService _robotsGalleryService;
+    private readonly IRobotsService _robotsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserRobotsService(IUserRobotsRepository userRobotsRepository)
+    public UserRobotsService(
+        IUserRobotsRepository userRobotsRepository,
+        IRobotsGalleryService robotsGalleryService,
+        IRobotsService robotsService,
+        IPowerManagerService powerManagerService)
     {
         _userRobotsRepository = userRobotsRepository;
+        _robotsGalleryService = robotsGalleryService;
+        _robotsService = robotsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserRobotsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserRobotsService(new UserRobotsRepository());
-        }
-        return _instance;
-    }
+    public static IUserRobotsService Create() => ServiceContainer.GetService<IUserRobotsService>();
 
     public async Task<List<Robots>> GetUserRobotsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Robots> list = await _userRobotsRepository.GetUserRobotsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserRobotsService : IUserRobotsService
         return await _userRobotsRepository.GetUserRobotsCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRobotAsync(string userId, Robots robot)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Robots oldRobot = await _robotsService.SumPowerRobotsPercentAsync(userId);
+        var insertOrUpdateResult = await _userRobotsRepository.InsertOrUpdateUserRobotAsync(userId, robot);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserRobotsService : IUserRobotsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _robotsGalleryService.InsertRobotGalleryAsync(userId, robot.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Robots newRobot = await _robotsService.SumPowerRobotsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newRobot - (PowerManager)oldRobot;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserRobotsService : IUserRobotsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRobotsBatchAsync(string userId, List<Robots> robotes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Robots oldRobot = await _robotsService.SumPowerRobotsPercentAsync(userId);
+        var repositoryResult = await _userRobotsRepository.InsertOrUpdateUserRobotsBatchAsync(userId, robotes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserRobotsService : IUserRobotsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _robotsGalleryService.InsertBatchRobotsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Robots newRobot = await _robotsService.SumPowerRobotsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newRobot - (PowerManager)oldRobot;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserRobotsService : IUserRobotsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserRobotLevelAsync(string userId, Robots robot)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userRobotsRepository.UpdateUserRobotLevelAsync(userId, robot);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserRobotsService : IUserRobotsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserRobotStarAsync(string userId, Robots robot)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userRobotsRepository.UpdateUserRobotStarAsync(userId, robot);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _robotsGalleryService.UpdateTempStarRobotGalleryAsync(userId, robot.Id, robot.Star);
 
         return true;
     }
 
     public async Task<Robots> GetUserRobotByIdAsync(string userId, string Id)
     {
-        return await _userRobotsRepository.GetUserRobotByIdAsync(userId, Id);
+        var result = await _userRobotsRepository.GetUserRobotByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Robots> SumPowerUserRobotsAsync(string userId)

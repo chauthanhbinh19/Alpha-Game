@@ -598,7 +598,7 @@ public class UserEquipmentsRepository : IUserEquipmentsRepository
 
         return equipment;
     }
-    public async Task<InsertOrUpdateResult<Equipments>> InsertOrUpdateEquipmentAsync(string userId, Equipments equipment)
+    public async Task<InsertOrUpdateResult<Equipments>> InsertOrUpdateUserEquipmentAsync(string userId, Equipments equipment)
     {
         string sql = @"
         INSERT INTO user_equipments (

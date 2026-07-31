@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserSkillsService : IUserSkillsService
 {
-    private static UserSkillsService _instance;
     private readonly IUserSkillsRepository _userSkillsRepository;
+    private readonly ISkillsGalleryService _skillsGalleryService;
+    private readonly ISkillsService _skillsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserSkillsService(IUserSkillsRepository userSkillsRepository)
+    public UserSkillsService(
+        IUserSkillsRepository userSkillsRepository,
+        ISkillsGalleryService skillsGalleryService,
+        ISkillsService skillsService,
+        IPowerManagerService powerManagerService)
     {
         _userSkillsRepository = userSkillsRepository;
+        _skillsGalleryService = skillsGalleryService;
+        _skillsService = skillsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserSkillsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserSkillsService(new UserSkillsRepository());
-        }
-        return _instance;
-    }
+    public static IUserSkillsService Create() => ServiceContainer.GetService<IUserSkillsService>();
 
     public async Task<List<Skills>> GetUserSkillsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Skills> list = await _userSkillsRepository.GetUserSkillsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -40,10 +44,9 @@ public class UserSkillsService : IUserSkillsService
         return await _userSkillsRepository.GetUserSkillsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSkillAsync(string userId, Skills skill)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        var insertOrUpdateResult = await _userSkillsRepository.InsertOrUpdateUserSkillAsync(userId, skill);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -60,28 +63,14 @@ public class UserSkillsService : IUserSkillsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
-
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        await _skillsGalleryService.InsertSkillGalleryAsync(userId, skill.Id);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSkillsBatchAsync(string userId, List<Skills> skilles)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        var repositoryResult = await _userSkillsRepository.InsertOrUpdateUserSkillsBatchAsync(userId, skilles);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -98,21 +87,8 @@ public class UserSkillsService : IUserSkillsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _skillsGalleryService.InsertBatchSkillsGalleryAsync(userId, newlyInsertedCards);
         }
-
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         // 3. Mapping kết quả OperationType trả về gọn gàng
         return repositoryResult.OperationType switch
@@ -129,9 +105,9 @@ public class UserSkillsService : IUserSkillsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserSkillLevelAsync(string userId, Skills skill)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userSkillsRepository.UpdateUserSkillLevelAsync(userId, skill);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -141,29 +117,37 @@ public class UserSkillsService : IUserSkillsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserSkillStarAsync(string userId, Skills skill)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userSkillsRepository.UpdateUserSkillStarAsync(userId, skill);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _skillsGalleryService.UpdateTempStarSkillGalleryAsync(userId, skill.Id, skill.Star);
 
         return true;
     }
 
     public async Task<Skills> GetUserSkillsByIdAsync(string userId, string Id)
     {
-        return await _userSkillsRepository.GetUserSkillsByIdAsync(userId, Id);
+        var result = await _userSkillsRepository.GetUserSkillsByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<List<Skills>> GetUserCardHeroesSkillsAsync(string userId, string cardId)
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -179,6 +163,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardCaptainsSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -194,6 +180,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardColonelsSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -209,6 +197,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardGeneralsSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -224,6 +214,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardAdmiralsSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -239,6 +231,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardMilitariesSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -254,6 +248,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardMonstersSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -269,6 +265,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardSpellsSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -284,6 +282,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardSoldiersSkillsAsync(userId, cardId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -299,6 +299,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardHeroesSkillsAsync(userId, cardHeroIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -314,6 +316,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardCaptainsSkillsAsync(userId, cardCaptainIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -329,6 +333,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardColonelsSkillsAsync(userId, cardColonelIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -344,6 +350,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardGeneralsSkillsAsync(userId, cardGeneralIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -359,6 +367,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardAdmiralsSkillsAsync(userId, cardAdmiralIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -374,6 +384,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardMilitariesSkillsAsync(userId, cardMilitaryIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -389,6 +401,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardMonstersSkillsAsync(userId, cardMonsterIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -404,6 +418,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardSpellsSkillsAsync(userId, cardSpellIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)
@@ -419,6 +435,8 @@ public class UserSkillsService : IUserSkillsService
     {
         List<Skills> list = await _userSkillsRepository.GetUserCardSoldiersSkillsAsync(userId, cardSoldierIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
 
         foreach (var skill in list)

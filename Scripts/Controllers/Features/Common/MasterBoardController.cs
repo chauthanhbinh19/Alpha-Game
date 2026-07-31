@@ -17,8 +17,6 @@ public class MasterBoardController : MonoBehaviour
     private GameObject MasterBoardNodePrefab;
     private GameObject MasterBoardPopupPrefab;
     private string mainType;
-    UserItemsService userItemsService;
-    TeamsService teamsService;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -42,9 +40,6 @@ public class MasterBoardController : MonoBehaviour
         TypeButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.TYPE_BUTTON_PREFAB);
         MasterBoardNodePrefab = UIManager.Instance.Get("MasterBoardNodePrefab");
         MasterBoardPopupPrefab = UIManager.Instance.Get("MasterBoardPopupPrefab");
-
-        userItemsService = UserItemsService.Create();
-        teamsService = TeamsService.Create();
     }
     public async Task CreateMasterBoardAsync(GameObject gameObject)
     {
@@ -166,7 +161,7 @@ public class MasterBoardController : MonoBehaviour
         mainImage.color = Color.white;
 
         RawImage materialImage = popup.transform.Find("Material/MaterialImage").GetComponent<RawImage>();
-        Items items = await userItemsService.GetUserItemByNameAsync(User.CurrentUserId, "Attack Amulet");
+        Items items = await UserItemsService.Create().GetUserItemByNameAsync(User.CurrentUserId, "Attack Amulet");
         string fileNameWithoutExtension = items.Image.Split('.')[0];
         Texture materialTexture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
         materialImage.texture = materialTexture;
@@ -184,7 +179,7 @@ public class MasterBoardController : MonoBehaviour
                 if (items.Quantity >= materialQuantity)
                 {
                     items.Quantity = items.Quantity - materialQuantity;
-                    await userItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, items);
+                    await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, items);
                     // newanimeStats = EnhanceAnimeStats(animeStats, 1);
                     // double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);
                     await UserMasterBoardService.Create().InsertUserMasterBoardAsync(User.CurrentUserId, masterBoard);
@@ -203,7 +198,7 @@ public class MasterBoardController : MonoBehaviour
                 if (items.Quantity >= materialQuantity)
                 {
                     items.Quantity = items.Quantity - materialQuantity;
-                    await userItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, items);
+                    await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, items);
                     masterBoard.RankLevel = QualityEvaluatorHelper.GetNextQuality(masterBoard.RankLevel);
                     // newanimeStats = EnhanceAnimeStats(animeStats, 1);
                     // double currentPower = teamsService.GetTeamsPower(User.CurrentUserId);

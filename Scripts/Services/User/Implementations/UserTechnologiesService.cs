@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserTechnologiesService : IUserTechnologiesService
 {
-    private static UserTechnologiesService _instance;
     private readonly IUserTechnologiesRepository _userTechnologiesRepository;
+    private readonly ITechnologiesGalleryService _technologiesGalleryService;
+    private readonly ITechnologiesService _technologiesService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserTechnologiesService(IUserTechnologiesRepository userTechnologiesRepository)
+    public UserTechnologiesService(
+        IUserTechnologiesRepository userTechnologiesRepository,
+        ITechnologiesGalleryService technologiesGalleryService,
+        ITechnologiesService technologiesService,
+        IPowerManagerService powerManagerService)
     {
         _userTechnologiesRepository = userTechnologiesRepository;
+        _technologiesGalleryService = technologiesGalleryService;
+        _technologiesService = technologiesService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserTechnologiesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserTechnologiesService(new UserTechnologiesRepository());
-        }
-        return _instance;
-    }
+    public static IUserTechnologiesService Create() => ServiceContainer.GetService<IUserTechnologiesService>();
 
     public async Task<List<Technologies>> GetUserTechnologiesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Technologies> list = await _userTechnologiesRepository.GetUserTechnologiesAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserTechnologiesService : IUserTechnologiesService
         return await _userTechnologiesRepository.GetUserTechnologiesCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTechnologyAsync(string userId, Technologies technology)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Technologies oldTechnology = await _technologiesService.SumPowerTechnologiesPercentAsync(userId);
+        var insertOrUpdateResult = await _userTechnologiesRepository.InsertOrUpdateUserTechnologyAsync(userId, technology);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserTechnologiesService : IUserTechnologiesService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _technologiesGalleryService.InsertTechnologyGalleryAsync(userId, technology.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Technologies newTechnology = await _technologiesService.SumPowerTechnologiesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newTechnology - (PowerManager)oldTechnology;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserTechnologiesService : IUserTechnologiesService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTechnologiesBatchAsync(string userId, List<Technologies> technologyes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Technologies oldTechnology = await _technologiesService.SumPowerTechnologiesPercentAsync(userId);
+        var repositoryResult = await _userTechnologiesRepository.InsertOrUpdateUserTechnologiesBatchAsync(userId, technologyes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserTechnologiesService : IUserTechnologiesService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _technologiesGalleryService.InsertBatchTechnologiesGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Technologies newTechnology = await _technologiesService.SumPowerTechnologiesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newTechnology - (PowerManager)oldTechnology;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserTechnologiesService : IUserTechnologiesService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserTechnologyLevelAsync(string userId, Technologies technology)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userTechnologiesRepository.UpdateUserTechnologyLevelAsync(userId, technology);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserTechnologiesService : IUserTechnologiesService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserTechnologyStarAsync(string userId, Technologies technology)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userTechnologiesRepository.UpdateUserTechnologyStarAsync(userId, technology);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _technologiesGalleryService.UpdateTempStarTechnologyGalleryAsync(userId, technology.Id, technology.Star);
 
         return true;
     }
 
     public async Task<Technologies> GetUserTechnologyByIdAsync(string userId, string Id)
     {
-        return await _userTechnologiesRepository.GetUserTechnologyByIdAsync(userId, Id);
+        var result = await _userTechnologiesRepository.GetUserTechnologyByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Technologies> SumPowerUserTechnologiesAsync(string userId)

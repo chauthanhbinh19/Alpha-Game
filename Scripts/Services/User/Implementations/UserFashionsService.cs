@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserFashionsService : IUserFashionsService
 {
-    private static UserFashionsService _instance;
     private readonly IUserFashionsRepository _userFashionsRepository;
+    private readonly IFashionsGalleryService _fashionsGalleryService;
+    private readonly IFashionsService _fashionsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserFashionsService(IUserFashionsRepository userFashionsRepository)
+    public UserFashionsService(
+        IUserFashionsRepository userFashionsRepository,
+        IFashionsGalleryService fashionsGalleryService,
+        IFashionsService fashionsService,
+        IPowerManagerService powerManagerService)
     {
         _userFashionsRepository = userFashionsRepository;
+        _fashionsGalleryService = fashionsGalleryService;
+        _fashionsService = fashionsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserFashionsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserFashionsService(new UserFashionsRepository());
-        }
-        return _instance;
-    }
+    public static IUserFashionsService Create() => ServiceContainer.GetService<IUserFashionsService>();
 
     public async Task<List<Fashions>> GetUserFashionsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Fashions> list = await _userFashionsRepository.GetUserFashionsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserFashionsService : IUserFashionsService
         return await _userFashionsRepository.GetUserFashionsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFashionAsync(string userId, Fashions fashion)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Fashions oldFashion = await _fashionsService.SumPowerFashionsPercentAsync(userId);
+        var insertOrUpdateResult = await _userFashionsRepository.InsertOrUpdateUserFashionAsync(userId, fashion);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserFashionsService : IUserFashionsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _fashionsGalleryService.InsertFashionGalleryAsync(userId, fashion.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Fashions newFashion = await _fashionsService.SumPowerFashionsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newFashion - (PowerManager)oldFashion;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserFashionsService : IUserFashionsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserFashionsBatchAsync(string userId, List<Fashions> fashiones)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Fashions oldFashion = await _fashionsService.SumPowerFashionsPercentAsync(userId);
+        var repositoryResult = await _userFashionsRepository.InsertOrUpdateUserFashionsBatchAsync(userId, fashiones);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserFashionsService : IUserFashionsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _fashionsGalleryService.InsertBatchFashionsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Fashions newFashion = await _fashionsService.SumPowerFashionsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newFashion - (PowerManager)oldFashion;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserFashionsService : IUserFashionsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserFashionLevelAsync(string userId, Fashions fashion)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userFashionsRepository.UpdateUserFashionLevelAsync(userId, fashion);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserFashionsService : IUserFashionsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserFashionStarAsync(string userId, Fashions fashion)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userFashionsRepository.UpdateUserFashionStarAsync(userId, fashion);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _fashionsGalleryService.UpdateTempStarFashionGalleryAsync(userId, fashion.Id, fashion.Star);
 
         return true;
     }
 
     public async Task<Fashions> GetUserFashionByIdAsync(string userId, string Id)
     {
-        return await _userFashionsRepository.GetUserFashionByIdAsync(userId, Id);
+        var result = await _userFashionsRepository.GetUserFashionByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Fashions> SumPowerUserFashionsAsync(string userId)

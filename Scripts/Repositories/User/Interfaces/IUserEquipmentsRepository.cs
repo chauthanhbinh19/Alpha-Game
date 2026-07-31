@@ -7,7 +7,7 @@ public interface IUserEquipmentsRepository
     Task<List<Equipments>> GetUserAllEquipmentsAsync(string userId);
     Task<int> GetUserEquipmentsCountAsync(string userId, string search, string type, string rare);
     Task<Equipments> GetUserEquipmentsByIdAsync(string userId, string Id);
-    Task<InsertOrUpdateResult<Equipments>> InsertOrUpdateEquipmentAsync(string userId, Equipments EquipmentFromDB);
+    Task<InsertOrUpdateResult<Equipments>> InsertOrUpdateUserEquipmentAsync(string userId, Equipments EquipmentFromDB);
     Task<InsertOrUpdateResult<BatchOperationResultDTO<Equipments>>> InsertOrUpdateUserEquipmentsBatchAsync(string userId, List<(Equipments data, double quantity)> list);
     Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentLevelAsync(string userId, Equipments equipment);
     Task<InsertOrUpdateResult<bool>> UpdateUserEquipmentStarAsync(string userId, Equipments equipment);

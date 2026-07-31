@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserTalismansService : IUserTalismansService
 {
-    private static UserTalismansService _instance;
     private readonly IUserTalismansRepository _userTalismansRepository;
+    private readonly ITalismansGalleryService _talismansGalleryService;
+    private readonly ITalismansService _talismansService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserTalismansService(IUserTalismansRepository userTalismansRepository)
+    public UserTalismansService(
+        IUserTalismansRepository userTalismansRepository,
+        ITalismansGalleryService talismansGalleryService,
+        ITalismansService talismansService,
+        IPowerManagerService powerManagerService)
     {
         _userTalismansRepository = userTalismansRepository;
+        _talismansGalleryService = talismansGalleryService;
+        _talismansService = talismansService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserTalismansService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserTalismansService(new UserTalismansRepository());
-        }
-        return _instance;
-    }
+    public static IUserTalismansService Create() => ServiceContainer.GetService<IUserTalismansService>();
 
     public async Task<List<Talismans>> GetUserTalismansAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Talismans> list = await _userTalismansRepository.GetUserTalismansAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserTalismansService : IUserTalismansService
         return await _userTalismansRepository.GetUserTalismansCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTalismanAsync(string userId, Talismans talisman)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Talismans oldTalisman = await _talismansService.SumPowerTalismansPercentAsync(userId);
+        var insertOrUpdateResult = await _userTalismansRepository.InsertOrUpdateUserTalismanAsync(userId, talisman);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserTalismansService : IUserTalismansService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _talismansGalleryService.InsertTalismanGalleryAsync(userId, talisman.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Talismans newTalisman = await _talismansService.SumPowerTalismansPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newTalisman - (PowerManager)oldTalisman;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserTalismansService : IUserTalismansService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserTalismansBatchAsync(string userId, List<Talismans> talismanes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Talismans oldTalisman = await _talismansService.SumPowerTalismansPercentAsync(userId);
+        var repositoryResult = await _userTalismansRepository.InsertOrUpdateUserTalismansBatchAsync(userId, talismanes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserTalismansService : IUserTalismansService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _talismansGalleryService.InsertBatchTalismansGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Talismans newTalisman = await _talismansService.SumPowerTalismansPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newTalisman - (PowerManager)oldTalisman;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserTalismansService : IUserTalismansService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserTalismanLevelAsync(string userId, Talismans talisman)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userTalismansRepository.UpdateUserTalismanLevelAsync(userId, talisman);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserTalismansService : IUserTalismansService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserTalismanStarAsync(string userId, Talismans talisman)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userTalismansRepository.UpdateUserTalismanStarAsync(userId, talisman);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _talismansGalleryService.UpdateTempStarTalismanGalleryAsync(userId, talisman.Id, talisman.Star);
 
         return true;
     }
 
     public async Task<Talismans> GetUserTalismanByIdAsync(string userId, string Id)
     {
-        return await _userTalismansRepository.GetUserTalismanByIdAsync(userId, Id);
+        var result = await _userTalismansRepository.GetUserTalismanByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Talismans> SumPowerUserTalismansAsync(string userId)

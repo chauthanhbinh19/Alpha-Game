@@ -318,71 +318,62 @@ public class GachaSystem : MonoBehaviour
                 {
                     cardHero.Quantity += 1;
                     await UserCardHeroesService.Create().InsertOrUpdateUserCardHeroAsync(User.CurrentUserId, cardHero);
-                    await CardHeroesGalleryService.Create().InsertCardHeroGalleryAsync(User.CurrentUserId, cardHero.Id);
                 }
                 break;
             case AppConstants.MainType.SUMMON_BOOK:
                 if (card is Books book)
                 {
                     book.Quantity += 1;
-                    await UserBooksService.Create().InsertUserBookAsync(User.CurrentUserId, book);
-                    await BooksGalleryService.Create().InsertBookGalleryAsync(User.CurrentUserId, book.Id);
+                    await UserBooksService.Create().InsertOrUpdateUserBookAsync(User.CurrentUserId, book);
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_CAPTAIN:
                 if (card is CardCaptains cardCaptain)
                 {
                     cardCaptain.Quantity += 1;
-                    await UserCardCaptainsService.Create().InsertUserCardCaptainAsync(User.CurrentUserId, cardCaptain);
-                    await CardCaptainsGalleryService.Create().InsertCardCaptainGalleryAsync(User.CurrentUserId, cardCaptain.Id);
+                    await UserCardCaptainsService.Create().InsertOrUpdateUserCardCaptainAsync(User.CurrentUserId, cardCaptain);
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_MONSTER:
                 if (card is CardMonsters cardMonster)
                 {
                     cardMonster.Quantity += 1;
-                    await UserCardMonstersService.Create().InsertUserCardMonsterAsync(User.CurrentUserId, cardMonster);
-                    await CardMonstersGalleryService.Create().InsertCardMonsterGalleryAsync(User.CurrentUserId, cardMonster.Id);
+                    await UserCardMonstersService.Create().InsertOrUpdateUserCardMonsterAsync(User.CurrentUserId, cardMonster);
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_MILITARY:
                 if (card is CardMilitaries cardMilitary)
                 {
                     cardMilitary.Quantity += 1;
-                    await UserCardMilitariesService.Create().InsertUserCardMilitaryAsync(User.CurrentUserId, cardMilitary);
-                    await CardMilitariesGalleryService.Create().InsertCardMilitaryGalleryAsync(User.CurrentUserId, cardMilitary.Id);
+                    await UserCardMilitariesService.Create().InsertOrUpdateUserCardMilitaryAsync(User.CurrentUserId, cardMilitary);
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_SPELL:
                 if (card is CardSpells cardSpell)
                 {
                     cardSpell.Quantity += 1;
-                    await UserCardSpellsService.Create().InsertUserCardSpellAsync(User.CurrentUserId, cardSpell);
-                    await CardSpellsGalleryService.Create().InsertCardSpellGalleryAsync(User.CurrentUserId, cardSpell.Id);
+                    await UserCardSpellsService.Create().InsertOrUpdateUserCardSpellAsync(User.CurrentUserId, cardSpell);
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_COLONEL:
                 if (card is CardColonels cardColonel)
                 {
                     cardColonel.Quantity += 1;
-                    await UserCardColonelsService.Create().InsertUserCardColonelAsync(User.CurrentUserId, cardColonel);
-                    await CardColonelsGalleryService.Create().InsertCardColonelGalleryAsync(User.CurrentUserId, cardColonel.Id);
+                    await UserCardColonelsService.Create().InsertOrUpdateUserCardColonelAsync(User.CurrentUserId, cardColonel);
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_GENERAL:
                 if (card is CardGenerals cardGeneral)
                 {
                     cardGeneral.Quantity += 1;
-                    await UserCardGeneralsService.Create().InsertUserCardGeneralAsync(User.CurrentUserId, cardGeneral);
-                    await CardGeneralsGalleryService.Create().InsertCardGeneralGalleryAsync(User.CurrentUserId, cardGeneral.Id);
+                    await UserCardGeneralsService.Create().InsertOrUpdateUserCardGeneralAsync(User.CurrentUserId, cardGeneral);
                 }
                 break;
             case AppConstants.MainType.SUMMON_CARD_ADMIRAL:
                 if (card is CardAdmirals cardAdmiral)
                 {
                     cardAdmiral.Quantity += 1;
-                    await UserCardAdmiralsService.Create().InsertUserCardAdmiralAsync(User.CurrentUserId, cardAdmiral);
-                    await CardAdmiralsGalleryService.Create().InsertCardAdmiralGalleryAsync(User.CurrentUserId, cardAdmiral.Id);
+                    await UserCardAdmiralsService.Create().InsertOrUpdateUserCardAdmiralAsync(User.CurrentUserId, cardAdmiral);
                 }
                 break;
         }

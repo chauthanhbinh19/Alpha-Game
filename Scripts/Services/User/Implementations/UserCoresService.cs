@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserCoresService : IUserCoresService
 {
-    private static UserCoresService _instance;
     private readonly IUserCoresRepository _userCoresRepository;
+    private readonly ICoresGalleryService _coresGalleryService;
+    private readonly ICoresService _coresService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserCoresService(IUserCoresRepository userCoresRepository)
+    public UserCoresService(
+        IUserCoresRepository userCoresRepository,
+        ICoresGalleryService coresGalleryService,
+        ICoresService coresService,
+        IPowerManagerService powerManagerService)
     {
         _userCoresRepository = userCoresRepository;
+        _coresGalleryService = coresGalleryService;
+        _coresService = coresService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserCoresService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserCoresService(new UserCoresRepository());
-        }
-        return _instance;
-    }
+    public static IUserCoresService Create() => ServiceContainer.GetService<IUserCoresService>();
 
     public async Task<List<Cores>> GetUserCoresAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Cores> list = await _userCoresRepository.GetUserCoresAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserCoresService : IUserCoresService
         return await _userCoresRepository.GetUserCoresCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCoreAsync(string userId, Cores core)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Cores oldCore = await _coresService.SumPowerCoresPercentAsync(userId);
+        var insertOrUpdateResult = await _userCoresRepository.InsertOrUpdateUserCoreAsync(userId, core);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserCoresService : IUserCoresService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _coresGalleryService.InsertCoreGalleryAsync(userId, core.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Cores newCore = await _coresService.SumPowerCoresPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newCore - (PowerManager)oldCore;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserCoresService : IUserCoresService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCoresBatchAsync(string userId, List<Cores> corees)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Cores oldCore = await _coresService.SumPowerCoresPercentAsync(userId);
+        var repositoryResult = await _userCoresRepository.InsertOrUpdateUserCoresBatchAsync(userId, corees);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserCoresService : IUserCoresService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _coresGalleryService.InsertBatchCoresGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Cores newCore = await _coresService.SumPowerCoresPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newCore - (PowerManager)oldCore;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserCoresService : IUserCoresService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserCoreLevelAsync(string userId, Cores core)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userCoresRepository.UpdateUserCoreLevelAsync(userId, core);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserCoresService : IUserCoresService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserCoreStarAsync(string userId, Cores core)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userCoresRepository.UpdateUserCoreStarAsync(userId, core);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _coresGalleryService.UpdateTempStarCoreGalleryAsync(userId, core.Id, core.Star);
 
         return true;
     }
 
     public async Task<Cores> GetUserCoreByIdAsync(string userId, string Id)
     {
-        return await _userCoresRepository.GetUserCoreByIdAsync(userId, Id);
+        var result = await _userCoresRepository.GetUserCoreByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Cores> SumPowerUserCoresAsync(string userId)

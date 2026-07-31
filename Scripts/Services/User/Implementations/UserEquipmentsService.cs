@@ -3,22 +3,24 @@ using System.Threading.Tasks;
 
 public class UserEquipmentsService : IUserEquipmentsService
 {
-    private static UserEquipmentsService _instance;
-    private IUserEquipmentsRepository _userEquipmentsRepository;
+    private readonly IUserEquipmentsRepository _userEquipmentsRepository;
+    private readonly IEquipmentsGalleryService _equipmentsGalleryService;
+    private readonly IEquipmentsService _equipmentsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserEquipmentsService(IUserEquipmentsRepository userEquipmentsRepository)
+    public UserEquipmentsService(
+        IUserEquipmentsRepository userEquipmentsRepository,
+        IEquipmentsGalleryService equipmentsGalleryService,
+        IEquipmentsService equipmentsService,
+        IPowerManagerService powerManagerService)
     {
         _userEquipmentsRepository = userEquipmentsRepository;
+        _equipmentsGalleryService = equipmentsGalleryService;
+        _equipmentsService = equipmentsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserEquipmentsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserEquipmentsService(new UserEquipmentsRepository());
-        }
-        return _instance;
-    }
+    public static IUserEquipmentsService Create() => ServiceContainer.GetService<IUserEquipmentsService>();
 
     public async Task<List<Equipments>> GetAllRankPowerAsync(string userId, List<Equipments> EquipmentsList)
     {
@@ -88,6 +90,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserEquipmentsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -96,6 +100,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserAllEquipmentsAsync(userId);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -107,39 +113,101 @@ public class UserEquipmentsService : IUserEquipmentsService
 
     public async Task<Equipments> GetUserEquipmentsByIdAsync(string userId, string Id)
     {
-        return await _userEquipmentsRepository.GetUserEquipmentsByIdAsync(userId, Id);
-    }
+        var result = await _userEquipmentsRepository.GetUserEquipmentsByIdAsync(userId, Id);
 
-    public async Task<bool> InsertUserEquipmentAsync(string userId, string Id, double quantity)
-    {
-        IEquipmentsRepository _repository = new EquipmentsRepository();
-        EquipmentsService _service = new EquipmentsService(_repository);
-        var result = await _userEquipmentsRepository.InsertUserEquipmentAsync(userId, Id, await _service.GetEquipmentByIdAsync(Id), quantity);
-        if (result)
-        {
-            await EquipmentsGalleryService.Create().InsertEquipmentGalleryAsync(userId, Id);
-        }
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
         return result;
     }
 
-    public async Task<bool> UpdateUserEquipmentLevelAsync(string userId, Equipments equipments)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEquipmentAsync(string userId, Equipments equipment)
     {
-        return await _userEquipmentsRepository.UpdateUserEquipmentsLevelAsync(userId, equipments);
+        var insertOrUpdateResult = await _userEquipmentsRepository.InsertOrUpdateUserEquipmentAsync(userId, equipment);
+
+        if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        if (insertOrUpdateResult.OperationType == DatabaseOperationType.Updated)
+        {
+            return InsertOrUpdateResult<bool>.Updated(true);
+        }
+
+        await _equipmentsGalleryService.InsertEquipmentGalleryAsync(userId, equipment.Id);
+
+
+        return InsertOrUpdateResult<bool>.Inserted(true);
+    }
+
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEquipmentsBatchAsync(string userId, List<(Equipments data, double quantity)> list)
+    {
+        var repositoryResult = await _userEquipmentsRepository.InsertOrUpdateUserEquipmentsBatchAsync(userId, list);
+
+        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
+        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        {
+            return new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            };
+        }
+
+        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
+        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
+        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        {
+            await _equipmentsGalleryService.InsertBatchEquipmentsGalleryAsync(userId, newlyInsertedCards);
+        }
+
+        // 3. Mapping kết quả OperationType trả về gọn gàng
+        return repositoryResult.OperationType switch
+        {
+            DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
+            DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
+            DatabaseOperationType.Updated => InsertOrUpdateResult<bool>.Updated(true),
+            _ => new InsertOrUpdateResult<bool>
+            {
+                Data = false,
+                OperationType = DatabaseOperationType.None,
+                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+            }
+        };
+    }
+
+    public async Task<bool> UpdateUserEquipmentLevelAsync(string userId, Equipments equipment)
+    {
+        var updateResult = await _userEquipmentsRepository.UpdateUserEquipmentLevelAsync(userId, equipment);
+
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public async Task<bool> UpdateUserEquipmentStarAsync(string userId, Equipments equipment)
     {
-        var result = await _userEquipmentsRepository.UpdateUserEquipmentStarAsync(userId, equipment);
-        if (result)
-        {
-            await EquipmentsGalleryService.Create().UpdateTempStarEquipmentGalleryAsync(userId, equipment.Id, equipment.Star);
-        }
-        return result;
-    }
+        var updateResult = await _userEquipmentsRepository.UpdateUserEquipmentStarAsync(userId, equipment);
 
-    public async Task<bool> UpdateUserEquipmentsBreakthroughAsync(string userId, Equipments equipments, int star, double quantity)
-    {
-        return await _userEquipmentsRepository.UpdateUserEquipmentsBreakthroughAsync(userId, equipments, star, quantity);
+        if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
+        {
+            return false;
+        }
+
+        await _equipmentsGalleryService.UpdateTempStarEquipmentGalleryAsync(userId, equipment.Id, equipment.Star);
+
+        return true;
     }
 
     public async Task UpdateUserCurrencyAsync(string userId, string Id, double quantity)
@@ -206,6 +274,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserCardHeroesEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -213,6 +283,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserCardCaptainsEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -220,6 +292,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserCardColonelsEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -227,6 +301,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserCardGeneralsEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -234,6 +310,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserCardAdmiralsEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -241,6 +319,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserCardMonstersEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -248,6 +328,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserCardMilitariesEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -255,6 +337,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserCardSpellsEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -262,6 +346,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserBooksEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -269,6 +355,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserPetsEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -276,6 +364,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserCardSoldiersEquipmentsAsync(userId, card_id, type);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -283,6 +373,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllUserCardHeroesEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -290,6 +382,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllUserCardCaptainsEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -297,6 +391,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllUserCardColonelsEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -304,6 +400,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllUserCardGeneralsEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -311,6 +409,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllUserCardAdmiralsEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -318,6 +418,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllUserCardMonstersEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -325,6 +427,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllUserCardMilitariesEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -332,6 +436,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllUserCardSpellsEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -339,6 +445,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllUserBooksEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -346,6 +454,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllUserPetsEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -353,6 +463,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> list = await _userEquipmentsRepository.GetAllUserCardSoldiersEquipmentsAsync(userId, type, limit, offset, status);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         return list;
     }
 
@@ -552,10 +664,5 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         List<Equipments> allEquipments = await GetUserAllEquipmentsAsync(userId);
         return await _userEquipmentsRepository.EquipAllEquipmentsToCardSoldierAsync(userId, cardSoldierId, allEquipments);
-    }
-
-    public async Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(string userId, List<(Equipments data, double quantity)> list)
-    {
-        return await _userEquipmentsRepository.InsertOrUpdateUserEquipmentsBatchAsync(userId, list);
     }
 }

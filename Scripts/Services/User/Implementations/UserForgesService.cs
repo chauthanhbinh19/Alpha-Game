@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserForgesService : IUserForgesService
 {
-    private static UserForgesService _instance;
     private readonly IUserForgesRepository _userForgesRepository;
+    private readonly IForgesGalleryService _forgesGalleryService;
+    private readonly IForgesService _forgesService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserForgesService(IUserForgesRepository userForgesRepository)
+    public UserForgesService(
+        IUserForgesRepository userForgesRepository,
+        IForgesGalleryService forgesGalleryService,
+        IForgesService forgesService,
+        IPowerManagerService powerManagerService)
     {
         _userForgesRepository = userForgesRepository;
+        _forgesGalleryService = forgesGalleryService;
+        _forgesService = forgesService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserForgesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserForgesService(new UserForgesRepository());
-        }
-        return _instance;
-    }
+    public static IUserForgesService Create() => ServiceContainer.GetService<IUserForgesService>();
 
     public async Task<List<Forges>> GetUserForgesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Forges> list = await _userForgesRepository.GetUserForgesAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserForgesService : IUserForgesService
         return await _userForgesRepository.GetUserForgesCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserForgeAsync(string userId, Forges forge)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Forges oldForge = await _forgesService.SumPowerForgesPercentAsync(userId);
+        var insertOrUpdateResult = await _userForgesRepository.InsertOrUpdateUserForgeAsync(userId, forge);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserForgesService : IUserForgesService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _forgesGalleryService.InsertForgeGalleryAsync(userId, forge.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Forges newForge = await _forgesService.SumPowerForgesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newForge - (PowerManager)oldForge;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserForgesService : IUserForgesService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserForgesBatchAsync(string userId, List<Forges> forgees)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Forges oldForge = await _forgesService.SumPowerForgesPercentAsync(userId);
+        var repositoryResult = await _userForgesRepository.InsertOrUpdateUserForgesBatchAsync(userId, forgees);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserForgesService : IUserForgesService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _forgesGalleryService.InsertBatchForgesGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Forges newForge = await _forgesService.SumPowerForgesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newForge - (PowerManager)oldForge;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserForgesService : IUserForgesService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserForgeLevelAsync(string userId, Forges forge)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userForgesRepository.UpdateUserForgeLevelAsync(userId, forge);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserForgesService : IUserForgesService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserForgeStarAsync(string userId, Forges forge)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userForgesRepository.UpdateUserForgeStarAsync(userId, forge);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _forgesGalleryService.UpdateTempStarForgeGalleryAsync(userId, forge.Id, forge.Star);
 
         return true;
     }
 
     public async Task<Forges> GetUserForgeByIdAsync(string userId, string Id)
     {
-        return await _userForgesRepository.GetUserForgeByIdAsync(userId, Id);
+        var result = await _userForgesRepository.GetUserForgeByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Forges> SumPowerUserForgesAsync(string userId)

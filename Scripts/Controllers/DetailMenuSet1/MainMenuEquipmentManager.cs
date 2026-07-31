@@ -40,7 +40,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
     private int TotalPage;
     private string StatusToggle;
     private string Set;
-    TeamsService TeamsService;
     private string Search;
     // private string type;
     private string Rare;
@@ -74,8 +73,6 @@ public class MainMenuEquipmentManager : MonoBehaviour
         Slot16Prefab = UIManager.Instance.Get("Slot16Prefab");
         SetButtonPrefab = UIManager.Instance.Get("SetButtonPrefab");
         StarPrefab = UIManager.Instance.Get("StarPrefab");
-
-        TeamsService = TeamsService.Create();
     }
     public async Task CreateMainMenuEquipmentManagerAsync(object data)
     {
@@ -193,7 +190,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardHeroesEquipmentsAsync(cardHero);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -209,7 +206,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardCaptainsEquipmentsAsync(cardCaptain);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -225,7 +222,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardColonelsEquipmentsAsync(cardColonel);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -241,7 +238,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardGeneralsEquipmentsAsync(cardGeneral);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -257,7 +254,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -273,7 +270,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardMonstersEquipmentsAsync(cardMonster);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -289,7 +286,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardMilitaryEquipmentsAsync(cardMilitary);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -305,7 +302,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardSpellEquipmentsAsync(cardSpell);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -321,7 +318,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateBooksEquipmentsAsync(book);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -337,7 +334,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreatePetsEquipmentsAsync(pet);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -358,7 +355,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardHeroesEquipmentsAsync(cardHero);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -374,7 +371,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardCaptainsEquipmentsAsync(cardCaptain);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -390,7 +387,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardColonelsEquipmentsAsync(cardColonel);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -406,7 +403,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardGeneralsEquipmentsAsync(cardGeneral);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -422,7 +419,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -438,7 +435,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardMonstersEquipmentsAsync(cardMonster);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -454,7 +451,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardMilitaryEquipmentsAsync(cardMilitary);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -470,7 +467,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateCardSpellEquipmentsAsync(cardSpell);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -486,7 +483,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreateBooksEquipmentsAsync(book);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -502,7 +499,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 if (success)
                 {
                     await CreatePetsEquipmentsAsync(pet);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1930,7 +1927,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 {
                     await UserEquipmentsService.Create().InsertUserCardHeroEquipmentsAsync(User.CurrentUserId, (string)cardHero.Id, equipment, position);
                     await CreateCardHeroesEquipmentsAsync(cardHero);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1939,7 +1936,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 {
                     await UserEquipmentsService.Create().InsertUserCardCaptainEquipmentsAsync(User.CurrentUserId, cardCaptain.Id, equipment, position);
                     await CreateCardCaptainsEquipmentsAsync(cardCaptain);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1948,7 +1945,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 {
                     await UserEquipmentsService.Create().InsertUserCardColonelEquipmentsAsync(User.CurrentUserId, cardColonel.Id, equipment, position);
                     await CreateCardColonelsEquipmentsAsync(cardColonel);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1957,7 +1954,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 {
                     await UserEquipmentsService.Create().InsertUserCardGeneralEquipmentsAsync(User.CurrentUserId, cardGeneral.Id, equipment, position);
                     await CreateCardGeneralsEquipmentsAsync(cardGeneral);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1966,7 +1963,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 {
                     await UserEquipmentsService.Create().InsertUserCardAdmiralEquipmentsAsync(User.CurrentUserId, cardAdmiral.Id, equipment, position);
                     await CreateCardAdmiralsEquipmentsAsync(cardAdmiral);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1975,7 +1972,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 {
                     await UserEquipmentsService.Create().InsertUserCardMonsterEquipmentsAsync(User.CurrentUserId, cardMonster.Id, equipment, position);
                     await CreateCardMonstersEquipmentsAsync(cardMonster);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1984,7 +1981,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 {
                     await UserEquipmentsService.Create().InsertUserCardMilitaryEquipmentsAsync(User.CurrentUserId, cardMilitary.Id, equipment, position);
                     await CreateCardMilitaryEquipmentsAsync(cardMilitary);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1993,7 +1990,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 {
                     await UserEquipmentsService.Create().InsertUserCardSpellEquipmentsAsync(User.CurrentUserId, cardSpell.Id, equipment, position);
                     await CreateCardSpellEquipmentsAsync(cardSpell);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -2002,7 +1999,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 {
                     await UserEquipmentsService.Create().InsertUserBookEquipmentsAsync(User.CurrentUserId, book.Id, equipment, position);
                     await CreateBooksEquipmentsAsync(book);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -2011,7 +2008,7 @@ public class MainMenuEquipmentManager : MonoBehaviour
                 {
                     await UserEquipmentsService.Create().InsertUserPetEquipmentsAsync(User.CurrentUserId, pet.Id, equipment, position);
                     await CreatePetsEquipmentsAsync(pet);
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
                     double currentPower = User.CurrentUserPower;
                     User.CurrentUserPower = newPower;
                     FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);

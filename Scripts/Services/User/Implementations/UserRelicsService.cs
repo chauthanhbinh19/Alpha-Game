@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserRelicsService : IUserRelicsService
 {
-    private static UserRelicsService _instance;
     private readonly IUserRelicsRepository _userRelicsRepository;
+    private readonly IRelicsGalleryService _relicsGalleryService;
+    private readonly IRelicsService _relicsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserRelicsService(IUserRelicsRepository userRelicsRepository)
+    public UserRelicsService(
+        IUserRelicsRepository userRelicsRepository,
+        IRelicsGalleryService relicsGalleryService,
+        IRelicsService relicsService,
+        IPowerManagerService powerManagerService)
     {
         _userRelicsRepository = userRelicsRepository;
+        _relicsGalleryService = relicsGalleryService;
+        _relicsService = relicsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserRelicsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserRelicsService(new UserRelicsRepository());
-        }
-        return _instance;
-    }
+    public static IUserRelicsService Create() => ServiceContainer.GetService<IUserRelicsService>();
 
     public async Task<List<Relics>> GetUserRelicsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Relics> list = await _userRelicsRepository.GetUserRelicsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserRelicsService : IUserRelicsService
         return await _userRelicsRepository.GetUserRelicsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRelicAsync(string userId, Relics relic)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Relics oldRelic = await _relicsService.SumPowerRelicsPercentAsync(userId);
+        var insertOrUpdateResult = await _userRelicsRepository.InsertOrUpdateUserRelicAsync(userId, relic);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserRelicsService : IUserRelicsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _relicsGalleryService.InsertRelicGalleryAsync(userId, relic.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Relics newRelic = await _relicsService.SumPowerRelicsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newRelic - (PowerManager)oldRelic;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserRelicsService : IUserRelicsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserRelicsBatchAsync(string userId, List<Relics> relices)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Relics oldRelic = await _relicsService.SumPowerRelicsPercentAsync(userId);
+        var repositoryResult = await _userRelicsRepository.InsertOrUpdateUserRelicsBatchAsync(userId, relices);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserRelicsService : IUserRelicsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _relicsGalleryService.InsertBatchRelicsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Relics newRelic = await _relicsService.SumPowerRelicsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newRelic - (PowerManager)oldRelic;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserRelicsService : IUserRelicsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserRelicLevelAsync(string userId, Relics relic)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userRelicsRepository.UpdateUserRelicLevelAsync(userId, relic);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserRelicsService : IUserRelicsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserRelicStarAsync(string userId, Relics relic)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userRelicsRepository.UpdateUserRelicStarAsync(userId, relic);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _relicsGalleryService.UpdateTempStarRelicGalleryAsync(userId, relic.Id, relic.Star);
 
         return true;
     }
 
     public async Task<Relics> GetUserRelicByIdAsync(string userId, string Id)
     {
-        return await _userRelicsRepository.GetUserRelicByIdAsync(userId, Id);
+        var result = await _userRelicsRepository.GetUserRelicByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Relics> SumPowerUserRelicsAsync(string userId)

@@ -6,13 +6,19 @@ public class UserAlchemiesService : IUserAlchemiesService
 {
     private readonly IUserAlchemiesRepository _userAlchemiesRepository;
     private readonly IAlchemiesGalleryService _alchemiesGalleryService;
+    private readonly IAlchemiesService _alchemiesService;
+    private readonly IPowerManagerService _powerManagerService;
 
     public UserAlchemiesService(
-        IUserAlchemiesRepository userAlchemiesService,
-        IAlchemiesGalleryService alchemiesGalleryService)
+        IUserAlchemiesRepository userAlchemiesRepository,
+        IAlchemiesGalleryService alchemiesGalleryService,
+        IAlchemiesService alchemiesService,
+        IPowerManagerService powerManagerService)
     {
-        _userAlchemiesRepository = userAlchemiesService;
+        _userAlchemiesRepository = userAlchemiesRepository;
         _alchemiesGalleryService = alchemiesGalleryService;
+        _alchemiesService = alchemiesService;
+        _powerManagerService = powerManagerService;
     }
 
     public static IUserAlchemiesService Create() => ServiceContainer.GetService<IUserAlchemiesService>();
@@ -21,6 +27,8 @@ public class UserAlchemiesService : IUserAlchemiesService
     {
         List<Alchemies> list = await _userAlchemiesRepository.GetUserAlchemiesAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -30,10 +38,10 @@ public class UserAlchemiesService : IUserAlchemiesService
         return await _userAlchemiesRepository.GetUserAlchemiesCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAlchemyAsync(string userId, Alchemies alchemy)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Alchemies oldAlchemy = await _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
+        var insertOrUpdateResult = await _userAlchemiesRepository.InsertOrUpdateUserAlchemyAsync(userId, alchemy);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -50,10 +58,10 @@ public class UserAlchemiesService : IUserAlchemiesService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _alchemiesGalleryService.InsertAlchemyGalleryAsync(userId, alchemy.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Alchemies newAlchemy = await _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newAlchemy - (PowerManager)oldAlchemy;
 
         if (deltaPower.Power == 0)
         {
@@ -68,10 +76,10 @@ public class UserAlchemiesService : IUserAlchemiesService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAlchemiesBatchAsync(string userId, List<Alchemies> alchemyes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Alchemies oldAlchemy = await _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
+        var repositoryResult = await _userAlchemiesRepository.InsertOrUpdateUserAlchemiesBatchAsync(userId, alchemyes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -88,11 +96,11 @@ public class UserAlchemiesService : IUserAlchemiesService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _alchemiesGalleryService.InsertBatchAlchemiesGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Alchemies newAlchemy = await _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newAlchemy - (PowerManager)oldAlchemy;
 
         if (deltaPower.Power == 0)
         {
@@ -119,9 +127,9 @@ public class UserAlchemiesService : IUserAlchemiesService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserAlchemyLevelAsync(string userId, Alchemies alchemy)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userAlchemiesRepository.UpdateUserAlchemyLevelAsync(userId, alchemy);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -131,23 +139,29 @@ public class UserAlchemiesService : IUserAlchemiesService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserAlchemyStarAsync(string userId, Alchemies alchemy)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userAlchemiesRepository.UpdateUserAlchemyStarAsync(userId, alchemy);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _alchemiesGalleryService.UpdateTempStarAlchemyGalleryAsync(userId, alchemy.Id, alchemy.Star);
 
         return true;
     }
 
     public async Task<Alchemies> GetUserAlchemyByIdAsync(string userId, string Id)
     {
-        return await _userAlchemiesRepository.GetUserAlchemyByIdAsync(userId, Id);
+        var result = await _userAlchemiesRepository.GetUserAlchemyByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Alchemies> SumPowerUserAlchemiesAsync(string userId)

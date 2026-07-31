@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserMedalsService : IUserMedalsService
 {
-    private static UserMedalsService _instance;
     private readonly IUserMedalsRepository _userMedalsRepository;
+    private readonly IMedalsGalleryService _medalsGalleryService;
+    private readonly IMedalsService _medalsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserMedalsService(IUserMedalsRepository userMedalsRepository)
+    public UserMedalsService(
+        IUserMedalsRepository userMedalsRepository,
+        IMedalsGalleryService medalsGalleryService,
+        IMedalsService medalsService,
+        IPowerManagerService powerManagerService)
     {
         _userMedalsRepository = userMedalsRepository;
+        _medalsGalleryService = medalsGalleryService;
+        _medalsService = medalsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserMedalsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserMedalsService(new UserMedalsRepository());
-        }
-        return _instance;
-    }
+    public static IUserMedalsService Create() => ServiceContainer.GetService<IUserMedalsService>();
 
     public async Task<List<Medals>> GetUserMedalsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Medals> list = await _userMedalsRepository.GetUserMedalsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserMedalsService : IUserMedalsService
         return await _userMedalsRepository.GetUserMedalsCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMedalAsync(string userId, Medals medal)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Medals oldMedal = await _medalsService.SumPowerMedalsPercentAsync(userId);
+        var insertOrUpdateResult = await _userMedalsRepository.InsertOrUpdateUserMedalAsync(userId, medal);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserMedalsService : IUserMedalsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _medalsGalleryService.InsertMedalGalleryAsync(userId, medal.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Medals newMedal = await _medalsService.SumPowerMedalsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newMedal - (PowerManager)oldMedal;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserMedalsService : IUserMedalsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMedalsBatchAsync(string userId, List<Medals> medales)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Medals oldMedal = await _medalsService.SumPowerMedalsPercentAsync(userId);
+        var repositoryResult = await _userMedalsRepository.InsertOrUpdateUserMedalsBatchAsync(userId, medales);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserMedalsService : IUserMedalsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _medalsGalleryService.InsertBatchMedalsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Medals newMedal = await _medalsService.SumPowerMedalsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newMedal - (PowerManager)oldMedal;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserMedalsService : IUserMedalsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserMedalLevelAsync(string userId, Medals medal)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userMedalsRepository.UpdateUserMedalLevelAsync(userId, medal);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserMedalsService : IUserMedalsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserMedalStarAsync(string userId, Medals medal)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userMedalsRepository.UpdateUserMedalStarAsync(userId, medal);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _medalsGalleryService.UpdateTempStarMedalGalleryAsync(userId, medal.Id, medal.Star);
 
         return true;
     }
 
     public async Task<Medals> GetUserMedalByIdAsync(string userId, string Id)
     {
-        return await _userMedalsRepository.GetUserMedalByIdAsync(userId, Id);
+        var result = await _userMedalsRepository.GetUserMedalByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Medals> SumPowerUserMedalsAsync(string userId)

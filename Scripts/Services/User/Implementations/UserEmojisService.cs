@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserEmojisService : IUserEmojisService
 {
-    private static UserEmojisService _instance;
     private readonly IUserEmojisRepository _userEmojisRepository;
+    private readonly IEmojisGalleryService _emojisGalleryService;
+    private readonly IEmojisService _emojisService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserEmojisService(IUserEmojisRepository userEmojisRepository)
+    public UserEmojisService(
+        IUserEmojisRepository userEmojisRepository,
+        IEmojisGalleryService emojisGalleryService,
+        IEmojisService emojisService,
+        IPowerManagerService powerManagerService)
     {
         _userEmojisRepository = userEmojisRepository;
+        _emojisGalleryService = emojisGalleryService;
+        _emojisService = emojisService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserEmojisService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserEmojisService(new UserEmojisRepository());
-        }
-        return _instance;
-    }
+    public static IUserEmojisService Create() => ServiceContainer.GetService<IUserEmojisService>();
 
     public async Task<List<Emojis>> GetUserEmojisAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Emojis> list = await _userEmojisRepository.GetUserEmojisAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserEmojisService : IUserEmojisService
         return await _userEmojisRepository.GetUserEmojisCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEmojiAsync(string userId, Emojis emoji)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Emojis oldEmoji = await _emojisService.SumPowerEmojisPercentAsync(userId);
+        var insertOrUpdateResult = await _userEmojisRepository.InsertOrUpdateUserEmojiAsync(userId, emoji);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserEmojisService : IUserEmojisService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _emojisGalleryService.InsertEmojiGalleryAsync(userId, emoji.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Emojis newEmoji = await _emojisService.SumPowerEmojisPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newEmoji - (PowerManager)oldEmoji;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserEmojisService : IUserEmojisService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEmojisBatchAsync(string userId, List<Emojis> emojies)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Emojis oldEmoji = await _emojisService.SumPowerEmojisPercentAsync(userId);
+        var repositoryResult = await _userEmojisRepository.InsertOrUpdateUserEmojisBatchAsync(userId, emojies);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserEmojisService : IUserEmojisService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _emojisGalleryService.InsertBatchEmojisGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Emojis newEmoji = await _emojisService.SumPowerEmojisPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newEmoji - (PowerManager)oldEmoji;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserEmojisService : IUserEmojisService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserEmojiLevelAsync(string userId, Emojis emoji)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userEmojisRepository.UpdateUserEmojiLevelAsync(userId, emoji);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserEmojisService : IUserEmojisService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserEmojiStarAsync(string userId, Emojis emoji)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userEmojisRepository.UpdateUserEmojiStarAsync(userId, emoji);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _emojisGalleryService.UpdateTempStarEmojiGalleryAsync(userId, emoji.Id, emoji.Star);
 
         return true;
     }
 
     public async Task<Emojis> GetUserEmojiByIdAsync(string userId, string Id)
     {
-        return await _userEmojisRepository.GetUserEmojiByIdAsync(userId, Id);
+        var result = await _userEmojisRepository.GetUserEmojiByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Emojis> SumPowerUserEmojisAsync(string userId)

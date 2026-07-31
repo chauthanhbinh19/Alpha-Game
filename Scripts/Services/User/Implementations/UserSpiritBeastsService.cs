@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserSpiritBeastsService : IUserSpiritBeastsService
 {
-    private static UserSpiritBeastsService _instance;
     private readonly IUserSpiritBeastsRepository _userSpiritBeastsRepository;
+    private readonly ISpiritBeastsGalleryService _spiritBeastsGalleryService;
+    private readonly ISpiritBeastsService _spiritBeastsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserSpiritBeastsService(IUserSpiritBeastsRepository userSpiritBeastsRepository)
+    public UserSpiritBeastsService(
+        IUserSpiritBeastsRepository userSpiritBeastsRepository,
+        ISpiritBeastsGalleryService spiritBeastsGalleryService,
+        ISpiritBeastsService spiritBeastsService,
+        IPowerManagerService powerManagerService)
     {
         _userSpiritBeastsRepository = userSpiritBeastsRepository;
+        _spiritBeastsGalleryService = spiritBeastsGalleryService;
+        _spiritBeastsService = spiritBeastsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserSpiritBeastsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserSpiritBeastsService(new UserSpiritBeastsRepository());
-        }
-        return _instance;
-    }
+    public static IUserSpiritBeastsService Create() => ServiceContainer.GetService<IUserSpiritBeastsService>();
 
     public async Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetUserSpiritBeastsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -32,6 +36,8 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
     {
         List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetAllUserSpiritBeastsAsync(userId, pageSize, offset);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -40,6 +46,8 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
     {
         List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetUserSpiritBeastsByCardIdsAsync(userId, cardIds);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -49,10 +57,10 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         return await _userSpiritBeastsRepository.GetUserSpiritBeastsCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritBeastAsync(string userId, SpiritBeasts spiritBeast)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        SpiritBeasts oldSpiritBeast = await _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
+        var insertOrUpdateResult = await _userSpiritBeastsRepository.InsertOrUpdateUserSpiritBeastAsync(userId, spiritBeast);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -69,10 +77,10 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _spiritBeastsGalleryService.InsertSpiritBeastGalleryAsync(userId, spiritBeast.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        SpiritBeasts newSpiritBeast = await _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newSpiritBeast - (PowerManager)oldSpiritBeast;
 
         if (deltaPower.Power == 0)
         {
@@ -87,10 +95,10 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritBeastsBatchAsync(string userId, List<SpiritBeasts> spiritBeastes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        SpiritBeasts oldSpiritBeast = await _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
+        var repositoryResult = await _userSpiritBeastsRepository.InsertOrUpdateUserSpiritBeastsBatchAsync(userId, spiritBeastes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -107,11 +115,11 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _spiritBeastsGalleryService.InsertBatchSpiritBeastsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        SpiritBeasts newSpiritBeast = await _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newSpiritBeast - (PowerManager)oldSpiritBeast;
 
         if (deltaPower.Power == 0)
         {
@@ -138,9 +146,9 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userSpiritBeastsRepository.UpdateUserSpiritBeastLevelAsync(userId, spiritBeast);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -150,187 +158,33 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserSpiritBeastStarAsync(string userId, SpiritBeasts spiritBeast)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userSpiritBeastsRepository.UpdateUserSpiritBeastStarAsync(userId, spiritBeast);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _spiritBeastsGalleryService.UpdateTempStarSpiritBeastGalleryAsync(userId, spiritBeast.Id, spiritBeast.Star);
 
         return true;
     }
 
     public async Task<SpiritBeasts> GetUserSpiritBeastByIdAsync(string userId, string Id)
     {
-        return await _userSpiritBeastsRepository.GetUserSpiritBeastByIdAsync(userId, Id);
+        var result = await _userSpiritBeastsRepository.GetUserSpiritBeastByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<SpiritBeasts> SumPowerUserSpiritBeastsAsync(string userId)
     {
         return await _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
-    }
-
-    public async Task<bool> InsertOrUpdateUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHero, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.InsertOrUpdateUserCardHeroSpiritBeastAsync(userId, cardHero, spiritBeast);
-    }
-
-    public async Task<bool> InsertOrUpdateUserCardCaptainSpiritBeastAsync(string userId, CardCaptains cardCaptain, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.InsertOrUpdateUserCardCaptainSpiritBeastAsync(userId, cardCaptain, spiritBeast);
-    }
-
-    public async Task<bool> InsertOrUpdateUserCardColonelSpiritBeastAsync(string userId, CardColonels cardColonel, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.InsertOrUpdateUserCardColonelSpiritBeastAsync(userId, cardColonel, spiritBeast);
-    }
-
-    public async Task<bool> InsertOrUpdateUserCardGeneralSpiritBeastAsync(string userId, CardGenerals cardGeneral, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.InsertOrUpdateUserCardGeneralSpiritBeastAsync(userId, cardGeneral, spiritBeast);
-    }
-
-    public async Task<bool> InsertOrUpdateUserCardAdmiralSpiritBeastAsync(string userId, CardAdmirals cardAdmiral, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.InsertOrUpdateUserCardAdmiralSpiritBeastAsync(userId, cardAdmiral, spiritBeast);
-    }
-
-    public async Task<bool> InsertOrUpdateUserCardMilitarySpiritBeastAsync(string userId, CardMilitaries cardMilitary, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.InsertOrUpdateUserCardMilitarySpiritBeastAsync(userId, cardMilitary, spiritBeast);
-    }
-
-    public async Task<bool> InsertOrUpdateUserCardMonsterSpiritBeastAsync(string userId, CardMonsters cardMonster, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.InsertOrUpdateUserCardMonsterSpiritBeastAsync(userId, cardMonster, spiritBeast);
-    }
-
-    public async Task<bool> InsertOrUpdateUserCardSpellSpiritBeastAsync(string userId, CardSpells cardSpell, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.InsertOrUpdateUserCardSpellSpiritBeastAsync(userId, cardSpell, spiritBeast);
-    }
-
-    public async Task<List<SpiritBeasts>> GetAllUserCardHeroesSpiritBeastAsync(string userId, int pageSize, int offset, string status)
-    {
-        return await _userSpiritBeastsRepository.GetAllUserCardHeroesSpiritBeastAsync(userId, pageSize, offset, status);
-    }
-
-    public async Task<List<SpiritBeasts>> GetAllUserCardCaptainsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
-    {
-        return await _userSpiritBeastsRepository.GetAllUserCardCaptainsSpiritBeastAsync(userId, pageSize, offset, status);
-    }
-
-    public async Task<List<SpiritBeasts>> GetAllUserCardColonelsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
-    {
-        return await _userSpiritBeastsRepository.GetAllUserCardColonelsSpiritBeastAsync(userId, pageSize, offset, status);
-    }
-
-    public async Task<List<SpiritBeasts>> GetAllUserCardGeneralsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
-    {
-        return await _userSpiritBeastsRepository.GetAllUserCardGeneralsSpiritBeastAsync(userId, pageSize, offset, status);
-    }
-
-    public async Task<List<SpiritBeasts>> GetAllUserCardAdmiralsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
-    {
-        return await _userSpiritBeastsRepository.GetAllUserCardAdmiralsSpiritBeastAsync(userId, pageSize, offset, status);
-    }
-
-    public async Task<List<SpiritBeasts>> GetAllUserCardMilitariesSpiritBeastAsync(string userId, int pageSize, int offset, string status)
-    {
-        return await _userSpiritBeastsRepository.GetAllUserCardMilitariesSpiritBeastAsync(userId, pageSize, offset, status);
-    }
-
-    public async Task<List<SpiritBeasts>> GetAllUserCardMonstersSpiritBeastAsync(string userId, int pageSize, int offset, string status)
-    {
-        return await _userSpiritBeastsRepository.GetAllUserCardMonstersSpiritBeastAsync(userId, pageSize, offset, status);
-    }
-
-    public async Task<List<SpiritBeasts>> GetAllUserCardSpellsSpiritBeastAsync(string userId, int pageSize, int offset, string status)
-    {
-        return await _userSpiritBeastsRepository.GetAllUserCardSpellsSpiritBeastAsync(userId, pageSize, offset, status);
-    }
-
-    public async Task<SpiritBeasts> GetUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHero)
-    {
-        return await _userSpiritBeastsRepository.GetUserCardHeroSpiritBeastAsync(userId, cardHero);
-    }
-
-    public async Task<SpiritBeasts> GetUserCardCaptainSpiritBeastAsync(string userId, CardCaptains cardCaptain)
-    {
-        return await _userSpiritBeastsRepository.GetUserCardCaptainSpiritBeastAsync(userId, cardCaptain);
-    }
-
-    public async Task<SpiritBeasts> GetUserCardColonelSpiritBeastAsync(string userId, CardColonels cardColonel)
-    {
-        return await _userSpiritBeastsRepository.GetUserCardColonelSpiritBeastAsync(userId, cardColonel);
-    }
-
-    public async Task<SpiritBeasts> GetUserCardGeneralSpiritBeastAsync(string userId, CardGenerals cardGeneral)
-    {
-        return await _userSpiritBeastsRepository.GetUserCardGeneralSpiritBeastAsync(userId, cardGeneral);
-    }
-
-    public async Task<SpiritBeasts> GetUserCardAdmiralSpiritBeastAsync(string userId, CardAdmirals cardAdmiral)
-    {
-        return await _userSpiritBeastsRepository.GetUserCardAdmiralSpiritBeastAsync(userId, cardAdmiral);
-    }
-
-    public async Task<SpiritBeasts> GetUserCardMilitarySpiritBeastAsync(string userId, CardMilitaries cardMilitary)
-    {
-        return await _userSpiritBeastsRepository.GetUserCardMilitarySpiritBeastAsync(userId, cardMilitary);
-    }
-
-    public async Task<SpiritBeasts> GetUserCardMonsterSpiritBeastAsync(string userId, CardMonsters cardMonster)
-    {
-        return await _userSpiritBeastsRepository.GetUserCardMonsterSpiritBeastAsync(userId, cardMonster);
-    }
-
-    public async Task<SpiritBeasts> GetUserCardSpellSpiritBeastAsync(string userId, CardSpells cardSpell)
-    {
-        return await _userSpiritBeastsRepository.GetUserCardSpellSpiritBeastAsync(userId, cardSpell);
-    }
-
-    public async Task<bool> DeleteUserCardHeroSpiritBeastAsync(string userId, CardHeroes cardHero, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.DeleteUserCardHeroSpiritBeastAsync(userId, cardHero, spiritBeast);
-    }
-
-    public async Task<bool> DeleteUserCardCaptainSpiritBeastAsync(string userId, CardCaptains cardCaptain, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.DeleteUserCardCaptainSpiritBeastAsync(userId, cardCaptain, spiritBeast);
-    }
-
-    public async Task<bool> DeleteUserCardColonelSpiritBeastAsync(string userId, CardColonels cardColonel, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.DeleteUserCardColonelSpiritBeastAsync(userId, cardColonel, spiritBeast);
-    }
-
-    public async Task<bool> DeleteUserCardGeneralSpiritBeastAsync(string userId, CardGenerals cardGeneral, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.DeleteUserCardGeneralSpiritBeastAsync(userId, cardGeneral, spiritBeast);
-    }
-
-    public async Task<bool> DeleteUserCardAdmiralSpiritBeastAsync(string userId, CardAdmirals cardAdmiral, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.DeleteUserCardAdmiralSpiritBeastAsync(userId, cardAdmiral, spiritBeast);
-    }
-
-    public async Task<bool> DeleteUserCardMilitarySpiritBeastAsync(string userId, CardMilitaries cardMilitary, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.DeleteUserCardMilitarySpiritBeastAsync(userId, cardMilitary, spiritBeast);
-    }
-
-    public async Task<bool> DeleteUserCardMonsterSpiritBeastAsync(string userId, CardMonsters cardMonster, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.DeleteUserCardMonsterSpiritBeastAsync(userId, cardMonster, spiritBeast);
-    }
-
-    public async Task<bool> DeleteUserCardSpellSpiritBeastAsync(string userId, CardSpells cardSpell, SpiritBeasts spiritBeast)
-    {
-        return await _userSpiritBeastsRepository.DeleteUserCardSpellSpiritBeastAsync(userId, cardSpell, spiritBeast);
     }
 }

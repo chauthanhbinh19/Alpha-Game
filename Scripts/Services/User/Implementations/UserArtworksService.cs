@@ -4,27 +4,31 @@ using System.Threading.Tasks;
 
 public class UserArtworksService : IUserArtworksService
 {
-    private static UserArtworksService _instance;
     private readonly IUserArtworksRepository _userArtworksRepository;
+    private readonly IArtworksGalleryService _artworksGalleryService;
+    private readonly IArtworksService _artworksService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserArtworksService(IUserArtworksRepository userArtworksRepository)
+    public UserArtworksService(
+        IUserArtworksRepository userArtworksRepository,
+        IArtworksGalleryService artworksGalleryService,
+        IArtworksService artworksService,
+        IPowerManagerService powerManagerService)
     {
         _userArtworksRepository = userArtworksRepository;
+        _artworksGalleryService = artworksGalleryService;
+        _artworksService = artworksService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserArtworksService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserArtworksService(new UserArtworksRepository());
-        }
-        return _instance;
-    }
+    public static IUserArtworksService Create() => ServiceContainer.GetService<IUserArtworksService>();
 
     public async Task<List<Artworks>> GetUserArtworksAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Artworks> list = await _userArtworksRepository.GetUserArtworksAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -34,10 +38,10 @@ public class UserArtworksService : IUserArtworksService
         return await _userArtworksRepository.GetUserArtworksCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtworkAsync(string userId, Artworks artwork)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Artworks oldArtwork = await _artworksService.SumPowerArtworksPercentAsync(userId);
+        var insertOrUpdateResult = await _userArtworksRepository.InsertOrUpdateUserArtworkAsync(userId, artwork);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -54,10 +58,10 @@ public class UserArtworksService : IUserArtworksService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _artworksGalleryService.InsertArtworkGalleryAsync(userId, artwork.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Artworks newArtwork = await _artworksService.SumPowerArtworksPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newArtwork - (PowerManager)oldArtwork;
 
         if (deltaPower.Power == 0)
         {
@@ -72,10 +76,10 @@ public class UserArtworksService : IUserArtworksService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtworksBatchAsync(string userId, List<Artworks> artworkes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Artworks oldArtwork = await _artworksService.SumPowerArtworksPercentAsync(userId);
+        var repositoryResult = await _userArtworksRepository.InsertOrUpdateUserArtworksBatchAsync(userId, artworkes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -92,11 +96,11 @@ public class UserArtworksService : IUserArtworksService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _artworksGalleryService.InsertBatchArtworksGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Artworks newArtwork = await _artworksService.SumPowerArtworksPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newArtwork - (PowerManager)oldArtwork;
 
         if (deltaPower.Power == 0)
         {
@@ -123,9 +127,9 @@ public class UserArtworksService : IUserArtworksService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserArtworkLevelAsync(string userId, Artworks artwork)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userArtworksRepository.UpdateUserArtworkLevelAsync(userId, artwork);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -135,23 +139,29 @@ public class UserArtworksService : IUserArtworksService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserArtworkStarAsync(string userId, Artworks artwork)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userArtworksRepository.UpdateUserArtworkStarAsync(userId, artwork);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _artworksGalleryService.UpdateTempStarArtworkGalleryAsync(userId, artwork.Id, artwork.Star);
 
         return true;
     }
 
     public async Task<Artworks> GetUserArtworkByIdAsync(string userId, string Id)
     {
-        return await _userArtworksRepository.GetUserArtworkByIdAsync(userId, Id);
+        var result = await _userArtworksRepository.GetUserArtworkByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Artworks> SumPowerUserArtworksAsync(string userId)

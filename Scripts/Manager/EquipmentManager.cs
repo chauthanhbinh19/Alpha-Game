@@ -833,11 +833,12 @@ public class EquipmentManager : MonoBehaviour
                 return;
             }
 
-            bool success = await userEquipmentsService.InsertUserEquipmentAsync(User.CurrentUserId, equipments.Id, quantity);
-            if (success)
+            equipments.Quantity = equipments.Quantity + quantity;
+
+            var result = await userEquipmentsService.InsertOrUpdateUserEquipmentAsync(User.CurrentUserId, equipments);
+            if (result.Data || result.OperationType != DatabaseOperationType.None || result.OperationType != DatabaseOperationType.Failed)
             {
                 await UserEquipmentsService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, currency.Id, totalCost);
-                await equipmentsGalleryService.InsertEquipmentGalleryAsync(User.CurrentUserId, equipments.Id);
                 Transform CurrencyPanel = CurrentObject.transform.Find("DictionaryCards/Currency");
                 Close(CurrencyPanel);
                 await FindObjectOfType<CurrenciesManager>().GetEquipmentsCurrencyAsync(type, CurrencyPanel);
@@ -845,9 +846,26 @@ public class EquipmentManager : MonoBehaviour
                 // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
                 GameObject receivedNotificationObject = Instantiate(ReceivedNotificationPanelPrefab, PopupPanel);
 
-                AddCloseEvent(receivedNotificationObject);
                 Transform itemContent = receivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
                 GameObject itemObject = Instantiate(ItemPopupPrefab, itemContent);
+
+                TextMeshProUGUI messageText = receivedNotificationObject.transform.Find("MessageText").GetComponent<TextMeshProUGUI>();
+
+                if (result.OperationType == DatabaseOperationType.Inserted)
+                {
+                    messageText.text = LocalizationManager.Get(MessageConstants.INSERT_ITEM_INTO_INVENTORY);
+                }
+                else
+                {
+                    messageText.text = LocalizationManager.Get(MessageConstants.UPDATE_ITEM_QUANTITY_IN_INVENTORY);
+                }
+
+                Button closeButton = receivedNotificationObject.transform.Find("CloseButton").GetComponent<Button>();
+
+                closeButton.onClick.AddListener(() =>
+                {
+                    Destroy(receivedNotificationObject);
+                });
 
                 RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
                 fileNameWithoutExtension = ImageHelper.RemoveImageExtension(equipments.Image);
@@ -859,27 +877,11 @@ public class EquipmentManager : MonoBehaviour
             }
             else
             {
-                NotificationManager.Instance.ShowNotification(LocalizationManager.Get(AppDisplayConstants.Notification.PURCHASE_FAILED));
+                GameObject receivedNotificationObject = Instantiate(ReceivedNotificationPanelPrefab, PopupPanel);
+                TextMeshProUGUI messageText = receivedNotificationObject.transform.Find("MessageText").GetComponent<TextMeshProUGUI>();
+                messageText.text = LocalizationManager.Get(MessageConstants.PURCHASE_FAILED);
             }
         });
-    }
-    private void AddCloseEvent(GameObject obj)
-    {
-        EventTrigger trigger = obj.GetComponent<EventTrigger>();
-        if (trigger == null)
-        {
-            trigger = obj.AddComponent<EventTrigger>();
-        }
-
-        EventTrigger.Entry entry = new EventTrigger.Entry
-        {
-            eventID = EventTriggerType.PointerClick
-        };
-        entry.callback.AddListener((data) =>
-        {
-            Destroy(obj);
-        });
-        trigger.triggers.Add(entry);
     }
     private void OnPageSelected(int pageNumber)
     {

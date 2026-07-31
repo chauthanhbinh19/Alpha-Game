@@ -55,4 +55,9 @@ public class CollaborationEquipmentsService : ICollaborationEquipmentsService
     {
         return await _collaborationEquipmentsRepository.GetCollaborationEquipmentsWithoutLimitAsync();
     }
+
+    public async Task<CollaborationEquipments> SumPowerCollaborationEquipmentsPercentAsync(string userId)
+    {
+        return await _collaborationEquipmentsRepository.SumPowerCollaborationEquipmentsPercentAsync(userId);
+    }
 }

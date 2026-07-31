@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserBuildingsService : IUserBuildingsService
 {
-    private static UserBuildingsService _instance;
     private readonly IUserBuildingsRepository _userBuildingsRepository;
+    private readonly IBuildingsGalleryService _buildingsGalleryService;
+    private readonly IBuildingsService _buildingsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserBuildingsService(IUserBuildingsRepository userBuildingsRepository)
+    public UserBuildingsService(
+        IUserBuildingsRepository userBuildingsRepository,
+        IBuildingsGalleryService buildingsGalleryService,
+        IBuildingsService buildingsService,
+        IPowerManagerService powerManagerService)
     {
         _userBuildingsRepository = userBuildingsRepository;
+        _buildingsGalleryService = buildingsGalleryService;
+        _buildingsService = buildingsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserBuildingsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserBuildingsService(new UserBuildingsRepository());
-        }
-        return _instance;
-    }
+    public static IUserBuildingsService Create() => ServiceContainer.GetService<IUserBuildingsService>();
 
     public async Task<List<Buildings>> GetUserBuildingsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Buildings> list = await _userBuildingsRepository.GetUserBuildingsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserBuildingsService : IUserBuildingsService
         return await _userBuildingsRepository.GetUserBuildingsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBuildingAsync(string userId, Buildings building)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Buildings oldBuilding = await _buildingsService.SumPowerBuildingsPercentAsync(userId);
+        var insertOrUpdateResult = await _userBuildingsRepository.InsertOrUpdateUserBuildingAsync(userId, building);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserBuildingsService : IUserBuildingsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _buildingsGalleryService.InsertBuildingGalleryAsync(userId, building.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Buildings newBuilding = await _buildingsService.SumPowerBuildingsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newBuilding - (PowerManager)oldBuilding;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserBuildingsService : IUserBuildingsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBuildingsBatchAsync(string userId, List<Buildings> buildinges)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Buildings oldBuilding = await _buildingsService.SumPowerBuildingsPercentAsync(userId);
+        var repositoryResult = await _userBuildingsRepository.InsertOrUpdateUserBuildingsBatchAsync(userId, buildinges);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserBuildingsService : IUserBuildingsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _buildingsGalleryService.InsertBatchBuildingsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Buildings newBuilding = await _buildingsService.SumPowerBuildingsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newBuilding - (PowerManager)oldBuilding;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserBuildingsService : IUserBuildingsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserBuildingLevelAsync(string userId, Buildings building)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userBuildingsRepository.UpdateUserBuildingLevelAsync(userId, building);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserBuildingsService : IUserBuildingsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserBuildingStarAsync(string userId, Buildings building)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userBuildingsRepository.UpdateUserBuildingStarAsync(userId, building);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _buildingsGalleryService.UpdateTempStarBuildingGalleryAsync(userId, building.Id, building.Star);
 
         return true;
     }
 
     public async Task<Buildings> GetUserBuildingByIdAsync(string userId, string Id)
     {
-        return await _userBuildingsRepository.GetUserBuildingByIdAsync(userId, Id);
+        var result = await _userBuildingsRepository.GetUserBuildingByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Buildings> SumPowerUserBuildingsAsync(string userId)

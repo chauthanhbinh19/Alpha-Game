@@ -10,11 +10,10 @@ public interface IUserBooksService
     // Task<List<Books>> GetUserBooksTeamAsync(string teamId);
     Task<Dictionary<string, int>> GetUniqueUserBooksTypesTeamAsync(string userId, string teamId);
     Task<int> GetUserBooksCountAsync(string userId, string search, string type, string rare);
-    Task<bool> InsertUserBookAsync(string userId, Books book);
-    Task<bool> InsertOrUpdateUserBooksBatchAsync(string userId, List<Books> books);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBookAsync(string userId, Books book);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBooksBatchAsync(string userId, List<Books> books);
     Task<bool> UpdateUserBookLevelAsync(string userId, Books book);
     Task<bool> UpdateUserBookStarAsync(string userId, Books book);
-    Task<bool> UpdateUserBookBreakthroughAsync(string userId, Books book, int star, double quantity);
     Task<bool> UpdateTeamUserBookAsync(string userId, string teamId, string position, string bookId);
     Task<Books> GetUserBookByIdAsync(string userId, string Id);
     Task<BaseStats> GetTeamTotalStatsAsync(string userId, UserStatsContextDTO sharedContext = null);

@@ -13,7 +13,7 @@ public class MagicFormationCirclesController : MonoBehaviour
     private GameObject MagicFormationCircleButtonPrefab;
     private GameObject EquipmentShopPrefab;
     private GameObject QuantityPopupPrefab;
-    private GameObject ReceivedNotification;
+    private GameObject ReceivedNotificationPanelPrefab;
     private GameObject ItemPopupPrefab;
     private void Awake()
     {
@@ -40,7 +40,7 @@ public class MagicFormationCirclesController : MonoBehaviour
         MagicFormationCircleButtonPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.MAGIC_FORMATION_CIRCLE_BUTTON_PREFAB);
         EquipmentShopPrefab = UIManager.Instance.Get(AppConstants.Prefab.Equipment.EQUIPMENT_SHOP_PREFAB);
         QuantityPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Shop.QUANTITY_POPUP_PREFAB);
-        ReceivedNotification = UIManager.Instance.Get(AppConstants.Prefab.General.RECEIVED_NOTIFICATION_PANEL_PREFAB);
+        ReceivedNotificationPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.General.RECEIVED_NOTIFICATION_PANEL_PREFAB);
         ItemPopupPrefab = UIManager.Instance.Get(AppConstants.Prefab.Component.ITEM_POPUP_PREFAB);
     }
     public void CreateMagicFormationCirclesGallery(List<MagicFormationCircles> magicFormationCircles, Transform contentPanel)
@@ -293,26 +293,21 @@ public class MagicFormationCirclesController : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             int quantity = int.Parse(quantityText.text); // Chuyển đổi giá trị từ quantityText thành số nguyên
-            bool allSuccess = true; // Biến kiểm tra toàn bộ các giao dịch có thành công hay không
 
             if (obj is MagicFormationCircles magicFormationCircle)
             {
                 magicFormationCircle.Quantity = magicFormationCircle.Quantity + quantity;
                 await UserCurrenciesService.Create().UpdateUserCurrencyAsync(User.CurrentUserId, magicFormationCircle.Currency.Id, price);
-                bool success = await UserMagicFormationCirclesService.Create().InsertUserMagicFormationCircleAsync(magicFormationCircle, User.CurrentUserId);
-                if (!success)
-                {
-                    allSuccess = false;
-                }
+                var result = await UserMagicFormationCirclesService.Create().InsertOrUpdateUserMagicFormationCircleAsync(User.CurrentUserId, magicFormationCircle);
 
                 // Hiển thị thông báo dựa trên kết quả
-                if (allSuccess)
+                if (result.Data || result.OperationType != DatabaseOperationType.None || result.OperationType != DatabaseOperationType.Failed)
                 {
                     string fileNameWithoutExtension = "";
                     // Transform CurrencyPanel = currentObject.transform.Find("DictionaryCards/Currency");
                     List<Currencies> currencies = new List<Currencies>();
 
-                    await MagicFormationCirclesGalleryService.Create().InsertMagicFormationCircleGalleryAsync(User.CurrentUserId, magicFormationCircle.Id);
+                    // magicFormationCircles.InsertUserMagicFormationCircles(magicFormationCircles);
                     currencies = await UserCurrenciesService.Create().GetMagicFormationCirclesCurrencyAsync(subType);
                     fileNameWithoutExtension = ImageHelper.RemoveImageExtension(magicFormationCircle.Image);
 
@@ -320,10 +315,10 @@ public class MagicFormationCirclesController : MonoBehaviour
                     FindObjectOfType<CurrenciesManager>().CreateCurrency(currencies, currencyPanel);
                     ButtonEvent.Instance.Close(popupPanel);
                     // FindObjectOfType<NotificationManager>().ShowNotification("Purchase Successful!");
-                    GameObject ReceivedNotificationObject = Instantiate(ReceivedNotification, popupPanel);
+                    GameObject receivedNotificationObject = Instantiate(ReceivedNotificationPanelPrefab, popupPanel);
 
-                    ButtonEvent.Instance.AddCloseEvent(ReceivedNotificationObject);
-                    Transform itemContent = ReceivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
+                    ButtonEvent.Instance.AddCloseEvent(receivedNotificationObject);
+                    Transform itemContent = receivedNotificationObject.transform.Find("Scroll View/Viewport/Content");
                     GameObject itemObject = Instantiate(ItemPopupPrefab, itemContent);
 
                     RawImage eImage = itemObject.transform.Find("ItemImage").GetComponent<RawImage>();
@@ -333,15 +328,35 @@ public class MagicFormationCirclesController : MonoBehaviour
                     TextMeshProUGUI eQuantity = itemObject.transform.Find("Quantity").GetComponent<TextMeshProUGUI>();
                     eQuantity.text = quantity.ToString();
 
-                    await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
-                    double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                    TextMeshProUGUI messageText = receivedNotificationObject.transform.Find("MessageText").GetComponent<TextMeshProUGUI>();
+
+                    if (result.OperationType == DatabaseOperationType.Inserted)
+                    {
+                        messageText.text = LocalizationManager.Get(MessageConstants.INSERT_ITEM_INTO_INVENTORY);
+
+                        await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
+                        double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
+                        double currentPower = User.CurrentUserPower;
+                        User.CurrentUserPower = newPower;
+                        FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
+                    }
+                    else
+                    {
+                        messageText.text = LocalizationManager.Get(MessageConstants.UPDATE_ITEM_QUANTITY_IN_INVENTORY);
+                    }
+
+                    Button closeButton = receivedNotificationObject.transform.Find("CloseButton").GetComponent<Button>();
+
+                    closeButton.onClick.AddListener(() =>
+                    {
+                        Destroy(receivedNotificationObject);
+                    });
                 }
                 else
                 {
-                    NotificationManager.Instance.ShowNotification(LocalizationManager.Get(AppDisplayConstants.Message.PURCHASE_FAILED));
+                    GameObject receivedNotificationObject = Instantiate(ReceivedNotificationPanelPrefab, popupPanel);
+                    TextMeshProUGUI messageText = receivedNotificationObject.transform.Find("MessageText").GetComponent<TextMeshProUGUI>();
+                    messageText.text = LocalizationManager.Get(MessageConstants.PURCHASE_FAILED);
                 }
             }
         });

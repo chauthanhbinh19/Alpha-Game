@@ -19,8 +19,6 @@ public class MainMenuAffinityManager : MonoBehaviour
     private Button UpMaxLevelButton;
     private string MainType = "Affinity";
     private List<Items> ItemsList;
-    TeamsService TeamsService;
-    UserItemsService UserItemsService;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,8 +30,6 @@ public class MainMenuAffinityManager : MonoBehaviour
         MainMenuAffinityPanelPrefab = UIManager.Instance.Get("MainMenuAffinityPanelPrefab");
         ItemPopupPrefab = UIManager.Instance.Get("ItemPopupPrefab");
         // List<Items> itemsList = new List<Items>();
-        TeamsService = TeamsService.Create();
-        UserItemsService = UserItemsService.Create();
     }
     public void CreateMainMenuAffinityManager(object data)
     {
@@ -210,7 +206,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -220,7 +216,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             await UpLevelAsync(cardHero, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -285,7 +281,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -295,7 +291,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             await UpLevelAsync(cardHero, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -379,7 +375,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -389,7 +385,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             await UpLevelAsync(book, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -454,7 +450,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -464,7 +460,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             await UpLevelAsync(book, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -548,7 +544,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -558,7 +554,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             await UpLevelAsync(cardCaptain, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -623,7 +619,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -633,7 +629,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             await UpLevelAsync(cardCaptain, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -717,7 +713,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -727,7 +723,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             await UpLevelAsync(pet, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -792,7 +788,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -802,7 +798,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             await UpLevelAsync(pet, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -886,7 +882,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -896,7 +892,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             await UpLevelAsync(cardMilitary, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -961,7 +957,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -971,7 +967,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             await UpLevelAsync(cardMilitary, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1055,7 +1051,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1065,7 +1061,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             await UpLevelAsync(cardSpell, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1130,7 +1126,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1140,7 +1136,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             await UpLevelAsync(cardSpell, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1224,7 +1220,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1234,7 +1230,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             await UpLevelAsync(cardMonster, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1299,7 +1295,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1310,7 +1306,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             
 
             await UpLevelAsync(cardMonster, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1394,7 +1390,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1404,7 +1400,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             await UpLevelAsync(cardColonel, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1469,7 +1465,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1479,7 +1475,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             await UpLevelAsync(cardColonel, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1563,7 +1559,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1573,7 +1569,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             await UpLevelAsync(cardGeneral, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1638,7 +1634,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1648,7 +1644,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             await UpLevelAsync(cardGeneral, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1732,7 +1728,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1742,7 +1738,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             await UpLevelAsync(cardAdmiral, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1807,7 +1803,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1817,7 +1813,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             await UpLevelAsync(cardAdmiral, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1901,7 +1897,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
@@ -1911,7 +1907,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
             
             await UpLevelAsync(cardSoldier, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1976,7 +1972,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             foreach (var (usedItem, usedQuantity) in usedItems)
             {
                 usedItem.Quantity -= usedQuantity;
-                await UserItemsService.UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
+                await UserItemsService.Create().UpdateUserItemQuantityAsync(User.CurrentUserId, usedItem);
             }
 
             // Cập nhật rank sau khi tính toán xong
@@ -1986,7 +1982,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             // Cập nhật sức mạnh đội hình
 
             await UpLevelAsync(cardSoldier, newRank, MainType);
-            double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
+            double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
             double currentPower = User.CurrentUserPower;
             User.CurrentUserPower = newPower;
             FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
@@ -1999,7 +1995,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         Close(MateriralPanel);
         Items items = new Items();
         ItemsList = new List<Items>();
-        ItemsList = await UserItemsService.GetItemForRankAsync(User.CurrentUserId, "Affinity");
+        ItemsList = await UserItemsService.Create().GetItemForRankAsync(User.CurrentUserId, "Affinity");
         foreach (Items item in ItemsList)
         {
             GameObject itemObject = Instantiate(ItemPopupPrefab, MateriralPanel);

@@ -26,6 +26,8 @@ public class UserPuppetsService : IUserPuppetsService
     {
         List<Puppets> list = await _userPuppetsRepository.GetUserPuppetsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -152,7 +154,13 @@ public class UserPuppetsService : IUserPuppetsService
 
     public async Task<Puppets> GetUserPuppetByIdAsync(string userId, string Id)
     {
-        return await _userPuppetsRepository.GetUserPuppetByIdAsync(userId, Id);
+        var result = await _userPuppetsRepository.GetUserPuppetByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Puppets> SumPowerUserPuppetsAsync(string userId)

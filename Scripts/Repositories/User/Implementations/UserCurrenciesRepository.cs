@@ -391,6 +391,55 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
 
         return currency;
     }
+    public async Task<Currencies> GetUserAvatarPriceAsync(string Id)
+    {
+        Currencies currency = new Currencies();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT DISTINCT c.id AS currency_id, c.image AS currency_image, c.name AS currency_name, uc.quantity AS trade_price
+                             FROM avatars ch
+                             LEFT JOIN avatars_trade et ON ch.id = et.avatar_id
+                             LEFT JOIN currencies c ON c.id = et.currency_id
+                             LEFT JOIN user_currencies uc ON uc.currency_id = c.id
+                             WHERE ch.id = @id;";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@id", Id);
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            currency = new Currencies
+                            {
+                                Id = reader.GetStringSafe("currency_id"),
+                                Name = reader.GetStringSafe("currency_name"),
+                                Image = reader.GetStringSafe("currency_image"),
+                                Quantity = reader.GetIntSafe("trade_price")
+                            };
+                        }
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return currency;
+    }
     public async Task<Currencies> GetUserCardHeroPriceAsync(string Id)
     {
         Currencies currency = new Currencies();
@@ -2773,6 +2822,55 @@ public class UserCurrenciesRepository : IUserCurrenciesRepository
                             Quantity = reader.GetIntSafe("quantity")
                         };
                         currencies.Add(currency);
+                    }
+                }
+            }
+            catch (MySqlException ex)
+            {
+                Debug.LogError("Error: " + ex.Message);
+            }
+            finally
+            {
+                await connection.CloseAsync();
+            }
+        }
+
+        return currencies;
+    }
+    public async Task<List<Currencies>> GetAvatarsCurrencyAsync(string type)
+    {
+        List<Currencies> currencies = new List<Currencies>();
+        string connectionString = DatabaseConfig.ConnectionString;
+
+        await using (MySqlConnection connection = new MySqlConnection(connectionString))
+        {
+            try
+            {
+                await connection.OpenAsync();
+
+                string selectSQL = @"SELECT DISTINCT c.id, c.image, c.name, uc.quantity
+                             FROM avatars a
+                             JOIN avatar_trade at ON a.id = at.avatar_id
+                             JOIN currencies c ON at.currency_id = c.id
+                             JOIN user_currencies uc ON c.id = uc.currency_id;";
+
+                await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
+                {
+                    selectCommand.Parameters.AddWithValue("@type", type);
+
+                    await using (MySqlDataReader reader = await selectCommand.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Currencies currency = new Currencies
+                            {
+                                Id = reader.GetStringSafe("id"),
+                                Name = reader.GetStringSafe("name"),
+                                Image = reader.GetStringSafe("image"),
+                                Quantity = reader.GetIntSafe("quantity"),
+                            };
+                            currencies.Add(currency);
+                        }
                     }
                 }
             }

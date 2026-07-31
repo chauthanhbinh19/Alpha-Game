@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserBadgesService : IUserBadgesService
 {
-    private static UserBadgesService _instance;
     private readonly IUserBadgesRepository _userBadgesRepository;
+    private readonly IBadgesGalleryService _badgesGalleryService;
+    private readonly IBadgesService _badgesService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserBadgesService(IUserBadgesRepository userBadgesRepository)
+    public UserBadgesService(
+        IUserBadgesRepository userBadgesRepository,
+        IBadgesGalleryService badgesGalleryService,
+        IBadgesService badgesService,
+        IPowerManagerService powerManagerService)
     {
         _userBadgesRepository = userBadgesRepository;
+        _badgesGalleryService = badgesGalleryService;
+        _badgesService = badgesService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserBadgesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserBadgesService(new UserBadgesRepository());
-        }
-        return _instance;
-    }
+    public static IUserBadgesService Create() => ServiceContainer.GetService<IUserBadgesService>();
 
     public async Task<List<Badges>> GetUserBadgesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Badges> list = await _userBadgesRepository.GetUserBadgesAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserBadgesService : IUserBadgesService
         return await _userBadgesRepository.GetUserBadgesCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBadgeAsync(string userId, Badges badge)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Badges oldBadge = await _badgesService.SumPowerBadgesPercentAsync(userId);
+        var insertOrUpdateResult = await _userBadgesRepository.InsertOrUpdateUserBadgeAsync(userId, badge);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserBadgesService : IUserBadgesService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _badgesGalleryService.InsertBadgeGalleryAsync(userId, badge.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Badges newBadge = await _badgesService.SumPowerBadgesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newBadge - (PowerManager)oldBadge;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserBadgesService : IUserBadgesService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBadgesBatchAsync(string userId, List<Badges> badgees)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Badges oldBadge = await _badgesService.SumPowerBadgesPercentAsync(userId);
+        var repositoryResult = await _userBadgesRepository.InsertOrUpdateUserBadgesBatchAsync(userId, badgees);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserBadgesService : IUserBadgesService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _badgesGalleryService.InsertBatchBadgesGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Badges newBadge = await _badgesService.SumPowerBadgesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newBadge - (PowerManager)oldBadge;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserBadgesService : IUserBadgesService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserBadgeLevelAsync(string userId, Badges badge)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userBadgesRepository.UpdateUserBadgeLevelAsync(userId, badge);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserBadgesService : IUserBadgesService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserBadgeStarAsync(string userId, Badges badge)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userBadgesRepository.UpdateUserBadgeStarAsync(userId, badge);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _badgesGalleryService.UpdateTempStarBadgeGalleryAsync(userId, badge.Id, badge.Star);
 
         return true;
     }
 
     public async Task<Badges> GetUserBadgeByIdAsync(string userId, string Id)
     {
-        return await _userBadgesRepository.GetUserBadgeByIdAsync(userId, Id);
+        var result = await _userBadgesRepository.GetUserBadgeByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Badges> SumPowerUserBadgesAsync(string userId)

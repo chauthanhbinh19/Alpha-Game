@@ -8,11 +8,10 @@ public interface IUserEquipmentsService
     Task<List<Equipments>> GetUserAllEquipmentsAsync(string userId);
     Task<int> GetUserEquipmentsCountAsync(string userId, string search, string type, string rare);
     Task<Equipments> GetUserEquipmentsByIdAsync(string userId, string Id);
-    Task<bool> InsertUserEquipmentAsync(string userId, string Id, double quantity);
-    Task<bool> InsertOrUpdateUserEquipmentsBatchAsync(string userId, List<(Equipments data, double quantity)> list);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEquipmentAsync(string userId, Equipments equipment);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEquipmentsBatchAsync(string userId, List<(Equipments data, double quantity)> list);
     Task<bool> UpdateUserEquipmentLevelAsync(string userId, Equipments equipment);
     Task<bool> UpdateUserEquipmentStarAsync(string userId, Equipments equipment);
-    Task<bool> UpdateUserEquipmentsBreakthroughAsync(string userId, Equipments equipment, int star, double quantity);
     Task UpdateUserCurrencyAsync(string userId, string Id, double amount);
     Task InsertUserCardHeroEquipmentsAsync(string userId, string Id, Equipments equipment, int position);
     Task InsertUserCardCaptainEquipmentsAsync(string userId, string Id, Equipments equipment, int position);

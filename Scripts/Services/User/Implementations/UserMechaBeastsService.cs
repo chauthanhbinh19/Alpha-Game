@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserMechaBeastsService : IUserMechaBeastsService
 {
-    private static UserMechaBeastsService _instance;
     private readonly IUserMechaBeastsRepository _userMechaBeastsRepository;
+    private readonly IMechaBeastsGalleryService _mechaBeastsGalleryService;
+    private readonly IMechaBeastsService _mechaBeastsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserMechaBeastsService(IUserMechaBeastsRepository userMechaBeastsRepository)
+    public UserMechaBeastsService(
+        IUserMechaBeastsRepository userMechaBeastsRepository,
+        IMechaBeastsGalleryService mechaBeastsGalleryService,
+        IMechaBeastsService mechaBeastsService,
+        IPowerManagerService powerManagerService)
     {
         _userMechaBeastsRepository = userMechaBeastsRepository;
+        _mechaBeastsGalleryService = mechaBeastsGalleryService;
+        _mechaBeastsService = mechaBeastsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserMechaBeastsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserMechaBeastsService(new UserMechaBeastsRepository());
-        }
-        return _instance;
-    }
+    public static IUserMechaBeastsService Create() => ServiceContainer.GetService<IUserMechaBeastsService>();
 
     public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<MechaBeasts> list = await _userMechaBeastsRepository.GetUserMechaBeastsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         return await _userMechaBeastsRepository.GetUserMechaBeastsCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMechaBeastAsync(string userId, MechaBeasts mechaBeast)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        MechaBeasts oldMechaBeast = await _mechaBeastsService.SumPowerMechaBeastsPercentAsync(userId);
+        var insertOrUpdateResult = await _userMechaBeastsRepository.InsertOrUpdateUserMechaBeastAsync(userId, mechaBeast);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserMechaBeastsService : IUserMechaBeastsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _mechaBeastsGalleryService.InsertMechaBeastGalleryAsync(userId, mechaBeast.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        MechaBeasts newMechaBeast = await _mechaBeastsService.SumPowerMechaBeastsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newMechaBeast - (PowerManager)oldMechaBeast;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMechaBeastsBatchAsync(string userId, List<MechaBeasts> mechaBeastes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        MechaBeasts oldMechaBeast = await _mechaBeastsService.SumPowerMechaBeastsPercentAsync(userId);
+        var repositoryResult = await _userMechaBeastsRepository.InsertOrUpdateUserMechaBeastsBatchAsync(userId, mechaBeastes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _mechaBeastsGalleryService.InsertBatchMechaBeastsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        MechaBeasts newMechaBeast = await _mechaBeastsService.SumPowerMechaBeastsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newMechaBeast - (PowerManager)oldMechaBeast;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserMechaBeastLevelAsync(string userId, MechaBeasts mechaBeast)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userMechaBeastsRepository.UpdateUserMechaBeastLevelAsync(userId, mechaBeast);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserMechaBeastsService : IUserMechaBeastsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserMechaBeastStarAsync(string userId, MechaBeasts mechaBeast)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userMechaBeastsRepository.UpdateUserMechaBeastStarAsync(userId, mechaBeast);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _mechaBeastsGalleryService.UpdateTempStarMechaBeastGalleryAsync(userId, mechaBeast.Id, mechaBeast.Star);
 
         return true;
     }
 
     public async Task<MechaBeasts> GetUserMechaBeastByIdAsync(string userId, string Id)
     {
-        return await _userMechaBeastsRepository.GetUserMechaBeastByIdAsync(userId, Id);
+        var result = await _userMechaBeastsRepository.GetUserMechaBeastByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<MechaBeasts> SumPowerUserMechaBeastsAsync(string userId)

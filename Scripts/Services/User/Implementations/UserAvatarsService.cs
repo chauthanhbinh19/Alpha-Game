@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserAvatarsService : IUserAvatarsService
 {
-    private static UserAvatarsService _instance;
     private readonly IUserAvatarsRepository _userAvatarsRepository;
+    private readonly IAvatarsGalleryService _avatarsGalleryService;
+    private readonly IAvatarsService _avatarsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserAvatarsService(IUserAvatarsRepository userAvatarsRepository)
+    public UserAvatarsService(
+        IUserAvatarsRepository userAvatarsRepository,
+        IAvatarsGalleryService avatarsGalleryService,
+        IAvatarsService avatarsService,
+        IPowerManagerService powerManagerService)
     {
         _userAvatarsRepository = userAvatarsRepository;
+        _avatarsGalleryService = avatarsGalleryService;
+        _avatarsService = avatarsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserAvatarsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserAvatarsService(new UserAvatarsRepository());
-        }
-        return _instance;
-    }
+    public static IUserAvatarsService Create() => ServiceContainer.GetService<IUserAvatarsService>();
 
     public async Task<List<Avatars>> GetUserAvatarsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Avatars> list = await _userAvatarsRepository.GetUserAvatarsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -40,10 +44,10 @@ public class UserAvatarsService : IUserAvatarsService
         return await _userAvatarsRepository.InsertUserAvatarByIdAsync(await _service.GetAvatarByIdAsync(avatarId), userId);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAvatarAsync(string userId, Avatars avatar)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Avatars oldAvatar = await _avatarsService.SumPowerAvatarsPercentAsync(userId);
+        var insertOrUpdateResult = await _userAvatarsRepository.InsertOrUpdateUserAvatarAsync(userId, avatar);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -60,10 +64,10 @@ public class UserAvatarsService : IUserAvatarsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _avatarsGalleryService.InsertAvatarGalleryAsync(userId, avatar.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Avatars newAvatar = await _avatarsService.SumPowerAvatarsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newAvatar - (PowerManager)oldAvatar;
 
         if (deltaPower.Power == 0)
         {
@@ -78,10 +82,10 @@ public class UserAvatarsService : IUserAvatarsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAvatarsBatchAsync(string userId, List<Avatars> avatares)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Avatars oldAvatar = await _avatarsService.SumPowerAvatarsPercentAsync(userId);
+        var repositoryResult = await _userAvatarsRepository.InsertOrUpdateUserAvatarsBatchAsync(userId, avatares);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -98,11 +102,11 @@ public class UserAvatarsService : IUserAvatarsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _avatarsGalleryService.InsertBatchAvatarsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Avatars newAvatar = await _avatarsService.SumPowerAvatarsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newAvatar - (PowerManager)oldAvatar;
 
         if (deltaPower.Power == 0)
         {
@@ -129,9 +133,9 @@ public class UserAvatarsService : IUserAvatarsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserAvatarLevelAsync(string userId, Avatars avatar)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userAvatarsRepository.UpdateUserAvatarLevelAsync(userId, avatar);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -141,16 +145,16 @@ public class UserAvatarsService : IUserAvatarsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserAvatarStarAsync(string userId, Avatars avatar)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userAvatarsRepository.UpdateUserAvatarStarAsync(userId, avatar);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _avatarsGalleryService.UpdateTempStarAvatarGalleryAsync(userId, avatar.Id, avatar.Star);
 
         return true;
     }

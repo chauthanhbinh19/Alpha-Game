@@ -205,4 +205,86 @@ public static class QualityEvaluatorHelper
         }
         return list;
     }
+    public static T GetQualityPower<T>(T entity) where T : IStats
+    {
+        if (entity == null) return default;
+
+        double multiplier = 1 + entity.Quality / 10.0;
+
+        entity.Health *= multiplier;
+        entity.PhysicalAttack *= multiplier;
+        entity.PhysicalDefense *= multiplier;
+        entity.MagicalAttack *= multiplier;
+        entity.MagicalDefense *= multiplier;
+        entity.ChemicalAttack *= multiplier;
+        entity.ChemicalDefense *= multiplier;
+        entity.AtomicAttack *= multiplier;
+        entity.AtomicDefense *= multiplier;
+        entity.MentalAttack *= multiplier;
+        entity.MentalDefense *= multiplier;
+        entity.Speed *= multiplier;
+        entity.CriticalDamageRate *= multiplier;
+        entity.CriticalRate *= multiplier;
+        entity.CriticalResistanceRate *= multiplier;
+        entity.IgnoreCriticalRate *= multiplier;
+        entity.PenetrationRate *= multiplier;
+        entity.PenetrationResistanceRate *= multiplier;
+        entity.EvasionRate *= multiplier;
+        entity.DamageAbsorptionRate *= multiplier;
+        entity.IgnoreDamageAbsorptionRate *= multiplier;
+        entity.AbsorbedDamageRate *= multiplier;
+        entity.VitalityRegenerationRate *= multiplier;
+        entity.VitalityRegenerationResistanceRate *= multiplier;
+        entity.AccuracyRate *= multiplier;
+        entity.LifestealRate *= multiplier;
+        entity.Mana = (float)(entity.Mana * multiplier);
+        entity.ManaRegenerationRate *= multiplier;
+        entity.ShieldStrength *= multiplier;
+        entity.Tenacity *= multiplier;
+        entity.ResistanceRate *= multiplier;
+        entity.ComboRate *= multiplier;
+        entity.IgnoreComboRate *= multiplier;
+        entity.ComboDamageRate *= multiplier;
+        entity.ComboResistanceRate *= multiplier;
+        entity.StunRate *= multiplier;
+        entity.IgnoreStunRate *= multiplier;
+        entity.ReflectionRate *= multiplier;
+        entity.IgnoreReflectionRate *= multiplier;
+        entity.ReflectionDamageRate *= multiplier;
+        entity.ReflectionResistanceRate *= multiplier;
+        entity.DamageToDifferentFactionRate *= multiplier;
+        entity.ResistanceToDifferentFactionRate *= multiplier;
+        entity.DamageToSameFactionRate *= multiplier;
+        entity.ResistanceToSameFactionRate *= multiplier;
+        entity.NormalDamageRate *= multiplier;
+        entity.NormalResistanceRate *= multiplier;
+        entity.SkillDamageRate *= multiplier;
+        entity.SkillResistanceRate *= multiplier;
+
+        entity.Power = PowerHelper.CalculatePower(
+            entity.Health,
+            entity.PhysicalAttack, entity.PhysicalDefense,
+            entity.MagicalAttack, entity.MagicalDefense,
+            entity.ChemicalAttack, entity.ChemicalDefense,
+            entity.AtomicAttack, entity.AtomicDefense,
+            entity.MentalAttack, entity.MentalDefense,
+            entity.Speed,
+            entity.CriticalDamageRate, entity.CriticalRate, entity.CriticalResistanceRate, entity.IgnoreCriticalRate,
+            entity.PenetrationRate, entity.PenetrationResistanceRate, entity.EvasionRate,
+            entity.DamageAbsorptionRate, entity.IgnoreDamageAbsorptionRate, entity.AbsorbedDamageRate,
+            entity.VitalityRegenerationRate, entity.VitalityRegenerationResistanceRate,
+            entity.AccuracyRate, entity.LifestealRate,
+            entity.ShieldStrength, entity.Tenacity, entity.ResistanceRate,
+            entity.ComboRate, entity.IgnoreComboRate, entity.ComboDamageRate, entity.ComboResistanceRate,
+            entity.StunRate, entity.IgnoreStunRate,
+            entity.ReflectionRate, entity.IgnoreReflectionRate, entity.ReflectionDamageRate, entity.ReflectionResistanceRate,
+            entity.Mana, entity.ManaRegenerationRate,
+            entity.DamageToDifferentFactionRate, entity.ResistanceToDifferentFactionRate,
+            entity.DamageToSameFactionRate, entity.ResistanceToSameFactionRate,
+            entity.NormalDamageRate, entity.NormalResistanceRate,
+            entity.SkillDamageRate, entity.SkillResistanceRate
+        );
+
+        return entity;
+    }
 }

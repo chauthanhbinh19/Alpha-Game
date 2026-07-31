@@ -269,90 +269,6 @@ public class UserCardGeneralsService : IUserCardGeneralsService
         }
         return CardGeneralsList;
     }
-    public async Task<List<CardGenerals>> GetAllSpiritBeastPowerAsync(string userId, List<CardGenerals> cardGenerals)
-    {
-        foreach (var c in cardGenerals)
-        {
-            SpiritBeasts spiritBeast = await UserSpiritBeastsService.Create().GetUserCardGeneralSpiritBeastAsync(userId, c);
-            if (spiritBeast != null)
-            {
-                c.Health = c.Health + spiritBeast.Health + c.BaseStats.Health * spiritBeast.PercentAllHealth / 100;
-                c.PhysicalAttack = c.PhysicalAttack + spiritBeast.PhysicalAttack + c.BaseStats.PhysicalAttack * spiritBeast.PercentAllPhysicalAttack / 100;
-                c.PhysicalDefense = c.PhysicalDefense + spiritBeast.PhysicalDefense + c.BaseStats.PhysicalDefense * spiritBeast.PercentAllPhysicalDefense / 100;
-                c.MagicalAttack = c.MagicalAttack + spiritBeast.MagicalAttack + c.BaseStats.MagicalAttack * spiritBeast.PercentAllMagicalAttack / 100;
-                c.MagicalDefense = c.MagicalDefense + spiritBeast.MagicalDefense + c.BaseStats.MagicalDefense * spiritBeast.PercentAllMagicalDefense / 100;
-                c.ChemicalAttack = c.ChemicalAttack + spiritBeast.ChemicalAttack + c.BaseStats.ChemicalAttack * spiritBeast.PercentAllChemicalAttack / 100;
-                c.ChemicalDefense = c.ChemicalDefense + spiritBeast.ChemicalDefense + c.BaseStats.ChemicalDefense * spiritBeast.PercentAllChemicalDefense / 100;
-                c.AtomicAttack = c.AtomicAttack + spiritBeast.AtomicAttack + c.BaseStats.AtomicAttack * spiritBeast.PercentAllAtomicAttack / 100;
-                c.AtomicDefense = c.AtomicDefense + spiritBeast.AtomicDefense + c.BaseStats.AtomicDefense * spiritBeast.PercentAllAtomicDefense / 100;
-                c.MentalAttack = c.MentalAttack + spiritBeast.MentalAttack + c.BaseStats.MentalAttack * spiritBeast.PercentAllMentalAttack / 100;
-                c.MentalDefense = c.MentalDefense + spiritBeast.MentalDefense + c.BaseStats.MentalDefense * spiritBeast.PercentAllMentalDefense / 100;
-                c.Speed = c.Speed + spiritBeast.Speed;
-                c.CriticalDamageRate = c.CriticalDamageRate + spiritBeast.CriticalDamageRate;
-                c.CriticalRate = c.CriticalRate + spiritBeast.CriticalRate;
-                c.CriticalResistanceRate = c.CriticalResistanceRate + spiritBeast.CriticalResistanceRate;
-                c.IgnoreCriticalRate = c.IgnoreCriticalRate + spiritBeast.IgnoreCriticalRate;
-                c.PenetrationRate = c.PenetrationRate + spiritBeast.PenetrationRate;
-                c.PenetrationResistanceRate = c.PenetrationResistanceRate + spiritBeast.PenetrationResistanceRate;
-                c.EvasionRate = c.EvasionRate + spiritBeast.EvasionRate;
-                c.DamageAbsorptionRate = c.DamageAbsorptionRate + spiritBeast.DamageAbsorptionRate;
-                c.IgnoreDamageAbsorptionRate = c.IgnoreDamageAbsorptionRate + spiritBeast.IgnoreDamageAbsorptionRate;
-                c.AbsorbedDamageRate = c.AbsorbedDamageRate + spiritBeast.AbsorbedDamageRate;
-                c.VitalityRegenerationRate = c.VitalityRegenerationRate + spiritBeast.VitalityRegenerationRate;
-                c.VitalityRegenerationResistanceRate = c.VitalityRegenerationResistanceRate + spiritBeast.VitalityRegenerationResistanceRate;
-                c.AccuracyRate = c.AccuracyRate + spiritBeast.AccuracyRate;
-                c.LifestealRate = c.LifestealRate + spiritBeast.LifestealRate;
-                c.ShieldStrength = c.ShieldStrength + spiritBeast.ShieldStrength;
-                c.Tenacity = c.Tenacity + spiritBeast.Tenacity;
-                c.ResistanceRate = c.ResistanceRate + spiritBeast.ResistanceRate;
-                c.ComboRate = c.ComboRate + spiritBeast.ComboRate;
-                c.IgnoreComboRate = c.IgnoreComboRate + spiritBeast.IgnoreComboRate;
-                c.ComboDamageRate = c.ComboDamageRate + spiritBeast.ComboDamageRate;
-                c.ComboResistanceRate = c.ComboResistanceRate + spiritBeast.ComboResistanceRate;
-                c.StunRate = c.StunRate + spiritBeast.StunRate;
-                c.IgnoreStunRate = c.IgnoreStunRate + spiritBeast.IgnoreStunRate;
-                c.ReflectionRate = c.ReflectionRate + spiritBeast.ReflectionRate;
-                c.IgnoreReflectionRate = c.IgnoreReflectionRate + spiritBeast.IgnoreReflectionRate;
-                c.ReflectionDamageRate = c.ReflectionDamageRate + spiritBeast.ReflectionDamageRate;
-                c.ReflectionResistanceRate = c.ReflectionResistanceRate + spiritBeast.ReflectionResistanceRate;
-                c.Mana = c.Mana + spiritBeast.Mana;
-                c.ManaRegenerationRate = c.ManaRegenerationRate + spiritBeast.ManaRegenerationRate;
-                c.DamageToDifferentFactionRate = c.DamageToDifferentFactionRate + spiritBeast.DamageToDifferentFactionRate;
-                c.ResistanceToDifferentFactionRate = c.ResistanceToDifferentFactionRate + spiritBeast.ResistanceToDifferentFactionRate;
-                c.DamageToSameFactionRate = c.DamageToSameFactionRate + spiritBeast.DamageToSameFactionRate;
-                c.ResistanceToSameFactionRate = c.ResistanceToSameFactionRate + spiritBeast.ResistanceToSameFactionRate;
-                c.NormalDamageRate = c.NormalDamageRate + spiritBeast.NormalDamageRate;
-                c.NormalResistanceRate = c.NormalResistanceRate + spiritBeast.NormalResistanceRate;
-                c.SkillDamageRate = c.SkillDamageRate + spiritBeast.SkillDamageRate;
-                c.SkillResistanceRate = c.SkillResistanceRate + spiritBeast.SkillResistanceRate;
-            }
-
-            c.Power = PowerHelper.CalculatePower(
-            c.Health,
-            c.PhysicalAttack, c.PhysicalDefense,
-            c.MagicalAttack, c.MagicalDefense,
-            c.ChemicalAttack, c.ChemicalDefense,
-            c.AtomicAttack, c.AtomicDefense,
-            c.MentalAttack, c.MentalDefense,
-            c.Speed,
-            c.CriticalDamageRate, c.CriticalRate, c.CriticalResistanceRate, c.IgnoreCriticalRate,
-            c.PenetrationRate, c.PenetrationResistanceRate, c.EvasionRate,
-            c.DamageAbsorptionRate, c.IgnoreDamageAbsorptionRate, c.AbsorbedDamageRate,
-            c.VitalityRegenerationRate, c.VitalityRegenerationResistanceRate,
-            c.AccuracyRate, c.LifestealRate,
-            c.ShieldStrength, c.Tenacity, c.ResistanceRate,
-            c.ComboRate, c.IgnoreComboRate, c.ComboDamageRate, c.ComboResistanceRate,
-            c.StunRate, c.IgnoreStunRate,
-            c.ReflectionRate, c.IgnoreReflectionRate, c.ReflectionDamageRate, c.ReflectionResistanceRate,
-            c.Mana, c.ManaRegenerationRate,
-            c.DamageToDifferentFactionRate, c.ResistanceToDifferentFactionRate,
-            c.DamageToSameFactionRate, c.ResistanceToSameFactionRate,
-            c.NormalDamageRate, c.NormalResistanceRate,
-            c.SkillDamageRate, c.SkillResistanceRate
-        );
-        }
-        return cardGenerals;
-    }
 
     public async Task<List<CardGenerals>> GetUserCardGeneralsAsync(string userId, string search, string type, int pageSize, int offset, string rare, UserStatsContextDTO sharedContext = null)
     {
@@ -399,6 +315,8 @@ public class UserCardGeneralsService : IUserCardGeneralsService
 
         // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         // list = await GetAllEquipmentPowerAsync(userId, list);
         // list = await GetAllRankPowerAsync(userId, list);
         // list = await GetAllMasterPowerAsync(userId, list);
@@ -467,6 +385,8 @@ public class UserCardGeneralsService : IUserCardGeneralsService
 
         // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         // list = await GetAllEquipmentPowerAsync(userId, list);
         // list = await GetAllRankPowerAsync(userId, list);
         // list = await GetAllMasterPowerAsync(userId, list);
@@ -535,6 +455,8 @@ public class UserCardGeneralsService : IUserCardGeneralsService
 
         // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         // list = await GetAllEquipmentPowerAsync(userId, list);
         // list = await GetAllRankPowerAsync(userId, list);
         // list = await GetAllMasterPowerAsync(userId, list);
@@ -719,6 +641,8 @@ public class UserCardGeneralsService : IUserCardGeneralsService
 
         // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         // list = await GetAllEquipmentPowerAsync(userId, list);
         // list = await GetAllRankPowerAsync(userId, list);
         // list = await GetAllMasterPowerAsync(userId, list);

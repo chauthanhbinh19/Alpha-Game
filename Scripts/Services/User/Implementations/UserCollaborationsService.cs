@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserCollaborationsService : IUserCollaborationsService
 {
-    private static UserCollaborationsService _instance;
     private readonly IUserCollaborationsRepository _userCollaborationsRepository;
+    private readonly ICollaborationsGalleryService _collaborationsGalleryService;
+    private readonly ICollaborationsService _collaborationsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserCollaborationsService(IUserCollaborationsRepository userCollaborationsRepository)
+    public UserCollaborationsService(
+        IUserCollaborationsRepository userCollaborationsRepository,
+        ICollaborationsGalleryService collaborationsGalleryService,
+        ICollaborationsService collaborationsService,
+        IPowerManagerService powerManagerService)
     {
         _userCollaborationsRepository = userCollaborationsRepository;
+        _collaborationsGalleryService = collaborationsGalleryService;
+        _collaborationsService = collaborationsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserCollaborationsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserCollaborationsService(new UserCollaborationsRepository());
-        }
-        return _instance;
-    }
+    public static IUserCollaborationsService Create() => ServiceContainer.GetService<IUserCollaborationsService>();
 
     public async Task<List<Collaborations>> GetUserCollaborationsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Collaborations> list = await _userCollaborationsRepository.GetUserCollaborationsAsync(userId, search, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserCollaborationsService : IUserCollaborationsService
         return await _userCollaborationsRepository.GetUserCollaborationsCountAsync(userId, search, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationAsync(string userId, Collaborations collaboration)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Collaborations oldCollaboration = await _collaborationsService.SumPowerCollaborationsPercentAsync(userId);
+        var insertOrUpdateResult = await _userCollaborationsRepository.InsertOrUpdateUserCollaborationAsync(userId, collaboration);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserCollaborationsService : IUserCollaborationsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _collaborationsGalleryService.InsertCollaborationGalleryAsync(userId, collaboration.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Collaborations newCollaboration = await _collaborationsService.SumPowerCollaborationsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newCollaboration - (PowerManager)oldCollaboration;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserCollaborationsService : IUserCollaborationsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationsBatchAsync(string userId, List<Collaborations> collaborationes)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Collaborations oldCollaboration = await _collaborationsService.SumPowerCollaborationsPercentAsync(userId);
+        var repositoryResult = await _userCollaborationsRepository.InsertOrUpdateUserCollaborationsBatchAsync(userId, collaborationes);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserCollaborationsService : IUserCollaborationsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _collaborationsGalleryService.InsertBatchCollaborationsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Collaborations newCollaboration = await _collaborationsService.SumPowerCollaborationsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newCollaboration - (PowerManager)oldCollaboration;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserCollaborationsService : IUserCollaborationsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserCollaborationLevelAsync(string userId, Collaborations collaboration)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userCollaborationsRepository.UpdateUserCollaborationLevelAsync(userId, collaboration);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserCollaborationsService : IUserCollaborationsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserCollaborationStarAsync(string userId, Collaborations collaboration)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userCollaborationsRepository.UpdateUserCollaborationStarAsync(userId, collaboration);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _collaborationsGalleryService.UpdateTempStarCollaborationGalleryAsync(userId, collaboration.Id, collaboration.Star);
 
         return true;
     }
 
     public async Task<Collaborations> GetUserCollaborationByIdAsync(string userId, string Id)
     {
-        return await _userCollaborationsRepository.GetUserCollaborationByIdAsync(userId, Id);
+        var result = await _userCollaborationsRepository.GetUserCollaborationByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Collaborations> SumPowerUserCollaborationsAsync(string userId)

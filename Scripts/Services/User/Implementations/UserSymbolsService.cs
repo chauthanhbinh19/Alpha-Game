@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserSymbolsService : IUserSymbolsService
 {
-    private static UserSymbolsService _instance;
     private readonly IUserSymbolsRepository _userSymbolsRepository;
+    private readonly ISymbolsGalleryService _symbolsGalleryService;
+    private readonly ISymbolsService _symbolsService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserSymbolsService(IUserSymbolsRepository userSymbolsRepository)
+    public UserSymbolsService(
+        IUserSymbolsRepository userSymbolsRepository,
+        ISymbolsGalleryService symbolsGalleryService,
+        ISymbolsService symbolsService,
+        IPowerManagerService powerManagerService)
     {
         _userSymbolsRepository = userSymbolsRepository;
+        _symbolsGalleryService = symbolsGalleryService;
+        _symbolsService = symbolsService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserSymbolsService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserSymbolsService(new UserSymbolsRepository());
-        }
-        return _instance;
-    }
+    public static IUserSymbolsService Create() => ServiceContainer.GetService<IUserSymbolsService>();
 
     public async Task<List<Symbols>> GetUserSymbolsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Symbols> list = await _userSymbolsRepository.GetUserSymbolsAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserSymbolsService : IUserSymbolsService
         return await _userSymbolsRepository.GetUserSymbolsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSymbolAsync(string userId, Symbols symbol)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Symbols oldSymbol = await _symbolsService.SumPowerSymbolsPercentAsync(userId);
+        var insertOrUpdateResult = await _userSymbolsRepository.InsertOrUpdateUserSymbolAsync(userId, symbol);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserSymbolsService : IUserSymbolsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _symbolsGalleryService.InsertSymbolGalleryAsync(userId, symbol.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Symbols newSymbol = await _symbolsService.SumPowerSymbolsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newSymbol - (PowerManager)oldSymbol;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserSymbolsService : IUserSymbolsService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSymbolsBatchAsync(string userId, List<Symbols> symboles)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Symbols oldSymbol = await _symbolsService.SumPowerSymbolsPercentAsync(userId);
+        var repositoryResult = await _userSymbolsRepository.InsertOrUpdateUserSymbolsBatchAsync(userId, symboles);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserSymbolsService : IUserSymbolsService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _symbolsGalleryService.InsertBatchSymbolsGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Symbols newSymbol = await _symbolsService.SumPowerSymbolsPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newSymbol - (PowerManager)oldSymbol;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserSymbolsService : IUserSymbolsService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserSymbolLevelAsync(string userId, Symbols symbol)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userSymbolsRepository.UpdateUserSymbolLevelAsync(userId, symbol);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserSymbolsService : IUserSymbolsService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserSymbolStarAsync(string userId, Symbols symbol)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userSymbolsRepository.UpdateUserSymbolStarAsync(userId, symbol);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _symbolsGalleryService.UpdateTempStarSymbolGalleryAsync(userId, symbol.Id, symbol.Star);
 
         return true;
     }
 
     public async Task<Symbols> GetUserSymbolByIdAsync(string userId, string Id)
     {
-        return await _userSymbolsRepository.GetUserSymbolByIdAsync(userId, Id);
+        var result = await _userSymbolsRepository.GetUserSymbolByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Symbols> SumPowerUserSymbolsAsync(string userId)

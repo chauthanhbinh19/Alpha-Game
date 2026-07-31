@@ -5,9 +5,9 @@ public interface IUserBordersService
 {
     Task<List<Borders>> GetUserBordersAsync(string userId, string search, int pageSize, int offset, string rare);
     Task<int> GetUserBordersCountAsync(string userId, string search, string rare);
-    Task<bool> InsertUserBorderAsync(Borders border, string userId);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBorderAsync(string userId, Borders border);
     Task<bool> InsertUserBorderByIdAsync(string borderId, string userId);
-    Task<bool> InsertOrUpdateUserBordersBatchAsync(string userId, List<Borders> borders);
+    Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBordersBatchAsync(string userId, List<Borders> borders);
     Task<bool> UpdateUserBorderLevelAsync(string userId, Borders border);
     Task<bool> UpdateUserBorderStarAsync(string userId, Borders border);
     Task<Borders> GetUserBorderByUsedAsync(string userId);

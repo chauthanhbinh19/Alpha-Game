@@ -16,7 +16,6 @@ public class UserCardHeroesController : MonoBehaviour
     private GameObject CardHeroButtonPrefab;
     private GameObject PositionPrefab;
     private GameObject MainMenuDetailPanel2Prefab;
-    private TeamsService TeamsService;
     private GameObject PopupSpiritBeastPanelPrefab;
     private GameObject EquipmentsWearingPrefab;
     private GameObject PopupSpiritBeastObject;
@@ -29,12 +28,12 @@ public class UserCardHeroesController : MonoBehaviour
     private GameObject PopupSkillDetailPrefab;
     private GameObject SkillPanelObject;
     private const int MAX_LEVEL = 100000;
-    private const int PAGE_SIZE = 100;
-    private int Offset;
-    private int CurrentPage;
-    private int TotalPage;
-    private string StatusToggle;
-    private string Search;
+    // private const int PAGE_SIZE = 100;
+    // private int Offset;
+    // private int CurrentPage;
+    // private int TotalPage;
+    // private string StatusToggle;
+    // private string Search;
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -68,8 +67,6 @@ public class UserCardHeroesController : MonoBehaviour
         Skill2Prefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.SKILL_2_PREFAB);
         PopupSkillsPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.POPUP_SKILLS_PANEL_PREFAB);
         PopupSkillDetailPrefab = UIManager.Instance.Get(AppConstants.Prefab.Skill.POPUP_SKILL_DETAIL_PREFAB);
-        TeamsService = TeamsService.Create();
-        Search = "";
     }
     public void CreateUserCardHeroes(List<CardHeroes> cardHeroes, Transform contentPanel)
     {
@@ -550,190 +547,10 @@ public class UserCardHeroesController : MonoBehaviour
             await CreateSkillPopupAsync(position, cardId, type, skillType, skill);
         });
     }
-    public async Task GetSpiritBeastAsync(object obj, GameObject currentObject)
-    {
-        Transform transform = currentObject.transform;
-        RawImage background1Image = transform.Find("DictionaryCards/Content/SpiritBeastPanel/Background1").GetComponent<RawImage>();
-        Button addButton = transform.Find("DictionaryCards/Content/SpiritBeastPanel/AddButton").GetComponent<Button>();
-        Button removeButton = transform.Find("DictionaryCards/Content/SpiritBeastPanel/RemoveButton").GetComponent<Button>();
-
-        Offset = 0;
-        CurrentPage = 1;
-
-        background1Image.gameObject.AddComponent<RotateAnimation>();
-
-        if (obj is CardHeroes cardHero)
-        {
-            var userCardSpiritBeast = await UserSpiritBeastsService.Create().GetUserCardHeroSpiritBeastAsync(User.CurrentUserId, cardHero);
-            RawImage spiritBeastImage = transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = userCardSpiritBeast.Image != null
-                ? ImageHelper.RemoveImageExtension(userCardSpiritBeast.Image)
-                : "UI/Background4/Background_V4_352";
-            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            spiritBeastImage.texture = texture;
-
-            CreateDetailsUI(cardHero, currentObject);
-            addButton.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await CreatePopupEquipmentsAsync(obj, currentObject);
-            });
-
-            removeButton.onClick.AddListener(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await UserSpiritBeastsService.Create().DeleteUserCardHeroSpiritBeastAsync(User.CurrentUserId, cardHero, userCardSpiritBeast);
-                string fileNameWithoutExtension = "UI/Background4/Background_V4_352";
-                Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-                spiritBeastImage.texture = texture;
-
-                var card = await UserCardHeroesService.Create().GetUserCardHeroByIdAsync(User.CurrentUserId, cardHero.Id);
-                ShowCardHeroDetails(card, 5);
-            });
-        }
-    }
-    public async Task CreatePopupEquipmentsAsync(object data, GameObject currentObject, string statusToggle = "NOT EQUIP")
-    {
-        PopupSpiritBeastObject = Instantiate(PopupSpiritBeastPanelPrefab, MainPanel);
-        Transform transform = PopupSpiritBeastObject.transform;
-        Transform contentPanel = transform.Find("Scroll View/Viewport/Content");
-        Text pageText = transform.Find("Pagination/Page").GetComponent<Text>();
-        Toggle toggle = transform.Find("Toggle").GetComponent<Toggle>();
-        toggle.isOn = (statusToggle == "ALL");
-        toggle.onValueChanged.AddListener(async (bool isOn) =>
-        {
-            string newStatusToggle = isOn ? "ALL" : "NOT EQUIP";
-            Destroy(PopupSpiritBeastObject);
-            await CreatePopupEquipmentsAsync(data, currentObject, newStatusToggle); // Gọi lại nhưng giữ statusToggle mới
-        });
-        Button nextButton = transform.Find("Pagination/Next").GetComponent<Button>();
-        Button previousButton = transform.Find("Pagination/Previous").GetComponent<Button>();
-        Button closeButton = transform.Find("CloseButton").GetComponent<Button>();
-        closeButton.onClick.RemoveAllListeners();
-        closeButton.onClick.AddListener(() =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            Destroy(PopupSpiritBeastObject);
-        });
-        List<SpiritBeasts> spiritBeasts = new List<SpiritBeasts>();
-        spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardHeroesSpiritBeastAsync(User.CurrentUserId, PAGE_SIZE, Offset, statusToggle);
-
-        int totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, Search, AppConstants.Rare.ALL);
-        TotalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
-
-        pageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
-        CreatePopupEquipmentsUI(data, spiritBeasts, contentPanel, currentObject);
-        nextButton.onClick.RemoveAllListeners();
-        previousButton.onClick.RemoveAllListeners();
-        nextButton.onClick.AddListener(async () =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            await ChangeNextPageAsync(data, pageText, contentPanel, currentObject);
-        });
-        previousButton.onClick.AddListener(async () =>
-        {
-            AudioManager.Instance.PlaySFX(AudioConstants.SFX.SWITCH_CLICK_SOUND);
-            await ChangePreviousPageAsync(data, pageText, contentPanel, currentObject);
-        });
-    }
     public int CalculateTotalPages(int totalRecords, int PAGE_SIZE)
     {
         if (PAGE_SIZE <= 0) return 0; // Đảm bảo PAGE_SIZE không âm hoặc bằng 0
         return (int)Math.Ceiling((double)totalRecords / PAGE_SIZE);
-    }
-    public void CreatePopupEquipmentsUI(object data, List<SpiritBeasts> spiritBeasts, Transform content, GameObject currentObject)
-    {
-        foreach (var spiritBeast in spiritBeasts)
-        {
-            GameObject spiritBeastObject = Instantiate(EquipmentsWearingPrefab, content);
-            Transform transform = spiritBeastObject.transform;
-
-            TextMeshProUGUI titleText = transform.Find("TitleText").GetComponent<TextMeshProUGUI>();
-            titleText.text = spiritBeast.Name.Replace("_", " ");
-
-            TextMeshProUGUI powerText = transform.Find("PowerText").GetComponent<TextMeshProUGUI>();
-            powerText.text = spiritBeast.Power.ToString();
-
-            RawImage image = transform.Find("Image").GetComponent<RawImage>();
-            string fileNameWithoutExtension = spiritBeast.Image.Replace(".png", "");
-            fileNameWithoutExtension = fileNameWithoutExtension.Replace(".jpg", "");
-            Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-            image.texture = texture;
-            // cardImage.SetNativeSize();
-            // cardImage.transform.localScale = new Vector3(0.35f, 0.35f, 0.35f);
-
-            RawImage rareImage = transform.Find("Rare").GetComponent<RawImage>();
-            Texture rareTexture = TextureHelper.LoadTextureCached($"UI/UI/{spiritBeast.Rarity}");
-            rareImage.texture = rareTexture;
-
-            Button EquipButton = transform.Find("EquipButton").GetComponent<Button>();
-            EquipButton.onClick.AddListener((UnityEngine.Events.UnityAction)(async () =>
-            {
-                AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                Destroy(PopupSpiritBeastObject);
-                if (data is CardHeroes cardHero)
-                {
-                    await UserSpiritBeastsService.Create().InsertOrUpdateUserCardHeroSpiritBeastAsync(User.CurrentUserId, cardHero, spiritBeast);
-
-                    RawImage spiritBeastImage = TempCurrentObject.transform.Find("DictionaryCards/Content/SpiritBeastPanel/Image").GetComponent<RawImage>();
-                    var userCardSpiritBeast = await UserSpiritBeastsService.Create().GetUserCardHeroSpiritBeastAsync(User.CurrentUserId, cardHero);
-                    string fileNameWithoutExtension = ImageHelper.RemoveImageExtension(userCardSpiritBeast.Image);
-                    Texture texture = TextureHelper.LoadTextureCached($"{fileNameWithoutExtension}");
-                    spiritBeastImage.texture = texture;
-
-                    double newPower = await TeamsService.GetTeamsPowerAsync(User.CurrentUserId);
-                    double currentPower = User.CurrentUserPower;
-                    User.CurrentUserPower = newPower;
-                    FindObjectOfType<PowerController>().ShowPower(currentPower, newPower - currentPower, 1);
-
-                    var card = await UserCardHeroesService.Create().GetUserCardHeroByIdAsync(User.CurrentUserId, (string)cardHero.Id);
-                    ShowCardHeroDetails((CardHeroes)card, 5);
-                }
-
-                Destroy(PopupSpiritBeastObject);
-            }));
-        }
-        GridLayoutGroup gridLayout = content.GetComponent<GridLayoutGroup>();
-        if (gridLayout != null)
-        {
-            gridLayout.cellSize = new Vector2(340, 130);
-        }
-    }
-    public async Task ChangeNextPageAsync(object data, Text PageText, Transform content, GameObject currentObject)
-    {
-        if (CurrentPage < TotalPage)
-        {
-            ButtonEvent.Instance.Close(content);
-            int totalRecord = 0;
-
-            totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, Search, AppConstants.Rare.ALL);
-            TotalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
-            CurrentPage = CurrentPage + 1;
-            Offset = Offset + PAGE_SIZE;
-            List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardHeroesSpiritBeastAsync(User.CurrentUserId, PAGE_SIZE, Offset, StatusToggle);
-            CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
-
-            PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
-
-        }
-    }
-    public async Task ChangePreviousPageAsync(object data, Text PageText, Transform content, GameObject currentObject)
-    {
-        if (CurrentPage > 1)
-        {
-            ButtonEvent.Instance.Close(content);
-            int totalRecord = 0;
-
-            totalRecord = await UserSpiritBeastsService.Create().GetUserSpiritBeastsCountAsync(User.CurrentUserId, Search, AppConstants.Rare.ALL);
-            TotalPage = CalculateTotalPages(totalRecord, PAGE_SIZE);
-            CurrentPage = CurrentPage - 1;
-            Offset = Offset - PAGE_SIZE;
-            List<SpiritBeasts> spiritBeasts = await UserSpiritBeastsService.Create().GetAllUserCardHeroesSpiritBeastAsync(User.CurrentUserId, PAGE_SIZE, Offset, StatusToggle);
-            CreatePopupEquipmentsUI(data, spiritBeasts, content, currentObject);
-
-            PageText.text = CurrentPage.ToString() + "/" + TotalPage.ToString();
-
-        }
     }
     public void GetRank(object obj, GameObject currentObject)
     {

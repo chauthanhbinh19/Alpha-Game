@@ -3,27 +3,31 @@ using System.Threading.Tasks;
 
 public class UserVehiclesService : IUserVehiclesService
 {
-    private static UserVehiclesService _instance;
     private readonly IUserVehiclesRepository _userVehiclesRepository;
+    private readonly IVehiclesGalleryService _vehiclesGalleryService;
+    private readonly IVehiclesService _vehiclesService;
+    private readonly IPowerManagerService _powerManagerService;
 
-    public UserVehiclesService(IUserVehiclesRepository userVehiclesRepository)
+    public UserVehiclesService(
+        IUserVehiclesRepository userVehiclesRepository,
+        IVehiclesGalleryService vehiclesGalleryService,
+        IVehiclesService vehiclesService,
+        IPowerManagerService powerManagerService)
     {
         _userVehiclesRepository = userVehiclesRepository;
+        _vehiclesGalleryService = vehiclesGalleryService;
+        _vehiclesService = vehiclesService;
+        _powerManagerService = powerManagerService;
     }
 
-    public static UserVehiclesService Create()
-    {
-        if (_instance == null)
-        {
-            _instance = new UserVehiclesService(new UserVehiclesRepository());
-        }
-        return _instance;
-    }
+    public static IUserVehiclesService Create() => ServiceContainer.GetService<IUserVehiclesService>();
 
     public async Task<List<Vehicles>> GetUserVehiclesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Vehicles> list = await _userVehiclesRepository.GetUserVehiclesAsync(userId, search, type, pageSize, offset, rare);
         list = QualityEvaluatorHelper.GetQualityPower(list);
+        list = LevelEvaluatorHelper.GetLevelPower(list);
+        list = StarEvaluatorHelper.GetStarPower(list);
         ListSortHelper.SortByPower(list);
         return list;
     }
@@ -33,10 +37,10 @@ public class UserVehiclesService : IUserVehiclesService
         return await _userVehiclesRepository.GetUserVehiclesCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLifeAsync(string userId, CardLives cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserVehicleAsync(string userId, Vehicles vehicle)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var insertOrUpdateResult = await _userCardLivesRepository.InsertOrUpdateUserCardLifeAsync(userId, cardLife);
+        Vehicles oldVehicle = await _vehiclesService.SumPowerVehiclesPercentAsync(userId);
+        var insertOrUpdateResult = await _userVehiclesRepository.InsertOrUpdateUserVehicleAsync(userId, vehicle);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -53,10 +57,10 @@ public class UserVehiclesService : IUserVehiclesService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _cardLivesGalleryService.InsertCardLifeGalleryAsync(userId, cardLife.Id);
+        await _vehiclesGalleryService.InsertVehicleGalleryAsync(userId, vehicle.Id);
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Vehicles newVehicle = await _vehiclesService.SumPowerVehiclesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newVehicle - (PowerManager)oldVehicle;
 
         if (deltaPower.Power == 0)
         {
@@ -71,10 +75,10 @@ public class UserVehiclesService : IUserVehiclesService
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardLivesBatchAsync(string userId, List<CardLives> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserVehiclesBatchAsync(string userId, List<Vehicles> vehiclees)
     {
-        CardLives oldCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        var repositoryResult = await _userCardLivesRepository.InsertOrUpdateUserCardLivesBatchAsync(userId, cardLifees);
+        Vehicles oldVehicle = await _vehiclesService.SumPowerVehiclesPercentAsync(userId);
+        var repositoryResult = await _userVehiclesRepository.InsertOrUpdateUserVehiclesBatchAsync(userId, vehiclees);
 
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
@@ -91,11 +95,11 @@ public class UserVehiclesService : IUserVehiclesService
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
         {
-            await _cardLivesGalleryService.InsertBatchCardLivesGalleryAsync(userId, newlyInsertedCards);
+            await _vehiclesGalleryService.InsertBatchVehiclesGalleryAsync(userId, newlyInsertedCards);
         }
 
-        CardLives newCardLife = await _cardLivesService.SumPowerCardLivesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCardLife - (PowerManager)oldCardLife;
+        Vehicles newVehicle = await _vehiclesService.SumPowerVehiclesPercentAsync(userId);
+        PowerManager deltaPower = (PowerManager)newVehicle - (PowerManager)oldVehicle;
 
         if (deltaPower.Power == 0)
         {
@@ -122,9 +126,9 @@ public class UserVehiclesService : IUserVehiclesService
         };
     }
 
-    public async Task<bool> UpdateUserCardLifeLevelAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserVehicleLevelAsync(string userId, Vehicles vehicle)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeLevelAsync(userId, cardLife);
+        var updateResult = await _userVehiclesRepository.UpdateUserVehicleLevelAsync(userId, vehicle);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
@@ -134,23 +138,29 @@ public class UserVehiclesService : IUserVehiclesService
         return true;
     }
 
-    public async Task<bool> UpdateUserCardLifeStarAsync(string userId, CardLives cardLife)
+    public async Task<bool> UpdateUserVehicleStarAsync(string userId, Vehicles vehicle)
     {
-        var updateResult = await _userCardLivesRepository.UpdateUserCardLifeStarAsync(userId, cardLife);
+        var updateResult = await _userVehiclesRepository.UpdateUserVehicleStarAsync(userId, vehicle);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _cardLivesGalleryService.UpdateTempStarCardLifeGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _vehiclesGalleryService.UpdateTempStarVehicleGalleryAsync(userId, vehicle.Id, vehicle.Star);
 
         return true;
     }
 
     public async Task<Vehicles> GetUserVehicleByIdAsync(string userId, string Id)
     {
-        return await _userVehiclesRepository.GetUserVehicleByIdAsync(userId, Id);
+        var result = await _userVehiclesRepository.GetUserVehicleByIdAsync(userId, Id);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task<Vehicles> SumPowerUserVehiclesAsync(string userId)

@@ -52,6 +52,11 @@ public class UserCurrenciesService : IUserCurrenciesService
         return await _userCurrenciesRepository.GetUserEquipmentPriceAsync(type, equipment_id);
     }
 
+    public async Task<Currencies> GetUserAvatarPriceAsync(string Id)
+    {
+        return await _userCurrenciesRepository.GetUserAvatarPriceAsync(Id);
+    }
+
     public async Task<Currencies> GetUserCardHeroPriceAsync(string Id)
     {
         return await _userCurrenciesRepository.GetUserCardHeroPriceAsync(Id);
@@ -295,6 +300,11 @@ public class UserCurrenciesService : IUserCurrenciesService
     public async Task<List<Currencies>> GetAchievementsCurrencyAsync()
     {
         return await _userCurrenciesRepository.GetAchievementsCurrencyAsync();
+    }
+
+    public async Task<List<Currencies>> GetAvatarsCurrencyAsync(string type)
+    {
+        return await _userCurrenciesRepository.GetAvatarsCurrencyAsync(type);
     }
 
     public async Task<List<Currencies>> GetBooksCurrencyAsync(string type)
