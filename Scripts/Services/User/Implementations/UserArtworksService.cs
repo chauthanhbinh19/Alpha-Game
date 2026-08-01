@@ -40,7 +40,14 @@ public class UserArtworksService : IUserArtworksService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtworkAsync(string userId, Artworks artwork)
     {
-        Artworks oldArtwork = await _artworksService.SumPowerArtworksPercentAsync(userId);
+        var oldArtworkTask = _artworksService.SumPowerArtworksPercentAsync(userId);
+        var oldUserArtworkTask = _userArtworksRepository.SumPowerUserArtworksAsync(userId);
+
+        await Task.WhenAll(oldArtworkTask, oldUserArtworkTask);
+
+        Artworks oldArtwork = oldArtworkTask.Result;
+        Artworks oldUserArtwork = oldUserArtworkTask.Result;
+
         var insertOrUpdateResult = await _userArtworksRepository.InsertOrUpdateUserArtworkAsync(userId, artwork);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -60,60 +67,77 @@ public class UserArtworksService : IUserArtworksService
 
         await _artworksGalleryService.InsertArtworkGalleryAsync(userId, artwork.Id);
 
-        Artworks newArtwork = await _artworksService.SumPowerArtworksPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newArtwork - (PowerManager)oldArtwork;
+        var newArtworkTask = _artworksService.SumPowerArtworksPercentAsync(userId);
+        var newUserArtworkTask = _userArtworksRepository.SumPowerUserArtworksAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newArtworkTask, newUserArtworkTask);
+
+        PowerManager deltaPower = (PowerManager)newArtworkTask.Result - (PowerManager)oldArtwork;
+        PowerManager deltaUserPower = (PowerManager)newUserArtworkTask.Result - (PowerManager)oldUserArtwork;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtworksBatchAsync(string userId, List<Artworks> artworkes)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtworksBatchAsync(string userId, List<Artworks> artworks)
     {
-        Artworks oldArtwork = await _artworksService.SumPowerArtworksPercentAsync(userId);
-        var repositoryResult = await _userArtworksRepository.InsertOrUpdateUserArtworksBatchAsync(userId, artworkes);
+        var oldArtworkTask = _artworksService.SumPowerArtworksPercentAsync(userId);
+        var oldUserArtworkTask = _userArtworksRepository.SumPowerUserArtworksAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldArtworkTask, oldUserArtworkTask);
+
+        Artworks oldArtwork = oldArtworkTask.Result;
+        Artworks oldUserArtwork = oldUserArtworkTask.Result;
+
+        var insertOrUpdateResult = await _userArtworksRepository.InsertOrUpdateUserArtworksBatchAsync(userId, artworks);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _artworksGalleryService.InsertBatchArtworksGalleryAsync(userId, newlyInsertedCards);
+
+            var newArtworkTask = _artworksService.SumPowerArtworksPercentAsync(userId);
+            var newUserArtworkTask = _userArtworksRepository.SumPowerUserArtworksAsync(userId);
+
+            await Task.WhenAll(newArtworkTask, newUserArtworkTask);
+
+            PowerManager deltaPower = (PowerManager)newArtworkTask.Result - (PowerManager)oldArtwork;
+            PowerManager deltaUserPower = (PowerManager)newUserArtworkTask.Result - (PowerManager)oldUserArtwork;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        Artworks newArtwork = await _artworksService.SumPowerArtworksPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newArtwork - (PowerManager)oldArtwork;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -122,13 +146,15 @@ public class UserArtworksService : IUserArtworksService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserArtworkLevelAsync(string userId, Artworks artwork)
     {
+        Artworks oldUserArtwork = await _userArtworksRepository.SumPowerUserArtworksAsync(userId);
+
         var updateResult = await _userArtworksRepository.UpdateUserArtworkLevelAsync(userId, artwork);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -136,11 +162,23 @@ public class UserArtworksService : IUserArtworksService
             return false;
         }
 
+        Artworks newUserArtwork = await _userArtworksRepository.SumPowerUserArtworksAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserArtwork - (PowerManager)oldUserArtwork;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserArtworkStarAsync(string userId, Artworks artwork)
     {
+        Artworks oldUserArtwork = await _userArtworksRepository.SumPowerUserArtworksAsync(userId);
+
         var updateResult = await _userArtworksRepository.UpdateUserArtworkStarAsync(userId, artwork);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -149,6 +187,16 @@ public class UserArtworksService : IUserArtworksService
         }
 
         await _artworksGalleryService.UpdateTempStarArtworkGalleryAsync(userId, artwork.Id, artwork.Star);
+
+        Artworks newUserArtwork = await _userArtworksRepository.SumPowerUserArtworksAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserArtwork - (PowerManager)oldUserArtwork;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

@@ -39,7 +39,14 @@ public class UserOutfitsService : IUserOutfitsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserOutfitAsync(string userId, Outfits outfit)
     {
-        Outfits oldOutfit = await _outfitsService.SumPowerOutfitsPercentAsync(userId);
+        var oldOutfitTask = _outfitsService.SumPowerOutfitsPercentAsync(userId);
+        var oldUserOutfitTask = _userOutfitsRepository.SumPowerUserOutfitsAsync(userId);
+
+        await Task.WhenAll(oldOutfitTask, oldUserOutfitTask);
+
+        Outfits oldOutfit = oldOutfitTask.Result;
+        Outfits oldUserOutfit = oldUserOutfitTask.Result;
+
         var insertOrUpdateResult = await _userOutfitsRepository.InsertOrUpdateUserOutfitAsync(userId, outfit);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -59,60 +66,77 @@ public class UserOutfitsService : IUserOutfitsService
 
         await _outfitsGalleryService.InsertOutfitGalleryAsync(userId, outfit.Id);
 
-        Outfits newOutfit = await _outfitsService.SumPowerOutfitsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newOutfit - (PowerManager)oldOutfit;
+        var newOutfitTask = _outfitsService.SumPowerOutfitsPercentAsync(userId);
+        var newUserOutfitTask = _userOutfitsRepository.SumPowerUserOutfitsAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newOutfitTask, newUserOutfitTask);
+
+        PowerManager deltaPower = (PowerManager)newOutfitTask.Result - (PowerManager)oldOutfit;
+        PowerManager deltaUserPower = (PowerManager)newUserOutfitTask.Result - (PowerManager)oldUserOutfit;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserOutfitsBatchAsync(string userId, List<Outfits> outfites)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserOutfitsBatchAsync(string userId, List<Outfits> outfits)
     {
-        Outfits oldOutfit = await _outfitsService.SumPowerOutfitsPercentAsync(userId);
-        var repositoryResult = await _userOutfitsRepository.InsertOrUpdateUserOutfitsBatchAsync(userId, outfites);
+        var oldOutfitTask = _outfitsService.SumPowerOutfitsPercentAsync(userId);
+        var oldUserOutfitTask = _userOutfitsRepository.SumPowerUserOutfitsAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldOutfitTask, oldUserOutfitTask);
+
+        Outfits oldOutfit = oldOutfitTask.Result;
+        Outfits oldUserOutfit = oldUserOutfitTask.Result;
+
+        var insertOrUpdateResult = await _userOutfitsRepository.InsertOrUpdateUserOutfitsBatchAsync(userId, outfits);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _outfitsGalleryService.InsertBatchOutfitsGalleryAsync(userId, newlyInsertedCards);
+
+            var newOutfitTask = _outfitsService.SumPowerOutfitsPercentAsync(userId);
+            var newUserOutfitTask = _userOutfitsRepository.SumPowerUserOutfitsAsync(userId);
+
+            await Task.WhenAll(newOutfitTask, newUserOutfitTask);
+
+            PowerManager deltaPower = (PowerManager)newOutfitTask.Result - (PowerManager)oldOutfit;
+            PowerManager deltaUserPower = (PowerManager)newUserOutfitTask.Result - (PowerManager)oldUserOutfit;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        Outfits newOutfit = await _outfitsService.SumPowerOutfitsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newOutfit - (PowerManager)oldOutfit;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -121,13 +145,15 @@ public class UserOutfitsService : IUserOutfitsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserOutfitLevelAsync(string userId, Outfits outfit)
     {
+        Outfits oldUserOutfit = await _userOutfitsRepository.SumPowerUserOutfitsAsync(userId);
+
         var updateResult = await _userOutfitsRepository.UpdateUserOutfitLevelAsync(userId, outfit);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -135,11 +161,23 @@ public class UserOutfitsService : IUserOutfitsService
             return false;
         }
 
+        Outfits newUserOutfit = await _userOutfitsRepository.SumPowerUserOutfitsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserOutfit - (PowerManager)oldUserOutfit;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserOutfitStarAsync(string userId, Outfits outfit)
     {
+        Outfits oldUserOutfit = await _userOutfitsRepository.SumPowerUserOutfitsAsync(userId);
+
         var updateResult = await _userOutfitsRepository.UpdateUserOutfitStarAsync(userId, outfit);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -148,6 +186,16 @@ public class UserOutfitsService : IUserOutfitsService
         }
 
         await _outfitsGalleryService.UpdateTempStarOutfitGalleryAsync(userId, outfit.Id, outfit.Star);
+
+        Outfits newUserOutfit = await _userOutfitsRepository.SumPowerUserOutfitsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserOutfit - (PowerManager)oldUserOutfit;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

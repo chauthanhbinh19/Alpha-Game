@@ -39,7 +39,14 @@ public class UserEmojisService : IUserEmojisService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEmojiAsync(string userId, Emojis emoji)
     {
-        Emojis oldEmoji = await _emojisService.SumPowerEmojisPercentAsync(userId);
+        var oldEmojiTask = _emojisService.SumPowerEmojisPercentAsync(userId);
+        var oldUserEmojiTask = _userEmojisRepository.SumPowerUserEmojisAsync(userId);
+
+        await Task.WhenAll(oldEmojiTask, oldUserEmojiTask);
+
+        Emojis oldEmoji = oldEmojiTask.Result;
+        Emojis oldUserEmoji = oldUserEmojiTask.Result;
+
         var insertOrUpdateResult = await _userEmojisRepository.InsertOrUpdateUserEmojiAsync(userId, emoji);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -59,60 +66,77 @@ public class UserEmojisService : IUserEmojisService
 
         await _emojisGalleryService.InsertEmojiGalleryAsync(userId, emoji.Id);
 
-        Emojis newEmoji = await _emojisService.SumPowerEmojisPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newEmoji - (PowerManager)oldEmoji;
+        var newEmojiTask = _emojisService.SumPowerEmojisPercentAsync(userId);
+        var newUserEmojiTask = _userEmojisRepository.SumPowerUserEmojisAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newEmojiTask, newUserEmojiTask);
+
+        PowerManager deltaPower = (PowerManager)newEmojiTask.Result - (PowerManager)oldEmoji;
+        PowerManager deltaUserPower = (PowerManager)newUserEmojiTask.Result - (PowerManager)oldUserEmoji;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEmojisBatchAsync(string userId, List<Emojis> emojies)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserEmojisBatchAsync(string userId, List<Emojis> emojis)
     {
-        Emojis oldEmoji = await _emojisService.SumPowerEmojisPercentAsync(userId);
-        var repositoryResult = await _userEmojisRepository.InsertOrUpdateUserEmojisBatchAsync(userId, emojies);
+        var oldEmojiTask = _emojisService.SumPowerEmojisPercentAsync(userId);
+        var oldUserEmojiTask = _userEmojisRepository.SumPowerUserEmojisAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldEmojiTask, oldUserEmojiTask);
+
+        Emojis oldEmoji = oldEmojiTask.Result;
+        Emojis oldUserEmoji = oldUserEmojiTask.Result;
+
+        var insertOrUpdateResult = await _userEmojisRepository.InsertOrUpdateUserEmojisBatchAsync(userId, emojis);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _emojisGalleryService.InsertBatchEmojisGalleryAsync(userId, newlyInsertedCards);
+
+            var newEmojiTask = _emojisService.SumPowerEmojisPercentAsync(userId);
+            var newUserEmojiTask = _userEmojisRepository.SumPowerUserEmojisAsync(userId);
+
+            await Task.WhenAll(newEmojiTask, newUserEmojiTask);
+
+            PowerManager deltaPower = (PowerManager)newEmojiTask.Result - (PowerManager)oldEmoji;
+            PowerManager deltaUserPower = (PowerManager)newUserEmojiTask.Result - (PowerManager)oldUserEmoji;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        Emojis newEmoji = await _emojisService.SumPowerEmojisPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newEmoji - (PowerManager)oldEmoji;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -121,13 +145,15 @@ public class UserEmojisService : IUserEmojisService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserEmojiLevelAsync(string userId, Emojis emoji)
     {
+        Emojis oldUserEmoji = await _userEmojisRepository.SumPowerUserEmojisAsync(userId);
+
         var updateResult = await _userEmojisRepository.UpdateUserEmojiLevelAsync(userId, emoji);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -135,11 +161,23 @@ public class UserEmojisService : IUserEmojisService
             return false;
         }
 
+        Emojis newUserEmoji = await _userEmojisRepository.SumPowerUserEmojisAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserEmoji - (PowerManager)oldUserEmoji;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserEmojiStarAsync(string userId, Emojis emoji)
     {
+        Emojis oldUserEmoji = await _userEmojisRepository.SumPowerUserEmojisAsync(userId);
+
         var updateResult = await _userEmojisRepository.UpdateUserEmojiStarAsync(userId, emoji);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -148,6 +186,16 @@ public class UserEmojisService : IUserEmojisService
         }
 
         await _emojisGalleryService.UpdateTempStarEmojiGalleryAsync(userId, emoji.Id, emoji.Star);
+
+        Emojis newUserEmoji = await _userEmojisRepository.SumPowerUserEmojisAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserEmoji - (PowerManager)oldUserEmoji;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

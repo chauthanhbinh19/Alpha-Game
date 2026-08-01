@@ -40,7 +40,14 @@ public class UserAlchemiesService : IUserAlchemiesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAlchemyAsync(string userId, Alchemies alchemy)
     {
-        Alchemies oldAlchemy = await _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
+        var oldAlchemyTask = _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
+        var oldUserAlchemyTask = _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
+
+        await Task.WhenAll(oldAlchemyTask, oldUserAlchemyTask);
+
+        Alchemies oldAlchemy = oldAlchemyTask.Result;
+        Alchemies oldUserAlchemy = oldUserAlchemyTask.Result;
+
         var insertOrUpdateResult = await _userAlchemiesRepository.InsertOrUpdateUserAlchemyAsync(userId, alchemy);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -60,60 +67,77 @@ public class UserAlchemiesService : IUserAlchemiesService
 
         await _alchemiesGalleryService.InsertAlchemyGalleryAsync(userId, alchemy.Id);
 
-        Alchemies newAlchemy = await _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newAlchemy - (PowerManager)oldAlchemy;
+        var newAlchemyTask = _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
+        var newUserAlchemyTask = _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newAlchemyTask, newUserAlchemyTask);
+
+        PowerManager deltaPower = (PowerManager)newAlchemyTask.Result - (PowerManager)oldAlchemy;
+        PowerManager deltaUserPower = (PowerManager)newUserAlchemyTask.Result - (PowerManager)oldUserAlchemy;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAlchemiesBatchAsync(string userId, List<Alchemies> alchemyes)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAlchemiesBatchAsync(string userId, List<Alchemies> alchemies)
     {
-        Alchemies oldAlchemy = await _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
-        var repositoryResult = await _userAlchemiesRepository.InsertOrUpdateUserAlchemiesBatchAsync(userId, alchemyes);
+        var oldAlchemiesTask = _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
+        var oldUserAlchemiesTask = _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldAlchemiesTask, oldUserAlchemiesTask);
+
+        Alchemies oldAlchemy = oldAlchemiesTask.Result;
+        Alchemies oldUserAlchemy = oldUserAlchemiesTask.Result;
+
+        var insertOrUpdateResult = await _userAlchemiesRepository.InsertOrUpdateUserAlchemiesBatchAsync(userId, alchemies);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _alchemiesGalleryService.InsertBatchAlchemiesGalleryAsync(userId, newlyInsertedCards);
+
+            var newAlchemyTask = _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
+            var newUserAlchemyTask = _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
+
+            await Task.WhenAll(newAlchemyTask, newUserAlchemyTask);
+
+            PowerManager deltaPower = (PowerManager)newAlchemyTask.Result - (PowerManager)oldAlchemy;
+            PowerManager deltaUserPower = (PowerManager)newUserAlchemyTask.Result - (PowerManager)oldUserAlchemy;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        Alchemies newAlchemy = await _alchemiesService.SumPowerAlchemiesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newAlchemy - (PowerManager)oldAlchemy;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -122,13 +146,15 @@ public class UserAlchemiesService : IUserAlchemiesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserAlchemyLevelAsync(string userId, Alchemies alchemy)
     {
+        Alchemies oldUserAlchemy = await _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
+
         var updateResult = await _userAlchemiesRepository.UpdateUserAlchemyLevelAsync(userId, alchemy);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -136,11 +162,23 @@ public class UserAlchemiesService : IUserAlchemiesService
             return false;
         }
 
+        Alchemies newUserAlchemy = await _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserAlchemy - (PowerManager)oldUserAlchemy;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserAlchemyStarAsync(string userId, Alchemies alchemy)
     {
+        Alchemies oldUserAlchemy = await _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
+
         var updateResult = await _userAlchemiesRepository.UpdateUserAlchemyStarAsync(userId, alchemy);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -149,6 +187,16 @@ public class UserAlchemiesService : IUserAlchemiesService
         }
 
         await _alchemiesGalleryService.UpdateTempStarAlchemyGalleryAsync(userId, alchemy.Id, alchemy.Star);
+
+        Alchemies newUserAlchemy = await _userAlchemiesRepository.SumPowerUserAlchemiesAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserAlchemy - (PowerManager)oldUserAlchemy;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public class UserCardAdmiralsService : IUserCardAdmiralsService
 {
@@ -616,7 +617,6 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCardAdmiralsBatchAsync(string userId, List<CardAdmirals> cardAdmirales)
     {
         var repositoryResult = await _userCardAdmiralsRepository.InsertOrUpdateUserCardAdmiralsBatchAsync(userId, cardAdmirales);
-
         // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
         if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
         {
@@ -627,7 +627,6 @@ public class UserCardAdmiralsService : IUserCardAdmiralsService
                 Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
-
         // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
         var newlyInsertedCards = repositoryResult.Data.InsertedItems;
         if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)

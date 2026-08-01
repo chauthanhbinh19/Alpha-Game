@@ -59,7 +59,14 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritBeastAsync(string userId, SpiritBeasts spiritBeast)
     {
-        SpiritBeasts oldSpiritBeast = await _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
+        var oldSpiritBeastTask = _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
+        var oldUserSpiritBeastTask = _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
+
+        await Task.WhenAll(oldSpiritBeastTask, oldUserSpiritBeastTask);
+
+        SpiritBeasts oldSpiritBeast = oldSpiritBeastTask.Result;
+        SpiritBeasts oldUserSpiritBeast = oldUserSpiritBeastTask.Result;
+
         var insertOrUpdateResult = await _userSpiritBeastsRepository.InsertOrUpdateUserSpiritBeastAsync(userId, spiritBeast);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -79,60 +86,77 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
 
         await _spiritBeastsGalleryService.InsertSpiritBeastGalleryAsync(userId, spiritBeast.Id);
 
-        SpiritBeasts newSpiritBeast = await _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newSpiritBeast - (PowerManager)oldSpiritBeast;
+        var newSpiritBeastTask = _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
+        var newUserSpiritBeastTask = _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newSpiritBeastTask, newUserSpiritBeastTask);
+
+        PowerManager deltaPower = (PowerManager)newSpiritBeastTask.Result - (PowerManager)oldSpiritBeast;
+        PowerManager deltaUserPower = (PowerManager)newUserSpiritBeastTask.Result - (PowerManager)oldUserSpiritBeast;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritBeastsBatchAsync(string userId, List<SpiritBeasts> spiritBeastes)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSpiritBeastsBatchAsync(string userId, List<SpiritBeasts> spiritBeasts)
     {
-        SpiritBeasts oldSpiritBeast = await _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
-        var repositoryResult = await _userSpiritBeastsRepository.InsertOrUpdateUserSpiritBeastsBatchAsync(userId, spiritBeastes);
+        var oldSpiritBeastTask = _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
+        var oldUserSpiritBeastTask = _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldSpiritBeastTask, oldUserSpiritBeastTask);
+
+        SpiritBeasts oldSpiritBeast = oldSpiritBeastTask.Result;
+        SpiritBeasts oldUserSpiritBeast = oldUserSpiritBeastTask.Result;
+
+        var insertOrUpdateResult = await _userSpiritBeastsRepository.InsertOrUpdateUserSpiritBeastsBatchAsync(userId, spiritBeasts);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _spiritBeastsGalleryService.InsertBatchSpiritBeastsGalleryAsync(userId, newlyInsertedCards);
+
+            var newSpiritBeastTask = _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
+            var newUserSpiritBeastTask = _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
+
+            await Task.WhenAll(newSpiritBeastTask, newUserSpiritBeastTask);
+
+            PowerManager deltaPower = (PowerManager)newSpiritBeastTask.Result - (PowerManager)oldSpiritBeast;
+            PowerManager deltaUserPower = (PowerManager)newUserSpiritBeastTask.Result - (PowerManager)oldUserSpiritBeast;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        SpiritBeasts newSpiritBeast = await _spiritBeastsService.SumPowerSpiritBeastsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newSpiritBeast - (PowerManager)oldSpiritBeast;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -141,13 +165,15 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserSpiritBeastLevelAsync(string userId, SpiritBeasts spiritBeast)
     {
+        SpiritBeasts oldUserSpiritBeast = await _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
+
         var updateResult = await _userSpiritBeastsRepository.UpdateUserSpiritBeastLevelAsync(userId, spiritBeast);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -155,11 +181,23 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
             return false;
         }
 
+        SpiritBeasts newUserSpiritBeast = await _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserSpiritBeast - (PowerManager)oldUserSpiritBeast;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserSpiritBeastStarAsync(string userId, SpiritBeasts spiritBeast)
     {
+        SpiritBeasts oldUserSpiritBeast = await _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
+
         var updateResult = await _userSpiritBeastsRepository.UpdateUserSpiritBeastStarAsync(userId, spiritBeast);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -168,6 +206,16 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
         }
 
         await _spiritBeastsGalleryService.UpdateTempStarSpiritBeastGalleryAsync(userId, spiritBeast.Id, spiritBeast.Star);
+
+        SpiritBeasts newUserSpiritBeast = await _userSpiritBeastsRepository.SumPowerUserSpiritBeastsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserSpiritBeast - (PowerManager)oldUserSpiritBeast;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

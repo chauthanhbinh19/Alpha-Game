@@ -1632,6 +1632,7 @@ public class UserCardHeroesRepository : IUserCardHeroesRepository
                 SUM(uc.skill_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS skill_damage_rate,
                 SUM(uc.skill_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS skill_resistance_rate
             FROM user_card_heroes uc
+            INNER JOIN teams t ON uc.team_id = t.id
             WHERE uc.user_id = @user_id AND uc.team_id IS NOT NULL;";
 
             await using MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection);

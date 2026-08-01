@@ -39,7 +39,14 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMagicFormationCircleAsync(string userId, MagicFormationCircles magicFormationCircle)
     {
-        MagicFormationCircles oldMagicFormationCircle = await _magicFormationCirclesService.SumPowerMagicFormationCirclesPercentAsync(userId);
+        var oldMagicFormationCircleTask = _magicFormationCirclesService.SumPowerMagicFormationCirclesPercentAsync(userId);
+        var oldUserMagicFormationCircleTask = _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
+
+        await Task.WhenAll(oldMagicFormationCircleTask, oldUserMagicFormationCircleTask);
+
+        MagicFormationCircles oldMagicFormationCircle = oldMagicFormationCircleTask.Result;
+        MagicFormationCircles oldUserMagicFormationCircle = oldUserMagicFormationCircleTask.Result;
+
         var insertOrUpdateResult = await _userMagicFormationCirclesRepository.InsertOrUpdateUserMagicFormationCircleAsync(userId, magicFormationCircle);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -59,60 +66,77 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
 
         await _magicFormationCirclesGalleryService.InsertMagicFormationCircleGalleryAsync(userId, magicFormationCircle.Id);
 
-        MagicFormationCircles newMagicFormationCircle = await _magicFormationCirclesService.SumPowerMagicFormationCirclesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newMagicFormationCircle - (PowerManager)oldMagicFormationCircle;
+        var newMagicFormationCircleTask = _magicFormationCirclesService.SumPowerMagicFormationCirclesPercentAsync(userId);
+        var newUserMagicFormationCircleTask = _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newMagicFormationCircleTask, newUserMagicFormationCircleTask);
+
+        PowerManager deltaPower = (PowerManager)newMagicFormationCircleTask.Result - (PowerManager)oldMagicFormationCircle;
+        PowerManager deltaUserPower = (PowerManager)newUserMagicFormationCircleTask.Result - (PowerManager)oldUserMagicFormationCircle;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMagicFormationCirclesBatchAsync(string userId, List<MagicFormationCircles> magicFormationCirclees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMagicFormationCirclesBatchAsync(string userId, List<MagicFormationCircles> magicFormationCircles)
     {
-        MagicFormationCircles oldMagicFormationCircle = await _magicFormationCirclesService.SumPowerMagicFormationCirclesPercentAsync(userId);
-        var repositoryResult = await _userMagicFormationCirclesRepository.InsertOrUpdateUserMagicFormationCirclesBatchAsync(userId, magicFormationCirclees);
+        var oldMagicFormationCircleTask = _magicFormationCirclesService.SumPowerMagicFormationCirclesPercentAsync(userId);
+        var oldUserMagicFormationCircleTask = _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldMagicFormationCircleTask, oldUserMagicFormationCircleTask);
+
+        MagicFormationCircles oldMagicFormationCircle = oldMagicFormationCircleTask.Result;
+        MagicFormationCircles oldUserMagicFormationCircle = oldUserMagicFormationCircleTask.Result;
+
+        var insertOrUpdateResult = await _userMagicFormationCirclesRepository.InsertOrUpdateUserMagicFormationCirclesBatchAsync(userId, magicFormationCircles);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _magicFormationCirclesGalleryService.InsertBatchMagicFormationCirclesGalleryAsync(userId, newlyInsertedCards);
+
+            var newMagicFormationCircleTask = _magicFormationCirclesService.SumPowerMagicFormationCirclesPercentAsync(userId);
+            var newUserMagicFormationCircleTask = _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
+
+            await Task.WhenAll(newMagicFormationCircleTask, newUserMagicFormationCircleTask);
+
+            PowerManager deltaPower = (PowerManager)newMagicFormationCircleTask.Result - (PowerManager)oldMagicFormationCircle;
+            PowerManager deltaUserPower = (PowerManager)newUserMagicFormationCircleTask.Result - (PowerManager)oldUserMagicFormationCircle;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        MagicFormationCircles newMagicFormationCircle = await _magicFormationCirclesService.SumPowerMagicFormationCirclesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newMagicFormationCircle - (PowerManager)oldMagicFormationCircle;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -121,13 +145,15 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserMagicFormationCircleLevelAsync(string userId, MagicFormationCircles magicFormationCircle)
     {
+        MagicFormationCircles oldUserMagicFormationCircle = await _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
+
         var updateResult = await _userMagicFormationCirclesRepository.UpdateUserMagicFormationCircleLevelAsync(userId, magicFormationCircle);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -135,11 +161,23 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
             return false;
         }
 
+        MagicFormationCircles newUserMagicFormationCircle = await _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserMagicFormationCircle - (PowerManager)oldUserMagicFormationCircle;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserMagicFormationCircleStarAsync(string userId, MagicFormationCircles magicFormationCircle)
     {
+        MagicFormationCircles oldUserMagicFormationCircle = await _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
+
         var updateResult = await _userMagicFormationCirclesRepository.UpdateUserMagicFormationCircleStarAsync(userId, magicFormationCircle);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -148,6 +186,16 @@ public class UserMagicFormationCirclesService : IUserMagicFormationCirclesServic
         }
 
         await _magicFormationCirclesGalleryService.UpdateTempStarMagicFormationCircleGalleryAsync(userId, magicFormationCircle.Id, magicFormationCircle.Star);
+
+        MagicFormationCircles newUserMagicFormationCircle = await _userMagicFormationCirclesRepository.SumPowerUserMagicFormationCirclesAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserMagicFormationCircle - (PowerManager)oldUserMagicFormationCircle;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

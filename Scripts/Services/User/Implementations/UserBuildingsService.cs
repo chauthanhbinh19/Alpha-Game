@@ -39,7 +39,14 @@ public class UserBuildingsService : IUserBuildingsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBuildingAsync(string userId, Buildings building)
     {
-        Buildings oldBuilding = await _buildingsService.SumPowerBuildingsPercentAsync(userId);
+        var oldBuildingTask = _buildingsService.SumPowerBuildingsPercentAsync(userId);
+        var oldUserBuildingTask = _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
+
+        await Task.WhenAll(oldBuildingTask, oldUserBuildingTask);
+
+        Buildings oldBuilding = oldBuildingTask.Result;
+        Buildings oldUserBuilding = oldUserBuildingTask.Result;
+
         var insertOrUpdateResult = await _userBuildingsRepository.InsertOrUpdateUserBuildingAsync(userId, building);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -59,60 +66,77 @@ public class UserBuildingsService : IUserBuildingsService
 
         await _buildingsGalleryService.InsertBuildingGalleryAsync(userId, building.Id);
 
-        Buildings newBuilding = await _buildingsService.SumPowerBuildingsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newBuilding - (PowerManager)oldBuilding;
+        var newBuildingTask = _buildingsService.SumPowerBuildingsPercentAsync(userId);
+        var newUserBuildingTask = _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newBuildingTask, newUserBuildingTask);
+
+        PowerManager deltaPower = (PowerManager)newBuildingTask.Result - (PowerManager)oldBuilding;
+        PowerManager deltaUserPower = (PowerManager)newUserBuildingTask.Result - (PowerManager)oldUserBuilding;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBuildingsBatchAsync(string userId, List<Buildings> buildinges)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBuildingsBatchAsync(string userId, List<Buildings> buildings)
     {
-        Buildings oldBuilding = await _buildingsService.SumPowerBuildingsPercentAsync(userId);
-        var repositoryResult = await _userBuildingsRepository.InsertOrUpdateUserBuildingsBatchAsync(userId, buildinges);
+        var oldBuildingTask = _buildingsService.SumPowerBuildingsPercentAsync(userId);
+        var oldUserBuildingTask = _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldBuildingTask, oldUserBuildingTask);
+
+        Buildings oldBuilding = oldBuildingTask.Result;
+        Buildings oldUserBuilding = oldUserBuildingTask.Result;
+
+        var insertOrUpdateResult = await _userBuildingsRepository.InsertOrUpdateUserBuildingsBatchAsync(userId, buildings);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _buildingsGalleryService.InsertBatchBuildingsGalleryAsync(userId, newlyInsertedCards);
+
+            var newBuildingTask = _buildingsService.SumPowerBuildingsPercentAsync(userId);
+            var newUserBuildingTask = _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
+
+            await Task.WhenAll(newBuildingTask, newUserBuildingTask);
+
+            PowerManager deltaPower = (PowerManager)newBuildingTask.Result - (PowerManager)oldBuilding;
+            PowerManager deltaUserPower = (PowerManager)newUserBuildingTask.Result - (PowerManager)oldUserBuilding;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        Buildings newBuilding = await _buildingsService.SumPowerBuildingsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newBuilding - (PowerManager)oldBuilding;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -121,13 +145,15 @@ public class UserBuildingsService : IUserBuildingsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserBuildingLevelAsync(string userId, Buildings building)
     {
+        Buildings oldUserBuilding = await _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
+
         var updateResult = await _userBuildingsRepository.UpdateUserBuildingLevelAsync(userId, building);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -135,11 +161,23 @@ public class UserBuildingsService : IUserBuildingsService
             return false;
         }
 
+        Buildings newUserBuilding = await _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserBuilding - (PowerManager)oldUserBuilding;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserBuildingStarAsync(string userId, Buildings building)
     {
+        Buildings oldUserBuilding = await _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
+
         var updateResult = await _userBuildingsRepository.UpdateUserBuildingStarAsync(userId, building);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -148,6 +186,16 @@ public class UserBuildingsService : IUserBuildingsService
         }
 
         await _buildingsGalleryService.UpdateTempStarBuildingGalleryAsync(userId, building.Id, building.Star);
+
+        Buildings newUserBuilding = await _userBuildingsRepository.SumPowerUserBuildingsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserBuilding - (PowerManager)oldUserBuilding;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

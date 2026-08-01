@@ -39,7 +39,14 @@ public class UserArtifactsService : IUserArtifactsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtifactAsync(string userId, Artifacts artifact)
     {
-        Artifacts oldArtifact = await _artifactsService.SumPowerArtifactsPercentAsync(userId);
+        var oldArtifactTask = _artifactsService.SumPowerArtifactsPercentAsync(userId);
+        var oldUserArtifactTask = _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
+
+        await Task.WhenAll(oldArtifactTask, oldUserArtifactTask);
+
+        Artifacts oldArtifact = oldArtifactTask.Result;
+        Artifacts oldUserArtifact = oldUserArtifactTask.Result;
+
         var insertOrUpdateResult = await _userArtifactsRepository.InsertOrUpdateUserArtifactAsync(userId, artifact);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -59,60 +66,77 @@ public class UserArtifactsService : IUserArtifactsService
 
         await _artifactsGalleryService.InsertArtifactGalleryAsync(userId, artifact.Id);
 
-        Artifacts newArtifact = await _artifactsService.SumPowerArtifactsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newArtifact - (PowerManager)oldArtifact;
+        var newArtifactTask = _artifactsService.SumPowerArtifactsPercentAsync(userId);
+        var newUserArtifactTask = _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newArtifactTask, newUserArtifactTask);
+
+        PowerManager deltaPower = (PowerManager)newArtifactTask.Result - (PowerManager)oldArtifact;
+        PowerManager deltaUserPower = (PowerManager)newUserArtifactTask.Result - (PowerManager)oldUserArtifact;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtifactsBatchAsync(string userId, List<Artifacts> artifactes)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserArtifactsBatchAsync(string userId, List<Artifacts> artifacts)
     {
-        Artifacts oldArtifact = await _artifactsService.SumPowerArtifactsPercentAsync(userId);
-        var repositoryResult = await _userArtifactsRepository.InsertOrUpdateUserArtifactsBatchAsync(userId, artifactes);
+        var oldArtifactTask = _artifactsService.SumPowerArtifactsPercentAsync(userId);
+        var oldUserArtifactTask = _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldArtifactTask, oldUserArtifactTask);
+
+        Artifacts oldArtifact = oldArtifactTask.Result;
+        Artifacts oldUserArtifact = oldUserArtifactTask.Result;
+
+        var insertOrUpdateResult = await _userArtifactsRepository.InsertOrUpdateUserArtifactsBatchAsync(userId, artifacts);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _artifactsGalleryService.InsertBatchArtifactsGalleryAsync(userId, newlyInsertedCards);
+
+            var newArtifactTask = _artifactsService.SumPowerArtifactsPercentAsync(userId);
+            var newUserArtifactTask = _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
+
+            await Task.WhenAll(newArtifactTask, newUserArtifactTask);
+
+            PowerManager deltaPower = (PowerManager)newArtifactTask.Result - (PowerManager)oldArtifact;
+            PowerManager deltaUserPower = (PowerManager)newUserArtifactTask.Result - (PowerManager)oldUserArtifact;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        Artifacts newArtifact = await _artifactsService.SumPowerArtifactsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newArtifact - (PowerManager)oldArtifact;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -121,13 +145,15 @@ public class UserArtifactsService : IUserArtifactsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserArtifactLevelAsync(string userId, Artifacts artifact)
     {
+        Artifacts oldUserArtifact = await _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
+
         var updateResult = await _userArtifactsRepository.UpdateUserArtifactLevelAsync(userId, artifact);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -135,11 +161,23 @@ public class UserArtifactsService : IUserArtifactsService
             return false;
         }
 
+        Artifacts newUserArtifact = await _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserArtifact - (PowerManager)oldUserArtifact;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserArtifactStarAsync(string userId, Artifacts artifact)
     {
+        Artifacts oldUserArtifact = await _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
+
         var updateResult = await _userArtifactsRepository.UpdateUserArtifactStarAsync(userId, artifact);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -148,6 +186,16 @@ public class UserArtifactsService : IUserArtifactsService
         }
 
         await _artifactsGalleryService.UpdateTempStarArtifactGalleryAsync(userId, artifact.Id, artifact.Star);
+
+        Artifacts newUserArtifact = await _userArtifactsRepository.SumPowerUserArtifactsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserArtifact - (PowerManager)oldUserArtifact;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

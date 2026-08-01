@@ -39,7 +39,14 @@ public class UserBeveragesService : IUserBeveragesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBeverageAsync(string userId, Beverages beverage)
     {
-        Beverages oldBeverage = await _beveragesService.SumPowerBeveragesPercentAsync(userId);
+        var oldBeverageTask = _beveragesService.SumPowerBeveragesPercentAsync(userId);
+        var oldUserBeverageTask = _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
+
+        await Task.WhenAll(oldBeverageTask, oldUserBeverageTask);
+
+        Beverages oldBeverage = oldBeverageTask.Result;
+        Beverages oldUserBeverage = oldUserBeverageTask.Result;
+
         var insertOrUpdateResult = await _userBeveragesRepository.InsertOrUpdateUserBeverageAsync(userId, beverage);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -59,60 +66,77 @@ public class UserBeveragesService : IUserBeveragesService
 
         await _beveragesGalleryService.InsertBeverageGalleryAsync(userId, beverage.Id);
 
-        Beverages newBeverage = await _beveragesService.SumPowerBeveragesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newBeverage - (PowerManager)oldBeverage;
+        var newBeverageTask = _beveragesService.SumPowerBeveragesPercentAsync(userId);
+        var newUserBeverageTask = _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newBeverageTask, newUserBeverageTask);
+
+        PowerManager deltaPower = (PowerManager)newBeverageTask.Result - (PowerManager)oldBeverage;
+        PowerManager deltaUserPower = (PowerManager)newUserBeverageTask.Result - (PowerManager)oldUserBeverage;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBeveragesBatchAsync(string userId, List<Beverages> beveragees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserBeveragesBatchAsync(string userId, List<Beverages> beverages)
     {
-        Beverages oldBeverage = await _beveragesService.SumPowerBeveragesPercentAsync(userId);
-        var repositoryResult = await _userBeveragesRepository.InsertOrUpdateUserBeveragesBatchAsync(userId, beveragees);
+        var oldBeverageTask = _beveragesService.SumPowerBeveragesPercentAsync(userId);
+        var oldUserBeverageTask = _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldBeverageTask, oldUserBeverageTask);
+
+        Beverages oldBeverage = oldBeverageTask.Result;
+        Beverages oldUserBeverage = oldUserBeverageTask.Result;
+
+        var insertOrUpdateResult = await _userBeveragesRepository.InsertOrUpdateUserBeveragesBatchAsync(userId, beverages);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _beveragesGalleryService.InsertBatchBeveragesGalleryAsync(userId, newlyInsertedCards);
+
+            var newBeverageTask = _beveragesService.SumPowerBeveragesPercentAsync(userId);
+            var newUserBeverageTask = _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
+
+            await Task.WhenAll(newBeverageTask, newUserBeverageTask);
+
+            PowerManager deltaPower = (PowerManager)newBeverageTask.Result - (PowerManager)oldBeverage;
+            PowerManager deltaUserPower = (PowerManager)newUserBeverageTask.Result - (PowerManager)oldUserBeverage;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        Beverages newBeverage = await _beveragesService.SumPowerBeveragesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newBeverage - (PowerManager)oldBeverage;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -121,13 +145,15 @@ public class UserBeveragesService : IUserBeveragesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserBeverageLevelAsync(string userId, Beverages beverage)
     {
+        Beverages oldUserBeverage = await _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
+
         var updateResult = await _userBeveragesRepository.UpdateUserBeverageLevelAsync(userId, beverage);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -135,11 +161,23 @@ public class UserBeveragesService : IUserBeveragesService
             return false;
         }
 
+        Beverages newUserBeverage = await _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserBeverage - (PowerManager)oldUserBeverage;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserBeverageStarAsync(string userId, Beverages beverage)
     {
+        Beverages oldUserBeverage = await _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
+
         var updateResult = await _userBeveragesRepository.UpdateUserBeverageStarAsync(userId, beverage);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -148,6 +186,16 @@ public class UserBeveragesService : IUserBeveragesService
         }
 
         await _beveragesGalleryService.UpdateTempStarBeverageGalleryAsync(userId, beverage.Id, beverage.Star);
+
+        Beverages newUserBeverage = await _userBeveragesRepository.SumPowerUserBeveragesAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserBeverage - (PowerManager)oldUserBeverage;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

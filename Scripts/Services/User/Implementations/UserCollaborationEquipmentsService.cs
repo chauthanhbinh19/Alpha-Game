@@ -39,7 +39,14 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationEquipmentAsync(string userId, CollaborationEquipments collaborationEquipment)
     {
-        CollaborationEquipments oldCollaborationEquipment = await _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
+        var oldCollaborationEquipmentTask = _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
+        var oldUserCollaborationEquipmentTask = _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
+
+        await Task.WhenAll(oldCollaborationEquipmentTask, oldUserCollaborationEquipmentTask);
+
+        CollaborationEquipments oldCollaborationEquipment = oldCollaborationEquipmentTask.Result;
+        CollaborationEquipments oldUserCollaborationEquipment = oldUserCollaborationEquipmentTask.Result;
+
         var insertOrUpdateResult = await _userCollaborationEquipmentsRepository.InsertOrUpdateUserCollaborationEquipmentAsync(userId, collaborationEquipment);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -59,60 +66,77 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
 
         await _collaborationEquipmentsGalleryService.InsertCollaborationEquipmentGalleryAsync(userId, collaborationEquipment.Id);
 
-        CollaborationEquipments newCollaborationEquipment = await _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCollaborationEquipment - (PowerManager)oldCollaborationEquipment;
+        var newCollaborationEquipmentTask = _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
+        var newUserCollaborationEquipmentTask = _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newCollaborationEquipmentTask, newUserCollaborationEquipmentTask);
+
+        PowerManager deltaPower = (PowerManager)newCollaborationEquipmentTask.Result - (PowerManager)oldCollaborationEquipment;
+        PowerManager deltaUserPower = (PowerManager)newUserCollaborationEquipmentTask.Result - (PowerManager)oldUserCollaborationEquipment;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationEquipmentsBatchAsync(string userId, List<CollaborationEquipments> collaborationEquipmentes)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserCollaborationEquipmentsBatchAsync(string userId, List<CollaborationEquipments> collaborationEquipments)
     {
-        CollaborationEquipments oldCollaborationEquipment = await _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
-        var repositoryResult = await _userCollaborationEquipmentsRepository.InsertOrUpdateUserCollaborationEquipmentsBatchAsync(userId, collaborationEquipmentes);
+        var oldCollaborationEquipmentTask = _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
+        var oldUserCollaborationEquipmentTask = _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldCollaborationEquipmentTask, oldUserCollaborationEquipmentTask);
+
+        CollaborationEquipments oldCollaborationEquipment = oldCollaborationEquipmentTask.Result;
+        CollaborationEquipments oldUserCollaborationEquipment = oldUserCollaborationEquipmentTask.Result;
+
+        var insertOrUpdateResult = await _userCollaborationEquipmentsRepository.InsertOrUpdateUserCollaborationEquipmentsBatchAsync(userId, collaborationEquipments);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _collaborationEquipmentsGalleryService.InsertBatchCollaborationEquipmentsGalleryAsync(userId, newlyInsertedCards);
+
+            var newCollaborationEquipmentTask = _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
+            var newUserCollaborationEquipmentTask = _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
+
+            await Task.WhenAll(newCollaborationEquipmentTask, newUserCollaborationEquipmentTask);
+
+            PowerManager deltaPower = (PowerManager)newCollaborationEquipmentTask.Result - (PowerManager)oldCollaborationEquipment;
+            PowerManager deltaUserPower = (PowerManager)newUserCollaborationEquipmentTask.Result - (PowerManager)oldUserCollaborationEquipment;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        CollaborationEquipments newCollaborationEquipment = await _collaborationEquipmentsService.SumPowerCollaborationEquipmentsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newCollaborationEquipment - (PowerManager)oldCollaborationEquipment;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -121,13 +145,15 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserCollaborationEquipmentLevelAsync(string userId, CollaborationEquipments collaborationEquipment)
     {
+        CollaborationEquipments oldUserCollaborationEquipment = await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
+
         var updateResult = await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentLevelAsync(userId, collaborationEquipment);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -135,11 +161,23 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
             return false;
         }
 
+        CollaborationEquipments newUserCollaborationEquipment = await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserCollaborationEquipment - (PowerManager)oldUserCollaborationEquipment;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserCollaborationEquipmentStarAsync(string userId, CollaborationEquipments collaborationEquipment)
     {
+        CollaborationEquipments oldUserCollaborationEquipment = await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
+
         var updateResult = await _userCollaborationEquipmentsRepository.UpdateUserCollaborationEquipmentStarAsync(userId, collaborationEquipment);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -148,6 +186,16 @@ public class UserCollaborationEquipmentsService : IUserCollaborationEquipmentsSe
         }
 
         await _collaborationEquipmentsGalleryService.UpdateTempStarCollaborationEquipmentGalleryAsync(userId, collaborationEquipment.Id, collaborationEquipment.Star);
+
+        CollaborationEquipments newUserCollaborationEquipment = await _userCollaborationEquipmentsRepository.SumPowerUserCollaborationEquipmentsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserCollaborationEquipment - (PowerManager)oldUserCollaborationEquipment;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

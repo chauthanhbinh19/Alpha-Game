@@ -39,7 +39,14 @@ public class UserPlantsService : IUserPlantsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPlantAsync(string userId, Plants plant)
     {
-        Plants oldPlant = await _plantsService.SumPowerPlantsPercentAsync(userId);
+        var oldPlantTask = _plantsService.SumPowerPlantsPercentAsync(userId);
+        var oldUserPlantTask = _userPlantsRepository.SumPowerUserPlantsAsync(userId);
+
+        await Task.WhenAll(oldPlantTask, oldUserPlantTask);
+
+        Plants oldPlant = oldPlantTask.Result;
+        Plants oldUserPlant = oldUserPlantTask.Result;
+
         var insertOrUpdateResult = await _userPlantsRepository.InsertOrUpdateUserPlantAsync(userId, plant);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -59,60 +66,77 @@ public class UserPlantsService : IUserPlantsService
 
         await _plantsGalleryService.InsertPlantGalleryAsync(userId, plant.Id);
 
-        Plants newPlant = await _plantsService.SumPowerPlantsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newPlant - (PowerManager)oldPlant;
+        var newPlantTask = _plantsService.SumPowerPlantsPercentAsync(userId);
+        var newUserPlantTask = _userPlantsRepository.SumPowerUserPlantsAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newPlantTask, newUserPlantTask);
+
+        PowerManager deltaPower = (PowerManager)newPlantTask.Result - (PowerManager)oldPlant;
+        PowerManager deltaUserPower = (PowerManager)newUserPlantTask.Result - (PowerManager)oldUserPlant;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPlantsBatchAsync(string userId, List<Plants> plantes)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPlantsBatchAsync(string userId, List<Plants> plants)
     {
-        Plants oldPlant = await _plantsService.SumPowerPlantsPercentAsync(userId);
-        var repositoryResult = await _userPlantsRepository.InsertOrUpdateUserPlantsBatchAsync(userId, plantes);
+        var oldPlantTask = _plantsService.SumPowerPlantsPercentAsync(userId);
+        var oldUserPlantTask = _userPlantsRepository.SumPowerUserPlantsAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldPlantTask, oldUserPlantTask);
+
+        Plants oldPlant = oldPlantTask.Result;
+        Plants oldUserPlant = oldUserPlantTask.Result;
+
+        var insertOrUpdateResult = await _userPlantsRepository.InsertOrUpdateUserPlantsBatchAsync(userId, plants);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _plantsGalleryService.InsertBatchPlantsGalleryAsync(userId, newlyInsertedCards);
+
+            var newPlantTask = _plantsService.SumPowerPlantsPercentAsync(userId);
+            var newUserPlantTask = _userPlantsRepository.SumPowerUserPlantsAsync(userId);
+
+            await Task.WhenAll(newPlantTask, newUserPlantTask);
+
+            PowerManager deltaPower = (PowerManager)newPlantTask.Result - (PowerManager)oldPlant;
+            PowerManager deltaUserPower = (PowerManager)newUserPlantTask.Result - (PowerManager)oldUserPlant;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        Plants newPlant = await _plantsService.SumPowerPlantsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newPlant - (PowerManager)oldPlant;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -121,13 +145,15 @@ public class UserPlantsService : IUserPlantsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserPlantLevelAsync(string userId, Plants plant)
     {
+        Plants oldUserPlant = await _userPlantsRepository.SumPowerUserPlantsAsync(userId);
+
         var updateResult = await _userPlantsRepository.UpdateUserPlantLevelAsync(userId, plant);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -135,11 +161,23 @@ public class UserPlantsService : IUserPlantsService
             return false;
         }
 
+        Plants newUserPlant = await _userPlantsRepository.SumPowerUserPlantsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserPlant - (PowerManager)oldUserPlant;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserPlantStarAsync(string userId, Plants plant)
     {
+        Plants oldUserPlant = await _userPlantsRepository.SumPowerUserPlantsAsync(userId);
+
         var updateResult = await _userPlantsRepository.UpdateUserPlantStarAsync(userId, plant);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -148,6 +186,16 @@ public class UserPlantsService : IUserPlantsService
         }
 
         await _plantsGalleryService.UpdateTempStarPlantGalleryAsync(userId, plant.Id, plant.Star);
+
+        Plants newUserPlant = await _userPlantsRepository.SumPowerUserPlantsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserPlant - (PowerManager)oldUserPlant;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

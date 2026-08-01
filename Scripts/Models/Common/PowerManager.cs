@@ -69,6 +69,82 @@ public class PowerManager
 
     }
     /// <summary>
+    /// Trả về true nếu có ÍT NHẤT 1 chỉ số lớn hơn 0 (không phụ thuộc vào Power)
+    /// </summary>
+    public bool HasAnyPositiveStat()
+    {
+        return Power > 0 ||
+               Health > 0 ||
+               PhysicalAttack > 0 ||
+               PhysicalDefense > 0 ||
+               MagicalAttack > 0 ||
+               MagicalDefense > 0 ||
+               ChemicalAttack > 0 ||
+               ChemicalDefense > 0 ||
+               AtomicAttack > 0 ||
+               AtomicDefense > 0 ||
+               MentalAttack > 0 ||
+               MentalDefense > 0 ||
+
+               // Speed & Combat Rates
+               Speed > 0 ||
+               CriticalDamageRate > 0 ||
+               CriticalRate > 0 ||
+               CriticalResistanceRate > 0 ||
+               IgnoreCriticalRate > 0 ||
+               PenetrationRate > 0 ||
+               PenetrationResistanceRate > 0 ||
+               EvasionRate > 0 ||
+               DamageAbsorptionRate > 0 ||
+               IgnoreDamageAbsorptionRate > 0 ||
+               AbsorbedDamageRate > 0 ||
+               VitalityRegenerationRate > 0 ||
+               VitalityRegenerationResistanceRate > 0 ||
+               AccuracyRate > 0 ||
+               LifestealRate > 0 ||
+               Mana > 0 ||
+               ManaRegenerationRate > 0 ||
+               ShieldStrength > 0 ||
+               Tenacity > 0 ||
+               ResistanceRate > 0 ||
+
+               // Combo & Stun & Reflection
+               ComboRate > 0 ||
+               IgnoreComboRate > 0 ||
+               ComboDamageRate > 0 ||
+               ComboResistanceRate > 0 ||
+               StunRate > 0 ||
+               IgnoreStunRate > 0 ||
+               ReflectionRate > 0 ||
+               IgnoreReflectionRate > 0 ||
+               ReflectionDamageRate > 0 ||
+               ReflectionResistanceRate > 0 ||
+
+               // Faction & Damage Types
+               DamageToDifferentFactionRate > 0 ||
+               ResistanceToDifferentFactionRate > 0 ||
+               DamageToSameFactionRate > 0 ||
+               ResistanceToSameFactionRate > 0 ||
+               NormalDamageRate > 0 ||
+               NormalResistanceRate > 0 ||
+               SkillDamageRate > 0 ||
+               SkillResistanceRate > 0 ||
+
+               // Percent Buffs
+               PercentAllHealth > 0 ||
+               PercentAllPhysicalAttack > 0 ||
+               PercentAllPhysicalDefense > 0 ||
+               PercentAllMagicalAttack > 0 ||
+               PercentAllMagicalDefense > 0 ||
+               PercentAllChemicalAttack > 0 ||
+               PercentAllChemicalDefense > 0 ||
+               PercentAllAtomicAttack > 0 ||
+               PercentAllAtomicDefense > 0 ||
+               PercentAllMentalAttack > 0 ||
+               PercentAllMentalDefense > 0;
+    }
+
+    /// <summary>
     /// Toán tử CỘNG (+): Áp dụng một Delta (phần chênh lệch) vào Baseline (Chỉ số gốc).
     /// Công thức: NewTotal = Baseline + Delta
     /// </summary>
@@ -94,29 +170,49 @@ public class PowerManager
             MentalAttack = baseline.MentalAttack + delta.MentalAttack,
             MentalDefense = baseline.MentalDefense + delta.MentalDefense,
 
-            // Rates & Speed
+            // Speed & Combat Rates
             Speed = baseline.Speed + delta.Speed,
             CriticalDamageRate = baseline.CriticalDamageRate + delta.CriticalDamageRate,
             CriticalRate = baseline.CriticalRate + delta.CriticalRate,
+            CriticalResistanceRate = baseline.CriticalResistanceRate + delta.CriticalResistanceRate,
+            IgnoreCriticalRate = baseline.IgnoreCriticalRate + delta.IgnoreCriticalRate,
             PenetrationRate = baseline.PenetrationRate + delta.PenetrationRate,
+            PenetrationResistanceRate = baseline.PenetrationResistanceRate + delta.PenetrationResistanceRate,
             EvasionRate = baseline.EvasionRate + delta.EvasionRate,
             DamageAbsorptionRate = baseline.DamageAbsorptionRate + delta.DamageAbsorptionRate,
+            IgnoreDamageAbsorptionRate = baseline.IgnoreDamageAbsorptionRate + delta.IgnoreDamageAbsorptionRate,
+            AbsorbedDamageRate = baseline.AbsorbedDamageRate + delta.AbsorbedDamageRate,
             VitalityRegenerationRate = baseline.VitalityRegenerationRate + delta.VitalityRegenerationRate,
+            VitalityRegenerationResistanceRate = baseline.VitalityRegenerationResistanceRate + delta.VitalityRegenerationResistanceRate,
             AccuracyRate = baseline.AccuracyRate + delta.AccuracyRate,
             LifestealRate = baseline.LifestealRate + delta.LifestealRate,
+            Mana = baseline.Mana + delta.Mana,
+            ManaRegenerationRate = baseline.ManaRegenerationRate + delta.ManaRegenerationRate,
             ShieldStrength = baseline.ShieldStrength + delta.ShieldStrength,
             Tenacity = baseline.Tenacity + delta.Tenacity,
             ResistanceRate = baseline.ResistanceRate + delta.ResistanceRate,
-            ComboRate = baseline.ComboRate + delta.ComboRate,
-            ReflectionRate = baseline.ReflectionRate + delta.ReflectionRate,
-            Mana = baseline.Mana + delta.Mana,
-            ManaRegenerationRate = baseline.ManaRegenerationRate + delta.ManaRegenerationRate,
 
-            // Faction Stats
+            // Combo & Stun & Reflection
+            ComboRate = baseline.ComboRate + delta.ComboRate,
+            IgnoreComboRate = baseline.IgnoreComboRate + delta.IgnoreComboRate,
+            ComboDamageRate = baseline.ComboDamageRate + delta.ComboDamageRate,
+            ComboResistanceRate = baseline.ComboResistanceRate + delta.ComboResistanceRate,
+            StunRate = baseline.StunRate + delta.StunRate,
+            IgnoreStunRate = baseline.IgnoreStunRate + delta.IgnoreStunRate,
+            ReflectionRate = baseline.ReflectionRate + delta.ReflectionRate,
+            IgnoreReflectionRate = baseline.IgnoreReflectionRate + delta.IgnoreReflectionRate,
+            ReflectionDamageRate = baseline.ReflectionDamageRate + delta.ReflectionDamageRate,
+            ReflectionResistanceRate = baseline.ReflectionResistanceRate + delta.ReflectionResistanceRate,
+
+            // Faction & Damage Types
             DamageToDifferentFactionRate = baseline.DamageToDifferentFactionRate + delta.DamageToDifferentFactionRate,
             ResistanceToDifferentFactionRate = baseline.ResistanceToDifferentFactionRate + delta.ResistanceToDifferentFactionRate,
             DamageToSameFactionRate = baseline.DamageToSameFactionRate + delta.DamageToSameFactionRate,
             ResistanceToSameFactionRate = baseline.ResistanceToSameFactionRate + delta.ResistanceToSameFactionRate,
+            NormalDamageRate = baseline.NormalDamageRate + delta.NormalDamageRate,
+            NormalResistanceRate = baseline.NormalResistanceRate + delta.NormalResistanceRate,
+            SkillDamageRate = baseline.SkillDamageRate + delta.SkillDamageRate,
+            SkillResistanceRate = baseline.SkillResistanceRate + delta.SkillResistanceRate,
 
             // Percent Buffs
             PercentAllHealth = baseline.PercentAllHealth + delta.PercentAllHealth,
@@ -140,7 +236,9 @@ public class PowerManager
     public static PowerManager operator -(PowerManager newStats, PowerManager oldStats)
     {
         if (newStats == null && oldStats == null) return new PowerManager();
-        if (newStats == null) return oldStats;
+
+        // Xử lý đúng toán học khi 1 trong 2 null
+        if (newStats == null) return new PowerManager() - oldStats;
         if (oldStats == null) return newStats;
 
         return new PowerManager
@@ -159,29 +257,49 @@ public class PowerManager
             MentalAttack = newStats.MentalAttack - oldStats.MentalAttack,
             MentalDefense = newStats.MentalDefense - oldStats.MentalDefense,
 
-            // Rates & Speed
+            // Speed & Combat Rates
             Speed = newStats.Speed - oldStats.Speed,
             CriticalDamageRate = newStats.CriticalDamageRate - oldStats.CriticalDamageRate,
             CriticalRate = newStats.CriticalRate - oldStats.CriticalRate,
+            CriticalResistanceRate = newStats.CriticalResistanceRate - oldStats.CriticalResistanceRate,
+            IgnoreCriticalRate = newStats.IgnoreCriticalRate - oldStats.IgnoreCriticalRate,
             PenetrationRate = newStats.PenetrationRate - oldStats.PenetrationRate,
+            PenetrationResistanceRate = newStats.PenetrationResistanceRate - oldStats.PenetrationResistanceRate,
             EvasionRate = newStats.EvasionRate - oldStats.EvasionRate,
             DamageAbsorptionRate = newStats.DamageAbsorptionRate - oldStats.DamageAbsorptionRate,
+            IgnoreDamageAbsorptionRate = newStats.IgnoreDamageAbsorptionRate - oldStats.IgnoreDamageAbsorptionRate,
+            AbsorbedDamageRate = newStats.AbsorbedDamageRate - oldStats.AbsorbedDamageRate,
             VitalityRegenerationRate = newStats.VitalityRegenerationRate - oldStats.VitalityRegenerationRate,
+            VitalityRegenerationResistanceRate = newStats.VitalityRegenerationResistanceRate - oldStats.VitalityRegenerationResistanceRate,
             AccuracyRate = newStats.AccuracyRate - oldStats.AccuracyRate,
             LifestealRate = newStats.LifestealRate - oldStats.LifestealRate,
+            Mana = newStats.Mana - oldStats.Mana,
+            ManaRegenerationRate = newStats.ManaRegenerationRate - oldStats.ManaRegenerationRate,
             ShieldStrength = newStats.ShieldStrength - oldStats.ShieldStrength,
             Tenacity = newStats.Tenacity - oldStats.Tenacity,
             ResistanceRate = newStats.ResistanceRate - oldStats.ResistanceRate,
-            ComboRate = newStats.ComboRate - oldStats.ComboRate,
-            ReflectionRate = newStats.ReflectionRate - oldStats.ReflectionRate,
-            Mana = newStats.Mana - oldStats.Mana,
-            ManaRegenerationRate = newStats.ManaRegenerationRate - oldStats.ManaRegenerationRate,
 
-            // Faction Stats
+            // Combo & Stun & Reflection
+            ComboRate = newStats.ComboRate - oldStats.ComboRate,
+            IgnoreComboRate = newStats.IgnoreComboRate - oldStats.IgnoreComboRate,
+            ComboDamageRate = newStats.ComboDamageRate - oldStats.ComboDamageRate,
+            ComboResistanceRate = newStats.ComboResistanceRate - oldStats.ComboResistanceRate,
+            StunRate = newStats.StunRate - oldStats.StunRate,
+            IgnoreStunRate = newStats.IgnoreStunRate - oldStats.IgnoreStunRate,
+            ReflectionRate = newStats.ReflectionRate - oldStats.ReflectionRate,
+            IgnoreReflectionRate = newStats.IgnoreReflectionRate - oldStats.IgnoreReflectionRate,
+            ReflectionDamageRate = newStats.ReflectionDamageRate - oldStats.ReflectionDamageRate,
+            ReflectionResistanceRate = newStats.ReflectionResistanceRate - oldStats.ReflectionResistanceRate,
+
+            // Faction & Damage Types
             DamageToDifferentFactionRate = newStats.DamageToDifferentFactionRate - oldStats.DamageToDifferentFactionRate,
             ResistanceToDifferentFactionRate = newStats.ResistanceToDifferentFactionRate - oldStats.ResistanceToDifferentFactionRate,
             DamageToSameFactionRate = newStats.DamageToSameFactionRate - oldStats.DamageToSameFactionRate,
             ResistanceToSameFactionRate = newStats.ResistanceToSameFactionRate - oldStats.ResistanceToSameFactionRate,
+            NormalDamageRate = newStats.NormalDamageRate - oldStats.NormalDamageRate,
+            NormalResistanceRate = newStats.NormalResistanceRate - oldStats.NormalResistanceRate,
+            SkillDamageRate = newStats.SkillDamageRate - oldStats.SkillDamageRate,
+            SkillResistanceRate = newStats.SkillResistanceRate - oldStats.SkillResistanceRate,
 
             // Percent Buffs
             PercentAllHealth = newStats.PercentAllHealth - oldStats.PercentAllHealth,
@@ -455,7 +573,7 @@ public class PowerManager
             PercentAllMentalDefense = architecture.PercentAllMentalDefense
         };
     }
-    
+
     /// <summary>
     /// Allows implicit type casting from Artifacts to PowerManager.
     /// </summary>
@@ -1487,7 +1605,7 @@ public class PowerManager
             PercentAllMentalDefense = cardGeneral.PercentAllMentalDefense
         };
     }
-    
+
     /// <summary>
     /// Allows implicit type casting from CardHeroes to PowerManager.
     /// </summary>

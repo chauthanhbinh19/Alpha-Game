@@ -19,7 +19,8 @@ public class Test : MonoBehaviour
     public async Task InitiateAsync()
     {
         User.CurrentUserId = userId;
-
+        Program.InitializeServices();
+        // await PowerManagerService.Create().InsertUserStatsAsync(User.CurrentUserId);
         Debug.Log("<color=yellow>Start</color>");
         List<Achievements> achievements = await AchievementsService.Create()
             .GetAchievementsAsync(Search, Rare, PAGE_SIZE, Offset);
@@ -329,7 +330,7 @@ public class Test : MonoBehaviour
     public async Task InitiateGalleryAsync()
     {
         User.CurrentUserId = userId;
-
+        Program.InitializeServices();
         Debug.Log("<color=yellow>Start</color>");
         List<Achievements> achievements = await AchievementsService.Create()
             .GetAchievementsAsync(Search, Rare, PAGE_SIZE, Offset);
@@ -637,7 +638,7 @@ public class Test : MonoBehaviour
     public async Task InitiateTeamAsync()
     {
         User.CurrentUserId = userId;
-
+        Program.InitializeServices();
         Debug.Log("<color=yellow>Start</color>");
         await TeamsService.Create().UpdateUserCardHeroesTeamPositionsAsync(User.CurrentUserId);
         Debug.Log("<color=cyan>Card Heroes team and position initiate successfully</color>");
@@ -664,7 +665,7 @@ public class Test : MonoBehaviour
     public async Task InitiateSkillAsync()
     {
         User.CurrentUserId = userId;
-
+        Program.InitializeServices();
         Debug.Log("<color=yellow>Start</color>");
         await UserSkillsService.Create().AssignRandomSkillsToUserCardHeroesAsync(User.CurrentUserId);
         Debug.Log("<color=cyan>Skills for user Card Heroes initiate successfully</color>");
@@ -688,8 +689,9 @@ public class Test : MonoBehaviour
         Debug.Log("<color=yellow>End</color>");
     }
     public async Task GetUserSkillsAsync()
-    {
+    {   
         User.CurrentUserId = "639167826246347876";
+        Program.InitializeServices();
         await UserSkillsService.Create().GetUserSkillsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
     }
 }

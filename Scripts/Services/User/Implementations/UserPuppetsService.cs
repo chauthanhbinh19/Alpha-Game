@@ -37,10 +37,17 @@ public class UserPuppetsService : IUserPuppetsService
         return await _userPuppetsRepository.GetUserPuppetsCountAsync(userId, search, type, rare);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPuppetAsync(string userId, Puppets cardLife)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPuppetAsync(string userId, Puppets puppet)
     {
-        Puppets oldPuppet = await _puppetsService.SumPowerPuppetsPercentAsync(userId);
-        var insertOrUpdateResult = await _userPuppetsRepository.InsertOrUpdateUserPuppetAsync(userId, cardLife);
+        var oldPuppetTask = _puppetsService.SumPowerPuppetsPercentAsync(userId);
+        var oldUserPuppetTask = _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
+
+        await Task.WhenAll(oldPuppetTask, oldUserPuppetTask);
+
+        Puppets oldPuppet = oldPuppetTask.Result;
+        Puppets oldUserPuppet = oldUserPuppetTask.Result;
+
+        var insertOrUpdateResult = await _userPuppetsRepository.InsertOrUpdateUserPuppetAsync(userId, puppet);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
         {
@@ -57,62 +64,79 @@ public class UserPuppetsService : IUserPuppetsService
             return InsertOrUpdateResult<bool>.Updated(true);
         }
 
-        await _puppetsGalleryService.InsertPuppetGalleryAsync(userId, cardLife.Id);
+        await _puppetsGalleryService.InsertPuppetGalleryAsync(userId, puppet.Id);
 
-        Puppets newPuppet = await _puppetsService.SumPowerPuppetsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newPuppet - (PowerManager)oldPuppet;
+        var newPuppetTask = _puppetsService.SumPowerPuppetsPercentAsync(userId);
+        var newUserPuppetTask = _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newPuppetTask, newUserPuppetTask);
+
+        PowerManager deltaPower = (PowerManager)newPuppetTask.Result - (PowerManager)oldPuppet;
+        PowerManager deltaUserPower = (PowerManager)newUserPuppetTask.Result - (PowerManager)oldUserPuppet;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPuppetsBatchAsync(string userId, List<Puppets> cardLifees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserPuppetsBatchAsync(string userId, List<Puppets> puppets)
     {
-        Puppets oldPuppet = await _puppetsService.SumPowerPuppetsPercentAsync(userId);
-        var repositoryResult = await _userPuppetsRepository.InsertOrUpdateUserPuppetsBatchAsync(userId, cardLifees);
+        var oldPuppetTask = _puppetsService.SumPowerPuppetsPercentAsync(userId);
+        var oldUserPuppetTask = _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldPuppetTask, oldUserPuppetTask);
+
+        Puppets oldPuppet = oldPuppetTask.Result;
+        Puppets oldUserPuppet = oldUserPuppetTask.Result;
+
+        var insertOrUpdateResult = await _userPuppetsRepository.InsertOrUpdateUserPuppetsBatchAsync(userId, puppets);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _puppetsGalleryService.InsertBatchPuppetsGalleryAsync(userId, newlyInsertedCards);
+
+            var newPuppetTask = _puppetsService.SumPowerPuppetsPercentAsync(userId);
+            var newUserPuppetTask = _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
+
+            await Task.WhenAll(newPuppetTask, newUserPuppetTask);
+
+            PowerManager deltaPower = (PowerManager)newPuppetTask.Result - (PowerManager)oldPuppet;
+            PowerManager deltaUserPower = (PowerManager)newUserPuppetTask.Result - (PowerManager)oldUserPuppet;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        Puppets newPuppet = await _puppetsService.SumPowerPuppetsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newPuppet - (PowerManager)oldPuppet;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -121,33 +145,57 @@ public class UserPuppetsService : IUserPuppetsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
-    public async Task<bool> UpdateUserPuppetLevelAsync(string userId, Puppets cardLife)
+    public async Task<bool> UpdateUserPuppetLevelAsync(string userId, Puppets puppet)
     {
-        var updateResult = await _userPuppetsRepository.UpdateUserPuppetLevelAsync(userId, cardLife);
+        Puppets oldUserPuppet = await _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
+
+        var updateResult = await _userPuppetsRepository.UpdateUserPuppetLevelAsync(userId, puppet);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
+        }
+
+        Puppets newUserPuppet = await _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserPuppet - (PowerManager)oldUserPuppet;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
         }
 
         return true;
     }
 
-    public async Task<bool> UpdateUserPuppetStarAsync(string userId, Puppets cardLife)
+    public async Task<bool> UpdateUserPuppetStarAsync(string userId, Puppets puppet)
     {
-        var updateResult = await _userPuppetsRepository.UpdateUserPuppetStarAsync(userId, cardLife);
+        Puppets oldUserPuppet = await _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
+
+        var updateResult = await _userPuppetsRepository.UpdateUserPuppetStarAsync(userId, puppet);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
         {
             return false;
         }
 
-        await _puppetsGalleryService.UpdateTempStarPuppetGalleryAsync(userId, cardLife.Id, cardLife.Star);
+        await _puppetsGalleryService.UpdateTempStarPuppetGalleryAsync(userId, puppet.Id, puppet.Star);
+
+        Puppets newUserPuppet = await _userPuppetsRepository.SumPowerUserPuppetsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserPuppet - (PowerManager)oldUserPuppet;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

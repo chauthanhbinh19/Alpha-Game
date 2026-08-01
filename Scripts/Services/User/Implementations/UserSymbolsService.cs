@@ -39,7 +39,14 @@ public class UserSymbolsService : IUserSymbolsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSymbolAsync(string userId, Symbols symbol)
     {
-        Symbols oldSymbol = await _symbolsService.SumPowerSymbolsPercentAsync(userId);
+        var oldSymbolTask = _symbolsService.SumPowerSymbolsPercentAsync(userId);
+        var oldUserSymbolTask = _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
+
+        await Task.WhenAll(oldSymbolTask, oldUserSymbolTask);
+
+        Symbols oldSymbol = oldSymbolTask.Result;
+        Symbols oldUserSymbol = oldUserSymbolTask.Result;
+
         var insertOrUpdateResult = await _userSymbolsRepository.InsertOrUpdateUserSymbolAsync(userId, symbol);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -59,60 +66,77 @@ public class UserSymbolsService : IUserSymbolsService
 
         await _symbolsGalleryService.InsertSymbolGalleryAsync(userId, symbol.Id);
 
-        Symbols newSymbol = await _symbolsService.SumPowerSymbolsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newSymbol - (PowerManager)oldSymbol;
+        var newSymbolTask = _symbolsService.SumPowerSymbolsPercentAsync(userId);
+        var newUserSymbolTask = _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newSymbolTask, newUserSymbolTask);
+
+        PowerManager deltaPower = (PowerManager)newSymbolTask.Result - (PowerManager)oldSymbol;
+        PowerManager deltaUserPower = (PowerManager)newUserSymbolTask.Result - (PowerManager)oldUserSymbol;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSymbolsBatchAsync(string userId, List<Symbols> symboles)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserSymbolsBatchAsync(string userId, List<Symbols> symbols)
     {
-        Symbols oldSymbol = await _symbolsService.SumPowerSymbolsPercentAsync(userId);
-        var repositoryResult = await _userSymbolsRepository.InsertOrUpdateUserSymbolsBatchAsync(userId, symboles);
+        var oldSymbolTask = _symbolsService.SumPowerSymbolsPercentAsync(userId);
+        var oldUserSymbolTask = _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldSymbolTask, oldUserSymbolTask);
+
+        Symbols oldSymbol = oldSymbolTask.Result;
+        Symbols oldUserSymbol = oldUserSymbolTask.Result;
+
+        var insertOrUpdateResult = await _userSymbolsRepository.InsertOrUpdateUserSymbolsBatchAsync(userId, symbols);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _symbolsGalleryService.InsertBatchSymbolsGalleryAsync(userId, newlyInsertedCards);
+
+            var newSymbolTask = _symbolsService.SumPowerSymbolsPercentAsync(userId);
+            var newUserSymbolTask = _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
+
+            await Task.WhenAll(newSymbolTask, newUserSymbolTask);
+
+            PowerManager deltaPower = (PowerManager)newSymbolTask.Result - (PowerManager)oldSymbol;
+            PowerManager deltaUserPower = (PowerManager)newUserSymbolTask.Result - (PowerManager)oldUserSymbol;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        Symbols newSymbol = await _symbolsService.SumPowerSymbolsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newSymbol - (PowerManager)oldSymbol;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -121,13 +145,15 @@ public class UserSymbolsService : IUserSymbolsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserSymbolLevelAsync(string userId, Symbols symbol)
     {
+        Symbols oldUserSymbol = await _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
+
         var updateResult = await _userSymbolsRepository.UpdateUserSymbolLevelAsync(userId, symbol);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -135,11 +161,23 @@ public class UserSymbolsService : IUserSymbolsService
             return false;
         }
 
+        Symbols newUserSymbol = await _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserSymbol - (PowerManager)oldUserSymbol;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserSymbolStarAsync(string userId, Symbols symbol)
     {
+        Symbols oldUserSymbol = await _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
+
         var updateResult = await _userSymbolsRepository.UpdateUserSymbolStarAsync(userId, symbol);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -148,6 +186,16 @@ public class UserSymbolsService : IUserSymbolsService
         }
 
         await _symbolsGalleryService.UpdateTempStarSymbolGalleryAsync(userId, symbol.Id, symbol.Star);
+
+        Symbols newUserSymbol = await _userSymbolsRepository.SumPowerUserSymbolsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserSymbol - (PowerManager)oldUserSymbol;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

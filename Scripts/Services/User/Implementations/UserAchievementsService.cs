@@ -42,7 +42,14 @@ public class UserAchievementsService : IUserAchievementsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAchievementAsync(string userId, Achievements achievement)
     {
-        Achievements oldAchievement = await _achievementsService.SumPowerAchievementsPercentAsync(userId);
+        var oldAchievementTask = _achievementsService.SumPowerAchievementsPercentAsync(userId);
+        var oldUserAchievementTask = _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
+
+        await Task.WhenAll(oldAchievementTask, oldUserAchievementTask);
+
+        Achievements oldAchievement = oldAchievementTask.Result;
+        Achievements oldUserAchievement = oldUserAchievementTask.Result;
+
         var insertOrUpdateResult = await _userAchievementsRepository.InsertOrUpdateUserAchievementAsync(userId, achievement);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -62,60 +69,77 @@ public class UserAchievementsService : IUserAchievementsService
 
         await _achievementsGalleryService.InsertAchievementGalleryAsync(userId, achievement.Id);
 
-        Achievements newAchievement = await _achievementsService.SumPowerAchievementsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newAchievement - (PowerManager)oldAchievement;
+        var newAchievementTask = _achievementsService.SumPowerAchievementsPercentAsync(userId);
+        var newUserAchievementTask = _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newAchievementTask, newUserAchievementTask);
+
+        PowerManager deltaPower = (PowerManager)newAchievementTask.Result - (PowerManager)oldAchievement;
+        PowerManager deltaUserPower = (PowerManager)newUserAchievementTask.Result - (PowerManager)oldUserAchievement;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAchievementsBatchAsync(string userId, List<Achievements> achievementes)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserAchievementsBatchAsync(string userId, List<Achievements> achievements)
     {
-        Achievements oldAchievement = await _achievementsService.SumPowerAchievementsPercentAsync(userId);
-        var repositoryResult = await _userAchievementsRepository.InsertOrUpdateUserAchievementsBatchAsync(userId, achievementes);
+        var oldAchievementTask = _achievementsService.SumPowerAchievementsPercentAsync(userId);
+        var oldUserAchievementTask = _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldAchievementTask, oldUserAchievementTask);
+
+        Achievements oldAchievement = oldAchievementTask.Result;
+        Achievements oldUserAchievement = oldUserAchievementTask.Result;
+
+        var insertOrUpdateResult = await _userAchievementsRepository.InsertOrUpdateUserAchievementsBatchAsync(userId, achievements);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _achievementsGalleryService.InsertBatchAchievementsGalleryAsync(userId, newlyInsertedCards);
+
+            var newAchievementTask = _achievementsService.SumPowerAchievementsPercentAsync(userId);
+            var newUserAchievementTask = _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
+
+            await Task.WhenAll(newAchievementTask, newUserAchievementTask);
+
+            PowerManager deltaPower = (PowerManager)newAchievementTask.Result - (PowerManager)oldAchievement;
+            PowerManager deltaUserPower = (PowerManager)newUserAchievementTask.Result - (PowerManager)oldUserAchievement;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        Achievements newAchievement = await _achievementsService.SumPowerAchievementsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newAchievement - (PowerManager)oldAchievement;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -124,13 +148,15 @@ public class UserAchievementsService : IUserAchievementsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserAchievementLevelAsync(string userId, Achievements achievement)
     {
+        Achievements oldUserAchievement = await _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
+
         var updateResult = await _userAchievementsRepository.UpdateUserAchievementLevelAsync(userId, achievement);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -138,11 +164,23 @@ public class UserAchievementsService : IUserAchievementsService
             return false;
         }
 
+        Achievements newUserAchievement = await _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserAchievement - (PowerManager)oldUserAchievement;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserAchievementStarAsync(string userId, Achievements achievement)
     {
+        Achievements oldUserAchievement = await _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
+
         var updateResult = await _userAchievementsRepository.UpdateUserAchievementStarAsync(userId, achievement);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -151,6 +189,16 @@ public class UserAchievementsService : IUserAchievementsService
         }
 
         await _achievementsGalleryService.UpdateTempStarAchievementGalleryAsync(userId, achievement.Id, achievement.Star);
+
+        Achievements newUserAchievement = await _userAchievementsRepository.SumPowerUserAchievementsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserAchievement - (PowerManager)oldUserAchievement;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

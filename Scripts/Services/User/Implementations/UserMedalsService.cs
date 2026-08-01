@@ -39,7 +39,14 @@ public class UserMedalsService : IUserMedalsService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMedalAsync(string userId, Medals medal)
     {
-        Medals oldMedal = await _medalsService.SumPowerMedalsPercentAsync(userId);
+        var oldMedalTask = _medalsService.SumPowerMedalsPercentAsync(userId);
+        var oldUserMedalTask = _userMedalsRepository.SumPowerUserMedalsAsync(userId);
+
+        await Task.WhenAll(oldMedalTask, oldUserMedalTask);
+
+        Medals oldMedal = oldMedalTask.Result;
+        Medals oldUserMedal = oldUserMedalTask.Result;
+
         var insertOrUpdateResult = await _userMedalsRepository.InsertOrUpdateUserMedalAsync(userId, medal);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -59,60 +66,77 @@ public class UserMedalsService : IUserMedalsService
 
         await _medalsGalleryService.InsertMedalGalleryAsync(userId, medal.Id);
 
-        Medals newMedal = await _medalsService.SumPowerMedalsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newMedal - (PowerManager)oldMedal;
+        var newMedalTask = _medalsService.SumPowerMedalsPercentAsync(userId);
+        var newUserMedalTask = _userMedalsRepository.SumPowerUserMedalsAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newMedalTask, newUserMedalTask);
+
+        PowerManager deltaPower = (PowerManager)newMedalTask.Result - (PowerManager)oldMedal;
+        PowerManager deltaUserPower = (PowerManager)newUserMedalTask.Result - (PowerManager)oldUserMedal;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMedalsBatchAsync(string userId, List<Medals> medales)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserMedalsBatchAsync(string userId, List<Medals> medals)
     {
-        Medals oldMedal = await _medalsService.SumPowerMedalsPercentAsync(userId);
-        var repositoryResult = await _userMedalsRepository.InsertOrUpdateUserMedalsBatchAsync(userId, medales);
+        var oldMedalTask = _medalsService.SumPowerMedalsPercentAsync(userId);
+        var oldUserMedalTask = _userMedalsRepository.SumPowerUserMedalsAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldMedalTask, oldUserMedalTask);
+
+        Medals oldMedal = oldMedalTask.Result;
+        Medals oldUserMedal = oldUserMedalTask.Result;
+
+        var insertOrUpdateResult = await _userMedalsRepository.InsertOrUpdateUserMedalsBatchAsync(userId, medals);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _medalsGalleryService.InsertBatchMedalsGalleryAsync(userId, newlyInsertedCards);
+
+            var newMedalTask = _medalsService.SumPowerMedalsPercentAsync(userId);
+            var newUserMedalTask = _userMedalsRepository.SumPowerUserMedalsAsync(userId);
+
+            await Task.WhenAll(newMedalTask, newUserMedalTask);
+
+            PowerManager deltaPower = (PowerManager)newMedalTask.Result - (PowerManager)oldMedal;
+            PowerManager deltaUserPower = (PowerManager)newUserMedalTask.Result - (PowerManager)oldUserMedal;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        Medals newMedal = await _medalsService.SumPowerMedalsPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newMedal - (PowerManager)oldMedal;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -121,13 +145,15 @@ public class UserMedalsService : IUserMedalsService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserMedalLevelAsync(string userId, Medals medal)
     {
+        Medals oldUserMedal = await _userMedalsRepository.SumPowerUserMedalsAsync(userId);
+
         var updateResult = await _userMedalsRepository.UpdateUserMedalLevelAsync(userId, medal);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -135,11 +161,23 @@ public class UserMedalsService : IUserMedalsService
             return false;
         }
 
+        Medals newUserMedal = await _userMedalsRepository.SumPowerUserMedalsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserMedal - (PowerManager)oldUserMedal;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserMedalStarAsync(string userId, Medals medal)
     {
+        Medals oldUserMedal = await _userMedalsRepository.SumPowerUserMedalsAsync(userId);
+
         var updateResult = await _userMedalsRepository.UpdateUserMedalStarAsync(userId, medal);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -148,6 +186,16 @@ public class UserMedalsService : IUserMedalsService
         }
 
         await _medalsGalleryService.UpdateTempStarMedalGalleryAsync(userId, medal.Id, medal.Star);
+
+        Medals newUserMedal = await _userMedalsRepository.SumPowerUserMedalsAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserMedal - (PowerManager)oldUserMedal;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }

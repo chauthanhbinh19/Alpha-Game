@@ -5,6 +5,10 @@ public class Program : MonoBehaviour
 {
     private void Awake()
     {
+        InitializeServices();
+    }
+    public static void InitializeServices()
+    {
         // Repositories - Common
         ServiceContainer.RegisterInstance<IAchievementsRepository>(new AchievementsRepository());
         ServiceContainer.RegisterInstance<IAlchemiesRepository>(new AlchemiesRepository());
@@ -475,6 +479,7 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterSingleton<IUserSpiritBeastsService, UserSpiritBeastsService>();
         ServiceContainer.RegisterSingleton<IUserSpiritCardsService, UserSpiritCardsService>();
         ServiceContainer.RegisterSingleton<IUserSSWNsService, UserSSWNsService>();
+        ServiceContainer.RegisterSingleton<IUserStatsService, UserStatsService>();
         ServiceContainer.RegisterSingleton<IUserSymbolsService, UserSymbolsService>();
         ServiceContainer.RegisterSingleton<IUserTalismansService, UserTalismansService>();
         ServiceContainer.RegisterSingleton<IUserTechnologiesService, UserTechnologiesService>();
@@ -485,7 +490,5 @@ public class Program : MonoBehaviour
         ServiceContainer.RegisterSingleton<IUserWeaponsService, UserWeaponsService>();
         // ServiceContainer.RegisterSingleton<IUserWorldsService, UserWorldsService>();
 
-        // Giữ lại Bootstrapper không bị huỷ khi đổi Scene
-        DontDestroyOnLoad(gameObject);
     }
 }

@@ -39,7 +39,14 @@ public class UserForgesService : IUserForgesService
 
     public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserForgeAsync(string userId, Forges forge)
     {
-        Forges oldForge = await _forgesService.SumPowerForgesPercentAsync(userId);
+        var oldForgeTask = _forgesService.SumPowerForgesPercentAsync(userId);
+        var oldUserForgeTask = _userForgesRepository.SumPowerUserForgesAsync(userId);
+
+        await Task.WhenAll(oldForgeTask, oldUserForgeTask);
+
+        Forges oldForge = oldForgeTask.Result;
+        Forges oldUserForge = oldUserForgeTask.Result;
+
         var insertOrUpdateResult = await _userForgesRepository.InsertOrUpdateUserForgeAsync(userId, forge);
 
         if (insertOrUpdateResult == null || insertOrUpdateResult.OperationType == DatabaseOperationType.None)
@@ -59,60 +66,77 @@ public class UserForgesService : IUserForgesService
 
         await _forgesGalleryService.InsertForgeGalleryAsync(userId, forge.Id);
 
-        Forges newForge = await _forgesService.SumPowerForgesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newForge - (PowerManager)oldForge;
+        var newForgeTask = _forgesService.SumPowerForgesPercentAsync(userId);
+        var newUserForgeTask = _userForgesRepository.SumPowerUserForgesAsync(userId);
 
-        if (deltaPower.Power == 0)
+        await Task.WhenAll(newForgeTask, newUserForgeTask);
+
+        PowerManager deltaPower = (PowerManager)newForgeTask.Result - (PowerManager)oldForge;
+        PowerManager deltaUserPower = (PowerManager)newUserForgeTask.Result - (PowerManager)oldUserForge;
+
+        PowerManager totalDelta = new PowerManager();
+        if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+        if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+        if (totalDelta.HasAnyPositiveStat())
         {
-            return InsertOrUpdateResult<bool>.Inserted(false);
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            await _powerManagerService.UpdateUserStatsAsync(userId, currentPower + totalDelta);
         }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
 
         return InsertOrUpdateResult<bool>.Inserted(true);
     }
 
-    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserForgesBatchAsync(string userId, List<Forges> forgees)
+    public async Task<InsertOrUpdateResult<bool>> InsertOrUpdateUserForgesBatchAsync(string userId, List<Forges> forges)
     {
-        Forges oldForge = await _forgesService.SumPowerForgesPercentAsync(userId);
-        var repositoryResult = await _userForgesRepository.InsertOrUpdateUserForgesBatchAsync(userId, forgees);
+        var oldForgeTask = _forgesService.SumPowerForgesPercentAsync(userId);
+        var oldUserForgeTask = _userForgesRepository.SumPowerUserForgesAsync(userId);
 
-        // 1. Kiểm tra Null hoặc nếu Repository trả về không thành công
-        if (repositoryResult?.Data == null || !repositoryResult.IsSuccess)
+        await Task.WhenAll(oldForgeTask, oldUserForgeTask);
+
+        Forges oldForge = oldForgeTask.Result;
+        Forges oldUserForge = oldUserForgeTask.Result;
+
+        var insertOrUpdateResult = await _userForgesRepository.InsertOrUpdateUserForgesBatchAsync(userId, forges);
+
+        if (insertOrUpdateResult?.Data == null || !insertOrUpdateResult.IsSuccess)
         {
             return new InsertOrUpdateResult<bool>
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult?.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             };
         }
 
-        // 2. Gộp logic xử lý Gallery nếu có thẻ mới được Insert (dùng cho cả Inserted và Mixed)
-        var newlyInsertedCards = repositoryResult.Data.InsertedItems;
-        if (newlyInsertedCards != null && newlyInsertedCards.Count > 0)
+        var newlyInsertedCards = insertOrUpdateResult.Data.InsertedItems;
+        bool hasNewInserts = newlyInsertedCards != null && newlyInsertedCards.Count > 0;
+
+        if (hasNewInserts)
         {
             await _forgesGalleryService.InsertBatchForgesGalleryAsync(userId, newlyInsertedCards);
+
+            var newForgeTask = _forgesService.SumPowerForgesPercentAsync(userId);
+            var newUserForgeTask = _userForgesRepository.SumPowerUserForgesAsync(userId);
+
+            await Task.WhenAll(newForgeTask, newUserForgeTask);
+
+            PowerManager deltaPower = (PowerManager)newForgeTask.Result - (PowerManager)oldForge;
+            PowerManager deltaUserPower = (PowerManager)newUserForgeTask.Result - (PowerManager)oldUserForge;
+
+            PowerManager totalDelta = new PowerManager();
+            if (deltaPower.HasAnyPositiveStat()) totalDelta += deltaPower;
+            if (deltaUserPower.HasAnyPositiveStat()) totalDelta += deltaUserPower;
+
+            if (totalDelta.HasAnyPositiveStat())
+            {
+                PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+                PowerManager updatedPower = currentPower + totalDelta;
+                await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+            }
         }
 
-        Forges newForge = await _forgesService.SumPowerForgesPercentAsync(userId);
-        PowerManager deltaPower = (PowerManager)newForge - (PowerManager)oldForge;
-
-        if (deltaPower.Power == 0)
-        {
-            return InsertOrUpdateResult<bool>.Inserted(false);
-        }
-
-        PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
-        PowerManager updatedPower = currentPower + deltaPower;
-
-        await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
-
-        // 3. Mapping kết quả OperationType trả về gọn gàng
-        return repositoryResult.OperationType switch
+        return insertOrUpdateResult.OperationType switch
         {
             DatabaseOperationType.Mixed => InsertOrUpdateResult<bool>.Mixed(true),
             DatabaseOperationType.Inserted => InsertOrUpdateResult<bool>.Inserted(true),
@@ -121,13 +145,15 @@ public class UserForgesService : IUserForgesService
             {
                 Data = false,
                 OperationType = DatabaseOperationType.None,
-                Message = repositoryResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
+                Message = insertOrUpdateResult.Message ?? MessageConstants.NOTHING_WAS_UPDATED
             }
         };
     }
 
     public async Task<bool> UpdateUserForgeLevelAsync(string userId, Forges forge)
     {
+        Forges oldUserForge = await _userForgesRepository.SumPowerUserForgesAsync(userId);
+
         var updateResult = await _userForgesRepository.UpdateUserForgeLevelAsync(userId, forge);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -135,11 +161,23 @@ public class UserForgesService : IUserForgesService
             return false;
         }
 
+        Forges newUserForge = await _userForgesRepository.SumPowerUserForgesAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserForge - (PowerManager)oldUserForge;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
+
         return true;
     }
 
     public async Task<bool> UpdateUserForgeStarAsync(string userId, Forges forge)
     {
+        Forges oldUserForge = await _userForgesRepository.SumPowerUserForgesAsync(userId);
+
         var updateResult = await _userForgesRepository.UpdateUserForgeStarAsync(userId, forge);
 
         if (updateResult == null || updateResult.OperationType != DatabaseOperationType.Updated || !updateResult.Data)
@@ -148,6 +186,16 @@ public class UserForgesService : IUserForgesService
         }
 
         await _forgesGalleryService.UpdateTempStarForgeGalleryAsync(userId, forge.Id, forge.Star);
+
+        Forges newUserForge = await _userForgesRepository.SumPowerUserForgesAsync(userId);
+        PowerManager deltaUserPower = (PowerManager)newUserForge - (PowerManager)oldUserForge;
+
+        if (deltaUserPower.HasAnyPositiveStat())
+        {
+            PowerManager currentPower = await _powerManagerService.GetUserStatsAsync(userId);
+            PowerManager updatedPower = currentPower + deltaUserPower;
+            await _powerManagerService.UpdateUserStatsAsync(userId, updatedPower);
+        }
 
         return true;
     }
