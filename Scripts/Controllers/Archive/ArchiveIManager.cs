@@ -221,35 +221,30 @@ public class ArchiveIManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
 
         });
+
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
-        Texture mapTexture = Resources.Load<Texture2D>("UI/Background2/Chapter_16");
+        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_14");
         mapImage.texture = mapTexture;
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
-        Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{AppConstants.Archive.ARCHIVE_I}");
+        Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Archive.ARCHIVE_I}");
         rankImage.texture = rankTexture;
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_I_BACKGROUND_URL);
 
         AnimationController.Instance.CreateArchiveAnimation(currentObject);
         Archives archive = await ArchivesService.Create().GetArchiveByIdAsync(featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserArchives userArchive = await UserArchivesService.Create().GetUserArchivesAsync(User.CurrentUserId, featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userArchive.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
 
         // Xoá item cũ nếu có
-        if (leftSideContent != null)
-        {
-            for (int i = leftSideContent.childCount - 1; i >= 0; i--)
-                Destroy(leftSideContent.GetChild(i).gameObject);
-        }
+        foreach (Transform child in leftSideContent)
+            Destroy(child.gameObject);
 
-        if (rightSideContent != null)
-        {
-            for (int i = rightSideContent.childCount - 1; i >= 0; i--)
-                Destroy(rightSideContent.GetChild(i).gameObject);
-        }
+        foreach (Transform child in rightSideContent)
+            Destroy(child.gameObject);
 
         int total = recipeItems.Count;
         int leftCount = Mathf.CeilToInt(total / 2f);
@@ -267,14 +262,13 @@ public class ArchiveIManager : MonoBehaviour
 
         int currentLevel = userArchive?.Level ?? 0;
         levelText.text = currentLevel.ToString();
-
         async Task RefreshPanelAsync()
         {
-            userArchive = await UserArchivesService.Create().GetUserArchivesAsync(User.CurrentUserId, featureId);
+            userArchive = await UserArchivesService.Create().GetUserArchivesAsync(User.CurrentUserId,featureId);
             currentLevel = userArchive?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userArchive.Level, User.CurrentUserId);
             if (refreshedRecipeItems == null)
                 return;
 
@@ -296,6 +290,7 @@ public class ArchiveIManager : MonoBehaviour
                 SetupArchiveItemUI(itemGO, refreshedRecipeItems[i]);
             }
         }
+
 
         // Popup that allows upgrading multiple levels (wired to UpgradeLevelButton)
         void CreatePopupUpgradePanelAsync()
@@ -321,6 +316,8 @@ public class ArchiveIManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
             int popupCurrentLevel = currentLevel;
             int maxLevel = archive != null ? archive.MaxLevel : popupCurrentLevel;
@@ -328,6 +325,12 @@ public class ArchiveIManager : MonoBehaviour
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            if (userArchive != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userArchive, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userArchive, nextStatsContent);
+            }
 
             quantitySlider.minValue = 1;
             quantitySlider.maxValue = Mathf.Max(1, maxPossible);
@@ -359,6 +362,10 @@ public class ArchiveIManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = true;
                     itemUsedQuantityText.text = "0";
+
+                    if (userArchive != null)
+                        StatsManager.Instance.CreateStatsManager(userArchive, nextStatsContent);
+
                     return;
                 }
 
@@ -381,6 +388,17 @@ public class ArchiveIManager : MonoBehaviour
 
                 nextLevelText.text = preview.TargetLevel.ToString();
                 confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserArchives previewArchive = userArchive.CloneUserArchive(userArchive);
+                    EnhanceHelper.EnhanceArchives(previewArchive, preview.UpgradedLevels, archive.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewArchive, nextStatsContent);
+                }
+                else if (userArchive != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userArchive, nextStatsContent);
+                }
 
                 bool hasEnough = true;
                 if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)

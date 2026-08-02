@@ -222,9 +222,9 @@ public class DemonSlayerManager : MonoBehaviour
             
         });
         
-        Animes universe = await AnimesService.Create().GetAnimeByIdAsync(featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+        Animes anime = await AnimesService.Create().GetAnimeByIdAsync(featureId);
         UserAnimes userAnime = await UserAnimesService.Create().GetUserAnimesAsync(User.CurrentUserId, featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userAnime.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -258,7 +258,7 @@ public class DemonSlayerManager : MonoBehaviour
             currentLevel = userAnime?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userAnime.Level, User.CurrentUserId);
             if (refreshedRecipeItems == null)
                 return;
 
@@ -306,13 +306,21 @@ public class DemonSlayerManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
             int popupCurrentLevel = currentLevel;
-            int maxLevel = universe != null ? universe.MaxLevel : popupCurrentLevel;
+            int maxLevel = anime != null ? anime.MaxLevel : popupCurrentLevel;
             int maxPossible = Mathf.Max(0, maxLevel - popupCurrentLevel);
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            if (userAnime != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userAnime, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userAnime, nextStatsContent);
+            }
 
             quantitySlider.minValue = 1;
             quantitySlider.maxValue = Mathf.Max(1, maxPossible);
@@ -344,6 +352,10 @@ public class DemonSlayerManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = true;
                     itemUsedQuantityText.text = "0";
+
+                    if (userAnime != null)
+                        StatsManager.Instance.CreateStatsManager(userAnime, nextStatsContent);
+
                     return;
                 }
 
@@ -366,6 +378,17 @@ public class DemonSlayerManager : MonoBehaviour
 
                 nextLevelText.text = preview.TargetLevel.ToString();
                 confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserAnimes previewAnime = userAnime.CloneUserAnime(userAnime);
+                    EnhanceHelper.EnhanceAnimes(previewAnime, preview.UpgradedLevels, anime.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewAnime, nextStatsContent);
+                }
+                else if (userAnime != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userAnime, nextStatsContent);
+                }
 
                 bool hasEnough = true;
                 if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)
@@ -483,7 +506,7 @@ public class DemonSlayerManager : MonoBehaviour
 
                 if (result.Success)
                 {
-                    userAnime = EnhanceHelper.EnhanceAnimes(userAnime, result.UpgradedLevels, universe.BaseMultiplier);
+                    userAnime = EnhanceHelper.EnhanceAnimes(userAnime, result.UpgradedLevels, anime.BaseMultiplier);
                     await UserAnimesService.Create().InsertOrUpdateUserAnimesAsync(User.CurrentUserId, userAnime, featureId);
 
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);

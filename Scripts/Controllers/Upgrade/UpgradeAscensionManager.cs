@@ -141,6 +141,18 @@ public class UpgradeAscensionManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button popupCloseButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
+
+            if (userUpgrade != null && currentStatsContent != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userUpgrade, currentStatsContent);
+            }
+
+            if (userUpgrade != null && nextStatsContent != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userUpgrade, nextStatsContent);
+            }
 
             // Reset Trạng Thái Slider & Text
             void ResetPopupState()
@@ -197,6 +209,12 @@ public class UpgradeAscensionManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = false;
                     itemUsedQuantityText.text = "0";
+
+                    if (userUpgrade != null && nextStatsContent != null)
+                    {
+                        StatsManager.Instance.CreateStatsManager(userUpgrade, nextStatsContent);
+                    }
+
                     return;
                 }
 
@@ -244,6 +262,23 @@ public class UpgradeAscensionManager : MonoBehaviour
                 else
                 {
                     itemUsedQuantityText.text = "0";
+                }
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserUpgrades previewUpgrade = CloneUserUpgrade(userUpgrade);
+                    if (previewUpgrade != null)
+                    {
+                        EnhanceHelper.EnhanceUpgrades(previewUpgrade, preview.UpgradedLevels, upgrade?.BaseMultiplier ?? 1);
+                        if (nextStatsContent != null)
+                        {
+                            StatsManager.Instance.CreateStatsManager(previewUpgrade, nextStatsContent);
+                        }
+                    }
+                }
+                else if (userUpgrade != null && nextStatsContent != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userUpgrade, nextStatsContent);
                 }
 
                 if (preview.UpgradedLevels > 0 && hasEnough)
@@ -345,6 +380,14 @@ public class UpgradeAscensionManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             CreatePopupUpgradePanel();
         });
+    }
+
+    private UserUpgrades CloneUserUpgrade(UserUpgrades source)
+    {
+        if (source == null)
+            return null;
+
+        return (UserUpgrades)source.MemberwiseClone();
     }
 
     private void SetupUpgradeItemUI(GameObject itemGO, RecipeItemDto data)

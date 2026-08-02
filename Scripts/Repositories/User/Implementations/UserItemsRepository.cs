@@ -61,7 +61,7 @@ public class UserItemsRepository : IUserItemsRepository
                                 Name = reader.GetStringSafe("name"),
                                 Image = reader.GetStringSafe("image"),
                                 Type = reader.GetStringSafe("type"),
-                                Quantity = reader.GetIntSafe("quantity")
+                                Quantity = reader.GetDoubleSafe("quantity")
                             };
 
                             items.Add(item);
@@ -166,7 +166,7 @@ public class UserItemsRepository : IUserItemsRepository
                             items.Id = reader.GetStringSafe("itemId");
                             items.Name = reader["itemName"]?.ToString() ?? string.Empty;
                             items.Image = reader["itemImage"]?.ToString() ?? string.Empty;
-                            items.Quantity = reader.GetIntSafe("quantity");
+                            items.Quantity = reader.GetDoubleSafe("quantity");
                         }
                     }
                 }
@@ -214,7 +214,7 @@ public class UserItemsRepository : IUserItemsRepository
                             items.Name = reader["itemName"]?.ToString() ?? string.Empty;
                             items.CodeName = reader["itemCodeName"]?.ToString() ?? string.Empty;
                             items.Image = reader["itemImage"]?.ToString() ?? string.Empty;
-                            items.Quantity = reader.GetIntSafe("quantity");
+                            items.Quantity = reader.GetDoubleSafe("quantity");
                         }
                     }
                 }
@@ -276,7 +276,7 @@ public class UserItemsRepository : IUserItemsRepository
                                 Name = reader["itemName"]?.ToString() ?? "",
                                 CodeName = reader["itemCodeName"]?.ToString() ?? "",
                                 Image = reader["itemImage"]?.ToString() ?? "",
-                                Quantity = reader.GetIntSafe("quantity"),
+                                Quantity = reader.GetDoubleSafe("quantity"),
                                 ExperienceValue = Convert.ToDouble(reader["experience_value"])
                             };
                         }

@@ -450,25 +450,25 @@ public class MainMenuManager : MonoBehaviour
         TextMeshProUGUI powerText = transform.Find("Header/PowerText").GetComponent<TextMeshProUGUI>();
         powerText.text = authResult.User.Power.ToString();
 
-        var gold = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.GOLD);
-        var silver = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.SILVER);
-        var diamond = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.DIAMOND);
+        // var gold = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.GOLD);
+        // var silver = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.SILVER);
+        // var diamond = authResult.User.Currencies.FirstOrDefault(c => c.Name == AppConstants.Currency.DIAMOND);
 
-        RawImage goldImage = transform.Find("Header/GoldCurrency/Image").GetComponent<RawImage>();
-        RawImage silverImage = transform.Find("Header/SilverCurrency/Image").GetComponent<RawImage>();
-        RawImage diamondImage = transform.Find("Header/DiamondCurrency/Image").GetComponent<RawImage>();
+        // RawImage goldImage = transform.Find("Header/GoldCurrency/Image").GetComponent<RawImage>();
+        // RawImage silverImage = transform.Find("Header/SilverCurrency/Image").GetComponent<RawImage>();
+        // RawImage diamondImage = transform.Find("Header/DiamondCurrency/Image").GetComponent<RawImage>();
 
-        goldImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(gold.Image));
-        silverImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(silver.Image));
-        diamondImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(diamond.Image));
+        // goldImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(gold.Image));
+        // silverImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(silver.Image));
+        // diamondImage.texture = TextureHelper.LoadTextureCached(ImageHelper.RemoveImageExtension(diamond.Image));
 
-        TextMeshProUGUI goldText = transform.Find("Header/GoldCurrency/TitleText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI silverText = transform.Find("Header/SilverCurrency/TitleText").GetComponent<TextMeshProUGUI>();
-        TextMeshProUGUI diamondText = transform.Find("Header/DiamondCurrency/TitleText").GetComponent<TextMeshProUGUI>();
+        // TextMeshProUGUI goldText = transform.Find("Header/GoldCurrency/TitleText").GetComponent<TextMeshProUGUI>();
+        // TextMeshProUGUI silverText = transform.Find("Header/SilverCurrency/TitleText").GetComponent<TextMeshProUGUI>();
+        // TextMeshProUGUI diamondText = transform.Find("Header/DiamondCurrency/TitleText").GetComponent<TextMeshProUGUI>();
 
-        goldText.text = gold.Quantity.ToString();
-        silverText.text = silver.Quantity.ToString();
-        diamondText.text = diamond.Quantity.ToString();
+        // goldText.text = gold.Quantity.ToString();
+        // silverText.text = silver.Quantity.ToString();
+        // diamondText.text = diamond.Quantity.ToString();
     }
     public void GetMainButtonEvent(GameObject popupButtonObject)
     {

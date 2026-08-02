@@ -217,33 +217,41 @@ public class CommunicationManager : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
+
         });
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
-        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_8");
-        mapImage.texture = mapTexture; 
+        Texture mapTexture = Resources.Load<Texture2D>("UI/Background2/Chapter_16");
+        mapImage.texture = mapTexture;
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
-        Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Research.COMMUNICATION}");
-        rankImage.texture = rankTexture; 
+        Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{AppConstants.Research.COMMUNICATION}");
+        rankImage.texture = rankTexture;
+        RawImage background = transform.Find("Background").GetComponent<RawImage>();
+        background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Research.COMMUNICATION_URL);
 
         AnimationController.Instance.CreateResearchAnimation(currentObject);
         Researchs research = await ResearchsService.Create().GetResearchByIdAsync(featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserResearchs userResearch = await UserResearchsService.Create().GetUserResearchsAsync(User.CurrentUserId,featureId);
+        UserResearchs userResearch = await UserResearchsService.Create().GetUserResearchsAsync(User.CurrentUserId, featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userResearch.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
 
         // Xoá item cũ nếu có
-        foreach (Transform child in leftSideContent)
-            Destroy(child.gameObject);
+        if (leftSideContent != null)
+        {
+            for (int i = leftSideContent.childCount - 1; i >= 0; i--)
+                Destroy(leftSideContent.GetChild(i).gameObject);
+        }
 
-        foreach (Transform child in rightSideContent)
-            Destroy(child.gameObject);
+        if (rightSideContent != null)
+        {
+            for (int i = rightSideContent.childCount - 1; i >= 0; i--)
+                Destroy(rightSideContent.GetChild(i).gameObject);
+        }
 
         int total = recipeItems.Count;
         int leftCount = Mathf.CeilToInt(total / 2f);
@@ -261,13 +269,14 @@ public class CommunicationManager : MonoBehaviour
 
         int currentLevel = userResearch?.Level ?? 0;
         levelText.text = currentLevel.ToString();
+
         async Task RefreshPanelAsync()
         {
             userResearch = await UserResearchsService.Create().GetUserResearchsAsync(User.CurrentUserId,featureId);
             currentLevel = userResearch?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userResearch.Level, User.CurrentUserId);
             if (refreshedRecipeItems == null)
                 return;
 
@@ -289,7 +298,6 @@ public class CommunicationManager : MonoBehaviour
                 SetupResearchItemUI(itemGO, refreshedRecipeItems[i]);
             }
         }
-
 
         // Popup that allows upgrading multiple levels (wired to UpgradeLevelButton)
         void CreatePopupUpgradePanelAsync()
@@ -315,6 +323,8 @@ public class CommunicationManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
             int popupCurrentLevel = currentLevel;
             int maxLevel = research != null ? research.MaxLevel : popupCurrentLevel;
@@ -322,6 +332,12 @@ public class CommunicationManager : MonoBehaviour
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            if (userResearch != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userResearch, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userResearch, nextStatsContent);
+            }
 
             quantitySlider.minValue = 1;
             quantitySlider.maxValue = Mathf.Max(1, maxPossible);
@@ -353,6 +369,10 @@ public class CommunicationManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = true;
                     itemUsedQuantityText.text = "0";
+
+                    if (userResearch != null)
+                        StatsManager.Instance.CreateStatsManager(userResearch, nextStatsContent);
+
                     return;
                 }
 
@@ -375,6 +395,17 @@ public class CommunicationManager : MonoBehaviour
 
                 nextLevelText.text = preview.TargetLevel.ToString();
                 confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserResearchs previewResearch = userResearch.CloneUserResearch(userResearch);
+                    EnhanceHelper.EnhanceResearchs(previewResearch, preview.UpgradedLevels, research.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewResearch, nextStatsContent);
+                }
+                else if (userResearch != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userResearch, nextStatsContent);
+                }
 
                 bool hasEnough = true;
                 if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)

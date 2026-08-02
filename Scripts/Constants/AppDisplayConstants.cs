@@ -86,6 +86,17 @@ public static class AppDisplayConstants
         public const string NORMAL_RESISTANCE_RATE = "StatFields.NormalResistanceRate";
         public const string SKILL_DAMAGE_RATE = "StatFields.SkillDamageRate";
         public const string SKILL_RESISTANCE_RATE = "StatFields.SkillResistanceRate";
+        public const string PERCENT_ALL_HEALTH = "StatFields.PercentAllHealth";
+        public const string PERCENT_ALL_PHYSICAL_ATTACK = "StatFields.PercentAllPhysicalAttack";
+        public const string PERCENT_ALL_PHYSICAL_DEFENSE = "StatFields.PercentAllPhysicalDefense";
+        public const string PERCENT_ALL_MAGICAL_ATTACK = "StatFields.PercentAllMagicalAttack";
+        public const string PERCENT_ALL_MAGICAL_DEFENSE = "StatFields.PercentAllMagicalDefense";
+        public const string PERCENT_ALL_CHEMICAL_ATTACK = "StatFields.PercentAllChemicalAttack";
+        public const string PERCENT_ALL_CHEMICAL_DEFENSE = "StatFields.PercentAllChemicalDefense";
+        public const string PERCENT_ALL_ATOMIC_ATTACK = "StatFields.PercentAllAtomicAttack";
+        public const string PERCENT_ALL_ATOMIC_DEFENSE = "StatFields.PercentAllAtomicDefense";
+        public const string PERCENT_ALL_MENTAL_ATTACK = "StatFields.PercentAllMentalAttack";
+        public const string PERCENT_ALL_MENTAL_DEFENSE = "StatFields.PercentAllMentalDefense";
         public const string DESCRIPTION = "StatFields.Description";
     }
     public static class StatFieldsShort
@@ -140,6 +151,17 @@ public static class AppDisplayConstants
         public const string NORMAL_RESISTANCE_RATE = "StatFieldsShort.NormalResistanceRate";
         public const string SKILL_DAMAGE_RATE = "StatFieldsShort.SkillDamageRate";
         public const string SKILL_RESISTANCE_RATE = "StatFieldsShort.SkillResistanceRate";
+        public const string PERCENT_ALL_HEALTH = "StatFieldsShort.PercentAllHealth";
+        public const string PERCENT_ALL_PHYSICAL_ATTACK = "StatFieldsShort.PercentAllPhysicalAttack";
+        public const string PERCENT_ALL_PHYSICAL_DEFENSE = "StatFieldsShort.PercentAllPhysicalDefense";
+        public const string PERCENT_ALL_MAGICAL_ATTACK = "StatFieldsShort.PercentAllMagicalAttack";
+        public const string PERCENT_ALL_MAGICAL_DEFENSE = "StatFieldsShort.PercentAllMagicalDefense";
+        public const string PERCENT_ALL_CHEMICAL_ATTACK = "StatFieldsShort.PercentAllChemicalAttack";
+        public const string PERCENT_ALL_CHEMICAL_DEFENSE = "StatFieldsShort.PercentAllChemicalDefense";
+        public const string PERCENT_ALL_ATOMIC_ATTACK = "StatFieldsShort.PercentAllAtomicAttack";
+        public const string PERCENT_ALL_ATOMIC_DEFENSE = "StatFieldsShort.PercentAllAtomicDefense";
+        public const string PERCENT_ALL_MENTAL_ATTACK = "StatFieldsShort.PercentAllMentalAttack";
+        public const string PERCENT_ALL_MENTAL_DEFENSE = "StatFieldsShort.PercentAllMentalDefense";
         public const string DESCRIPTION = "StatFieldsShort.Description";
     }
     public static class MainType

@@ -233,8 +233,8 @@ public class UniverseXManager : MonoBehaviour
 
         AnimationController.Instance.CreateUniverseAnimation(currentObject);
         Universes universe = await UniversesService.Create().GetUniverseByIdAsync(featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserUniverses userUniverse = await UserUniversesService.Create().GetUserUniversesAsync(User.CurrentUserId,featureId);
+        UserUniverses userUniverse = await UserUniversesService.Create().GetUserUniversesAsync(User.CurrentUserId, featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userUniverse.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -268,7 +268,7 @@ public class UniverseXManager : MonoBehaviour
             currentLevel = userUniverse?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userUniverse.Level, User.CurrentUserId);
             if (refreshedRecipeItems == null)
                 return;
 
@@ -316,6 +316,8 @@ public class UniverseXManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
             int popupCurrentLevel = currentLevel;
             int maxLevel = universe != null ? universe.MaxLevel : popupCurrentLevel;
@@ -323,6 +325,12 @@ public class UniverseXManager : MonoBehaviour
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            if (userUniverse != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userUniverse, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userUniverse, nextStatsContent);
+            }
 
             quantitySlider.minValue = 1;
             quantitySlider.maxValue = Mathf.Max(1, maxPossible);
@@ -354,6 +362,10 @@ public class UniverseXManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = true;
                     itemUsedQuantityText.text = "0";
+
+                    if (userUniverse != null)
+                        StatsManager.Instance.CreateStatsManager(userUniverse, nextStatsContent);
+
                     return;
                 }
 
@@ -376,6 +388,17 @@ public class UniverseXManager : MonoBehaviour
 
                 nextLevelText.text = preview.TargetLevel.ToString();
                 confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserUniverses previewUniverse = userUniverse.CloneUserUniverse(userUniverse);
+                    EnhanceHelper.EnhanceUniverses(previewUniverse, preview.UpgradedLevels, universe.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewUniverse, nextStatsContent);
+                }
+                else if (userUniverse != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userUniverse, nextStatsContent);
+                }
 
                 bool hasEnough = true;
                 if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)

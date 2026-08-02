@@ -78,6 +78,17 @@ public static class AppConstants
         public const string NORMAL_RESISTANCE_RATE = "NormalResistanceRate";
         public const string SKILL_DAMAGE_RATE = "SkillDamageRate";
         public const string SKILL_RESISTANCE_RATE = "SkillResistanceRate";
+        public const string PERCENT_ALL_HEALTH = "PercentAllHealth";
+        public const string PERCENT_ALL_PHYSICAL_ATTACK = "PercentAllPhysicalAttack";
+        public const string PERCENT_ALL_PHYSICAL_DEFENSE = "PercentAllPhysicalDefense";
+        public const string PERCENT_ALL_MAGICAL_ATTACK = "PercentAllMagicalAttack";
+        public const string PERCENT_ALL_MAGICAL_DEFENSE = "PercentAllMagicalDefense";
+        public const string PERCENT_ALL_CHEMICAL_ATTACK = "PercentAllChemicalAttack";
+        public const string PERCENT_ALL_CHEMICAL_DEFENSE = "PercentAllChemicalDefense";
+        public const string PERCENT_ALL_ATOMIC_ATTACK = "PercentAllAtomicAttack";
+        public const string PERCENT_ALL_ATOMIC_DEFENSE = "PercentAllAtomicDefense";
+        public const string PERCENT_ALL_MENTAL_ATTACK = "PercentAllMentalAttack";
+        public const string PERCENT_ALL_MENTAL_DEFENSE = "PercentAllMentalDefense";
         public const string DESCRIPTION = "Description";
     }
     public static class Target

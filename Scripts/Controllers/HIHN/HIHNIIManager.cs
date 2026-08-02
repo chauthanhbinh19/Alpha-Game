@@ -222,7 +222,7 @@ public class HIHNIIManager : MonoBehaviour
             
         });
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
-        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_15");
+        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_13");
         mapImage.texture = mapTexture; 
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
         Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.HIHN.HIHN_II}");
@@ -232,8 +232,8 @@ public class HIHNIIManager : MonoBehaviour
 
         AnimationController.Instance.CreateHIHNAnimation(currentObject);
         HIHNs hihn = await HIHNsService.Create().GetHIHNByIdAsync(featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHIHNs userHIHN = await UserHIHNsService.Create().GetUserHIHNsAsync(User.CurrentUserId, featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userHIHN.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -268,7 +268,7 @@ public class HIHNIIManager : MonoBehaviour
             currentLevel = userHIHN?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userHIHN.Level, User.CurrentUserId);
             if (refreshedRecipeItems == null)
                 return;
 
@@ -316,6 +316,8 @@ public class HIHNIIManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
             int popupCurrentLevel = currentLevel;
             int maxLevel = hihn != null ? hihn.MaxLevel : popupCurrentLevel;
@@ -323,6 +325,12 @@ public class HIHNIIManager : MonoBehaviour
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            if (userHIHN != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userHIHN, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userHIHN, nextStatsContent);
+            }
 
             quantitySlider.minValue = 1;
             quantitySlider.maxValue = Mathf.Max(1, maxPossible);
@@ -354,6 +362,10 @@ public class HIHNIIManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = true;
                     itemUsedQuantityText.text = "0";
+
+                    if (userHIHN != null)
+                        StatsManager.Instance.CreateStatsManager(userHIHN, nextStatsContent);
+
                     return;
                 }
 
@@ -376,6 +388,17 @@ public class HIHNIIManager : MonoBehaviour
 
                 nextLevelText.text = preview.TargetLevel.ToString();
                 confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserHIHNs previewHIHN = userHIHN.CloneUserHIHN(userHIHN);
+                    EnhanceHelper.EnhanceHIHNs(previewHIHN, preview.UpgradedLevels, hihn.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewHIHN, nextStatsContent);
+                }
+                else if (userHIHN != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userHIHN, nextStatsContent);
+                }
 
                 bool hasEnough = true;
                 if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)

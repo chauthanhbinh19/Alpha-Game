@@ -690,7 +690,7 @@ public class Test : MonoBehaviour
     }
     public async Task GetUserSkillsAsync()
     {   
-        User.CurrentUserId = "639167826246347876";
+        User.CurrentUserId = userId;
         Program.InitializeServices();
         await UserSkillsService.Create().GetUserSkillsAsync(User.CurrentUserId, Search, Type, PAGE_SIZE, Offset, Rare);
     }

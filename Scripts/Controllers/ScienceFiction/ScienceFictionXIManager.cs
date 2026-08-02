@@ -232,8 +232,8 @@ public class ScienceFictionXIManager : MonoBehaviour
 
         AnimationController.Instance.CreateScienceFictionAnimation(currentObject);
         ScienceFictions scienceFiction = await ScienceFictionsService.Create().GetScienceFictionByIdAsync(featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
-        UserScienceFictions userScienceFiction = await UserScienceFictionsService.Create().GetUserScienceFictionsAsync(User.CurrentUserId,featureId);
+        UserScienceFictions userScienceFiction = await UserScienceFictionsService.Create().GetUserScienceFictionsAsync(User.CurrentUserId, featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userScienceFiction.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -274,7 +274,7 @@ public class ScienceFictionXIManager : MonoBehaviour
             currentLevel = userScienceFiction?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userScienceFiction.Level, User.CurrentUserId);
             if (refreshedRecipeItems == null)
                 return;
 
@@ -321,6 +321,8 @@ public class ScienceFictionXIManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
             int popupCurrentLevel = currentLevel;
             int maxLevel = scienceFiction != null ? scienceFiction.MaxLevel : popupCurrentLevel;
@@ -328,6 +330,12 @@ public class ScienceFictionXIManager : MonoBehaviour
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            if (userScienceFiction != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userScienceFiction, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userScienceFiction, nextStatsContent);
+            }
 
             quantitySlider.minValue = 1;
             quantitySlider.maxValue = Mathf.Max(1, maxPossible);
@@ -359,6 +367,10 @@ public class ScienceFictionXIManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = true;
                     itemUsedQuantityText.text = "0";
+
+                    if (userScienceFiction != null)
+                        StatsManager.Instance.CreateStatsManager(userScienceFiction, nextStatsContent);
+
                     return;
                 }
 
@@ -381,6 +393,17 @@ public class ScienceFictionXIManager : MonoBehaviour
 
                 nextLevelText.text = preview.TargetLevel.ToString();
                 confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserScienceFictions previewScienceFiction = userScienceFiction.CloneUserScienceFiction(userScienceFiction);
+                    EnhanceHelper.EnhanceScienceFictions(previewScienceFiction, preview.UpgradedLevels, scienceFiction.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewScienceFiction, nextStatsContent);
+                }
+                else if (userScienceFiction != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userScienceFiction, nextStatsContent);
+                }
 
                 bool hasEnough = true;
                 if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)

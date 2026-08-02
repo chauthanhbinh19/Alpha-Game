@@ -303,6 +303,11 @@ public static class TextureHelper
             runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.SKILL_RESISTANCE_RATE_URL);
             runeImage.texture = runeTexture;
         }
+        else
+        {
+            runeTexture = TextureHelper.LoadTextureCached(ImageConstants.Rune.SKILL_RESISTANCE_RATE_URL);
+            runeImage.texture = runeTexture;
+        }
         runeImage.gameObject.SetActive(true);
     }
     public static void SetupStars(Transform gridTransform, int star)

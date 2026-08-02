@@ -222,7 +222,7 @@ public class HIDCIIManager : MonoBehaviour
             
         });
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
-        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_18");
+        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_13");
         mapImage.texture = mapTexture; 
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
         Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.HIDC.HIDC_II}");
@@ -232,8 +232,8 @@ public class HIDCIIManager : MonoBehaviour
 
         AnimationController.Instance.CreateHIDCAnimation(currentObject);
         HIDCs hidc = await HIDCsService.Create().GetHIDCByIdAsync(featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHIDCs userHIDC = await UserHIDCsService.Create().GetUserHIDCsAsync(User.CurrentUserId, featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userHIDC.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -268,7 +268,7 @@ public class HIDCIIManager : MonoBehaviour
             currentLevel = userHIDC?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userHIDC.Level, User.CurrentUserId);
             if (refreshedRecipeItems == null)
                 return;
 
@@ -316,6 +316,8 @@ public class HIDCIIManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
             int popupCurrentLevel = currentLevel;
             int maxLevel = hidc != null ? hidc.MaxLevel : popupCurrentLevel;
@@ -323,6 +325,12 @@ public class HIDCIIManager : MonoBehaviour
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            if (userHIDC != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userHIDC, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userHIDC, nextStatsContent);
+            }
 
             quantitySlider.minValue = 1;
             quantitySlider.maxValue = Mathf.Max(1, maxPossible);
@@ -354,6 +362,10 @@ public class HIDCIIManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = true;
                     itemUsedQuantityText.text = "0";
+
+                    if (userHIDC != null)
+                        StatsManager.Instance.CreateStatsManager(userHIDC, nextStatsContent);
+
                     return;
                 }
 
@@ -376,6 +388,17 @@ public class HIDCIIManager : MonoBehaviour
 
                 nextLevelText.text = preview.TargetLevel.ToString();
                 confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserHIDCs previewHIDC = userHIDC.CloneUserHIDC(userHIDC);
+                    EnhanceHelper.EnhanceHIDCs(previewHIDC, preview.UpgradedLevels, hidc.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewHIDC, nextStatsContent);
+                }
+                else if (userHIDC != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userHIDC, nextStatsContent);
+                }
 
                 bool hasEnough = true;
                 if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)

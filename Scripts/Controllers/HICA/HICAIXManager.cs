@@ -222,7 +222,7 @@ public class HICAIXManager : MonoBehaviour
             
         });
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
-        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_16");
+        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_13");
         mapImage.texture = mapTexture; 
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
         Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.HICA.HICA_IX}");
@@ -232,8 +232,8 @@ public class HICAIXManager : MonoBehaviour
 
         AnimationController.Instance.CreateHICAAnimation(currentObject);
         HICAs hica = await HICAsService.Create().GetHICAByIdAsync(featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHICAs userHICA = await UserHICAsService.Create().GetUserHICAsAsync(User.CurrentUserId, featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userHICA.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -268,7 +268,7 @@ public class HICAIXManager : MonoBehaviour
             currentLevel = userHICA?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userHICA.Level, User.CurrentUserId);
             if (refreshedRecipeItems == null)
                 return;
 
@@ -316,6 +316,8 @@ public class HICAIXManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
             int popupCurrentLevel = currentLevel;
             int maxLevel = hica != null ? hica.MaxLevel : popupCurrentLevel;
@@ -323,6 +325,12 @@ public class HICAIXManager : MonoBehaviour
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            if (userHICA != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userHICA, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userHICA, nextStatsContent);
+            }
 
             quantitySlider.minValue = 1;
             quantitySlider.maxValue = Mathf.Max(1, maxPossible);
@@ -354,6 +362,10 @@ public class HICAIXManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = true;
                     itemUsedQuantityText.text = "0";
+
+                    if (userHICA != null)
+                        StatsManager.Instance.CreateStatsManager(userHICA, nextStatsContent);
+
                     return;
                 }
 
@@ -376,6 +388,17 @@ public class HICAIXManager : MonoBehaviour
 
                 nextLevelText.text = preview.TargetLevel.ToString();
                 confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserHICAs previewHICA = userHICA.CloneUserHICA(userHICA);
+                    EnhanceHelper.EnhanceHICAs(previewHICA, preview.UpgradedLevels, hica.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewHICA, nextStatsContent);
+                }
+                else if (userHICA != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userHICA, nextStatsContent);
+                }
 
                 bool hasEnough = true;
                 if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)

@@ -232,12 +232,12 @@ public class MasterOfScienceManager : MonoBehaviour
         // Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Master.MASTER_OF_ATOMIC}");
         // rankImage.texture = rankTexture;
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
-        background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_ATOMIC_BACKGROUND_URL);
+        background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Master.MASTER_OF_SCIENCE_BACKGROUND_URL);
 
         AnimationController.Instance.CreateMasterAnimation(currentObject);
         Masters master = await MastersService.Create().GetMasterByIdAsync(featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserMasters userMaster = await UserMastersService.Create().GetUserMastersAsync(User.CurrentUserId, featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userMaster.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -271,7 +271,7 @@ public class MasterOfScienceManager : MonoBehaviour
             currentLevel = userMaster?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userMaster.Level, User.CurrentUserId);
             if (refreshedRecipeItems == null)
                 return;
 
@@ -319,6 +319,8 @@ public class MasterOfScienceManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
             int popupCurrentLevel = currentLevel;
             int maxLevel = master != null ? master.MaxLevel : popupCurrentLevel;
@@ -326,6 +328,12 @@ public class MasterOfScienceManager : MonoBehaviour
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            if (userMaster != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userMaster, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userMaster, nextStatsContent);
+            }
 
             quantitySlider.minValue = 1;
             quantitySlider.maxValue = Mathf.Max(1, maxPossible);
@@ -357,6 +365,10 @@ public class MasterOfScienceManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = true;
                     itemUsedQuantityText.text = "0";
+
+                    if (userMaster != null)
+                        StatsManager.Instance.CreateStatsManager(userMaster, nextStatsContent);
+
                     return;
                 }
 
@@ -379,6 +391,17 @@ public class MasterOfScienceManager : MonoBehaviour
 
                 nextLevelText.text = preview.TargetLevel.ToString();
                 confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserMasters previewMaster = userMaster.CloneUserMaster(userMaster);
+                    EnhanceHelper.EnhanceMasters(previewMaster, preview.UpgradedLevels, master.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewMaster, nextStatsContent);
+                }
+                else if (userMaster != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userMaster, nextStatsContent);
+                }
 
                 bool hasEnough = true;
                 if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)

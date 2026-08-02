@@ -1175,7 +1175,7 @@ public static class ImageConstants
 
         public const string NEUROTECH = "UI/Background1/Background_V1_139";
         public const string ANTIMATTER = "UI/Background1/Background_V1_140";
-        public const string PAHNTOMWARE = "UI/Background1/Background_V1_141";
+        public const string PHANTOMWARE = "UI/Background1/Background_V1_141";
         public const string GRAVITECH = "UI/Background1/Background_V1_142";
         public const string AETHERNET = "UI/Background1/Background_V1_143";
         public const string STARFORGE = "UI/Background1/Background_V1_144";

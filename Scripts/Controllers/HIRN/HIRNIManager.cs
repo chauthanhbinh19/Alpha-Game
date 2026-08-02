@@ -222,7 +222,7 @@ public class HIRNIManager : MonoBehaviour
             
         });
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
-        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_18");
+        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_13");
         mapImage.texture = mapTexture; 
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
         Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.HIRN.HIRN_I}");
@@ -232,8 +232,8 @@ public class HIRNIManager : MonoBehaviour
 
         AnimationController.Instance.CreateHIRNAnimation(currentObject);
         HIRNs hirn = await HIRNsService.Create().GetHIRNByIdAsync(featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHIRNs userHIRN = await UserHIRNsService.Create().GetUserHIRNsAsync(User.CurrentUserId, featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userHIRN.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -268,7 +268,7 @@ public class HIRNIManager : MonoBehaviour
             currentLevel = userHIRN?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userHIRN.Level, User.CurrentUserId);
             if (refreshedRecipeItems == null)
                 return;
 
@@ -316,6 +316,8 @@ public class HIRNIManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
             int popupCurrentLevel = currentLevel;
             int maxLevel = hirn != null ? hirn.MaxLevel : popupCurrentLevel;
@@ -323,6 +325,12 @@ public class HIRNIManager : MonoBehaviour
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            if (userHIRN != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userHIRN, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userHIRN, nextStatsContent);
+            }
 
             quantitySlider.minValue = 1;
             quantitySlider.maxValue = Mathf.Max(1, maxPossible);
@@ -354,6 +362,10 @@ public class HIRNIManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = true;
                     itemUsedQuantityText.text = "0";
+
+                    if (userHIRN != null)
+                        StatsManager.Instance.CreateStatsManager(userHIRN, nextStatsContent);
+
                     return;
                 }
 
@@ -376,6 +388,17 @@ public class HIRNIManager : MonoBehaviour
 
                 nextLevelText.text = preview.TargetLevel.ToString();
                 confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserHIRNs previewHIRN = userHIRN.CloneUserHIRN(userHIRN);
+                    EnhanceHelper.EnhanceHIRNs(previewHIRN, preview.UpgradedLevels, hirn.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewHIRN, nextStatsContent);
+                }
+                else if (userHIRN != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userHIRN, nextStatsContent);
+                }
 
                 bool hasEnough = true;
                 if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)

@@ -49,11 +49,11 @@ public class RecipeRepository : IRecipeRepository
         {
             result.Add(new RecipeItemDto
             {
-                RecipeId = reader.GetString("recipe_id"),
-                ItemId = reader.GetString("item_id"),
-                ItemImage = reader.GetString("item_image"),
-                RequiredQuantity = reader.GetDouble("required_quantity"),
-                UserQuantity = reader.GetDouble("user_quantity"),
+                RecipeId = reader.GetStringSafe("recipe_id"),
+                ItemId = reader.GetStringSafe("item_id"),
+                ItemImage = reader.GetStringSafe("item_image"),
+                RequiredQuantity = reader.GetDoubleSafe("required_quantity"),
+                UserQuantity = reader.GetDoubleSafe("user_quantity"),
                 MinLevel = reader.GetIntSafe("recipe_min_level"),
                 MaxLevel = reader.GetIntSafe("recipe_max_level"),
             });

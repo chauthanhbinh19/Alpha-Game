@@ -232,8 +232,8 @@ public class HISNIIManager : MonoBehaviour
 
         AnimationController.Instance.CreateHISNAnimation(currentObject);
         HISNs hisn = await HISNsService.Create().GetHISNByIdAsync(featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserHISNs userHISN = await UserHISNsService.Create().GetUserHISNsAsync(User.CurrentUserId, featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userHISN.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -268,7 +268,7 @@ public class HISNIIManager : MonoBehaviour
             currentLevel = userHISN?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userHISN.Level, User.CurrentUserId);
             if (refreshedRecipeItems == null)
                 return;
 
@@ -316,6 +316,8 @@ public class HISNIIManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
             int popupCurrentLevel = currentLevel;
             int maxLevel = hisn != null ? hisn.MaxLevel : popupCurrentLevel;
@@ -323,6 +325,12 @@ public class HISNIIManager : MonoBehaviour
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            if (userHISN != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userHISN, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userHISN, nextStatsContent);
+            }
 
             quantitySlider.minValue = 1;
             quantitySlider.maxValue = Mathf.Max(1, maxPossible);
@@ -354,6 +362,10 @@ public class HISNIIManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = true;
                     itemUsedQuantityText.text = "0";
+
+                    if (userHISN != null)
+                        StatsManager.Instance.CreateStatsManager(userHISN, nextStatsContent);
+
                     return;
                 }
 
@@ -376,6 +388,17 @@ public class HISNIIManager : MonoBehaviour
 
                 nextLevelText.text = preview.TargetLevel.ToString();
                 confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserHISNs previewHISN = userHISN.CloneUserHISN(userHISN);
+                    EnhanceHelper.EnhanceHISNs(previewHISN, preview.UpgradedLevels, hisn.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewHISN, nextStatsContent);
+                }
+                else if (userHISN != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userHISN, nextStatsContent);
+                }
 
                 bool hasEnough = true;
                 if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)

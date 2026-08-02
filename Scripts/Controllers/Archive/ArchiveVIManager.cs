@@ -215,25 +215,26 @@ public class ArchiveVIManager : MonoBehaviour
             Destroy(currentObject);
         });
         Button homeButton = transform.Find("HomeButton").GetComponent<Button>();
-        homeButton.onClick.AddListener( () =>
+        homeButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ButtonEvent.Instance.Close(MainPanel);
-            
+
         });
+
         RawImage mapImage = transform.Find("MapImage").GetComponent<RawImage>();
-        Texture mapTexture = Resources.Load<Texture2D>("UI/Background2/Chapter_16");
-        mapImage.texture = mapTexture; 
+        Texture mapTexture = TextureHelper.LoadTexture2DCached("UI/Background2/Chapter_14");
+        mapImage.texture = mapTexture;
         RawImage rankImage = transform.Find("GroupBackground/RankImage").GetComponent<RawImage>();
-        Texture rankTexture = Resources.Load<Texture2D>($"UI/Rank_Research/{AppConstants.Archive.ARCHIVE_VI}");
-        rankImage.texture = rankTexture; 
+        Texture rankTexture = TextureHelper.LoadTexture2DCached($"UI/Rank_Research/{AppConstants.Archive.ARCHIVE_VI}");
+        rankImage.texture = rankTexture;
         RawImage background = transform.Find("Background").GetComponent<RawImage>();
         background.texture = TextureHelper.LoadTexture2DCached(ImageConstants.Archive.ARCHIVE_VI_BACKGROUND_URL);
 
         AnimationController.Instance.CreateArchiveAnimation(currentObject);
         Archives archive = await ArchivesService.Create().GetArchiveByIdAsync(featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserArchives userArchive = await UserArchivesService.Create().GetUserArchivesAsync(User.CurrentUserId, featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userArchive.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -261,14 +262,13 @@ public class ArchiveVIManager : MonoBehaviour
 
         int currentLevel = userArchive?.Level ?? 0;
         levelText.text = currentLevel.ToString();
-
         async Task RefreshPanelAsync()
         {
-            userArchive = await UserArchivesService.Create().GetUserArchivesAsync(User.CurrentUserId, featureId);
+            userArchive = await UserArchivesService.Create().GetUserArchivesAsync(User.CurrentUserId,featureId);
             currentLevel = userArchive?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userArchive.Level, User.CurrentUserId);
             if (refreshedRecipeItems == null)
                 return;
 
@@ -290,6 +290,7 @@ public class ArchiveVIManager : MonoBehaviour
                 SetupArchiveItemUI(itemGO, refreshedRecipeItems[i]);
             }
         }
+
 
         // Popup that allows upgrading multiple levels (wired to UpgradeLevelButton)
         void CreatePopupUpgradePanelAsync()
@@ -315,6 +316,8 @@ public class ArchiveVIManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
             int popupCurrentLevel = currentLevel;
             int maxLevel = archive != null ? archive.MaxLevel : popupCurrentLevel;
@@ -322,6 +325,12 @@ public class ArchiveVIManager : MonoBehaviour
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            if (userArchive != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userArchive, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userArchive, nextStatsContent);
+            }
 
             quantitySlider.minValue = 1;
             quantitySlider.maxValue = Mathf.Max(1, maxPossible);
@@ -353,6 +362,10 @@ public class ArchiveVIManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = true;
                     itemUsedQuantityText.text = "0";
+
+                    if (userArchive != null)
+                        StatsManager.Instance.CreateStatsManager(userArchive, nextStatsContent);
+
                     return;
                 }
 
@@ -369,11 +382,23 @@ public class ArchiveVIManager : MonoBehaviour
                     confirmButton.interactable = false;
                     nextLevelText.text = preview.TargetLevel.ToString();
                     itemUsedQuantityText.text = "0";
+                    // userItemQuantityText.text = "0";
                     return;
                 }
 
                 nextLevelText.text = preview.TargetLevel.ToString();
                 confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserArchives previewArchive = userArchive.CloneUserArchive(userArchive);
+                    EnhanceHelper.EnhanceArchives(previewArchive, preview.UpgradedLevels, archive.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewArchive, nextStatsContent);
+                }
+                else if (userArchive != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userArchive, nextStatsContent);
+                }
 
                 bool hasEnough = true;
                 if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)
@@ -398,6 +423,7 @@ public class ArchiveVIManager : MonoBehaviour
                     }
 
                     itemUsedQuantityText.text = requiredQty.ToString();
+                    // userItemQuantityText.text = owned.ToString();
 
                     if (owned < requiredQty)
                     {
@@ -407,10 +433,17 @@ public class ArchiveVIManager : MonoBehaviour
                     Texture tex = null;
                     if (!string.IsNullOrEmpty(imagePath))
                         tex = TextureHelper.LoadTexture2DCached(ImageHelper.RemoveImageExtension(imagePath));
+
+                    if (tex != null)
+                    {
+                        // itemUsedImage.texture = tex;
+                        // userItemImage.texture = tex;
+                    }
                 }
                 else
                 {
                     itemUsedQuantityText.text = "0";
+                    // userItemQuantityText.text = "0";
                 }
 
                 if (preview.UpgradedLevels > 0 && hasEnough)

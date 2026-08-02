@@ -60,6 +60,8 @@ public class StarController : MonoBehaviour
         Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
         Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
         Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+        Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+        Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
         int currentStar = stat.Star;
         int targetStar = currentStar;
@@ -142,6 +144,58 @@ public class StarController : MonoBehaviour
             return (int)Math.Ceiling(total);
         }
 
+        T CreatePreviewStat(T source, int starDelta)
+        {
+            if (source == null)
+                return default;
+
+            T preview = (T)Activator.CreateInstance(typeof(T));
+
+            foreach (var property in typeof(T).GetProperties())
+            {
+                if (!property.CanRead || !property.CanWrite || property.GetIndexParameters().Length > 0)
+                    continue;
+
+                try
+                {
+                    property.SetValue(preview, property.GetValue(source));
+                }
+                catch
+                {
+                    // Ignore properties that cannot be copied safely.
+                }
+            }
+
+            if (starDelta <= 0)
+                return preview;
+
+            var helperType = typeof(EnhanceHelper);
+            var methods = helperType.GetMethods();
+
+            foreach (var method in methods)
+            {
+                if (!method.Name.StartsWith("Enhance", StringComparison.Ordinal) || method.GetParameters().Length < 2)
+                    continue;
+
+                var parameters = method.GetParameters();
+                if (!parameters[0].ParameterType.IsAssignableFrom(typeof(T)) || parameters[1].ParameterType != typeof(int))
+                    continue;
+
+                try
+                {
+                    object result = method.Invoke(null, new object[] { preview, starDelta, 1.0 });
+                    if (result is T enhancedResult)
+                        return enhancedResult;
+                }
+                catch
+                {
+                    // Ignore incompatible helpers.
+                }
+            }
+
+            return preview;
+        }
+
         void RefreshUI()
         {
             TextureHelper.SetupStars(currentStarTransform, currentStar);
@@ -150,6 +204,17 @@ public class StarController : MonoBehaviour
             usedQuantityText.text = NumberFormatterHelper.FormatNumber(currentMaterialCount, true);
             quantitySlider.SetValueWithoutNotify(
                 currentMaterialCount);
+
+            if (currentStatsContent != null)
+            {
+                StatsManager.Instance.CreateStatsManager(stat, currentStatsContent);
+            }
+
+            if (nextStatsContent != null)
+            {
+                T previewStat = CreatePreviewStat(stat, Math.Max(0, targetStar - currentStar));
+                StatsManager.Instance.CreateStatsManager(previewStat, nextStatsContent);
+            }
 
             if (currentStar >= maxStar)
             {

@@ -233,7 +233,7 @@ public class UserService : IUserService
             }
 
             // 2. Load thông tin phụ
-            await LoadUserAdditionalDataAsync(user);
+            // await LoadUserAdditionalDataAsync(user);
 
             return new AuthResult
             {
