@@ -3,34 +3,38 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Newtonsoft.Json; // Đảm bảo đã import Newtonsoft.Json
+
 public class StarController : MonoBehaviour
 {
     public static StarController Instance { get; private set; }
     private Transform MainPanel;
     public GameObject StarPanelPrefab;
     private GameObject CurrentPanel;
+
     private void Awake()
     {
-        // Ensure there's only one instance of PanelManager
         if (Instance == null)
         {
             Instance = this;
-            // DontDestroyOnLoad(gameObject); // Keep this object across scenes
         }
         else
         {
-            Destroy(gameObject); // Destroy duplicate instances
+            Destroy(gameObject);
         }
     }
+
     void Start()
     {
         Initialize();
     }
+
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         StarPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Progression.STAR_PANEL_PREFAB);
     }
+
     public void CreateStarPanel<T>(T stat, int maxStar, Func<int, double> starRule, Predicate<T> statFilter = null) where T : IStats
     {
         if (statFilter != null && !statFilter(stat))
@@ -68,14 +72,10 @@ public class StarController : MonoBehaviour
 
         int currentMaterialCount = 0;
 
-        string texturePath =
-            ImageHelper.RemoveImageExtension("UI/Icon/storage");
+        string texturePath = ImageHelper.RemoveImageExtension("UI/Icon/storage");
 
-        userItemImage.texture =
-            TextureHelper.LoadTexture2DCached(texturePath);
-
-        usedItemImage.texture =
-            TextureHelper.LoadTexture2DCached(texturePath);
+        userItemImage.texture = TextureHelper.LoadTexture2DCached(texturePath);
+        usedItemImage.texture = TextureHelper.LoadTexture2DCached(texturePath);
 
         quantitySlider.minValue = 0;
         quantitySlider.maxValue = (float)stat.Quantity;
@@ -83,13 +83,11 @@ public class StarController : MonoBehaviour
         #region Local Functions
         void SetNotification(string translationKey, Color color, params object[] args)
         {
-            string translatedValue =
-                LocalizationManager.Get(translationKey);
+            string translatedValue = LocalizationManager.Get(translationKey);
 
             if (args != null && args.Length > 0)
             {
-                translatedValue =
-                    string.Format(translatedValue, args);
+                translatedValue = string.Format(translatedValue, args);
             }
 
             notificationText.text = translatedValue;
@@ -111,13 +109,11 @@ public class StarController : MonoBehaviour
         void CalculateStarFromMaterials(long materials)
         {
             double remain = materials;
-
             int tempStar = currentStar;
 
             while (tempStar < maxStar)
             {
-                double required =
-                    starRule(tempStar);
+                double required = starRule(tempStar);
 
                 if (required <= 0)
                     break;
@@ -149,48 +145,47 @@ public class StarController : MonoBehaviour
             if (source == null)
                 return default;
 
-            T preview = (T)Activator.CreateInstance(typeof(T));
-
-            foreach (var property in typeof(T).GetProperties())
-            {
-                if (!property.CanRead || !property.CanWrite || property.GetIndexParameters().Length > 0)
-                    continue;
-
-                try
-                {
-                    property.SetValue(preview, property.GetValue(source));
-                }
-                catch
-                {
-                    // Ignore properties that cannot be copied safely.
-                }
-            }
+            // Deep clone bằng JSON để bảo đảm BaseStats gốc của stat không bao giờ bị thay đổi
+            string json = JsonConvert.SerializeObject(source);
+            T preview = JsonConvert.DeserializeObject<T>(json);
 
             if (starDelta <= 0)
                 return preview;
 
-            var helperType = typeof(EnhanceHelper);
-            var methods = helperType.GetMethods();
-
-            foreach (var method in methods)
+            try
             {
-                if (!method.Name.StartsWith("Enhance", StringComparison.Ordinal) || method.GetParameters().Length < 2)
-                    continue;
-
-                var parameters = method.GetParameters();
-                if (!parameters[0].ParameterType.IsAssignableFrom(typeof(T)) || parameters[1].ParameterType != typeof(int))
-                    continue;
-
-                try
+                // Cập nhật thuộc tính Star mới cho preview
+                var starProperty = typeof(T).GetProperty(nameof(IStats.Star));
+                if (starProperty != null && starProperty.CanWrite)
                 {
-                    object result = method.Invoke(null, new object[] { preview, starDelta, 1.0 });
-                    if (result is T enhancedResult)
-                        return enhancedResult;
+                    int currentStarValue = (int)starProperty.GetValue(source);
+                    starProperty.SetValue(preview, Math.Max(1, currentStarValue + starDelta));
                 }
-                catch
+
+                // Cập nhật Star cho BaseStats (nếu BaseStats chứa thuộc tính Star)
+                var baseStatsProp = typeof(T).GetProperty("BaseStats");
+                if (baseStatsProp != null)
                 {
-                    // Ignore incompatible helpers.
+                    var baseStatsObj = baseStatsProp.GetValue(preview);
+                    if (baseStatsObj != null)
+                    {
+                        var baseStarProp = baseStatsObj.GetType().GetProperty("Star");
+                        if (baseStarProp != null && baseStarProp.CanWrite)
+                        {
+                            int currentStarValue = (int)starProperty.GetValue(source);
+                            baseStarProp.SetValue(baseStatsObj, Math.Max(1, currentStarValue + starDelta));
+                        }
+                    }
                 }
+
+                // Tính toán lại sức mạnh theo Star mới
+                QualityEvaluatorHelper.GetQualityPower(preview);
+                LevelEvaluatorHelper.GetLevelPower(preview);
+                StarEvaluatorHelper.GetStarPower(preview);
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"Lỗi tính toán chỉ số Star Preview: {ex.Message}");
             }
 
             return preview;
@@ -202,18 +197,30 @@ public class StarController : MonoBehaviour
             TextureHelper.SetupStars(nextStarTransform, targetStar);
             userQuantityText.text = NumberFormatterHelper.FormatNumber(stat.Quantity, true);
             usedQuantityText.text = NumberFormatterHelper.FormatNumber(currentMaterialCount, true);
-            quantitySlider.SetValueWithoutNotify(
-                currentMaterialCount);
+            quantitySlider.SetValueWithoutNotify(currentMaterialCount);
 
+            // 1. currentStatsContent: Lấy thuộc tính stat gốc
             if (currentStatsContent != null)
             {
                 StatsManager.Instance.CreateStatsManager(stat, currentStatsContent);
             }
 
+            // 2. nextStatsContent: Lấy thuộc tính từ BaseStats của previewStat
             if (nextStatsContent != null)
             {
                 T previewStat = CreatePreviewStat(stat, Math.Max(0, targetStar - currentStar));
-                StatsManager.Instance.CreateStatsManager(previewStat, nextStatsContent);
+
+                var baseStatsProperty = typeof(T).GetProperty("BaseStats");
+                object previewBaseStats = baseStatsProperty?.GetValue(previewStat);
+
+                if (previewBaseStats != null)
+                {
+                    StatsManager.Instance.CreateStatsManager((IStats)previewBaseStats, nextStatsContent);
+                }
+                else
+                {
+                    StatsManager.Instance.CreateStatsManager(previewStat, nextStatsContent);
+                }
             }
 
             if (currentStar >= maxStar)
@@ -228,7 +235,6 @@ public class StarController : MonoBehaviour
             }
 
             double required = starRule(currentStar);
-
             double progress = Math.Min(currentMaterialCount, required);
 
             progressionSlider.minValue = 0;
@@ -259,50 +265,33 @@ public class StarController : MonoBehaviour
         {
             currentMaterialCount += amount;
 
-            currentMaterialCount =
-                Math.Max(
-                    0,
-                    Math.Min(
-                        currentMaterialCount,
-                        stat.Quantity));
+            currentMaterialCount = Math.Max(0, Math.Min(currentMaterialCount, stat.Quantity));
 
-            CalculateStarFromMaterials(
-                currentMaterialCount);
-
+            CalculateStarFromMaterials(currentMaterialCount);
             RefreshUI();
         }
 
         void SetMaxMaterialCount()
         {
-            int maxNeed =
-                CalculateMaxMaterialsNeeded();
+            int maxNeed = CalculateMaxMaterialsNeeded();
 
-            currentMaterialCount =
-                Math.Min(
-                    maxNeed,
-                    stat.Quantity);
+            currentMaterialCount = Math.Min(maxNeed, stat.Quantity);
 
-            CalculateStarFromMaterials(
-                currentMaterialCount);
-
+            CalculateStarFromMaterials(currentMaterialCount);
             RefreshUI();
         }
         #endregion
 
         quantitySlider.onValueChanged.AddListener(value =>
         {
-            currentMaterialCount =
-                (int)Math.Round(value);
+            currentMaterialCount = (int)Math.Round(value);
 
-            CalculateStarFromMaterials(
-                currentMaterialCount);
-
+            CalculateStarFromMaterials(currentMaterialCount);
             RefreshUI();
         });
 
         CalculateStarFromMaterials(0);
         RefreshUI();
-
 
         async Task ExecuteServiceInsertAsync()
         {
@@ -560,6 +549,7 @@ public class StarController : MonoBehaviour
                 throw;
             }
         }
+
         #region Button Events listeners
         increaseOneButton.onClick.AddListener(() =>
         {
@@ -611,19 +601,13 @@ public class StarController : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
             if (currentMaterialCount <= 0)
             {
-                SetNotification(
-                    MessageConstants.PLEASE_SELECT_QUANTITY,
-                    Color.red);
-
+                SetNotification(MessageConstants.PLEASE_SELECT_QUANTITY, Color.red);
                 return;
             }
 
             if (currentMaterialCount > stat.Quantity)
             {
-                SetNotification(
-                    MessageConstants.NOT_ENOUGH_MATERIALS,
-                    Color.red);
-
+                SetNotification(MessageConstants.NOT_ENOUGH_MATERIALS, Color.red);
                 return;
             }
 
@@ -637,9 +621,7 @@ public class StarController : MonoBehaviour
 
                 await ExecuteServiceInsertAsync();
 
-                SetNotification(
-                    MessageConstants.UPGRADE_SUCCESS,
-                    Color.green);
+                SetNotification(MessageConstants.UPGRADE_SUCCESS, Color.green);
 
                 await Task.Delay(500);
 
@@ -650,10 +632,7 @@ public class StarController : MonoBehaviour
                 confirmButton.interactable = true;
                 closeButton.interactable = true;
 
-                SetNotification(
-                    MessageConstants.UPGRADE_FAILED,
-                    Color.red,
-                    ex.Message);
+                SetNotification(MessageConstants.UPGRADE_FAILED, Color.red, ex.Message);
             }
         }));
         #endregion

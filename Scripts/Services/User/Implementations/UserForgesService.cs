@@ -25,6 +25,12 @@ public class UserForgesService : IUserForgesService
     public async Task<List<Forges>> GetUserForgesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Forges> list = await _userForgesRepository.GetUserForgesAsync(userId, search, type, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserForgesService : IUserForgesService
     public async Task<Forges> GetUserForgeByIdAsync(string userId, string Id)
     {
         var result = await _userForgesRepository.GetUserForgeByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

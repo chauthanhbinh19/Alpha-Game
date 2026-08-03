@@ -24,6 +24,7 @@ public class CollaborationEquipments : BaseEntity, IPowerSortable, IStats
     public double PercentAllMentalAttack { get; set; }
     public double PercentAllMentalDefense { get; set; }
     public Currencies Currency { get; set; }
+    public BaseStats BaseStats { get; set; } = new BaseStats();
     double IPowerSortable.Power => Power;
     public CollaborationEquipments()
     {

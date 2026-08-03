@@ -26,7 +26,7 @@ public class UserEquipmentsService : IUserEquipmentsService
     {
         foreach (var c in EquipmentsList)
         {
-            Rank rank = await UserEquipmentsRankService.Create().GetSumUserEquipmentsRankAsync(userId, c.Id);
+            UserRanks rank = await UserEquipmentsRankService.Create().GetSumUserEquipmentsRankAsync(userId, c.Id);
             c.Health = c.Health + rank.Health + c.BaseStats.Health * rank.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + c.BaseStats.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + c.BaseStats.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
@@ -89,6 +89,12 @@ public class UserEquipmentsService : IUserEquipmentsService
     public async Task<List<Equipments>> GetUserEquipmentsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserEquipmentsAsync(userId, search, type, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -99,6 +105,12 @@ public class UserEquipmentsService : IUserEquipmentsService
     public async Task<List<Equipments>> GetUserAllEquipmentsAsync(string userId)
     {
         List<Equipments> list = await _userEquipmentsRepository.GetUserAllEquipmentsAsync(userId);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+        
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -114,6 +126,8 @@ public class UserEquipmentsService : IUserEquipmentsService
     public async Task<Equipments> GetUserEquipmentsByIdAsync(string userId, string Id)
     {
         var result = await _userEquipmentsRepository.GetUserEquipmentsByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

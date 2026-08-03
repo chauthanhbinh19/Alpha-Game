@@ -25,6 +25,12 @@ public class UserMechaBeastsService : IUserMechaBeastsService
     public async Task<List<MechaBeasts>> GetUserMechaBeastsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<MechaBeasts> list = await _userMechaBeastsRepository.GetUserMechaBeastsAsync(userId, search, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserMechaBeastsService : IUserMechaBeastsService
     public async Task<MechaBeasts> GetUserMechaBeastByIdAsync(string userId, string Id)
     {
         var result = await _userMechaBeastsRepository.GetUserMechaBeastByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

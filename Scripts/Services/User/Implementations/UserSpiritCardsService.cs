@@ -25,6 +25,12 @@ public class UserSpiritCardsService : IUserSpiritCardsService
     public async Task<List<SpiritCards>> GetUserSpiritCardAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<SpiritCards> list = await _userSpiritCardsRepository.GetUserSpiritCardsAsync(userId, search, type, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserSpiritCardsService : IUserSpiritCardsService
     public async Task<SpiritCards> GetUserSpiritCardByIdAsync(string userId, string Id)
     {
         var result = await _userSpiritCardsRepository.GetUserSpiritCardByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

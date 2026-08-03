@@ -25,6 +25,12 @@ public class UserSymbolsService : IUserSymbolsService
     public async Task<List<Symbols>> GetUserSymbolsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Symbols> list = await _userSymbolsRepository.GetUserSymbolsAsync(userId, search, type, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserSymbolsService : IUserSymbolsService
     public async Task<Symbols> GetUserSymbolByIdAsync(string userId, string Id)
     {
         var result = await _userSymbolsRepository.GetUserSymbolByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

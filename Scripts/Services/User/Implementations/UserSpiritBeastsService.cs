@@ -25,6 +25,12 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
     public async Task<List<SpiritBeasts>> GetUserSpiritBeastsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<SpiritBeasts> list = await _userSpiritBeastsRepository.GetUserSpiritBeastsAsync(userId, search, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -223,6 +229,8 @@ public class UserSpiritBeastsService : IUserSpiritBeastsService
     public async Task<SpiritBeasts> GetUserSpiritBeastByIdAsync(string userId, string Id)
     {
         var result = await _userSpiritBeastsRepository.GetUserSpiritBeastByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

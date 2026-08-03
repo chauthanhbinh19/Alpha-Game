@@ -25,6 +25,12 @@ public class UserFashionsService : IUserFashionsService
     public async Task<List<Fashions>> GetUserFashionsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Fashions> list = await _userFashionsRepository.GetUserFashionsAsync(userId, search, type, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserFashionsService : IUserFashionsService
     public async Task<Fashions> GetUserFashionByIdAsync(string userId, string Id)
     {
         var result = await _userFashionsRepository.GetUserFashionByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

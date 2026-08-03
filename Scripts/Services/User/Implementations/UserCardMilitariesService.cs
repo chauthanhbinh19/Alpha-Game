@@ -111,7 +111,7 @@ public class UserCardMilitariesService : IUserCardMilitariesService
     {
         foreach (var c in CardMilitaryList)
         {
-            Rank rank = await UserCardMilitariesRankService.Create().GetSumUserCardMilitariesRankAsync(userId, c.Id);
+            UserRanks rank = await UserCardMilitariesRankService.Create().GetSumUserCardMilitariesRankAsync(userId, c.Id);
             c.Health = c.Health + rank.Health + c.BaseStats.Health * rank.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + c.BaseStats.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + c.BaseStats.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
@@ -192,7 +192,7 @@ public class UserCardMilitariesService : IUserCardMilitariesService
     {
         foreach (var c in CardMilitaryList)
         {
-            Master master = await UserCardMilitariesMasterService.Create().GetSumUserCardMilitariesMasterAsync(userId, c.Id);
+            UserMasters master = await UserCardMilitariesMasterService.Create().GetSumUserCardMilitariesMasterAsync(userId, c.Id);
             c.Health = c.Health + master.Health + c.BaseStats.Health * master.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + master.PhysicalAttack + c.BaseStats.PhysicalAttack * master.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + master.PhysicalDefense + c.BaseStats.PhysicalDefense * master.PercentAllPhysicalDefense / 100;
@@ -313,6 +313,10 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         totalBuffs.AddBuff(context.HisnData);
         totalBuffs.AddBuff(context.AnimeStatsData);
 
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
         // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
@@ -639,6 +643,10 @@ public class UserCardMilitariesService : IUserCardMilitariesService
         totalBuffs.AddBuff(context.HisnData);
         totalBuffs.AddBuff(context.AnimeStatsData);
 
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
         // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);

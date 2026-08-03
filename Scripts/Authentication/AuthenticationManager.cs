@@ -75,7 +75,7 @@ public class AuthenticationManager : MonoBehaviour
             startButton.onClick.AddListener(async () =>
             {
                 AudioManager.Instance?.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-                await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
+                // await PowerManagerService.Create().UpdateUserStatsAsync(User.CurrentUserId);
                 MainMenuManager.Instance.CreateMainPanel();
                 MainMenuManager.Instance.CreateMainPanelUserInformation(authResult);
                 FindFirstObjectByType<LoadingSystem>()?.Loading(waitingPanel, rootPanel);

@@ -25,6 +25,12 @@ public class UserRunesService : IUserRunesService
     public async Task<List<Runes>> GetUserRunesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Runes> list = await _userRunesRepository.GetUserRunesAsync(userId, search, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserRunesService : IUserRunesService
     public async Task<Runes> GetUserRuneByIdAsync(string userId, string Id)
     {
         var result = await _userRunesRepository.GetUserRuneByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

@@ -25,6 +25,12 @@ public class UserVehiclesService : IUserVehiclesService
     public async Task<List<Vehicles>> GetUserVehiclesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Vehicles> list = await _userVehiclesRepository.GetUserVehiclesAsync(userId, search, type, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserVehiclesService : IUserVehiclesService
     public async Task<Vehicles> GetUserVehicleByIdAsync(string userId, string Id)
     {
         var result = await _userVehiclesRepository.GetUserVehicleByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

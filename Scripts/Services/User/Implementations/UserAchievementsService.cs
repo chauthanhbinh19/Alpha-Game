@@ -28,6 +28,12 @@ public class UserAchievementsService : IUserAchievementsService
     public async Task<List<Achievements>> GetUserAchievementsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Achievements> list = await _userAchievementsRepository.GetUserAchievementsAsync(userId, search, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -206,6 +212,8 @@ public class UserAchievementsService : IUserAchievementsService
     public async Task<Achievements> GetUserAchievementByIdAsync(string userId, string Id)
     {
         var result = await _userAchievementsRepository.GetUserAchievementByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

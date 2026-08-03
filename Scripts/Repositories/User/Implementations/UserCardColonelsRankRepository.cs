@@ -6,9 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserCardColonelsRankRepository : IUserCardColonelsRankRepository
 {
-    public async Task<Rank> GetUserCardColonelRankAsync(string userId, string id, string cardId)
+    public async Task<UserRanks> GetUserCardColonelRankAsync(string userId, string id, string cardId)
     {
-        Rank rank = new Rank();
+        UserRanks userRank = new UserRanks();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -33,69 +33,69 @@ public class UserCardColonelsRankRepository : IUserCardColonelsRankRepository
                     {
                         if (await reader.ReadAsync())
                         {
-                            rank.Id = reader.GetStringSafe("rank_id");
-                            rank.Level = reader.GetIntSafe("rank_level");
-                            rank.Power = reader.GetDoubleSafe("power");
-                            rank.Health = reader.GetDoubleSafe("health");
-                            rank.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
-                            rank.PhysicalDefense = reader.GetDoubleSafe("physical_defense");
-                            rank.MagicalAttack = reader.GetDoubleSafe("magical_attack");
-                            rank.MagicalDefense = reader.GetDoubleSafe("magical_defense");
-                            rank.ChemicalAttack = reader.GetDoubleSafe("chemical_attack");
-                            rank.ChemicalDefense = reader.GetDoubleSafe("chemical_defense");
-                            rank.AtomicAttack = reader.GetDoubleSafe("atomic_attack");
-                            rank.AtomicDefense = reader.GetDoubleSafe("atomic_defense");
-                            rank.MentalAttack = reader.GetDoubleSafe("mental_attack");
-                            rank.MentalDefense = reader.GetDoubleSafe("mental_defense");
-                            rank.Speed = reader.GetDoubleSafe("speed");
-                            rank.CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate");
-                            rank.CriticalRate = reader.GetDoubleSafe("critical_rate");
-                            rank.CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate");
-                            rank.IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate");
-                            rank.PenetrationRate = reader.GetDoubleSafe("penetration_rate");
-                            rank.PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate");
-                            rank.EvasionRate = reader.GetDoubleSafe("evasion_rate");
-                            rank.DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate");
-                            rank.IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate");
-                            rank.AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate");
-                            rank.VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate");
-                            rank.VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate");
-                            rank.AccuracyRate = reader.GetDoubleSafe("accuracy_rate");
-                            rank.LifestealRate = reader.GetDoubleSafe("lifesteal_rate");
-                            rank.ShieldStrength = reader.GetDoubleSafe("shield_strength");
-                            rank.Tenacity = reader.GetDoubleSafe("tenacity");
-                            rank.ResistanceRate = reader.GetDoubleSafe("resistance_rate");
-                            rank.ComboRate = reader.GetDoubleSafe("combo_rate");
-                            rank.IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate");
-                            rank.ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate");
-                            rank.ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate");
-                            rank.StunRate = reader.GetDoubleSafe("stun_rate");
-                            rank.IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate");
-                            rank.ReflectionRate = reader.GetDoubleSafe("reflection_rate");
-                            rank.IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate");
-                            rank.ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate");
-                            rank.ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate");
-                            rank.Mana = reader.GetDoubleSafe("mana");
-                            rank.ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate");
-                            rank.DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate");
-                            rank.ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate");
-                            rank.DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate");
-                            rank.ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate");
-                            rank.NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate");
-                            rank.NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate");
-                            rank.SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate");
-                            rank.SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate");
-                            rank.PercentAllHealth = reader.GetDoubleSafe("percent_all_health");
-                            rank.PercentAllPhysicalAttack = reader.GetDoubleSafe("percent_all_physical_attack");
-                            rank.PercentAllPhysicalDefense = reader.GetDoubleSafe("percent_all_physical_defense");
-                            rank.PercentAllMagicalAttack = reader.GetDoubleSafe("percent_all_magical_attack");
-                            rank.PercentAllMagicalDefense = reader.GetDoubleSafe("percent_all_magical_defense");
-                            rank.PercentAllChemicalAttack = reader.GetDoubleSafe("percent_all_chemical_attack");
-                            rank.PercentAllChemicalDefense = reader.GetDoubleSafe("percent_all_chemical_defense");
-                            rank.PercentAllAtomicAttack = reader.GetDoubleSafe("percent_all_atomic_attack");
-                            rank.PercentAllAtomicDefense = reader.GetDoubleSafe("percent_all_atomic_defense");
-                            rank.PercentAllMentalAttack = reader.GetDoubleSafe("percent_all_mental_attack");
-                            rank.PercentAllMentalDefense = reader.GetDoubleSafe("percent_all_mental_defense");
+                            userRank.Id = reader.GetStringSafe("rank_id");
+                            userRank.Level = reader.GetIntSafe("rank_level");
+                            userRank.Power = reader.GetDoubleSafe("power");
+                            userRank.Health = reader.GetDoubleSafe("health");
+                            userRank.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
+                            userRank.PhysicalDefense = reader.GetDoubleSafe("physical_defense");
+                            userRank.MagicalAttack = reader.GetDoubleSafe("magical_attack");
+                            userRank.MagicalDefense = reader.GetDoubleSafe("magical_defense");
+                            userRank.ChemicalAttack = reader.GetDoubleSafe("chemical_attack");
+                            userRank.ChemicalDefense = reader.GetDoubleSafe("chemical_defense");
+                            userRank.AtomicAttack = reader.GetDoubleSafe("atomic_attack");
+                            userRank.AtomicDefense = reader.GetDoubleSafe("atomic_defense");
+                            userRank.MentalAttack = reader.GetDoubleSafe("mental_attack");
+                            userRank.MentalDefense = reader.GetDoubleSafe("mental_defense");
+                            userRank.Speed = reader.GetDoubleSafe("speed");
+                            userRank.CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate");
+                            userRank.CriticalRate = reader.GetDoubleSafe("critical_rate");
+                            userRank.CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate");
+                            userRank.IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate");
+                            userRank.PenetrationRate = reader.GetDoubleSafe("penetration_rate");
+                            userRank.PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate");
+                            userRank.EvasionRate = reader.GetDoubleSafe("evasion_rate");
+                            userRank.DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate");
+                            userRank.IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate");
+                            userRank.AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate");
+                            userRank.VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate");
+                            userRank.VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate");
+                            userRank.AccuracyRate = reader.GetDoubleSafe("accuracy_rate");
+                            userRank.LifestealRate = reader.GetDoubleSafe("lifesteal_rate");
+                            userRank.ShieldStrength = reader.GetDoubleSafe("shield_strength");
+                            userRank.Tenacity = reader.GetDoubleSafe("tenacity");
+                            userRank.ResistanceRate = reader.GetDoubleSafe("resistance_rate");
+                            userRank.ComboRate = reader.GetDoubleSafe("combo_rate");
+                            userRank.IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate");
+                            userRank.ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate");
+                            userRank.ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate");
+                            userRank.StunRate = reader.GetDoubleSafe("stun_rate");
+                            userRank.IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate");
+                            userRank.ReflectionRate = reader.GetDoubleSafe("reflection_rate");
+                            userRank.IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate");
+                            userRank.ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate");
+                            userRank.ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate");
+                            userRank.Mana = reader.GetDoubleSafe("mana");
+                            userRank.ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate");
+                            userRank.DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate");
+                            userRank.ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate");
+                            userRank.DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate");
+                            userRank.ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate");
+                            userRank.NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate");
+                            userRank.NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate");
+                            userRank.SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate");
+                            userRank.SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate");
+                            userRank.PercentAllHealth = reader.GetDoubleSafe("percent_all_health");
+                            userRank.PercentAllPhysicalAttack = reader.GetDoubleSafe("percent_all_physical_attack");
+                            userRank.PercentAllPhysicalDefense = reader.GetDoubleSafe("percent_all_physical_defense");
+                            userRank.PercentAllMagicalAttack = reader.GetDoubleSafe("percent_all_magical_attack");
+                            userRank.PercentAllMagicalDefense = reader.GetDoubleSafe("percent_all_magical_defense");
+                            userRank.PercentAllChemicalAttack = reader.GetDoubleSafe("percent_all_chemical_attack");
+                            userRank.PercentAllChemicalDefense = reader.GetDoubleSafe("percent_all_chemical_defense");
+                            userRank.PercentAllAtomicAttack = reader.GetDoubleSafe("percent_all_atomic_attack");
+                            userRank.PercentAllAtomicDefense = reader.GetDoubleSafe("percent_all_atomic_defense");
+                            userRank.PercentAllMentalAttack = reader.GetDoubleSafe("percent_all_mental_attack");
+                            userRank.PercentAllMentalDefense = reader.GetDoubleSafe("percent_all_mental_defense");
                         }
                     }
                 }
@@ -110,7 +110,7 @@ public class UserCardColonelsRankRepository : IUserCardColonelsRankRepository
             }
         }
 
-        return rank;
+        return userRank;
     }
     public async Task InsertOrUpdateUserCardColonelRankAsync(string userId, UserRanks userRank, string cardId)
     {
@@ -389,9 +389,9 @@ public class UserCardColonelsRankRepository : IUserCardColonelsRankRepository
             }
         }
     }
-    public async Task<Rank> GetSumUserCardColonelsRankAsync(string userId, string cardId)
+    public async Task<UserRanks> GetSumUserCardColonelsRankAsync(string userId, string cardId)
     {
-        Rank rank = new Rank();
+        UserRanks userRank = new UserRanks();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -475,67 +475,67 @@ public class UserCardColonelsRankRepository : IUserCardColonelsRankRepository
                     {
                         if (await reader.ReadAsync())
                         {
-                            rank.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDoubleSafe("total_power");
-                            rank.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDoubleSafe("total_health");
-                            rank.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDoubleSafe("total_mana");
-                            rank.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDoubleSafe("total_physical_attack");
-                            rank.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDoubleSafe("total_physical_defense");
-                            rank.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDoubleSafe("total_magical_attack");
-                            rank.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDoubleSafe("total_magical_defense");
-                            rank.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_chemical_attack");
-                            rank.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_chemical_defense");
-                            rank.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_atomic_attack");
-                            rank.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_atomic_defense");
-                            rank.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDoubleSafe("total_mental_attack");
-                            rank.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDoubleSafe("total_mental_defense");
-                            rank.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDoubleSafe("total_speed");
-                            rank.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDoubleSafe("total_critical_damage_rate");
-                            rank.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDoubleSafe("total_critical_rate");
-                            rank.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_critical_resistance_rate");
-                            rank.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_critical_rate");
-                            rank.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_rate");
-                            rank.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_resistance_rate");
-                            rank.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDoubleSafe("total_evasion_rate");
-                            rank.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_damage_absorption_rate");
-                            rank.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_damage_absorption_rate");
-                            rank.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDoubleSafe("total_absorbed_damage_rate");
-                            rank.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_rate");
-                            rank.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_resistance_rate");
-                            rank.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDoubleSafe("total_accuracy_rate");
-                            rank.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDoubleSafe("total_lifesteal_rate");
-                            rank.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDoubleSafe("total_shield_strength");
-                            rank.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDoubleSafe("total_tenacity");
-                            rank.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_rate");
-                            rank.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDoubleSafe("total_combo_rate");
-                            rank.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_combo_rate");
-                            rank.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDoubleSafe("total_combo_damage_rate");
-                            rank.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_combo_resistance_rate");
-                            rank.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDoubleSafe("total_stun_rate");
-                            rank.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_stun_rate");
-                            rank.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_rate");
-                            rank.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_reflection_rate");
-                            rank.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_damage_rate");
-                            rank.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_resistance_rate");
-                            rank.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_mana_regeneration_rate");
-                            rank.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_different_faction_rate");
-                            rank.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_different_faction_rate");
-                            rank.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_same_faction_rate");
-                            rank.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_same_faction_rate");
-                            rank.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDoubleSafe("total_normal_damage_rate");
-                            rank.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_normal_resistance_rate");
-                            rank.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDoubleSafe("total_skill_damage_rate");
-                            rank.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_skill_resistance_rate");
-                            rank.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDoubleSafe("percent_all_health");
-                            rank.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_physical_attack");
-                            rank.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_physical_defense");
-                            rank.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_magical_attack");
-                            rank.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_magical_defense");
-                            rank.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_attack");
-                            rank.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_defense");
-                            rank.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_attack");
-                            rank.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_defense");
-                            rank.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDoubleSafe("percent_all_mental_attack");
-                            rank.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDoubleSafe("percent_all_mental_defense");
+                            userRank.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDoubleSafe("total_power");
+                            userRank.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDoubleSafe("total_health");
+                            userRank.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDoubleSafe("total_mana");
+                            userRank.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDoubleSafe("total_physical_attack");
+                            userRank.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDoubleSafe("total_physical_defense");
+                            userRank.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDoubleSafe("total_magical_attack");
+                            userRank.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDoubleSafe("total_magical_defense");
+                            userRank.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_chemical_attack");
+                            userRank.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_chemical_defense");
+                            userRank.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_atomic_attack");
+                            userRank.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_atomic_defense");
+                            userRank.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDoubleSafe("total_mental_attack");
+                            userRank.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDoubleSafe("total_mental_defense");
+                            userRank.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDoubleSafe("total_speed");
+                            userRank.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDoubleSafe("total_critical_damage_rate");
+                            userRank.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDoubleSafe("total_critical_rate");
+                            userRank.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_critical_resistance_rate");
+                            userRank.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_critical_rate");
+                            userRank.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_rate");
+                            userRank.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_resistance_rate");
+                            userRank.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDoubleSafe("total_evasion_rate");
+                            userRank.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_damage_absorption_rate");
+                            userRank.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_damage_absorption_rate");
+                            userRank.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDoubleSafe("total_absorbed_damage_rate");
+                            userRank.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_rate");
+                            userRank.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_resistance_rate");
+                            userRank.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDoubleSafe("total_accuracy_rate");
+                            userRank.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDoubleSafe("total_lifesteal_rate");
+                            userRank.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDoubleSafe("total_shield_strength");
+                            userRank.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDoubleSafe("total_tenacity");
+                            userRank.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_rate");
+                            userRank.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDoubleSafe("total_combo_rate");
+                            userRank.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_combo_rate");
+                            userRank.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDoubleSafe("total_combo_damage_rate");
+                            userRank.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_combo_resistance_rate");
+                            userRank.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDoubleSafe("total_stun_rate");
+                            userRank.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_stun_rate");
+                            userRank.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_rate");
+                            userRank.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_reflection_rate");
+                            userRank.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_damage_rate");
+                            userRank.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_resistance_rate");
+                            userRank.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_mana_regeneration_rate");
+                            userRank.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_different_faction_rate");
+                            userRank.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_different_faction_rate");
+                            userRank.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_same_faction_rate");
+                            userRank.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_same_faction_rate");
+                            userRank.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDoubleSafe("total_normal_damage_rate");
+                            userRank.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_normal_resistance_rate");
+                            userRank.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDoubleSafe("total_skill_damage_rate");
+                            userRank.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_skill_resistance_rate");
+                            userRank.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDoubleSafe("percent_all_health");
+                            userRank.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_physical_attack");
+                            userRank.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_physical_defense");
+                            userRank.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_magical_attack");
+                            userRank.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_magical_defense");
+                            userRank.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_attack");
+                            userRank.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_defense");
+                            userRank.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_attack");
+                            userRank.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_defense");
+                            userRank.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDoubleSafe("percent_all_mental_attack");
+                            userRank.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDoubleSafe("percent_all_mental_defense");
                         }
                     }
                 }
@@ -550,6 +550,6 @@ public class UserCardColonelsRankRepository : IUserCardColonelsRankRepository
             }
         }
 
-        return rank;
+        return userRank;
     }
 }

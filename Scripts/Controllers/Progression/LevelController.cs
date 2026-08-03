@@ -187,48 +187,45 @@ public class LevelController : MonoBehaviour
             if (source == null)
                 return default;
 
-            T preview = (T)Activator.CreateInstance(typeof(T));
+            // Deep clone bằng JSON để tạo bản sao độc lập hoàn toàn (bao gồm cả BaseStats)
+            // Giúp BaseStats gốc của `stat` không bao giờ bị thay đổi giá trị
+            string json = Newtonsoft.Json.JsonConvert.SerializeObject(source);
+            T preview = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
 
-            foreach (var property in typeof(T).GetProperties())
+            // Cập nhật cấp độ mới cho preview
+            try
             {
-                if (!property.CanRead || !property.CanWrite || property.GetIndexParameters().Length > 0)
-                    continue;
+                var levelProperty = typeof(T).GetProperty(nameof(IStats.Level));
+                if (levelProperty != null && levelProperty.CanWrite)
+                {
+                    int currentLvl = (int)levelProperty.GetValue(source);
+                    levelProperty.SetValue(preview, Math.Max(1, currentLvl + levelDelta));
+                }
 
-                try
+                // Nếu BaseStats cũng chứa thuộc tính Level riêng
+                var baseStatsProp = typeof(T).GetProperty("BaseStats");
+                if (baseStatsProp != null)
                 {
-                    property.SetValue(preview, property.GetValue(source));
+                    var baseStatsObj = baseStatsProp.GetValue(preview);
+                    if (baseStatsObj != null)
+                    {
+                        var baseLevelProp = baseStatsObj.GetType().GetProperty("Level");
+                        if (baseLevelProp != null && baseLevelProp.CanWrite)
+                        {
+                            int currentLvl = (int)levelProperty.GetValue(source);
+                            baseLevelProp.SetValue(baseStatsObj, Math.Max(1, currentLvl + levelDelta));
+                        }
+                    }
                 }
-                catch
-                {
-                    // Ignore properties that cannot be copied safely.
-                }
+
+                // Chạy lại các helper để tính toán chỉ số dựa trên Level mới
+                QualityEvaluatorHelper.GetQualityPower(preview);
+                LevelEvaluatorHelper.GetLevelPower(preview);
+                StarEvaluatorHelper.GetStarPower(preview);
             }
-
-            if (levelDelta <= 0)
-                return preview;
-
-            var helperType = typeof(EnhanceHelper);
-            var methods = helperType.GetMethods();
-
-            foreach (var method in methods)
+            catch (Exception ex)
             {
-                if (!method.Name.StartsWith("Enhance", StringComparison.Ordinal) || method.GetParameters().Length < 2)
-                    continue;
-
-                var parameters = method.GetParameters();
-                if (!parameters[0].ParameterType.IsAssignableFrom(typeof(T)) || parameters[1].ParameterType != typeof(int))
-                    continue;
-
-                try
-                {
-                    object result = method.Invoke(null, new object[] { preview, levelDelta, 1.0 });
-                    if (result is T enhancedResult)
-                        return enhancedResult;
-                }
-                catch
-                {
-                    // Try the next matching helper if one is not compatible.
-                }
+                Debug.LogWarning($"Lỗi tính toán chỉ số Preview: {ex.Message}");
             }
 
             return preview;
@@ -241,6 +238,7 @@ public class LevelController : MonoBehaviour
             userItemQuantityText.text = NumberFormatterHelper.FormatNumber(itemExp.Quantity, true);
             itemUsedQuantityText.text = NumberFormatterHelper.FormatNumber(currentMaterialCount, true);
             quantitySlider.SetValueWithoutNotify(currentMaterialCount);
+
             if (targetLevel >= maxLevel)
             {
                 progressionSlider.value = 1f;
@@ -248,59 +246,60 @@ public class LevelController : MonoBehaviour
             }
             else
             {
-                double requiredExp =
-                    expRule(targetLevel);
-
+                double requiredExp = expRule(targetLevel);
                 if (requiredExp <= 0)
                     requiredExp = 1;
 
-                progressionSlider.value =
-                    (float)(targetExp / requiredExp);
-
-                experienceText.text =
-                    $"{targetExp:N0}/{requiredExp:N0}";
+                progressionSlider.value = (float)(targetExp / requiredExp);
+                experienceText.text = $"{targetExp:N0}/{requiredExp:N0}";
             }
 
+            // 1. CurrentStatsContent: Lấy trực tiếp thuộc tính stat gốc
             if (currentStatsContent != null)
             {
                 StatsManager.Instance.CreateStatsManager(stat, currentStatsContent);
             }
 
+            // 2. NextStatsContent: Lấy thuộc tính từ BaseStats của previewStat
             if (nextStatsContent != null)
             {
                 T previewStat = CreatePreviewStat(stat, Math.Max(0, targetLevel - currentLevel));
-                StatsManager.Instance.CreateStatsManager(previewStat, nextStatsContent);
+
+                // Lấy thuộc tính BaseStats từ previewStat vừa được tính toán lại
+                var baseStatsProperty = typeof(T).GetProperty("BaseStats");
+                object previewBaseStats = baseStatsProperty?.GetValue(previewStat);
+
+                if (previewBaseStats != null)
+                {
+                    // Truyền BaseStats của previewStat vào StatsManager
+                    StatsManager.Instance.CreateStatsManager((IStats)previewBaseStats, nextStatsContent);
+                }
+                else
+                {
+                    // Trường hợp đối tượng không có BaseStats thì fallback dùng previewStat
+                    StatsManager.Instance.CreateStatsManager(previewStat, nextStatsContent);
+                }
             }
 
+            // --- Cập nhật trạng thái thông báo và nút bấm ---
             if (currentMaterialCount <= 0)
             {
-                itemUsedQuantityText.color =
-                    Color.white;
-
-                SetNotification(
-                    MessageConstants.PLEASE_SELECT_QUANTITY,
-                    Color.yellow);
+                itemUsedQuantityText.color = Color.white;
+                SetNotification(MessageConstants.PLEASE_SELECT_QUANTITY, Color.yellow);
                 SetConfirmButtonState(false);
             }
             else
             {
-                itemUsedQuantityText.color =
-                    Color.white;
+                itemUsedQuantityText.color = Color.white;
 
                 if (targetLevel >= maxLevel)
                 {
-                    SetNotification(
-                        MessageConstants.MAX_LEVEL_REACHED,
-                        Color.green,
-                        maxLevel);
+                    SetNotification(MessageConstants.MAX_LEVEL_REACHED, Color.green, maxLevel);
                     SetConfirmButtonState(false, true);
                 }
                 else
                 {
-                    SetNotification(
-                        MessageConstants.READY_TO_UPGRADE,
-                        Color.green,
-                        targetLevel);
+                    SetNotification(MessageConstants.READY_TO_UPGRADE, Color.green, targetLevel);
                     SetConfirmButtonState(true);
                 }
             }

@@ -13,7 +13,7 @@ public class UserPetsMasterService : IUserPetsMasterService
 
     public static IUserPetsMasterService Create() => ServiceContainer.GetService<IUserPetsMasterService>();
 
-    public async Task<Master> GetUserPetMasterAsync(string userId, string id, string cardId)
+    public async Task<UserMasters> GetUserPetMasterAsync(string userId, string id, string cardId)
     {
         return await _userPetsMasterRepository.GetUserPetMasterAsync(userId, id, cardId);
     }
@@ -23,7 +23,7 @@ public class UserPetsMasterService : IUserPetsMasterService
         await _userPetsMasterRepository.InsertOrUpdateUserPetMasterAsync(userId, userMaster, cardId);
     }
 
-    public async Task<Master> GetSumUserPetsMasterAsync(string userId, string cardId)
+    public async Task<UserMasters> GetSumUserPetsMasterAsync(string userId, string cardId)
     {
         return await _userPetsMasterRepository.GetSumUserPetsMasterAsync(userId, cardId); ;
     }

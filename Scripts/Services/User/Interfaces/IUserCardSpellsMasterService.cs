@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 public interface IUserCardSpellsMasterService
 {
-    Task<Master> GetUserCardSpellMasterAsync(string userId, string id, string cardId);
+    Task<UserMasters> GetUserCardSpellMasterAsync(string userId, string id, string cardId);
     Task InsertOrUpdateUserCardSpellMasterAsync(string userId, UserMasters userMaster, string cardId);
-    Task<Master> GetSumUserCardSpellsMasterAsync(string userId, string cardId);
+    Task<UserMasters> GetSumUserCardSpellsMasterAsync(string userId, string cardId);
 }

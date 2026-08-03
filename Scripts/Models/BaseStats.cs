@@ -2,8 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseStats
+public class BaseStats : IStats
 {
+    public string Id { get; set; } = string.Empty;
+    public string CodeName { get; set; } = string.Empty;
+    public string AvailabilityType { get; set; } = string.Empty;
+    public int Star { get; set; } = 0;
+    public int CurrentStar { get; set; } = 0;
+    public int Level { get; set; } = 0;
+    public double Experience { get; set; } = 0;
+    public double Quality { get; set; } = 0;
+    public int Quantity { get; set; } = 0;
     public double Power { get; set; } = 0;
     public double Health { get; set; } = 0;
     public double PhysicalAttack { get; set; } = 0;
@@ -54,7 +63,41 @@ public class BaseStats
     public double NormalResistanceRate { get; set; } = 0;
     public double SkillDamageRate { get; set; } = 0;
     public double SkillResistanceRate { get; set; } = 0;
-    public BaseStats(){
+    public double PercentAllHealth { get; set; } = 0;
+    public double PercentAllPhysicalAttack { get; set; } = 0;
+    public double PercentAllPhysicalDefense { get; set; } = 0;
+    public double PercentAllMagicalAttack { get; set; } = 0;
+    public double PercentAllMagicalDefense { get; set; } = 0;
+    public double PercentAllChemicalAttack { get; set; } = 0;
+    public double PercentAllChemicalDefense { get; set; } = 0;
+    public double PercentAllAtomicAttack { get; set; } = 0;
+    public double PercentAllAtomicDefense { get; set; } = 0;
+    public double PercentAllMentalAttack { get; set; } = 0;
+    public double PercentAllMentalDefense { get; set; } = 0;
 
+    public BaseStats()
+    {
+    }
+
+    public BaseStats(IStats source)
+    {
+        if (source == null)
+            return;
+
+        foreach (var property in typeof(IStats).GetProperties())
+        {
+            var targetProperty = GetType().GetProperty(property.Name);
+            if (targetProperty == null || !targetProperty.CanWrite)
+                continue;
+
+            try
+            {
+                targetProperty.SetValue(this, property.GetValue(source));
+            }
+            catch
+            {
+                // Ignore properties that cannot be copied safely.
+            }
+        }
     }
 }

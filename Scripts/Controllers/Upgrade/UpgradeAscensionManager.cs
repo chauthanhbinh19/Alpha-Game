@@ -266,7 +266,7 @@ public class UpgradeAscensionManager : MonoBehaviour
 
                 if (preview.UpgradedLevels > 0)
                 {
-                    UserUpgrades previewUpgrade = CloneUserUpgrade(userUpgrade);
+                    UserUpgrades previewUpgrade = userUpgrade.CloneUserUpgrade(userUpgrade);
                     if (previewUpgrade != null)
                     {
                         EnhanceHelper.EnhanceUpgrades(previewUpgrade, preview.UpgradedLevels, upgrade?.BaseMultiplier ?? 1);
@@ -380,14 +380,6 @@ public class UpgradeAscensionManager : MonoBehaviour
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             CreatePopupUpgradePanel();
         });
-    }
-
-    private UserUpgrades CloneUserUpgrade(UserUpgrades source)
-    {
-        if (source == null)
-            return null;
-
-        return (UserUpgrades)source.MemberwiseClone();
     }
 
     private void SetupUpgradeItemUI(GameObject itemGO, RecipeItemDto data)

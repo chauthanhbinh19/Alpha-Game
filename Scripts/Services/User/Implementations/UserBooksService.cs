@@ -107,7 +107,7 @@ public class UserBooksService : IUserBooksService
     {
         foreach (var c in BooksList)
         {
-            Rank rank = await UserBooksRankService.Create().GetSumUserBooksRankAsync(userId, c.Id);
+            UserRanks rank = await UserBooksRankService.Create().GetSumUserBooksRankAsync(userId, c.Id);
             c.Health = c.Health + rank.Health + c.BaseStats.Health * rank.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + rank.PhysicalAttack + c.BaseStats.PhysicalAttack * rank.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + rank.PhysicalDefense + c.BaseStats.PhysicalDefense * rank.PercentAllPhysicalDefense / 100;
@@ -188,7 +188,7 @@ public class UserBooksService : IUserBooksService
     {
         foreach (var c in BooksList)
         {
-            Master master = await UserBooksMasterService.Create().GetSumUserBooksMasterAsync(userId, c.Id);
+            UserMasters master = await UserBooksMasterService.Create().GetSumUserBooksMasterAsync(userId, c.Id);
             c.Health = c.Health + master.Health + c.BaseStats.Health * master.PercentAllHealth / 100;
             c.PhysicalAttack = c.PhysicalAttack + master.PhysicalAttack + c.BaseStats.PhysicalAttack * master.PercentAllPhysicalAttack / 100;
             c.PhysicalDefense = c.PhysicalDefense + master.PhysicalDefense + c.BaseStats.PhysicalDefense * master.PercentAllPhysicalDefense / 100;
@@ -307,6 +307,11 @@ public class UserBooksService : IUserBooksService
         var hicbData = await hicbTask;
         var hisnData = await hisnTask;
         var animeStatsData = await animeStatsTask;
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
 
         // list = await GetAllSpiritBeastPowerAsync(userId, list);
         list = QualityEvaluatorHelper.GetQualityPower(list);
@@ -517,6 +522,8 @@ public class UserBooksService : IUserBooksService
     public async Task<Books> GetUserBookByIdAsync(string userId, string Id)
     {
         var result =  await _userBooksRepository.GetUserBookByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

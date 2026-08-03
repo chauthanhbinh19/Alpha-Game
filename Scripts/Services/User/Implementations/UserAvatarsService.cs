@@ -25,6 +25,12 @@ public class UserAvatarsService : IUserAvatarsService
     public async Task<List<Avatars>> GetUserAvatarsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Avatars> list = await _userAvatarsRepository.GetUserAvatarsAsync(userId, search, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -209,7 +215,14 @@ public class UserAvatarsService : IUserAvatarsService
 
     public async Task<Avatars> GetUserAvatarByUsedAsync(string userId)
     {
-        return await _userAvatarsRepository.GetUserAvatarByUsedAsync(userId);
+        var result = await _userAvatarsRepository.GetUserAvatarByUsedAsync(userId);
+
+        result.BaseStats = new BaseStats(result);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+        return result;
     }
 
     public async Task UpdateIsUsedUserAvatarAsync(string avatarId, string userId, bool is_used)

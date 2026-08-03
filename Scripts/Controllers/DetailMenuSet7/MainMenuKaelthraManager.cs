@@ -236,8 +236,8 @@ public class MainMenuKaelthraManager : MonoBehaviour
 
         AnimationController.Instance.CreateRankAnimation(currentObject);
         Ranks rank = await RanksService.Create().GetRankByIdAsync(featureId);
-        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
         UserRanks userRank = await UserRanksService.Create().GetUserRanksAsync(User.CurrentUserId, featureId);
+        List<RecipeItemDto> recipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userRank.Level, User.CurrentUserId);
 
         if (recipeItems == null || recipeItems.Count == 0)
             return;
@@ -271,7 +271,7 @@ public class MainMenuKaelthraManager : MonoBehaviour
             currentLevel = userRank?.Level ?? 0;
             levelText.text = currentLevel.ToString();
 
-            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, User.CurrentUserLevel, User.CurrentUserId);
+            List<RecipeItemDto> refreshedRecipeItems = await RecipeService.Create().GetRecipeItemsAsync(featureName, userRank.Level, User.CurrentUserId);
             if (refreshedRecipeItems == null)
                 return;
 
@@ -319,6 +319,8 @@ public class MainMenuKaelthraManager : MonoBehaviour
             Button decreaseMaxButton = panelTransform.Find("DecreaseMaxButton").GetComponent<Button>();
             Button confirmButton = panelTransform.Find("ConfirmButton").GetComponent<Button>();
             Button closeButton = panelTransform.Find("CloseButton").GetComponent<Button>();
+            Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
+            Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
             int popupCurrentLevel = currentLevel;
             int maxLevel = rank != null ? rank.MaxLevel : popupCurrentLevel;
@@ -326,6 +328,12 @@ public class MainMenuKaelthraManager : MonoBehaviour
 
             currentLevelText.text = popupCurrentLevel.ToString();
             nextLevelText.text = (popupCurrentLevel + 1).ToString();
+
+            if (userRank != null)
+            {
+                StatsManager.Instance.CreateStatsManager(userRank, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userRank, nextStatsContent);
+            }
 
             quantitySlider.minValue = 1;
             quantitySlider.maxValue = Mathf.Max(1, maxPossible);
@@ -357,6 +365,10 @@ public class MainMenuKaelthraManager : MonoBehaviour
                     nextLevelText.text = "MAX";
                     confirmButton.interactable = true;
                     itemUsedQuantityText.text = "0";
+
+                    if (userRank != null)
+                        StatsManager.Instance.CreateStatsManager(userRank, nextStatsContent);
+
                     return;
                 }
 
@@ -379,6 +391,17 @@ public class MainMenuKaelthraManager : MonoBehaviour
 
                 nextLevelText.text = preview.TargetLevel.ToString();
                 confirmButton.interactable = preview.UpgradedLevels > 0;
+
+                if (preview.UpgradedLevels > 0)
+                {
+                    UserRanks previewRank = userRank.CloneUserRank(userRank);
+                    EnhanceHelper.EnhanceRanks(previewRank, preview.UpgradedLevels, rank.BaseMultiplier);
+                    StatsManager.Instance.CreateStatsManager(previewRank, nextStatsContent);
+                }
+                else if (userRank != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(userRank, nextStatsContent);
+                }
 
                 bool hasEnough = true;
                 if (preview.RequiredItems != null && preview.RequiredItems.Count > 0)

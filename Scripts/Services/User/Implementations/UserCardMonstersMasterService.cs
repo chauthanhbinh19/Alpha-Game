@@ -11,7 +11,7 @@ public class UserCardMonstersMasterService : IUserCardMonstersMasterService
 
     public static IUserCardMonstersMasterService Create() => ServiceContainer.GetService<IUserCardMonstersMasterService>();
 
-    public async Task<Master> GetUserCardMonsterMasterAsync(string userId, string id, string cardId)
+    public async Task<UserMasters> GetUserCardMonsterMasterAsync(string userId, string id, string cardId)
     {
         return await _userCardMonstersMasterRepository.GetUserCardMonsterMasterAsync(userId, id, cardId);
     }
@@ -21,7 +21,7 @@ public class UserCardMonstersMasterService : IUserCardMonstersMasterService
         await _userCardMonstersMasterRepository.InsertOrUpdateUserCardMonsterMasterAsync(userId, userMaster, cardId);
     }
 
-    public async Task<Master> GetSumUserCardMonstersMasterAsync(string userId, string cardId)
+    public async Task<UserMasters> GetSumUserCardMonstersMasterAsync(string userId, string cardId)
     {
         return await _userCardMonstersMasterRepository.GetSumUserCardMonstersMasterAsync(userId, cardId);
     }

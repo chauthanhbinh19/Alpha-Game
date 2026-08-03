@@ -25,6 +25,12 @@ public class UserTitlesService : IUserTitlesService
     public async Task<List<Titles>> GetUserTitlesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Titles> list = await _userTitlesRepository.GetUserTitlesAsync(userId, search, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserTitlesService : IUserTitlesService
     public async Task<Titles> GetUserTitleByIdAsync(string userId, string Id)
     {
         var result = await _userTitlesRepository.GetUserTitleByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

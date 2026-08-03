@@ -25,6 +25,12 @@ public class UserCollaborationsService : IUserCollaborationsService
     public async Task<List<Collaborations>> GetUserCollaborationsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Collaborations> list = await _userCollaborationsRepository.GetUserCollaborationsAsync(userId, search, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserCollaborationsService : IUserCollaborationsService
     public async Task<Collaborations> GetUserCollaborationByIdAsync(string userId, string Id)
     {
         var result = await _userCollaborationsRepository.GetUserCollaborationByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

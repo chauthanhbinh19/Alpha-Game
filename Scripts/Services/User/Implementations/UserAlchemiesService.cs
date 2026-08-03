@@ -26,6 +26,12 @@ public class UserAlchemiesService : IUserAlchemiesService
     public async Task<List<Alchemies>> GetUserAlchemiesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Alchemies> list = await _userAlchemiesRepository.GetUserAlchemiesAsync(userId, search, type, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -204,6 +210,8 @@ public class UserAlchemiesService : IUserAlchemiesService
     public async Task<Alchemies> GetUserAlchemyByIdAsync(string userId, string Id)
     {
         var result = await _userAlchemiesRepository.GetUserAlchemyByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

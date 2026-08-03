@@ -25,6 +25,12 @@ public class UserRelicsService : IUserRelicsService
     public async Task<List<Relics>> GetUserRelicsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Relics> list = await _userRelicsRepository.GetUserRelicsAsync(userId, search, type, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserRelicsService : IUserRelicsService
     public async Task<Relics> GetUserRelicByIdAsync(string userId, string Id)
     {
         var result = await _userRelicsRepository.GetUserRelicByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

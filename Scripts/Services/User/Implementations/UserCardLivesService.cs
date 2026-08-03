@@ -25,6 +25,12 @@ public class UserCardLivesService : IUserCardLivesService
     public async Task<List<CardLives>> GetUserCardLivesAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<CardLives> list = await _userCardLivesRepository.GetUserCardLivesAsync(userId, search, type, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserCardLivesService : IUserCardLivesService
     public async Task<CardLives> GetUserCardLifeByIdAsync(string userId, string Id)
     {
         var result = await _userCardLivesRepository.GetUserCardLifeByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

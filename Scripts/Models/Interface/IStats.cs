@@ -73,4 +73,6 @@ public interface IStats
     public double PercentAllAtomicDefense { get; set; }
     public double PercentAllMentalAttack { get; set; }
     public double PercentAllMentalDefense { get; set; }
+
+    public string StatType => GetType().Name;
 }

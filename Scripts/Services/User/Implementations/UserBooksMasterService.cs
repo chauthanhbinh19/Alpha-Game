@@ -11,7 +11,7 @@ public class UserBooksMasterService : IUserBooksMasterService
 
     public static IUserBooksMasterService Create() => ServiceContainer.GetService<IUserBooksMasterService>();
 
-    public async Task<Master> GetUserBookMasterAsync(string userId, string id, string cardId)
+    public async Task<UserMasters> GetUserBookMasterAsync(string userId, string id, string cardId)
     {
         return await _userBooksMasterRepository.GetUserBookMasterAsync(userId, id, cardId);
     }
@@ -21,7 +21,7 @@ public class UserBooksMasterService : IUserBooksMasterService
         await _userBooksMasterRepository.InsertOrUpdateUserBookMasterAsync(userId, userMaster, cardId);
     }
 
-    public async Task<Master> GetSumUserBooksMasterAsync(string userId, string cardId)
+    public async Task<UserMasters> GetSumUserBooksMasterAsync(string userId, string cardId)
     {
         return await _userBooksMasterRepository.GetSumUserBooksMasterAsync(userId, cardId);
     }

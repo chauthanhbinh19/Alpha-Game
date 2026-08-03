@@ -13,7 +13,7 @@ public class UserPetsRankService : IUserPetsRankService
 
     public static IUserPetsRankService Create() => ServiceContainer.GetService<IUserPetsRankService>();
 
-    public async Task<Rank> GetUserPetRankAsync(string userId, string id, string cardId)
+    public async Task<UserRanks> GetUserPetRankAsync(string userId, string id, string cardId)
     {
         return await _userPetsRankRepository.GetUserPetRankAsync(userId, id, cardId);
     }
@@ -23,7 +23,7 @@ public class UserPetsRankService : IUserPetsRankService
         await _userPetsRankRepository.InsertOrUpdateUserPetRankAsync(userId, userRank, cardId);
     }
 
-    public async Task<Rank> GetSumUserPetsRankAsync(string userId, string cardId)
+    public async Task<UserRanks> GetSumUserPetsRankAsync(string userId, string cardId)
     {
         return await _userPetsRankRepository.GetSumUserPetsRankAsync(userId, cardId); ;
     }

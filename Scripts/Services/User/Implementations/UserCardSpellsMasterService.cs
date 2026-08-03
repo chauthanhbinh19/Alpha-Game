@@ -11,7 +11,7 @@ public class UserCardSpellsMasterService : IUserCardSpellsMasterService
 
     public static IUserCardSpellsMasterService Create() => ServiceContainer.GetService<IUserCardSpellsMasterService>();
 
-    public async Task<Master> GetUserCardSpellMasterAsync(string userId, string id, string cardId)
+    public async Task<UserMasters> GetUserCardSpellMasterAsync(string userId, string id, string cardId)
     {
         return await _userCardSpellsMasterRepository.GetUserCardSpellMasterAsync(userId, id, cardId);
     }
@@ -21,7 +21,7 @@ public class UserCardSpellsMasterService : IUserCardSpellsMasterService
         await _userCardSpellsMasterRepository.InsertOrUpdateUserCardSpellMasterAsync(userId, userMaster, cardId);
     }
 
-    public async Task<Master> GetSumUserCardSpellsMasterAsync(string userId, string cardId)
+    public async Task<UserMasters> GetSumUserCardSpellsMasterAsync(string userId, string cardId)
     {
         return await _userCardSpellsMasterRepository.GetSumUserCardSpellsMasterAsync(userId, cardId);
     }

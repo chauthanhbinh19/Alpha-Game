@@ -483,7 +483,7 @@ public static class EnhanceHelper
         userAnime.Level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
         return userAnime;
     }
-    public static Rank EnhanceRank(Rank rank, int level, int multiplier = 1)
+    public static UserRanks EnhanceRank(UserRanks rank, int level, int multiplier = 1)
     {
         int startLevel = rank.Level;
         int endLevel = startLevel + level;

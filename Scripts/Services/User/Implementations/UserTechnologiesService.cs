@@ -25,6 +25,12 @@ public class UserTechnologiesService : IUserTechnologiesService
     public async Task<List<Technologies>> GetUserTechnologiesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Technologies> list = await _userTechnologiesRepository.GetUserTechnologiesAsync(userId, search, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserTechnologiesService : IUserTechnologiesService
     public async Task<Technologies> GetUserTechnologyByIdAsync(string userId, string Id)
     {
         var result = await _userTechnologiesRepository.GetUserTechnologyByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

@@ -11,7 +11,7 @@ public class UserBooksRankService : IUserBooksRankService
 
     public static IUserBooksRankService Create() => ServiceContainer.GetService<IUserBooksRankService>();
 
-    public async Task<Rank> GetUserBookRankAsync(string userId, string id, string cardId)
+    public async Task<UserRanks> GetUserBookRankAsync(string userId, string id, string cardId)
     {
         return await _userBooksRankRepository.GetUserBookRankAsync(userId, id, cardId);
     }
@@ -21,7 +21,7 @@ public class UserBooksRankService : IUserBooksRankService
         await _userBooksRankRepository.InsertOrUpdateUserBookRankAsync(userId, userRank, cardId);
     }
 
-    public async Task<Rank> GetSumUserBooksRankAsync(string userId, string cardId)
+    public async Task<UserRanks> GetSumUserBooksRankAsync(string userId, string cardId)
     {
         return await _userBooksRankRepository.GetSumUserBooksRankAsync(userId, cardId);
     }

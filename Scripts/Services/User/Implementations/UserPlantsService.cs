@@ -25,6 +25,12 @@ public class UserPlantsService : IUserPlantsService
     public async Task<List<Plants>> GetUserPlantsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Plants> list = await _userPlantsRepository.GetUserPlantsAsync(userId, search, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserPlantsService : IUserPlantsService
     public async Task<Plants> GetUserPlantByIdAsync(string userId, string Id)
     {
         var result = await _userPlantsRepository.GetUserPlantByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

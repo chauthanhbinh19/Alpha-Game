@@ -25,6 +25,12 @@ public class UserArchitecturesService : IUserArchitecturesService
     public async Task<List<Architectures>> GetUserArchitecturesAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Architectures> list = await _userArchitecturesRepository.GetUserArchitecturesAsync(userId, search, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserArchitecturesService : IUserArchitecturesService
     public async Task<Architectures> GetUserArchitectureByIdAsync(string userId, string Id)
     {
         var result = await _userArchitecturesRepository.GetUserArchitectureByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

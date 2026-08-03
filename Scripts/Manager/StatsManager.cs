@@ -55,11 +55,6 @@ public class StatsManager : MonoBehaviour
         if (stat == null || contentTransform == null)
             return;
 
-        for (int i = contentTransform.childCount - 1; i >= 0; i--)
-        {
-            Destroy(contentTransform.GetChild(i).gameObject);
-        }
-
         // Truyền contentTransform thay vì root transform
         SetupStat(contentTransform, "Power", AppConstants.StatFields.POWER, AppDisplayConstants.StatFieldsShort.POWER, stat.Power);
         SetupStat(contentTransform, "Health", AppConstants.StatFields.HEALTH, AppDisplayConstants.StatFieldsShort.HEALTH, stat.Health);

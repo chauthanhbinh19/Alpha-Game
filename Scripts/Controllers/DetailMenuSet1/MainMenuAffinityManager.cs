@@ -132,7 +132,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     }
     public async Task CreateCardHeroesEquipmentsAsync(CardHeroes cardHero)
     {
-        Rank rank = await UserCardHeroesRankService.Create().GetUserCardHeroRankAsync(User.CurrentUserId, MainType, cardHero.Id);
+        UserRanks rank = await UserCardHeroesRankService.Create().GetUserCardHeroRankAsync(User.CurrentUserId, MainType, cardHero.Id);
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardHero.Image)}");
         MainImage.texture = texture;
         MainLevelText.text = rank.Level.ToString();
@@ -210,7 +210,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
-            Rank newRank = EnhanceRank(rank, levelsUp);
+            UserRanks newRank = EnhanceRank(rank, levelsUp);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
@@ -285,7 +285,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Cập nhật rank sau khi tính toán xong
-            Rank newRank = EnhanceRank(rank, tempLevel - rank.Level);
+            UserRanks newRank = EnhanceRank(rank, tempLevel - rank.Level);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
@@ -303,7 +303,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(book.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserBooksRankService.Create().GetUserBookRankAsync(User.CurrentUserId, MainType, book.Id);
+        UserRanks rank = await UserBooksRankService.Create().GetUserBookRankAsync(User.CurrentUserId, MainType, book.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -379,7 +379,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
-            Rank newRank = EnhanceRank(rank, levelsUp);
+            UserRanks newRank = EnhanceRank(rank, levelsUp);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
@@ -454,7 +454,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Cập nhật rank sau khi tính toán xong
-            Rank newRank = EnhanceRank(rank, tempLevel - rank.Level);
+            UserRanks newRank = EnhanceRank(rank, tempLevel - rank.Level);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
@@ -472,7 +472,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardCaptain.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardCaptainsRankService.Create().GetUserCardCaptainRankAsync(User.CurrentUserId, MainType, cardCaptain.Id);
+        UserRanks rank = await UserCardCaptainsRankService.Create().GetUserCardCaptainRankAsync(User.CurrentUserId, MainType, cardCaptain.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -548,7 +548,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
-            Rank newRank = EnhanceRank(rank, levelsUp);
+            UserRanks newRank = EnhanceRank(rank, levelsUp);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
@@ -623,7 +623,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Cập nhật rank sau khi tính toán xong
-            Rank newRank = EnhanceRank(rank, tempLevel - rank.Level);
+            UserRanks newRank = EnhanceRank(rank, tempLevel - rank.Level);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
@@ -641,7 +641,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(pet.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserPetsRankService.Create().GetUserPetRankAsync(User.CurrentUserId, MainType, pet.Id);
+        UserRanks rank = await UserPetsRankService.Create().GetUserPetRankAsync(User.CurrentUserId, MainType, pet.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -717,7 +717,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
-            Rank newRank = EnhanceRank(rank, levelsUp);
+            UserRanks newRank = EnhanceRank(rank, levelsUp);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
@@ -792,7 +792,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Cập nhật rank sau khi tính toán xong
-            Rank newRank = EnhanceRank(rank, tempLevel - rank.Level);
+            UserRanks newRank = EnhanceRank(rank, tempLevel - rank.Level);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
@@ -810,7 +810,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardMilitary.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardMilitariesRankService.Create().GetUserCardMilitaryRankAsync(User.CurrentUserId, MainType, cardMilitary.Id);
+        UserRanks rank = await UserCardMilitariesRankService.Create().GetUserCardMilitaryRankAsync(User.CurrentUserId, MainType, cardMilitary.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -886,7 +886,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
-            Rank newRank = EnhanceRank(rank, levelsUp);
+            UserRanks newRank = EnhanceRank(rank, levelsUp);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
@@ -961,7 +961,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Cập nhật rank sau khi tính toán xong
-            Rank newRank = EnhanceRank(rank, tempLevel - rank.Level);
+            UserRanks newRank = EnhanceRank(rank, tempLevel - rank.Level);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
@@ -979,7 +979,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardSpell.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardSpellsRankService.Create().GetUserCardSpellRankAsync(User.CurrentUserId, MainType, cardSpell.Id);
+        UserRanks rank = await UserCardSpellsRankService.Create().GetUserCardSpellRankAsync(User.CurrentUserId, MainType, cardSpell.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1055,7 +1055,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
-            Rank newRank = EnhanceRank(rank, levelsUp);
+            UserRanks newRank = EnhanceRank(rank, levelsUp);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
@@ -1130,7 +1130,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Cập nhật rank sau khi tính toán xong
-            Rank newRank = EnhanceRank(rank, tempLevel - rank.Level);
+            UserRanks newRank = EnhanceRank(rank, tempLevel - rank.Level);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
@@ -1148,7 +1148,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardMonster.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardMonstersRankService.Create().GetUserCardMonsterRankAsync(User.CurrentUserId, MainType, cardMonster.Id);
+        UserRanks rank = await UserCardMonstersRankService.Create().GetUserCardMonsterRankAsync(User.CurrentUserId, MainType, cardMonster.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1224,7 +1224,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
-            Rank newRank = EnhanceRank(rank, levelsUp);
+            UserRanks newRank = EnhanceRank(rank, levelsUp);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
@@ -1299,7 +1299,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Cập nhật rank sau khi tính toán xong
-            Rank newRank = EnhanceRank(rank, tempLevel - rank.Level);
+            UserRanks newRank = EnhanceRank(rank, tempLevel - rank.Level);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
@@ -1318,7 +1318,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardColonel.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardColonelsRankService.Create().GetUserCardColonelRankAsync(User.CurrentUserId, MainType, cardColonel.Id);
+        UserRanks rank = await UserCardColonelsRankService.Create().GetUserCardColonelRankAsync(User.CurrentUserId, MainType, cardColonel.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1394,7 +1394,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
-            Rank newRank = EnhanceRank(rank, levelsUp);
+            UserRanks newRank = EnhanceRank(rank, levelsUp);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
@@ -1469,7 +1469,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Cập nhật rank sau khi tính toán xong
-            Rank newRank = EnhanceRank(rank, tempLevel - rank.Level);
+            UserRanks newRank = EnhanceRank(rank, tempLevel - rank.Level);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
@@ -1487,7 +1487,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardGeneral.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardGeneralsRankService.Create().GetUserCardGeneralRankAsync(User.CurrentUserId, MainType, cardGeneral.Id);
+        UserRanks rank = await UserCardGeneralsRankService.Create().GetUserCardGeneralRankAsync(User.CurrentUserId, MainType, cardGeneral.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1563,7 +1563,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
-            Rank newRank = EnhanceRank(rank, levelsUp);
+            UserRanks newRank = EnhanceRank(rank, levelsUp);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
@@ -1638,7 +1638,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Cập nhật rank sau khi tính toán xong
-            Rank newRank = EnhanceRank(rank, tempLevel - rank.Level);
+            UserRanks newRank = EnhanceRank(rank, tempLevel - rank.Level);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
@@ -1656,7 +1656,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardAdmiral.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardAdmiralsRankService.Create().GetUserCardAdmiralRankAsync(User.CurrentUserId, MainType, cardAdmiral.Id);
+        UserRanks rank = await UserCardAdmiralsRankService.Create().GetUserCardAdmiralRankAsync(User.CurrentUserId, MainType, cardAdmiral.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1732,7 +1732,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
-            Rank newRank = EnhanceRank(rank, levelsUp);
+            UserRanks newRank = EnhanceRank(rank, levelsUp);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
@@ -1807,7 +1807,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Cập nhật rank sau khi tính toán xong
-            Rank newRank = EnhanceRank(rank, tempLevel - rank.Level);
+            UserRanks newRank = EnhanceRank(rank, tempLevel - rank.Level);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
@@ -1825,7 +1825,7 @@ public class MainMenuAffinityManager : MonoBehaviour
     {
         Texture texture = TextureHelper.LoadTextureCached($"{ImageHelper.RemoveImageExtension(cardSoldier.Image)}");
         MainImage.texture = texture;
-        Rank rank = await UserCardAdmiralsRankService.Create().GetUserCardAdmiralRankAsync(User.CurrentUserId, MainType, cardSoldier.Id);
+        UserRanks rank = await UserCardAdmiralsRankService.Create().GetUserCardAdmiralRankAsync(User.CurrentUserId, MainType, cardSoldier.Id);
         MainLevelText.text = rank.Level.ToString();
         await CreateMaterialUIAsync();
         UpLevelButton.onClick.RemoveAllListeners();
@@ -1901,7 +1901,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Gọi EnhanceRank với cấp tạm thời, không chỉnh rank.level trực tiếp
-            Rank newRank = EnhanceRank(rank, levelsUp);
+            UserRanks newRank = EnhanceRank(rank, levelsUp);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng 1 lần duy nhất
 
             // Cập nhật sức mạnh đội hình
@@ -1976,7 +1976,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             }
 
             // Cập nhật rank sau khi tính toán xong
-            Rank newRank = EnhanceRank(rank, tempLevel - rank.Level);
+            UserRanks newRank = EnhanceRank(rank, tempLevel - rank.Level);
             rank.Level = tempLevel; // Cập nhật cấp cuối cùng
 
             // Cập nhật sức mạnh đội hình
@@ -2011,7 +2011,7 @@ public class MainMenuAffinityManager : MonoBehaviour
             itemFrameImage.gameObject.SetActive(false);
         }
     }
-    public Rank EnhanceRank(Rank rank, int level)
+    public UserRanks EnhanceRank(UserRanks rank, int level)
     {
         int startLevel = rank.Level;
         int endLevel = startLevel + level;
@@ -2154,7 +2154,7 @@ public class MainMenuAffinityManager : MonoBehaviour
         rank.Level = endLevel; // Cập nhật cấp độ cuối cùng sau khi nâng cấp
         return rank;
     }
-    public async Task UpLevelAsync(object data, Rank rank, string type)
+    public async Task UpLevelAsync(object data, UserRanks rank, string type)
     {
         // if (data is CardHeroes cardHero)
         // {

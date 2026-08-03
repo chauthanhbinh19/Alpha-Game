@@ -25,6 +25,12 @@ public class UserBordersService : IUserBordersService
     public async Task<List<Borders>> GetUserBordersAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Borders> list = await _userBordersRepository.GetUserBordersAsync(userId, search, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -209,7 +215,15 @@ public class UserBordersService : IUserBordersService
 
     public async Task<Borders> GetUserBorderByUsedAsync(string userId)
     {
-        return await _userBordersRepository.GetUserBorderByUsedAsync(userId);
+        var result = await _userBordersRepository.GetUserBorderByUsedAsync(userId);
+
+        result.BaseStats = new BaseStats(result);
+
+        result = QualityEvaluatorHelper.GetQualityPower(result);
+        result = LevelEvaluatorHelper.GetLevelPower(result);
+        result = StarEvaluatorHelper.GetStarPower(result);
+
+        return result;
     }
 
     public async Task UpdateIsUsedUserBorderAsync(string borderId, string userId, bool is_used)

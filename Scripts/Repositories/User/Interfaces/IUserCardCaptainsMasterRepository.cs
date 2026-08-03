@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 public interface IUserCardCaptainsMasterRepository
 {
-    Task<Master> GetUserCardCaptainMasterAsync(string userId, string id, string cardId);
+    Task<UserMasters> GetUserCardCaptainMasterAsync(string userId, string id, string cardId);
     Task InsertOrUpdateUserCardCaptainMasterAsync(string userId, UserMasters userMaster, string cardId);
-    Task<Master> GetSumUserCardCaptainsMasterAsync(string userId, string cardId);
+    Task<UserMasters> GetSumUserCardCaptainsMasterAsync(string userId, string cardId);
 }

@@ -25,6 +25,12 @@ public class UserWeaponsService : IUserWeaponsService
     public async Task<List<Weapons>> GetUserWeaponsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Weapons> list = await _userWeaponsRepository.GetUserWeaponsAsync(userId, search, type, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserWeaponsService : IUserWeaponsService
     public async Task<Weapons> GetUserWeaponByIdAsync(string userId, string Id)
     {
         var result = await _userWeaponsRepository.GetUserWeaponByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

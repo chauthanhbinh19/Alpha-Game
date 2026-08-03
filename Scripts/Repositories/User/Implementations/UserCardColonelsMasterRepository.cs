@@ -6,9 +6,9 @@ using MySqlConnector;
 using System.Threading.Tasks;
 public class UserCardColonelsMasterRepository : IUserCardColonelsMasterRepository
 {
-    public async Task<Master> GetUserCardColonelMasterAsync(string userId, string id, string cardId)
+    public async Task<UserMasters> GetUserCardColonelMasterAsync(string userId, string id, string cardId)
     {
-        Master master = new Master();
+        UserMasters userMaster = new UserMasters();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -33,69 +33,69 @@ public class UserCardColonelsMasterRepository : IUserCardColonelsMasterRepositor
                     {
                         if (await reader.ReadAsync())
                         {
-                            master.Id = reader.GetStringSafe("master_id");
-                            master.Level = reader.GetIntSafe("Master_level");
-                            master.Power = reader.GetDoubleSafe("power");
-                            master.Health = reader.GetDoubleSafe("health");
-                            master.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
-                            master.PhysicalDefense = reader.GetDoubleSafe("physical_defense");
-                            master.MagicalAttack = reader.GetDoubleSafe("magical_attack");
-                            master.MagicalDefense = reader.GetDoubleSafe("magical_defense");
-                            master.ChemicalAttack = reader.GetDoubleSafe("chemical_attack");
-                            master.ChemicalDefense = reader.GetDoubleSafe("chemical_defense");
-                            master.AtomicAttack = reader.GetDoubleSafe("atomic_attack");
-                            master.AtomicDefense = reader.GetDoubleSafe("atomic_defense");
-                            master.MentalAttack = reader.GetDoubleSafe("mental_attack");
-                            master.MentalDefense = reader.GetDoubleSafe("mental_defense");
-                            master.Speed = reader.GetDoubleSafe("speed");
-                            master.CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate");
-                            master.CriticalRate = reader.GetDoubleSafe("critical_rate");
-                            master.CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate");
-                            master.IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate");
-                            master.PenetrationRate = reader.GetDoubleSafe("penetration_rate");
-                            master.PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate");
-                            master.EvasionRate = reader.GetDoubleSafe("evasion_rate");
-                            master.DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate");
-                            master.IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate");
-                            master.AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate");
-                            master.VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate");
-                            master.VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate");
-                            master.AccuracyRate = reader.GetDoubleSafe("accuracy_rate");
-                            master.LifestealRate = reader.GetDoubleSafe("lifesteal_rate");
-                            master.ShieldStrength = reader.GetDoubleSafe("shield_strength");
-                            master.Tenacity = reader.GetDoubleSafe("tenacity");
-                            master.ResistanceRate = reader.GetDoubleSafe("resistance_rate");
-                            master.ComboRate = reader.GetDoubleSafe("combo_rate");
-                            master.IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate");
-                            master.ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate");
-                            master.ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate");
-                            master.StunRate = reader.GetDoubleSafe("stun_rate");
-                            master.IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate");
-                            master.ReflectionRate = reader.GetDoubleSafe("reflection_rate");
-                            master.IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate");
-                            master.ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate");
-                            master.ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate");
-                            master.Mana = reader.GetDoubleSafe("mana");
-                            master.ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate");
-                            master.DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate");
-                            master.ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate");
-                            master.DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate");
-                            master.ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate");
-                            master.NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate");
-                            master.NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate");
-                            master.SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate");
-                            master.SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate");
-                            master.PercentAllHealth = reader.GetDoubleSafe("percent_all_health");
-                            master.PercentAllPhysicalAttack = reader.GetDoubleSafe("percent_all_physical_attack");
-                            master.PercentAllPhysicalDefense = reader.GetDoubleSafe("percent_all_physical_defense");
-                            master.PercentAllMagicalAttack = reader.GetDoubleSafe("percent_all_magical_attack");
-                            master.PercentAllMagicalDefense = reader.GetDoubleSafe("percent_all_magical_defense");
-                            master.PercentAllChemicalAttack = reader.GetDoubleSafe("percent_all_chemical_attack");
-                            master.PercentAllChemicalDefense = reader.GetDoubleSafe("percent_all_chemical_defense");
-                            master.PercentAllAtomicAttack = reader.GetDoubleSafe("percent_all_atomic_attack");
-                            master.PercentAllAtomicDefense = reader.GetDoubleSafe("percent_all_atomic_defense");
-                            master.PercentAllMentalAttack = reader.GetDoubleSafe("percent_all_mental_attack");
-                            master.PercentAllMentalDefense = reader.GetDoubleSafe("percent_all_mental_defense");
+                            userMaster.Id = reader.GetStringSafe("master_id");
+                            userMaster.Level = reader.GetIntSafe("Master_level");
+                            userMaster.Power = reader.GetDoubleSafe("power");
+                            userMaster.Health = reader.GetDoubleSafe("health");
+                            userMaster.PhysicalAttack = reader.GetDoubleSafe("physical_attack");
+                            userMaster.PhysicalDefense = reader.GetDoubleSafe("physical_defense");
+                            userMaster.MagicalAttack = reader.GetDoubleSafe("magical_attack");
+                            userMaster.MagicalDefense = reader.GetDoubleSafe("magical_defense");
+                            userMaster.ChemicalAttack = reader.GetDoubleSafe("chemical_attack");
+                            userMaster.ChemicalDefense = reader.GetDoubleSafe("chemical_defense");
+                            userMaster.AtomicAttack = reader.GetDoubleSafe("atomic_attack");
+                            userMaster.AtomicDefense = reader.GetDoubleSafe("atomic_defense");
+                            userMaster.MentalAttack = reader.GetDoubleSafe("mental_attack");
+                            userMaster.MentalDefense = reader.GetDoubleSafe("mental_defense");
+                            userMaster.Speed = reader.GetDoubleSafe("speed");
+                            userMaster.CriticalDamageRate = reader.GetDoubleSafe("critical_damage_rate");
+                            userMaster.CriticalRate = reader.GetDoubleSafe("critical_rate");
+                            userMaster.CriticalResistanceRate = reader.GetDoubleSafe("critical_resistance_rate");
+                            userMaster.IgnoreCriticalRate = reader.GetDoubleSafe("ignore_critical_rate");
+                            userMaster.PenetrationRate = reader.GetDoubleSafe("penetration_rate");
+                            userMaster.PenetrationResistanceRate = reader.GetDoubleSafe("penetration_resistance_rate");
+                            userMaster.EvasionRate = reader.GetDoubleSafe("evasion_rate");
+                            userMaster.DamageAbsorptionRate = reader.GetDoubleSafe("damage_absorption_rate");
+                            userMaster.IgnoreDamageAbsorptionRate = reader.GetDoubleSafe("ignore_damage_absorption_rate");
+                            userMaster.AbsorbedDamageRate = reader.GetDoubleSafe("absorbed_damage_rate");
+                            userMaster.VitalityRegenerationRate = reader.GetDoubleSafe("vitality_regeneration_rate");
+                            userMaster.VitalityRegenerationResistanceRate = reader.GetDoubleSafe("vitality_regeneration_resistance_rate");
+                            userMaster.AccuracyRate = reader.GetDoubleSafe("accuracy_rate");
+                            userMaster.LifestealRate = reader.GetDoubleSafe("lifesteal_rate");
+                            userMaster.ShieldStrength = reader.GetDoubleSafe("shield_strength");
+                            userMaster.Tenacity = reader.GetDoubleSafe("tenacity");
+                            userMaster.ResistanceRate = reader.GetDoubleSafe("resistance_rate");
+                            userMaster.ComboRate = reader.GetDoubleSafe("combo_rate");
+                            userMaster.IgnoreComboRate = reader.GetDoubleSafe("ignore_combo_rate");
+                            userMaster.ComboDamageRate = reader.GetDoubleSafe("combo_damage_rate");
+                            userMaster.ComboResistanceRate = reader.GetDoubleSafe("combo_resistance_rate");
+                            userMaster.StunRate = reader.GetDoubleSafe("stun_rate");
+                            userMaster.IgnoreStunRate = reader.GetDoubleSafe("ignore_stun_rate");
+                            userMaster.ReflectionRate = reader.GetDoubleSafe("reflection_rate");
+                            userMaster.IgnoreReflectionRate = reader.GetDoubleSafe("ignore_reflection_rate");
+                            userMaster.ReflectionDamageRate = reader.GetDoubleSafe("reflection_damage_rate");
+                            userMaster.ReflectionResistanceRate = reader.GetDoubleSafe("reflection_resistance_rate");
+                            userMaster.Mana = reader.GetDoubleSafe("mana");
+                            userMaster.ManaRegenerationRate = reader.GetDoubleSafe("mana_regeneration_rate");
+                            userMaster.DamageToDifferentFactionRate = reader.GetDoubleSafe("damage_to_different_faction_rate");
+                            userMaster.ResistanceToDifferentFactionRate = reader.GetDoubleSafe("resistance_to_different_faction_rate");
+                            userMaster.DamageToSameFactionRate = reader.GetDoubleSafe("damage_to_same_faction_rate");
+                            userMaster.ResistanceToSameFactionRate = reader.GetDoubleSafe("resistance_to_same_faction_rate");
+                            userMaster.NormalDamageRate = reader.GetDoubleSafe("normal_damage_rate");
+                            userMaster.NormalResistanceRate = reader.GetDoubleSafe("normal_resistance_rate");
+                            userMaster.SkillDamageRate = reader.GetDoubleSafe("skill_damage_rate");
+                            userMaster.SkillResistanceRate = reader.GetDoubleSafe("skill_resistance_rate");
+                            userMaster.PercentAllHealth = reader.GetDoubleSafe("percent_all_health");
+                            userMaster.PercentAllPhysicalAttack = reader.GetDoubleSafe("percent_all_physical_attack");
+                            userMaster.PercentAllPhysicalDefense = reader.GetDoubleSafe("percent_all_physical_defense");
+                            userMaster.PercentAllMagicalAttack = reader.GetDoubleSafe("percent_all_magical_attack");
+                            userMaster.PercentAllMagicalDefense = reader.GetDoubleSafe("percent_all_magical_defense");
+                            userMaster.PercentAllChemicalAttack = reader.GetDoubleSafe("percent_all_chemical_attack");
+                            userMaster.PercentAllChemicalDefense = reader.GetDoubleSafe("percent_all_chemical_defense");
+                            userMaster.PercentAllAtomicAttack = reader.GetDoubleSafe("percent_all_atomic_attack");
+                            userMaster.PercentAllAtomicDefense = reader.GetDoubleSafe("percent_all_atomic_defense");
+                            userMaster.PercentAllMentalAttack = reader.GetDoubleSafe("percent_all_mental_attack");
+                            userMaster.PercentAllMentalDefense = reader.GetDoubleSafe("percent_all_mental_defense");
                         }
                     }
                 }
@@ -110,7 +110,7 @@ public class UserCardColonelsMasterRepository : IUserCardColonelsMasterRepositor
             }
         }
 
-        return master;
+        return userMaster;
     }
     public async Task InsertOrUpdateUserCardColonelMasterAsync(string userId, UserMasters userMaster, string cardId)
     {
@@ -389,9 +389,9 @@ public class UserCardColonelsMasterRepository : IUserCardColonelsMasterRepositor
             }
         }
     }
-    public async Task<Master> GetSumUserCardColonelsMasterAsync(string userId, string cardId)
+    public async Task<UserMasters> GetSumUserCardColonelsMasterAsync(string userId, string cardId)
     {
-        Master master = new Master();
+        UserMasters userMaster = new UserMasters();
         string connectionString = DatabaseConfig.ConnectionString;
 
         await using (MySqlConnection connection = new MySqlConnection(connectionString))
@@ -475,67 +475,67 @@ public class UserCardColonelsMasterRepository : IUserCardColonelsMasterRepositor
                     {
                         if (await reader.ReadAsync())
                         {
-                            master.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDoubleSafe("total_power");
-                            master.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDoubleSafe("total_health");
-                            master.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDoubleSafe("total_mana");
-                            master.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDoubleSafe("total_physical_attack");
-                            master.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDoubleSafe("total_physical_defense");
-                            master.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDoubleSafe("total_magical_attack");
-                            master.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDoubleSafe("total_magical_defense");
-                            master.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_chemical_attack");
-                            master.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_chemical_defense");
-                            master.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_atomic_attack");
-                            master.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_atomic_defense");
-                            master.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDoubleSafe("total_mental_attack");
-                            master.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDoubleSafe("total_mental_defense");
-                            master.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDoubleSafe("total_speed");
-                            master.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDoubleSafe("total_critical_damage_rate");
-                            master.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDoubleSafe("total_critical_rate");
-                            master.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_critical_resistance_rate");
-                            master.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_critical_rate");
-                            master.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_rate");
-                            master.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_resistance_rate");
-                            master.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDoubleSafe("total_evasion_rate");
-                            master.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_damage_absorption_rate");
-                            master.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_damage_absorption_rate");
-                            master.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDoubleSafe("total_absorbed_damage_rate");
-                            master.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_rate");
-                            master.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_resistance_rate");
-                            master.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDoubleSafe("total_accuracy_rate");
-                            master.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDoubleSafe("total_lifesteal_rate");
-                            master.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDoubleSafe("total_shield_strength");
-                            master.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDoubleSafe("total_tenacity");
-                            master.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_rate");
-                            master.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDoubleSafe("total_combo_rate");
-                            master.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_combo_rate");
-                            master.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDoubleSafe("total_combo_damage_rate");
-                            master.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_combo_resistance_rate");
-                            master.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDoubleSafe("total_stun_rate");
-                            master.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_stun_rate");
-                            master.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_rate");
-                            master.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_reflection_rate");
-                            master.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_damage_rate");
-                            master.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_resistance_rate");
-                            master.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_mana_regeneration_rate");
-                            master.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_different_faction_rate");
-                            master.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_different_faction_rate");
-                            master.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_same_faction_rate");
-                            master.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_same_faction_rate");
-                            master.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDoubleSafe("total_normal_damage_rate");
-                            master.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_normal_resistance_rate");
-                            master.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDoubleSafe("total_skill_damage_rate");
-                            master.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_skill_resistance_rate");
-                            master.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDoubleSafe("percent_all_health");
-                            master.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_physical_attack");
-                            master.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_physical_defense");
-                            master.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_magical_attack");
-                            master.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_magical_defense");
-                            master.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_attack");
-                            master.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_defense");
-                            master.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_attack");
-                            master.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_defense");
-                            master.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDoubleSafe("percent_all_mental_attack");
-                            master.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDoubleSafe("percent_all_mental_defense");
+                            userMaster.Power = reader.IsDBNull(reader.GetOrdinal("total_power")) ? 0 : reader.GetDoubleSafe("total_power");
+                            userMaster.Health = reader.IsDBNull(reader.GetOrdinal("total_health")) ? 0 : reader.GetDoubleSafe("total_health");
+                            userMaster.Mana = reader.IsDBNull(reader.GetOrdinal("total_mana")) ? 0 : reader.GetDoubleSafe("total_mana");
+                            userMaster.PhysicalAttack = reader.IsDBNull(reader.GetOrdinal("total_physical_attack")) ? 0 : reader.GetDoubleSafe("total_physical_attack");
+                            userMaster.PhysicalDefense = reader.IsDBNull(reader.GetOrdinal("total_physical_defense")) ? 0 : reader.GetDoubleSafe("total_physical_defense");
+                            userMaster.MagicalAttack = reader.IsDBNull(reader.GetOrdinal("total_magical_attack")) ? 0 : reader.GetDoubleSafe("total_magical_attack");
+                            userMaster.MagicalDefense = reader.IsDBNull(reader.GetOrdinal("total_magical_defense")) ? 0 : reader.GetDoubleSafe("total_magical_defense");
+                            userMaster.ChemicalAttack = reader.IsDBNull(reader.GetOrdinal("total_chemical_attack")) ? 0 : reader.GetDoubleSafe("total_chemical_attack");
+                            userMaster.ChemicalDefense = reader.IsDBNull(reader.GetOrdinal("total_chemical_defense")) ? 0 : reader.GetDoubleSafe("total_chemical_defense");
+                            userMaster.AtomicAttack = reader.IsDBNull(reader.GetOrdinal("total_atomic_attack")) ? 0 : reader.GetDoubleSafe("total_atomic_attack");
+                            userMaster.AtomicDefense = reader.IsDBNull(reader.GetOrdinal("total_atomic_defense")) ? 0 : reader.GetDoubleSafe("total_atomic_defense");
+                            userMaster.MentalAttack = reader.IsDBNull(reader.GetOrdinal("total_mental_attack")) ? 0 : reader.GetDoubleSafe("total_mental_attack");
+                            userMaster.MentalDefense = reader.IsDBNull(reader.GetOrdinal("total_mental_defense")) ? 0 : reader.GetDoubleSafe("total_mental_defense");
+                            userMaster.Speed = reader.IsDBNull(reader.GetOrdinal("total_speed")) ? 0 : reader.GetDoubleSafe("total_speed");
+                            userMaster.CriticalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_critical_damage_rate")) ? 0 : reader.GetDoubleSafe("total_critical_damage_rate");
+                            userMaster.CriticalRate = reader.IsDBNull(reader.GetOrdinal("total_critical_rate")) ? 0 : reader.GetDoubleSafe("total_critical_rate");
+                            userMaster.CriticalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_critical_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_critical_resistance_rate");
+                            userMaster.IgnoreCriticalRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_critical_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_critical_rate");
+                            userMaster.PenetrationRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_rate");
+                            userMaster.PenetrationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_penetration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_penetration_resistance_rate");
+                            userMaster.EvasionRate = reader.IsDBNull(reader.GetOrdinal("total_evasion_rate")) ? 0 : reader.GetDoubleSafe("total_evasion_rate");
+                            userMaster.DamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_damage_absorption_rate");
+                            userMaster.IgnoreDamageAbsorptionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_damage_absorption_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_damage_absorption_rate");
+                            userMaster.AbsorbedDamageRate = reader.IsDBNull(reader.GetOrdinal("total_absorbed_damage_rate")) ? 0 : reader.GetDoubleSafe("total_absorbed_damage_rate");
+                            userMaster.VitalityRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_rate");
+                            userMaster.VitalityRegenerationResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_vitality_regeneration_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_vitality_regeneration_resistance_rate");
+                            userMaster.AccuracyRate = reader.IsDBNull(reader.GetOrdinal("total_accuracy_rate")) ? 0 : reader.GetDoubleSafe("total_accuracy_rate");
+                            userMaster.LifestealRate = reader.IsDBNull(reader.GetOrdinal("total_lifesteal_rate")) ? 0 : reader.GetDoubleSafe("total_lifesteal_rate");
+                            userMaster.ShieldStrength = reader.IsDBNull(reader.GetOrdinal("total_shield_strength")) ? 0 : reader.GetDoubleSafe("total_shield_strength");
+                            userMaster.Tenacity = reader.IsDBNull(reader.GetOrdinal("total_tenacity")) ? 0 : reader.GetDoubleSafe("total_tenacity");
+                            userMaster.ResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_rate");
+                            userMaster.ComboRate = reader.IsDBNull(reader.GetOrdinal("total_combo_rate")) ? 0 : reader.GetDoubleSafe("total_combo_rate");
+                            userMaster.IgnoreComboRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_combo_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_combo_rate");
+                            userMaster.ComboDamageRate = reader.IsDBNull(reader.GetOrdinal("total_combo_damage_rate")) ? 0 : reader.GetDoubleSafe("total_combo_damage_rate");
+                            userMaster.ComboResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_combo_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_combo_resistance_rate");
+                            userMaster.StunRate = reader.IsDBNull(reader.GetOrdinal("total_stun_rate")) ? 0 : reader.GetDoubleSafe("total_stun_rate");
+                            userMaster.IgnoreStunRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_stun_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_stun_rate");
+                            userMaster.ReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_rate");
+                            userMaster.IgnoreReflectionRate = reader.IsDBNull(reader.GetOrdinal("total_ignore_reflection_rate")) ? 0 : reader.GetDoubleSafe("total_ignore_reflection_rate");
+                            userMaster.ReflectionDamageRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_damage_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_damage_rate");
+                            userMaster.ReflectionResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_reflection_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_reflection_resistance_rate");
+                            userMaster.ManaRegenerationRate = reader.IsDBNull(reader.GetOrdinal("total_mana_regeneration_rate")) ? 0 : reader.GetDoubleSafe("total_mana_regeneration_rate");
+                            userMaster.DamageToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_different_faction_rate");
+                            userMaster.ResistanceToDifferentFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_different_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_different_faction_rate");
+                            userMaster.DamageToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_damage_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_damage_to_same_faction_rate");
+                            userMaster.ResistanceToSameFactionRate = reader.IsDBNull(reader.GetOrdinal("total_resistance_to_same_faction_rate")) ? 0 : reader.GetDoubleSafe("total_resistance_to_same_faction_rate");
+                            userMaster.NormalDamageRate = reader.IsDBNull(reader.GetOrdinal("total_normal_damage_rate")) ? 0 : reader.GetDoubleSafe("total_normal_damage_rate");
+                            userMaster.NormalResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_normal_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_normal_resistance_rate");
+                            userMaster.SkillDamageRate = reader.IsDBNull(reader.GetOrdinal("total_skill_damage_rate")) ? 0 : reader.GetDoubleSafe("total_skill_damage_rate");
+                            userMaster.SkillResistanceRate = reader.IsDBNull(reader.GetOrdinal("total_skill_resistance_rate")) ? 0 : reader.GetDoubleSafe("total_skill_resistance_rate");
+                            userMaster.PercentAllHealth = reader.IsDBNull(reader.GetOrdinal("percent_all_health")) ? 0 : reader.GetDoubleSafe("percent_all_health");
+                            userMaster.PercentAllPhysicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_physical_attack");
+                            userMaster.PercentAllPhysicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_physical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_physical_defense");
+                            userMaster.PercentAllMagicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_magical_attack");
+                            userMaster.PercentAllMagicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_magical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_magical_defense");
+                            userMaster.PercentAllChemicalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_attack")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_attack");
+                            userMaster.PercentAllChemicalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_chemical_defense")) ? 0 : reader.GetDoubleSafe("percent_all_chemical_defense");
+                            userMaster.PercentAllAtomicAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_attack")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_attack");
+                            userMaster.PercentAllAtomicDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_atomic_defense")) ? 0 : reader.GetDoubleSafe("percent_all_atomic_defense");
+                            userMaster.PercentAllMentalAttack = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_attack")) ? 0 : reader.GetDoubleSafe("percent_all_mental_attack");
+                            userMaster.PercentAllMentalDefense = reader.IsDBNull(reader.GetOrdinal("percent_all_mental_defense")) ? 0 : reader.GetDoubleSafe("percent_all_mental_defense");
                         }
                     }
                 }
@@ -550,6 +550,6 @@ public class UserCardColonelsMasterRepository : IUserCardColonelsMasterRepositor
             }
         }
 
-        return master;
+        return userMaster;
     }
 }

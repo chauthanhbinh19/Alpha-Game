@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 public interface IUserBooksRankService
 {
-    Task<Rank> GetUserBookRankAsync(string userId, string id, string cardId);
+    Task<UserRanks> GetUserBookRankAsync(string userId, string id, string cardId);
     Task InsertOrUpdateUserBookRankAsync(string userId, UserRanks userRank, string cardId);
-    Task<Rank> GetSumUserBooksRankAsync(string userId, string cardId);
+    Task<UserRanks> GetSumUserBooksRankAsync(string userId, string cardId);
 }

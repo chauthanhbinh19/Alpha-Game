@@ -2,8 +2,7 @@ using System.Threading.Tasks;
 
 public interface IUserCardMonstersMasterRepository
 {
-    Task<Master> GetUserCardMonsterMasterAsync(string userId, string id, string cardId);
+    Task<UserMasters> GetUserCardMonsterMasterAsync(string userId, string id, string cardId);
     Task InsertOrUpdateUserCardMonsterMasterAsync(string userId, UserMasters userMaster, string cardId);
-    Task<Master> GetSumUserCardMonstersMasterAsync(string userId, string cardId);
-
+    Task<UserMasters> GetSumUserCardMonstersMasterAsync(string userId, string cardId);
 }

@@ -25,6 +25,12 @@ public class UserSkillsService : IUserSkillsService
     public async Task<List<Skills>> GetUserSkillsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Skills> list = await _userSkillsRepository.GetUserSkillsAsync(userId, search, type, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -134,6 +140,8 @@ public class UserSkillsService : IUserSkillsService
     public async Task<Skills> GetUserSkillsByIdAsync(string userId, string Id)
     {
         var result = await _userSkillsRepository.GetUserSkillsByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

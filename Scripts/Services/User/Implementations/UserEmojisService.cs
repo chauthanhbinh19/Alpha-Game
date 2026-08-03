@@ -25,6 +25,12 @@ public class UserEmojisService : IUserEmojisService
     public async Task<List<Emojis>> GetUserEmojisAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Emojis> list = await _userEmojisRepository.GetUserEmojisAsync(userId, search, pageSize, offset, rare);
+
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserEmojisService : IUserEmojisService
     public async Task<Emojis> GetUserEmojiByIdAsync(string userId, string Id)
     {
         var result = await _userEmojisRepository.GetUserEmojiByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

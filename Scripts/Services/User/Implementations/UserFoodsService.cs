@@ -25,6 +25,12 @@ public class UserFoodsService : IUserFoodsService
     public async Task<List<Foods>> GetUserFoodsAsync(string userId, string search, int pageSize, int offset, string rare)
     {
         List<Foods> list = await _userFoodsRepository.GetUserFoodsAsync(userId, search, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserFoodsService : IUserFoodsService
     public async Task<Foods> GetUserFoodByIdAsync(string userId, string Id)
     {
         var result = await _userFoodsRepository.GetUserFoodByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);

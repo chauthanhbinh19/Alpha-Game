@@ -25,6 +25,12 @@ public class UserBuildingsService : IUserBuildingsService
     public async Task<List<Buildings>> GetUserBuildingsAsync(string userId, string search, string type, int pageSize, int offset, string rare)
     {
         List<Buildings> list = await _userBuildingsRepository.GetUserBuildingsAsync(userId, search, type, pageSize, offset, rare);
+
+        foreach (var item in list)
+        {
+            item.BaseStats = new BaseStats(item);
+        }
+
         list = QualityEvaluatorHelper.GetQualityPower(list);
         list = LevelEvaluatorHelper.GetLevelPower(list);
         list = StarEvaluatorHelper.GetStarPower(list);
@@ -203,6 +209,8 @@ public class UserBuildingsService : IUserBuildingsService
     public async Task<Buildings> GetUserBuildingByIdAsync(string userId, string Id)
     {
         var result = await _userBuildingsRepository.GetUserBuildingByIdAsync(userId, Id);
+
+        result.BaseStats = new BaseStats(result);
 
         result = QualityEvaluatorHelper.GetQualityPower(result);
         result = LevelEvaluatorHelper.GetLevelPower(result);
