@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Newtonsoft.Json; // Đảm bảo đã import Newtonsoft.Json
+using Newtonsoft.Json;
 
 public class StarController : MonoBehaviour
 {
@@ -46,6 +46,7 @@ public class StarController : MonoBehaviour
         CurrentPanel = Instantiate(StarPanelPrefab, MainPanel);
         Transform panelTransform = CurrentPanel.transform;
 
+        // --- Khởi tạo và tìm UI Components ---
         Transform currentStarTransform = panelTransform.Find("CurrentStarGridLayout");
         Transform nextStarTransform = panelTransform.Find("NextStarGridLayout");
         Slider progressionSlider = panelTransform.Find("ProgressionSlider").GetComponent<Slider>();
@@ -55,7 +56,9 @@ public class StarController : MonoBehaviour
         TextMeshProUGUI usedQuantityText = panelTransform.Find("ItemUsedQuantityText").GetComponent<TextMeshProUGUI>();
         RawImage userItemImage = panelTransform.Find("UserItemImage").GetComponent<RawImage>();
         RawImage usedItemImage = panelTransform.Find("ItemUsedImage").GetComponent<RawImage>();
+
         TextMeshProUGUI notificationText = panelTransform.Find("Notification/ContentText").GetComponent<TextMeshProUGUI>();
+
         Button increaseOneButton = panelTransform.Find("IncreaseOneButton").GetComponent<Button>();
         Button increaseTenButton = panelTransform.Find("IncreaseTenButton").GetComponent<Button>();
         Button increaseMaxButton = panelTransform.Find("IncreaseMaxButton").GetComponent<Button>();
@@ -71,6 +74,7 @@ public class StarController : MonoBehaviour
         int targetStar = currentStar;
 
         int currentMaterialCount = 0;
+        int lastTargetStar = -1;
 
         string texturePath = ImageHelper.RemoveImageExtension("UI/Icon/storage");
 
@@ -81,8 +85,11 @@ public class StarController : MonoBehaviour
         quantitySlider.maxValue = (float)stat.Quantity;
 
         #region Local Functions
+
         void SetNotification(string translationKey, Color color, params object[] args)
         {
+            if (notificationText == null) return;
+
             string translatedValue = LocalizationManager.Get(translationKey);
 
             if (args != null && args.Length > 0)
@@ -97,13 +104,6 @@ public class StarController : MonoBehaviour
         void SetConfirmButtonState(bool interactable, bool isMax = false)
         {
             confirmButton.interactable = interactable;
-            var backgroundImage = confirmButton.transform.Find("Background2")?.GetComponent<RawImage>();
-            if (backgroundImage != null)
-            {
-                backgroundImage.color = isMax && !interactable
-                    ? Color.gray
-                    : Color.white;
-            }
         }
 
         void CalculateStarFromMaterials(long materials)
@@ -115,11 +115,8 @@ public class StarController : MonoBehaviour
             {
                 double required = starRule(tempStar);
 
-                if (required <= 0)
-                    break;
-
-                if (remain < required)
-                    break;
+                if (required <= 0) break;
+                if (remain < required) break;
 
                 remain -= required;
                 tempStar++;
@@ -130,129 +127,181 @@ public class StarController : MonoBehaviour
 
         int CalculateMaxMaterialsNeeded()
         {
+            // Nếu nguyên liệu hiện có bằng 0 hoặc đã Max Star thì không cần tính
+            if (stat.Quantity <= 0 || currentStar >= maxStar) return 0;
+
             double total = 0;
 
             for (int star = currentStar; star < maxStar; star++)
             {
                 total += starRule(star);
+                // Tránh cộng dồn quá lớn gây tràn số double/int
+                if (total >= int.MaxValue)
+                {
+                    return int.MaxValue;
+                }
             }
 
-            return (int)Math.Ceiling(total);
+            // Ép kiểu an toàn tránh overflow sang số âm
+            long ceilingTotal = (long)Math.Ceiling(total);
+            return (int)Math.Min(ceilingTotal, int.MaxValue);
         }
 
-        T CreatePreviewStat(T source, int starDelta)
+        // Tạo bản Clone Preview BaseStats theo targetStar
+        IStats CreatePreviewBaseStats(int newStar)
         {
-            if (source == null)
-                return default;
-
-            // Deep clone bằng JSON để bảo đảm BaseStats gốc của stat không bao giờ bị thay đổi
-            string json = JsonConvert.SerializeObject(source);
-            T preview = JsonConvert.DeserializeObject<T>(json);
-
-            if (starDelta <= 0)
-                return preview;
-
             try
             {
-                // Cập nhật thuộc tính Star mới cho preview
-                var starProperty = typeof(T).GetProperty(nameof(IStats.Star));
-                if (starProperty != null && starProperty.CanWrite)
-                {
-                    int currentStarValue = (int)starProperty.GetValue(source);
-                    starProperty.SetValue(preview, Math.Max(1, currentStarValue + starDelta));
-                }
-
-                // Cập nhật Star cho BaseStats (nếu BaseStats chứa thuộc tính Star)
                 var baseStatsProp = typeof(T).GetProperty("BaseStats");
-                if (baseStatsProp != null)
+                object originalBaseStats = baseStatsProp?.GetValue(stat);
+
+                object sourceToClone = originalBaseStats ?? stat;
+                if (sourceToClone == null) return null;
+
+                string json = JsonConvert.SerializeObject(sourceToClone);
+                Type typeToDeserialize = sourceToClone.GetType();
+                IStats previewBaseStats = (IStats)JsonConvert.DeserializeObject(json, typeToDeserialize);
+
+                if (previewBaseStats != null)
                 {
-                    var baseStatsObj = baseStatsProp.GetValue(preview);
-                    if (baseStatsObj != null)
-                    {
-                        var baseStarProp = baseStatsObj.GetType().GetProperty("Star");
-                        if (baseStarProp != null && baseStarProp.CanWrite)
-                        {
-                            int currentStarValue = (int)starProperty.GetValue(source);
-                            baseStarProp.SetValue(baseStatsObj, Math.Max(1, currentStarValue + starDelta));
-                        }
-                    }
+                    previewBaseStats.Star = newStar;
+
+                    QualityEvaluatorHelper.GetQualityPower(previewBaseStats);
+                    LevelEvaluatorHelper.GetLevelPower(previewBaseStats);
+                    StarEvaluatorHelper.GetStarPower(previewBaseStats);
                 }
 
-                // Tính toán lại sức mạnh theo Star mới
-                QualityEvaluatorHelper.GetQualityPower(preview);
-                LevelEvaluatorHelper.GetLevelPower(preview);
-                StarEvaluatorHelper.GetStarPower(preview);
+                return previewBaseStats;
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"Lỗi tính toán chỉ số Star Preview: {ex.Message}");
+                Debug.LogWarning($"Lỗi khi clone Preview BaseStats: {ex.Message}");
+                return null;
             }
-
-            return preview;
         }
 
+        // 1. Render CurrentStats (Chỉ gọi 1 lần khi tạo)
+        void RenderCurrentStats()
+        {
+            if (currentStatsContent == null) return;
+
+            var baseStatsProp = typeof(T).GetProperty("BaseStats");
+            object currentBaseStatsObj = baseStatsProp?.GetValue(stat);
+
+            IStats currentDisplayStats = stat;
+            if (currentBaseStatsObj != null)
+            {
+                string json = JsonConvert.SerializeObject(currentBaseStatsObj);
+                currentDisplayStats = (IStats)JsonConvert.DeserializeObject(json, currentBaseStatsObj.GetType());
+            }
+
+            if (currentDisplayStats != null)
+            {
+                currentDisplayStats.Star = currentStar;
+                QualityEvaluatorHelper.GetQualityPower(currentDisplayStats);
+                LevelEvaluatorHelper.GetLevelPower(currentDisplayStats);
+                StarEvaluatorHelper.GetStarPower(currentDisplayStats);
+
+                StatsManager.Instance.CreateStatsManager(currentDisplayStats, currentStatsContent);
+            }
+        }
+
+        // 2. Render NextStats (Chỉ gọi khi Target Star thực sự thay đổi)
+        void RenderNextStats()
+        {
+            if (nextStatsContent == null) return;
+
+            if (targetStar == currentStar)
+            {
+                var baseStatsProp = typeof(T).GetProperty("BaseStats");
+                object currentBaseStatsObj = baseStatsProp?.GetValue(stat);
+
+                IStats currentDisplayStats = stat;
+                if (currentBaseStatsObj != null)
+                {
+                    string json = JsonConvert.SerializeObject(currentBaseStatsObj);
+                    currentDisplayStats = (IStats)JsonConvert.DeserializeObject(json, currentBaseStatsObj.GetType());
+                }
+
+                if (currentDisplayStats != null)
+                {
+                    currentDisplayStats.Star = currentStar;
+                    QualityEvaluatorHelper.GetQualityPower(currentDisplayStats);
+                    LevelEvaluatorHelper.GetLevelPower(currentDisplayStats);
+                    StarEvaluatorHelper.GetStarPower(currentDisplayStats);
+
+                    StatsManager.Instance.CreateStatsManager(currentDisplayStats, nextStatsContent);
+                }
+            }
+            else
+            {
+                IStats previewBaseStats = CreatePreviewBaseStats(targetStar);
+                if (previewBaseStats != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(previewBaseStats, nextStatsContent);
+                }
+            }
+        }
+
+        // 3. Refresh UI chính
         void RefreshUI()
         {
             TextureHelper.SetupStars(currentStarTransform, currentStar);
             TextureHelper.SetupStars(nextStarTransform, targetStar);
+
             userQuantityText.text = NumberFormatterHelper.FormatNumber(stat.Quantity, true);
             usedQuantityText.text = NumberFormatterHelper.FormatNumber(currentMaterialCount, true);
             quantitySlider.SetValueWithoutNotify(currentMaterialCount);
 
-            // 1. currentStatsContent: Lấy thuộc tính stat gốc
-            if (currentStatsContent != null)
-            {
-                StatsManager.Instance.CreateStatsManager(stat, currentStatsContent);
-            }
-
-            // 2. nextStatsContent: Lấy thuộc tính từ BaseStats của previewStat
-            if (nextStatsContent != null)
-            {
-                T previewStat = CreatePreviewStat(stat, Math.Max(0, targetStar - currentStar));
-
-                var baseStatsProperty = typeof(T).GetProperty("BaseStats");
-                object previewBaseStats = baseStatsProperty?.GetValue(previewStat);
-
-                if (previewBaseStats != null)
-                {
-                    StatsManager.Instance.CreateStatsManager((IStats)previewBaseStats, nextStatsContent);
-                }
-                else
-                {
-                    StatsManager.Instance.CreateStatsManager(previewStat, nextStatsContent);
-                }
-            }
-
+            // B. TÍNH TIẾN ĐỘ VÀ EXP TEXT
             if (currentStar >= maxStar)
             {
                 progressionSlider.minValue = 0;
                 progressionSlider.maxValue = 1;
                 progressionSlider.SetValueWithoutNotify(1);
-
                 experienceText.text = "MAX";
-                SetConfirmButtonState(false, true);
-                return;
+            }
+            else
+            {
+                double required = starRule(currentStar);
+                if (required <= 0) required = 1;
+
+                double progress = Math.Min(currentMaterialCount, required);
+
+                progressionSlider.minValue = 0;
+                progressionSlider.maxValue = (float)required;
+                progressionSlider.SetValueWithoutNotify((float)progress);
+
+                experienceText.text = $"{NumberFormatterHelper.FormatNumber(progress, true)} / {NumberFormatterHelper.FormatNumber(required, true)}";
             }
 
-            double required = starRule(currentStar);
-            double progress = Math.Min(currentMaterialCount, required);
+            // C. CHỈ RE-RENDER NEXT STATS KHI TARGET STAR THAY ĐỔI
+            if (targetStar != lastTargetStar)
+            {
+                RenderNextStats();
+                lastTargetStar = targetStar;
+            }
 
-            progressionSlider.minValue = 0;
-            progressionSlider.maxValue = (float)required;
-            progressionSlider.SetValueWithoutNotify((float)progress);
-
-            experienceText.text =
-                $"{NumberFormatterHelper.FormatNumber(progress, true)} / {NumberFormatterHelper.FormatNumber(required, true)}";
-
-            if (currentMaterialCount <= 0)
+            // D. THÔNG BÁO & TRẠNG THÁI NÚT
+            if (currentStar >= maxStar)
+            {
+                SetNotification(MessageConstants.UPGRADE_ALREADY_MAX, Color.green);
+                SetConfirmButtonState(false, true);
+            }
+            else if (currentMaterialCount <= 0)
             {
                 SetNotification(MessageConstants.PLEASE_SELECT_QUANTITY, Color.yellow);
+                SetConfirmButtonState(false);
+            }
+            else if (currentMaterialCount < starRule(currentStar))
+            {
+                SetNotification(MessageConstants.NOT_ENOUGH_MATERIALS, Color.red);
                 SetConfirmButtonState(false);
             }
             else if (targetStar >= maxStar)
             {
                 SetNotification(MessageConstants.MAX_LEVEL_REACHED, Color.green, maxStar);
-                SetConfirmButtonState(false, true);
+                SetConfirmButtonState(true);
             }
             else
             {
@@ -263,8 +312,17 @@ public class StarController : MonoBehaviour
 
         void ChangeMaterialCount(int amount)
         {
-            currentMaterialCount += amount;
+            // Nếu người chơi không có nguyên liệu, luôn giữ là 0
+            if (stat.Quantity <= 0)
+            {
+                currentMaterialCount = 0;
+                CalculateStarFromMaterials(0);
+                RefreshUI();
+                return;
+            }
 
+            currentMaterialCount += amount;
+            // Đảm bảo giá trị luôn nằm trong khoảng [0, stat.Quantity]
             currentMaterialCount = Math.Max(0, Math.Min(currentMaterialCount, stat.Quantity));
 
             CalculateStarFromMaterials(currentMaterialCount);
@@ -273,23 +331,36 @@ public class StarController : MonoBehaviour
 
         void SetMaxMaterialCount()
         {
+            // 1. Kiểm tra điều kiện chặn ngay từ đầu
+            if (currentStar >= maxStar || stat.Quantity <= 0)
+            {
+                currentMaterialCount = 0;
+                CalculateStarFromMaterials(0);
+                RefreshUI();
+                return;
+            }
+
+            // 2. Tính toán nguyên liệu max cần thiết
             int maxNeed = CalculateMaxMaterialsNeeded();
 
+            // 3. Gán giá trị an toàn
             currentMaterialCount = Math.Min(maxNeed, stat.Quantity);
+            currentMaterialCount = Math.Max(0, currentMaterialCount); // Bảo đảm không bao giờ âm
 
             CalculateStarFromMaterials(currentMaterialCount);
             RefreshUI();
         }
+
         #endregion
 
         quantitySlider.onValueChanged.AddListener(value =>
         {
             currentMaterialCount = (int)Math.Round(value);
-
             CalculateStarFromMaterials(currentMaterialCount);
             RefreshUI();
         });
 
+        RenderCurrentStats();
         CalculateStarFromMaterials(0);
         RefreshUI();
 
@@ -553,31 +624,37 @@ public class StarController : MonoBehaviour
         #region Button Events listeners
         increaseOneButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ChangeMaterialCount(1);
         });
 
         increaseTenButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ChangeMaterialCount(10);
         });
 
         increaseMaxButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             SetMaxMaterialCount();
         });
 
         decreaseOneButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ChangeMaterialCount(-1);
         });
 
         decreaseTenButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             ChangeMaterialCount(-10);
         });
 
         decreaseMaxButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             currentMaterialCount = 0;
             CalculateStarFromMaterials(0);
             RefreshUI();
@@ -585,6 +662,7 @@ public class StarController : MonoBehaviour
 
         closeButton.onClick.AddListener(() =>
         {
+            AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             Destroy(CurrentPanel);
         });
 
@@ -599,6 +677,7 @@ public class StarController : MonoBehaviour
             }
 
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
+
             if (currentMaterialCount <= 0)
             {
                 SetNotification(MessageConstants.PLEASE_SELECT_QUANTITY, Color.red);
@@ -614,11 +693,35 @@ public class StarController : MonoBehaviour
             confirmButton.interactable = false;
             closeButton.interactable = false;
 
+            SetNotification(MessageConstants.PROCESSING_UPGRADE, Color.cyan);
+
             try
             {
+                // Cập nhật giá trị Star mới cho stat gốc
                 stat.Star = targetStar;
                 stat.Quantity = Math.Max(0, stat.Quantity - currentMaterialCount);
 
+                // Cập nhật BaseStats (nếu có)
+                var baseStatsProp = typeof(T).GetProperty("BaseStats");
+                if (baseStatsProp != null)
+                {
+                    var baseStatsObj = baseStatsProp.GetValue(stat);
+                    if (baseStatsObj != null)
+                    {
+                        var baseStarProp = baseStatsObj.GetType().GetProperty("Star");
+                        if (baseStarProp != null && baseStarProp.CanWrite)
+                        {
+                            baseStarProp.SetValue(baseStatsObj, targetStar);
+                        }
+                    }
+                }
+
+                // Cập nhật lại sức mạnh
+                QualityEvaluatorHelper.GetQualityPower(stat);
+                LevelEvaluatorHelper.GetLevelPower(stat);
+                StarEvaluatorHelper.GetStarPower(stat);
+
+                // Gọi Service lưu vào DB
                 await ExecuteServiceInsertAsync();
 
                 SetNotification(MessageConstants.UPGRADE_SUCCESS, Color.green);

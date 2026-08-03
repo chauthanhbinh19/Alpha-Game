@@ -6,8 +6,10 @@ public static class StarEvaluatorHelper
     {
         foreach (var item in list)
         {
-            int effectiveStar = Math.Max(1, item.Star);
-            double multiplier = effectiveStar;
+            //if level <= 0 do nothing, skip for this step
+            if (item.Star <= 0) continue;
+
+            double multiplier = item.Star;
 
             item.Health *= multiplier;
             item.PhysicalAttack *= multiplier;
@@ -89,8 +91,10 @@ public static class StarEvaluatorHelper
     {
         if (item == null) return default;
 
-        int effectiveStar = Math.Max(1, item.Star);
-        double multiplier = effectiveStar;
+        //if level <= 0 do nothing, skip for this step
+        if (item.Star <= 0) return item;
+
+        double multiplier = item.Star;
 
         item.Health *= multiplier;
         item.PhysicalAttack *= multiplier;
@@ -172,8 +176,10 @@ public static class StarEvaluatorHelper
     {
         foreach (var item in list)
         {
-            int effectiveStar = Math.Max(1, item.CurrentStar);
-            double multiplier = effectiveStar;
+            //if level <= 0 do nothing, skip for this step
+            if (item.CurrentStar <= 0) continue;
+
+            double multiplier = item.CurrentStar;
 
             item.Health *= multiplier;
             item.PhysicalAttack *= multiplier;
@@ -267,8 +273,10 @@ public static class StarEvaluatorHelper
     {
         if (item == null) return default;
 
-        int effectiveStar = Math.Max(1, item.CurrentStar);
-        double multiplier = effectiveStar;
+        //if level <= 0 do nothing, skip for this step
+        if (item.CurrentStar <= 0) return item;
+
+        double multiplier = item.CurrentStar;
 
         item.Health *= multiplier;
         item.PhysicalAttack *= multiplier;

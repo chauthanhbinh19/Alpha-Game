@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+
 public class LevelController : MonoBehaviour
 {
     public static LevelController Instance { get; private set; }
     private Transform MainPanel;
     public GameObject LevelPanelPrefab;
     private GameObject CurrentPanel;
+
     private void Awake()
     {
         // Ensure there's only one instance of PanelManager
@@ -22,15 +24,18 @@ public class LevelController : MonoBehaviour
             Destroy(gameObject); // Destroy duplicate instances
         }
     }
+
     void Start()
     {
         Initialize();
     }
+
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform(AppConstants.Transform.MAIN_PANEL);
         LevelPanelPrefab = UIManager.Instance.Get(AppConstants.Prefab.Progression.LEVEL_PANEL_PREFAB);
     }
+
     public void CreateLevelPanel<T>(T stat, ItemExperienceDTO itemExp, int maxLevel, Func<int, double> expRule, Predicate<T> statFilter = null) where T : IStats
     {
         if (statFilter != null && !statFilter(stat))
@@ -38,6 +43,7 @@ public class LevelController : MonoBehaviour
             Debug.LogWarning("Đối tượng stat không thỏa mãn điều kiện lọc!");
             return;
         }
+
         CurrentPanel = Instantiate(LevelPanelPrefab, MainPanel);
         Transform panelTransform = CurrentPanel.transform;
 
@@ -74,19 +80,12 @@ public class LevelController : MonoBehaviour
 
         long currentMaterialCount = 0;
 
-        double expPerItem =
-            itemExp.ExperienceValue > 0
-                ? itemExp.ExperienceValue
-                : 100;
+        double expPerItem = itemExp.ExperienceValue > 0 ? itemExp.ExperienceValue : 100;
 
-        string texturePath =
-            ImageHelper.RemoveImageExtension(itemExp.Image);
+        string texturePath = ImageHelper.RemoveImageExtension(itemExp.Image);
 
-        userItemImage.texture =
-            TextureHelper.LoadTexture2DCached(texturePath);
-
-        itemUsedImage.texture =
-            TextureHelper.LoadTexture2DCached(texturePath);
+        userItemImage.texture = TextureHelper.LoadTexture2DCached(texturePath);
+        itemUsedImage.texture = TextureHelper.LoadTexture2DCached(texturePath);
 
         quantitySlider.minValue = 0;
         quantitySlider.maxValue = Mathf.Max((float)itemExp.Quantity, 0);
@@ -95,18 +94,13 @@ public class LevelController : MonoBehaviour
 
         void SetNotification(string translationKey, Color color, params object[] args)
         {
-            if (notificationText == null)
-                return;
+            if (notificationText == null) return;
 
-            string translatedValue =
-                LocalizationManager.Get(translationKey);
+            string translatedValue = LocalizationManager.Get(translationKey);
 
             if (args != null && args.Length > 0)
             {
-                translatedValue =
-                    string.Format(
-                        translatedValue,
-                        args);
+                translatedValue = string.Format(translatedValue, args);
             }
 
             notificationText.text = translatedValue;
@@ -116,33 +110,19 @@ public class LevelController : MonoBehaviour
         void SetConfirmButtonState(bool interactable, bool isMax = false)
         {
             confirmButton.interactable = interactable;
-            var backgroundImage = confirmButton.transform.Find("Background2")?.GetComponent<RawImage>();
-            if (backgroundImage != null)
-            {
-                backgroundImage.color = isMax && !interactable
-                    ? Color.gray
-                    : Color.white;
-            }
         }
 
         void CalculateLevelFromItems(long itemsToUse)
         {
-            double totalExp =
-                currentExp +
-                ((double)itemsToUse * expPerItem);
-
+            double totalExp = currentExp + ((double)itemsToUse * expPerItem);
             int tempLevel = currentLevel;
 
             while (tempLevel < maxLevel)
             {
-                double requiredExp =
-                    expRule(tempLevel);
+                double requiredExp = expRule(tempLevel);
 
-                if (requiredExp <= 0)
-                    break;
-
-                if (totalExp < requiredExp)
-                    break;
+                if (requiredExp <= 0) break;
+                if (totalExp < requiredExp) break;
 
                 totalExp -= requiredExp;
                 tempLevel++;
@@ -165,74 +145,124 @@ public class LevelController : MonoBehaviour
         {
             double totalExpNeeded = 0;
 
-            for (
-                int level = currentLevel;
-                level < maxLevel;
-                level++)
+            for (int level = currentLevel; level < maxLevel; level++)
             {
                 totalExpNeeded += expRule(level);
             }
 
             totalExpNeeded -= currentExp;
 
-            if (totalExpNeeded <= 0)
-                return 0;
+            if (totalExpNeeded <= 0) return 0;
 
-            return (long)Math.Ceiling(
-                totalExpNeeded / expPerItem);
+            return (long)Math.Ceiling(totalExpNeeded / expPerItem);
         }
 
-        T CreatePreviewStat(T source, int levelDelta)
+        // Tạo bản Clone riêng biệt cho BaseStats để xem trước (Preview UI)
+        IStats CreatePreviewBaseStats(int newLevel)
         {
-            if (source == null)
-                return default;
-
-            // Deep clone bằng JSON để tạo bản sao độc lập hoàn toàn (bao gồm cả BaseStats)
-            // Giúp BaseStats gốc của `stat` không bao giờ bị thay đổi giá trị
-            string json = Newtonsoft.Json.JsonConvert.SerializeObject(source);
-            T preview = Newtonsoft.Json.JsonConvert.DeserializeObject<T>(json);
-
-            // Cập nhật cấp độ mới cho preview
             try
             {
-                var levelProperty = typeof(T).GetProperty(nameof(IStats.Level));
-                if (levelProperty != null && levelProperty.CanWrite)
-                {
-                    int currentLvl = (int)levelProperty.GetValue(source);
-                    levelProperty.SetValue(preview, Math.Max(1, currentLvl + levelDelta));
-                }
-
-                // Nếu BaseStats cũng chứa thuộc tính Level riêng
                 var baseStatsProp = typeof(T).GetProperty("BaseStats");
-                if (baseStatsProp != null)
+                object originalBaseStats = baseStatsProp?.GetValue(stat);
+
+                // Lấy nguồn clone (BaseStats hoặc stat gốc)
+                object sourceToClone = originalBaseStats ?? stat;
+                if (sourceToClone == null) return null;
+
+                // Deep clone bằng JSON
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(sourceToClone);
+                Type typeToDeserialize = sourceToClone.GetType();
+                IStats previewBaseStats = (IStats)Newtonsoft.Json.JsonConvert.DeserializeObject(json, typeToDeserialize);
+
+                if (previewBaseStats != null)
                 {
-                    var baseStatsObj = baseStatsProp.GetValue(preview);
-                    if (baseStatsObj != null)
-                    {
-                        var baseLevelProp = baseStatsObj.GetType().GetProperty("Level");
-                        if (baseLevelProp != null && baseLevelProp.CanWrite)
-                        {
-                            int currentLvl = (int)levelProperty.GetValue(source);
-                            baseLevelProp.SetValue(baseStatsObj, Math.Max(1, currentLvl + levelDelta));
-                        }
-                    }
+                    // FIX 1: Gán chính xác newLevel, KHÔNG dùng Math.Max(1, newLevel) gây nhảy level!
+                    previewBaseStats.Level = newLevel;
+
+                    // FIX 2: Tính toán lại power cho bản Preview
+                    QualityEvaluatorHelper.GetQualityPower(previewBaseStats);
+                    LevelEvaluatorHelper.GetLevelPower(previewBaseStats);
+                    StarEvaluatorHelper.GetStarPower(previewBaseStats);
                 }
 
-                // Chạy lại các helper để tính toán chỉ số dựa trên Level mới
-                QualityEvaluatorHelper.GetQualityPower(preview);
-                LevelEvaluatorHelper.GetLevelPower(preview);
-                StarEvaluatorHelper.GetStarPower(preview);
+                return previewBaseStats;
             }
             catch (Exception ex)
             {
-                Debug.LogWarning($"Lỗi tính toán chỉ số Preview: {ex.Message}");
+                Debug.LogWarning($"Lỗi khi clone Preview BaseStats: {ex.Message}");
+                return null;
+            }
+        }
+        int lastTargetLevel = -1;
+        // 1. Hàm vẽ CurrentStats (CHỈ GỌI 1 LẦN DUY NHẤT LÚC KHỞI TẠO HOẶC SAU CONFIRM)
+        void RenderCurrentStats()
+        {
+            if (currentStatsContent == null) return;
+
+            var baseStatsProp = typeof(T).GetProperty("BaseStats");
+            object currentBaseStatsObj = baseStatsProp?.GetValue(stat);
+
+            IStats currentDisplayStats = stat;
+            if (currentBaseStatsObj != null)
+            {
+                string json = Newtonsoft.Json.JsonConvert.SerializeObject(currentBaseStatsObj);
+                currentDisplayStats = (IStats)Newtonsoft.Json.JsonConvert.DeserializeObject(json, currentBaseStatsObj.GetType());
             }
 
-            return preview;
+            if (currentDisplayStats != null)
+            {
+                currentDisplayStats.Level = currentLevel;
+                QualityEvaluatorHelper.GetQualityPower(currentDisplayStats);
+                LevelEvaluatorHelper.GetLevelPower(currentDisplayStats);
+                StarEvaluatorHelper.GetStarPower(currentDisplayStats);
+
+                StatsManager.Instance.CreateStatsManager(currentDisplayStats, currentStatsContent);
+            }
         }
 
+        // 2. Hàm vẽ NextStats (CHỈ GỌI KHI TARGET LEVEL THAY ĐỔI)
+        void RenderNextStats()
+        {
+            if (nextStatsContent == null) return;
+
+            // Nếu Target Level bằng Level hiện tại -> Bắt buộc dùng bản sao y chang Current
+            if (targetLevel == currentLevel)
+            {
+                var baseStatsProp = typeof(T).GetProperty("BaseStats");
+                object currentBaseStatsObj = baseStatsProp?.GetValue(stat);
+
+                IStats currentDisplayStats = stat;
+                if (currentBaseStatsObj != null)
+                {
+                    string json = Newtonsoft.Json.JsonConvert.SerializeObject(currentBaseStatsObj);
+                    currentDisplayStats = (IStats)Newtonsoft.Json.JsonConvert.DeserializeObject(json, currentBaseStatsObj.GetType());
+                }
+
+                if (currentDisplayStats != null)
+                {
+                    currentDisplayStats.Level = currentLevel;
+                    QualityEvaluatorHelper.GetQualityPower(currentDisplayStats);
+                    LevelEvaluatorHelper.GetLevelPower(currentDisplayStats);
+                    StarEvaluatorHelper.GetStarPower(currentDisplayStats);
+
+                    StatsManager.Instance.CreateStatsManager(currentDisplayStats, nextStatsContent);
+                }
+            }
+            else
+            {
+                // Target Level tăng lên -> Mới clone Preview Level mới
+                IStats previewBaseStats = CreatePreviewBaseStats(targetLevel);
+                if (previewBaseStats != null)
+                {
+                    StatsManager.Instance.CreateStatsManager(previewBaseStats, nextStatsContent);
+                }
+            }
+        }
+
+        // 3. Hàm Refresh UI chính (GỌI KHI CLICK/SLIDER THAY ĐỔI)
         void RefreshUI()
         {
+            // A. Cập nhật Text, Slider EXP, Slider Item (Luôn cập nhật - cực nhẹ)
             currentLevelText.text = currentLevel.ToString();
             nextLevelText.text = targetLevel >= maxLevel ? "MAX" : targetLevel.ToString();
             userItemQuantityText.text = NumberFormatterHelper.FormatNumber(itemExp.Quantity, true);
@@ -247,41 +277,20 @@ public class LevelController : MonoBehaviour
             else
             {
                 double requiredExp = expRule(targetLevel);
-                if (requiredExp <= 0)
-                    requiredExp = 1;
+                if (requiredExp <= 0) requiredExp = 1;
 
                 progressionSlider.value = (float)(targetExp / requiredExp);
                 experienceText.text = $"{targetExp:N0}/{requiredExp:N0}";
             }
 
-            // 1. CurrentStatsContent: Lấy trực tiếp thuộc tính stat gốc
-            if (currentStatsContent != null)
+            // B. CHỈ RE-RENDER NEXT STATS KHI TARGET LEVEL THỰC SỰ THAY ĐỔI!
+            if (targetLevel != lastTargetLevel)
             {
-                StatsManager.Instance.CreateStatsManager(stat, currentStatsContent);
+                RenderNextStats();
+                lastTargetLevel = targetLevel; // Cập nhật lại mốc level mới nhất đã render
             }
 
-            // 2. NextStatsContent: Lấy thuộc tính từ BaseStats của previewStat
-            if (nextStatsContent != null)
-            {
-                T previewStat = CreatePreviewStat(stat, Math.Max(0, targetLevel - currentLevel));
-
-                // Lấy thuộc tính BaseStats từ previewStat vừa được tính toán lại
-                var baseStatsProperty = typeof(T).GetProperty("BaseStats");
-                object previewBaseStats = baseStatsProperty?.GetValue(previewStat);
-
-                if (previewBaseStats != null)
-                {
-                    // Truyền BaseStats của previewStat vào StatsManager
-                    StatsManager.Instance.CreateStatsManager((IStats)previewBaseStats, nextStatsContent);
-                }
-                else
-                {
-                    // Trường hợp đối tượng không có BaseStats thì fallback dùng previewStat
-                    StatsManager.Instance.CreateStatsManager(previewStat, nextStatsContent);
-                }
-            }
-
-            // --- Cập nhật trạng thái thông báo và nút bấm ---
+            // C. Cập nhật trạng thái thông báo và nút Confirm
             if (currentMaterialCount <= 0)
             {
                 itemUsedQuantityText.color = Color.white;
@@ -308,17 +317,9 @@ public class LevelController : MonoBehaviour
         void ChangeMaterialCount(long amount)
         {
             currentMaterialCount += amount;
+            currentMaterialCount = Math.Max(0, Math.Min(currentMaterialCount, (long)itemExp.Quantity));
 
-            currentMaterialCount =
-                Math.Max(
-                    0,
-                    Math.Min(
-                        currentMaterialCount,
-                        (long)itemExp.Quantity));
-
-            CalculateLevelFromItems(
-                currentMaterialCount);
-
+            CalculateLevelFromItems(currentMaterialCount);
             RefreshUI();
         }
 
@@ -334,18 +335,13 @@ public class LevelController : MonoBehaviour
 
         quantitySlider.onValueChanged.AddListener(value =>
         {
-            currentMaterialCount =
-                (long)Math.Round(value);
-
-            CalculateLevelFromItems(
-                currentMaterialCount);
-
+            currentMaterialCount = (long)Math.Round(value);
+            CalculateLevelFromItems(currentMaterialCount);
             RefreshUI();
         });
-
+        RenderCurrentStats();
         CalculateLevelFromItems(0);
         RefreshUI();
-
 
         async Task ExecuteServiceInsertAsync()
         {
@@ -639,9 +635,7 @@ public class LevelController : MonoBehaviour
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
             currentMaterialCount = 0;
-
             CalculateLevelFromItems(0);
-
             RefreshUI();
         });
 
@@ -681,9 +675,29 @@ public class LevelController : MonoBehaviour
 
             try
             {
-                // Dữ liệu level/exp mới đã được tính sẵn từ CalculateLevelFromItems()
+                // Chỉ gán Level/Exp thực sự khi đã BẤM CONFIRM THÀNH CÔNG
                 stat.Level = targetLevel;
                 stat.Experience = targetExp;
+
+                // Nếu BaseStats tồn tại trên stat gốc thì cập nhật Level cho nó luôn
+                var baseStatsProp = typeof(T).GetProperty("BaseStats");
+                if (baseStatsProp != null)
+                {
+                    var baseStatsObj = baseStatsProp.GetValue(stat);
+                    if (baseStatsObj != null)
+                    {
+                        var baseLevelProp = baseStatsObj.GetType().GetProperty("Level");
+                        if (baseLevelProp != null && baseLevelProp.CanWrite)
+                        {
+                            baseLevelProp.SetValue(baseStatsObj, targetLevel);
+                        }
+                    }
+                }
+
+                // Cập nhật lại chỉ số thực tế sau khi tăng Level thành công
+                QualityEvaluatorHelper.GetQualityPower(stat);
+                LevelEvaluatorHelper.GetLevelPower(stat);
+                StarEvaluatorHelper.GetStarPower(stat);
 
                 Items materialItem = new Items
                 {
@@ -691,24 +705,18 @@ public class LevelController : MonoBehaviour
                 };
 
                 // Quantity còn lại sau khi sử dụng
-                double remainingQuantity =
-                    Math.Max(
-                        0,
-                        itemExp.Quantity - currentMaterialCount);
+                double remainingQuantity = Math.Max(0, itemExp.Quantity - currentMaterialCount);
 
                 // Update item
-                await UserItemsService.Create()
-                    .InsertOrUpdateUserItemQuantityAsync(
-                        User.CurrentUserId,
-                        materialItem,
-                        remainingQuantity);
+                await UserItemsService.Create().InsertOrUpdateUserItemQuantityAsync(
+                    User.CurrentUserId,
+                    materialItem,
+                    remainingQuantity);
 
-                // Update level
+                // Update level vào database & Refresh UI ngoài Controller
                 await ExecuteServiceInsertAsync();
 
-                SetNotification(
-                    MessageConstants.UPGRADE_SUCCESS,
-                    Color.green);
+                SetNotification(MessageConstants.UPGRADE_SUCCESS, Color.green);
 
                 await Task.Delay(500);
 

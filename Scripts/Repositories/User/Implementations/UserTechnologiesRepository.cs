@@ -756,59 +756,73 @@ public class UserTechnologiesRepository : IUserTechnologiesRepository
             try
             {
                 await connection.OpenAsync();
-                string selectSQL = @"SELECT 
-                -- Tính SUM trực tiếp áp dụng Quality, Star (min = 1) và Level (min = 1)
-                SUM(uc.health * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS health,
-                SUM(uc.physical_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS physical_attack,
-                SUM(uc.physical_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS physical_defense,
-                SUM(uc.magical_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS magical_attack,
-                SUM(uc.magical_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS magical_defense,
-                SUM(uc.chemical_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS chemical_attack,
-                SUM(uc.chemical_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS chemical_defense,
-                SUM(uc.atomic_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS atomic_attack,
-                SUM(uc.atomic_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS atomic_defense,
-                SUM(uc.mental_attack * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS mental_attack,
-                SUM(uc.mental_defense * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS mental_defense,
-                SUM(uc.speed * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS speed,
-                SUM(uc.critical_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS critical_damage_rate,
-                SUM(uc.critical_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS critical_rate,
-                SUM(uc.critical_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS critical_resistance_rate,
-                SUM(uc.ignore_critical_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_critical_rate,
-                SUM(uc.penetration_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS penetration_rate,
-                SUM(uc.penetration_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS penetration_resistance_rate,
-                SUM(uc.evasion_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS evasion_rate,
-                SUM(uc.damage_absorption_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS damage_absorption_rate,
-                SUM(uc.ignore_damage_absorption_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_damage_absorption_rate,
-                SUM(uc.absorbed_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS absorbed_damage_rate,
-                SUM(uc.vitality_regeneration_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS vitality_regeneration_rate,
-                SUM(uc.vitality_regeneration_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS vitality_regeneration_resistance_rate,
-                SUM(uc.accuracy_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS accuracy_rate,
-                SUM(uc.lifesteal_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS lifesteal_rate,
-                SUM(uc.shield_strength * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS shield_strength,
-                SUM(uc.tenacity * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS tenacity,
-                SUM(uc.resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS resistance_rate,
-                SUM(uc.combo_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS combo_rate,
-                SUM(uc.ignore_combo_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_combo_rate,
-                SUM(uc.combo_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS combo_damage_rate,
-                SUM(uc.combo_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS combo_resistance_rate,
-                SUM(uc.stun_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS stun_rate,
-                SUM(uc.ignore_stun_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_stun_rate,
-                SUM(uc.reflection_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS reflection_rate,
-                SUM(uc.ignore_reflection_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS ignore_reflection_rate,
-                SUM(uc.reflection_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS reflection_damage_rate,
-                SUM(uc.reflection_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS reflection_resistance_rate,
-                SUM(uc.mana * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS mana,
-                SUM(uc.mana_regeneration_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS mana_regeneration_rate,
-                SUM(uc.damage_to_different_faction_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS damage_to_different_faction_rate,
-                SUM(uc.resistance_to_different_faction_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS resistance_to_different_faction_rate,
-                SUM(uc.damage_to_same_faction_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS damage_to_same_faction_rate,
-                SUM(uc.resistance_to_same_faction_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS resistance_to_same_faction_rate,
-                SUM(uc.normal_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS normal_damage_rate,
-                SUM(uc.normal_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS normal_resistance_rate,
-                SUM(uc.skill_damage_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS skill_damage_rate,
-                SUM(uc.skill_resistance_rate * (1 + uc.quality / 10.0) * GREATEST(uc.star, 1) * (1 + GREATEST(uc.level, 1) / 100.0)) AS skill_resistance_rate
-            FROM user_technologies uc
-            WHERE user_id = @user_id;
+                string selectSQL = @" 
+                WITH CalculatedObjects AS (
+                    SELECT 
+                        uc.*,
+                        -- TÍNH TOTAL MULTIPLIER CHO TỪNG OBJECT:
+                        -- 1. Quality: (1 + quality / 10.0)
+                        -- 2. Star: GREATEST(star, 1) -> star = 0 hay 1 đều nhân 1
+                        -- 3. Level: (1 + GREATEST(level, 0) / 100.0) -> level <= 0 thì nhân 1.0
+                        (
+                            (1 + uc.quality / 10.0) 
+                            * GREATEST(uc.star, 1) 
+                            * (1 + GREATEST(uc.level, 0) / 100.0)
+                        ) AS total_multiplier
+                    FROM user_technologies uc
+                    WHERE uc.user_id = @user_id
+                )
+                SELECT 
+                    SUM(health * total_multiplier) AS health,
+                    SUM(physical_attack * total_multiplier) AS physical_attack,
+                    SUM(physical_defense * total_multiplier) AS physical_defense,
+                    SUM(magical_attack * total_multiplier) AS magical_attack,
+                    SUM(magical_defense * total_multiplier) AS magical_defense,
+                    SUM(chemical_attack * total_multiplier) AS chemical_attack,
+                    SUM(chemical_defense * total_multiplier) AS chemical_defense,
+                    SUM(atomic_attack * total_multiplier) AS atomic_attack,
+                    SUM(atomic_defense * total_multiplier) AS atomic_defense,
+                    SUM(mental_attack * total_multiplier) AS mental_attack,
+                    SUM(mental_defense * total_multiplier) AS mental_defense,
+                    SUM(speed * total_multiplier) AS speed,
+                    SUM(critical_damage_rate * total_multiplier) AS critical_damage_rate,
+                    SUM(critical_rate * total_multiplier) AS critical_rate,
+                    SUM(critical_resistance_rate * total_multiplier) AS critical_resistance_rate,
+                    SUM(ignore_critical_rate * total_multiplier) AS ignore_critical_rate,
+                    SUM(penetration_rate * total_multiplier) AS penetration_rate,
+                    SUM(penetration_resistance_rate * total_multiplier) AS penetration_resistance_rate,
+                    SUM(evasion_rate * total_multiplier) AS evasion_rate,
+                    SUM(damage_absorption_rate * total_multiplier) AS damage_absorption_rate,
+                    SUM(ignore_damage_absorption_rate * total_multiplier) AS ignore_damage_absorption_rate,
+                    SUM(absorbed_damage_rate * total_multiplier) AS absorbed_damage_rate,
+                    SUM(vitality_regeneration_rate * total_multiplier) AS vitality_regeneration_rate,
+                    SUM(vitality_regeneration_resistance_rate * total_multiplier) AS vitality_regeneration_resistance_rate,
+                    SUM(accuracy_rate * total_multiplier) AS accuracy_rate,
+                    SUM(lifesteal_rate * total_multiplier) AS lifesteal_rate,
+                    SUM(shield_strength * total_multiplier) AS shield_strength,
+                    SUM(tenacity * total_multiplier) AS tenacity,
+                    SUM(resistance_rate * total_multiplier) AS resistance_rate,
+                    SUM(combo_rate * total_multiplier) AS combo_rate,
+                    SUM(ignore_combo_rate * total_multiplier) AS ignore_combo_rate,
+                    SUM(combo_damage_rate * total_multiplier) AS combo_damage_rate,
+                    SUM(combo_resistance_rate * total_multiplier) AS combo_resistance_rate,
+                    SUM(stun_rate * total_multiplier) AS stun_rate,
+                    SUM(ignore_stun_rate * total_multiplier) AS ignore_stun_rate,
+                    SUM(reflection_rate * total_multiplier) AS reflection_rate,
+                    SUM(ignore_reflection_rate * total_multiplier) AS ignore_reflection_rate,
+                    SUM(reflection_damage_rate * total_multiplier) AS reflection_damage_rate,
+                    SUM(reflection_resistance_rate * total_multiplier) AS reflection_resistance_rate,
+                    SUM(mana * total_multiplier) AS mana,
+                    SUM(mana_regeneration_rate * total_multiplier) AS mana_regeneration_rate,
+                    SUM(damage_to_different_faction_rate * total_multiplier) AS damage_to_different_faction_rate,
+                    SUM(resistance_to_different_faction_rate * total_multiplier) AS resistance_to_different_faction_rate,
+                    SUM(damage_to_same_faction_rate * total_multiplier) AS damage_to_same_faction_rate,
+                    SUM(resistance_to_same_faction_rate * total_multiplier) AS resistance_to_same_faction_rate,
+                    SUM(normal_damage_rate * total_multiplier) AS normal_damage_rate,
+                    SUM(normal_resistance_rate * total_multiplier) AS normal_resistance_rate,
+                    SUM(skill_damage_rate * total_multiplier) AS skill_damage_rate,
+                    SUM(skill_resistance_rate * total_multiplier) AS skill_resistance_rate
+                FROM CalculatedObjects;
             ";
                 await using (MySqlCommand selectCommand = new MySqlCommand(selectSQL, connection))
                 {

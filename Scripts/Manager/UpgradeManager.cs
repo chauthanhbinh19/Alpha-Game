@@ -85,12 +85,12 @@ public class UpgradeManager : MonoBehaviour
     }
     public void CreateUpgradeButtonEvent(IStats stat, Transform panel)
     {
-        // ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await UpgradeIManager.Instance.CreateUpgradeIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await UpgradeIIManager.Instance.CreateUpgradeIIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await UpgradeBreakthroughManager.Instance.CreateUpgradeBreakthroughManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await UpgradeAwakeningManager.Instance.CreateUpgradeAwakeningManagerAsync(stat));
         ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await UpgradeAscensionManager.Instance.CreateUpgradeAscensionManagerAsync(stat));
-        // ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await UpgradeIVManager.Instance.CreateUpgradeIVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await UpgradeVManager.Instance.CreateUpgradeVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await UpgradeVIManager.Instance.CreateUpgradeVIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await UpgradeResonanceManager.Instance.CreateUpgradeResonanceManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await UpgradeEnhancementManager.Instance.CreateUpgradeEnhancementManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await UpgradeRefinementManager.Instance.CreateUpgradeRefinementManagerAsync(stat));
         // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await UpgradeVIIManager.Instance.CreateUpgradeVIIManagerAsync());
         // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await UpgradeVIIIManager.Instance.CreateUpgradeVIIIManagerAsync());
         // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await UpgradeIXManager.Instance.CreateUpgradeIXManagerAsync());

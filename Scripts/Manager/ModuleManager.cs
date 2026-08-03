@@ -1,3 +1,4 @@
+using System.Reflection;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -60,7 +61,7 @@ public class ModuleManager : MonoBehaviour
         // CreateModuleButtonUI(9, AppDisplayConstants.Module.Module_IX, TextureHelper.LoadTexture2DCached(ImageConstants.Module.Module_IX_URL), contentPanel);
         // CreateModuleButtonUI(10, AppDisplayConstants.Module.Module_X, TextureHelper.LoadTexture2DCached(ImageConstants.Module.Module_X_URL), contentPanel);
 
-        CreateModuleButtonEvent(contentPanel);
+        CreateModuleButtonEvent(stat, contentPanel);
     }
     private void CreateModuleButtonUI(int index, string itemName, Texture2D _itemImage, Transform panel)
     {
@@ -83,14 +84,14 @@ public class ModuleManager : MonoBehaviour
             nameText.text = LocalizationManager.Get(itemName);
         }
     }
-    public void CreateModuleButtonEvent(Transform panel)
+    public void CreateModuleButtonEvent(IStats stat, Transform panel)
     {
-        // ButtonEvent.Instance.AssignButtonEvent("ModuleButtonPrefab", panel, async () => await ModuleIManager.Instance.CreateModuleIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("ModuleElementButtonPrefab", panel, async () => await ModuleIIManager.Instance.CreateModuleIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("ModuleEvolutionButtonPrefab", panel, async () => await ModuleIIIManager.Instance.CreateModuleIIIManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("ModuleQualityButtonPrefab", panel, async () => await ModuleIVManager.Instance.CreateModuleIVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("ModuleAscensionButtonPrefab", panel, async () => await ModuleVManager.Instance.CreateModuleVManagerAsync());
-        // ButtonEvent.Instance.AssignButtonEvent("ModuleRefinementButtonPrefab", panel, async () => await ModuleVIManager.Instance.CreateModuleVIManagerAsync());
+        ButtonEvent.Instance.AssignButtonEvent("Button_1", panel, async () => await ModuleBreakthroughManager.Instance.CreateModuleBreakthroughManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_2", panel, async () => await ModuleAwakeningManager.Instance.CreateModuleAwakeningManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_3", panel, async () => await ModuleAscensionManager.Instance.CreateModuleAscensionManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_4", panel, async () => await ModuleResonanceManager.Instance.CreateModuleResonanceManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_5", panel, async () => await ModuleEnhancementManager.Instance.CreateModuleEnhancementManagerAsync(stat));
+        ButtonEvent.Instance.AssignButtonEvent("Button_6", panel, async () => await ModuleRefinementManager.Instance.CreateModuleRefinementManagerAsync(stat));
         // ButtonEvent.Instance.AssignButtonEvent("Button_7", panel, async () => await ModuleVIIManager.Instance.CreateModuleVIIManagerAsync());
         // ButtonEvent.Instance.AssignButtonEvent("Button_8", panel, async () => await ModuleVIIIManager.Instance.CreateModuleVIIIManagerAsync());
         // ButtonEvent.Instance.AssignButtonEvent("Button_9", panel, async () => await ModuleIXManager.Instance.CreateModuleIXManagerAsync());

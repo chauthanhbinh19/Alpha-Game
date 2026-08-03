@@ -6,19 +6,19 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UpgradeResonanceManager : MonoBehaviour
+public class ModuleResonanceManager : MonoBehaviour
 {
-    public static UpgradeResonanceManager Instance { get; private set; }
+    public static ModuleResonanceManager Instance { get; private set; }
     private Transform MainPanel;
-    private GameObject UpgradePanelPrefab;
-    private GameObject UpgradeButtonPrefab;
-    private GameObject PopupUpgradePanelPrefab;
-    private GameObject PopupUpgradeQuantityPanelPrefab;
-    private GameObject PopupUpgradeButtonPrefab;
-    private GameObject MainUpgradePanelPrefab;
-    private GameObject UpgradeItemPrefab;
+    private GameObject ModulePanelPrefab;
+    private GameObject ModuleButtonPrefab;
+    private GameObject PopupModulePanelPrefab;
+    private GameObject PopupModuleQuantityPanelPrefab;
+    private GameObject PopupModuleButtonPrefab;
+    private GameObject MainModulePanelPrefab;
+    private GameObject ModuleItemPrefab;
     private Transform Content;
-    private FeatureUpgradeDTO FeatureUpgradeDTO;
+    private FeatureModuleDTO FeatureModuleDTO;
 
     private void Awake()
     {
@@ -40,29 +40,29 @@ public class UpgradeResonanceManager : MonoBehaviour
     public void Initialize()
     {
         MainPanel = UIManager.Instance.GetTransform("MainPanel");
-        UpgradePanelPrefab = UIManager.Instance.Get("UpgradePanelPrefab");
-        UpgradeButtonPrefab = UIManager.Instance.Get("UpgradeButtonPrefab");
-        PopupUpgradePanelPrefab = UIManager.Instance.Get("PopupUpgradePanelPrefab");
-        PopupUpgradeQuantityPanelPrefab = UIManager.Instance.Get("PopupUpgradeQuantityPanelPrefab");
-        PopupUpgradeButtonPrefab = UIManager.Instance.Get("PopupUpgradeButtonPrefab");
-        MainUpgradePanelPrefab = UIManager.Instance.Get("MainUpgradePanelPrefab");
-        UpgradeItemPrefab = UIManager.Instance.Get("UpgradeItemPrefab");
+        ModulePanelPrefab = UIManager.Instance.Get("ModulePanelPrefab");
+        ModuleButtonPrefab = UIManager.Instance.Get("ModuleButtonPrefab");
+        PopupModulePanelPrefab = UIManager.Instance.Get("PopupModulePanelPrefab");
+        PopupModuleQuantityPanelPrefab = UIManager.Instance.Get("PopupModuleQuantityPanelPrefab");
+        PopupModuleButtonPrefab = UIManager.Instance.Get("PopupModuleButtonPrefab");
+        MainModulePanelPrefab = UIManager.Instance.Get("MainModulePanelPrefab");
+        ModuleItemPrefab = UIManager.Instance.Get("ModuleItemPrefab");
     }
 
-    public async Task CreateUpgradeResonanceManagerAsync(IStats stat)
+    public async Task CreateModuleResonanceManagerAsync(IStats stat)
     {
-        FeatureUpgradeDTO = (await FeaturesService.Create().GetUpgradeFeaturesByTypeAsync(AppConstants.Upgrade.UPGRADE_RESONANCE, stat))
+        FeatureModuleDTO = (await FeaturesService.Create().GetModuleFeaturesByTypeAsync(AppConstants.Module.MODULE_RESONANCE, stat))
                 .Values
                 .FirstOrDefault();
 
-        await CreateMainUpgradePanelAsync(FeatureUpgradeDTO.Id, FeatureUpgradeDTO.FeatureName, stat);
+        await CreateMainModulePanelAsync(FeatureModuleDTO.Id, FeatureModuleDTO.FeatureName, stat);
     }
 
-    public async Task CreateMainUpgradePanelAsync(string featureId, string featureName, IStats stat)
+    public async Task CreateMainModulePanelAsync(string featureId, string featureName, IStats stat)
     {
-        GameObject currentObject = Instantiate(MainUpgradePanelPrefab, MainPanel);
+        GameObject currentObject = Instantiate(MainModulePanelPrefab, MainPanel);
         Transform transform = currentObject.transform;
-        Button upgradeLevelButton = transform.Find("UpgradeLevelButton").GetComponent<Button>();
+        Button upgradeLevelButton = transform.Find("ModuleLevelButton").GetComponent<Button>();
         Transform leftSideContent = transform.Find("LeftSideContent");
         Transform rightSideContent = transform.Find("RightSideContent");
         TextMeshProUGUI levelText = transform.Find("LevelText").GetComponent<TextMeshProUGUI>();
@@ -81,13 +81,13 @@ public class UpgradeResonanceManager : MonoBehaviour
             ButtonEvent.Instance.Close(MainPanel);
         });
 
-        AnimationController.Instance.CreateUpgradeAnimation(currentObject);
+        AnimationController.Instance.CreateModuleAnimation(currentObject);
 
         // --- LẤY DỮ LIỆU BAN ĐẦU ---
-        Upgrades upgrade = await UpgradesService.Create().GetUpgradeByIdAsync(featureId);
-        UserUpgrades userUpgrade = await UserUpgradesService.Create().GetUserUpgradesAsync(User.CurrentUserId, featureId, stat);
+        Modules upgrade = await ModulesService.Create().GetModuleByIdAsync(featureId);
+        UserModules userModule = await UserModulesService.Create().GetUserModulesAsync(User.CurrentUserId, featureId, stat);
 
-        int currentLevel = userUpgrade?.CurrentLevel ?? 0;
+        int currentLevel = userModule?.CurrentLevel ?? 0;
 
         // --- HÀM REFRESH MAIN PANEL ---
         async Task RefreshMainPanelAsync()
@@ -113,8 +113,8 @@ public class UpgradeResonanceManager : MonoBehaviour
             for (int i = 0; i < refreshedTotal; i++)
             {
                 Transform parent = (i < refreshedLeftCount) ? leftSideContent : rightSideContent;
-                GameObject itemGO = Instantiate(UpgradeItemPrefab, parent);
-                SetupUpgradeItemUI(itemGO, refreshedRecipeItems[i]);
+                GameObject itemGO = Instantiate(ModuleItemPrefab, parent);
+                SetupModuleItemUI(itemGO, refreshedRecipeItems[i]);
             }
         }
 
@@ -122,9 +122,9 @@ public class UpgradeResonanceManager : MonoBehaviour
         await RefreshMainPanelAsync();
 
         // --- POPUP NÂNG CẤP ---
-        void CreatePopupUpgradePanel()
+        void CreatePopupModulePanel()
         {
-            GameObject popupGO = Instantiate(PopupUpgradeQuantityPanelPrefab, MainPanel);
+            GameObject popupGO = Instantiate(PopupModuleQuantityPanelPrefab, MainPanel);
             Transform panelTransform = popupGO.transform;
 
             TextMeshProUGUI currentLevelText = panelTransform.Find("CurrentLevel").GetComponent<TextMeshProUGUI>();
@@ -144,14 +144,14 @@ public class UpgradeResonanceManager : MonoBehaviour
             Transform currentStatsContent = panelTransform.Find("Scroll View/Viewport/Content/CurrentStats");
             Transform nextStatsContent = panelTransform.Find("Scroll View/Viewport/Content/NextStats");
 
-            if (userUpgrade != null && currentStatsContent != null)
+            if (userModule != null && currentStatsContent != null)
             {
-                StatsManager.Instance.CreateStatsManager(userUpgrade, currentStatsContent);
+                StatsManager.Instance.CreateStatsManager(userModule, currentStatsContent);
             }
 
-            if (userUpgrade != null && nextStatsContent != null)
+            if (userModule != null && nextStatsContent != null)
             {
-                StatsManager.Instance.CreateStatsManager(userUpgrade, nextStatsContent);
+                StatsManager.Instance.CreateStatsManager(userModule, nextStatsContent);
             }
 
             // Reset Trạng Thái Slider & Text
@@ -210,15 +210,15 @@ public class UpgradeResonanceManager : MonoBehaviour
                     confirmButton.interactable = false;
                     itemUsedQuantityText.text = "0";
 
-                    if (userUpgrade != null && nextStatsContent != null)
+                    if (userModule != null && nextStatsContent != null)
                     {
-                        StatsManager.Instance.CreateStatsManager(userUpgrade, nextStatsContent);
+                        StatsManager.Instance.CreateStatsManager(userModule, nextStatsContent);
                     }
 
                     return;
                 }
 
-                var preview = await UpgradeFunctionHelper.PreviewUpgradeAsync(
+                var preview = await ModuleFunctionHelper.PreviewModuleAsync(
                     featureName,
                     currentLevel,
                     maxLevel,
@@ -264,24 +264,24 @@ public class UpgradeResonanceManager : MonoBehaviour
                     itemUsedQuantityText.text = "0";
                 }
 
-                if (preview.UpgradedLevels > 0)
+                if (preview.ModuledLevels > 0)
                 {
-                    UserUpgrades previewUpgrade = userUpgrade.CloneUserUpgrade(userUpgrade);
-                    if (previewUpgrade != null)
+                    UserModules previewModule = userModule.CloneUserModule(userModule);
+                    if (previewModule != null)
                     {
-                        EnhanceHelper.EnhanceUpgrades(previewUpgrade, preview.UpgradedLevels, upgrade?.BaseMultiplier ?? 1);
+                        EnhanceHelper.EnhanceModules(previewModule, preview.ModuledLevels, upgrade?.BaseMultiplier ?? 1);
                         if (nextStatsContent != null)
                         {
-                            StatsManager.Instance.CreateStatsManager(previewUpgrade, nextStatsContent);
+                            StatsManager.Instance.CreateStatsManager(previewModule, nextStatsContent);
                         }
                     }
                 }
-                else if (userUpgrade != null && nextStatsContent != null)
+                else if (userModule != null && nextStatsContent != null)
                 {
-                    StatsManager.Instance.CreateStatsManager(userUpgrade, nextStatsContent);
+                    StatsManager.Instance.CreateStatsManager(userModule, nextStatsContent);
                 }
 
-                if (preview.UpgradedLevels > 0 && hasEnough)
+                if (preview.ModuledLevels > 0 && hasEnough)
                 {
                     SetPreviewNotification(MessageConstants.READY_TO_UPGRADE, Color.green);
                     confirmButton.interactable = true;
@@ -326,7 +326,7 @@ public class UpgradeResonanceManager : MonoBehaviour
                 confirmButton.interactable = false;
 
                 int requested = (int)quantitySlider.value;
-                var result = await UpgradeFunctionHelper.UpgradeLevelAsync(
+                var result = await ModuleFunctionHelper.ModuleLevelAsync(
                     featureName,
                     currentLevel,
                     maxLevel,
@@ -338,14 +338,14 @@ public class UpgradeResonanceManager : MonoBehaviour
                     AudioManager.Instance.PlaySFX(AudioConstants.SFX.LEVEL_UP_SOUND);
 
                     // 1. TÍNH TOÁN VÀ CẬP NHẬT DATABASE
-                    userUpgrade = EnhanceHelper.EnhanceUpgrades(userUpgrade, result.UpgradedLevels, upgrade.BaseMultiplier);
-                    await UserUpgradesService.Create().InsertOrUpdateUserUpgradesAsync(User.CurrentUserId, userUpgrade, stat);
+                    userModule = EnhanceHelper.EnhanceModules(userModule, result.ModuledLevels, upgrade.BaseMultiplier);
+                    await UserModulesService.Create().InsertOrUpdateUserModulesAsync(User.CurrentUserId, userModule, stat);
 
                     // 2. QUERY LẠI DATABASE ĐỂ LẤY DỮ LIỆU CHUẨN NHẤT CỦA USER UPGRADE
-                    userUpgrade = await UserUpgradesService.Create().GetUserUpgradesAsync(User.CurrentUserId, featureId, stat);
+                    userModule = await UserModulesService.Create().GetUserModulesAsync(User.CurrentUserId, featureId, stat);
 
                     // Cập nhật lại currentLevel từ data mới nhất vừa fetch
-                    currentLevel = userUpgrade?.CurrentLevel ?? 0;
+                    currentLevel = userModule?.CurrentLevel ?? 0;
 
                     // 3. Cập nhật Lực chiến
                     double newPower = await TeamsService.Create().GetTeamsPowerAsync(User.CurrentUserId);
@@ -378,11 +378,11 @@ public class UpgradeResonanceManager : MonoBehaviour
         upgradeLevelButton.onClick.AddListener(() =>
         {
             AudioManager.Instance.PlaySFX(AudioConstants.SFX.BUTTON_CLICK_SOUND);
-            CreatePopupUpgradePanel();
+            CreatePopupModulePanel();
         });
     }
 
-    private void SetupUpgradeItemUI(GameObject itemGO, RecipeItemDto data)
+    private void SetupModuleItemUI(GameObject itemGO, RecipeItemDto data)
     {
         TextMeshProUGUI requiredText = itemGO.transform.Find("RequiredText").GetComponent<TextMeshProUGUI>();
         TextMeshProUGUI ownedText = itemGO.transform.Find("AvailableText").GetComponent<TextMeshProUGUI>();
